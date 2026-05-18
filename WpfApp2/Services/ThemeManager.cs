@@ -131,8 +131,10 @@ namespace Som3a_WPF_UI.Services
 
             if (!string.IsNullOrEmpty(accentColor))
             {
-                ApplyAccentColor(accentColor);
-                _currentAccentColor = accentColor;
+                if (ApplyAccentColor(accentColor))
+                {
+                    _currentAccentColor = accentColor;
+                }
             }
 
             SaveCurrentTheme();

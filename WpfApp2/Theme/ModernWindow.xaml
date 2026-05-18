@@ -25,12 +25,9 @@
                     CornerRadius="{DynamicResource WindowRadius}">
 
                                 <Border.Effect>
-                                    <DropShadowEffect Color="Black"
-                                      Opacity="0.25"
-                                      BlurRadius="20"
-                                      ShadowDepth="5"
-                                      Direction="270"/>
-                                </Border.Effect>
+                            <DropShadowEffect BlurRadius="30" ShadowDepth="8" Direction="270" Color="Black" Opacity="0.4"/>
+                            <!-- TODO: Replace with DynamicResource Shadow.Window once XAML supports it for Effect property -->
+                        </Border.Effect>
 
                                 <Grid>
 

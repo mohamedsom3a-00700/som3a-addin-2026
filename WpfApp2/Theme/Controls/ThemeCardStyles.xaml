@@ -96,6 +96,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border x:Name="CardBorder"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True"
                             CornerRadius="10"
                             BorderBrush="{DynamicResource CardStrokeBrush}"
                             BorderThickness="1"
@@ -110,7 +112,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="CardBorder" Property="BorderBrush" Value="#4C7EFF"/>
+                            <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource CardHoverBorder}"/>
                             <Setter TargetName="CardBorder" Property="BorderThickness" Value="1"/>
                             <Trigger.EnterActions>
                                 <BeginStoryboard>

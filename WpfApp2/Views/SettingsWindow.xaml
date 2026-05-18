@@ -152,6 +152,7 @@
 
                         <TextBlock Text="Categories"
                                    FontSize="16"
+                                   Foreground="{DynamicResource TextSubBrush}"
                                    FontWeight="SemiBold"
                                    Margin="0,0,0,14"/>
 
@@ -195,6 +196,7 @@
                             <TextBlock Text="General Settings"
                                        FontSize="18"
                                        FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextSubBrush}"
                                        Margin="0,0,0,20"/>
 
                             <!-- THEME CARDS -->
@@ -207,6 +209,7 @@
 
                                 <TextBlock Text="Theme"
                                            VerticalAlignment="Top"
+                                           Foreground="{DynamicResource TextSubBrush}"
                                            Margin="0,4,0,0"/>
 
                                 <!-- Theme Cards Panel -->
@@ -487,6 +490,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="Font Size"
+                                           Foreground="{DynamicResource TextSubBrush}"
                                            VerticalAlignment="Center"/>
 
                                 <Slider Grid.Column="1"
@@ -498,12 +502,15 @@
 
                             <!-- CHECKS -->
                             <CheckBox Content="Enable animations"
+                                      Foreground="{DynamicResource TextSubBrush}"
                                       Margin="0,0,0,10"/>
 
                             <CheckBox Content="Enable Excel integration"
+                                      Foreground="{DynamicResource TextSubBrush}"
                                       Margin="0,0,0,10"/>
 
                             <CheckBox Content="Auto-save configuration"
+                                      Foreground="{DynamicResource TextSubBrush}"
                                       Margin="0,0,0,10"/>
 
                         </StackPanel>
