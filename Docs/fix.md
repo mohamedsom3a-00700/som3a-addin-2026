@@ -1,865 +1,511 @@
-# 📘 Modern Fluent Window System Migration Guide
-## Som3a Addin 2026
+# Som3a Add-in 2026 — Spec Kit Execution Plan
+
+## Sprint Name
+`UI Foundation & Theme Engine`
+
+## Goal
+Transform the current custom-styled WPF UI into a production-grade Fluent Design System with:
+- Runtime theme switching
+- Enterprise-level architecture
+- Reusable theme engine
+- Modern Fluent UI styling
+- Full DynamicResource support
+- Professional UX consistency
 
 ---
 
-# 📌 Document Information
+# Phase 0 — Baseline Snapshot
 
-| Item | Value |
-|---|---|
-| Project | Som3a Addin 2026 |
-| Target | Unified Modern Fluent Window Architecture |
-| Frameworks | .NET Framework 4.8 + .NET 10 WPF |
-| UI Stack | WPF + VSTO + WebView2 |
-| Architecture | MVVM + Fluent Design |
-| Status | Planning / Migration |
-| Priority | Critical |
-| Risk Level | Medium-High |
-| Last Updated | May 2026 |
+## Goal
+Freeze the current UI state before refactoring.
 
 ---
 
-# 1. 🎯 PRIMARY OBJECTIVE
+## Tasks
 
-Build a complete enterprise-grade unified window system for the entire WPF layer of Som3a Addin 2026.
+### 1. Create New Branch
 
-The migration must:
-
-- Eliminate duplicated title bar implementations
-- Unify ALL windows visually and behaviorally
-- Improve rendering performance
-- Improve DPI support
-- Improve VSTO stability
-- Create reusable architecture
-- Reduce long-term maintenance cost
-- Preserve existing MVVM architecture
-- Preserve existing Theme system
-- Preserve existing services and controls
+```bash
+git checkout -b feature/theme-engine-v2
+```
 
 ---
 
-# 2. 🧱 EXISTING ARCHITECTURE CONTEXT
+### 2. Snapshot Current Architecture
 
-The solution already contains:
+Document and review current structure for:
 
 ```text
-Som3a.Shared
-WpfApp2
-Som3a Addin 2026
-```
-
----
-
-# Existing Systems Already Implemented
-
-## Theme System
-- ThemeManager
-- ThemeResources.xaml
-- Dark Theme
-- White Theme
-- Accent Colors
-- Fluent design tokens
-
-## UI Systems
-- ToastService
-- WebView2 integration
-- Shared converters
-- MVVM ViewModels
-- Modern buttons
-- Existing Fluent resources
-
-## Existing Window Types
-- Forms
-- DataGrid-heavy windows
-- Graph windows
-- WebView2 windows
-- Tool dialogs
-- Progress windows
-
----
-
-# 3. ❌ CURRENT PROBLEMS
-
-| Problem | Impact |
-|---|---|
-| Mixed Window styles | Inconsistent UX |
-| Duplicate title bars | High maintenance |
-| AllowsTransparency=True | GPU/rendering issues |
-| Multiple resize implementations | Runtime bugs |
-| No DPI strategy | 4K scaling issues |
-| No VSTO-safe fallback | Excel hosting risk |
-| No architectural enforcement | Future inconsistency |
-| Duplicate chrome buttons | Technical debt |
-| Different shadows/radius | Unprofessional appearance |
-
----
-
-# 4. 🏗 TARGET ARCHITECTURE
-
----
-
-# Unified Window System
-
-All windows must inherit from:
-
-```csharp
-ModernWindow
-```
-
----
-
-# Required Shared Features
-
-Every window must share:
-
-- Same TitleBar
-- Same shadows
-- Same radius
-- Same animations
-- Same resize behavior
-- Same snap behavior
-- Same DPI handling
-- Same theme integration
-- Same Fluent styling
-
----
-
-# Target UX Style
-
-Inspired by:
-
-- Windows 11 Fluent
-- Notion
-- Discord
-- Modern Office
-- Professional enterprise desktop apps
-
----
-
-# 5. ⚠️ CRITICAL ENGINEERING DECISIONS
-
----
-
-# 5.1 USE WindowChrome
-
-## REQUIRED
-
-Use:
-
-```csharp
-WindowChrome
-```
-
----
-
-# DO NOT USE
-
-```xml
-AllowsTransparency="True"
-WindowStyle="None"
-```
-
-except as emergency fallback mode.
-
----
-
-# WHY WindowChrome
-
-| Feature | Benefit |
-|---|---|
-| Native resize | Better UX |
-| GPU acceleration | Better performance |
-| Native shadows | Cleaner rendering |
-| Snap support | Windows 11 behavior |
-| Better maximize | Proper monitor handling |
-| Better DPI handling | 4K support |
-| Better VSTO stability | Fewer runtime bugs |
-
----
-
-# 5.2 Incremental Migration ONLY
-
-## DO NOT
-
-Migrate all windows immediately.
-
----
-
-## REQUIRED STRATEGY
-
-1. Build foundation
-2. Validate on ONE window
-3. Validate inside Excel
-4. Validate DPI
-5. Validate WebView2
-6. Then migrate gradually
-
----
-
-# 5.3 Fallback Strategy REQUIRED
-
-WindowChrome can fail in:
-- Excel hosting
-- Multi-monitor
-- WebView2 scenarios
-
-A fallback strategy is mandatory.
-
----
-
-# 6. 📂 REQUIRED FOLDER STRUCTURE
-
-```text
-Controls/
-    ModernWindow.cs
-
 Theme/
-    ModernWindow.xaml
-    WindowAnimations.xaml
-    WindowButtonStyles.xaml
-
-Helpers/
-    WindowChromeHelper.cs
-    WindowBehaviorHelper.cs
-    DpiHelper.cs
-
-Behaviors/
-    DragMoveBehavior.cs
-    EscapeCloseBehavior.cs
-
-Analyzers/
-    ModernWindowAnalyzer.cs
+Controls/
+Styles/
+Windows/
+Views/
+Resources/
 ```
 
 ---
 
-# 7. 🚀 PHASED IMPLEMENTATION PLAN
+### 3. Upload Important Files
+
+Required files:
+- App.xaml
+- ModernWindow.xaml
+- ModernWindow.cs
+- Current ComboBox styles
+- Theme dictionaries
+- SettingsWindow
+- Resource dictionaries
 
 ---
 
-# ✅ PHASE 1 — FOUNDATION SYSTEM
-
-## Priority
-CRITICAL
-
-## Risk
-LOW
+# Phase 1 — Spec Kit Foundation
 
 ## Goal
-Build reusable architecture BEFORE migration.
+Generate the architecture specification for the new Fluent Theme System.
 
 ---
 
-# Deliverables
+# Task 1 — Generate UI Architecture Spec
 
-## Create Base Window
+## Spec Kit Prompt
 
-```csharp
-Controls/ModernWindow.cs
+```text
+Create a complete WPF Fluent UI architecture specification for a VSTO Add-in.
+
+Requirements:
+- Runtime theme switching
+- Dark / Light / Custom themes
+- Modular ResourceDictionary structure
+- MVVM-friendly architecture
+- Theme-aware controls
+- Fluent UI inspired visuals
+- Acrylic-like depth
+- Shadow system
+- Typography token system
+- DynamicResource usage only
+- High DPI support
+- Reusable control styles
+
+Generate:
+1. Folder structure
+2. ResourceDictionary hierarchy
+3. Theme dependency graph
+4. Runtime theme manager architecture
+5. Recommended naming conventions
+6. Shared control standards
+7. Styling standards
+8. Performance guidelines
 ```
-
-Responsibilities:
-- Shared window behavior
-- Drag support
-- Resize handling
-- Maximize/restore
-- ESC close support
-- Window state persistence
-- Theme integration
 
 ---
 
-## Create Shared Template
+# Phase 2 — Theme Engine Architecture
 
-```xml
-Theme/ModernWindow.xaml
-```
-
-Must include:
-- Unified title bar
-- Shared buttons
-- Shared animations
-- Shared shadows
-- Shared radius
-- Shared content presenter
+## Goal
+Convert the project into a real runtime theme engine.
 
 ---
 
-## Create WindowChrome Helper
+# Task 2 — Theme Dictionary Planning
 
-```csharp
-Helpers/WindowChromeHelper.cs
+## Required Structure
+
+```text
+Theme/
+ ├── Base/
+ │    ├── Colors.xaml
+ │    ├── Typography.xaml
+ │    ├── Spacing.xaml
+ │    ├── Radius.xaml
+ │    └── Elevation.xaml
+ │
+ ├── Dark/
+ │    ├── DarkColors.xaml
+ │    └── DarkTheme.xaml
+ │
+ ├── Light/
+ │    ├── LightColors.xaml
+ │    └── LightTheme.xaml
+ │
+ ├── Custom/
+ │    ├── CustomColors.xaml
+ │    └── CustomTheme.xaml
+ │
+ ├── Controls/
+ │    ├── Button.xaml
+ │    ├── ComboBox.xaml
+ │    ├── TextBox.xaml
+ │    ├── DataGrid.xaml
+ │    ├── ScrollViewer.xaml
+ │    ├── CheckBox.xaml
+ │    ├── Window.xaml
+ │    └── ProgressBar.xaml
+ │
+ ├── Effects/
+ │    ├── Shadows.xaml
+ │    ├── Animations.xaml
+ │    └── Glow.xaml
+ │
+ └── ThemeManager.xaml
 ```
-
-Responsibilities:
-- Configure WindowChrome
-- Handle resize borders
-- Handle maximize behavior
-- Handle monitor changes
-- Handle DPI scaling
 
 ---
 
-## Create Shared Animation Resources
+# Task 3 — DynamicResource Migration
 
-```xml
-Theme/WindowAnimations.xaml
+## Goal
+
+Replace all:
+
+```xaml
+StaticResource
 ```
 
-Animations:
-- Fade in
+with:
+
+```xaml
+DynamicResource
+```
+
+for every theme-aware visual resource.
+
+---
+
+# Task 4 — Create Token System
+
+## Required Tokens
+
+### Color Tokens
+- Background
+- Surface
+- Border
+- Accent
+- Text
+
+### Typography Tokens
+- Title
+- Subtitle
+- Body
+- Caption
+
+### Radius Tokens
+- Small
+- Medium
+- Large
+
+### Elevation Tokens
+- Shadows
+- Glow
+- Depth
+
+### Animation Tokens
+- Fade
+- Hover
+- Press
+- Focus
+
+---
+
+# Phase 3 — Core UI Stabilization
+
+## Goal
+Fix all critical UI rendering and consistency issues.
+
+---
+
+# Task 5 — ComboBox Refactor
+
+## Current Problems
+- Popup not visible
+- Popup layering issues
+- Theme inconsistency
+- Missing focus states
+
+---
+
+## OpenCode Prompt
+
+```text
+Refactor the custom WPF ComboBox style into a production-ready Fluent UI ComboBox.
+
+Requirements:
+- Fix Popup rendering issue
+- Popup must render above all containers
+- Add drop shadow
+- Add hover/focus/open states
+- Use DynamicResource brushes only
+- Support dark/light/custom themes
+- Add smooth animations
+- Use keyboard accessible states
+- Preserve current fluent aesthetic
+- Ensure compatibility with transparent borderless windows
+```
+
+---
+
+# Task 6 — Window Shadow System
+
+## Create
+
+```text
+Theme/Effects/Shadows.xaml
+```
+
+---
+
+## Required Shadows
+
+```text
+Shadow.Window
+Shadow.Small
+Shadow.Medium
+Shadow.Large
+Shadow.Glow
+```
+
+---
+
+# Task 7 — ModernWindow Refactor
+
+## Goal
+Convert ModernWindow into a production Fluent shell.
+
+---
+
+## Required Features
+
+- Transparent borderless support
+- Window shadows
+- DPI awareness
+- Acrylic depth
+- Better title bar buttons
+- Theme-aware chrome
+- Runtime theme updates
+
+---
+
+# Phase 4 — Settings UX Rebuild
+
+## Goal
+Transform settings into a professional Fluent settings experience.
+
+---
+
+# Task 8 — Theme Cards
+
+## Replace
+
+```text
+Theme: [Dark ▼]
+```
+
+## With
+
+```text
+[ Dark Theme Card ]
+[ Light Theme Card ]
+[ Custom Theme Card ]
+```
+
+---
+
+## Requirements
+
+Each card must include:
+- Theme preview
+- Accent visualization
+- Selection glow
+- Description
+- Smooth animation
+
+---
+
+## Spec Kit Prompt
+
+```text
+Design a Fluent UI WPF Settings Appearance page using theme selection cards.
+
+Requirements:
+- Dark theme card
+- Light theme card
+- Custom theme card
+- Active selection animation
+- Modern Fluent styling
+- Responsive layout
+- MVVM friendly
+- Runtime theme switching integration
+```
+
+---
+
+# Phase 5 — Control Standardization
+
+## Goal
+Unify all controls under one design language.
+
+---
+
+## Controls To Refactor
+
+### Inputs
+- TextBox
+- ComboBox
+- PasswordBox
+
+### Selection
+- CheckBox
+- RadioButton
+- ToggleButton
+
+### Containers
+- GroupBox
+- Expander
+- Cards
+
+### Data Controls
+- DataGrid
+- ListView
+- TreeView
+
+---
+
+# Phase 6 — Animation & Motion
+
+## Create
+
+```text
+Theme/Effects/Animations.xaml
+```
+
+---
+
+## Required Motion System
+
 - Hover transitions
-- Pressed states
-- Smooth button transitions
+- Fade animations
+- Glow transitions
+- Elevation transitions
+- Press feedback
+- Focus transitions
 
 ---
 
-# Validation Window
-
-ONLY migrate:
-
-```text
-StyleSelectorWindow
-```
-
-This becomes:
-- Prototype window
-- Validation target
-- Regression baseline
-
----
-
-# REQUIRED VALIDATION
-
-Before Phase 2:
-- Resize works
-- Snap works
-- Maximize works
-- Theme switching works
-- Excel hosting works
-- DPI works
-- Multi-monitor works
-
----
-
-# ✅ PHASE 2 — VSTO VALIDATION
-
-## Priority
-CRITICAL
-
-## Risk
-HIGH
+# Phase 7 — Runtime Theme Manager
 
 ## Goal
-Validate WindowChrome safely inside Excel.
+Enable real-time runtime theme switching.
 
 ---
 
-# REQUIRED HOSTING CHECK
-
-```csharp
-public static bool IsVstoHosted =>
-    Application.Current?.MainWindow == null ||
-    Process.GetCurrentProcess()
-        .ProcessName
-        .Contains("EXCEL", StringComparison.OrdinalIgnoreCase);
-```
-
----
-
-# REQUIRED BEHAVIOR
-
-If:
-
-```csharp
-IsVstoHosted == true
-```
-
-then optionally disable:
-- Aggressive shadows
-- NonClientFrameEdges
-- Experimental acrylic
-- Certain resize optimizations
-
----
-
-# REQUIRED FALLBACK STRATEGY
-
----
-
-# OPTION A — Safe Window Mode
-
-Fallback to lightweight custom chrome.
-
-```xml
-WindowStyle=None
-```
-
-ONLY if WindowChrome becomes unstable.
-
----
-
-# OPTION B — Isolated WPF Host
-
-Use:
-```csharp
-HwndSource
-```
-
-or isolated WPF process.
-
----
-
-# OPTION C — Runtime Compatibility Switch
-
-```csharp
-UseSafeWindowMode
-```
-
-loaded from config/settings.
-
----
-
-# REQUIRED VALIDATION MATRIX
-
-| Scenario | Required |
-|---|---|
-| Excel Hosted | YES |
-| Standalone WPF | YES |
-| 1080p | YES |
-| 4K | YES |
-| Multi-monitor | YES |
-| WebView2 | YES |
-| Maximized | YES |
-| DPI switching | YES |
-
----
-
-# ✅ PHASE 3 — CORE WINDOW MIGRATION
-
-## Priority
-MEDIUM
-
-## Risk
-MEDIUM
-
----
-
-# Migration Order
-
-## 1. SettingsWindow
-Low risk validation.
-
-## 2. AssignTradeCodesWindow
-Tests forms + progress + ListView.
-
-## 3. PrimaveraCompareWindow
-Tests DataGrids + bindings.
-
-## 4. PrimaveraResultsWindow
-Tests large DataGrids + tabs.
-
----
-
-# REQUIRED CLEANUP
-
-Remove from all migrated windows:
-
-```xml
-AllowsTransparency="True"
-WindowStyle="None"
-Background="Transparent"
-```
-
-Also remove:
-- Old title bars
-- Duplicate close buttons
-- Duplicate borders
-- Manual drag logic
-
----
-
-# ✅ PHASE 4 — ADVANCED WINDOW MIGRATION
-
-## Priority
-MEDIUM
-
-## Risk
-HIGH
-
----
-
-# Windows
-
-- Float_path
-- XerEditorWindow
-- LinksManagerWindow
-- SubDailyReportWindow
-- UnmergeFillDownWindow
-- Fixpiecolors
-
----
-
-# WHY HIGH RISK
-
-These contain:
-- WebView2
-- Graph rendering
-- Heavy layouts
-- Large visual trees
-- Complex bindings
-
----
-
-# REQUIRED TESTING
-
-- GPU rendering
-- Resize performance
-- DPI switching
-- WebView2 stability
-- Memory usage
-- Excel interaction
-
----
-
-# ✅ PHASE 5 — HARDENING & ENFORCEMENT
-
-## Priority
-HIGH
-
-## Risk
-LOW
-
----
-
-# Roslyn Analyzer Guard
-
-Create:
+## Create
 
 ```text
-Analyzers/ModernWindowAnalyzer.cs
+Services/ThemeManager.cs
 ```
 
 ---
 
-# Purpose
+## Responsibilities
 
-Prevent future developers from creating raw WPF windows.
-
----
-
-# Warning Rule
-
-Warn if:
-
-```csharp
-public partial class MyWindow : Window
-```
-
-instead of:
-
-```csharp
-public partial class MyWindow : ModernWindow
-```
+- Load dictionaries
+- Replace merged dictionaries
+- Apply themes globally
+- Save user preferences
+- Support custom themes
 
 ---
 
-# Additional Runtime Validation
+# Phase 8 — Advanced Polish
 
-Optional startup checks:
-- Missing resources
-- DPI mode
-- WindowChrome support
-- Invalid themes
-- Missing DynamicResources
+## Goals
 
----
-
-# 8. 🖥 DPI STRATEGY (CRITICAL)
-
----
-
-# REQUIRED MANIFEST UPDATE
-
-## app.manifest
-
-Must contain:
-
-```xml
-<dpiAwareness>PerMonitorV2</dpiAwareness>
-```
-
----
-
-# WHY THIS IS REQUIRED
-
-Without PerMonitorV2:
-- Blur on 4K monitors
-- Broken scaling
-- Incorrect resize zones
-- Wrong snap calculations
-- WindowChrome artifacts
-
----
-
-# REQUIRED DPI FEATURES
-
-Must support:
-- Monitor switching
-- Dynamic DPI changes
-- Mixed DPI environments
-- Maximized calculations
-- Resize grip scaling
-
----
-
-# REQUIRED WINDOWCHROME DPI SUPPORT
-
-Special care required for:
-
-```csharp
-WindowChrome.NonClientFrameEdges
-```
-
-especially:
-- Inside Excel
-- On secondary monitors
-- During monitor drag
-
----
-
-# 9. ⚡ PERFORMANCE REQUIREMENTS
-
----
-
-# MUST OPTIMIZE FOR
-
-- Excel VSTO hosting
-- GPU rendering
-- Large DataGrids
-- WebView2
-- Multi-window scenarios
-
----
-
-# AVOID
-
-- Heavy transparency
-- Software rendering
-- Deep visual trees
-- Multiple nested shadows
-- Expensive blur effects
-
----
-
-# USE
-
-- Shared templates
-- DynamicResource
-- Virtualization
-- Lightweight visual trees
-- Shared animations
-
----
-
-# 10. 🎨 VISUAL DESIGN REQUIREMENTS
-
----
-
-# Radius
-
-```text
-18
-```
-
----
-
-# Shadows
-
-Soft Fluent shadows only.
-
----
-
-# Typography
-
-Use existing Fluent typography system.
-
----
-
-# Theme Support
-
-Must support:
-- Dark Blue
-- White
-- Accent colors
-
----
-
-# REQUIRED RESOURCE USAGE
-
-Use existing resources ONLY:
-
-```text
-WindowBackgroundBrush
-CardBrush
-CardStrokeBrush
-TextMainBrush
-TextSubBrush
-PrimaryButton
-BaseButton
-GhostButton
-```
-
-DO NOT replace ThemeResources.xaml architecture.
-
----
-
-# 11. 🧩 REQUIRED TITLE BAR FEATURES
-
-Every window must include:
-
-- App title
-- Optional icon
-- Minimize
-- Maximize/Restore
-- Close button
-- Hover states
-- Pressed states
-- Keyboard accessibility
-- Drag region
-
----
-
-# REQUIRED BUTTON FEATURES
-
-Buttons must:
-- Use DynamicResources
-- Animate smoothly
-- Support keyboard focus
-- Have Fluent hover states
-- Have pressed states
-
----
-
-# 12. 🔒 ACCESSIBILITY REQUIREMENTS
-
-Must support:
+- Acrylic effects
+- Glow system
+- Fluent elevation
+- Accessibility
 - Keyboard navigation
-- Focus visuals
-- Screen scaling
-- High DPI
-- Proper tab order
-- ESC close optional
-- Accessibility-friendly hit targets
+- Responsive layouts
+- UI consistency
 
 ---
 
-# 13. 🧪 REQUIRED TESTING CHECKLIST
+# Tool Responsibilities
+
+| Tool | Responsibility |
+|---|---|
+| Spec Kit | Architecture + Specifications |
+| OpenCode | Refactor + Code Generation |
+| ChatGPT | PM + UI Direction + Review |
 
 ---
 
-# Rendering Tests
+# Critical Rules
 
-- Window resize
-- Maximize
-- Restore
-- Snap
-- Minimize
-- Multi-monitor drag
+## NEVER
 
----
+```xaml
+Background=\"#XXXXXX\"
+```
 
-# Theme Tests
-
-- Dark theme
-- White theme
-- Accent switching
+inside controls.
 
 ---
 
-# Performance Tests
+## ALWAYS
 
-- WebView2 rendering
-- Large DataGrid performance
-- Excel responsiveness
-
----
-
-# Stability Tests
-
-- Open/close repeatedly
-- Monitor switching
-- DPI switching
-- VSTO startup
-- Window activation
+```xaml
+Background=\"{DynamicResource Brush.Background.Primary}\"
+```
 
 ---
 
-# 14. 📘 REQUIRED OUTPUT FROM IMPLEMENTATION
+# Runtime Theme Rules
 
-Implementation must generate FULL production-ready code:
+## MUST
 
-- Full XAML
-- Full C#
-- Full resource dictionaries
-- Full WindowChrome setup
-- Behaviors
-- Helpers
-- Manifest updates
-- Migration examples
+- Support runtime switching
+- Use DynamicResource
+- Be globally applied
+- Avoid hardcoded colors
+- Be MVVM-friendly
 
 ---
 
-# 15. 📈 SUCCESS CRITERIA
+# Current Active Sprint
 
-Migration succeeds ONLY if:
+## Sprint Name
 
-- All windows share one visual system
-- VSTO remains stable
-- WebView2 remains stable
-- DPI issues are eliminated
-- Performance improves
-- Duplicate chrome code is removed
-- Future windows are forced into consistency
+```text
+UI Foundation & Theme Engine
+```
 
 ---
 
-# 16. 🏁 FINAL TARGET EXPERIENCE
+## Sprint Goals
 
-The final application should feel like:
-
-- Premium enterprise software
-- Modern Fluent desktop app
-- Commercial-grade product
-- High-end Windows application
-
-Users should immediately notice:
-- Smooth interaction
-- Unified UX
-- Better rendering
-- Professional polish
-- Consistent architecture
+1. Fix ComboBox popup rendering
+2. Create shadow system
+3. Build theme token system
+4. Refactor ModernWindow
+5. Create runtime theme architecture
+6. Improve Settings UX
+7. Standardize controls
+8. Prepare Custom Theme system
 
 ---
 
-# 17. 📌 FINAL NOTES
+# Definition of Done
 
-This migration is:
-- Architectural
-- Performance-sensitive
-- VSTO-sensitive
-- DPI-sensitive
+A UI feature is NOT complete unless:
 
-The migration MUST prioritize:
-1. Stability
-2. Incremental rollout
-3. Fallback safety
-4. Maintainability
-5. Long-term consistency
-
-DO NOT optimize for speed of migration.
-Optimize for correctness and architectural quality.
-
----
-
-# ✅ END OF DOCUMENT
+- Theme-aware
+- Runtime switchable
+- DPI safe
+- Keyboard accessible
+- Uses DynamicResource
+- Uses centralized tokens
+- Supports Dark/Light/Custom themes
+- Matches Fluent UI direction
+- Has proper hover/focus states
+- Maintains visual consistency
