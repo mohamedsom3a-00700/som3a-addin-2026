@@ -76,9 +76,6 @@ namespace Som3a_WPF_UI.Services
                 d.Source?.ToString().Contains("/Theme/Light/") == true ||
                 d.Source?.ToString().Contains("/Theme/Custom/") == true);
 
-            if (existingTheme != null)
-                dicts.Remove(existingTheme);
-
             Uri themeUri;
             switch (theme)
             {
@@ -94,10 +91,10 @@ namespace Som3a_WPF_UI.Services
                     break;
             }
 
+            ResourceDictionary themeDict;
             try
             {
-                var themeDict = new ResourceDictionary { Source = themeUri };
-                dicts.Add(themeDict);
+                themeDict = new ResourceDictionary { Source = themeUri };
             }
             catch (Exception ex)
             {
@@ -105,12 +102,17 @@ namespace Som3a_WPF_UI.Services
                 return;
             }
 
+            if (existingTheme != null)
+                dicts.Remove(existingTheme);
+
+            dicts.Add(themeDict);
+
             _currentTheme = theme;
 
             if (!string.IsNullOrEmpty(accentColor))
             {
-                _currentAccentColor = accentColor;
                 ApplyAccentColor(accentColor);
+                _currentAccentColor = accentColor;
             }
 
             SaveCurrentTheme();
@@ -118,10 +120,10 @@ namespace Som3a_WPF_UI.Services
             ThemeChanged?.Invoke(this, new ThemeChangedEventArgs(prevTheme, _currentTheme.ToString(), prevAccent, _currentAccentColor));
         }
 
-        public void ApplyAccentColor(string hexColor)
+        public bool ApplyAccentColor(string hexColor)
         {
             if (string.IsNullOrEmpty(hexColor))
-                return;
+                return false;
 
             try
             {
@@ -129,6 +131,7 @@ namespace Som3a_WPF_UI.Services
                 Application.Current.Resources["AccentColor"] = color;
                 Application.Current.Resources["AccentBrush"] = new SolidColorBrush(color);
                 Application.Current.Resources["AccentColorBrush"] = new SolidColorBrush(color);
+                Application.Current.Resources["AccentColorValue"] = color;
 
                 var glowKeys = new[] { "Glow.Focus", "Glow.ButtonHover", "Glow.Primary", "Glow.Selection", "Glow.Accent", "Glow.ThemeCard.Selected" };
                 foreach (var key in glowKeys)
@@ -146,8 +149,12 @@ namespace Som3a_WPF_UI.Services
                         Application.Current.Resources[key] = newEffect;
                     }
                 }
+                return true;
             }
-            catch { }
+            catch
+            {
+                return false;
+            }
         }
 
         public void LoadThemeFromSettings()

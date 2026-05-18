@@ -38,15 +38,17 @@
                                   StrokeStartLineCap="Round"/>
                         </Grid>
                         <Popup x:Name="PART_Popup"
-                               AllowsTransparency="True"
+                               AllowsTransparency="False"
                                IsOpen="{TemplateBinding IsDropDownOpen}"
                                Placement="Bottom"
+                               PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                PopupAnimation="Fade">
                             <Border Margin="0,6,0,0"
                                     Background="{DynamicResource CardBrush}"
                                     BorderBrush="{DynamicResource ControlStrokeBrush}"
                                     BorderThickness="1"
-                                    CornerRadius="{DynamicResource MediumRadius}">
+                                    CornerRadius="{DynamicResource MediumRadius}"
+                                    Effect="{DynamicResource Shadow.Popup}">
                                 <ScrollViewer MaxHeight="200">
                                     <ItemsPresenter/>
                                 </ScrollViewer>
@@ -79,7 +81,7 @@
                     <Border x:Name="Bd"
                             Background="Transparent"
                             Padding="{TemplateBinding Padding}">
-                        <ContentPresenter"/>
+                        <ContentPresenter/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

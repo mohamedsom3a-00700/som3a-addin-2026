@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Som3a_WPF_UI.Helpers;
+using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.Controls
 {
@@ -29,9 +30,9 @@ namespace Som3a_WPF_UI.Controls
 
         private void InitializeWindow()
         {
-           _useSafeMode = WindowChromeHelper.IsVstoHosted;
+            var useSafeMode = WindowRenderModeDetector.DetectOptimalMode() == WindowRenderMode.FallbackSafe;
 
-           if (_useSafeMode)
+            if (useSafeMode)
             {
                 WindowChromeHelper.ApplyWindowChrome(this, true);
             }

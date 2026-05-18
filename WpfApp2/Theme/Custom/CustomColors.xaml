@@ -62,6 +62,9 @@
     <SolidColorBrush x:Key="Swatch.Cyan" Color="#06B6D4"/>
 
     <!-- Accent color brush (dynamically set by ThemeManager) -->
-    <SolidColorBrush x:Key="AccentColorBrush" Color="#3A86FF"/>
+    <SolidColorBrush x:Key="AccentColorBrush" Color="{DynamicResource AccentColorValue}"/>
+
+    <!-- Accent color value (Color type for glow effects) -->
+    <Color x:Key="AccentColorValue">#3A86FF</Color>
 
 </ResourceDictionary>

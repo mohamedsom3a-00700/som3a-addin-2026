@@ -48,7 +48,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Accent ScrollBar — يستخدم AccentBrush بدل الأبيض -->
+    <!-- Accent ScrollBar -->
     <Style x:Key="AccentScrollBar" TargetType="{x:Type ScrollBar}">
         <Setter Property="Width"      Value="6"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -66,12 +66,9 @@
                                     <Thumb.Template>
                                         <ControlTemplate TargetType="{x:Type Thumb}">
                                             <Border x:Name="ThumbBd"
-                                                    CornerRadius="3">
-                                                <Border.Background>
-                                                    <SolidColorBrush Color="{Binding Source={DynamicResource AccentColor}}"
-                                                                     Opacity="0.35"/>
-                                                </Border.Background>
-                                            </Border>
+                                                    CornerRadius="3"
+                                                    Background="{DynamicResource AccentBrush}"
+                                                    Opacity="0.35"/>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter TargetName="ThumbBd" Property="Opacity" Value="0.6"/>

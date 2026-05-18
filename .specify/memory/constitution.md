@@ -104,16 +104,16 @@ UI-meaning aliases that reference primitives:
 
 ```xaml
 <!-- Example semantic tokens (alias their primitives) -->
-<SolidColorBrush x:Key="Brush.Background.Primary" Color="#0E1720"/>
-<SolidColorBrush x:Key="Brush.Background.Secondary" Color="#1C2B3A"/>
-<SolidColorBrush x:Key="Brush.Background.Card" Color="#15202B"/>
-<SolidColorBrush x:Key="Brush.Text.Primary" Color="#F2FFFFFF"/>
-<SolidColorBrush x:Key="Brush.Text.Secondary" Color="#BFFFFFFF"/>
-<SolidColorBrush x:Key="Brush.Text.Disabled" Color="#66FFFFFF"/>
-<SolidColorBrush x:Key="Brush.Accent.Primary" Color="#3A86FF"/>
-<SolidColorBrush x:Key="Brush.Stroke.Card" Color="#33FFFFFF"/>
+<SolidColorBrush x:Key="Brush.Background.Primary" Color="{StaticResource Slate900}"/>
+<SolidColorBrush x:Key="Brush.Background.Secondary" Color="{StaticResource Slate800}"/>
+<SolidColorBrush x:Key="Brush.Background.Card" Color="{StaticResource Slate700}"/>
+<SolidColorBrush x:Key="Brush.Text.Primary" Color="{StaticResource WhiteAlpha95}"/>
+<SolidColorBrush x:Key="Brush.Text.Secondary" Color="{StaticResource WhiteAlpha75}"/>
+<SolidColorBrush x:Key="Brush.Text.Disabled" Color="{StaticResource WhiteAlpha40}"/>
+<SolidColorBrush x:Key="Brush.Accent.Primary" Color="{StaticResource Blue500}"/>
+<SolidColorBrush x:Key="Brush.Stroke.Card" Color="{StaticResource WhiteAlpha20}"/>
 <SolidColorBrush x:Key="Brush.Control.Background" Color="#330E1720"/>
-<SolidColorBrush x:Key="Brush.Control.Stroke" Color="#33FFFFFF"/>
+<SolidColorBrush x:Key="Brush.Control.Stroke" Color="{StaticResource WhiteAlpha20}"/>
 ```
 
 **Rule**: Controls SHOULD reference semantic tokens (`{DynamicResource Brush.Background.Primary}`) where applicable. Existing flat keys (`BackgroundBrush`, `AccentBrush`) are kept for backward compatibility but new work should prefer semantic naming. This separation is REQUIRED for future custom theme generation.
