@@ -128,6 +128,8 @@ namespace Som3a_WPF_UI.Services
             }
         }
 
+        public static void LoadSettings() => Instance.LoadThemeFromSettings();
+
         public void SaveCurrentTheme()
         {
             try
