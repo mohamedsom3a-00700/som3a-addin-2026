@@ -1,6 +1,9 @@
 using System.Windows;
 using System.Windows.Controls;
+<<<<<<< 002-fluent-theme-engine
 using System.Windows.Controls.Primitives;
+=======
+>>>>>>> master
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -45,6 +48,7 @@ namespace Som3a_WPF_UI.Views
             _selectedAccent = ThemeManager.Instance.CurrentAccentColor;
             _originalTheme = _selectedTheme;
             _originalAccent = _selectedAccent;
+<<<<<<< 002-fluent-theme-engine
 
             UpdateCardSelection();
             UpdateSwatchSelection();
@@ -148,6 +152,103 @@ namespace Som3a_WPF_UI.Views
             }
         }
 
+=======
+
+            UpdateCardSelection();
+            UpdateSwatchSelection();
+
+            ThemeManager.Instance.ThemeChanged += OnThemeChanged;
+        }
+
+        private void OnThemeChanged(object sender, ThemeChangedEventArgs e)
+        {
+            _selectedTheme = e.NewTheme;
+            _selectedAccent = e.NewAccent;
+            UpdateCardSelection();
+            UpdateSwatchSelection();
+        }
+
+        private void UpdateCardSelection()
+        {
+            CardDark.Style = (Style)FindResource(_selectedTheme == "Dark" ? "ThemeCardSelected" : "ThemeCardInteractive");
+            CardLight.Style = (Style)FindResource(_selectedTheme == "Light" ? "ThemeCardSelected" : "ThemeCardInteractive");
+            CardCustom.Style = (Style)FindResource(_selectedTheme == "Custom" ? "ThemeCardSelected" : "ThemeCardInteractive");
+
+            AccentSwatchesPanel.Visibility = _selectedTheme == "Custom" ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void UpdateSwatchSelection()
+        {
+            var swatchElements = new[] {
+                (FindName("SwatchBlue") as Ellipse, "#3A86FF"),
+                (FindName("SwatchGreen") as Ellipse, "#2ED573"),
+                (FindName("SwatchPurple") as Ellipse, "#A855F7"),
+                (FindName("SwatchOrange") as Ellipse, "#FFA502"),
+                (FindName("SwatchPink") as Ellipse, "#EC4899"),
+                (FindName("SwatchTeal") as Ellipse, "#14B8A6"),
+                (FindName("SwatchRed") as Ellipse, "#EF4444"),
+                (FindName("SwatchCyan") as Ellipse, "#06B6D4"),
+            };
+
+            foreach (var (ellipse, hex) in swatchElements)
+            {
+                if (ellipse == null) continue;
+                var isSelected = hex.Equals(_selectedAccent, System.StringComparison.OrdinalIgnoreCase);
+                ellipse.Style = (Style)FindResource(isSelected ? "AccentSwatchSelected" : "AccentSwatchInteractive");
+            }
+        }
+
+        private void ThemeCard_Click(object sender, MouseButtonEventArgs e)
+        {
+            ApplyThemeCardSelection(sender);
+        }
+
+        private void ThemeCard_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Space)
+            {
+                ApplyThemeCardSelection(sender);
+                e.Handled = true;
+            }
+        }
+
+        private void ApplyThemeCardSelection(object sender)
+        {
+            var border = sender as Border;
+            if (border?.Tag is string themeName)
+            {
+                _selectedTheme = themeName;
+                ThemeManager.Instance.ApplyTheme(themeName);
+                UpdateCardSelection();
+            }
+        }
+
+        private void AccentSwatch_Click(object sender, MouseButtonEventArgs e)
+        {
+            ApplySwatchSelection(sender);
+        }
+
+        private void AccentSwatch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Space)
+            {
+                ApplySwatchSelection(sender);
+                e.Handled = true;
+            }
+        }
+
+        private void ApplySwatchSelection(object sender)
+        {
+            var ellipse = sender as Ellipse;
+            if (ellipse?.Tag is string hex)
+            {
+                _selectedAccent = hex;
+                ThemeManager.Instance.ApplyTheme("Custom", hex);
+                UpdateSwatchSelection();
+            }
+        }
+
+>>>>>>> master
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             ThemeManager.Instance.SaveCurrentTheme();
