@@ -15,7 +15,7 @@
 
     <controls:ModernWindow.Resources>
 
-<ResourceDictionary>
+        <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
                 <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
@@ -224,25 +224,23 @@
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
-                                            <Border VerticalAlignment="Bottom" Height="6" Background="#3A86FF"/>
+                                            <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"/>
                                             <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
-                                                <TextBlock Text="Dark" Foreground="White" FontWeight="SemiBold" FontSize="13"/>
-                                                <TextBlock Text="Full dark theme" Foreground="#CCFFFFFF" FontSize="10"/>
+                                                <TextBlock Text="Dark" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"/>
+                                                <TextBlock Text="Full dark theme" Foreground="{DynamicResource TextSubBrush}" FontSize="10"/>
                                             </StackPanel>
                                         </Grid>
-
                                     </ToggleButton>
 
                                     <!-- LIGHT -->
-
                                     <ToggleButton x:Name="CardLight"
-                                          Width="140"
-                                          Height="120"
-                                          Margin="0,0,16,0"
-                                          Tag="Light"
-                                          Click="ThemeCard_Click"
-                                          Style="{DynamicResource ThemeCardToggleStyle}">
-
+                                                  Width="140"
+                                                  Height="120"
+                                                  Margin="0,0,16,0"
+                                                  Tag="Light"
+                                                  Click="ThemeCard_Click"
+                                                  PreviewKeyDown="ThemeCard_KeyDown"
+                                                  Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
                                             <Border CornerRadius="10,10,0,0">
                                                 <Border.Background>
@@ -252,24 +250,22 @@
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
-                                            <Border VerticalAlignment="Bottom" Height="6" Background="#3A86FF"/>
+                                            <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"/>
                                             <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
-                                                <TextBlock Text="White (Light)" Foreground="#1A1A1A" FontWeight="SemiBold" FontSize="13"/>
+                                                <TextBlock Text="Light" Foreground="#1A1A1A" FontWeight="SemiBold" FontSize="13"/>
                                                 <TextBlock Text="Clean light theme" Foreground="#666666" FontSize="10"/>
                                             </StackPanel>
                                         </Grid>
-
                                     </ToggleButton>
 
                                     <!-- CUSTOM -->
-
                                     <ToggleButton x:Name="CardCustom"
-                                          Width="140"
-                                          Height="120"
-                                          Tag="Custom"
-                                          Click="ThemeCard_Click"
-                                          Style="{DynamicResource ThemeCardToggleStyle}">
-
+                                                  Width="140"
+                                                  Height="120"
+                                                  Tag="Custom"
+                                                  Click="ThemeCard_Click"
+                                                  PreviewKeyDown="ThemeCard_KeyDown"
+                                                  Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
                                             <Border CornerRadius="10,10,0,0">
                                                 <Border.Background>
@@ -282,21 +278,19 @@
                                             <Border VerticalAlignment="Bottom" Height="6">
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                        <GradientStop Color="#3A86FF" Offset="0"/>
-                                                        <GradientStop Color="#14B8A6" Offset="1"/>
+                                                        <GradientStop Color="{DynamicResource AccentColorValue}" Offset="0"/>
+                                                        <GradientStop Color="{DynamicResource AccentColorValue}" Offset="1"/>
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
                                             <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
-                                                <TextBlock Text="Custom" Foreground="White" FontWeight="SemiBold" FontSize="13"/>
-                                                <TextBlock Text="Your accent color" Foreground="#CCFFFFFF" FontSize="10"/>
+                                                <TextBlock Text="Custom" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"/>
+                                                <TextBlock Text="Your accent color" Foreground="{DynamicResource TextSubBrush}" FontSize="10"/>
                                             </StackPanel>
                                         </Grid>
-
                                     </ToggleButton>
 
                                 </StackPanel>
-
 
                             </Grid>
 

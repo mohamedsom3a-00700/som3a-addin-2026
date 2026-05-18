@@ -62,12 +62,15 @@ namespace Som3a_WPF_UI.Views
 <<<<<<< HEAD
             _originalTheme = _selectedTheme;
             _originalAccent = _selectedAccent;
+<<<<<<< HEAD
 =======
 >>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
 =======
             _originalTheme = _selectedTheme;
             _originalAccent = _selectedAccent;
 >>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
+=======
+>>>>>>> cb7ce28 (fix: resolve merge conflicts and hardcoded colors in theme engine)
 
             UpdateCardSelection();
             UpdateSwatchSelection();
@@ -164,8 +167,11 @@ namespace Som3a_WPF_UI.Views
         {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
+=======
+>>>>>>> cb7ce28 (fix: resolve merge conflicts and hardcoded colors in theme engine)
             ApplySwatchSelection(sender);
         }
 
@@ -181,10 +187,13 @@ namespace Som3a_WPF_UI.Views
         private void ApplySwatchSelection(object sender)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
 =======
 >>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
+=======
+>>>>>>> cb7ce28 (fix: resolve merge conflicts and hardcoded colors in theme engine)
             var ellipse = sender as Ellipse;
             if (ellipse?.Tag is string hex)
             {

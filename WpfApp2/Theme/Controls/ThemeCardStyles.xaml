@@ -26,7 +26,10 @@
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
             </Setter.Value>
         </Setter>
+<<<<<<< HEAD
                     <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+=======
+>>>>>>> cb7ce28 (fix: resolve merge conflicts and hardcoded colors in theme engine)
     </Style>
 
     <!-- Theme Card Normal State -->
@@ -117,7 +120,11 @@
                         <ContentPresenter/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsChecked" Value="False"/>
+                            </MultiTrigger.Conditions>
                             <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource CardHoverBorder}"/>
                             <Setter TargetName="CardBorder" Property="BorderThickness" Value="1"/>
                             <Trigger.EnterActions>
@@ -156,7 +163,7 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
-                        </Trigger>
+                        </MultiTrigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
                             <Setter TargetName="CardBorder" Property="BorderThickness" Value="2"/>

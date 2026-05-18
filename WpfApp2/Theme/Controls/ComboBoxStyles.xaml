@@ -116,23 +116,18 @@
                                PopupAnimation="Fade"
                                IsOpen="{TemplateBinding IsDropDownOpen}">
 
-                            <Border Margin="0,4,0,0"
+                            <Border Margin="0,6,0,0"
                                     Background="{DynamicResource ComboBoxPopupBackground}"
                                     BorderBrush="{DynamicResource ComboBoxPopupBorder}"
                                     BorderThickness="1"
-                                    CornerRadius="10"
-                                    MinWidth="{Binding ActualWidth,
-                                                       RelativeSource={RelativeSource TemplatedParent}}">
-
+                                    CornerRadius="{DynamicResource MediumRadius}"
+                                    Effect="{DynamicResource Shadow.Popup}">
                                 <ScrollViewer MaxHeight="250"
                                               VerticalScrollBarVisibility="Auto"
                                               HorizontalScrollBarVisibility="Disabled"
                                               CanContentScroll="False">
-
                                     <ItemsPresenter/>
-
                                 </ScrollViewer>
-
                             </Border>
 
                         </Popup>
@@ -150,7 +145,7 @@
 
                             <Setter TargetName="Bd"
                                     Property="Background"
-                                    Value="#13263D"/>
+                                    Value="{DynamicResource ControlStrokeBrush}"/>
 
                             <Setter TargetName="Bd"
                                     Property="BorderBrush"
@@ -176,7 +171,7 @@
 
                             <Setter TargetName="Bd"
                                     Property="Background"
-                                    Value="#10253A"/>
+                                    Value="{DynamicResource ComboBoxPopupBackground}"/>
 
                             <Setter TargetName="Bd"
                                     Property="BorderBrush"
@@ -215,9 +210,4 @@
 
     </Style>
 
-    <!-- ===================================================== -->
-    <!-- COMBOBOX ITEM -->
-    <!-- ===================================================== -->
-
-    
 </ResourceDictionary>
