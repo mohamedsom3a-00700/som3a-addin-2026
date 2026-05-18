@@ -48,7 +48,7 @@
                             <Setter TargetName="checkMark" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="checkBorder" Property="Background" Value="{DynamicResource AccentBrush}"/>
                             <Setter TargetName="checkBorder" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
-                            <Setter TargetName="checkMark" Property="Stroke" Value="White"/>
+                            <Setter TargetName="checkMark" Property="Stroke" Value="{DynamicResource CheckMarkForeground}"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
                             <Setter TargetName="checkMark" Property="Visibility" Value="Collapsed"/>

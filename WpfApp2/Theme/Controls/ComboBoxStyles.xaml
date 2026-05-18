@@ -117,8 +117,8 @@
                                IsOpen="{TemplateBinding IsDropDownOpen}">
 
                             <Border Margin="0,4,0,0"
-                                    Background="#0F172A"
-                                    BorderBrush="#334155"
+                                    Background="{DynamicResource ComboBoxPopupBackground}"
+                                    BorderBrush="{DynamicResource ComboBoxPopupBorder}"
                                     BorderThickness="1"
                                     CornerRadius="10"
                                     MinWidth="{Binding ActualWidth,

@@ -45,7 +45,7 @@
 
                             <Setter TargetName="Bd"
                                     Property="Background"
-                                    Value="#1E3A5F"/>
+                                    Value="{DynamicResource ComboBoxItemHighlight}"/>
 
                         </Trigger>
 

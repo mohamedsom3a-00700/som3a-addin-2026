@@ -65,4 +65,15 @@
     <SolidColorBrush x:Key="ControlBgBrush" Color="#330E1720"/>
     <SolidColorBrush x:Key="ControlStrokeBrush" Color="#33FFFFFF"/>
 
+    <!-- ComboBox Popup -->
+    <SolidColorBrush x:Key="ComboBoxPopupBackground" Color="#0F172A"/>
+    <SolidColorBrush x:Key="ComboBoxPopupBorder" Color="#334155"/>
+    <SolidColorBrush x:Key="ComboBoxItemHighlight" Color="#1E3A5F"/>
+
+    <!-- CheckBox foreground -->
+    <SolidColorBrush x:Key="CheckMarkForeground" Color="White"/>
+
+    <!-- Theme Card -->
+    <SolidColorBrush x:Key="CardHoverBorder" Color="#4C7EFF"/>
+
 </ResourceDictionary>

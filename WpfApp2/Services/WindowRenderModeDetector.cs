@@ -58,20 +58,20 @@ namespace Som3a_WPF_UI.Services
 
         private static bool IsRenderTestFailing()
         {
+            var testWindow = new Window
+            {
+                Width = 100,
+                Height = 100,
+                WindowStyle = WindowStyle.None,
+                AllowsTransparency = false,
+                ShowInTaskbar = false,
+                Topmost = true,
+                Left = -10000,
+                Top = -10000
+            };
+
             try
             {
-                var testWindow = new Window
-                {
-                    Width = 100,
-                    Height = 100,
-                    WindowStyle = WindowStyle.None,
-                    AllowsTransparency = false,
-                    ShowInTaskbar = false,
-                    Topmost = true,
-                    Left = -10000,
-                    Top = -10000
-                };
-
                 testWindow.Show();
                 testWindow.Activate();
 
@@ -79,17 +79,19 @@ namespace Som3a_WPF_UI.Services
                 var source = HwndSource.FromHwnd(helper.Handle);
                 if (source?.CompositionTarget == null)
                 {
-                    testWindow.Close();
                     return true;
                 }
 
                 var matrix = source.CompositionTarget.TransformToDevice;
-                testWindow.Close();
                 return false;
             }
             catch
             {
                 return true;
+            }
+            finally
+            {
+                try { testWindow.Close(); } catch { }
             }
         }
     }

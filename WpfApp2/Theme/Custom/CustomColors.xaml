@@ -18,7 +18,7 @@
     <SolidColorBrush x:Key="Brush.Text.Disabled" Color="#66FFFFFF"/>
 
     <!-- Accent (swappable via Brush.Accent.Primary) -->
-    <SolidColorBrush x:Key="Brush.Accent.Primary" Color="{DynamicResource AccentColorBrush}"/>
+    <SolidColorBrush x:Key="Brush.Accent.Primary" Color="{DynamicResource AccentColorValue}"/>
     <SolidColorBrush x:Key="Brush.Accent.Success" Color="#2ED573"/>
     <SolidColorBrush x:Key="Brush.Accent.Warning" Color="#FFA502"/>
     <SolidColorBrush x:Key="Brush.Accent.Danger" Color="#FF4757"/>
@@ -34,7 +34,7 @@
     <!-- ============================================
          LEGACY FLAT KEYS (Custom theme - Dark base)
          ============================================ -->
-    <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource AccentColorBrush}"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource AccentColorValue}"/>
     <SolidColorBrush x:Key="BackgroundBrush" Color="#0E1720"/>
     <SolidColorBrush x:Key="CardBrush" Color="#15202B"/>
     <SolidColorBrush x:Key="SurfaceBrush" Color="#1C2B3A"/>

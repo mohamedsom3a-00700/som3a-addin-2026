@@ -81,8 +81,60 @@ namespace Som3a_WPF_UI.Services
                 dicts.Add(whiteTheme);
             }
 
+<<<<<<< HEAD
             _current.CurrentTheme = theme;
             SaveSettings();
+=======
+            ResourceDictionary themeDict;
+            try
+            {
+                themeDict = new ResourceDictionary { Source = themeUri };
+            }
+            catch (Exception ex)
+            {
+            {
+                case AppTheme.Light:
+                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Light/LightTheme.xaml");
+                    break;
+                case AppTheme.Custom:
+                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Custom/CustomTheme.xaml");
+                    break;
+                default:
+                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Dark/DarkTheme.xaml");
+                    theme = AppTheme.Dark;
+                    break;
+            }
+
+            ResourceDictionary themeDict;
+            try
+            {
+                themeDict = new ResourceDictionary { Source = themeUri };
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[ThemeManager] Failed to load theme: {ex.Message}");
+                return;
+            }
+
+            if (existingTheme != null)
+                dicts.Remove(existingTheme);
+
+            dicts.Add(themeDict);
+
+            _currentTheme = theme;
+
+            if (!string.IsNullOrEmpty(accentColor))
+            {
+                if (ApplyAccentColor(accentColor))
+                {
+                    _currentAccentColor = accentColor;
+                }
+            }
+
+            SaveCurrentTheme();
+
+            ThemeChanged?.Invoke(this, new ThemeChangedEventArgs(prevTheme, _currentTheme.ToString(), prevAccent, _currentAccentColor));
+>>>>>>> 872b4be (feat: Fluent Theme Engine - ScrollViewer fixes, ModernWindow shadow, accent color refactor)
         }
 
         public static void ChangeAccent(string hexColor)
