@@ -23,6 +23,8 @@ namespace Som3a_WPF_UI.Controls
             InitializeWindow();
           // SetupAnimations();
             SetupCommands();
+
+            ThemeManager.Instance.LoadThemeFromSettings();
         }
 
         private void InitializeWindow()
