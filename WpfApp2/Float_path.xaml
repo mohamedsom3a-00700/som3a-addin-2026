@@ -1,0 +1,516 @@
+﻿<controls:ModernWindow x:Class="Som3a_WPF_UI.Float_path"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
+                        xmlns:models="clr-namespace:Som3a.Shared.Models;assembly=Som3a.Shared"
+                        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+                        xmlns:local="clr-namespace:Som3a_WPF_UI"
+                        Title="Float Path Analyzer"
+                        WindowState="Maximized"
+                        MinWidth="1200"
+                        MinHeight="700"
+                        WindowStartupLocation="CenterScreen"
+                        WindowStyle="None"
+                        AllowsTransparency="True"
+                        Background="Transparent"
+                        TitleBarHeight="40"
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True">
+
+    <controls:ModernWindow.Resources>
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </controls:ModernWindow.Resources>
+
+    <!-- ===================================================== -->
+    <!-- ROOT CARD -->
+    <!-- ===================================================== -->
+
+    <Border x:Name="RootBorder"
+            CornerRadius="18"
+            BorderBrush="{DynamicResource CardStrokeBrush}"
+            BorderThickness="1">
+
+        <!-- BACKGROUND -->
+
+        <Border.Background>
+
+            <LinearGradientBrush StartPoint="0,0"
+                                 EndPoint="1,1">
+
+                <GradientStop Color="#FF102A43"
+                              Offset="0"/>
+
+                <GradientStop Color="#FF0F3B3B"
+                              Offset="1"/>
+
+            </LinearGradientBrush>
+
+        </Border.Background>
+
+        <!-- ================================================= -->
+        <!-- ROOT GRID -->
+        <!-- ================================================= -->
+
+        <Grid Margin="12">
+
+            <Grid.RowDefinitions>
+
+                <!-- TITLE BAR -->
+                <RowDefinition Height="42"/>
+
+                <!-- CONTENT -->
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+
+            <!-- ================================================= -->
+            <!-- TITLE BAR -->
+            <!-- ================================================= -->
+
+            <Grid Grid.Row="0"
+                  x:Name="TitleBar"
+                  Margin="4,2,4,0"
+                  MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*"/>
+
+                    <ColumnDefinition Width="Auto"/>
+
+                    <ColumnDefinition Width="8"/>
+
+                    <ColumnDefinition Width="Auto"/>
+
+                </Grid.ColumnDefinitions>
+
+                <!-- TITLE -->
+
+                <TextBlock Text="Float Path Analyzer"
+                           Foreground="{DynamicResource TextMainBrush}"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <!-- MINIMIZE -->
+
+                <Button Grid.Column="1"
+                        Width="34"
+                        Height="28"
+                        Content="—"
+                        Style="{DynamicResource BaseButton}"
+                        Click="BtnMin_Click"/>
+
+                <!-- CLOSE -->
+
+                <Button Grid.Column="3"
+                        Width="34"
+                        Height="28"
+                        Content="X"
+                        Style="{DynamicResource BaseButton}"
+                        Click="BtnClose_Click"/>
+
+            </Grid>
+
+            <!-- ================================================= -->
+            <!-- MAIN CONTENT -->
+            <!-- ================================================= -->
+
+            <Grid Grid.Row="1">
+
+                <Grid.ColumnDefinitions>
+
+                    <!-- LEFT PANEL -->
+                    <ColumnDefinition Width="360"/>
+
+                    <!-- SPACING -->
+                    <ColumnDefinition Width="12"/>
+
+                    <!-- RIGHT PANEL -->
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <!-- ============================================= -->
+                <!-- LEFT PANEL -->
+                <!-- ============================================= -->
+
+                <Border Grid.Column="0"
+                        Background="{DynamicResource CardBrush}"
+                        BorderBrush="{DynamicResource CardStrokeBrush}"
+                        BorderThickness="1"
+                        CornerRadius="14">
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+                        <StackPanel Margin="14">
+
+                            <!-- PROJECT -->
+
+                            <Border Padding="12"
+                                    CornerRadius="12"
+                                    Background="#12FFFFFF"
+                                    BorderBrush="#18FFFFFF"
+                                    BorderThickness="1"
+                                    Margin="0,0,0,14">
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Project"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource TextSubBrush}"/>
+
+                                    <TextBlock Text="{Binding ProjectName}"
+                                               FontSize="20"
+                                               FontWeight="Bold"
+                                               Foreground="{DynamicResource TextMainBrush}"
+                                               Margin="0,4,0,0"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                            <!-- LOAD -->
+
+                            <TextBlock Text="Load Primavera XER"
+                                       FontWeight="SemiBold"
+                                       FontSize="15"
+                                       Foreground="{DynamicResource TextMainBrush}"
+                                       Margin="0,0,0,10"/>
+
+                            <Button Content="Browse XER File"
+                                    Command="{Binding LoadXerCommand}"
+                                    Style="{DynamicResource PrimaryButton}"
+                                    Height="42"
+                                    Margin="0,0,0,16"/>
+
+                            <!-- SETTINGS CARD -->
+
+                            <Border Background="#10FFFFFF"
+                                    BorderBrush="#18FFFFFF"
+                                    BorderThickness="1"
+                                    CornerRadius="12"
+                                    Padding="12">
+
+                                <StackPanel>
+
+                                    <!-- ACTIVITY -->
+
+                                    <TextBlock Text="Select Activity"
+                                               Foreground="{DynamicResource TextMainBrush}"
+                                               Margin="0,0,0,6"/>
+
+                                    <ComboBox ItemsSource="{Binding Activities}"
+                                              SelectedItem="{Binding SelectedActivity}"
+                                              DisplayMemberPath="Code"
+                                              Margin="0,0,0,12"
+                                              Style="{DynamicResource RoundComboBox}"/>
+
+                                    <!-- PATH COUNT -->
+
+                                    <TextBlock Text="Number of Paths"
+                                               Foreground="{DynamicResource TextMainBrush}"
+                                               Margin="0,0,0,6"/>
+
+                                    <TextBox Text="{Binding PathCount}"
+                                             Style="{DynamicResource ReadOnlyTextBox}"
+                                             Margin="0,0,0,12"/>
+
+                                    <!-- MAX DEPTH -->
+
+                                    <TextBlock Text="Max Path Depth"
+                                               Foreground="{DynamicResource TextMainBrush}"
+                                               Margin="0,0,0,6"/>
+
+                                    <TextBox Text="{Binding MaxDepth}"
+                                             Style="{DynamicResource ReadOnlyTextBox}"
+                                             Margin="0,0,0,12"/>
+
+                                    <!-- CHECK -->
+
+                                    <CheckBox Content="Highlight Critical Path"
+                                              IsChecked="{Binding HighlightCritical}"
+                                              Margin="0,0,0,16"/>
+
+                                    <!-- RUN -->
+
+                                    <Button Content="Run Float Path"
+                                            Command="{Binding RunCommand}"
+                                            Style="{DynamicResource PrimaryButton}"
+                                            Height="42"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                            <!-- VIEW MODE -->
+
+                            <TextBlock Text="View Mode"
+                                       FontWeight="SemiBold"
+                                       FontSize="15"
+                                       Foreground="{DynamicResource TextMainBrush}"
+                                       Margin="0,20,0,8"/>
+
+                            <ComboBox ItemsSource="{Binding ViewModes}"
+                                      SelectedItem="{Binding SelectedViewMode, Mode=TwoWay}"
+                                      Style="{DynamicResource RoundComboBox}"/>
+
+                            <!-- LOADING -->
+
+                            <Border Margin="0,20,0,0"
+                                    Padding="10"
+                                    CornerRadius="12"
+                                    Background="#12FFFFFF"
+                                    BorderBrush="#18FFFFFF"
+                                    BorderThickness="1">
+
+                                <Grid>
+
+                                    <ProgressBar Height="20"
+                                                 IsIndeterminate="{Binding IsLoading}"/>
+
+                                    <TextBlock Text="Processing..."
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource TextMainBrush}"
+                                               Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                                </Grid>
+
+                            </Border>
+
+                        </StackPanel>
+
+                    </ScrollViewer>
+
+                </Border>
+
+                <!-- ============================================= -->
+                <!-- RIGHT PANEL -->
+                <!-- ============================================= -->
+
+                <Border Grid.Column="2"
+                        Background="{DynamicResource CardBrush}"
+                        BorderBrush="{DynamicResource CardStrokeBrush}"
+                        BorderThickness="1"
+                        CornerRadius="14"
+                        Padding="10">
+
+                    <Grid>
+
+                        <!-- ===================================== -->
+                        <!-- WBS VIEW -->
+                        <!-- ===================================== -->
+
+                        <TreeView Visibility="{Binding IsWbsView, Converter={StaticResource BoolToVisibilityConverter}}"
+                                  ItemsSource="{Binding WBSItems}"
+                                  SelectedItemChanged="Tree_SelectedItemChanged"
+                                  Panel.ZIndex="1"
+                                  Background="Transparent"
+                                  BorderThickness="0">
+
+                            <!-- REMOVE INDENT -->
+
+                            <TreeView.ItemContainerStyle>
+
+                                <Style TargetType="TreeViewItem">
+
+                                    <Setter Property="IsExpanded"
+                                            Value="False"/>
+
+                                    <Setter Property="Padding"
+                                            Value="0"/>
+
+                                    <Setter Property="Margin"
+                                            Value="0"/>
+
+                                    <Setter Property="HorizontalContentAlignment"
+                                            Value="Stretch"/>
+
+                                    <Setter Property="Template">
+
+                                        <Setter.Value>
+
+                                            <ControlTemplate TargetType="TreeViewItem">
+
+                                                <StackPanel>
+
+                                                    <!-- ROW -->
+
+                                                    <Border x:Name="RowBorder"
+                                                            Background="{Binding Background}"
+                                                            CornerRadius="8"
+                                                            Margin="0,1">
+
+                                                        <Grid>
+
+                                                            <Grid.ColumnDefinitions>
+
+                                                                <ColumnDefinition Width="28"/>
+
+                                                                <ColumnDefinition Width="*"/>
+
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <!-- EXPAND -->
+
+                                                            <ToggleButton x:Name="Expander"
+                                                                          Grid.Column="0"
+                                                                          Width="14"
+                                                                          Height="14"
+                                                                          Margin="6,0"
+                                                                          IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                                          ClickMode="Press">
+
+                                                                <TextBlock Text="+"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontWeight="Bold"/>
+
+                                                            </ToggleButton>
+
+                                                            <!-- CONTENT -->
+
+                                                            <ContentPresenter Grid.Column="1"
+                                                                              ContentSource="Header"
+                                                                              VerticalAlignment="Center"
+                                                                              Margin="6,4"/>
+
+                                                        </Grid>
+
+                                                    </Border>
+
+                                                    <!-- CHILDREN -->
+
+                                                    <ItemsPresenter x:Name="ItemsHost"
+                                                                    Visibility="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                                                </StackPanel>
+
+                                                <!-- TRIGGERS -->
+
+                                                <ControlTemplate.Triggers>
+
+                                                    <!-- HOVER -->
+
+                                                    <Trigger Property="IsMouseDirectlyOver"
+                                                             Value="True">
+
+                                                        <Setter TargetName="RowBorder"
+                                                                Property="Background"
+                                                                Value="#22007ACC"/>
+
+                                                    </Trigger>
+
+                                                    <!-- SELECTED -->
+
+                                                    <Trigger Property="IsSelected"
+                                                             Value="True">
+
+                                                        <Setter TargetName="RowBorder"
+                                                                Property="Background"
+                                                                Value="#44007ACC"/>
+
+                                                    </Trigger>
+
+                                                    <!-- MINUS -->
+
+                                                    <Trigger Property="IsExpanded"
+                                                             Value="True">
+
+                                                        <Setter TargetName="Expander"
+                                                                Property="Content">
+
+                                                            <Setter.Value>
+
+                                                                <TextBlock Text="-"
+                                                                           FontWeight="Bold"/>
+
+                                                            </Setter.Value>
+
+                                                        </Setter>
+
+                                                    </Trigger>
+
+                                                    <!-- HIDE -->
+
+                                                    <Trigger Property="HasItems"
+                                                             Value="False">
+
+                                                        <Setter TargetName="Expander"
+                                                                Property="Visibility"
+                                                                Value="Hidden"/>
+
+                                                    </Trigger>
+
+                                                </ControlTemplate.Triggers>
+
+                                            </ControlTemplate>
+
+                                        </Setter.Value>
+
+                                    </Setter>
+
+                                </Style>
+
+                            </TreeView.ItemContainerStyle>
+
+                            <!-- ================================= -->
+                            <!-- RESOURCES -->
+                            <!-- ================================= -->
+
+                            <TreeView.Resources>
+
+                                <!-- WBS -->
+
+                                <HierarchicalDataTemplate DataType="{x:Type models:WbsItem}"
+                                                          ItemsSource="{Binding Items}">
+
+                                    <TextBlock Text="{Binding Display}"
+                                               FontWeight="Bold"
+                                               Margin="5,2"/>
+
+                                </HierarchicalDataTemplate>
+
+                                <!-- ACTIVITY -->
+
+                                <DataTemplate DataType="{x:Type models:Activity}">
+
+                                    <TextBlock Text="{Binding DisplayActivity}"
+                                               Margin="5,2"/>
+
+                                </DataTemplate>
+
+                            </TreeView.Resources>
+
+                        </TreeView>
+
+                        <!-- ===================================== -->
+                        <!-- GRAPH VIEW -->
+                        <!-- ===================================== -->
+
+                        <wv2:WebView2 x:Name="GraphBrowser"
+                                      Visibility="{Binding IsGraphView, Converter={StaticResource BoolToVisibilityConverter}}"
+                                      Panel.ZIndex="2"/>
+
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+
+        </Grid>
+
+    </Border>
+
+</controls:ModernWindow>

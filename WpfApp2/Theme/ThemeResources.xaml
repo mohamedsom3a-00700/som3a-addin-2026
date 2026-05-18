@@ -1,0 +1,51 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:Som3a_WPF_UI.Converters">
+
+    <ResourceDictionary.MergedDictionaries>
+
+        <!-- Base -->
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Colors.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Typography.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Spacing.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Radius.xaml"/>
+
+        <!-- Controls -->
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ButtonStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/TextBoxStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ComboBoxStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/DataGridStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ListViewStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ScrollBarStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/WindowStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/GroupBoxStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/LabelStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ListViewItemStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ComboBoxItemStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ProgressBarStyles.xaml"/>
+
+        <!-- Modern Window -->
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/WindowButtonStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ModernWindow.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/WindowAnimations.xaml"/>
+
+        <!-- Fluent -->
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Fluent/FluentEffects.xaml"/>
+
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Converters -->
+    <conv:ProgressWidthConverter x:Key="ProgressWidthConverter"/>
+    <conv:PercentToScaleConverter x:Key="PercentToScaleConverter"/>
+    <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+    <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+    <conv:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
+    <conv:WindowStateConverter x:Key="WindowStateConverter"/>
+    <conv:WindowStateToBoolConverter x:Key="WindowStateToBoolConverter"/>
+    <conv:InverseWindowStateConverter x:Key="InverseWindowStateConverter"/>
+
+</ResourceDictionary>

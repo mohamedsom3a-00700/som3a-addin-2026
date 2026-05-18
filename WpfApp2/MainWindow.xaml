@@ -1,0 +1,496 @@
+﻿<controls:ModernWindow x:Class="Som3a_WPF_UI.MainWindow"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
+                        mc:Ignorable="d"
+                        Title="Comparison P6 Activity"
+                        Height="764"
+                        Width="591"
+                        ResizeMode="NoResize"
+                        Loaded="Window_Loaded"
+                        WindowStartupLocation="CenterOwner"
+                        WindowStyle="None"
+                        AllowsTransparency="True"
+                        Background="Transparent"
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True">
+
+    <controls:ModernWindow.Resources>
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </controls:ModernWindow.Resources>
+
+    <!-- ===================================================== -->
+    <!-- ROOT CARD -->
+    <!-- ===================================================== -->
+
+    <Border x:Name="RootBorder"
+            CornerRadius="18"
+            BorderBrush="{DynamicResource CardStrokeBrush}"
+            BorderThickness="1">
+
+        <!-- BACKGROUND -->
+
+        <Border.Background>
+
+            <LinearGradientBrush StartPoint="0,0"
+                                 EndPoint="1,1">
+
+                <GradientStop Color="#FF102A43"
+                              Offset="0"/>
+
+                <GradientStop Color="#FF0F3B3B"
+                              Offset="1"/>
+
+            </LinearGradientBrush>
+
+        </Border.Background>
+
+        <!-- ================================================= -->
+        <!-- ROOT GRID -->
+        <!-- ================================================= -->
+
+        <Grid Margin="12">
+
+            <Grid.RowDefinitions>
+
+                <!-- TITLE BAR -->
+                <RowDefinition Height="42"/>
+
+                <!-- SETTINGS -->
+                <RowDefinition Height="Auto"/>
+
+                <!-- SPACING -->
+                <RowDefinition Height="12"/>
+
+                <!-- LIST -->
+                <RowDefinition Height="*"/>
+
+                <!-- SPACING -->
+                <RowDefinition Height="12"/>
+
+                <!-- PROGRESS -->
+                <RowDefinition Height="Auto"/>
+
+                <!-- SPACING -->
+                <RowDefinition Height="12"/>
+
+                <!-- BUTTONS -->
+                <RowDefinition Height="36"/>
+
+                <!-- SPACING -->
+                <RowDefinition Height="12"/>
+
+                <!-- STATUS -->
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+
+            <!-- ================================================= -->
+            <!-- TITLE BAR -->
+            <!-- ================================================= -->
+
+            <Grid Grid.Row="0"
+                  x:Name="TitleBar"
+                  Margin="4,2,4,0"
+                  MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*"/>
+
+                    <ColumnDefinition Width="Auto"/>
+
+                    <ColumnDefinition Width="8"/>
+
+                    <ColumnDefinition Width="Auto"/>
+
+                </Grid.ColumnDefinitions>
+
+                <!-- TITLE -->
+
+                <TextBlock Text="Comparison P6 Activity"
+                           Foreground="{DynamicResource TextMainBrush}"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <!-- MINIMIZE -->
+
+                <Button Grid.Column="1"
+                        Width="34"
+                        Height="28"
+                        Content="—"
+                        Style="{DynamicResource BaseButton}"
+                        Click="BtnMin_Click"/>
+
+                <!-- CLOSE -->
+
+                <Button Grid.Column="3"
+                        Width="34"
+                        Height="28"
+                        Content="X"
+                        Style="{DynamicResource BaseButton}"
+                        Click="BtnClose_Click"/>
+
+            </Grid>
+
+            <!-- ================================================= -->
+            <!-- SETTINGS -->
+            <!-- ================================================= -->
+
+            <Border Grid.Row="1"
+                    Background="{DynamicResource CardBrush}"
+                    BorderBrush="{DynamicResource CardStrokeBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14"
+                    Padding="14">
+
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="230"/>
+
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+
+                    </Grid.RowDefinitions>
+
+                    <!-- OLD SHEET -->
+
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Text="Last Update Sheet"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMainBrush}"/>
+
+                    <ComboBox x:Name="cmbOldSheet"
+                              Grid.Row="0"
+                              Grid.Column="1"
+                              MinWidth="240"
+                              HorizontalAlignment="Stretch"
+                              ItemsSource="{Binding Sheets}"
+                              SelectedItem="{Binding OldSheet, UpdateSourceTrigger=PropertyChanged}"
+                              Style="{DynamicResource RoundComboBox}"/>
+
+                    <!-- NEW SHEET -->
+
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Text="New Update Sheet"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMainBrush}"/>
+
+                    <ComboBox Grid.Row="1"
+                              Grid.Column="1"
+                              MinWidth="240"
+                              HorizontalAlignment="Stretch"
+                              ItemsSource="{Binding Sheets}"
+                              SelectedItem="{Binding NewSheet, UpdateSourceTrigger=PropertyChanged}"
+                              Style="{DynamicResource RoundComboBox}"/>
+
+                    <!-- ID COLUMN -->
+
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Text="Activity ID Column (Letter)"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMainBrush}"/>
+
+                    <TextBox Grid.Row="2"
+                             Grid.Column="1"
+                             Text="{Binding IdCol, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="False"/>
+
+                    <!-- COMPARE COLUMN -->
+
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="0"
+                               Text="Activity % Column (Letter)"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMainBrush}"/>
+
+                    <TextBox Grid.Row="3"
+                             Grid.Column="1"
+                             Text="{Binding CompareCol, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="False"/>
+
+                    <!-- WBS COLUMN -->
+
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="0"
+                               Text="WBS Column (OLD sheet letter)"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMainBrush}"/>
+
+                    <TextBox Grid.Row="4"
+                             Grid.Column="1"
+                             Text="{Binding CopyCol, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="False"/>
+
+                    <!-- START ROW -->
+
+                    <TextBlock Grid.Row="5"
+                               Grid.Column="0"
+                               Text="Top Headers Row (StartRow)"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMainBrush}"/>
+
+                    <TextBox Grid.Row="5"
+                             Grid.Column="1"
+                             Text="{Binding StartRow, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="False"/>
+
+                </Grid>
+
+            </Border>
+
+            <!-- ================================================= -->
+            <!-- LIST -->
+            <!-- ================================================= -->
+
+            <Border Grid.Row="3"
+                    Background="{DynamicResource CardBrush}"
+                    BorderBrush="{DynamicResource CardStrokeBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14"
+                    Padding="10">
+
+                <ListView ItemsSource="{Binding Items}"
+                          ItemContainerStyle="{DynamicResource AccentListViewItem}">
+
+                    <ListView.View>
+
+                        <GridView>
+
+                            <GridViewColumn Header="Task ID"
+                                            DisplayMemberBinding="{Binding TaskId}"
+                                            Width="120"/>
+
+                            <GridViewColumn Header="Old"
+                                            DisplayMemberBinding="{Binding OldValue}"
+                                            Width="70"/>
+
+                            <GridViewColumn Header="New"
+                                            DisplayMemberBinding="{Binding NewValue}"
+                                            Width="70"/>
+
+                            <GridViewColumn Header="Change"
+                                            DisplayMemberBinding="{Binding ChangeType}"
+                                            Width="80"/>
+
+                            <GridViewColumn Header="Status"
+                                            DisplayMemberBinding="{Binding Status}"
+                                            Width="90"/>
+
+                            <GridViewColumn Header="WBS"
+                                            DisplayMemberBinding="{Binding WbsId}"
+                                            Width="120"/>
+
+                        </GridView>
+
+                    </ListView.View>
+
+                </ListView>
+
+            </Border>
+
+            <!-- ================================================= -->
+            <!-- PROGRESS -->
+            <!-- ================================================= -->
+
+            <Grid Grid.Row="5">
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*"/>
+
+                    <ColumnDefinition Width="90"/>
+
+                </Grid.ColumnDefinitions>
+
+                <!-- PROGRESS BAR -->
+
+                <Border Grid.Column="0"
+                        Height="24"
+                        CornerRadius="10"
+                        Background="#22000000"
+                        BorderBrush="#22FFFFFF"
+                        BorderThickness="1"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,0">
+
+                    <Grid ClipToBounds="True">
+
+                        <Border CornerRadius="10"
+                                Background="{DynamicResource AccentBrush}">
+
+                            <Border.Width>
+
+                                <MultiBinding Converter="{StaticResource ProgressWidthConverter}">
+
+                                    <Binding RelativeSource="{RelativeSource AncestorType=Border}"
+                                             Path="ActualWidth"/>
+
+                                    <Binding Path="ProgressPercent"/>
+
+                                </MultiBinding>
+
+                            </Border.Width>
+
+                        </Border>
+
+                    </Grid>
+
+                </Border>
+
+                <!-- PERCENT -->
+
+                <Border Grid.Column="1"
+                        Height="30"
+                        CornerRadius="10"
+                        Background="{DynamicResource ControlBgBrush}"
+                        BorderBrush="{DynamicResource ControlStrokeBrush}"
+                        BorderThickness="1"
+                        VerticalAlignment="Center">
+
+                    <TextBlock Text="{Binding ProgressPercent, StringFormat={}{0}%}"
+                               Foreground="{DynamicResource TextMainBrush}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+
+                </Border>
+
+            </Grid>
+
+            <!-- ================================================= -->
+            <!-- BUTTONS -->
+            <!-- ================================================= -->
+
+            <Grid Grid.Row="7">
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <!-- PREVIEW -->
+
+                <Button Grid.Column="0"
+                        Content="Preview"
+                        Style="{DynamicResource BaseButton}"
+                        Click="Preview_Click"
+                        IsEnabled="{Binding CanRun}"/>
+
+                <!-- EXPORT -->
+
+                <Button Grid.Column="2"
+                        Content="Export Log"
+                        Style="{DynamicResource BaseButton}"
+                        IsEnabled="False"/>
+
+                <!-- UPDATE -->
+
+                <Button Grid.Column="4"
+                        Content="Update"
+                        Style="{DynamicResource PrimaryButton}"
+                        Click="Start_Click"
+                        IsEnabled="{Binding CanRun}"/>
+
+                <!-- CANCEL -->
+
+                <Button Grid.Column="6"
+                        Content="Cancel"
+                        Style="{DynamicResource BaseButton}"
+                        Click="Cancel_Click"
+                        IsEnabled="{Binding IsBusy}"/>
+
+            </Grid>
+
+            <!-- ================================================= -->
+            <!-- STATUS -->
+            <!-- ================================================= -->
+
+            <Border Grid.Row="9"
+                    Background="#1FFFFFFF"
+                    CornerRadius="12"
+                    BorderBrush="#22FFFFFF"
+                    BorderThickness="1"
+                    Padding="10,6">
+
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*"/>
+
+                        <ColumnDefinition Width="10"/>
+
+                        <ColumnDefinition Width="Auto"/>
+
+                        <ColumnDefinition Width="10"/>
+
+                        <ColumnDefinition Width="Auto"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <!-- STATUS TEXT -->
+
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding StatusText}"
+                               Foreground="{DynamicResource TextSubBrush}"
+                               TextTrimming="CharacterEllipsis"/>
+
+                    <!-- ROWS -->
+
+                    <TextBlock Grid.Column="2"
+                               Text="{Binding RowsText}"
+                               Foreground="{DynamicResource TextSubBrush}"/>
+
+                    <!-- CHANGES -->
+
+                    <TextBlock Grid.Column="4"
+                               Text="{Binding ChangesText}"
+                               Foreground="{DynamicResource TextSubBrush}"/>
+
+                </Grid>
+
+            </Border>
+
+        </Grid>
+
+    </Border>
+
+</controls:ModernWindow>

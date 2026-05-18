@@ -1,0 +1,242 @@
+﻿<controls:ModernWindow x:Class="Som3a_WPF_UI.StyleSelectorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
+        Title="WBS Color Styles"
+        Height="550"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True">
+
+    <controls:ModernWindow.Resources>
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </controls:ModernWindow.Resources>
+
+    <!-- ROOT -->
+
+    <Border x:Name="RootBorder"
+            CornerRadius="18"
+            BorderBrush="{DynamicResource CardStrokeBrush}"
+            BorderThickness="1">
+
+        <Border.Background>
+
+            <LinearGradientBrush StartPoint="0,0"
+                                 EndPoint="1,1">
+
+                <GradientStop Color="#FF102A43"
+                              Offset="0"/>
+
+                <GradientStop Color="#FF0F3B3B"
+                              Offset="1"/>
+
+            </LinearGradientBrush>
+
+        </Border.Background>
+
+        <!-- ROOT GRID -->
+
+        <Grid Margin="12">
+
+            <Grid.RowDefinitions>
+
+                <!-- TITLE BAR -->
+                <RowDefinition Height="42"/>
+
+                <!-- CONTENT -->
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+
+            <!-- ================================================= -->
+            <!-- TITLE BAR -->
+            <!-- ================================================= -->
+
+            <Grid Grid.Row="0"
+                  x:Name="TitleBar"
+                  Margin="4,2,4,0"
+                  MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="Auto"/>
+
+                </Grid.ColumnDefinitions>
+
+                <!-- TITLE -->
+
+                <TextBlock Text="WBS Color Styles"
+                           Foreground="{DynamicResource TextMainBrush}"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <!-- MIN -->
+
+                <Button Grid.Column="1"
+                        Width="34"
+                        Height="28"
+                        Content="—"
+                        Style="{DynamicResource BaseButton}"
+                        Click="BtnMin_Click"/>
+
+                <!-- CLOSE -->
+
+                <Button Grid.Column="3"
+                        Width="34"
+                        Height="28"
+                        Content="X"
+                        Style="{DynamicResource BaseButton}"
+                        Click="BtnClose_Click"/>
+
+            </Grid>
+
+            <!-- ================================================= -->
+            <!-- CONTENT -->
+            <!-- ================================================= -->
+
+            <Grid Grid.Row="1"
+                  Margin="10">
+
+                <Grid.RowDefinitions>
+
+                    <!-- HEADER -->
+                    <RowDefinition Height="Auto"/>
+
+                    <!-- COMBO -->
+                    <RowDefinition Height="Auto"/>
+
+                    <!-- LIST -->
+                    <RowDefinition Height="*"/>
+
+                    <!-- BUTTONS -->
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+
+                <!-- HEADER -->
+
+                <TextBlock Grid.Row="0"
+                           Text="Choose Coloring Style"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextMainBrush}"
+                           Margin="0,0,0,14"/>
+
+                <!-- STYLE SELECTOR -->
+
+                <ComboBox Grid.Row="1"
+                          x:Name="StyleCombo"
+                          Margin="0,0,0,16"
+                          Height="36"
+                          SelectionChanged="StyleCombo_SelectionChanged"
+                          Style="{DynamicResource RoundComboBox}">
+
+                    <ComboBoxItem Tag="1">Default</ComboBoxItem>
+                    <ComboBoxItem Tag="2">Blue Gradient</ComboBoxItem>
+                    <ComboBoxItem Tag="3">Primavera</ComboBoxItem>
+                    <ComboBoxItem Tag="4">Dark Mode</ComboBoxItem>
+                    <ComboBoxItem Tag="5">Soft Pastel</ComboBoxItem>
+
+                </ComboBox>
+
+                <!-- LISTVIEW -->
+
+                <Border Grid.Row="2"
+                        Background="{DynamicResource SurfaceBrush}"
+                        BorderBrush="{DynamicResource CardStrokeBrush}"
+                        BorderThickness="1"
+                        CornerRadius="14"
+                        Padding="10">
+
+                    <ListView x:Name="PreviewList"
+                              Background="Transparent"
+                              BorderThickness="0">
+
+                        <ListView.View>
+
+                            <GridView>
+
+                                <GridViewColumn Header="Level"
+                                                Width="100"
+                                                DisplayMemberBinding="{Binding Level}"/>
+
+                                <GridViewColumn Header="HEX"
+                                                Width="180"
+                                                DisplayMemberBinding="{Binding Hex}"/>
+
+                                <GridViewColumn Header="Color"
+                                                Width="140">
+
+                                    <GridViewColumn.CellTemplate>
+
+                                        <DataTemplate>
+
+                                            <Border Width="80"
+                                                    Height="22"
+                                                    CornerRadius="6"
+                                                    BorderBrush="#33000000"
+                                                    BorderThickness="1"
+                                                    Background="{Binding Brush}"/>
+
+                                        </DataTemplate>
+
+                                    </GridViewColumn.CellTemplate>
+
+                                </GridViewColumn>
+
+                            </GridView>
+
+                        </ListView.View>
+
+                    </ListView>
+
+                </Border>
+
+                <!-- BUTTONS -->
+
+                <StackPanel Grid.Row="3"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="0,16,0,0">
+
+                    <Button Content="Save"
+                            Width="110"
+                            Height="34"
+                            Margin="0,0,10,0"
+                            Click="Save_Click"
+                            Style="{DynamicResource PrimaryButton}"/>
+
+                    <Button Content="Cancel"
+                            Width="110"
+                            Height="34"
+                            Click="Cancel_Click"
+                            Style="{DynamicResource GhostButton}"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+
+    </Border>
+
+</controls:ModernWindow>

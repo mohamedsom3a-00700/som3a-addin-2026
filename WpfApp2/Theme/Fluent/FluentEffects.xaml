@@ -1,0 +1,41 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Card Shadow Effect -->
+    <DropShadowEffect x:Key="CardShadow"
+                      Color="#000000"
+                      Opacity="0.25"
+                      BlurRadius="16"
+                      ShadowDepth="4"
+                      Direction="270"/>
+
+    <!-- Focus Glow Effect -->
+    <DropShadowEffect x:Key="FocusGlow"
+                      Color="#3A86FF"
+                      Opacity="0.35"
+                      BlurRadius="10"
+                      ShadowDepth="0"/>
+
+    <!-- Window Shadow Effect -->
+    <DropShadowEffect x:Key="WindowShadow"
+                      Color="#000000"
+                      Opacity="0.4"
+                      BlurRadius="30"
+                      ShadowDepth="8"
+                      Direction="270"/>
+
+    <!-- Button Hover Glow -->
+    <DropShadowEffect x:Key="ButtonHoverGlow"
+                      Color="#3A86FF"
+                      Opacity="0.3"
+                      BlurRadius="8"
+                      ShadowDepth="0"/>
+
+    <!-- Primary Button Glow -->
+    <DropShadowEffect x:Key="PrimaryButtonGlow"
+                      Color="#3A86FF"
+                      Opacity="0.4"
+                      BlurRadius="12"
+                      ShadowDepth="0"/>
+
+</ResourceDictionary>

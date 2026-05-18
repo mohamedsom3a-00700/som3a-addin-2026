@@ -1,0 +1,623 @@
+﻿<controls:ModernWindow x:Class="Som3a_WPF_UI.SubDailyReportWindow"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:conv="clr-namespace:Som3a_WPF_UI.Converters"
+                        xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
+                        Title="Daily Report"
+                        Height="770"
+                        Width="980"
+                        ResizeMode="NoResize"
+                        Loaded="Window_Loaded"
+                        WindowStartupLocation="CenterOwner"
+                        WindowStyle="None"
+                        AllowsTransparency="True"
+                        Background="Transparent"
+                        TitleBarHeight="40"
+                        ShowMaximizeButton="False"
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True">
+
+    <controls:ModernWindow.Resources>
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </controls:ModernWindow.Resources>
+
+    <!-- ===================================================== -->
+    <!-- ROOT CARD -->
+    <!-- ===================================================== -->
+
+    <Border x:Name="RootBorder"
+            CornerRadius="18"
+            BorderBrush="{DynamicResource CardStrokeBrush}"
+            BorderThickness="1">
+
+        <!-- BACKGROUND -->
+
+        <Border.Background>
+
+            <LinearGradientBrush StartPoint="0,0"
+                                 EndPoint="1,1">
+
+                <GradientStop Color="#FF102A43"
+                              Offset="0"/>
+
+                <GradientStop Color="#FF0F3B3B"
+                              Offset="1"/>
+
+            </LinearGradientBrush>
+
+        </Border.Background>
+
+        <!-- ================================================= -->
+        <!-- ROOT GRID -->
+        <!-- ================================================= -->
+
+        <Grid Margin="12">
+
+            <Grid.RowDefinitions>
+
+                <!-- TITLE BAR -->
+                <RowDefinition Height="42"/>
+
+                <!-- CONTENT -->
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+
+            <!-- ================================================= -->
+            <!-- TITLE BAR -->
+            <!-- ================================================= -->
+
+            <Grid Grid.Row="0"
+                  x:Name="TitleBar"
+                  Margin="4,2,4,0"
+                  MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*"/>
+
+                    <ColumnDefinition Width="Auto"/>
+
+                    <ColumnDefinition Width="8"/>
+
+                    <ColumnDefinition Width="Auto"/>
+
+                </Grid.ColumnDefinitions>
+
+                <!-- TITLE -->
+
+                <TextBlock Text="Project Analysis"
+                           Foreground="{DynamicResource TextMainBrush}"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <!-- MINIMIZE -->
+
+                <Button Grid.Column="1"
+                        Width="34"
+                        Height="28"
+                        Content="—"
+                        Style="{DynamicResource BaseButton}"
+                        Click="BtnMin_Click"/>
+
+                <!-- CLOSE -->
+
+                <Button Grid.Column="3"
+                        Width="34"
+                        Height="28"
+                        Content="X"
+                        Style="{DynamicResource BaseButton}"
+                        Click="BtnClose_Click"/>
+
+            </Grid>
+
+            <!-- ================================================= -->
+            <!-- MAIN CONTENT -->
+            <!-- ================================================= -->
+
+            <Grid Grid.Row="1">
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="10"/>
+
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="10"/>
+
+                    <RowDefinition Height="32"/>
+
+                </Grid.RowDefinitions>
+
+                <!-- ============================================= -->
+                <!-- SETTINGS -->
+                <!-- ============================================= -->
+
+                <Border Grid.Row="0"
+                        Background="{DynamicResource CardBrush}"
+                        BorderBrush="{DynamicResource CardStrokeBrush}"
+                        BorderThickness="1"
+                        CornerRadius="14"
+                        Padding="14">
+
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="240"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="240"/>
+                            <ColumnDefinition Width="*"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+
+                        </Grid.RowDefinitions>
+
+                        <!-- PREVIOUS FILE -->
+
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="Previous File"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextMainBrush}"/>
+
+                        <Grid Grid.Row="0"
+                              Grid.Column="1"
+                              Grid.ColumnSpan="3"
+                              Margin="0,0,10,2">
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox Grid.Column="0"
+                                      ItemsSource="{Binding PrevFiles}"
+                                      SelectedItem="{Binding SelectedPrevFile, Mode=TwoWay}"
+                                      DisplayMemberPath="DisplayName"
+                                      Style="{DynamicResource RoundComboBox}"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Text="✔"
+                                       Foreground="LimeGreen"
+                                       FontSize="16"
+                                       Margin="10,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Visibility="{Binding IsPrevFileSelected, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                        </Grid>
+
+                        <Button Grid.Row="0"
+                                Grid.Column="4"
+                                Content="Refresh"
+                                Style="{DynamicResource BaseButton}"
+                                Command="{Binding RefreshFilesCommand}"
+                                Height="35"
+                                Margin="5"/>
+
+                        <!-- PREVIOUS SHEET -->
+
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="Previous Sheet"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextMainBrush}"/>
+
+                        <ComboBox Grid.Row="1"
+                                  Grid.Column="1"
+                                  Grid.ColumnSpan="3"
+                                  Margin="0,0,10,2"
+                                  ItemsSource="{Binding PrevSheets}"
+                                  SelectedItem="{Binding SelectedPrevSheet}"
+                                  Style="{DynamicResource RoundComboBox}"/>
+
+                        <!-- TODAY SHEET -->
+
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="0"
+                                   Text="Today Sheet"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextMainBrush}"/>
+
+                        <ComboBox Grid.Row="2"
+                                  Grid.Column="1"
+                                  ItemsSource="{Binding TodaySheets}"
+                                  SelectedItem="{Binding SelectedTodaySheet}"
+                                  Style="{DynamicResource RoundComboBox}"/>
+
+                        <!-- NAME COL -->
+
+                        <TextBlock Grid.Row="3"
+                                   Grid.Column="0"
+                                   Text="Name Col / Start Row"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextMainBrush}"/>
+
+                        <StackPanel Grid.Row="3"
+                                    Grid.Column="1"
+                                    Orientation="Horizontal">
+
+                            <ComboBox Width="90"
+                                      Margin="0,0,10,0"
+                                      ItemsSource="{Binding ColumnLetters}"
+                                      SelectedItem="{Binding NameCol}"
+                                      Style="{DynamicResource RoundComboBox}"/>
+
+                            <ComboBox Width="106"
+                                      ItemsSource="{Binding StartRows}"
+                                      SelectedItem="{Binding NameStartRow}"
+                                      Style="{DynamicResource RoundComboBox}"/>
+
+                        </StackPanel>
+
+                        <!-- COUNT COL -->
+
+                        <TextBlock Grid.Row="3"
+                                   Grid.Column="3"
+                                   Text="Count Col / Start Row"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextMainBrush}"/>
+
+                        <StackPanel Grid.Row="3"
+                                    Grid.Column="4"
+                                    Orientation="Horizontal">
+
+                            <ComboBox Width="90"
+                                      Margin="0,0,10,0"
+                                      ItemsSource="{Binding ColumnLetters}"
+                                      SelectedItem="{Binding CountCol}"
+                                      Style="{DynamicResource RoundComboBox}"/>
+
+                            <ComboBox Width="111"
+                                      ItemsSource="{Binding StartRows}"
+                                      SelectedItem="{Binding CountStartRow}"
+                                      Style="{DynamicResource RoundComboBox}"/>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                </Border>
+
+                <!-- ============================================= -->
+                <!-- MAIN AREA -->
+                <!-- ============================================= -->
+
+                <Grid Grid.Row="2">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="360"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <!-- SUBCONTRACTORS -->
+
+                    <Border Grid.Column="0"
+                            Background="{DynamicResource CardBrush}"
+                            BorderBrush="{DynamicResource CardStrokeBrush}"
+                            BorderThickness="1"
+                            CornerRadius="14"
+                            Padding="12">
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="*"/>
+
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                       Text="Subcontractors"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextMainBrush}"/>
+
+                            <Grid Grid.Row="2">
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0"
+                                        Content="All"
+                                        Style="{DynamicResource BaseButton}"
+                                        Command="{Binding CheckAllCommand}"
+                                        IsEnabled="{Binding CanToggleChecks}"/>
+
+                                <Button Grid.Column="2"
+                                        Content="None"
+                                        Style="{DynamicResource BaseButton}"
+                                        Command="{Binding CheckNoneCommand}"
+                                        IsEnabled="{Binding CanToggleChecks}"/>
+
+                            </Grid>
+
+                            <ListView Grid.Row="4"
+                                      ItemsSource="{Binding NameItems}"
+                                      ItemContainerStyle="{DynamicResource AccentListViewItem}"
+                                      PreviewMouseWheel="ListView_PreviewMouseWheel">
+
+                                <ListView.View>
+
+                                    <GridView>
+
+                                        <GridViewColumn Header="Inc."
+                                                        Width="40">
+
+                                            <GridViewColumn.CellTemplate>
+
+                                                <DataTemplate>
+
+                                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+
+                                                </DataTemplate>
+
+                                            </GridViewColumn.CellTemplate>
+
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="Name"
+                                                        Width="220"
+                                                        DisplayMemberBinding="{Binding NameRaw}"/>
+
+                                        <GridViewColumn Header="Row"
+                                                        Width="50"
+                                                        DisplayMemberBinding="{Binding Row}"/>
+
+                                    </GridView>
+
+                                </ListView.View>
+
+                            </ListView>
+
+                        </Grid>
+
+                    </Border>
+
+                    <!-- PREVIEW -->
+
+                    <Border Grid.Column="2"
+                            Background="{DynamicResource CardBrush}"
+                            BorderBrush="{DynamicResource CardStrokeBrush}"
+                            BorderThickness="1"
+                            CornerRadius="14"
+                            Padding="12">
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="*"/>
+
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                       Text="Preview"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextMainBrush}"/>
+
+                            <ListView Grid.Row="2"
+                                      ItemsSource="{Binding PreviewRows}"
+                                      PreviewMouseWheel="ListView_PreviewMouseWheel"
+                                      ItemContainerStyle="{DynamicResource AccentListViewItem}">
+
+                                <ListView.View>
+
+                                    <GridView>
+
+                                        <GridViewColumn Header="Name"
+                                                        Width="220"
+                                                        DisplayMemberBinding="{Binding Name}"/>
+
+                                        <GridViewColumn Header="Previous"
+                                                        Width="80"
+                                                        DisplayMemberBinding="{Binding Previous}"/>
+
+                                        <GridViewColumn Header="Today"
+                                                        Width="80"
+                                                        DisplayMemberBinding="{Binding Today}"/>
+
+                                        <GridViewColumn Header="Var"
+                                                        Width="80"
+                                                        DisplayMemberBinding="{Binding Var}"/>
+
+                                        <GridViewColumn Header="Total"
+                                                        Width="80"
+                                                        DisplayMemberBinding="{Binding Total}"/>
+
+                                    </GridView>
+
+                                </ListView.View>
+
+                            </ListView>
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+
+                <!-- ============================================= -->
+                <!-- PROGRESS -->
+                <!-- ============================================= -->
+
+                <Grid Grid.Row="4">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="90"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0"
+                            Height="30"
+                            CornerRadius="10"
+                            Background="#22000000"
+                            BorderBrush="#22FFFFFF"
+                            BorderThickness="1"
+                            VerticalAlignment="Center"
+                            Margin="0,0,10,0">
+
+                        <Grid ClipToBounds="True">
+
+                            <Border CornerRadius="10"
+                                    HorizontalAlignment="Stretch"
+                                    RenderTransformOrigin="0,0.5">
+
+                                <Border.Background>
+
+                                    <LinearGradientBrush StartPoint="0,0"
+                                                         EndPoint="1,0">
+
+                                        <GradientStop Color="#FF1ABC9C"
+                                                      Offset="0"/>
+
+                                        <GradientStop Color="#FF2ECC71"
+                                                      Offset="1"/>
+
+                                    </LinearGradientBrush>
+
+                                </Border.Background>
+
+                                <Border.Effect>
+
+                                    <DropShadowEffect Color="#6600FF9C"
+                                                      BlurRadius="8"
+                                                      ShadowDepth="0"
+                                                      Opacity="0.8"/>
+
+                                </Border.Effect>
+
+                                <Border.RenderTransform>
+
+                                    <ScaleTransform ScaleY="1"
+                                                    ScaleX="{Binding ProgressPercent, Converter={StaticResource PercentToScaleConverter}}"/>
+
+                                </Border.RenderTransform>
+
+                            </Border>
+
+                        </Grid>
+
+                    </Border>
+
+                    <Border Grid.Column="1"
+                            Height="30"
+                            CornerRadius="10"
+                            Background="{DynamicResource ControlBgBrush}"
+                            BorderBrush="{DynamicResource ControlStrokeBrush}"
+                            BorderThickness="1"
+                            VerticalAlignment="Center">
+
+                        <TextBlock Text="{Binding ProgressPercent, StringFormat={}{0:0}%}"
+                                   Foreground="White"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                    </Border>
+
+                </Grid>
+
+                <!-- ============================================= -->
+                <!-- BUTTONS -->
+                <!-- ============================================= -->
+
+                <Grid Grid.Row="6">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            Content="Preview"
+                            Style="{DynamicResource PrimaryButton}"
+                            Command="{Binding PreviewCommand}"
+                            IsEnabled="{Binding CanPreview}"/>
+
+                    <Button Grid.Column="2"
+                            Content="Apply"
+                            Style="{DynamicResource BaseButton}"
+                            Command="{Binding ApplyCommand}"
+                            IsEnabled="{Binding CanApply}"/>
+
+                    <Button Grid.Column="4"
+                            Content="Cancel"
+                            Style="{DynamicResource BaseButton}"
+                            Command="{Binding CloseCommand}"/>
+
+                </Grid>
+
+                <!-- ============================================= -->
+                <!-- STATUS -->
+                <!-- ============================================= -->
+
+                <Border Grid.Row="8"
+                        Background="#1FFFFFFF"
+                        CornerRadius="12"
+                        BorderBrush="#22FFFFFF"
+                        BorderThickness="1"
+                        Padding="8,4">
+
+                    <TextBlock Text="{Binding StatusText}"
+                               Foreground="{DynamicResource TextSubBrush}"
+                               TextTrimming="CharacterEllipsis"/>
+
+                </Border>
+
+            </Grid>
+
+        </Grid>
+
+    </Border>
+
+</controls:ModernWindow>
