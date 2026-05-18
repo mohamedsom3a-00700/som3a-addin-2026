@@ -97,6 +97,7 @@
     <Compile Include="Services\ExcelProjectAnalysisService.cs" />
     <Compile Include="Services\ThemeSettings.cs" />
     <Compile Include="Services\ThemeManager.cs" />
+    <Compile Include="Services\WindowRenderModeDetector.cs" />
     <Compile Include="Services\ToastService.cs" />
     <Compile Include="Controls\LoadingOverlay.xaml.cs">
       <DependentUpon>LoadingOverlay.xaml</DependentUpon>
@@ -338,6 +339,22 @@
         <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\Controls\AccentSwatchStyles.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Controls\CheckBoxStyles.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Controls\RadioButtonStyles.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Controls\ToggleButtonStyles.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Controls\ScrollViewerStyles.xaml">
         <Generator>MSBuild:Compile</Generator>
         <SubType>Designer</SubType>
     </Page>

@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 using Som3a_WPF_UI.Controls;
 using Som3a_WPF_UI.Services;
 
@@ -12,6 +13,8 @@ namespace Som3a_WPF_UI.Views
     {
         private string _selectedTheme = "Dark";
         private string _selectedAccent = "#3A86FF";
+        private string _originalTheme;
+        private string _originalAccent;
 
         public SettingsWindow()
         {
@@ -39,6 +42,8 @@ namespace Som3a_WPF_UI.Views
         {
             _selectedTheme = ThemeManager.Instance.CurrentTheme;
             _selectedAccent = ThemeManager.Instance.CurrentAccentColor;
+            _originalTheme = _selectedTheme;
+            _originalAccent = _selectedAccent;
 
             UpdateCardSelection();
             UpdateSwatchSelection();
@@ -86,6 +91,20 @@ namespace Som3a_WPF_UI.Views
 
         private void ThemeCard_Click(object sender, MouseButtonEventArgs e)
         {
+            ApplyThemeCardSelection(sender);
+        }
+
+        private void ThemeCard_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Space)
+            {
+                ApplyThemeCardSelection(sender);
+                e.Handled = true;
+            }
+        }
+
+        private void ApplyThemeCardSelection(object sender)
+        {
             var border = sender as Border;
             if (border?.Tag is string themeName)
             {
@@ -96,6 +115,20 @@ namespace Som3a_WPF_UI.Views
         }
 
         private void AccentSwatch_Click(object sender, MouseButtonEventArgs e)
+        {
+            ApplySwatchSelection(sender);
+        }
+
+        private void AccentSwatch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Space)
+            {
+                ApplySwatchSelection(sender);
+                e.Handled = true;
+            }
+        }
+
+        private void ApplySwatchSelection(object sender)
         {
             var ellipse = sender as Ellipse;
             if (ellipse?.Tag is string hex)
@@ -115,6 +148,7 @@ namespace Som3a_WPF_UI.Views
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+            ThemeManager.Instance.ApplyTheme(_originalTheme, _originalAccent);
             ThemeManager.Instance.ThemeChanged -= OnThemeChanged;
             DialogResult = false;
             Close();

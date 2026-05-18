@@ -15,6 +15,10 @@
         <Setter Property="CanUserAddRows" Value="False"/>
         <Setter Property="CanUserDeleteRows" Value="False"/>
         <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="EnableRowVirtualization" Value="True"/>
+        <Setter Property="EnableColumnVirtualization" Value="True"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
     </Style>
 

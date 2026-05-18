@@ -23,7 +23,11 @@
                             CornerRadius="{DynamicResource MediumRadius}"
                             SnapsToDevicePixels="True">
                         <Border.Effect>
-                            <DropShadowEffect x:Name="FocusGlowEffect" Color="#3A86FF" Opacity="0" BlurRadius="8" ShadowDepth="0"/>
+                            <DropShadowEffect x:Name="FocusGlowEffect"
+                                              Color="{DynamicResource AccentColorValue}"
+                                              Opacity="0"
+                                              BlurRadius="8"
+                                              ShadowDepth="0"/>
                         </Border.Effect>
                         <ScrollViewer x:Name="PART_ContentHost"
                                       Margin="0"

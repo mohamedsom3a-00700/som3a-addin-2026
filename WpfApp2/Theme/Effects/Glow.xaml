@@ -3,26 +3,26 @@
 
     <DropShadowEffect x:Key="Glow.Focus"
         BlurRadius="10" ShadowDepth="0"
-        Color="#3A86FF" Opacity="0.35"/>
+        Color="{DynamicResource AccentColorValue}" Opacity="0.35"/>
 
     <DropShadowEffect x:Key="Glow.ButtonHover"
         BlurRadius="8" ShadowDepth="0"
-        Color="#3A86FF" Opacity="0.3"/>
+        Color="{DynamicResource AccentColorValue}" Opacity="0.3"/>
 
     <DropShadowEffect x:Key="Glow.Primary"
         BlurRadius="12" ShadowDepth="0"
-        Color="#3A86FF" Opacity="0.4"/>
+        Color="{DynamicResource AccentColorValue}" Opacity="0.4"/>
 
     <DropShadowEffect x:Key="Glow.Selection"
         BlurRadius="6" ShadowDepth="0"
-        Color="#3A86FF" Opacity="0.5"/>
+        Color="{DynamicResource AccentColorValue}" Opacity="0.5"/>
 
     <DropShadowEffect x:Key="Glow.Accent"
         BlurRadius="8" ShadowDepth="0"
-        Color="#3A86FF" Opacity="0.4"/>
+        Color="{DynamicResource AccentColorValue}" Opacity="0.4"/>
 
     <DropShadowEffect x:Key="Glow.ThemeCard.Selected"
         BlurRadius="14" ShadowDepth="0"
-        Color="#3A86FF" Opacity="0.45"/>
+        Color="{DynamicResource AccentColorValue}" Opacity="0.45"/>
 
 </ResourceDictionary>

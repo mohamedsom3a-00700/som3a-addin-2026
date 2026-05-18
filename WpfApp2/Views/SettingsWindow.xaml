@@ -219,6 +219,8 @@
                                     <Border x:Name="CardDark"
                                             Style="{StaticResource DarkCardStyle}"
                                             MouseLeftButtonDown="ThemeCard_Click"
+                                            PreviewKeyDown="ThemeCard_KeyDown"
+                                            Focusable="True"
                                             Margin="0,0,16,0"
                                             AutomationProperties.Name="Dark Theme">
                                         <Grid>
@@ -257,7 +259,8 @@
                                     <Border x:Name="CardLight"
                                             Style="{StaticResource LightCardStyle}"
                                             MouseLeftButtonDown="ThemeCard_Click"
-                                            Margin="0,0,16,0"
+                                            PreviewKeyDown="ThemeCard_KeyDown"
+                                            Focusable="True"
                                             AutomationProperties.Name="Light Theme">
                                         <Grid>
                                             <!-- Preview Gradient -->
@@ -295,6 +298,8 @@
                                     <Border x:Name="CardCustom"
                                             Style="{StaticResource CustomCardStyle}"
                                             MouseLeftButtonDown="ThemeCard_Click"
+                                            PreviewKeyDown="ThemeCard_KeyDown"
+                                            Focusable="True"
                                             AutomationProperties.Name="Custom Theme">
                                         <Grid>
                                             <!-- Preview Gradient -->
@@ -352,41 +357,57 @@
                                     <Ellipse x:Name="SwatchBlue"
                                              Style="{StaticResource BlueSwatch}"
                                              MouseLeftButtonDown="AccentSwatch_Click"
+                                             PreviewKeyDown="AccentSwatch_KeyDown"
+                                             Focusable="True"
                                              Margin="0,0,10,0"
                                              AutomationProperties.Name="Blue accent"/>
                                     <Ellipse x:Name="SwatchGreen"
                                              Style="{StaticResource GreenSwatch}"
                                              MouseLeftButtonDown="AccentSwatch_Click"
+                                             PreviewKeyDown="AccentSwatch_KeyDown"
+                                             Focusable="True"
                                              Margin="0,0,10,0"
                                              AutomationProperties.Name="Green accent"/>
                                     <Ellipse x:Name="SwatchPurple"
                                              Style="{StaticResource PurpleSwatch}"
                                              MouseLeftButtonDown="AccentSwatch_Click"
+                                             PreviewKeyDown="AccentSwatch_KeyDown"
+                                             Focusable="True"
                                              Margin="0,0,10,0"
                                              AutomationProperties.Name="Purple accent"/>
                                     <Ellipse x:Name="SwatchOrange"
                                              Style="{StaticResource OrangeSwatch}"
                                              MouseLeftButtonDown="AccentSwatch_Click"
+                                             PreviewKeyDown="AccentSwatch_KeyDown"
+                                             Focusable="True"
                                              Margin="0,0,10,0"
                                              AutomationProperties.Name="Orange accent"/>
                                     <Ellipse x:Name="SwatchPink"
                                              Style="{StaticResource PinkSwatch}"
                                              MouseLeftButtonDown="AccentSwatch_Click"
+                                             PreviewKeyDown="AccentSwatch_KeyDown"
+                                             Focusable="True"
                                              Margin="0,0,10,0"
                                              AutomationProperties.Name="Pink accent"/>
                                     <Ellipse x:Name="SwatchTeal"
                                              Style="{StaticResource TealSwatch}"
                                              MouseLeftButtonDown="AccentSwatch_Click"
+                                             PreviewKeyDown="AccentSwatch_KeyDown"
+                                             Focusable="True"
                                              Margin="0,0,10,0"
                                              AutomationProperties.Name="Teal accent"/>
                                     <Ellipse x:Name="SwatchRed"
                                              Style="{StaticResource RedSwatch}"
                                              MouseLeftButtonDown="AccentSwatch_Click"
+                                             PreviewKeyDown="AccentSwatch_KeyDown"
+                                             Focusable="True"
                                              Margin="0,0,10,0"
                                              AutomationProperties.Name="Red accent"/>
                                     <Ellipse x:Name="SwatchCyan"
                                              Style="{StaticResource CyanSwatch}"
                                              MouseLeftButtonDown="AccentSwatch_Click"
+                                             PreviewKeyDown="AccentSwatch_KeyDown"
+                                             Focusable="True"
                                              AutomationProperties.Name="Cyan accent"/>
 
                                 </StackPanel>
