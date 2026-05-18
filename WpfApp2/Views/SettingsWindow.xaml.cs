@@ -4,9 +4,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 <<<<<<< HEAD
+<<<<<<< HEAD
 using System.Windows.Shapes;
 =======
 >>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
+=======
+using System.Windows.Shapes;
+>>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
 using Som3a_WPF_UI.Controls;
 using Som3a_WPF_UI.Services;
 
@@ -17,10 +21,15 @@ namespace Som3a_WPF_UI.Views
         private string _selectedTheme = "Dark";
         private string _selectedAccent = "#3A86FF";
 <<<<<<< HEAD
+<<<<<<< HEAD
         private string _originalTheme;
         private string _originalAccent;
 =======
 >>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
+=======
+        private string _originalTheme;
+        private string _originalAccent;
+>>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
 
         public SettingsWindow()
         {
@@ -49,10 +58,15 @@ namespace Som3a_WPF_UI.Views
             _selectedTheme = ThemeManager.Instance.CurrentTheme;
             _selectedAccent = ThemeManager.Instance.CurrentAccentColor;
 <<<<<<< HEAD
+<<<<<<< HEAD
             _originalTheme = _selectedTheme;
             _originalAccent = _selectedAccent;
 =======
 >>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
+=======
+            _originalTheme = _selectedTheme;
+            _originalAccent = _selectedAccent;
+>>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
 
             UpdateCardSelection();
             UpdateSwatchSelection();
@@ -101,6 +115,9 @@ namespace Som3a_WPF_UI.Views
         private void ThemeCard_Click(object sender, MouseButtonEventArgs e)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
             ApplyThemeCardSelection(sender);
         }
 
@@ -115,8 +132,11 @@ namespace Som3a_WPF_UI.Views
 
         private void ApplyThemeCardSelection(object sender)
         {
+<<<<<<< HEAD
 =======
 >>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
+=======
+>>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
             var border = sender as Border;
             if (border?.Tag is string themeName)
             {
@@ -129,6 +149,9 @@ namespace Som3a_WPF_UI.Views
         private void AccentSwatch_Click(object sender, MouseButtonEventArgs e)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
             ApplySwatchSelection(sender);
         }
 
@@ -143,8 +166,11 @@ namespace Som3a_WPF_UI.Views
 
         private void ApplySwatchSelection(object sender)
         {
+<<<<<<< HEAD
 =======
 >>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
+=======
+>>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
             var ellipse = sender as Ellipse;
             if (ellipse?.Tag is string hex)
             {
@@ -164,9 +190,13 @@ namespace Som3a_WPF_UI.Views
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             ThemeManager.Instance.ApplyTheme(_originalTheme, _originalAccent);
 =======
 >>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
+=======
+            ThemeManager.Instance.ApplyTheme(_originalTheme, _originalAccent);
+>>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
             ThemeManager.Instance.ThemeChanged -= OnThemeChanged;
             DialogResult = false;
             Close();

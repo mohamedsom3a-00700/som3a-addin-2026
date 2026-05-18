@@ -517,7 +517,7 @@ UI-meaning aliases that reference primitives:
 <SolidColorBrush x:Key="Brush.Accent.Primary" Color="#3A86FF"/>
 <SolidColorBrush x:Key="Brush.Stroke.Card" Color="#33FFFFFF"/>
 <SolidColorBrush x:Key="Brush.Control.Background" Color="#330E1720"/>
-<SolidColorBrush x:Key="Brush.Control.Stroke" Color="#33FFFFFF"/>
+<SolidColorBrush x:Key="Brush.Control.Stroke" Color="{StaticResource WhiteAlpha20}"/>
 ```
 
 **Rule**: Controls SHOULD reference semantic tokens (`{DynamicResource Brush.Background.Primary}`) where applicable. Existing flat keys (`BackgroundBrush`, `AccentBrush`) are kept for backward compatibility but new work should prefer semantic naming. This separation is REQUIRED for future custom theme generation.

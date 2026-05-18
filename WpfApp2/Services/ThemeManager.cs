@@ -97,7 +97,6 @@ namespace Som3a_WPF_UI.Services
                 _current.AccentColor = hexColor;
                 SaveSettings();
             }
-            catch { }
         }
 
         public static void SetResource(string key, object value)
