@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -76,17 +77,20 @@ namespace Som3a_WPF_UI.Views
 
         private void OnThemeChanged(object sender, ThemeChangedEventArgs e)
         {
-            _selectedTheme = e.NewTheme;
-            _selectedAccent = e.NewAccent;
-            UpdateCardSelection();
-            UpdateSwatchSelection();
+            Dispatcher.Invoke(() =>
+            {
+                _selectedTheme = e.NewTheme;
+                _selectedAccent = e.NewAccent;
+                UpdateCardSelection();
+                UpdateSwatchSelection();
+            });
         }
 
         private void UpdateCardSelection()
         {
-            CardDark.Style = (Style)FindResource(_selectedTheme == "Dark" ? "ThemeCardSelected" : "ThemeCardInteractive");
-            CardLight.Style = (Style)FindResource(_selectedTheme == "Light" ? "ThemeCardSelected" : "ThemeCardInteractive");
-            CardCustom.Style = (Style)FindResource(_selectedTheme == "Custom" ? "ThemeCardSelected" : "ThemeCardInteractive");
+            CardDark.IsChecked = _selectedTheme == "Dark";
+            CardLight.IsChecked = _selectedTheme == "Light";
+            CardCustom.IsChecked = _selectedTheme == "Custom";
 
             AccentSwatchesPanel.Visibility = _selectedTheme == "Custom" ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -112,7 +116,7 @@ namespace Som3a_WPF_UI.Views
             }
         }
 
-        private void ThemeCard_Click(object sender, MouseButtonEventArgs e)
+        private void ThemeCard_Click(object sender, RoutedEventArgs e)
         {
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -133,16 +137,26 @@ namespace Som3a_WPF_UI.Views
         private void ApplyThemeCardSelection(object sender)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
 =======
 >>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
             var border = sender as Border;
             if (border?.Tag is string themeName)
+=======
+            var btn = sender as ToggleButton;
+            if (btn?.Tag is string themeName)
+>>>>>>> 6075fc8 (feat: refactor theme card selection to ToggleButton with proper selection state)
             {
                 _selectedTheme = themeName;
-                ThemeManager.Instance.ApplyTheme(themeName);
-                UpdateCardSelection();
+
+                var accent = _selectedTheme == "Custom" ? _selectedAccent : null;
+                ThemeManager.Instance.ApplyTheme(themeName, accent);
+
+                CardDark.IsChecked = themeName == "Dark";
+                CardLight.IsChecked = themeName == "Light";
+                CardCustom.IsChecked = themeName == "Custom";
             }
         }
 

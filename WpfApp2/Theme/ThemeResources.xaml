@@ -34,6 +34,8 @@
 
         <!-- Controls -->
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ButtonStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/AccentSwatchStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ThemeCardStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/TextBoxStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ComboBoxStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/DataGridStyles.xaml"/>

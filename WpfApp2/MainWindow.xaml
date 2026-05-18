@@ -12,7 +12,7 @@
                         Loaded="Window_Loaded"
                         WindowStartupLocation="CenterOwner"
                         WindowStyle="None"
-                        AllowsTransparency="True"
+                        AllowsTransparency="False"
                         Background="Transparent"
                         SnapsToDevicePixels="True"
                         UseLayoutRounding="True">
@@ -38,6 +38,7 @@
     <Border x:Name="RootBorder"
             CornerRadius="18"
             BorderBrush="{DynamicResource CardStrokeBrush}"
+            SnapsToDevicePixels="True" UseLayoutRounding="True"
             BorderThickness="1">
 
         <!-- BACKGROUND -->

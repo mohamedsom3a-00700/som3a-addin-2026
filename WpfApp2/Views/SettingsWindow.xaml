@@ -15,26 +15,12 @@
 
     <controls:ModernWindow.Resources>
 
-        <ResourceDictionary>
-
+<ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Shadows.xaml"/>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Glow.xaml"/>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ThemeCardStyles.xaml"/>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/AccentSwatchStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
 
-            <!-- Theme Cards -->
-            <Style x:Key="DarkCardStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource ThemeCardInteractive}">
-                <Setter Property="Tag" Value="Dark"/>
-            </Style>
-            <Style x:Key="LightCardStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource ThemeCardInteractive}">
-                <Setter Property="Tag" Value="Light"/>
-            </Style>
-            <Style x:Key="CustomCardStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource ThemeCardInteractive}">
-                <Setter Property="Tag" Value="Custom"/>
-            </Style>
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
 
             <!-- Accent Swatches (non-selected) -->
             <Style x:Key="BlueSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
@@ -211,20 +197,22 @@
                                            Margin="0,4,0,0"/>
 
                                 <!-- Theme Cards Panel -->
-                                <StackPanel Grid.Column="1"
-                                            Orientation="Horizontal"
-                                            VerticalAlignment="Center">
 
-                                    <!-- Dark Theme Card -->
-                                    <Border x:Name="CardDark"
-                                            Style="{StaticResource DarkCardStyle}"
-                                            MouseLeftButtonDown="ThemeCard_Click"
-                                            PreviewKeyDown="ThemeCard_KeyDown"
-                                            Focusable="True"
-                                            Margin="0,0,16,0"
-                                            AutomationProperties.Name="Dark Theme">
+                                <StackPanel Grid.Column="1"
+            Orientation="Horizontal"
+            VerticalAlignment="Center">
+
+                                    <!-- DARK -->
+
+                                    <ToggleButton x:Name="CardDark"
+                                          Width="140"
+                                          Height="120"
+                                          Margin="0,0,16,0"
+                                          Tag="Dark"
+                                          Click="ThemeCard_Click"
+                                          Style="{DynamicResource ThemeCardToggleStyle}">
+
                                         <Grid>
-                                            <!-- Preview Gradient -->
                                             <Border CornerRadius="10,10,0,0">
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -233,37 +221,26 @@
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
-                                            <!-- Accent Strip -->
-                                            <Border VerticalAlignment="Bottom" Height="6">
-                                                <Border.Background>
-                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                        <GradientStop Color="#3A86FF" Offset="0"/>
-                                                        <GradientStop Color="#3A86FF" Offset="1"/>
-                                                    </LinearGradientBrush>
-                                                </Border.Background>
-                                            </Border>
-                                            <!-- Labels -->
-                                            <StackPanel VerticalAlignment="Bottom" Margin="8,0,8,10">
-                                                <TextBlock Text="Dark"
-                                                           Foreground="#F2FFFFFF"
-                                                           FontSize="12"
-                                                           FontWeight="SemiBold"/>
-                                                <TextBlock Text="Full dark theme"
-                                                           Foreground="#BFFFFFFF"
-                                                           FontSize="10"/>
+                                            <Border VerticalAlignment="Bottom" Height="6" Background="#3A86FF"/>
+                                            <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
+                                                <TextBlock Text="Dark" Foreground="White" FontWeight="SemiBold" FontSize="13"/>
+                                                <TextBlock Text="Full dark theme" Foreground="#CCFFFFFF" FontSize="10"/>
                                             </StackPanel>
                                         </Grid>
-                                    </Border>
 
-                                    <!-- Light Theme Card -->
-                                    <Border x:Name="CardLight"
-                                            Style="{StaticResource LightCardStyle}"
-                                            MouseLeftButtonDown="ThemeCard_Click"
-                                            PreviewKeyDown="ThemeCard_KeyDown"
-                                            Focusable="True"
-                                            AutomationProperties.Name="Light Theme">
+                                    </ToggleButton>
+
+                                    <!-- LIGHT -->
+
+                                    <ToggleButton x:Name="CardLight"
+                                          Width="140"
+                                          Height="120"
+                                          Margin="0,0,16,0"
+                                          Tag="Light"
+                                          Click="ThemeCard_Click"
+                                          Style="{DynamicResource ThemeCardToggleStyle}">
+
                                         <Grid>
-                                            <!-- Preview Gradient -->
                                             <Border CornerRadius="10,10,0,0">
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -272,37 +249,25 @@
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
-                                            <!-- Accent Strip -->
-                                            <Border VerticalAlignment="Bottom" Height="6">
-                                                <Border.Background>
-                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                        <GradientStop Color="#3A86FF" Offset="0"/>
-                                                        <GradientStop Color="#3A86FF" Offset="1"/>
-                                                    </LinearGradientBrush>
-                                                </Border.Background>
-                                            </Border>
-                                            <!-- Labels -->
-                                            <StackPanel VerticalAlignment="Bottom" Margin="8,0,8,10">
-                                                <TextBlock Text="White (Light)"
-                                                           Foreground="#1A1A1A"
-                                                           FontSize="12"
-                                                           FontWeight="SemiBold"/>
-                                                <TextBlock Text="Clean light theme"
-                                                           Foreground="#666666"
-                                                           FontSize="10"/>
+                                            <Border VerticalAlignment="Bottom" Height="6" Background="#3A86FF"/>
+                                            <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
+                                                <TextBlock Text="White (Light)" Foreground="#1A1A1A" FontWeight="SemiBold" FontSize="13"/>
+                                                <TextBlock Text="Clean light theme" Foreground="#666666" FontSize="10"/>
                                             </StackPanel>
                                         </Grid>
-                                    </Border>
 
-                                    <!-- Custom Theme Card -->
-                                    <Border x:Name="CardCustom"
-                                            Style="{StaticResource CustomCardStyle}"
-                                            MouseLeftButtonDown="ThemeCard_Click"
-                                            PreviewKeyDown="ThemeCard_KeyDown"
-                                            Focusable="True"
-                                            AutomationProperties.Name="Custom Theme">
+                                    </ToggleButton>
+
+                                    <!-- CUSTOM -->
+
+                                    <ToggleButton x:Name="CardCustom"
+                                          Width="140"
+                                          Height="120"
+                                          Tag="Custom"
+                                          Click="ThemeCard_Click"
+                                          Style="{DynamicResource ThemeCardToggleStyle}">
+
                                         <Grid>
-                                            <!-- Preview Gradient -->
                                             <Border CornerRadius="10,10,0,0">
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -311,7 +276,6 @@
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
-                                            <!-- Accent Strip -->
                                             <Border VerticalAlignment="Bottom" Height="6">
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -320,20 +284,16 @@
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
-                                            <!-- Labels -->
-                                            <StackPanel VerticalAlignment="Bottom" Margin="8,0,8,10">
-                                                <TextBlock Text="Custom"
-                                                           Foreground="#F2FFFFFF"
-                                                           FontSize="12"
-                                                           FontWeight="SemiBold"/>
-                                                <TextBlock Text="Your accent color"
-                                                           Foreground="#BFFFFFFF"
-                                                           FontSize="10"/>
+                                            <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
+                                                <TextBlock Text="Custom" Foreground="White" FontWeight="SemiBold" FontSize="13"/>
+                                                <TextBlock Text="Your accent color" Foreground="#CCFFFFFF" FontSize="10"/>
                                             </StackPanel>
                                         </Grid>
-                                    </Border>
+
+                                    </ToggleButton>
 
                                 </StackPanel>
+
 
                             </Grid>
 

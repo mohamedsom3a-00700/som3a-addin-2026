@@ -91,7 +91,6 @@
     <Compile Include="Helpers\WindowValidationHelper.cs" />
     <Compile Include="Behaviors\DragMoveBehavior.cs" />
     <Compile Include="Behaviors\EscapeCloseBehavior.cs" />
-    
     <Compile Include="Models\XerEditorVM.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ExcelProjectAnalysisService.cs" />
@@ -299,20 +298,20 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\Controls\CheckBoxStyles.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\Controls\RadioButtonStyles.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\Controls\ToggleButtonStyles.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\Controls\ScrollViewerStyles.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\LoadingOverlay.xaml">
       <SubType>Designer</SubType>
