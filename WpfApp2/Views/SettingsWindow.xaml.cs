@@ -3,7 +3,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+<<<<<<< HEAD
 using System.Windows.Shapes;
+=======
+>>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
 using Som3a_WPF_UI.Controls;
 using Som3a_WPF_UI.Services;
 
@@ -13,8 +16,11 @@ namespace Som3a_WPF_UI.Views
     {
         private string _selectedTheme = "Dark";
         private string _selectedAccent = "#3A86FF";
+<<<<<<< HEAD
         private string _originalTheme;
         private string _originalAccent;
+=======
+>>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
 
         public SettingsWindow()
         {
@@ -42,8 +48,11 @@ namespace Som3a_WPF_UI.Views
         {
             _selectedTheme = ThemeManager.Instance.CurrentTheme;
             _selectedAccent = ThemeManager.Instance.CurrentAccentColor;
+<<<<<<< HEAD
             _originalTheme = _selectedTheme;
             _originalAccent = _selectedAccent;
+=======
+>>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
 
             UpdateCardSelection();
             UpdateSwatchSelection();
@@ -91,6 +100,7 @@ namespace Som3a_WPF_UI.Views
 
         private void ThemeCard_Click(object sender, MouseButtonEventArgs e)
         {
+<<<<<<< HEAD
             ApplyThemeCardSelection(sender);
         }
 
@@ -105,6 +115,8 @@ namespace Som3a_WPF_UI.Views
 
         private void ApplyThemeCardSelection(object sender)
         {
+=======
+>>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
             var border = sender as Border;
             if (border?.Tag is string themeName)
             {
@@ -116,6 +128,7 @@ namespace Som3a_WPF_UI.Views
 
         private void AccentSwatch_Click(object sender, MouseButtonEventArgs e)
         {
+<<<<<<< HEAD
             ApplySwatchSelection(sender);
         }
 
@@ -130,6 +143,8 @@ namespace Som3a_WPF_UI.Views
 
         private void ApplySwatchSelection(object sender)
         {
+=======
+>>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
             var ellipse = sender as Ellipse;
             if (ellipse?.Tag is string hex)
             {
@@ -148,7 +163,10 @@ namespace Som3a_WPF_UI.Views
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             ThemeManager.Instance.ApplyTheme(_originalTheme, _originalAccent);
+=======
+>>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
             ThemeManager.Instance.ThemeChanged -= OnThemeChanged;
             DialogResult = false;
             Close();

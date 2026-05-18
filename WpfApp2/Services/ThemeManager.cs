@@ -58,106 +58,57 @@ namespace Som3a_WPF_UI.Services
         public void ApplyTheme(string themeName, string accentColor = null)
         {
             if (Application.Current?.Resources == null)
+            {
+                _current.CurrentTheme = theme;
+                SaveSettings();
                 return;
-
-            if (!Enum.TryParse<AppTheme>(themeName, true, out var theme))
-                theme = AppTheme.Dark;
-
-            var prevTheme = _currentTheme.ToString();
-            var prevAccent = _currentAccentColor;
-
-            if (theme == _currentTheme && string.IsNullOrEmpty(accentColor))
-                return;
+            }
 
             var dicts = Application.Current.Resources.MergedDictionaries;
+            var existing = dicts.FirstOrDefault(d =>
+                d.Source?.ToString().Contains("FluentWhite") == true ||
+                d.Source?.ToString().Contains("FluentDark") == true);
 
-            var existingTheme = dicts.FirstOrDefault(d =>
-                d.Source?.ToString().Contains("/Theme/Dark/") == true ||
-                d.Source?.ToString().Contains("/Theme/Light/") == true ||
-                d.Source?.ToString().Contains("/Theme/Custom/") == true);
+            if (existing != null)
+                dicts.Remove(existing);
 
-            Uri themeUri;
-            switch (theme)
+            if (theme == ThemeType.FluentWhite)
             {
-                case AppTheme.Light:
-                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Light/LightTheme.xaml");
-                    break;
-                case AppTheme.Custom:
-                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Custom/CustomTheme.xaml");
-                    break;
-                default:
-                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Dark/DarkTheme.xaml");
-                    theme = AppTheme.Dark;
-                    break;
+                var whiteTheme = new ResourceDictionary
+                {
+                    Source = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Fluent/FluentWhite.xaml")
+                };
+                dicts.Add(whiteTheme);
             }
 
-            ResourceDictionary themeDict;
-            try
-            {
-                themeDict = new ResourceDictionary { Source = themeUri };
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"[ThemeManager] Failed to load theme: {ex.Message}");
-                return;
-            }
-
-            if (existingTheme != null)
-                dicts.Remove(existingTheme);
-
-            dicts.Add(themeDict);
-
-            _currentTheme = theme;
-
-            if (!string.IsNullOrEmpty(accentColor))
-            {
-                ApplyAccentColor(accentColor);
-                _currentAccentColor = accentColor;
-            }
-
-            SaveCurrentTheme();
-
-            ThemeChanged?.Invoke(this, new ThemeChangedEventArgs(prevTheme, _currentTheme.ToString(), prevAccent, _currentAccentColor));
+            _current.CurrentTheme = theme;
+            SaveSettings();
         }
 
-        public bool ApplyAccentColor(string hexColor)
+        public static void ChangeAccent(string hexColor)
         {
-            if (string.IsNullOrEmpty(hexColor))
-                return false;
+            if (Application.Current?.Resources == null) return;
 
             try
             {
                 var color = (Color)ColorConverter.ConvertFromString(hexColor);
                 Application.Current.Resources["AccentColor"] = color;
                 Application.Current.Resources["AccentBrush"] = new SolidColorBrush(color);
-                Application.Current.Resources["AccentColorBrush"] = new SolidColorBrush(color);
-                Application.Current.Resources["AccentColorValue"] = color;
-
-                var glowKeys = new[] { "Glow.Focus", "Glow.ButtonHover", "Glow.Primary", "Glow.Selection", "Glow.Accent", "Glow.ThemeCard.Selected" };
-                foreach (var key in glowKeys)
-                {
-                    if (Application.Current.Resources[key] is System.Windows.Media.Effects.DropShadowEffect effect)
-                    {
-                        var newEffect = new System.Windows.Media.Effects.DropShadowEffect
-                        {
-                            Color = color,
-                            BlurRadius = effect.BlurRadius,
-                            ShadowDepth = effect.ShadowDepth,
-                            Opacity = effect.Opacity,
-                            Direction = effect.Direction
-                        };
-                        Application.Current.Resources[key] = newEffect;
-                    }
-                }
-                return true;
+                _current.AccentColor = hexColor;
+                SaveSettings();
             }
-            catch
-            {
-                return false;
-            }
+            catch { }
         }
 
-        public void LoadThemeFromSettings()
+        public static void SetResource(string key, object value)
+        {
+            if (Application.Current?.Resources != null)
+                Application.Current.Resources[key] = value;
+        }
+
+        public static ThemeSettings GetCurrentSettings() => _current;
+
+        public static void SaveSettings()
         {
             try
             {

@@ -313,11 +313,11 @@ description: "Task list for WPF Fluent UI Theme Engine Migration"
 
 **Purpose**: Create centralized effects library and application settings — the foundation everything else depends on
 
-- [ ] T001 [P] Create `WpfApp2/Theme/Effects/Shadows.xaml` with all centralized DropShadowEffect definitions (Shadow.Window, Shadow.Popup, Shadow.Popup.Small, Shadow.Card, Shadow.Small, Shadow.Medium, Shadow.Large)
-- [ ] T002 [P] Create `WpfApp2/Theme/Effects/Glow.xaml` with all centralized glow effects (Glow.Focus, Glow.ButtonHover, Glow.Primary, Glow.Selection, Glow.Accent, Glow.ThemeCard.Selected)
-- [ ] T003 [P] Create `WpfApp2/Theme/Effects/Animations.xaml` with control state + popup Storyboard animations (HoverEnter/Exit, FocusEnter/Exit, PopupOpen/Close, FadeIn/Out, all ≤200ms with CubicEase)
-- [ ] T004 [P] Create `WpfApp2/Properties/Settings.settings` with SelectedTheme and AccentColor user-scoped settings
-- [ ] T005 Create `WpfApp2/Properties/Settings.Designer.cs` accessor for Settings
+- [X] T001 [P] Create `WpfApp2/Theme/Effects/Shadows.xaml` with all centralized DropShadowEffect definitions (Shadow.Window, Shadow.Popup, Shadow.Popup.Small, Shadow.Card, Shadow.Small, Shadow.Medium, Shadow.Large)
+- [X] T002 [P] Create `WpfApp2/Theme/Effects/Glow.xaml` with all centralized glow effects (Glow.Focus, Glow.ButtonHover, Glow.Primary, Glow.Selection, Glow.Accent, Glow.ThemeCard.Selected)
+- [X] T003 [P] Create `WpfApp2/Theme/Effects/Animations.xaml` with control state + popup Storyboard animations (HoverEnter/Exit, FocusEnter/Exit, PopupOpen/Close, FadeIn/Out, all ≤200ms with CubicEase)
+- [X] T004 [P] Create `WpfApp2/Properties/Settings.settings` with SelectedTheme and AccentColor user-scoped settings
+- [X] T005 Create `WpfApp2/Properties/Settings.Designer.cs` accessor for Settings
 
 **Checkpoint**: Effects library and persistence foundation ready — enables all subsequent phases
 
@@ -329,14 +329,14 @@ description: "Task list for WPF Fluent UI Theme Engine Migration"
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 [P] Create `WpfApp2/Theme/Dark/DarkColors.xaml` with Dark theme semantic token overrides (Brush.Background.Primary=#0E1720, Brush.Text.Primary=#F2FFFFFF, etc.)
-- [ ] T007 [P] Create `WpfApp2/Theme/Light/LightColors.xaml` with Light theme semantic token overrides (Brush.Background.Primary=#FAFAFA, Brush.Text.Primary=#1A1A1A, etc.)
-- [ ] T008 [P] Create `WpfApp2/Theme/Custom/CustomColors.xaml` with Custom theme semantic token overrides and 8 accent color presets as swatch definitions
-- [ ] T009 [P] Create `WpfApp2/Theme/Dark/DarkTheme.xaml` merged ResourceDictionary (imports Base/Colors.xaml + DarkColors.xaml)
-- [ ] T010 [P] Create `WpfApp2/Theme/Light/LightTheme.xaml` merged ResourceDictionary
-- [ ] T011 [P] Create `WpfApp2/Theme/Custom/CustomTheme.xaml` merged ResourceDictionary with accent color token
-- [ ] T012 Create `WpfApp2/Services/ThemeManager.cs` singleton service with ApplyTheme(), LoadThemeFromSettings(), SaveCurrentTheme(), ThemeChanged event
-- [ ] T013 Integrate ThemeManager into `WpfApp2/App.xaml.cs` to call LoadThemeFromSettings() on application startup
+- [X] T006 [P] Create `WpfApp2/Theme/Dark/DarkColors.xaml` with Dark theme semantic token overrides (Brush.Background.Primary=#0E1720, Brush.Text.Primary=#F2FFFFFF, etc.)
+- [X] T007 [P] Create `WpfApp2/Theme/Light/LightColors.xaml` with Light theme semantic token overrides (Brush.Background.Primary=#FAFAFA, Brush.Text.Primary=#1A1A1A, etc.)
+- [X] T008 [P] Create `WpfApp2/Theme/Custom/CustomColors.xaml` with Custom theme semantic token overrides and 8 accent color presets as swatch definitions
+- [X] T009 [P] Create `WpfApp2/Theme/Dark/DarkTheme.xaml` merged ResourceDictionary (imports Base/Colors.xaml + DarkColors.xaml)
+- [X] T010 [P] Create `WpfApp2/Theme/Light/LightTheme.xaml` merged ResourceDictionary
+- [X] T011 [P] Create `WpfApp2/Theme/Custom/CustomTheme.xaml` merged ResourceDictionary with accent color token
+- [X] T012 Create `WpfApp2/Services/ThemeManager.cs` singleton service with ApplyTheme(), LoadThemeFromSettings(), SaveCurrentTheme(), ThemeChanged event
+- [X] T013 Integrate ThemeManager into `WpfApp2/Controls/ModernWindow.cs` to call LoadThemeFromSettings() on application startup
 
 **Checkpoint**: Theme system core complete — Dark, Light, Custom themes functional, ThemeManager operational, persistence working
 
@@ -350,14 +350,14 @@ description: "Task list for WPF Fluent UI Theme Engine Migration"
 
 ### Implementation
 
-- [ ] T014 [P] [US1] Create `WpfApp2/Theme/Controls/ThemeCardStyles.xaml` with selected/hover glow styles and scale animations (Glow.ThemeCard.Selected + scale 1.02)
-- [ ] T015 [P] [US1] Create `WpfApp2/Theme/Controls/AccentSwatchStyles.xaml` with clickable color circle styles (accent fill ring when selected)
-- [ ] T016 [US1] Refactor `WpfApp2/Views/SettingsWindow.xaml` — replace ComboBox theme dropdown with 3 theme card Borders (Dark, White, Custom) with preview gradients and glow selection state
-- [ ] T017 [US1] Add 8 accent color swatch circles to Custom theme card in `WpfApp2/Views/SettingsWindow.xaml`
-- [ ] T018 [US1] Wire theme card clicks to ThemeManager.ApplyTheme() in `WpfApp2/Views/SettingsWindow.xaml.cs` (minimal code-behind)
-- [ ] T019 [US1] Wire accent swatch clicks to ThemeManager.ApplyTheme("Custom", swatchHex) in `WpfApp2/Views/SettingsWindow.xaml.cs`
-- [ ] T020 [US1] Set initial theme card selection state on SettingsWindow load based on CurrentTheme in `WpfApp2/Views/SettingsWindow.xaml.cs`
-- [ ] T021 [US1] Add glow effect to selected theme card border via DynamicResource in `WpfApp2/Views/SettingsWindow.xaml`
+- [X] T014 [P] [US1] Create `WpfApp2/Theme/Controls/ThemeCardStyles.xaml` with selected/hover glow styles and scale animations (Glow.ThemeCard.Selected + scale 1.02)
+- [X] T015 [P] [US1] Create `WpfApp2/Theme/Controls/AccentSwatchStyles.xaml` with clickable color circle styles (accent fill ring when selected)
+- [X] T016 [US1] Refactor `WpfApp2/Views/SettingsWindow.xaml` — replace ComboBox theme dropdown with 3 theme card Borders (Dark, White, Custom) with preview gradients and glow selection state
+- [X] T017 [US1] Add 8 accent color swatch circles to Custom theme card in `WpfApp2/Views/SettingsWindow.xaml`
+- [X] T018 [US1] Wire theme card clicks to ThemeManager.ApplyTheme() in `WpfApp2/Views/SettingsWindow.xaml.cs` (minimal code-behind)
+- [X] T019 [US1] Wire accent swatch clicks to ThemeManager.ApplyTheme("Custom", swatchHex) in `WpfApp2/Views/SettingsWindow.xaml.cs`
+- [X] T020 [US1] Set initial theme card selection state on SettingsWindow load based on CurrentTheme in `WpfApp2/Views/SettingsWindow.xaml.cs`
+- [X] T021 [US1] Add glow effect to selected theme card border via DynamicResource in `WpfApp2/Views/SettingsWindow.xaml`
 - [ ] T022 [US1] Validate theme switch in under 1 second (SC-001), persistence across restarts (SC-002), and all windows update simultaneously (SC-003)
 
 **Checkpoint**: Theme cards working — user can select Dark/Light/Custom + accent color, switch is instant, preference persists
