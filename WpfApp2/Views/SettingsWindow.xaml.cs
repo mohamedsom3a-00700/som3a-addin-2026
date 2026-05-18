@@ -1,6 +1,8 @@
-using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using Som3a_WPF_UI.Controls;
 using Som3a_WPF_UI.Services;
 
@@ -8,19 +10,8 @@ namespace Som3a_WPF_UI.Views
 {
     public partial class SettingsWindow : ModernWindow
     {
-        private readonly List<AccentColorOption> _accentOptions = new List<AccentColorOption>
-        {
-            new AccentColorOption { Name = "أزرق",    Hex = "#3A86FF" },
-            new AccentColorOption { Name = "سماوي",   Hex = "#00B4D8" },
-            new AccentColorOption { Name = "أخضر",    Hex = "#2ED573" },
-            new AccentColorOption { Name = "بنفسجي",  Hex = "#9B59B6" },
-            new AccentColorOption { Name = "برتقالي", Hex = "#FF6B35" },
-            new AccentColorOption { Name = "وردي",    Hex = "#FF4D8D" },
-            new AccentColorOption { Name = "أصفر",    Hex = "#FFA502" },
-            new AccentColorOption { Name = "رمادي",   Hex = "#6C757D" },
-        };
-
-        private string _selectedAccent;
+        private string _selectedTheme = "Dark";
+        private string _selectedAccent = "#3A86FF";
 
         public SettingsWindow()
         {
@@ -28,9 +19,9 @@ namespace Som3a_WPF_UI.Views
             LoadCurrentSettings();
         }
 
-        private void TitleBar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
 
@@ -46,69 +37,93 @@ namespace Som3a_WPF_UI.Views
 
         private void LoadCurrentSettings()
         {
-            var settings = ThemeManager.GetCurrentSettings();
-            _selectedAccent = settings.AccentColor;
+            _selectedTheme = ThemeManager.Instance.CurrentTheme;
+            _selectedAccent = ThemeManager.Instance.CurrentAccentColor;
 
-            foreach (var opt in _accentOptions)
-                opt.IsSelected = opt.Hex.Equals(_selectedAccent, System.StringComparison.OrdinalIgnoreCase);
+            UpdateCardSelection();
+            UpdateSwatchSelection();
 
-            ThemeManager.ChangeAccent(_selectedAccent);
+            ThemeManager.Instance.ThemeChanged += OnThemeChanged;
         }
 
-        private void AccentColor_Click(object sender, RoutedEventArgs e)
+        private void OnThemeChanged(object sender, ThemeChangedEventArgs e)
         {
-            var btn = sender as System.Windows.Controls.Button;
-            if (btn?.Tag is string hex)
+            _selectedTheme = e.NewTheme;
+            _selectedAccent = e.NewAccent;
+            UpdateCardSelection();
+            UpdateSwatchSelection();
+        }
+
+        private void UpdateCardSelection()
+        {
+            CardDark.Style = (Style)FindResource(_selectedTheme == "Dark" ? "ThemeCardSelected" : "ThemeCardInteractive");
+            CardLight.Style = (Style)FindResource(_selectedTheme == "Light" ? "ThemeCardSelected" : "ThemeCardInteractive");
+            CardCustom.Style = (Style)FindResource(_selectedTheme == "Custom" ? "ThemeCardSelected" : "ThemeCardInteractive");
+
+            AccentSwatchesPanel.Visibility = _selectedTheme == "Custom" ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void UpdateSwatchSelection()
+        {
+            var swatchElements = new[] {
+                (FindName("SwatchBlue") as Ellipse, "#3A86FF"),
+                (FindName("SwatchGreen") as Ellipse, "#2ED573"),
+                (FindName("SwatchPurple") as Ellipse, "#A855F7"),
+                (FindName("SwatchOrange") as Ellipse, "#FFA502"),
+                (FindName("SwatchPink") as Ellipse, "#EC4899"),
+                (FindName("SwatchTeal") as Ellipse, "#14B8A6"),
+                (FindName("SwatchRed") as Ellipse, "#EF4444"),
+                (FindName("SwatchCyan") as Ellipse, "#06B6D4"),
+            };
+
+            foreach (var (ellipse, hex) in swatchElements)
+            {
+                if (ellipse == null) continue;
+                var isSelected = hex.Equals(_selectedAccent, System.StringComparison.OrdinalIgnoreCase);
+                ellipse.Style = (Style)FindResource(isSelected ? "AccentSwatchSelected" : "AccentSwatchInteractive");
+            }
+        }
+
+        private void ThemeCard_Click(object sender, MouseButtonEventArgs e)
+        {
+            var border = sender as Border;
+            if (border?.Tag is string themeName)
+            {
+                _selectedTheme = themeName;
+                ThemeManager.Instance.ApplyTheme(themeName);
+                UpdateCardSelection();
+            }
+        }
+
+        private void AccentSwatch_Click(object sender, MouseButtonEventArgs e)
+        {
+            var ellipse = sender as Ellipse;
+            if (ellipse?.Tag is string hex)
             {
                 _selectedAccent = hex;
-
-                foreach (var opt in _accentOptions)
-                    opt.IsSelected = opt.Hex.Equals(hex, System.StringComparison.OrdinalIgnoreCase);
-
-                ThemeManager.ChangeAccent(hex);
+                ThemeManager.Instance.ApplyTheme("Custom", hex);
+                UpdateSwatchSelection();
             }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            var theme = ThemeType.FluentDarkBlue;
-
-            ThemeManager.ApplyTheme(theme);
-            ThemeManager.ChangeAccent(_selectedAccent);
-
-            ThemeManager.SaveSettings();
-
+            ThemeManager.Instance.SaveCurrentTheme();
             DialogResult = true;
             Close();
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            var settings = ThemeManager.GetCurrentSettings();
-            ThemeManager.ChangeAccent(settings.AccentColor);
-
+            ThemeManager.Instance.ThemeChanged -= OnThemeChanged;
             DialogResult = false;
             Close();
         }
-    }
 
-    public class AccentColorOption : System.ComponentModel.INotifyPropertyChanged
-    {
-        public string Name { get; set; }
-        public string Hex { get; set; }
-
-        public SolidColorBrush Brush =>
-            new SolidColorBrush((Color)ColorConverter.ConvertFromString(Hex));
-
-        private bool _isSelected;
-        public bool IsSelected
+        protected override void OnClosed(System.EventArgs e)
         {
-            get => _isSelected;
-            set { _isSelected = value; OnPropertyChanged(nameof(IsSelected)); }
+            ThemeManager.Instance.ThemeChanged -= OnThemeChanged;
+            base.OnClosed(e);
         }
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name) =>
-            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
     }
 }

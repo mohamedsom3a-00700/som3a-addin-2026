@@ -1,0 +1,84 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <CubicEase x:Key="ThemeCardEase" EasingMode="EaseOut"/>
+
+    <!-- Theme Card Base (unselected) -->
+    <Style x:Key="ThemeCardBase" TargetType="{x:Type Border}">
+        <Setter Property="Width" Value="140"/>
+        <Setter Property="Height" Value="120"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource CardRadius}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Theme Card Normal State -->
+    <Style x:Key="ThemeCard" TargetType="{x:Type Border}" BasedOn="{StaticResource ThemeCardBase}">
+        <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Effect" Value="{DynamicResource Shadow.Card}"/>
+        <Setter Property="Opacity" Value="0.85"/>
+    </Style>
+
+    <!-- Theme Card Hover Trigger -->
+    <Style x:Key="ThemeCardInteractive" TargetType="{x:Type Border}" BasedOn="{StaticResource ThemeCardBase}">
+        <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Effect" Value="{DynamicResource Shadow.Card}"/>
+        <Setter Property="Opacity" Value="0.85"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                To="1" Duration="0:0:0.15"
+                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                            <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                                To="1.02" Duration="0:0:0.15"
+                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                            <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                                To="1.02" Duration="0:0:0.15"
+                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                To="0.85" Duration="0:0:0.15"
+                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                            <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                                To="1" Duration="0:0:0.15"
+                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                            <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                                To="1" Duration="0:0:0.15"
+                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Theme Card Selected State -->
+    <Style x:Key="ThemeCardSelected" TargetType="{x:Type Border}" BasedOn="{StaticResource ThemeCardBase}">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Effect" Value="{DynamicResource Glow.ThemeCard.Selected}"/>
+        <Setter Property="Opacity" Value="1"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="1.02" ScaleY="1.02"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

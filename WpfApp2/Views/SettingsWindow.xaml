@@ -18,60 +18,96 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-
                 <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
-
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Shadows.xaml"/>
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Glow.xaml"/>
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ThemeCardStyles.xaml"/>
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/AccentSwatchStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- Theme Cards -->
+            <Style x:Key="DarkCardStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource ThemeCardInteractive}">
+                <Setter Property="Tag" Value="Dark"/>
+            </Style>
+            <Style x:Key="LightCardStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource ThemeCardInteractive}">
+                <Setter Property="Tag" Value="Light"/>
+            </Style>
+            <Style x:Key="CustomCardStyle" TargetType="{x:Type Border}" BasedOn="{StaticResource ThemeCardInteractive}">
+                <Setter Property="Tag" Value="Custom"/>
+            </Style>
+
+            <!-- Accent Swatches (non-selected) -->
+            <Style x:Key="BlueSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
+                <Setter Property="Fill" Value="{DynamicResource Swatch.Blue}"/>
+                <Setter Property="Tag" Value="#3A86FF"/>
+            </Style>
+            <Style x:Key="GreenSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
+                <Setter Property="Fill" Value="{DynamicResource Swatch.Green}"/>
+                <Setter Property="Tag" Value="#2ED573"/>
+            </Style>
+            <Style x:Key="PurpleSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
+                <Setter Property="Fill" Value="{DynamicResource Swatch.Purple}"/>
+                <Setter Property="Tag" Value="#A855F7"/>
+            </Style>
+            <Style x:Key="OrangeSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
+                <Setter Property="Fill" Value="{DynamicResource Swatch.Orange}"/>
+                <Setter Property="Tag" Value="#FFA502"/>
+            </Style>
+            <Style x:Key="PinkSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
+                <Setter Property="Fill" Value="{DynamicResource Swatch.Pink}"/>
+                <Setter Property="Tag" Value="#EC4899"/>
+            </Style>
+            <Style x:Key="TealSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
+                <Setter Property="Fill" Value="{DynamicResource Swatch.Teal}"/>
+                <Setter Property="Tag" Value="#14B8A6"/>
+            </Style>
+            <Style x:Key="RedSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
+                <Setter Property="Fill" Value="{DynamicResource Swatch.Red}"/>
+                <Setter Property="Tag" Value="#EF4444"/>
+            </Style>
+            <Style x:Key="CyanSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
+                <Setter Property="Fill" Value="{DynamicResource Swatch.Cyan}"/>
+                <Setter Property="Tag" Value="#06B6D4"/>
+            </Style>
 
         </ResourceDictionary>
 
     </controls:ModernWindow.Resources>
 
     <!-- ROOT -->
-
     <Border CornerRadius="18"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
 
         <Border.Background>
-
             <LinearGradientBrush StartPoint="0,0"
                                  EndPoint="1,1">
-
                 <GradientStop Color="#FF102A43"
                               Offset="0"/>
-
                 <GradientStop Color="#FF0F3B3B"
                               Offset="1"/>
-
             </LinearGradientBrush>
-
         </Border.Background>
 
         <Grid Margin="14">
 
             <Grid.RowDefinitions>
-
                 <RowDefinition Height="42"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
-
             </Grid.RowDefinitions>
 
             <!-- TITLE BAR -->
-
             <Grid Grid.Row="0"
                   x:Name="TitleBar"
                   Margin="4,2,4,0"
                   MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
 
                 <Grid.ColumnDefinitions>
-
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="8"/>
                     <ColumnDefinition Width="Auto"/>
-
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Settings"
@@ -97,22 +133,15 @@
             </Grid>
 
             <!-- CONTENT -->
-
             <Grid Grid.Row="1"
                   Margin="8,14,8,14">
 
                 <Grid.ColumnDefinitions>
-
-                    <!-- SIDEBAR -->
                     <ColumnDefinition Width="220"/>
-
-                    <!-- CONTENT -->
                     <ColumnDefinition Width="*"/>
-
                 </Grid.ColumnDefinitions>
 
                 <!-- SIDEBAR -->
-
                 <Border Grid.Column="0"
                         Background="{DynamicResource SurfaceBrush}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
@@ -152,7 +181,6 @@
                 </Border>
 
                 <!-- MAIN -->
-
                 <Border Grid.Column="1"
                         Background="{DynamicResource CardBrush}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
@@ -165,47 +193,212 @@
                         <StackPanel>
 
                             <!-- GENERAL -->
-
                             <TextBlock Text="General Settings"
                                        FontSize="18"
                                        FontWeight="SemiBold"
                                        Margin="0,0,0,20"/>
 
-                            <!-- THEME -->
-
+                            <!-- THEME CARDS -->
                             <Grid Margin="0,0,0,16">
 
                                 <Grid.ColumnDefinitions>
-
                                     <ColumnDefinition Width="180"/>
                                     <ColumnDefinition Width="*"/>
-
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="Theme"
+                                           VerticalAlignment="Top"
+                                           Margin="0,4,0,0"/>
+
+                                <!-- Theme Cards Panel -->
+                                <StackPanel Grid.Column="1"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Center">
+
+                                    <!-- Dark Theme Card -->
+                                    <Border x:Name="CardDark"
+                                            Style="{StaticResource DarkCardStyle}"
+                                            MouseLeftButtonDown="ThemeCard_Click"
+                                            Margin="0,0,16,0"
+                                            AutomationProperties.Name="Dark Theme">
+                                        <Grid>
+                                            <!-- Preview Gradient -->
+                                            <Border CornerRadius="10,10,0,0">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                        <GradientStop Color="#0E1720" Offset="0"/>
+                                                        <GradientStop Color="#1C2B3A" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <!-- Accent Strip -->
+                                            <Border VerticalAlignment="Bottom" Height="6">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#3A86FF" Offset="0"/>
+                                                        <GradientStop Color="#3A86FF" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <!-- Labels -->
+                                            <StackPanel VerticalAlignment="Bottom" Margin="8,0,8,10">
+                                                <TextBlock Text="Dark"
+                                                           Foreground="#F2FFFFFF"
+                                                           FontSize="12"
+                                                           FontWeight="SemiBold"/>
+                                                <TextBlock Text="Full dark theme"
+                                                           Foreground="#BFFFFFFF"
+                                                           FontSize="10"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Light Theme Card -->
+                                    <Border x:Name="CardLight"
+                                            Style="{StaticResource LightCardStyle}"
+                                            MouseLeftButtonDown="ThemeCard_Click"
+                                            Margin="0,0,16,0"
+                                            AutomationProperties.Name="Light Theme">
+                                        <Grid>
+                                            <!-- Preview Gradient -->
+                                            <Border CornerRadius="10,10,0,0">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                        <GradientStop Color="#FAFAFA" Offset="0"/>
+                                                        <GradientStop Color="#FFFFFF" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <!-- Accent Strip -->
+                                            <Border VerticalAlignment="Bottom" Height="6">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#3A86FF" Offset="0"/>
+                                                        <GradientStop Color="#3A86FF" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <!-- Labels -->
+                                            <StackPanel VerticalAlignment="Bottom" Margin="8,0,8,10">
+                                                <TextBlock Text="White (Light)"
+                                                           Foreground="#1A1A1A"
+                                                           FontSize="12"
+                                                           FontWeight="SemiBold"/>
+                                                <TextBlock Text="Clean light theme"
+                                                           Foreground="#666666"
+                                                           FontSize="10"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Custom Theme Card -->
+                                    <Border x:Name="CardCustom"
+                                            Style="{StaticResource CustomCardStyle}"
+                                            MouseLeftButtonDown="ThemeCard_Click"
+                                            AutomationProperties.Name="Custom Theme">
+                                        <Grid>
+                                            <!-- Preview Gradient -->
+                                            <Border CornerRadius="10,10,0,0">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                        <GradientStop Color="#0E1720" Offset="0"/>
+                                                        <GradientStop Color="#1C2B3A" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <!-- Accent Strip -->
+                                            <Border VerticalAlignment="Bottom" Height="6">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#3A86FF" Offset="0"/>
+                                                        <GradientStop Color="#14B8A6" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <!-- Labels -->
+                                            <StackPanel VerticalAlignment="Bottom" Margin="8,0,8,10">
+                                                <TextBlock Text="Custom"
+                                                           Foreground="#F2FFFFFF"
+                                                           FontSize="12"
+                                                           FontWeight="SemiBold"/>
+                                                <TextBlock Text="Your accent color"
+                                                           Foreground="#BFFFFFFF"
+                                                           FontSize="10"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+
+                                </StackPanel>
+
+                            </Grid>
+
+                            <!-- ACCENT SWATCHES (Custom theme only) -->
+                            <Grid x:Name="AccentSwatchesPanel"
+                                  Margin="0,0,0,16"
+                                  Visibility="Collapsed">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Accent Color"
                                            VerticalAlignment="Center"/>
 
-                                <ComboBox Grid.Column="1"
-                                          Height="36"
-                                          Style="{DynamicResource RoundComboBox}">
+                                <StackPanel Grid.Column="1"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Center">
 
-                                    <ComboBoxItem Content="Dark"/>
-                                    <ComboBoxItem Content="Light"/>
-                                    <ComboBoxItem Content="Blue"/>
+                                    <Ellipse x:Name="SwatchBlue"
+                                             Style="{StaticResource BlueSwatch}"
+                                             MouseLeftButtonDown="AccentSwatch_Click"
+                                             Margin="0,0,10,0"
+                                             AutomationProperties.Name="Blue accent"/>
+                                    <Ellipse x:Name="SwatchGreen"
+                                             Style="{StaticResource GreenSwatch}"
+                                             MouseLeftButtonDown="AccentSwatch_Click"
+                                             Margin="0,0,10,0"
+                                             AutomationProperties.Name="Green accent"/>
+                                    <Ellipse x:Name="SwatchPurple"
+                                             Style="{StaticResource PurpleSwatch}"
+                                             MouseLeftButtonDown="AccentSwatch_Click"
+                                             Margin="0,0,10,0"
+                                             AutomationProperties.Name="Purple accent"/>
+                                    <Ellipse x:Name="SwatchOrange"
+                                             Style="{StaticResource OrangeSwatch}"
+                                             MouseLeftButtonDown="AccentSwatch_Click"
+                                             Margin="0,0,10,0"
+                                             AutomationProperties.Name="Orange accent"/>
+                                    <Ellipse x:Name="SwatchPink"
+                                             Style="{StaticResource PinkSwatch}"
+                                             MouseLeftButtonDown="AccentSwatch_Click"
+                                             Margin="0,0,10,0"
+                                             AutomationProperties.Name="Pink accent"/>
+                                    <Ellipse x:Name="SwatchTeal"
+                                             Style="{StaticResource TealSwatch}"
+                                             MouseLeftButtonDown="AccentSwatch_Click"
+                                             Margin="0,0,10,0"
+                                             AutomationProperties.Name="Teal accent"/>
+                                    <Ellipse x:Name="SwatchRed"
+                                             Style="{StaticResource RedSwatch}"
+                                             MouseLeftButtonDown="AccentSwatch_Click"
+                                             Margin="0,0,10,0"
+                                             AutomationProperties.Name="Red accent"/>
+                                    <Ellipse x:Name="SwatchCyan"
+                                             Style="{StaticResource CyanSwatch}"
+                                             MouseLeftButtonDown="AccentSwatch_Click"
+                                             AutomationProperties.Name="Cyan accent"/>
 
-                                </ComboBox>
+                                </StackPanel>
 
                             </Grid>
 
                             <!-- FONT SIZE -->
-
                             <Grid Margin="0,0,0,16">
 
                                 <Grid.ColumnDefinitions>
-
                                     <ColumnDefinition Width="180"/>
                                     <ColumnDefinition Width="*"/>
-
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="Font Size"
@@ -219,7 +412,6 @@
                             </Grid>
 
                             <!-- CHECKS -->
-
                             <CheckBox Content="Enable animations"
                                       Margin="0,0,0,10"/>
 
@@ -238,16 +430,13 @@
             </Grid>
 
             <!-- FOOTER -->
-
             <Grid Grid.Row="2">
 
                 <Grid.ColumnDefinitions>
-
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="Auto"/>
-
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Som3a Add-in Settings"
@@ -258,13 +447,15 @@
                         Width="120"
                         Height="34"
                         Content="Save"
-                        Style="{DynamicResource PrimaryButton}"/>
+                        Style="{DynamicResource PrimaryButton}"
+                        Click="Save_Click"/>
 
                 <Button Grid.Column="3"
                         Width="120"
                         Height="34"
                         Content="Cancel"
-                        Style="{DynamicResource GhostButton}"/>
+                        Style="{DynamicResource GhostButton}"
+                        Click="Cancel_Click"/>
 
             </Grid>
 

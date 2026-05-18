@@ -294,8 +294,52 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\Fluent\FluentWhite.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
+        <SubType>Designer</SubType>
+        <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Effects\Shadows.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Effects\Glow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Effects\Animations.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Dark\DarkColors.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Dark\DarkTheme.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Light\LightColors.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Light\LightTheme.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Custom\CustomColors.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Custom\CustomTheme.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Controls\ThemeCardStyles.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Controls\AccentSwatchStyles.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\LoadingOverlay.xaml">
       <SubType>Designer</SubType>
