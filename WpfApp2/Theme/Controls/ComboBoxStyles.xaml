@@ -81,7 +81,7 @@
                     <Border x:Name="Bd"
                             Background="Transparent"
                             Padding="{TemplateBinding Padding}">
-                        <ContentPresenter/>
+                        <ContentPresenter"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
