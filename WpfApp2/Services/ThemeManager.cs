@@ -98,26 +98,6 @@ namespace Som3a_WPF_UI.Services
             }
             catch (Exception ex)
             {
-            {
-                case AppTheme.Light:
-                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Light/LightTheme.xaml");
-                    break;
-                case AppTheme.Custom:
-                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Custom/CustomTheme.xaml");
-                    break;
-                default:
-                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Dark/DarkTheme.xaml");
-                    theme = AppTheme.Dark;
-                    break;
-            }
-
-            ResourceDictionary themeDict;
-            try
-            {
-                themeDict = new ResourceDictionary { Source = themeUri };
-            }
-            catch (Exception ex)
-            {
                 System.Diagnostics.Debug.WriteLine($"[ThemeManager] Failed to load theme: {ex.Message}");
                 return;
             }

@@ -59,7 +59,7 @@
                                     Value="{DynamicResource AccentBrush}"/>
 
                             <Setter Property="Foreground"
-                                    Value="White"/>
+                                    Value="{DynamicResource CheckMarkForeground}"/>
 
                         </Trigger>
 

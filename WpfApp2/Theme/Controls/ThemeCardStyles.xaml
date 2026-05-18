@@ -16,10 +16,6 @@
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
             </Setter.Value>
         </Setter>
-<<<<<<< 002-fluent-theme-engine
-                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-=======
->>>>>>> master
     </Style>
 
     <!-- Theme Card Normal State -->
@@ -85,7 +81,6 @@
         </Setter>
     </Style>
 
-<<<<<<< 002-fluent-theme-engine
     <!-- ToggleButton-based Theme Card (combines interactive + selected) -->
     <Style x:Key="ThemeCardToggleStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Width" Value="{DynamicResource ThemeCardWidth}"/>
@@ -111,7 +106,11 @@
                         <ContentPresenter/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsChecked" Value="False"/>
+                            </MultiTrigger.Conditions>
                             <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource CardHoverBorder}"/>
                             <Setter TargetName="CardBorder" Property="BorderThickness" Value="1"/>
                             <Trigger.EnterActions>
@@ -150,7 +149,7 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
-                        </Trigger>
+                        </MultiTrigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
                             <Setter TargetName="CardBorder" Property="BorderThickness" Value="2"/>
@@ -191,6 +190,4 @@
         </Setter>
     </Style>
 
-=======
->>>>>>> master
 </ResourceDictionary>
