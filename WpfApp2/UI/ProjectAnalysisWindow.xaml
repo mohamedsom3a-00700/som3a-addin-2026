@@ -34,25 +34,9 @@
 
     <Border x:Name="RootBorder"
             CornerRadius="18"
+            Background="{DynamicResource Brush.Background.Root}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
-
-        <!-- BACKGROUND -->
-
-        <Border.Background>
-
-            <LinearGradientBrush StartPoint="0,0"
-                                 EndPoint="1,1">
-
-                <GradientStop Color="#FF102A43"
-                              Offset="0"/>
-
-                <GradientStop Color="#FF0F3B3B"
-                              Offset="1"/>
-
-            </LinearGradientBrush>
-
-        </Border.Background>
 
         <!-- ================================================= -->
         <!-- ROOT GRID -->
@@ -481,7 +465,7 @@
                         Height="24"
                         CornerRadius="10"
                         Background="#22000000"
-                        BorderBrush="#22FFFFFF"
+                        BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
                         VerticalAlignment="Center"
                         Margin="0,0,10,0">
@@ -490,30 +474,11 @@
 
                         <Border CornerRadius="10"
                                 HorizontalAlignment="Stretch"
-                                RenderTransformOrigin="0,0.5">
-
-                            <Border.Background>
-
-                                <LinearGradientBrush StartPoint="0,0"
-                                                     EndPoint="1,0">
-
-                                    <GradientStop Color="#FF1ABC9C"
-                                                  Offset="0"/>
-
-                                    <GradientStop Color="#FF2ECC71"
-                                                  Offset="1"/>
-
-                                </LinearGradientBrush>
-
-                            </Border.Background>
+                                RenderTransformOrigin="0,0.5"
+                                Background="{DynamicResource Brush.Accent.ProgressFill}">
 
                             <Border.Effect>
-
-                                <DropShadowEffect Color="#6600FF9C"
-                                                  BlurRadius="8"
-                                                  ShadowDepth="0"
-                                                  Opacity="0.8"/>
-
+                                <StaticResource ResourceKey="ProgressGlow"/>
                             </Border.Effect>
 
                             <Border.RenderTransform>
@@ -540,7 +505,7 @@
                         VerticalAlignment="Center">
 
                     <TextBlock Text="{Binding ProgressPct, StringFormat={}{0:0}%}"
-                               Foreground="White"
+                               Foreground="{DynamicResource TextOnAccentBrush}"
                                FontWeight="SemiBold"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
@@ -586,9 +551,9 @@
             <!-- ================================================= -->
 
             <Border Grid.Row="9"
-                    Background="#1FFFFFFF"
+                    Background="{DynamicResource Brush.Fill.Status}"
                     CornerRadius="12"
-                    BorderBrush="#22FFFFFF"
+                    BorderBrush="{DynamicResource CardStrokeBrush}"
                     BorderThickness="1"
                     Padding="10,6">
 

@@ -5,8 +5,8 @@
 
     <Style TargetType="{x:Type controls:ModernWindow}">
 
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
 
         <Setter Property="WindowStyle"
                 Value="SingleBorderWindow"/>
@@ -22,12 +22,8 @@
                     Background="{TemplateBinding Background}"
                     BorderBrush="{DynamicResource ControlStrokeBrush}"
                     BorderThickness="1"
-                    CornerRadius="{DynamicResource WindowRadius}">
-
-                                <Border.Effect>
-                            <DropShadowEffect BlurRadius="30" ShadowDepth="8" Direction="270" Color="Black" Opacity="0.4"/>
-                            <!-- TODO: Replace with DynamicResource Shadow.Window once XAML supports it for Effect property -->
-                        </Border.Effect>
+                    CornerRadius="{DynamicResource WindowRadius}"
+                    Effect="{DynamicResource Shadow.Window}">
 
                                 <Grid>
 

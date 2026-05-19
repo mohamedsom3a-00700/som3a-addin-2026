@@ -13,12 +13,8 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{DynamicResource ControlStrokeBrush}"
                             BorderThickness="1"
-                            CornerRadius="{DynamicResource WindowRadius}">
-                        <Border.Effect>
-                            <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="20" ShadowDepth="4" Direction="270"/>
-                        </Border.Effect>
-                        <!-- Note: Inline shadow intentionally used here for Window chrome compatibility.
-                             Standard controls use {DynamicResource Shadow.Large} from Effects/Shadows.xaml -->
+                            CornerRadius="{DynamicResource WindowRadius}"
+                            Effect="{StaticResource Shadow.Large}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="{DynamicResource HeaderHeight}"/>

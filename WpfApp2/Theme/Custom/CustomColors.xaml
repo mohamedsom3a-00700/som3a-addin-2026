@@ -11,11 +11,16 @@
     <SolidColorBrush x:Key="Brush.Background.Primary" Color="#0E1720"/>
     <SolidColorBrush x:Key="Brush.Background.Secondary" Color="#1C2B3A"/>
     <SolidColorBrush x:Key="Brush.Background.Card" Color="#15202B"/>
+    <LinearGradientBrush x:Key="Brush.Background.Root" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FF102A43" Offset="0"/>
+        <GradientStop Color="#FF0F3B3B" Offset="1"/>
+    </LinearGradientBrush>
 
     <!-- Text (Dark base) -->
     <SolidColorBrush x:Key="Brush.Text.Primary" Color="#F2FFFFFF"/>
     <SolidColorBrush x:Key="Brush.Text.Secondary" Color="#BFFFFFFF"/>
     <SolidColorBrush x:Key="Brush.Text.Disabled" Color="#66FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Text.OnAccent" Color="White"/>
 
     <!-- Accent (swappable via Brush.Accent.Primary) -->
     <SolidColorBrush x:Key="Brush.Accent.Primary" Color="{DynamicResource AccentColorValue}"/>
@@ -23,13 +28,25 @@
     <SolidColorBrush x:Key="Brush.Accent.Warning" Color="#FFA502"/>
     <SolidColorBrush x:Key="Brush.Accent.Danger" Color="#FF4757"/>
     <SolidColorBrush x:Key="Brush.Accent.Info" Color="#1E90FF"/>
+    <LinearGradientBrush x:Key="Brush.Accent.ProgressFill" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="{DynamicResource AccentColorValue}" Offset="0"/>
+        <GradientStop Color="#6688FF" Offset="1"/>
+    </LinearGradientBrush>
 
     <!-- Stroke -->
     <SolidColorBrush x:Key="Brush.Stroke.Card" Color="#33FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Stroke.Info" Color="#12FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Stroke.Status" Color="#1FFFFFFF"/>
+
+    <!-- Fill -->
+    <SolidColorBrush x:Key="Brush.Fill.Info" Color="#12FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Fill.Status" Color="#18FFFFFF"/>
 
     <!-- Control -->
     <SolidColorBrush x:Key="Brush.Control.Background" Color="#330E1720"/>
     <SolidColorBrush x:Key="Brush.Control.Stroke" Color="#33FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Control.HoverBackground" Color="#22007ACC"/>
+    <SolidColorBrush x:Key="Brush.Control.SelectedBackground" Color="#44007ACC"/>
 
     <!-- ============================================
          LEGACY FLAT KEYS (Custom theme - Dark base)
@@ -48,6 +65,11 @@
     <SolidColorBrush x:Key="CardStrokeBrush" Color="#33FFFFFF"/>
     <SolidColorBrush x:Key="ControlBgBrush" Color="#330E1720"/>
     <SolidColorBrush x:Key="ControlStrokeBrush" Color="#33FFFFFF"/>
+    <SolidColorBrush x:Key="TextOnAccentBrush" Color="White"/>
+    <SolidColorBrush x:Key="StrokeInfoBrush" Color="#12FFFFFF"/>
+    <SolidColorBrush x:Key="StrokeStatusBrush" Color="#1FFFFFFF"/>
+    <SolidColorBrush x:Key="FillInfoBrush" Color="#12FFFFFF"/>
+    <SolidColorBrush x:Key="FillStatusBrush" Color="#18FFFFFF"/>
 
     <!-- ============================================
          ACCENT COLOR SWATCH PRESETS

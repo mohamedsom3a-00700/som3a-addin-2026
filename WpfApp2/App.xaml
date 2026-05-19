@@ -21,17 +21,9 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ListViewItemStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ComboBoxItemStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ProgressBarStyles.xaml"/>
-        <!-- Fluent Effects -->
-        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Fluent/FluentEffects.xaml"/>
-        <!-- Existing Themes -->
-        <!-- Existing Themes -->
-        <!--
-<ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/DarkTheme.xaml"/>
-<ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ModernDashboard.xaml"/>
--->
     </ResourceDictionary.MergedDictionaries>
 
-    <!-- Shared Converters -->
+    <!-- Shared Converters (duplicated in ThemeResources.xaml which is loaded per-window) -->
     <conv:ProgressWidthConverter x:Key="ProgressWidthConverter"/>
     <conv:PercentToScaleConverter x:Key="PercentToScaleConverter"/>
     <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>

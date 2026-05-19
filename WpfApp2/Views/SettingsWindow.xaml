@@ -4,7 +4,7 @@
         xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
         Title="Settings"
         Height="620"
-        Width="920"
+        Width="942"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize"
         WindowStyle="None"
@@ -18,10 +18,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Shadows.xaml"/>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Glow.xaml"/>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ThemeCardStyles.xaml"/>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/AccentSwatchStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Accent Swatches (non-selected) -->
@@ -64,18 +60,9 @@
 
     <!-- ROOT -->
     <Border CornerRadius="18"
+            Background="{DynamicResource Brush.Background.Root}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
-
-        <Border.Background>
-            <LinearGradientBrush StartPoint="0,0"
-                                 EndPoint="1,1">
-                <GradientStop Color="#FF102A43"
-                              Offset="0"/>
-                <GradientStop Color="#FF0F3B3B"
-                              Offset="1"/>
-            </LinearGradientBrush>
-        </Border.Background>
 
         <Grid Margin="14">
 
@@ -252,8 +239,8 @@
                                             </Border>
                                             <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"/>
                                             <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
-                                                <TextBlock Text="Light" Foreground="#1A1A1A" FontWeight="SemiBold" FontSize="13"/>
-                                                <TextBlock Text="Clean light theme" Foreground="#666666" FontSize="10"/>
+                                                <TextBlock Text="Light" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"/>
+                                                <TextBlock Text="Clean light theme" Foreground="{DynamicResource TextSubBrush}" FontSize="10"/>
                                             </StackPanel>
                                         </Grid>
                                     </ToggleButton>
@@ -305,6 +292,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="Accent Color"
+                                           Foreground="{DynamicResource TextMainBrush}"
                                            VerticalAlignment="Center"/>
 
                                 <StackPanel Grid.Column="1"

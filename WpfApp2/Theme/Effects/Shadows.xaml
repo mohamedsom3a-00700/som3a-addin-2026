@@ -29,4 +29,8 @@
         BlurRadius="20" ShadowDepth="5" Direction="270"
         Color="#000000" Opacity="0.3"/>
 
+    <DropShadowEffect x:Key="ProgressGlow"
+        BlurRadius="8" ShadowDepth="0"
+        Color="{DynamicResource AccentColorValue}" Opacity="0.8"/>
+
 </ResourceDictionary>

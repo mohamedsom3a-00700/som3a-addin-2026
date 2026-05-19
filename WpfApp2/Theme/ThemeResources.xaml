@@ -57,9 +57,6 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ModernWindow.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/WindowAnimations.xaml"/>
 
-        <!-- Fluent -->
-        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Fluent/FluentEffects.xaml"/>
-
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Converters -->
