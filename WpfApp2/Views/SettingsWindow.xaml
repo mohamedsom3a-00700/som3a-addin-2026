@@ -20,7 +20,10 @@
 
                 <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
 =======
 >>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
             </ResourceDictionary.MergedDictionaries>

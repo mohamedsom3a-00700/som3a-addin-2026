@@ -77,42 +77,6 @@ namespace Som3a_WPF_UI.Services
         public void ApplyTheme(string themeName, string accentColor = null)
         {
             if (Application.Current?.Resources == null)
-<<<<<<< HEAD
-=======
-                return;
-
-            _pendingThemeName = themeName;
-            _pendingAccentColor = accentColor;
-            _debounceTimer.Stop();
-            _debounceTimer.Start();
-        }
-
-        private void ApplyThemeInternal(string themeName, string accentColor)
-        {
-            if (Application.Current?.Resources == null)
-                return;
-
-            if (!Enum.TryParse<AppTheme>(themeName, true, out var theme))
-                theme = AppTheme.Dark;
-
-            var prevTheme = _currentTheme.ToString();
-            var prevAccent = _currentAccentColor;
-
-            if (theme == _currentTheme && string.IsNullOrEmpty(accentColor))
-                return;
-
-            var effectiveAccent = !string.IsNullOrEmpty(accentColor) ? accentColor : _currentAccentColor;
-
-            var dicts = Application.Current.Resources.MergedDictionaries;
-
-            var existingTheme = dicts.FirstOrDefault(d =>
-                d.Source?.ToString().Contains("/Theme/Dark/") == true ||
-                d.Source?.ToString().Contains("/Theme/Light/") == true ||
-                d.Source?.ToString().Contains("/Theme/Custom/") == true);
-
-            Uri themeUri;
-            switch (theme)
->>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
             {
                 _current.CurrentTheme = theme;
                 SaveSettings();
@@ -184,9 +148,12 @@ namespace Som3a_WPF_UI.Services
             SaveCurrentTheme();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             ThemeChanged?.Invoke(this, new ThemeChangedEventArgs(prevTheme, _currentTheme.ToString(), prevAccent, _currentAccentColor));
 >>>>>>> 872b4be (feat: Fluent Theme Engine - ScrollViewer fixes, ModernWindow shadow, accent color refactor)
 =======
+=======
+>>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
             var handler = ThemeChanged;
             if (handler != null && Application.Current?.Dispatcher != null)
             {
@@ -202,6 +169,9 @@ namespace Som3a_WPF_UI.Services
                     handler?.Invoke(Instance, new ThemeChangedEventArgs(prevTheme, _currentTheme.ToString(), prevAccent, _currentAccentColor));
                 }
             }
+<<<<<<< HEAD
+>>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
+=======
 >>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
         }
 
