@@ -26,7 +26,7 @@ If the extension scripts are not found, fall back to:
 The script handles all checks internally:
 - Skips if Git is not available
 - Skips if already inside a Git repository
-- Runs `git init`, `git add .`, and `git commit` with an initial commit message
+- Runs `git init`, advises selective staging, and commits with an initial message
 
 ## Customization
 
@@ -50,6 +50,7 @@ If Git is not installed:
 - Skip repository initialization
 - The project continues to function without Git (specs can still be created under `specs/`)
 
-If Git is installed but `git init`, `git add .`, or `git commit` fails:
+If Git is installed but `git init` or `git commit` fails:
 - Surface the error to the user
 - Stop this command rather than continuing with a partially initialized repository
+- Advise users to stage intended files manually with `git add <paths>` before committing

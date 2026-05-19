@@ -19,9 +19,9 @@ This command is invoked as a hook after (or before) core commands. It:
 4. Falls back to `auto_commit.default` if no event-specific key exists
 5. Uses the per-command `message` if configured, otherwise a default message
 6. If enabled and there are uncommitted changes, runs `git add -u` + `git commit`
-   - Uses `git add -u` (staged modifications only) instead of `git add .` to avoid blind staging
-   - Falls back to `git add specs/ .specify/` if needed
-   - Consider enabling `autoCommit.paths` in your config to scope staged files
+    - Uses `git add -u` (stages tracked changes and deletions) instead of `git add .` to avoid blind staging
+    - Falls back to `git add specs/ .specify/` if needed
+    - Consider enabling `auto_commit.paths` in your config to scope staged files
 
 ## Execution
 
