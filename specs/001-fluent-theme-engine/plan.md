@@ -1,56 +1,65 @@
-# Implementation Plan: WPF Fluent UI Migration — Theme Engine & Runtime Switching
+# Implementation Plan: WPF Fluent UI Theme Engine
 
-**Branch**: `[002-fluent-theme-engine]` | **Date**: 2026-05-18 | **Spec**: [spec.md](./spec.md)
+**Branch**: `002-fluent-theme-engine` | **Date**: 2026-05-19 | **Spec**: [spec.md](./spec.md)
 
 **Input**: Feature specification from `/specs/001-fluent-theme-engine/spec.md`
 
 ## Summary
 
-Migrate the WPF UI layer of an Excel-hosted VSTO add-in to a production-grade Fluent Design system with runtime theme switching (Dark/Light/Custom), theme card UI in SettingsWindow, centralized shadow/glow/animation library, VisualStateManager for four high-priority controls, and DPI-aware rendering. The system uses WindowChrome for borderless windows with automatic fallback-safe mode detection for Excel hosting edge cases. The token system follows a two-tier Primitive + Semantic architecture enabling custom accent color selection via preset swatches. All changes follow the Incremental Migration Rules with validation gates before advancing phases.
+Build a production-grade Fluent Runtime Theme Engine for Som3a Add-in 2026, enabling runtime theme switching (Dark/Light/Custom) with full semantic color editing, live synchronization across all windows, animated transitions ≤200ms, and Excel VSTO-safe rendering via WindowChrome with automatic fallback detection.
 
 ## Technical Context
 
-**Language/Version**: C# 8.0 / .NET Framework 4.8
+**Language/Version**: C# / .NET Framework 4.8
 
-**Primary Dependencies**: WPF (native), WindowChrome, WebView2 (conditional), Microsoft Office Interop (VSTO)
+**Primary Dependencies**: 
+- WPF (Windows Presentation Foundation)
+- VSTO (Visual Studio Tools for Office) — Excel hosting
+- Windows Shell (WindowChrome) — borderless window rendering
+- ApplicationSettingsBase — settings persistence
 
-**Storage**: Application Settings (Properties.Settings.Default for theme preference + accent color)
+**Storage**: 
+- Primary: `Properties/Settings.settings` (SelectedTheme, AccentColor)
+- Secondary: JSON file at `%AppData%/Som3a/custom-theme.json` (extended custom colors)
 
-**Testing**: Visual/manual testing (WPF UI), no automated UI testing framework present
+**Testing**: No formal testing framework detected. Build verification via `msbuild`.
 
-**Target Platform**: Windows Desktop (Excel 2016+ VSTO Add-in)
+**Target Platform**: Windows 10/11, Excel 2016+ VSTO host, .NET Framework 4.8
 
-**Project Type**: Desktop application (WPF + VSTO)
+**Project Type**: Desktop application — WPF with VSTO Excel add-in
 
-**Performance Goals**: Theme switch < 1s, UI response in Excel host with 1000-row DataGrid, smooth scrolling, no frame drops, animations ≤ 200ms
+**Performance Goals**: 
+- Theme switching <200ms
+- All animations ≤200ms, GPU-safe
+- DataGrid virtualized (500+ rows smooth)
+- No frame drops during normal operation
 
-**Constraints**: VSTO add-in performance overhead, Excel hosting rendering constraints, no third-party UI frameworks, MVVM architecture, no inline color values in templates
+**Constraints**: 
+- Excel VSTO hosting — `AllowsTransparency=True` may cause black window rendering on some configurations
+- No third-party UI frameworks (per constitution)
+- DynamicResource-only for all themeable properties
+- No inline DropShadowEffect — centralized in Effects/Shadows.xaml
 
-**Scale/Scope**: 9-phase incremental migration, 3 built-in themes + 1 custom, 7 control types, 3 accent color presets (Custom theme), 1 settings window, multiple content windows
+**Scale/Scope**: 
+- ~15 windows to migrate
+- 3 built-in themes + Custom theme editor
+- ~50 XAML resource files in Theme/ directory
+- 8 accent swatch presets for Custom theme
 
 ## Constitution Check
 
-GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.
+*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-| Principle | Status | Notes |
-|-----------|--------|-------|
-| **I. Library-First Modular Architecture** | ✅ PASS | Theme system follows folder structure (Base/, Dark/, Light/, Custom/, Controls/, Effects/). ResourceDictionaries independently testable. |
-| **II. MVVM Architecture** | ✅ PASS | Business logic in ViewModels; code-behind minimal. ThemeManager is a service (not ViewModel), controls bind via DynamicResource. |
-| **III. DynamicResource Only** | ✅ PASS | All control templates use DynamicResource for theme colors. No StaticResource for themeable properties. |
-| **IV. Runtime Theme Switching** | ✅ PASS | ThemeManager replaces merged dictionaries dynamically. User preferences preserved across sessions. |
-| **V. Feature Completeness Standard** | ✅ PASS | All controls theme-aware, runtime switchable, keyboard accessible, DPI safe. |
-| **VI. Performance & Efficiency** | ✅ PASS | Brushes reused globally, no nested DropShadows, virtualized DataGrid rows, ≤200ms animations. |
-| **Resource Loading Order** | ✅ PASS | 8-step explicit order defined in constitution. ThemeManager maintains correct merge order. |
-| **Primitive & Semantic Token Architecture** | ✅ PASS | Two-tier separation in Colors.xaml. Semantic tokens alias primitives. |
-| **Popup Architecture Rules** | ✅ PASS | ComboBox popup uses AllowsTransparency=False, correct Placement/PlacementTarget, centralized shadow. |
-| **VisualStateManager Strategy** | ✅ PASS | VSM scope: ComboBox, Button, ToggleButton, ThemeCards only. Incremental migration one control at a time. |
-| **Incremental Migration Rules** | ✅ PASS | Excel host validation gate before multi-window migration. |
-| **Performance Budget Rules** | ✅ PASS | No nested DropShadows, no BlurEffect on scrollable containers, animations ≤200ms. |
-| **WindowChrome Enforcement** | ✅ PASS | WindowChrome preferred with automatic runtime fallback detection. |
-| **Design Authority Rules** | ✅ PASS | No third-party UI frameworks, no inline DropShadowEffect, no architecture replacement without approval. |
-| **Theme Validation Checklist** | ✅ PASS | 8-gate validation before each theme is considered complete. |
+Per the [Project Constitution](../../.specify/memory/constitution.md), every implementation plan MUST verify:
 
-**Constitution Check Result**: ✅ ALL GATES PASS — Proceed to Phase 0
+- [x] **I. Library-First Modular Architecture** — Theme resources organized into modular dictionaries (Base/, Dark/, Light/, Custom/, Controls/, Effects/). No monolithic dictionaries. Each concern isolated and independently replaceable.
+- [x] **III. DynamicResource-Only** — All themeable properties use `{DynamicResource Brush.*}` or `{DynamicResource Key}`. No StaticResource for themeable brushes, colors, borders, effects. Confirmed: Colors.xaml, all control styles, theme dictionaries use DynamicResource.
+- [x] **IV. Runtime Theme Mutation Governance** — Theme mutation exclusively through `ThemeManager` singleton. No direct brush mutation from windows, controls, or viewmodels. Confirmed: ThemeManager.ApplyTheme() is the sole mutation path.
+- [x] **IX. Animation Governance** — All animations ≤200ms. Confirmed: Animations.xaml, ButtonStyles.xaml, ThemeCardStyles.xaml use ≤150ms transitions. No heavy transform animations. CubicEase(EaseOut) for GPU-friendly easing.
+- [x] **X. Excel Rendering Safety** — WindowRenderModeDetector auto-detects VSTO hosting and activates FallbackSafe mode. Confirmed: WindowRenderModeDetector checks `Helpers.WindowChromeHelper.IsVstoHosted` and extreme DPI (>3.0x) to return FallbackSafe mode.
+- [x] **XI. WindowChrome Enforcement** — ModernWindow uses WindowChrome as primary rendering strategy. Confirmed: ModernWindow.cs applies WindowChromeHelper with fallback-safe option when VSTO detected.
+- [x] **XII. Centralized Effects** — No inline DropShadowEffect. All effects sourced from Effects/Shadows.xaml and Effects/Glow.xaml. Confirmed: Shadow.Popup, Shadow.Card, Glow.Focus, Glow.ThemeCard.Selected are centralized.
+- [x] **XV. Resource Loading Order** — ThemeResources.xaml follows prescribed sequence: Base/Colors → Base/Typography → Base/Spacing → Base/Radius → Effects → Controls → Window Styles.
 
 ## Project Structure
 
@@ -59,13 +68,11 @@ GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.
 ```text
 specs/001-fluent-theme-engine/
 ├── plan.md              # This file
-├── spec.md              # Feature specification
 ├── research.md          # Phase 0 output
 ├── data-model.md        # Phase 1 output
 ├── quickstart.md        # Phase 1 output
 ├── contracts/           # Phase 1 output
-│   └── theme-api.md     # ThemeManager service contract
-└── tasks.md             # Phase 2 output (/speckit.tasks command)
+└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
 ```
 
 ### Source Code (repository root)
@@ -74,49 +81,63 @@ specs/001-fluent-theme-engine/
 WpfApp2/
 ├── Theme/
 │   ├── Base/
-│   │   └── Colors.xaml              # Primitive + semantic tokens (existing, enhanced)
+│   │   ├── Colors.xaml           ✅ Primitive + Semantic tokens
+│   │   ├── Typography.xaml
+│   │   ├── Spacing.xaml
+│   │   └── Radius.xaml
 │   ├── Dark/
-│   │   ├── DarkColors.xaml           # Dark theme semantic token overrides (NEW)
-│   │   └── DarkTheme.xaml            # Dark merged dictionary (NEW)
+│   │   ├── DarkColors.xaml       ✅ Semantic token overrides
+│   │   └── DarkTheme.xaml        ✅ Merged dictionary
 │   ├── Light/
-│   │   ├── LightColors.xaml           # Light theme semantic token overrides (NEW)
-│   │   └── LightTheme.xaml           # Light merged dictionary (NEW)
+│   │   ├── LightColors.xaml       ✅ Semantic token overrides
+│   │   └── LightTheme.xaml        ✅ Merged dictionary
 │   ├── Custom/
-│   │   ├── CustomColors.xaml          # Custom theme with accent color tokens (NEW)
-│   │   └── CustomTheme.xaml          # Custom merged dictionary (NEW)
+│   │   ├── CustomColors.xaml      ✅ 8 accent swatch presets + AccentColorValue
+│   │   └── CustomTheme.xaml       ✅ AccentDynamicResource
 │   ├── Controls/
-│   │   ├── ThemeCardStyles.xaml       # Theme card styles (NEW)
-│   │   ├── CheckBoxStyles.xaml        # Fluent CheckBox (NEW)
-│   │   ├── RadioButtonStyles.xaml     # Fluent RadioButton (NEW)
-│   │   ├── ToggleButtonStyles.xaml    # Fluent ToggleButton (NEW)
-│   │   ├── ScrollViewerStyles.xaml    # Fluent ScrollViewer (NEW)
-│   │   ├── ComboBoxStyles.xaml        # ComboBox with VSM (existing, enhanced)
-│   │   └── ButtonStyles.xaml         # Button with VSM (existing, enhanced)
+│   │   ├── ButtonStyles.xaml     ✅ Trigger-based, ≤150ms
+│   │   ├── ComboBoxStyles.xaml   ✅ Popup: AllowsTransparency=False
+│   │   ├── DataGridStyles.xaml   ✅ EnableRowVirtualization=True
+│   │   ├── ThemeCardStyles.xaml  ✅ ToggleButton-based, scale animation
+│   │   ├── AccentSwatchStyles.xaml ✅ Scale animation on hover/selected
+│   │   ├── CheckBoxStyles.xaml
+│   │   ├── RadioButtonStyles.xaml
+│   │   ├── ToggleButtonStyles.xaml
+│   │   ├── ScrollViewerStyles.xaml
+│   │   ├── TextBoxStyles.xaml
+│   │   ├── ScrollBarStyles.xaml
+│   │   ├── ListViewStyles.xaml
+│   │   └── ... (other controls)
 │   ├── Effects/
-│   │   ├── Shadows.xaml               # Centralized DropShadowEffect definitions (NEW)
-│   │   ├── Glow.xaml                  # Centralized glow effects (NEW)
-│   │   └── Animations.xaml            # Control state + popup animations (NEW)
-│   ├── ModernWindow.xaml               # ModernWindow base (existing)
-│   ├── WindowStyles.xaml               # Window styles (existing)
-│   ├── WindowAnimations.xaml           # Window animations (existing)
-│   └── ThemeResources.xaml             # Aggregator ResourceDictionary (existing, ordered)
+│   │   ├── Shadows.xaml          ✅ Centralized DropShadowEffect
+│   │   ├── Glow.xaml             ✅ DynamicResource AccentColorValue
+│   │   └── Animations.xaml       ✅ All ≤200ms
+│   ├── ModernWindow.xaml
+│   └── ThemeResources.xaml       ✅ Aggregator with loading order documentation
 ├── Controls/
-│   └── ModernWindow.xaml.cs           # ModernWindow code-behind (existing)
+│   └── ModernWindow.cs           ✅ WindowRenderModeDetector integration
 ├── Services/
-│   └── ThemeManager.cs                # Runtime theme switching service (NEW)
-├── ViewModels/
-│   ├── SettingsViewModel.cs           # Settings window VM (existing, enhanced)
-│   └── MainViewModel.cs               # Main window VM (existing)
+│   ├── ThemeManager.cs           ✅ Singleton, ApplyTheme(), ThemeChanged event
+│   ├── WindowRenderModeDetector.cs ✅ VSTO/DPI detection, FallbackSafe mode
+│   └── ThemeSettings.cs          ✅ Legacy JSON persistence
 ├── Views/
-│   ├── SettingsWindow.xaml            # Settings with theme cards (existing, enhanced)
-│   └── SettingsWindow.xaml.cs         # Settings code-behind (existing, minimal)
-└── Properties/
-    ├── Settings.settings               # Theme + accent preference storage (NEW)
-    └── Settings.Designer.cs           # Settings accessor (NEW)
+│   └── SettingsWindow.xaml       ✅ Theme cards + accent swatches
+├── Views/SettingsWindow.xaml.cs  ✅ ThemeManager.ThemeChanged listener
+├── App.xaml
+└── Properties/Settings.settings  ✅ SelectedTheme, AccentColor
 ```
 
-**Structure Decision**: Single WpfApp2 project with Theme/ folder following the modular folder structure defined in the constitution. Services/ for ThemeManager, ViewModels/ for MVVM, Controls/ for custom controls. The existing WpfApp2 already follows this structure.
+**Structure Decision**: Single WPF application (Som3a_WPF_UI.csproj) with modular ResourceDictionary libraries under Theme/. ThemeManager singleton orchestrates runtime switching. WindowRenderModeDetector provides VSTO-safe rendering path.
 
 ## Complexity Tracking
 
-No constitution violations requiring justification. All principles are satisfied with the planned implementation approach.
+> N/A — No Constitution violations requiring justification. All gates pass.
+
+## Research Phase Output
+
+After Phase 0, research.md will document:
+- VSM migration strategy for 4 high-priority controls (ComboBox, Button, ToggleButton, ThemeCards)
+- Full custom theme editor UX design
+- Custom theme persistence (JSON schema)
+- Contrast validation approach
+- Brush interpolation for animated transitions

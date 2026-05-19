@@ -40,7 +40,16 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Per the [Project Constitution](../../memory/constitution.md), every implementation plan MUST verify:
+
+- [ ] **I. Library-First Modular Architecture** — Feature introduces no monolithic dictionaries; resources remain isolated and testable.
+- [ ] **III. DynamicResource-Only** — No StaticResource used for themeable brushes, colors, borders, effects.
+- [ ] **IV. Runtime Theme Mutation Governance** — Theme mutation path goes through ThemeManager exclusively.
+- [ ] **IX. Animation Governance** — Animations ≤200ms, GPU-safe, no layout thrashing.
+- [ ] **X. Excel Rendering Safety** — WindowRenderModeDetector considered; fallback mode documented if needed.
+- [ ] **XI. WindowChrome Enforcement** — New windows inherit ModernWindow; WindowChrome is primary.
+- [ ] **XII. Centralized Effects** — No inline DropShadowEffect; effects sourced from Effects/Shadows.xaml.
+- [ ] **XV. Resource Loading Order** — New dictionaries follow the prescribed loading sequence.
 
 ## Project Structure
 

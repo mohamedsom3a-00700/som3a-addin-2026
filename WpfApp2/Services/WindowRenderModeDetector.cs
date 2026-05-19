@@ -58,20 +58,22 @@ namespace Som3a_WPF_UI.Services
 
         private static bool IsRenderTestFailing()
         {
-            var testWindow = new Window
-            {
-                Width = 100,
-                Height = 100,
-                WindowStyle = WindowStyle.None,
-                AllowsTransparency = false,
-                ShowInTaskbar = false,
-                Topmost = true,
-                Left = -10000,
-                Top = -10000
-            };
+            Window testWindow = null;
 
             try
             {
+                testWindow = new Window
+                {
+                    Width = 100,
+                    Height = 100,
+                    WindowStyle = WindowStyle.None,
+                    AllowsTransparency = false,
+                    ShowInTaskbar = false,
+                    Topmost = true,
+                    Left = -10000,
+                    Top = -10000
+                };
+
                 testWindow.Show();
                 testWindow.Activate();
 
@@ -91,7 +93,7 @@ namespace Som3a_WPF_UI.Services
             }
             finally
             {
-                try { testWindow.Close(); } catch { }
+                try { testWindow?.Close(); } catch { }
             }
         }
     }

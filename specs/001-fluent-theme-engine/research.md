@@ -60,14 +60,9 @@
 
 ### RT-005: Custom Theme Accent Color Persistence
 
-**Decision**: Both theme selection and accent color stored in Properties.Settings.Default (ApplicationSettingsBase). Separate fields: SelectedTheme (string) and AccentColor (string hex).
+**Decision**: Dual-mechanism persistence — ApplicationSettingsBase for theme selection + single JSON file for extended custom colors. Theme selection (Dark/Light/Custom) and accent color stored in `Properties.Settings.Default` (ApplicationSettingsBase). Extended Custom theme colors (all semantic tokens) stored in `AppData/Som3a/custom-theme.json`. On startup, ThemeManager loads both sources: Settings.settings provides SelectedTheme and AccentColor; if Custom theme is selected, custom-theme.json provides the full semantic token map.
 
-**Rationale**: .NET Framework 4.8's Properties.Settings.Default provides a straightforward, built-in persistence mechanism that works in VSTO environments. Storing two separate fields (SelectedTheme and AccentColor) allows independent persistence while keeping the persistence mechanism simple. The ThemeManager reads both on startup and applies them in sequence (theme base first, then accent color override).
-
-**Alternatives considered**:
-- JSON config file: Adds file I/O dependency and parsing overhead.
-- Registry: Overkill for theme preferences; requires elevation on some systems.
-- Single combined field (e.g., "Custom:Teal"): Harder to parse and extend if accent format changes.
+**Rationale**: .NET Framework 4.8's Properties.Settings.Default provides a straightforward, built-in persistence mechanism that works in VSTO environments. Storing two separate fields (SelectedTheme and AccentColor) in Settings.settings allows independent persistence for theme selection. A separate JSON file for extended Custom theme colors (backgrounds, surfaces, borders, text colors, hover/selection states) keeps the ApplicationSettingsBase lean while supporting the full semantic color editing scope. The ThemeManager reads both on startup and applies them in sequence.
 
 ---
 

@@ -184,8 +184,42 @@ namespace Som3a_WPF_UI.Services
                 var color = (Color)ColorConverter.ConvertFromString(hexColor);
                 Application.Current.Resources["AccentColor"] = color;
                 Application.Current.Resources["AccentBrush"] = new SolidColorBrush(color);
+<<<<<<< HEAD
                 _current.AccentColor = hexColor;
                 SaveSettings();
+=======
+                Application.Current.Resources["AccentColorBrush"] = new SolidColorBrush(color);
+                Application.Current.Resources["AccentColorValue"] = color;
+
+                var lightColor = Color.FromArgb(
+                    color.A,
+                    (byte)Math.Min(255, color.R + 102),
+                    (byte)Math.Min(255, color.G + 102),
+                    (byte)Math.Min(255, color.B + 102));
+                Application.Current.Resources["AccentColorLight"] = lightColor;
+
+                var glowKeys = new[] { "Glow.Focus", "Glow.ButtonHover", "Glow.Primary", "Glow.Selection", "Glow.Accent", "Glow.ThemeCard.Selected" };
+                foreach (var key in glowKeys)
+                {
+                    if (Application.Current.Resources[key] is System.Windows.Media.Effects.DropShadowEffect effect)
+                    {
+                        var newEffect = new System.Windows.Media.Effects.DropShadowEffect
+                        {
+                            Color = color,
+                            BlurRadius = effect.BlurRadius,
+                            ShadowDepth = effect.ShadowDepth,
+                            Opacity = effect.Opacity,
+                            Direction = effect.Direction
+                        };
+                        Application.Current.Resources[key] = newEffect;
+                    }
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+>>>>>>> bf1e864 (fix(theme): resolve 7 inline issues + plan.md nitpick)
             }
         }
 

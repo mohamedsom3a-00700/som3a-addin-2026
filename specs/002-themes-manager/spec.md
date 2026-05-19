@@ -1,6 +1,6 @@
 # Feature Specification: Update Themes Manager
 
-**Feature Branch**: `003-themes-manager`
+**Feature Branch**: `002-fluent-theme-engine`
 
 **Created**: 2026-05-19
 

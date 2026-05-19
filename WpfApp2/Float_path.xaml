@@ -180,7 +180,7 @@
 
                             <!-- SETTINGS CARD -->
 
-                            <Border Background="#10FFFFFF"
+                            <Border Background="{DynamicResource Brush.Background.CardSubtle}"
                                     BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                     BorderThickness="1"
                                     CornerRadius="12"

@@ -148,18 +148,18 @@
 
                             <!-- Border -->
 
-                            <Setter TargetName="Bd"
-            Property="BorderBrush"
-            Value="#4C7EFF"/>
+<Setter TargetName="Bd"
+             Property="BorderBrush"
+             Value="{DynamicResource Brush.ComboBox.HoverBorder}"/>
 
                             <!-- Soft Background -->
 
                             <Setter TargetName="Bd"
-            Property="Background"
-            Value="#161F2B"/>
-                            <Setter TargetName="Arrow"
-            Property="Stroke"
-            Value="#4C7EFF"/>
+             Property="Background"
+             Value="{DynamicResource Brush.ComboBox.HoverBackground}"/>
+                             <Setter TargetName="Arrow"
+             Property="Stroke"
+             Value="{DynamicResource Brush.ComboBox.HoverBorder}"/>
 
                         </Trigger>
 

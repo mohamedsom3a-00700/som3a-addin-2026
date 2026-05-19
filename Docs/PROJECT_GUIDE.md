@@ -211,7 +211,7 @@ All colors have corresponding Brush tokens:
 
 ### MainWindow (MainWindow.xaml)
 - **Purpose**: P6 Activity Comparison
-- **Type**: Custom chrome (WindowStyle=None, AllowsTransparency=True)
+- **Type**: ModernWindow (WindowChrome primary, auto-fallback via WindowRenderModeDetector)
 - **Features**: Sheet selection, ListView comparison, progress bar
 
 ### XerEditorWindow (XerEditorWindow.xaml)
@@ -221,17 +221,17 @@ All colors have corresponding Brush tokens:
 
 ### AssignTradeCodesWindow (AssignTradeCodesWindow.xaml)
 - **Purpose**: Assign trade codes to activities
-- **Type**: Custom chrome
+- **Type**: ModernWindow (WindowChrome primary, auto-fallback)
 - **Features**: Sheet selection, trade code assignment, progress
 
 ### LinksManagerWindow (Views/LinksManagerWindow.xaml)
 - **Purpose**: Manage workbook links
-- **Type**: Custom chrome
+- **Type**: ModernWindow (WindowChrome primary, auto-fallback)
 - **Features**: Link tracking, refresh, progress
 
 ### SubDailyReportWindow (SubDailyReportWindow.xaml)
 - **Purpose**: Daily report generation
-- **Type**: Custom chrome
+- **Type**: ModernWindow (WindowChrome primary, auto-fallback)
 - **Features**: File selection, report generation
 
 ### SettingsWindow (Views/SettingsWindow.xaml)

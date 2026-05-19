@@ -22,8 +22,19 @@ Detect the Git remote URL for integration with GitHub services (e.g., issue crea
 Run the following command to get the remote URL:
 
 ```bash
-git config --get remote.origin.url
+git config --get remote.origin.url 2>/dev/null
+ret=$?
+if [ $ret -ne 0 ] || [ -z "$(git config --get remote.origin.url)" ]; then
+  echo "[specify] Error: failed to read remote.origin.url (exit code: $ret)" >&2
+  exit 1
+fi
+REMOTE_URL="$(git config --get remote.origin.url)"
 ```
+
+Then validate the URL against HTTPS and SSH patterns:
+- HTTPS: `https://github.com/<owner>/<repo>.git` or `https://github.com/<owner>/<repo>`
+- SSH: `git@github.com:<owner>/<repo>.git` or `git@github.com:<owner>/<repo>`
+- If the URL does not match either pattern, output an error and exit non-zero
 
 ## Output
 

@@ -157,24 +157,24 @@ No constitutional violations. No complexity justifications required.
 **Goal**: Eliminate duplicate resource definitions, orphaned files, and loading inconsistencies.
 
 ### TASK-2001 — Remove duplicate converters from App.xaml
-- **Files**: `App.xaml` (lines 35-42), `Theme/ThemeResources.xaml` (lines 66-76)
+- **Files**: `App.xaml` (MergedDictionaries converter definitions), `Theme/ThemeResources.xaml` (MergedDictionaries section)
 - **Action**: Delete 7 converter definitions from `App.xaml` (keep in `ThemeResources.xaml` which is loaded per-window). Remove the `<ResourceDictionary.MergedDictionaries>` wrapper from `App.xaml` if it becomes empty.
 
 ### TASK-2002 — Remove duplicate dictionary loads from SettingsWindow
-- **File**: `Views/SettingsWindow.xaml` (lines 19-25)
+- **File**: `Views/SettingsWindow.xaml` (MergedDictionaries section)
 - **Action**: Remove `Shadows.xaml`, `Glow.xaml`, `ThemeCardStyles.xaml`, `AccentSwatchStyles.xaml` from SettingsWindow's `MergedDictionaries` — these are already inside `ThemeResources.xaml`.
 
 ### TASK-2003 — Remove orphaned FluentWhite.xaml
-- **File**: `Som3a_WPF_UI.csproj` (line 332-335)
+- **File**: `Som3a_WPF_UI.csproj` (FluentWhite.xaml Page entry)
 - **Action**: Remove `<Page Include="Theme\Fluent\FluentWhite.xaml" />` from `csproj`.
 
 ### TASK-2004 — Remove orphaned FluentEffects.xaml
-- **File**: `Theme/Fluent/FluentEffects.xaml`
+- **File**: `Theme/Fluent/FluentEffects.xaml` and its ResourceDictionary references
 - **Action**: Delete `FluentEffects.xaml` entirely. Remove its `<ResourceDictionary Source="..."/>` entries from `App.xaml` and `ThemeResources.xaml`.
 - **Rationale**: Its effect keys (`FocusGlow`, `ButtonHoverGlow`, `PrimaryButtonGlow`, `CardShadow`, `WindowShadow`) are never referenced by any control. All active effects already live in centralized `Effects/Shadows.xaml` and `Effects/Glow.xaml`.
 
 ### TASK-2005 — Remove commented-out legacy theme imports from App.xaml
-- **File**: `App.xaml` (lines 28-31)
+- **File**: `App.xaml` (commented legacy theme import lines)
 - **Action**: Delete dead commented lines referencing `DarkTheme.xaml` and `ModernDashboard.xaml`.
 
 ---

@@ -55,8 +55,6 @@ Ankh.NoLoad
 # .NET
 # -----------------------------------------------------------------------------
 *.snk
-*.dll
-*.exe
 *.pdb
 *.mdf
 *.ldf
@@ -65,7 +63,6 @@ Ankh.NoLoad
 *.pch
 *.jl
 *.tlb
-*.tlh
 *.bak
 *.log
 *.ilk
