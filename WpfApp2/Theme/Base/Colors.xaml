@@ -25,6 +25,7 @@
     <SolidColorBrush x:Key="Brush.Background.Primary" Color="#0E1720"/>
     <SolidColorBrush x:Key="Brush.Background.Secondary" Color="#1C2B3A"/>
     <SolidColorBrush x:Key="Brush.Background.Card" Color="#15202B"/>
+    <SolidColorBrush x:Key="Brush.Background.CardSubtle" Color="#10FFFFFF"/>
     <LinearGradientBrush x:Key="Brush.Background.Root" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="#FF102A43" Offset="0"/>
         <GradientStop Color="#FF0F3B3B" Offset="1"/>
@@ -44,7 +45,7 @@
     <SolidColorBrush x:Key="Brush.Accent.Info" Color="#1E90FF"/>
     <LinearGradientBrush x:Key="Brush.Accent.ProgressFill" StartPoint="0,0" EndPoint="1,0">
         <GradientStop Color="#3A86FF" Offset="0"/>
-        <GradientStop Color="#6688FF" Offset="1"/>
+        <GradientStop Color="{DynamicResource AccentColorLight}" Offset="1"/>
     </LinearGradientBrush>
 
     <!-- Stroke -->
@@ -61,6 +62,10 @@
     <SolidColorBrush x:Key="Brush.Control.Stroke" Color="#33FFFFFF"/>
     <SolidColorBrush x:Key="Brush.Control.HoverBackground" Color="#22007ACC"/>
     <SolidColorBrush x:Key="Brush.Control.SelectedBackground" Color="#44007ACC"/>
+
+    <!-- ComboBox -->
+    <SolidColorBrush x:Key="Brush.ComboBox.HoverBorder" Color="#4C7EFF"/>
+    <SolidColorBrush x:Key="Brush.ComboBox.HoverBackground" Color="#161F2B"/>
 
     <!-- ============================================
          LEGACY FLAT KEYS (backward compatibility)
@@ -98,5 +103,7 @@
     <SolidColorBrush x:Key="StrokeStatusBrush" Color="#1FFFFFFF"/>
     <SolidColorBrush x:Key="FillInfoBrush" Color="#12FFFFFF"/>
     <SolidColorBrush x:Key="FillStatusBrush" Color="#18FFFFFF"/>
+
+    <Color x:Key="AccentColorLight">#6688FF</Color>
 
 </ResourceDictionary>

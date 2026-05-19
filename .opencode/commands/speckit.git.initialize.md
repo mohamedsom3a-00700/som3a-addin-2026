@@ -17,8 +17,11 @@ Run the appropriate script from the project root:
 - **PowerShell**: `.specify/extensions/git/scripts/powershell/initialize-repo.ps1`
 
 If the extension scripts are not found, fall back to:
-- **Bash**: `git init && git add . && git commit -m "Initial commit from Specify template"`
-- **PowerShell**: `git init; git add .; git commit -m "Initial commit from Specify template"`
+- **Bash**: `git init && git status && git add -p && git commit -m "Initial commit from Specify template"` (review staged changes before committing)
+- **PowerShell**: `git init; git status; git add -p; git commit -m "Initial commit from Specify template"` (review staged changes before committing)
+
+> [!IMPORTANT]
+> Always review staged files with `git status` or `git diff --cached` before committing. Use `git add <paths>` with explicit paths instead of `git add .` to avoid staging unintended files. Ensure .gitignore is in place before the initial add.
 
 The script handles all checks internally:
 - Skips if Git is not available

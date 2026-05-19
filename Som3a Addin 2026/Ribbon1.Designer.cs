@@ -566,6 +566,7 @@ namespace Som3a_Addin_2026
             this.btnLinksManager.Label = "Links Mangers";
             this.btnLinksManager.Name = "btnLinksManager";
             this.btnLinksManager.ShowImage = true;
+            this.btnLinksManager.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnLinksManager_Click);
             // 
             // btnSafeClone
             // 

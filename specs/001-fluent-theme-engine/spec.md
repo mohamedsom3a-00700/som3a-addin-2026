@@ -10,6 +10,13 @@
 
 ## Clarifications
 
+### Session 2026-05-19
+
+- Q: Should the Custom theme support full semantic color editing (backgrounds, surfaces, text, borders, hover/selection states) or only accent color selection? → A: Full semantic theme editing. The Custom theme editor allows editing accent colors, window backgrounds, card surfaces, border colors, primary text, secondary text, hover states, selection states, and glow colors.
+- Q: Theme loading failure handling → A: Silent fallback to Dark theme. If a theme dictionary fails to load at runtime, the system keeps the app running, logs the error, and falls back to the Dark theme silently. A subtle notification may inform the user if feasible, but the app remains functional.
+- Q: Custom theme color editor UX → A: Inline swatch picker on theme card. Color swatches are displayed directly on the Custom theme card; clicking opens an in-place color picker. All semantic color editing (accent, backgrounds, surfaces, borders, text, hover, selection, glow) is accessible inline without navigating to a separate dialog.
+- Q: Custom theme persistence format → A: Single JSON + Settings.settings. Theme selection (Dark/Light/Custom) and accent color are stored in ApplicationSettingsBase via Settings.settings. Extended Custom theme colors (all semantic tokens) are stored in a single JSON file at AppData/Som3a/custom-theme.json.
+
 ### Session 2026-05-18
 
 - Q: Custom accent color selection mechanism → A: Preset accent swatches (6-8 options: Blue, Green, Purple, Orange, Pink, Teal, Red, Cyan) displayed as clickable color circles on the Custom theme card.
@@ -136,7 +143,7 @@ A user navigates the entire application using only the keyboard. All interactive
 - **FR-007**: The system MUST apply a glow effect to the selected theme card.
 - **FR-008**: The system MUST centralize all color definitions in a two-tier token system (primitive + semantic tokens).
 - **FR-009**: All control templates MUST reference colors via DynamicResource, enabling runtime theme switching.
-- **FR-010**: The system MUST support a Custom theme with a user-selectable accent color. Accent selection is provided via 6-8 preset swatches (Blue, Green, Purple, Orange, Pink, Teal, Red, Cyan) displayed as clickable color circles on the Custom theme card.
+- **FR-010**: The system MUST support a Custom theme with full semantic color editing. Editable areas include: accent colors, window backgrounds, card surfaces, border colors, primary text, secondary text, hover states, selection states, and glow colors. Accent selection is provided via 6-8 preset swatches (Blue, Green, Purple, Orange, Pink, Teal, Red, Cyan) displayed as clickable color circles on the Custom theme card.
 - **FR-011**: The system MUST render popups (ComboBox dropdowns, etc.) above all other content without clipping.
 - **FR-012**: The system MUST maintain DPI scaling correctness at 100%, 125%, 150%, and 200% DPI.
 - **FR-013**: The system MUST provide a centralized animation library with control state transitions (hover, focus, press) and popup open/close animations (slide-down, fade-in). All animations MUST complete within 200ms.
@@ -177,4 +184,4 @@ A user navigates the entire application using only the keyboard. All interactive
 - **No third-party UI frameworks**: The constitution explicitly prohibits introducing third-party UI frameworks. All UI work uses native WPF with custom styling.
 - **MVVM structure**: Business logic remains in ViewModels; code-behind is minimal and only used where Office interop requires it.
 - **Token naming convention**: Controls use semantic tokens (Brush.Background.Primary, Brush.Text.Primary, etc.) alongside legacy flat keys for backward compatibility. No inline color values in control templates.
-- **Custom theme extensibility**: The Custom theme supports a user-selectable accent color via preset swatches (Blue, Green, Purple, Orange, Pink, Teal, Red, Cyan). Both the theme selection (Dark/Light/Custom) and the accent color persist across application restarts.
+- **Custom theme extensibility**: The Custom theme supports full semantic color editing with preset accent swatches (Blue, Green, Purple, Orange, Pink, Teal, Red, Cyan). Both the theme selection (Dark/Light/Custom) and all custom colors persist across application restarts.

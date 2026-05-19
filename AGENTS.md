@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/001-fluent-theme-engine/plan.md
+at: specs/002-themes-manager/plan.md
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes

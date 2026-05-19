@@ -1,7 +1,10 @@
 installed:
 - git
 settings:
-  auto_execute_hooks: true
+  auto_execute_hooks: false
+  # CAUTION: auto_execute_hooks=true is unsafe for commit hooks.
+  # When true, hooks run automatically without prompting. Keep false by default.
+  # Teams can opt-in per workflow by enabling specific hooks in their config.
 hooks:
   before_constitution:
   - extension: git

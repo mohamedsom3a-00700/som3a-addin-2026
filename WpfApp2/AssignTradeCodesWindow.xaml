@@ -389,7 +389,7 @@
                         <TextBlock Text="{Binding ProgressPercent, StringFormat={}{0:0}%}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Foreground="{DynamicResource AccentBrush}"
+                                   Foreground="{DynamicResource TextOnAccentBrush}"
                                    FontWeight="SemiBold"/>
 
                     </Border>

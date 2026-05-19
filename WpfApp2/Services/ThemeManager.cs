@@ -196,6 +196,13 @@ namespace Som3a_WPF_UI.Services
                 Application.Current.Resources["AccentColorBrush"] = new SolidColorBrush(color);
                 Application.Current.Resources["AccentColorValue"] = color;
 
+                var lightColor = Color.FromArgb(
+                    color.A,
+                    (byte)Math.Min(255, color.R + 102),
+                    (byte)Math.Min(255, color.G + 102),
+                    (byte)Math.Min(255, color.B + 102));
+                Application.Current.Resources["AccentColorLight"] = lightColor;
+
                 var glowKeys = new[] { "Glow.Focus", "Glow.ButtonHover", "Glow.Primary", "Glow.Selection", "Glow.Accent", "Glow.ThemeCard.Selected" };
                 foreach (var key in glowKeys)
                 {

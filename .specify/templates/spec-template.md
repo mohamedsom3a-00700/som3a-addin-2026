@@ -117,6 +117,17 @@
 - **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
 - **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
 
+## Constitutional Constraints
+
+The following constraints are mandated by the project constitution and MUST be respected:
+
+- All UI resources MUST use `{DynamicResource}` for themeable properties (Constitution §III).
+- Theme mutations MUST be routed through ThemeManager exclusively (Constitution §IV).
+- Animations MUST complete within 200ms and remain GPU-safe (Constitution §IX).
+- Excel VSTO rendering safety MUST be considered for all window changes (Constitution §X).
+- WindowChrome MUST remain the primary window rendering strategy (Constitution §XI).
+- Effects MUST be centralized; inline DropShadowEffect is prohibited (Constitution §XII).
+
 ## Assumptions
 
 <!--

@@ -223,7 +223,7 @@
                                 Padding="10"
                                 CornerRadius="10"
                                 Background="{DynamicResource Brush.Fill.Info}"
-                                BorderBrush="{DynamicResource Brush.Stroke.Status}"
+                                BorderBrush="{DynamicResource Brush.Stroke.Info}"
                                 BorderThickness="1">
 
                             <TextBlock Text="{Binding InfoText}"

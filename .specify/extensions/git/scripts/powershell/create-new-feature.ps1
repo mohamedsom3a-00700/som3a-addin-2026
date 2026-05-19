@@ -132,9 +132,15 @@ function Get-NextBranchNumber {
         $highestRemote = Get-HighestNumberFromRemoteRefs
         $highestBranch = [Math]::Max($highestBranch, $highestRemote)
     } else {
+        $fetchResult = $null
         try {
-            git fetch --all --prune 2>$null | Out-Null
-        } catch { }
+            $fetchResult = git fetch --all --prune 2>&1
+            if ($LASTEXITCODE -ne 0) {
+                Write-Warning "git fetch failed (exit code $LASTEXITCODE): $fetchResult"
+            }
+        } catch {
+            Write-Warning "git fetch threw exception: $_"
+        }
         $highestBranch = Get-HighestNumberFromBranches
     }
 

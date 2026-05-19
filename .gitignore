@@ -38,8 +38,6 @@ Ankh.NoLoad
 # .NET
 # -----------------------------------------------------------------------------
 *.snk
-*.dll
-*.exe
 *.pdb
 *.mdf
 *.ldf
@@ -48,7 +46,6 @@ Ankh.NoLoad
 *.pch
 *.jl
 *.tlb
-*.tlh
 *.bak
 *.log
 *.ilk
@@ -56,6 +53,12 @@ Ankh.NoLoad
 *.exp
 *.vspscc
 *.vssscc
+
+# Build outputs (scoped)
+**/bin/
+**/obj/
+**/dist/
+**/out/
 
 # NuGet
 *.nupkg
@@ -66,7 +69,6 @@ packages/
 # -----------------------------------------------------------------------------
 # VSTO (Visual Studio Tools for Office)
 # -----------------------------------------------------------------------------
-*.manifest
 ClickOnce/
 Publish/
 *.application
