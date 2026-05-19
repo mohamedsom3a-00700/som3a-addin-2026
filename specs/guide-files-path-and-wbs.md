@@ -8,7 +8,7 @@
 
 ### 1.1. Solution Root
 
-```
+```text
 Som3a Addin 2026.slnx                        # Solution file (Visual Studio)
 README.md                                      # Project overview
 AGENTS.md                                      # AI agent instructions
@@ -19,7 +19,7 @@ COMPLETE_SOLUTION_GUIDE.md                     # Full solution guide (1595 lines
 
 ### 1.2. VSTO Add-in: `Som3a Addin 2026/`
 
-```
+```text
 Som3a Addin 2026/
 ├── Properties/
 │   ├── AssemblyInfo.cs
@@ -76,7 +76,7 @@ Som3a Addin 2026/
 
 ### 1.3. Shared Library: `Som3a.Shared/`
 
-```
+```text
 Som3a.Shared/
 ├── Controllers/
 │   └── CompareController.cs                 # Orchestrates comparison flow
@@ -144,7 +144,7 @@ Som3a.Shared/
 
 ### 1.4. Main WPF UI: `WpfApp2/`
 
-```
+```text
 WpfApp2/
 ├── Analyzers/
 │   ├── ModernWindowAnalyzer.cs               # Roslyn analyzer (excluded from build)
@@ -285,7 +285,7 @@ WpfApp2/
 
 ### 1.5. Standalone WPF Apps
 
-```
+```text
 Som3a_WPF_UI/                                 # Legacy standalone
 ├── MainWindow.xaml
 ├── MainWindow.xaml.cs
@@ -314,7 +314,7 @@ WpfApp1/                                      # Older WPF UI project
 
 ### 1.6. Specification & Documentation Files
 
-```
+```text
 specs/
 ├── feature-planning-guide.md                  # ChatGPT feature planning guide
 └── 001-fluent-theme-engine/
@@ -344,7 +344,7 @@ Git/
 
 ### 1.7. Configuration & Workflow (`.opencode/`, `.specify/`)
 
-```
+```text
 .opencode/
 └── plans/
     ├── README.md                              # Plan index (8 phases, 36 tasks)
@@ -447,6 +447,7 @@ Git/
 ### 2.3. WPF Windows (by domain)
 
 #### Primavera Comparison
+
 | File | Type |
 |------|------|
 | `WpfApp2/Windows/PrimaveraComparison/PrimaveraCompareWindow.xaml` | Window (View) |
@@ -457,6 +458,7 @@ Git/
 | `WpfApp2/ViewModels/Primavera/PrimaveraResultsViewModel.cs` | ViewModel |
 
 #### Project Analysis
+
 | File | Type |
 |------|------|
 | `WpfApp2/UI/ProjectAnalysisWindow.xaml` | Window (View) |
@@ -464,12 +466,14 @@ Git/
 | `WpfApp2/ViewModels/ProjectAnalysisViewModel.cs` | ViewModel |
 
 #### Settings
+
 | File | Type |
 |------|------|
 | `WpfApp2/Views/SettingsWindow.xaml` | Window (ModernWindow) |
 | `WpfApp2/Views/SettingsWindow.xaml.cs` | Code-behind |
 
 #### Float Path
+
 | File | Type |
 |------|------|
 | `WpfApp2/Float_path.xaml` | Window |
@@ -477,6 +481,7 @@ Git/
 | `WpfApp2/ViewModels/FloatPathViewModel.cs` | ViewModel |
 
 #### Links Manager
+
 | File | Type |
 |------|------|
 | `WpfApp2/LinksManagerWindow.xaml` | Window |
@@ -484,6 +489,7 @@ Git/
 | `WpfApp2/ViewModels/LinksManagerViewModel.cs` | ViewModel |
 
 #### XER Editor
+
 | File | Type |
 |------|------|
 | `WpfApp2/XerEditorWindow.xaml` | Window |
@@ -491,12 +497,14 @@ Git/
 | `WpfApp2/Models/XerEditorVM.cs` | ViewModel (mislocated) |
 
 #### Trade Codes
+
 | File | Type |
 |------|------|
 | `WpfApp2/AssignTradeCodesWindow.xaml` | Window |
 | `WpfApp2/AssignTradeCodesWindow.xaml.cs` | Code-behind |
 
 #### Daily Report
+
 | File | Type |
 |------|------|
 | `WpfApp2/SubDailyReportWindow.xaml` | Window |
@@ -504,6 +512,7 @@ Git/
 | `WpfApp2/Models/SubDailyReportViewModel.cs` | ViewModel (mislocated) |
 
 #### Unmerge Fill Down
+
 | File | Type |
 |------|------|
 | `WpfApp2/UnmergeFillDownWindow.xaml` | Window |
@@ -511,12 +520,14 @@ Git/
 | `WpfApp2/Models/UnmergeFillDownViewModel.cs` | ViewModel (mislocated) |
 
 #### Fix Pie Colors
+
 | File | Type |
 |------|------|
 | `WpfApp2/Fixpiecolors.xaml` | Window |
 | `WpfApp2/Fixpiecolors.xaml.cs` | Code-behind |
 
 #### Style Selector
+
 | File | Type |
 |------|------|
 | `WpfApp2/StyleSelectorWindow.xaml` | Window |
@@ -602,7 +613,7 @@ Git/
 
 ### 3.1. Primavera Comparison (complete feature)
 
-```
+```text
 Som3a.Shared/Core/Primavera/
 ├── ComparisonModels.cs                          # Diff models
 ├── IPrimaveraComparisonService.cs               # Service contract
@@ -640,7 +651,7 @@ Som3a Addin 2026/Ribbon1.cs                      # Launch from Excel
 
 ### 3.2. Theme Engine (complete feature)
 
-```
+```text
 WpfApp2/Theme/
 ├── Base/
 │   ├── Colors.xaml                # Primitive + semantic token definitions
@@ -688,7 +699,7 @@ WpfApp2/Views/
 
 ### 3.3. Toast Notification System
 
-```
+```text
 WpfApp2/Controls/Toast/
 ├── ToastModel.cs                  # Data model
 ├── ToastWindow.xaml               # Toast popup UI
@@ -700,7 +711,7 @@ WpfApp2/Services/
 
 ### 3.4. Loading Overlay
 
-```
+```text
 WpfApp2/Controls/
 ├── LoadingOverlay.xaml            # Spinner overlay UI
 └── LoadingOverlay.xaml.cs         # Code-behind
@@ -708,7 +719,7 @@ WpfApp2/Controls/
 
 ### 3.5. XER File Handling
 
-```
+```text
 Som3a.Shared/Core/
 ├── XER Parser.cs                  # Parse XER format
 └── XerExportService.cs            # Export to XER
@@ -721,7 +732,7 @@ WpfApp2/
 
 ### 3.6. Float Path / Critical Path
 
-```
+```text
 Som3a.Shared/Core/
 ├── FloatPathService.cs            # Float path calculation
 ├── PathFinder.cs                  # Critical path search
@@ -739,7 +750,7 @@ WpfApp2/
 
 ### 3.7. WBS (Work Breakdown Structure)
 
-```
+```text
 Som3a.Shared/Core/
 ├── WbsBuilder.cs                  # Build WBS hierarchy
 ├── WbsStyleFactory.cs             # Cell style factory
@@ -756,13 +767,13 @@ Som3a.Shared/Models/
 
 ### WBS Level 1: Solution
 
-```
+```text
 1.0  Som3a Add-in 2026                   # Complete VSTO Excel Add-in
 ```
 
 ### WBS Level 2: Projects
 
-```
+```text
 1.1  Som3a Addin 2026 (VSTO Host)        # Excel add-in project
 1.2  Som3a.Shared (Business Logic)       # Shared services & models
 1.3  WpfApp2 (WPF UI)                    # Main WPF UI library
@@ -770,7 +781,7 @@ Som3a.Shared/Models/
 
 ### WBS Level 3: Feature Domains
 
-```
+```text
 1.1  VSTO Host (Excel Integration)
      1.1.1  Ribbon UI                    # Ribbon1.cs, buttons
      1.1.2  Add-in Bridge                # ThisAddIn.cs, bridge
@@ -795,7 +806,7 @@ Som3a.Shared/Models/
 
 ### WBS Level 4: Detailed Work Packages
 
-```
+```text
 1.1.1  Ribbon UI
       1.1.1.1  Ribbon tabs & groups      # Ribbon1.Designer.cs
       1.1.1.2  Button click handlers      # Ribbon1.cs (10+ buttons)
@@ -907,7 +918,7 @@ Som3a.Shared/Models/
 
 ### WBS Format: Numeric Code Key
 
-```
+```text
 WBS Format:  X.Y.Z.W
   X = Project (1=Host, 2=Shared, 3=WPF UI)
   Y = Domain (1-6)
@@ -926,7 +937,7 @@ Examples:
 
 Copy this entire block when you need ChatGPT to work with the codebase:
 
-```
+````markdown
 ## Project Context
 
 You are working on **Som3a Addin 2026**, a professional Excel VSTO Add-in built with:
@@ -970,7 +981,7 @@ msbuild WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
 
 ### Full File Tree Reference
 [Include relevant sections from spec/guide-files-path-and-wbs.md]
-```
+````
 
 ---
 
@@ -992,7 +1003,7 @@ msbuild WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
 
 ### 6.2. Project Dependencies
 
-```
+```text
 Som3a Addin 2026 (VSTO)
   └── references WpfApp2 (WPF UI) + Som3a.Shared (Business Logic)
 

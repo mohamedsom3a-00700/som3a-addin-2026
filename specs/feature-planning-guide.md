@@ -12,7 +12,7 @@ Copy the entire document (or relevant sections) into a ChatGPT conversation when
 
 ## 1. Feature Kickoff — Copy This Block
 
-```
+```text
 I need to plan a new feature for the Som3a Add-in 2026 project. Here are the details:
 
 **Feature Name**: [e.g., "Advanced Reporting Engine"]
@@ -32,7 +32,7 @@ A professional Excel VSTO Add-in built with C#, .NET Framework 4.8, and WPF. It 
 
 ### 2.2. Solution Structure
 
-```
+```text
 Som3a Addin 2026/
 ├── Som3a Addin 2026/          # Main VSTO Excel Add-in project
 │   ├── Ui/                    # WPF UI components
@@ -267,7 +267,7 @@ Note any constitution violations requiring justification.
 
 **Format**:
 
-```
+```text
 - [ ] T001 [P] Description (file paths, notes)
 - [ ] T002 [US1] Description
 ```
@@ -292,7 +292,7 @@ Contains: file structure, priority-ordered file list, token reference, testing c
 
 All feature documents live under `specs/<feature-id>/`:
 
-```
+```text
 specs/<feature-id>/
 ├── spec.md              # Phase 1: Feature specification
 ├── plan.md              # Phase 2: Implementation plan
@@ -363,6 +363,7 @@ specs/<feature-id>/
 
 ### Constitution Check (plan.md)
 Each principle must pass before proceeding:
+
 | Principle | Status |
 |-----------|--------|
 | Library-First Modular Architecture | ✅ PASS / ❌ FAIL |
@@ -392,7 +393,7 @@ Each principle must pass before proceeding:
 
 Here's what a complete feature planning session produces:
 
-```
+```text
 specs/002-new-feature/
 ├── research.md           # Phase 0: Tech research & decisions (3-5 topics)
 ├── spec.md               # Phase 1: User-facing spec (5 user stories, 10+ FRs)
