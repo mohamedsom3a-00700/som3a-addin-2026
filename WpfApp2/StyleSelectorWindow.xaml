@@ -31,23 +31,9 @@
 
     <Border x:Name="RootBorder"
             CornerRadius="18"
+            Background="{DynamicResource Brush.Background.Root}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
-
-        <Border.Background>
-
-            <LinearGradientBrush StartPoint="0,0"
-                                 EndPoint="1,1">
-
-                <GradientStop Color="#FF102A43"
-                              Offset="0"/>
-
-                <GradientStop Color="#FF0F3B3B"
-                              Offset="1"/>
-
-            </LinearGradientBrush>
-
-        </Border.Background>
 
         <!-- ROOT GRID -->
 

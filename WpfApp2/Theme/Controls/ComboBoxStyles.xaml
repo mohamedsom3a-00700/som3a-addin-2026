@@ -72,32 +72,35 @@
 
                                 <Grid.ColumnDefinitions>
 
-                                    <ColumnDefinition Width="*"/>
-
                                     <ColumnDefinition Width="24"/>
+
+                                    <ColumnDefinition Width="*"/>
 
                                 </Grid.ColumnDefinitions>
 
                                 <!-- TEXT -->
 
-                                <ContentPresenter Margin="0,0,6,0"
-                                                  VerticalAlignment="Center"
-                                                  HorizontalAlignment="Left"
-                                                  RecognizesAccessKey="True"
-                                                  Content="{TemplateBinding SelectionBoxItem}"
-                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"/>
+                                <ContentPresenter Grid.Column="1"
+                  Margin="8,0,0,0"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left"
+                  RecognizesAccessKey="True"
+                  TextElement.Foreground="{DynamicResource TextMainBrush}"
+                  Content="{TemplateBinding SelectionBoxItem}"
+                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                  ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"/>
 
                                 <!-- ARROW -->
 
                                 <Path x:Name="Arrow"
-                                      Grid.Column="1"
+                                      Grid.Column="0"
                                       Data="M 0 0 L 5 5 L 10 0"
                                       Stroke="{DynamicResource TextSubBrush}"
                                       StrokeThickness="2"
                                       Width="10"
                                       Height="6"
                                       Stretch="Fill"
-                                      HorizontalAlignment="Center"
+                                      HorizontalAlignment="Right"
                                       VerticalAlignment="Center"
                                       StrokeStartLineCap="Round"
                                       StrokeEndLineCap="Round"/>
@@ -141,15 +144,22 @@
                         <!-- Hover -->
 
                         <Trigger Property="IsMouseOver"
-                                 Value="True">
+         Value="True">
+
+                            <!-- Border -->
 
                             <Setter TargetName="Bd"
-                                    Property="Background"
-                                    Value="{DynamicResource ControlStrokeBrush}"/>
+            Property="BorderBrush"
+            Value="#4C7EFF"/>
+
+                            <!-- Soft Background -->
 
                             <Setter TargetName="Bd"
-                                    Property="BorderBrush"
-                                    Value="{DynamicResource AccentBrush}"/>
+            Property="Background"
+            Value="#161F2B"/>
+                            <Setter TargetName="Arrow"
+            Property="Stroke"
+            Value="#4C7EFF"/>
 
                         </Trigger>
 
@@ -175,6 +185,10 @@
 
                             <Setter TargetName="Bd"
                                     Property="BorderBrush"
+                                    Value="{DynamicResource AccentBrush}"/>
+
+                            <Setter TargetName="Arrow"
+                                    Property="Stroke"
                                     Value="{DynamicResource AccentBrush}"/>
 
                             <Setter TargetName="Arrow"

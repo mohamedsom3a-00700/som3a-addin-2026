@@ -29,10 +29,8 @@
     <Border x:Name="ToastBorder"
             CornerRadius="8"
             Padding="16,12"
-            Margin="10">
-        <Border.Effect>
-            <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="2"/>
-        </Border.Effect>
+            Margin="10"
+            Effect="{StaticResource Shadow.Popup}">
 
         <StackPanel Orientation="Horizontal">
             <TextBlock x:Name="IconText" Style="{StaticResource ToastIcon}"/>

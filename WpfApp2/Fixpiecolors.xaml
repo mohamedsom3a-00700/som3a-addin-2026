@@ -38,25 +38,9 @@
 
     <Border x:Name="RootBorder"
             CornerRadius="18"
+            Background="{DynamicResource Brush.Background.Root}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
-
-        <!-- BACKGROUND -->
-
-        <Border.Background>
-
-            <LinearGradientBrush StartPoint="0,0"
-                                 EndPoint="1,1">
-
-                <GradientStop Color="#FF102A43"
-                              Offset="0"/>
-
-                <GradientStop Color="#FF0F3B3B"
-                              Offset="1"/>
-
-            </LinearGradientBrush>
-
-        </Border.Background>
 
         <!-- ================================================= -->
         <!-- ROOT GRID -->
@@ -265,8 +249,8 @@
                         <Border Grid.Row="6"
                                 Padding="10"
                                 CornerRadius="10"
-                                Background="#12FFFFFF"
-                                BorderBrush="#18FFFFFF"
+                                Background="{DynamicResource Brush.Fill.Info}"
+                                BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                 BorderThickness="1">
 
                             <TextBlock Text="Select chart ranges then click Run."
@@ -296,9 +280,9 @@
                     <!-- STATUS -->
 
                     <Border Grid.Column="0"
-                            Background="#1FFFFFFF"
+                            Background="{DynamicResource Brush.Fill.Status}"
                             CornerRadius="12"
-                            BorderBrush="#22FFFFFF"
+                            BorderBrush="{DynamicResource CardStrokeBrush}"
                             BorderThickness="1"
                             Padding="12,0">
 
@@ -327,10 +311,10 @@
                 <Grid x:Name="BusyOverlay"
                       Grid.RowSpan="3"
                       Visibility="Collapsed"
-                      Background="#66000000">
+                      Background="{DynamicResource Brush.Background.Primary}">
 
-                    <Border Background="#CC0E1720"
-                            BorderBrush="#33FFFFFF"
+                    <Border Background="{DynamicResource Brush.Background.Secondary}"
+                            BorderBrush="{DynamicResource CardStrokeBrush}"
                             BorderThickness="1"
                             Padding="16"
                             CornerRadius="14"

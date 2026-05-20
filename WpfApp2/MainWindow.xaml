@@ -44,18 +44,7 @@
         <!-- BACKGROUND -->
 
         <Border.Background>
-
-            <LinearGradientBrush StartPoint="0,0"
-                                 EndPoint="1,1">
-
-                <GradientStop Color="#FF102A43"
-                              Offset="0"/>
-
-                <GradientStop Color="#FF0F3B3B"
-                              Offset="1"/>
-
-            </LinearGradientBrush>
-
+            <DynamicResource ResourceKey="Brush.Background.Root"/>
         </Border.Background>
 
         <!-- ================================================= -->
@@ -338,7 +327,7 @@
                         Height="24"
                         CornerRadius="10"
                         Background="#22000000"
-                        BorderBrush="#22FFFFFF"
+                        BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
                         VerticalAlignment="Center"
                         Margin="0,0,10,0">
@@ -445,9 +434,9 @@
             <!-- ================================================= -->
 
             <Border Grid.Row="9"
-                    Background="#1FFFFFFF"
+                    Background="{DynamicResource Brush.Fill.Status}"
                     CornerRadius="12"
-                    BorderBrush="#22FFFFFF"
+                    BorderBrush="{DynamicResource CardStrokeBrush}"
                     BorderThickness="1"
                     Padding="10,6">
 

@@ -40,25 +40,9 @@
 
     <Border x:Name="RootBorder"
             CornerRadius="18"
+            Background="{DynamicResource Brush.Background.Root}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
-
-        <!-- BACKGROUND -->
-
-        <Border.Background>
-
-            <LinearGradientBrush StartPoint="0,0"
-                                 EndPoint="1,1">
-
-                <GradientStop Color="#FF102A43"
-                              Offset="0"/>
-
-                <GradientStop Color="#FF0F3B3B"
-                              Offset="1"/>
-
-            </LinearGradientBrush>
-
-        </Border.Background>
 
         <!-- ================================================= -->
         <!-- ROOT GRID -->
@@ -238,8 +222,8 @@
                                 Margin="0,12,0,0"
                                 Padding="10"
                                 CornerRadius="10"
-                                Background="#12FFFFFF"
-                                BorderBrush="#18FFFFFF"
+                                Background="{DynamicResource Brush.Fill.Info}"
+                                BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                 BorderThickness="1">
 
                             <TextBlock Text="{Binding InfoText}"
@@ -272,7 +256,7 @@
                             Height="24"
                             Margin="0,0,10,0"
                             Background="#22000000"
-                            BorderBrush="#22FFFFFF"
+                            BorderBrush="{DynamicResource CardStrokeBrush}"
                             BorderThickness="1"
                             CornerRadius="10"
                             VerticalAlignment="Center">
@@ -281,22 +265,8 @@
 
                             <Border CornerRadius="10"
                                     HorizontalAlignment="Stretch"
-                                    RenderTransformOrigin="0,0.5">
-
-                                <Border.Background>
-
-                                    <LinearGradientBrush StartPoint="0,0"
-                                                         EndPoint="1,0">
-
-                                        <GradientStop Color="#FF1ABC9C"
-                                                      Offset="0"/>
-
-                                        <GradientStop Color="#FF2ECC71"
-                                                      Offset="1"/>
-
-                                    </LinearGradientBrush>
-
-                                </Border.Background>
+                                    RenderTransformOrigin="0,0.5"
+                                    Background="{DynamicResource Brush.Accent.ProgressFill}">
 
                                 <!-- IMPORTANT -->
                                 <!-- REMOVED DROPSHADOW FOR EXCEL/VSTO -->
@@ -326,7 +296,7 @@
                             VerticalAlignment="Center">
 
                         <TextBlock Text="{Binding ProgressPercent, StringFormat={}{0:0}%}"
-                                   Foreground="White"
+                                   Foreground="{DynamicResource TextOnAccentBrush}"
                                    FontWeight="SemiBold"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
@@ -375,8 +345,8 @@
                 <!-- ============================================= -->
 
                 <Border Grid.Row="6"
-                        Background="#1FFFFFFF"
-                        BorderBrush="#22FFFFFF"
+                        Background="{DynamicResource Brush.Fill.Status}"
+                        BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
                         CornerRadius="12"
                         Padding="10,6">

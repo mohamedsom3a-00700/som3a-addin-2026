@@ -59,13 +59,13 @@
                                 EasingFunction="{StaticResource ThemeCardEase}"/>
                             <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
                                 To="1.02" Duration="0:0:0.15"
-                                EasingFunction="{StaticResource ThemeCardEase}"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
+EasingFunction="{StaticResource ThemeCardEase}"/>
+                                    </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.EnterActions>
+                        <Trigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                 To="0.85" Duration="0:0:0.15"
                                 EasingFunction="{StaticResource ThemeCardEase}"/>
@@ -127,7 +127,7 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource CardHoverBorder}"/>
                             <Setter TargetName="CardBorder" Property="BorderThickness" Value="1"/>
-                            <Trigger.EnterActions>
+                            <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
@@ -144,8 +144,8 @@
                                             EasingFunction="{StaticResource ThemeCardEase}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
@@ -162,7 +162,7 @@
                                             EasingFunction="{StaticResource ThemeCardEase}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            </MultiTrigger.ExitActions>
                         </MultiTrigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>

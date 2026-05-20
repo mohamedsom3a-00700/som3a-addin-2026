@@ -37,25 +37,9 @@
 
     <Border x:Name="RootBorder"
             CornerRadius="18"
+            Background="{DynamicResource Brush.Background.Root}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
-
-        <!-- BACKGROUND -->
-
-        <Border.Background>
-
-            <LinearGradientBrush StartPoint="0,0"
-                                 EndPoint="1,1">
-
-                <GradientStop Color="#FF102A43"
-                              Offset="0"/>
-
-                <GradientStop Color="#FF0F3B3B"
-                              Offset="1"/>
-
-            </LinearGradientBrush>
-
-        </Border.Background>
 
         <!-- ================================================= -->
         <!-- ROOT GRID -->
@@ -159,8 +143,8 @@
 
                             <Border Padding="12"
                                     CornerRadius="12"
-                                    Background="#12FFFFFF"
-                                    BorderBrush="#18FFFFFF"
+                                    Background="{DynamicResource Brush.Fill.Info}"
+                                    BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                     BorderThickness="1"
                                     Margin="0,0,0,14">
 
@@ -197,7 +181,7 @@
                             <!-- SETTINGS CARD -->
 
                             <Border Background="#10FFFFFF"
-                                    BorderBrush="#18FFFFFF"
+                                    BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                     BorderThickness="1"
                                     CornerRadius="12"
                                     Padding="12">
@@ -270,8 +254,8 @@
                             <Border Margin="0,20,0,0"
                                     Padding="10"
                                     CornerRadius="12"
-                                    Background="#12FFFFFF"
-                                    BorderBrush="#18FFFFFF"
+                                    Background="{DynamicResource Brush.Fill.Info}"
+                                    BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                     BorderThickness="1">
 
                                 <Grid>
@@ -408,7 +392,7 @@
 
                                                         <Setter TargetName="RowBorder"
                                                                 Property="Background"
-                                                                Value="#22007ACC"/>
+                                                                Value="{DynamicResource Brush.Control.HoverBackground}"/>
 
                                                     </Trigger>
 
@@ -419,7 +403,7 @@
 
                                                         <Setter TargetName="RowBorder"
                                                                 Property="Background"
-                                                                Value="#44007ACC"/>
+                                                                Value="{DynamicResource Brush.Control.SelectedBackground}"/>
 
                                                     </Trigger>
 
