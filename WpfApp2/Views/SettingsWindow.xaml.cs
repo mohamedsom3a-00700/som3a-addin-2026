@@ -141,6 +141,7 @@ namespace Som3a_WPF_UI.Views
         {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
 =======
@@ -151,6 +152,10 @@ namespace Som3a_WPF_UI.Views
             var btn = sender as ToggleButton;
             if (btn?.Tag is string themeName)
 >>>>>>> 6075fc8 (feat: refactor theme card selection to ToggleButton with proper selection state)
+=======
+            var btn = sender as ToggleButton;
+            if (btn?.Tag is string themeName)
+>>>>>>> cae1914215a372f965a126b3bfafca4dc2065b42
             {
                 _selectedTheme = themeName;
 
