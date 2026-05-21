@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type ProgressBar}">
         <Setter Property="Height"      Value="8"/>
         <Setter Property="Foreground"  Value="{DynamicResource AccentBrush}"/>
-        <Setter Property="Background"  Value="#22000000"/>
+        <Setter Property="Background"  Value="{DynamicResource Brush.Progress.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
@@ -29,7 +29,7 @@
     <Style x:Key="ProgressTrackBorder" TargetType="{x:Type Border}">
         <Setter Property="Height"        Value="20"/>
         <Setter Property="CornerRadius"  Value="{DynamicResource PillRadius}"/>
-        <Setter Property="Background"    Value="#22000000"/>
+        <Setter Property="Background"    Value="{DynamicResource Brush.Progress.Background}"/>
         <Setter Property="BorderBrush"   Value="{DynamicResource CardStrokeBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
     </Style>

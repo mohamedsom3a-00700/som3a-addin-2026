@@ -6,7 +6,7 @@
 
 **Status**: Draft
 
-**Input**: User description: "implementation_plan.md generat spec by the best practise for github coding"
+**Input**: User description: "implementation_plan.md generate spec by the best practise for github coding"
 
 ## Clarifications
 

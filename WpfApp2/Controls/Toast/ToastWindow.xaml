@@ -30,7 +30,7 @@
             CornerRadius="8"
             Padding="16,12"
             Margin="10"
-            Effect="{StaticResource Shadow.Popup}">
+            Effect="{DynamicResource Shadow.Popup}">
 
         <StackPanel Orientation="Horizontal">
             <TextBlock x:Name="IconText" Style="{StaticResource ToastIcon}"/>

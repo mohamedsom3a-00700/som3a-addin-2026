@@ -23,6 +23,8 @@
 mono_crash.*
 
 # Build results
+*.dll
+*.exe
 [Dd]ebug/
 [Rr]elease/
 x64/
@@ -264,3 +266,10 @@ FodyWeavers.xsd
 # Environment & Secrets
 # -----------------------------------------------------------------------------
 .env*
+*.pfx
+*.p12
+*.pem
+*.key
+*.cer
+secrets.config
+appsettings.*.json

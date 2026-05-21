@@ -5,8 +5,8 @@
 
     <Style TargetType="{x:Type controls:ModernWindow}">
 
-        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource Brush.Background.Primary}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
 
         <Setter Property="WindowStyle"
                 Value="SingleBorderWindow"/>

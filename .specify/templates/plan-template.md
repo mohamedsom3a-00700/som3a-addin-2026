@@ -40,7 +40,7 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-Per the [Project Constitution](../../memory/constitution.md), every implementation plan MUST verify:
+Per the [Project Constitution](../memory/constitution.md), every implementation plan MUST verify:
 
 - [ ] **I. Library-First Modular Architecture** — Feature introduces no monolithic dictionaries; resources remain isolated and testable.
 - [ ] **III. DynamicResource-Only** — No StaticResource used for themeable brushes, colors, borders, effects.

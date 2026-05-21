@@ -29,8 +29,7 @@ public sealed class ThemeManager
 
 ### State Transitions
 
-```
-[Initial Load] --LoadThemeFromSettings()--> [Dark + #3A86FF] (default)
+```text --LoadThemeFromSettings()--> [Dark + #3A86FF] (default)
      │                                                    │
      │ ApplyTheme("Light", null)                          │ ApplyTheme("Dark", "#FF0000")
      ▼                                                    ▼
@@ -120,9 +119,8 @@ Defined in `Theme/Effects/Shadows.xaml` and `Theme/Effects/Glow.xaml`:
 
 ## Relationships
 
-```
+```text
 ThemeResources.xaml (aggregator)
-├── Base/Colors.xaml          (primitive + semantic defaults)
 ├── Base/Typography.xaml
 ├── Base/Radius.xaml
 ├── Base/Spacing.xaml

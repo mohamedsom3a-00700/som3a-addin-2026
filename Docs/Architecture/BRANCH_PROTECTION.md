@@ -140,6 +140,8 @@ Feature branches follow the naming convention `feature/phase-<NN>-<short-name>`.
 
 ### Setting up `develop` branch protection
 
+> **Note**: Replace `{owner}` with your GitHub username or organization and `{repo}` with your repository name in the commands below.
+
 ```bash
 # Create develop branch if it doesn't exist
 git checkout -b develop master
@@ -157,6 +159,8 @@ gh api repos/{owner}/{repo}/branches/develop/protection \
 ```
 
 ### Setting up `main`/`master` branch protection
+
+> **Note**: Replace `{owner}` and `{repo}` as described above.
 
 ```bash
 gh api repos/{owner}/{repo}/branches/main/protection \

@@ -464,7 +464,7 @@
                 <Border Grid.Column="0"
                         Height="24"
                         CornerRadius="10"
-                        Background="#22000000"
+                        Background="{DynamicResource Brush.Progress.Background}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
                         VerticalAlignment="Center"

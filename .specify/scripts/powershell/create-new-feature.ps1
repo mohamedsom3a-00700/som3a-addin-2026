@@ -141,7 +141,10 @@ function Get-NextBranchNumber {
     } else {
         # Fetch all remotes to get latest branch info (suppress errors if no remotes)
         try {
+            $prevPrompt = $env:GIT_TERMINAL_PROMPT
+            $env:GIT_TERMINAL_PROMPT = '0'
             git fetch --all --prune 2>$null | Out-Null
+            if ($prevPrompt -ne $null) { $env:GIT_TERMINAL_PROMPT = $prevPrompt } else { Remove-Item Env:GIT_TERMINAL_PROMPT }
         } catch {
             # Ignore fetch errors
         }

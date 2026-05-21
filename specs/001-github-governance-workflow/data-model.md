@@ -128,13 +128,12 @@
 
 ## Relationships
 
-```
-Feature Branch ──creates──> Pull Request
+```text ──creates──> Pull Request
 Pull Request ──validates──> Merge Gate
 Pull Request ──triggers──> Review Gate (post-phase)
 Governance Document ──guides──> Pull Request (review checklist)
 Governance Document ──guides──> Feature Branch (naming, AI rules)
-```
+```text
 
 ---
 
@@ -142,7 +141,7 @@ Governance Document ──guides──> Feature Branch (naming, AI rules)
 
 ### Pull Request State Machine
 
-```
+```text
 [OPENED]
     ↓ (automated checks run)
 [CHECKS_RUNNING]
@@ -160,7 +159,7 @@ Governance Document ──guides──> Feature Branch (naming, AI rules)
 
 ### Phase Completion State Machine
 
-```
+```text
 [PHASE_IN_PROGRESS]
     ↓ (work complete)
 [PR_OPENED]

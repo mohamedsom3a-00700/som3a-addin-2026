@@ -1,7 +1,10 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/002-themes-manager/plan.md
+at: specs/001-github-governance-workflow/plan.md
+
+Also refer to the master implementation plan:
+- implementation_plan.md — Full execution plan for Phases 0-11
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes
@@ -81,12 +84,31 @@ WpfApp2/Theme/
 - All controls: `SnapsToDevicePixels="True"`, `UseLayoutRounding="True"`
 - No BlurEffect on any scrollable container
 
+### Governance Documents
+
+```
+Docs/Architecture/
+├── UI_GUIDELINES.md
+├── TOKEN_RULES.md
+├── POPUP_ARCHITECTURE.md
+├── SHADOW_SYSTEM.md
+├── ACCESSIBILITY_RULES.md
+├── EXCEL_RENDERING_RULES.md
+├── MVVM_RULES.md
+├── REVIEW_CHECKLIST.md
+├── AGENT_RULES.md
+├── PERFORMANCE_RULES.md
+├── AUDIT_REPORT.md
+└── EXCEL_TEST_CHECKLIST.md
+```
+
+### Constitution
+
+- `.specify/memory/constitution.md` — Current active constitution (v1.2.0)
+- `.specify/memory/constitution-v2.md` — Next-generation constitution (v2.0.0)
+
 ### Build
 
 ```powershell
 msbuild WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
-```<!-- SPECKIT START -->
-For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
-at: specs/001-fluent-theme-engine/plan.md
-<!-- SPECKIT END -->
+```

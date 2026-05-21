@@ -4,9 +4,11 @@
 # Architecture reviewers are required for all theme, rendering, and
 # architecture-related files. General code reviewers handle non-theme code.
 
-# Architecture reviewer assignments for theme and rendering files
-*.xaml                                        @MohamedSom3a-00700/architecture-reviewers
-*.cs                                          @MohamedSom3a-00700/architecture-reviewers
+# Architecture reviewer assignments for theme, rendering, and architecture-critical files
+WpfApp2/Theme/                                @MohamedSom3a-00700/architecture-reviewers
+WpfApp2/Services/                             @MohamedSom3a-00700/architecture-reviewers
+WpfApp2/Controls/ModernWindow.cs              @MohamedSom3a-00700/architecture-reviewers
+WpfApp2/Windows/                              @MohamedSom3a-00700/architecture-reviewers
 Docs/Architecture/                            @MohamedSom3a-00700/architecture-reviewers
 
 # Theme engine files require architecture review

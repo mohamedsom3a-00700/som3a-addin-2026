@@ -28,7 +28,9 @@
                             Background="{TemplateBinding Background}"
                             CornerRadius="8"
                             Margin="4,2"
-                            Padding="{TemplateBinding Padding}">
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
 
                         <ContentPresenter VerticalAlignment="Center"
                                           HorizontalAlignment="Left"

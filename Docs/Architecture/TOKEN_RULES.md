@@ -9,7 +9,7 @@
 
 ## Token Layers
 
-The design system implements **three independent token layers**.
+The design system implements **three hierarchical token layers** (Primitive, Semantic, Component) and a separate **Utility token category** for cross-cutting concerns.
 
 ```text
 Primitive Tokens
