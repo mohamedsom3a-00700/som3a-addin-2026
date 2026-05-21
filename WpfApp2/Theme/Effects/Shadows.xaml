@@ -33,6 +33,10 @@
         BlurRadius="8" ShadowDepth="0"
         Color="{DynamicResource AccentColorValue}" Opacity="0.8"/>
 
+    <DropShadowEffect x:Key="Shadow.TextBox.Glow"
+        BlurRadius="8" ShadowDepth="0"
+        Color="{DynamicResource AccentColorValue}" Opacity="0"/>
+
     <!-- Safe-mode shadow variants (reduced blur/opacity for FallbackSafe rendering) -->
     <DropShadowEffect x:Key="Shadow.Window.Safe"
         BlurRadius="16" ShadowDepth="4" Direction="270"

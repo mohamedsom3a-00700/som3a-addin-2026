@@ -8,6 +8,7 @@
         <Setter Property="StrokeThickness" Value="2"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
         <Setter Property="RenderTransform">
             <Setter.Value>
@@ -21,7 +22,7 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Opacity" Value="1"/>
-                <Setter Property="Stroke" Value="White"/>
+                <Setter Property="Stroke" Value="{DynamicResource Brush.Swatch.Stroke}"/>
                 <Setter Property="Effect" Value="{DynamicResource Glow.ButtonHover}"/>
             </Trigger>
         </Style.Triggers>
@@ -29,7 +30,7 @@
 
     <Style x:Key="AccentSwatchSelected" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchBase}">
         <Setter Property="Opacity" Value="1"/>
-        <Setter Property="Stroke" Value="White"/>
+        <Setter Property="Stroke" Value="{DynamicResource Brush.Swatch.Stroke}"/>
         <Setter Property="StrokeThickness" Value="3"/>
         <Setter Property="Effect" Value="{DynamicResource Glow.Selection}"/>
     </Style>

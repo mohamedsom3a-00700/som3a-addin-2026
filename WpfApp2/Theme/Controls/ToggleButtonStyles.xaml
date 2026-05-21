@@ -4,7 +4,7 @@
     <CubicEase x:Key="ToggleEase" EasingMode="EaseOut"/>
 
     <!-- Toggle thumb brush -->
-    <SolidColorBrush x:Key="ToggleThumbBrush" Color="{StaticResource Primitive.White.95}"/>
+    <SolidColorBrush x:Key="ToggleThumbBrush" Color="{DynamicResource Primitive.White.95}"/>
 
     <!-- Fluent ToggleButton / Switch -->
     <Style x:Key="FluentToggleButton" TargetType="{x:Type ToggleButton}">

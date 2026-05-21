@@ -5,41 +5,43 @@
     <!-- ============================================
          COMPONENT TOKENS
          Component-specific styling values.
-         These reference semantic and utility tokens.
-         Controls consume these for component-level theming.
+         These mirror semantic/utility tokens for
+         component-level theming. Values MUST match
+         the corresponding tokens in Spacing.xaml,
+         Radius.xaml, and Size tokens above.
          ============================================ -->
 
     <!-- Button -->
-    <Thickness x:Key="Component.Button.Padding" Value="{DynamicResource ButtonPadding}"/>
-    <CornerRadius x:Key="Component.Button.Radius" Value="{DynamicResource MediumRadius}"/>
-    <sys:Double x:Key="Component.Button.Height" Value="{DynamicResource ButtonHeight}"/>
+    <Thickness x:Key="Component.Button.Padding">12,6</Thickness>
+    <CornerRadius x:Key="Component.Button.Radius">10</CornerRadius>
+    <sys:Double x:Key="Component.Button.Height">32</sys:Double>
 
     <!-- ComboBox -->
-    <CornerRadius x:Key="Component.ComboBox.Radius" Value="{DynamicResource MediumRadius}"/>
-    <sys:Double x:Key="Component.ComboBox.Height" Value="{DynamicResource ControlHeight}"/>
+    <CornerRadius x:Key="Component.ComboBox.Radius">10</CornerRadius>
+    <sys:Double x:Key="Component.ComboBox.Height">30</sys:Double>
 
     <!-- TextBox -->
-    <CornerRadius x:Key="Component.TextBox.Radius" Value="{DynamicResource MediumRadius}"/>
-    <Thickness x:Key="Component.TextBox.Padding" Value="{DynamicResource InputPadding}"/>
-    <sys:Double x:Key="Component.TextBox.Height" Value="{DynamicResource ControlHeight}"/>
+    <CornerRadius x:Key="Component.TextBox.Radius">10</CornerRadius>
+    <Thickness x:Key="Component.TextBox.Padding">10,6</Thickness>
+    <sys:Double x:Key="Component.TextBox.Height">30</sys:Double>
 
     <!-- Card -->
-    <Thickness x:Key="Component.Card.Padding" Value="{DynamicResource CardPadding}"/>
-    <CornerRadius x:Key="Component.Card.Radius" Value="{DynamicResource CardRadius}"/>
+    <Thickness x:Key="Component.Card.Padding">16,12</Thickness>
+    <CornerRadius x:Key="Component.Card.Radius">12</CornerRadius>
 
     <!-- DataGrid -->
-    <Thickness x:Key="Component.DataGrid.CellPadding" Value="8,4"/>
-    <Thickness x:Key="Component.DataGrid.HeaderPadding" Value="8,6"/>
+    <Thickness x:Key="Component.DataGrid.CellPadding">8,4</Thickness>
+    <Thickness x:Key="Component.DataGrid.HeaderPadding">8,6</Thickness>
 
     <!-- Theme Card -->
-    <sys:Double x:Key="Component.ThemeCard.Width" Value="{DynamicResource ThemeCardWidth}"/>
-    <sys:Double x:Key="Component.ThemeCard.Height" Value="{DynamicResource ThemeCardHeight}"/>
-    <CornerRadius x:Key="Component.ThemeCard.Radius" Value="{DynamicResource CardRadius}"/>
+    <sys:Double x:Key="Component.ThemeCard.Width">140</sys:Double>
+    <sys:Double x:Key="Component.ThemeCard.Height">120</sys:Double>
+    <CornerRadius x:Key="Component.ThemeCard.Radius">12</CornerRadius>
 
     <!-- Accent Swatch -->
-    <sys:Double x:Key="Component.AccentSwatch.Size" Value="{DynamicResource AccentSwatchSize}"/>
+    <sys:Double x:Key="Component.AccentSwatch.Size">28</sys:Double>
 
     <!-- Progress Bar -->
-    <CornerRadius x:Key="Component.ProgressBar.Radius" Value="{DynamicResource MediumRadius}"/>
+    <CornerRadius x:Key="Component.ProgressBar.Radius">10</CornerRadius>
 
 </ResourceDictionary>

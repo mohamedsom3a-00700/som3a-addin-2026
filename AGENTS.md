@@ -86,7 +86,7 @@ WpfApp2/Theme/
 
 ### Governance Documents
 
-```
+```text
 Docs/Architecture/
 ├── UI_GUIDELINES.md
 ├── TOKEN_RULES.md

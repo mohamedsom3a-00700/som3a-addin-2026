@@ -49,13 +49,20 @@ namespace Som3a_WPF_UI.Services
 
             if (!hasThemeResources)
             {
-                Application.Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary
+                try
+                {
+                    var themeDict = new ResourceDictionary
                     {
                         Source = new Uri(
                             "/Som3a_WPF_UI;component/Theme/ThemeResources.xaml",
                             UriKind.Relative)
-                    });
+                    };
+                    Application.Current.Resources.MergedDictionaries.Add(themeDict);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] Failed to load ThemeResources: {ex.Message}");
+                }
             }
 
             bool hasDarkTheme =
@@ -65,13 +72,20 @@ namespace Som3a_WPF_UI.Services
 
             if (!hasDarkTheme)
             {
-                Application.Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary
+                try
+                {
+                    var darkDict = new ResourceDictionary
                     {
                         Source = new Uri(
                             "/Som3a_WPF_UI;component/Theme/Dark/DarkTheme.xaml",
                             UriKind.Relative)
-                    });
+                    };
+                    Application.Current.Resources.MergedDictionaries.Add(darkDict);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] Failed to load DarkTheme: {ex.Message}");
+                }
             }
         }
 
