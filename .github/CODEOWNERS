@@ -1,0 +1,26 @@
+# Som3a Add-in 2026 — Code Owners
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Architecture reviewers are required for all theme, rendering, and
+# architecture-related files. General code reviewers handle non-theme code.
+
+# Architecture reviewer assignments for theme and rendering files
+*.xaml                                        @MohamedSom3a-00700/architecture-reviewers
+*.cs                                          @MohamedSom3a-00700/architecture-reviewers
+Docs/Architecture/                            @MohamedSom3a-00700/architecture-reviewers
+
+# Theme engine files require architecture review
+WpfApp2/Theme/                                @MohamedSom3a-00700/architecture-reviewers
+
+# Services require architecture review (ThemeManager, WindowRenderModeDetector)
+WpfApp2/Services/                              @MohamedSom3a-00700/architecture-reviewers
+
+# Window chrome and rendering files
+WpfApp2/Controls/ModernWindow.cs              @MohamedSom3a-00700/architecture-reviewers
+WpfApp2/Windows/                              @MohamedSom3a-00700/architecture-reviewers
+
+# Build and CI configuration
+.github/                                       @MohamedSom3a-00700
+
+# Documentation
+*.md                                           @MohamedSom3a-00700
