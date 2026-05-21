@@ -5,18 +5,8 @@
 
     <!-- Theme Card Base (unselected) -->
     <Style x:Key="ThemeCardBase" TargetType="{x:Type Border}">
-<<<<<<< HEAD
-<<<<<<< HEAD
         <Setter Property="Width" Value="{DynamicResource ThemeCardWidth}"/>
         <Setter Property="Height" Value="{DynamicResource ThemeCardHeight}"/>
-=======
-        <Setter Property="Width" Value="140"/>
-        <Setter Property="Height" Value="120"/>
->>>>>>> c8d3899 ([Spec Kit] Phase 1-3: Effects library + Theme system + Theme cards MVP)
-=======
-        <Setter Property="Width" Value="{DynamicResource ThemeCardWidth}"/>
-        <Setter Property="Height" Value="{DynamicResource ThemeCardHeight}"/>
->>>>>>> 9d81f77 (feat: Fluent Theme Engine Phase 2 complete — build fixes + Phase 4-8)
         <Setter Property="CornerRadius" Value="{DynamicResource CardRadius}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -26,10 +16,6 @@
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
             </Setter.Value>
         </Setter>
-<<<<<<< HEAD
-                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-=======
->>>>>>> cb7ce28 (fix: resolve merge conflicts and hardcoded colors in theme engine)
     </Style>
 
     <!-- Theme Card Normal State -->
@@ -59,13 +45,13 @@
                                 EasingFunction="{StaticResource ThemeCardEase}"/>
                             <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
                                 To="1.02" Duration="0:0:0.15"
-EasingFunction="{StaticResource ThemeCardEase}"/>
-                                    </Storyboard>
-                            </BeginStoryboard>
-                        </Trigger.EnterActions>
-                        <Trigger.ExitActions>
-                            <BeginStoryboard>
-                                <Storyboard>
+                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                 To="0.85" Duration="0:0:0.15"
                                 EasingFunction="{StaticResource ThemeCardEase}"/>

@@ -33,4 +33,17 @@
         BlurRadius="8" ShadowDepth="0"
         Color="{DynamicResource AccentColorValue}" Opacity="0.8"/>
 
+    <!-- Safe-mode shadow variants (reduced blur/opacity for FallbackSafe rendering) -->
+    <DropShadowEffect x:Key="Shadow.Window.Safe"
+        BlurRadius="16" ShadowDepth="4" Direction="270"
+        Color="#000000" Opacity="0.25"/>
+
+    <DropShadowEffect x:Key="Shadow.Popup.Safe"
+        BlurRadius="8" ShadowDepth="2" Direction="270"
+        Color="#000000" Opacity="0.2"/>
+
+    <DropShadowEffect x:Key="Shadow.Card.Safe"
+        BlurRadius="10" ShadowDepth="3" Direction="270"
+        Color="#000000" Opacity="0.2"/>
+
 </ResourceDictionary>

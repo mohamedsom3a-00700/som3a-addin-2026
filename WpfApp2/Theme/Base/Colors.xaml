@@ -2,29 +2,68 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- ============================================
-         PRIMITIVE TOKENS (raw palette - no semantics)
+         PRIMITIVE TOKENS (raw palette - immutable)
+         ============================================
+         Primitive tokens contain raw color values with NO UI semantics.
+         They MUST NOT be referenced directly from control templates.
+         Use Semantic Tokens (Brush.*) or Component Tokens instead.
          ============================================ -->
-    <SolidColorBrush x:Key="Blue500" Color="#3A86FF"/>
-    <SolidColorBrush x:Key="Slate900" Color="#0E1720"/>
-    <SolidColorBrush x:Key="Slate800" Color="#1C2B3A"/>
-    <SolidColorBrush x:Key="Slate700" Color="#15202B"/>
-    <SolidColorBrush x:Key="WhiteAlpha95" Color="#F2FFFFFF"/>
-    <SolidColorBrush x:Key="WhiteAlpha75" Color="#BFFFFFFF"/>
-    <SolidColorBrush x:Key="WhiteAlpha40" Color="#66FFFFFF"/>
-    <SolidColorBrush x:Key="WhiteAlpha20" Color="#33FFFFFF"/>
-    <SolidColorBrush x:Key="WhiteAlpha10" Color="#1AFFFFFF"/>
-    <SolidColorBrush x:Key="WhiteAlpha5" Color="#0DFFFFFF"/>
+
+    <!-- Blue family -->
+    <Color x:Key="Primitive.Blue.500">#3A86FF</Color>
+    <Color x:Key="Primitive.Blue.600">#1E90FF</Color>
+
+    <!-- Slate family -->
+    <Color x:Key="Primitive.Slate.900">#0E1720</Color>
+    <Color x:Key="Primitive.Slate.800">#1C2B3A</Color>
+    <Color x:Key="Primitive.Slate.700">#15202B</Color>
+
+    <!-- White alpha family -->
+    <Color x:Key="Primitive.White.95">#F2FFFFFF</Color>
+    <Color x:Key="Primitive.White.75">#BFFFFFFF</Color>
+    <Color x:Key="Primitive.White.40">#66FFFFFF</Color>
+    <Color x:Key="Primitive.White.20">#33FFFFFF</Color>
+    <Color x:Key="Primitive.White.10">#1AFFFFFF</Color>
+    <Color x:Key="Primitive.White.5">#0DFFFFFF</Color>
+
+    <!-- Green family -->
+    <Color x:Key="Primitive.Green.500">#2ED573</Color>
+
+    <!-- Orange family -->
+    <Color x:Key="Primitive.Orange.500">#FFA502</Color>
+
+    <!-- Red family -->
+    <Color x:Key="Primitive.Red.500">#FF4757</Color>
+
+    <!-- Black alpha family -->
+    <Color x:Key="Primitive.Black.13">#22000000</Color>
+
+    <!-- ============================================
+         FLAT KEY ALIASES (backward compatibility)
+         These alias primitive colors for existing code.
+         New work SHOULD NOT use these keys.
+         ============================================ -->
+    <SolidColorBrush x:Key="Blue500" Color="{StaticResource Primitive.Blue.500}"/>
+    <SolidColorBrush x:Key="Slate900" Color="{StaticResource Primitive.Slate.900}"/>
+    <SolidColorBrush x:Key="Slate800" Color="{StaticResource Primitive.Slate.800}"/>
+    <SolidColorBrush x:Key="Slate700" Color="{StaticResource Primitive.Slate.700}"/>
+    <SolidColorBrush x:Key="WhiteAlpha95" Color="{StaticResource Primitive.White.95}"/>
+    <SolidColorBrush x:Key="WhiteAlpha75" Color="{StaticResource Primitive.White.75}"/>
+    <SolidColorBrush x:Key="WhiteAlpha40" Color="{StaticResource Primitive.White.40}"/>
+    <SolidColorBrush x:Key="WhiteAlpha20" Color="{StaticResource Primitive.White.20}"/>
+    <SolidColorBrush x:Key="WhiteAlpha10" Color="{StaticResource Primitive.White.10}"/>
+    <SolidColorBrush x:Key="WhiteAlpha5" Color="{StaticResource Primitive.White.5}"/>
 
     <!-- ============================================
          SEMANTIC TOKENS (UI meaning aliases)
-         These reference their primitive counterparts.
-         New work SHOULD use these over flat keys.
+         These reference primitive colors.
+         Controls MUST consume these (or Component Tokens).
          ============================================ -->
 
     <!-- Background -->
-    <SolidColorBrush x:Key="Brush.Background.Primary" Color="#0E1720"/>
-    <SolidColorBrush x:Key="Brush.Background.Secondary" Color="#1C2B3A"/>
-    <SolidColorBrush x:Key="Brush.Background.Card" Color="#15202B"/>
+    <SolidColorBrush x:Key="Brush.Background.Primary" Color="{StaticResource Primitive.Slate.900}"/>
+    <SolidColorBrush x:Key="Brush.Background.Secondary" Color="{StaticResource Primitive.Slate.800}"/>
+    <SolidColorBrush x:Key="Brush.Background.Card" Color="{StaticResource Primitive.Slate.700}"/>
     <SolidColorBrush x:Key="Brush.Background.CardSubtle" Color="#10FFFFFF"/>
     <LinearGradientBrush x:Key="Brush.Background.Root" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="#FF102A43" Offset="0"/>
@@ -32,24 +71,24 @@
     </LinearGradientBrush>
 
     <!-- Text -->
-    <SolidColorBrush x:Key="Brush.Text.Primary" Color="#F2FFFFFF"/>
-    <SolidColorBrush x:Key="Brush.Text.Secondary" Color="#BFFFFFFF"/>
-    <SolidColorBrush x:Key="Brush.Text.Disabled" Color="#66FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Text.Primary" Color="{StaticResource Primitive.White.95}"/>
+    <SolidColorBrush x:Key="Brush.Text.Secondary" Color="{StaticResource Primitive.White.75}"/>
+    <SolidColorBrush x:Key="Brush.Text.Disabled" Color="{StaticResource Primitive.White.40}"/>
     <SolidColorBrush x:Key="Brush.Text.OnAccent" Color="White"/>
 
     <!-- Accent -->
-    <SolidColorBrush x:Key="Brush.Accent.Primary" Color="#3A86FF"/>
-    <SolidColorBrush x:Key="Brush.Accent.Success" Color="#2ED573"/>
-    <SolidColorBrush x:Key="Brush.Accent.Warning" Color="#FFA502"/>
-    <SolidColorBrush x:Key="Brush.Accent.Danger" Color="#FF4757"/>
-    <SolidColorBrush x:Key="Brush.Accent.Info" Color="#1E90FF"/>
+    <SolidColorBrush x:Key="Brush.Accent.Primary" Color="{StaticResource Primitive.Blue.500}"/>
+    <SolidColorBrush x:Key="Brush.Accent.Success" Color="{StaticResource Primitive.Green.500}"/>
+    <SolidColorBrush x:Key="Brush.Accent.Warning" Color="{StaticResource Primitive.Orange.500}"/>
+    <SolidColorBrush x:Key="Brush.Accent.Danger" Color="{StaticResource Primitive.Red.500}"/>
+    <SolidColorBrush x:Key="Brush.Accent.Info" Color="{StaticResource Primitive.Blue.600}"/>
     <LinearGradientBrush x:Key="Brush.Accent.ProgressFill" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="#3A86FF" Offset="0"/>
+        <GradientStop Color="{StaticResource Primitive.Blue.500}" Offset="0"/>
         <GradientStop Color="{DynamicResource AccentColorLight}" Offset="1"/>
     </LinearGradientBrush>
 
     <!-- Stroke -->
-    <SolidColorBrush x:Key="Brush.Stroke.Card" Color="#33FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Stroke.Card" Color="{StaticResource Primitive.White.20}"/>
     <SolidColorBrush x:Key="Brush.Stroke.Info" Color="#12FFFFFF"/>
     <SolidColorBrush x:Key="Brush.Stroke.Status" Color="#1FFFFFFF"/>
 
@@ -59,7 +98,7 @@
 
     <!-- Control -->
     <SolidColorBrush x:Key="Brush.Control.Background" Color="#330E1720"/>
-    <SolidColorBrush x:Key="Brush.Control.Stroke" Color="#33FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Control.Stroke" Color="{StaticResource Primitive.White.20}"/>
     <SolidColorBrush x:Key="Brush.Control.HoverBackground" Color="#22007ACC"/>
     <SolidColorBrush x:Key="Brush.Control.SelectedBackground" Color="#44007ACC"/>
 
@@ -67,25 +106,38 @@
     <SolidColorBrush x:Key="Brush.ComboBox.HoverBorder" Color="#4C7EFF"/>
     <SolidColorBrush x:Key="Brush.ComboBox.HoverBackground" Color="#161F2B"/>
 
+    <!-- Button (semantic tokens for inline colors found in audit) -->
+    <SolidColorBrush x:Key="Brush.Button.Background" Color="#2FFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Button.HoverBackground" Color="#3FFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Button.PressedBackground" Color="#22FFFFFF"/>
+
+    <!-- DataGrid (semantic tokens for inline colors found in audit) -->
+    <SolidColorBrush x:Key="Brush.DataGrid.AlternatingRow" Color="#0AFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.DataGrid.HoverRow" Color="#15FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.DataGrid.SelectedRow" Color="#333A86FF"/>
+
+    <!-- Progress (semantic token for inline color found in audit) -->
+    <SolidColorBrush x:Key="Brush.Progress.Background" Color="{StaticResource Primitive.Black.13}"/>
+
     <!-- ============================================
          LEGACY FLAT KEYS (backward compatibility)
          Kept for existing windows. Prefer semantic
          tokens for new work.
          ============================================ -->
-    <SolidColorBrush x:Key="AccentBrush" Color="#3A86FF"/>
-    <SolidColorBrush x:Key="BackgroundBrush" Color="#0E1720"/>
-    <SolidColorBrush x:Key="CardBrush" Color="#15202B"/>
-    <SolidColorBrush x:Key="SurfaceBrush" Color="#1C2B3A"/>
-    <SolidColorBrush x:Key="TextMainBrush" Color="#F2FFFFFF"/>
-    <SolidColorBrush x:Key="TextSubBrush" Color="#BFFFFFFF"/>
-    <SolidColorBrush x:Key="TextDisabledBrush" Color="#66FFFFFF"/>
-    <SolidColorBrush x:Key="SuccessBrush" Color="#2ED573"/>
-    <SolidColorBrush x:Key="WarningBrush" Color="#FFA502"/>
-    <SolidColorBrush x:Key="DangerBrush" Color="#FF4757"/>
-    <SolidColorBrush x:Key="InfoBrush" Color="#1E90FF"/>
-    <SolidColorBrush x:Key="CardStrokeBrush" Color="#33FFFFFF"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource Primitive.Blue.500}"/>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource Primitive.Slate.900}"/>
+    <SolidColorBrush x:Key="CardBrush" Color="{StaticResource Primitive.Slate.700}"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource Primitive.Slate.800}"/>
+    <SolidColorBrush x:Key="TextMainBrush" Color="{StaticResource Primitive.White.95}"/>
+    <SolidColorBrush x:Key="TextSubBrush" Color="{StaticResource Primitive.White.75}"/>
+    <SolidColorBrush x:Key="TextDisabledBrush" Color="{StaticResource Primitive.White.40}"/>
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource Primitive.Green.500}"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource Primitive.Orange.500}"/>
+    <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource Primitive.Red.500}"/>
+    <SolidColorBrush x:Key="InfoBrush" Color="{StaticResource Primitive.Blue.600}"/>
+    <SolidColorBrush x:Key="CardStrokeBrush" Color="{StaticResource Primitive.White.20}"/>
     <SolidColorBrush x:Key="ControlBgBrush" Color="#330E1720"/>
-    <SolidColorBrush x:Key="ControlStrokeBrush" Color="#33FFFFFF"/>
+    <SolidColorBrush x:Key="ControlStrokeBrush" Color="{StaticResource Primitive.White.20}"/>
 
     <!-- ComboBox Popup -->
     <SolidColorBrush x:Key="ComboBoxPopupBackground" Color="#0F172A"/>

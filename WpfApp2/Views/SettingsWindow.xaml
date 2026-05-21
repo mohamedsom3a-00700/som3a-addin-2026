@@ -16,24 +16,7 @@
     <controls:ModernWindow.Resources>
 
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-<<<<<<< HEAD
 
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
-=======
->>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
-            </ResourceDictionary.MergedDictionaries>
-
-=======
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-
->>>>>>> cae1914215a372f965a126b3bfafca4dc2065b42
             <!-- Accent Swatches (non-selected) -->
             <Style x:Key="BlueSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
                 <Setter Property="Fill" Value="{DynamicResource Swatch.Blue}"/>
@@ -203,23 +186,10 @@
                                            Margin="0,4,0,0"/>
 
                                 <!-- Theme Cards Panel -->
-
-<<<<<<< HEAD
                                 <StackPanel Grid.Column="1"
-            Orientation="Horizontal"
-            VerticalAlignment="Center">
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Center">
 
-                                    <!-- DARK -->
-
-                                    <ToggleButton x:Name="CardDark"
-                                          Width="140"
-                                          Height="120"
-                                          Margin="0,0,16,0"
-                                          Tag="Dark"
-                                          Click="ThemeCard_Click"
-                                          Style="{DynamicResource ThemeCardToggleStyle}">
-
-=======
                                     <!-- DARK -->
                                     <ToggleButton x:Name="CardDark"
                                                   Width="140"
@@ -229,7 +199,6 @@
                                                   Click="ThemeCard_Click"
                                                   PreviewKeyDown="ThemeCard_KeyDown"
                                                   Style="{DynamicResource ThemeCardToggleStyle}">
->>>>>>> cae1914215a372f965a126b3bfafca4dc2065b42
                                         <Grid>
                                             <Border CornerRadius="10,10,0,0">
                                                 <Border.Background>

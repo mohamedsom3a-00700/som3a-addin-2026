@@ -14,4 +14,44 @@
     <FontWeight x:Key="FontWeightMedium">Medium</FontWeight>
     <FontWeight x:Key="FontWeightBold">Bold</FontWeight>
 
+    <!-- ============================================
+         TYPOGRAPHY STYLES
+         Centralized text styles for consistent appearance.
+         ============================================ -->
+
+    <Style x:Key="Style.Text.Title" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource FontFamilyPrimary}"/>
+        <Setter Property="FontSize" Value="{DynamicResource TitleFontSize}"/>
+        <Setter Property="FontWeight" Value="{DynamicResource FontWeightBold}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
+    </Style>
+
+    <Style x:Key="Style.Text.Subtitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource FontFamilyPrimary}"/>
+        <Setter Property="FontSize" Value="{DynamicResource HeaderFontSize}"/>
+        <Setter Property="FontWeight" Value="{DynamicResource FontWeightMedium}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
+    </Style>
+
+    <Style x:Key="Style.Text.Body" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource FontFamilyPrimary}"/>
+        <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}"/>
+        <Setter Property="FontWeight" Value="{DynamicResource FontWeightNormal}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
+    </Style>
+
+    <Style x:Key="Style.Text.Caption" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource FontFamilyPrimary}"/>
+        <Setter Property="FontSize" Value="{DynamicResource CaptionFontSize}"/>
+        <Setter Property="FontWeight" Value="{DynamicResource FontWeightNormal}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Secondary}"/>
+    </Style>
+
+    <Style x:Key="Style.Text.Button" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource FontFamilyPrimary}"/>
+        <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}"/>
+        <Setter Property="FontWeight" Value="{DynamicResource FontWeightMedium}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.OnAccent}"/>
+    </Style>
+
 </ResourceDictionary>

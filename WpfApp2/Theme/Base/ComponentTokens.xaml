@@ -1,0 +1,45 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ============================================
+         COMPONENT TOKENS
+         Component-specific styling values.
+         These reference semantic and utility tokens.
+         Controls consume these for component-level theming.
+         ============================================ -->
+
+    <!-- Button -->
+    <Thickness x:Key="Component.Button.Padding" Value="{DynamicResource ButtonPadding}"/>
+    <CornerRadius x:Key="Component.Button.Radius" Value="{DynamicResource MediumRadius}"/>
+    <sys:Double x:Key="Component.Button.Height" Value="{DynamicResource ButtonHeight}"/>
+
+    <!-- ComboBox -->
+    <CornerRadius x:Key="Component.ComboBox.Radius" Value="{DynamicResource MediumRadius}"/>
+    <sys:Double x:Key="Component.ComboBox.Height" Value="{DynamicResource ControlHeight}"/>
+
+    <!-- TextBox -->
+    <CornerRadius x:Key="Component.TextBox.Radius" Value="{DynamicResource MediumRadius}"/>
+    <Thickness x:Key="Component.TextBox.Padding" Value="{DynamicResource InputPadding}"/>
+    <sys:Double x:Key="Component.TextBox.Height" Value="{DynamicResource ControlHeight}"/>
+
+    <!-- Card -->
+    <Thickness x:Key="Component.Card.Padding" Value="{DynamicResource CardPadding}"/>
+    <CornerRadius x:Key="Component.Card.Radius" Value="{DynamicResource CardRadius}"/>
+
+    <!-- DataGrid -->
+    <Thickness x:Key="Component.DataGrid.CellPadding" Value="8,4"/>
+    <Thickness x:Key="Component.DataGrid.HeaderPadding" Value="8,6"/>
+
+    <!-- Theme Card -->
+    <sys:Double x:Key="Component.ThemeCard.Width" Value="{DynamicResource ThemeCardWidth}"/>
+    <sys:Double x:Key="Component.ThemeCard.Height" Value="{DynamicResource ThemeCardHeight}"/>
+    <CornerRadius x:Key="Component.ThemeCard.Radius" Value="{DynamicResource CardRadius}"/>
+
+    <!-- Accent Swatch -->
+    <sys:Double x:Key="Component.AccentSwatch.Size" Value="{DynamicResource AccentSwatchSize}"/>
+
+    <!-- Progress Bar -->
+    <CornerRadius x:Key="Component.ProgressBar.Radius" Value="{DynamicResource MediumRadius}"/>
+
+</ResourceDictionary>

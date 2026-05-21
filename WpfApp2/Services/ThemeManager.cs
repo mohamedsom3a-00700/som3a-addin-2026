@@ -28,10 +28,53 @@ namespace Som3a_WPF_UI.Services
             PreviousAccent = prevAccent;
             NewAccent = newAccent;
         }
-    }
+}
 
     public sealed class ThemeManager
     {
+        public static void InitializeApplicationResources()
+        {
+            if (Application.Current == null)
+            {
+                new Application
+                {
+                    ShutdownMode = ShutdownMode.OnExplicitShutdown
+                };
+            }
+
+            bool hasThemeResources =
+                Application.Current.Resources.MergedDictionaries.Any(
+                    d => d.Source != null &&
+                         d.Source.OriginalString.Contains("ThemeResources.xaml"));
+
+            if (!hasThemeResources)
+            {
+                Application.Current.Resources.MergedDictionaries.Add(
+                    new ResourceDictionary
+                    {
+                        Source = new Uri(
+                            "/Som3a_WPF_UI;component/Theme/ThemeResources.xaml",
+                            UriKind.Relative)
+                    });
+            }
+
+            bool hasDarkTheme =
+                Application.Current.Resources.MergedDictionaries.Any(
+                    d => d.Source != null &&
+                         d.Source.OriginalString.Contains("DarkTheme.xaml"));
+
+            if (!hasDarkTheme)
+            {
+                Application.Current.Resources.MergedDictionaries.Add(
+                    new ResourceDictionary
+                    {
+                        Source = new Uri(
+                            "/Som3a_WPF_UI;component/Theme/Dark/DarkTheme.xaml",
+                            UriKind.Relative)
+                    });
+            }
+        }
+
         private static readonly ThemeManager _instance = new ThemeManager();
         private static readonly object _lock = new object();
 
@@ -77,8 +120,6 @@ namespace Som3a_WPF_UI.Services
         public void ApplyTheme(string themeName, string accentColor = null)
         {
             if (Application.Current?.Resources == null)
-<<<<<<< HEAD
-=======
                 return;
 
             _pendingThemeName = themeName;
@@ -112,34 +153,18 @@ namespace Som3a_WPF_UI.Services
 
             Uri themeUri;
             switch (theme)
->>>>>>> cae1914215a372f965a126b3bfafca4dc2065b42
             {
-                _current.CurrentTheme = theme;
-                SaveSettings();
-                return;
+                case AppTheme.Light:
+                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Light/LightTheme.xaml");
+                    break;
+                case AppTheme.Custom:
+                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Custom/CustomTheme.xaml");
+                    break;
+                default:
+                    themeUri = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Dark/DarkTheme.xaml");
+                    break;
             }
 
-            var dicts = Application.Current.Resources.MergedDictionaries;
-            var existing = dicts.FirstOrDefault(d =>
-                d.Source?.ToString().Contains("FluentWhite") == true ||
-                d.Source?.ToString().Contains("FluentDark") == true);
-
-            if (existing != null)
-                dicts.Remove(existing);
-
-            if (theme == ThemeType.FluentWhite)
-            {
-                var whiteTheme = new ResourceDictionary
-                {
-                    Source = new Uri("pack://application:,,,/Som3a_WPF_UI;component/Theme/Fluent/FluentWhite.xaml")
-                };
-                dicts.Add(whiteTheme);
-            }
-
-<<<<<<< HEAD
-            _current.CurrentTheme = theme;
-            SaveSettings();
-=======
             ResourceDictionary themeDict;
             try
             {
@@ -183,16 +208,6 @@ namespace Som3a_WPF_UI.Services
 
             SaveCurrentTheme();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            ThemeChanged?.Invoke(this, new ThemeChangedEventArgs(prevTheme, _currentTheme.ToString(), prevAccent, _currentAccentColor));
->>>>>>> 872b4be (feat: Fluent Theme Engine - ScrollViewer fixes, ModernWindow shadow, accent color refactor)
-=======
-=======
->>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
-=======
->>>>>>> cae1914215a372f965a126b3bfafca4dc2065b42
             var handler = ThemeChanged;
             if (handler != null && Application.Current?.Dispatcher != null)
             {
@@ -208,28 +223,17 @@ namespace Som3a_WPF_UI.Services
                     handler?.Invoke(Instance, new ThemeChangedEventArgs(prevTheme, _currentTheme.ToString(), prevAccent, _currentAccentColor));
                 }
             }
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
-=======
->>>>>>> 0cd6593 (feat(themes): Update Themes Manager - fix bugs and add semantic tokens)
-=======
->>>>>>> cae1914215a372f965a126b3bfafca4dc2065b42
         }
 
-        public static void ChangeAccent(string hexColor)
+        public bool ApplyAccentColor(string hexColor)
         {
-            if (Application.Current?.Resources == null) return;
+            if (Application.Current?.Resources == null) return false;
 
             try
             {
                 var color = (Color)ColorConverter.ConvertFromString(hexColor);
                 Application.Current.Resources["AccentColor"] = color;
                 Application.Current.Resources["AccentBrush"] = new SolidColorBrush(color);
-<<<<<<< HEAD
-                _current.AccentColor = hexColor;
-                SaveSettings();
-=======
                 Application.Current.Resources["AccentColorBrush"] = new SolidColorBrush(color);
                 Application.Current.Resources["AccentColorValue"] = color;
 
@@ -261,7 +265,6 @@ namespace Som3a_WPF_UI.Services
             catch
             {
                 return false;
->>>>>>> bf1e864 (fix(theme): resolve 7 inline issues + plan.md nitpick)
             }
         }
 
@@ -271,9 +274,7 @@ namespace Som3a_WPF_UI.Services
                 Application.Current.Resources[key] = value;
         }
 
-        public static ThemeSettings GetCurrentSettings() => _current;
-
-        public static void SaveSettings()
+        public void LoadThemeFromSettings()
         {
             try
             {

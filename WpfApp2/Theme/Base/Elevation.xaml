@@ -1,0 +1,22 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================================
+         ELEVATION TOKENS
+         Map semantic elevation levels to shadow effects.
+         Controls consume Elevation.*, not Shadow.* directly.
+         ============================================ -->
+
+    <StaticResource x:Key="Elevation.Card" ResourceKey="Shadow.Card"/>
+    <StaticResource x:Key="Elevation.Popup" ResourceKey="Shadow.Popup"/>
+    <StaticResource x:Key="Elevation.Window" ResourceKey="Shadow.Window"/>
+    <StaticResource x:Key="Elevation.Small" ResourceKey="Shadow.Small"/>
+    <StaticResource x:Key="Elevation.Medium" ResourceKey="Shadow.Medium"/>
+    <StaticResource x:Key="Elevation.Large" ResourceKey="Shadow.Large"/>
+
+    <!-- Safe-mode elevation variants (for FallbackSafe rendering) -->
+    <StaticResource x:Key="Elevation.Card.Safe" ResourceKey="Shadow.Card.Safe"/>
+    <StaticResource x:Key="Elevation.Popup.Safe" ResourceKey="Shadow.Popup.Safe"/>
+    <StaticResource x:Key="Elevation.Window.Safe" ResourceKey="Shadow.Window.Safe"/>
+
+</ResourceDictionary>

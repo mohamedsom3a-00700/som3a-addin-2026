@@ -17,19 +17,7 @@
                         SnapsToDevicePixels="True"
                         UseLayoutRounding="True">
 
-    <controls:ModernWindow.Resources>
-
-        <ResourceDictionary>
-
-            <ResourceDictionary.MergedDictionaries>
-
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
-
-            </ResourceDictionary.MergedDictionaries>
-
-        </ResourceDictionary>
-
-    </controls:ModernWindow.Resources>
+   
 
     <!-- ===================================================== -->
     <!-- ROOT CARD -->
@@ -325,8 +313,8 @@
 
                 <Border Grid.Column="0"
                         Height="24"
-                        CornerRadius="10"
-                        Background="#22000000"
+                        CornerRadius="{DynamicResource MediumRadius}"
+                        Background="{DynamicResource Brush.Progress.Background}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
                         VerticalAlignment="Center"
@@ -334,7 +322,7 @@
 
                     <Grid ClipToBounds="True">
 
-                        <Border CornerRadius="10"
+                        <Border CornerRadius="{DynamicResource MediumRadius}"
                                 Background="{DynamicResource AccentBrush}">
 
                             <Border.Width>

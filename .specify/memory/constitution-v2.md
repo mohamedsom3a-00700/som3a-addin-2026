@@ -1,57 +1,22 @@
-<!--
-Sync Impact Report
-==================
+# Som3a Add-in 2026 Constitution v2
 
-Version Change:
-1.1.0 -> 1.2.0
+**Version**: 2.0.0  
+**Ratified**: 2026-05-21  
+**Last Amended**: 2026-05-21  
+**Previous Version**: 1.2.0  
 
-Status: Merge conflicts resolved. File is now clean.
+---
 
-Modified Principles:
-- I. Library-First Modular Architecture (expanded)
-- III. DynamicResource Only -> III. DynamicResource-Only Theme Architecture (expanded)
-- IV. Runtime Theme Switching -> IV. Runtime Theme Mutation Governance (redefined)
-- VI. Performance & Efficiency -> XIII. Performance & Rendering Efficiency (redefined)
+## What's New in v2.0.0
 
-Added Principles:
-- V. Primitive & Semantic Token Architecture
-- VI. Runtime Theme Synchronization
-- VII. Runtime Theme Persistence
-- VIII. Full Theme Editing Governance
-- IX. Animation Governance
-- X. Excel Rendering Safety
-- XI. WindowChrome Enforcement
-- XII. Centralized Effects Architecture
-- XIV. No Third-Party UI Frameworks
-- XV. Resource Loading Order Enforcement
-- XVI. Theme Safety & Recovery
+- Added: AI Execution Rules (Principle XVII)
+- Added: Token Naming Standards (Principle XVIII)
+- Added: Review Gate Requirements (Principle XIX)
+- Added: Phase 11 — Legacy Window Migration governance
+- Consolidated: All governance docs referenced by file path
+- Maintained: All 16 core principles from v1.2.0
 
-Added Governance Sections:
-- Enforcement
-
-Removed Sections:
-- Resource Loading Order (merged into Principle XV)
-- Theme System Architecture (superseded by individual principles)
-- Popup Architecture Rules (superseded by Excel Rendering Safety)
-- Window System (superseded by WindowChrome Enforcement)
-- UI Quality Standards (superseded by individual principles)
-- Theme Validation Checklist (to be moved to spec checklist)
-- VisualStateManager Strategy (to be moved to spec/plan guidance)
-- Incremental Migration Rules (to be moved to plan guidance)
-- Performance Budget Rules (superseded by Performance & Rendering Efficiency)
-- Design Authority Rules (superseded by Enforcement)
-
-Templates Requiring Updates:
-✅ .specify/templates/plan-template.md
-✅ .specify/templates/spec-template.md
-✅ .specify/templates/tasks-template.md
-
-Follow-up TODOs:
-- Migrate remaining hardcoded gradients
-- Add automated resource validation tooling
--->
-
-# Som3a Add-in 2026 Constitution
+---
 
 ## Core Principles
 
@@ -73,8 +38,7 @@ Each UI concern MUST remain isolated:
 
 Every dictionary MUST remain independently testable and replaceable.
 
-**Rationale**: Modular dictionaries improve scalability, runtime replacement safety,
-maintainability, and feature isolation.
+**Rationale**: Modular dictionaries improve scalability, runtime replacement safety, maintainability, and feature isolation.
 
 ---
 
@@ -171,9 +135,9 @@ Contain meaning-based aliases.
 
 Examples:
 
-- `AccentBrush`
-- `WindowBackgroundBrush`
-- `TextPrimaryBrush`
+- `Brush.Background.Primary`
+- `Brush.Text.Primary`
+- `Brush.Accent.Primary`
 
 Controls MUST consume Semantic Tokens only.
 
@@ -407,6 +371,73 @@ The system MUST default safely to Dark Theme when recovery fails.
 
 ---
 
+## Extended Principles (v2.0.0)
+
+---
+
+### XVII. AI Execution Rules
+
+Before creating ANY new token, control, dictionary, or architecture, AI agents MUST:
+
+1. **Inspect** current implementation
+2. **Reuse** existing structures
+3. **Extend** existing systems
+4. **Avoid** duplicate architecture
+
+**Inline Value Prohibition:**
+
+- No inline colors
+- No inline shadows
+- No inline margins
+- No inline font sizes
+- No inline border thicknesses
+- No inline corner radius
+
+**MUST USE:**
+
+- `DynamicResource` for themeable properties
+- Semantic tokens for UI colors
+- Centralized effects from `Effects/*.xaml`
+- Shared control templates
+- Component tokens for component-specific values
+
+**Full rules documented in:** `Docs/Architecture/AGENT_RULES.md`
+
+---
+
+### XVIII. Token Naming Standards
+
+All tokens MUST follow standardized naming conventions.
+
+**Layers:**
+
+```text
+Primitive Tokens     → Primitive.<Color>.<Shade>
+Semantic Tokens      → Brush.<Category>.<State>
+Spacing Tokens       → Spacing.<Name>
+Radius Tokens        → Radius.<Size>
+Elevation Tokens     → Elevation.<Level>
+Motion Tokens        → Motion.<Type>.<Property>
+Component Tokens     → Component.<Control>.<Part>.<State>
+```
+
+**Full rules documented in:** `Docs/Architecture/TOKEN_RULES.md`
+
+---
+
+### XIX. Review Gate Requirements
+
+Every phase MUST pass ALL review gates before proceeding:
+
+1. **Local Manual Testing** — Build, Excel host, DPI, popup, rendering
+2. **GitHub PR Review** — Architecture, style, performance
+3. **CodeRabbit Review** — Code smells, performance, MVVM, memory, leaks, duplicates
+4. **Manual Architectural Review** — Token usage, naming, DynamicResource, no inline values
+
+**Full checklist documented in:** `Docs/Architecture/REVIEW_CHECKLIST.md`
+
+---
+
 ## Governance
 
 ### Amendment Process
@@ -440,6 +471,8 @@ Validation includes:
 - Runtime synchronization validation
 - Excel rendering validation
 - Theme safety validation
+- AI execution rule compliance
+- Token naming standard compliance
 
 ### Enforcement
 
@@ -449,4 +482,29 @@ Non-compliant code MUST be refactored before merge approval.
 
 ---
 
-**Version**: 1.2.0 | **Ratified**: 2026-05-21 | **Last Amended**: 2026-05-21
+## Phase 11 — Legacy Window Migration
+
+### Scope
+
+Existing standalone feature windows MAY be migrated to the Shell/Page architecture gradually.
+
+### Rules
+
+- Migration is OPTIONAL per window
+- Most-used windows migrated first
+- Original `.xaml` preserved until migration validated
+- Ribbon launcher updated to open Page in Shell
+- Each migrated window MUST pass Excel host test before original removal
+
+### Migration Pattern
+
+```text
+MyWindow.xaml
+    ↓
+Pages/MyPage.xaml
+    + Shell navigation registration
+```
+
+---
+
+**Version**: 2.0.0 | **Ratified**: 2026-05-21 | **Last Amended**: 2026-05-21

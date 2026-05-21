@@ -7,7 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="RowBackground" Value="Transparent"/>
-        <Setter Property="AlternatingRowBackground" Value="#0AFFFFFF"/>
+        <Setter Property="AlternatingRowBackground" Value="{DynamicResource Brush.DataGrid.AlternatingRow}"/>
         <Setter Property="GridLinesVisibility" Value="None"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
         <Setter Property="SelectionMode" Value="Single"/>
@@ -38,10 +38,10 @@
         <Setter Property="Background" Value="Transparent"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#15FFFFFF"/>
+                <Setter Property="Background" Value="{DynamicResource Brush.DataGrid.HoverRow}"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#333A86FF"/>
+                <Setter Property="Background" Value="{DynamicResource Brush.DataGrid.SelectedRow}"/>
             </Trigger>
         </Style.Triggers>
     </Style>

@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ============================================
+         MOTION TOKENS
+         Standardized animation durations and easing.
+         All animations MUST reference these tokens.
+         ============================================ -->
+
+    <!-- Durations (in milliseconds, stored as TimeSpan) -->
+    <sys:Double x:Key="Motion.Duration.Hover">150</sys:Double>
+    <sys:Double x:Key="Motion.Duration.Press">50</sys:Double>
+    <sys:Double x:Key="Motion.Duration.Release">80</sys:Double>
+    <sys:Double x:Key="Motion.Duration.ThemeSwitch">200</sys:Double>
+    <sys:Double x:Key="Motion.Duration.WindowOpen">200</sys:Double>
+    <sys:Double x:Key="Motion.Duration.WindowClose">150</sys:Double>
+    <sys:Double x:Key="Motion.Duration.PopupOpen">150</sys:Double>
+    <sys:Double x:Key="Motion.Duration.PopupClose">100</sys:Double>
+
+    <!-- Easing functions -->
+    <CubicEase x:Key="Motion.Easing.Default" EasingMode="EaseOut"/>
+    <CubicEase x:Key="Motion.Easing.Enter" EasingMode="EaseOut"/>
+    <CubicEase x:Key="Motion.Easing.Exit" EasingMode="EaseIn"/>
+    <QuadraticEase x:Key="Motion.Easing.Press" EasingMode="EaseOut"/>
+
+</ResourceDictionary>

@@ -14,19 +14,7 @@
         SnapsToDevicePixels="True"
         UseLayoutRounding="True">
 
-    <controls:ModernWindow.Resources>
 
-        <ResourceDictionary>
-
-            <ResourceDictionary.MergedDictionaries>
-
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
-
-            </ResourceDictionary.MergedDictionaries>
-
-        </ResourceDictionary>
-
-    </controls:ModernWindow.Resources>
 
     <!-- ROOT -->
 

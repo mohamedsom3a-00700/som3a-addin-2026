@@ -1,0 +1,17 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ============================================
+         OPACITY TOKENS
+         Standard opacity values for UI states.
+         ============================================ -->
+
+    <sys:Double x:Key="Opacity.Disabled">0.5</sys:Double>
+    <sys:Double x:Key="Opacity.Hover">1.0</sys:Double>
+    <sys:Double x:Key="Opacity.Pressed">0.85</sys:Double>
+    <sys:Double x:Key="Opacity.Subtle">0.6</sys:Double>
+    <sys:Double x:Key="Opacity.Ghost">0.4</sys:Double>
+    <sys:Double x:Key="Opacity.Transparent">0.0</sys:Double>
+
+</ResourceDictionary>

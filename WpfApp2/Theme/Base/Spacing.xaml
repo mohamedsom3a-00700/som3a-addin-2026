@@ -3,12 +3,27 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <!-- =========================
+         Spacing Scale
+    ========================== -->
+    <sys:Double x:Key="Spacing.XSmall">4</sys:Double>
+    <sys:Double x:Key="Spacing.Small">8</sys:Double>
+    <sys:Double x:Key="Spacing.Medium">12</sys:Double>
+    <sys:Double x:Key="Spacing.Large">16</sys:Double>
+    <sys:Double x:Key="Spacing.XLarge">20</sys:Double>
+    <sys:Double x:Key="Spacing.XXLarge">24</sys:Double>
+
+    <!-- =========================
          Padding Values
     ========================== -->
+    <Thickness x:Key="Padding.XSmall">4</Thickness>
+    <Thickness x:Key="Padding.Small">8,6</Thickness>
     <Thickness x:Key="ButtonPadding">12,6</Thickness>
+    <Thickness x:Key="Padding.Medium">12,8</Thickness>
     <Thickness x:Key="CardPadding">16,12</Thickness>
+    <Thickness x:Key="Padding.Large">16,12</Thickness>
     <Thickness x:Key="InputPadding">10,6</Thickness>
     <Thickness x:Key="SectionPadding">20,16</Thickness>
+    <Thickness x:Key="Padding.XLarge">20,16</Thickness>
 
     <!-- =========================
          UI Element Sizes

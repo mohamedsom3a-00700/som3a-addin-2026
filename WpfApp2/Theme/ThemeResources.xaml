@@ -1,15 +1,21 @@
 ﻿<!--
     ThemeResources.xaml — Aggregator ResourceDictionary
     ====================================================
-    Resource loading order (per constitution):
+    Resource loading order (per constitution v1.2.0):
     1. Primitive Tokens       → Base/Colors.xaml
-    2. Semantic Tokens       → Base/Colors.xaml (continued)
-    3. Typography            → Base/Typography.xaml
-    4. Radius                → Base/Radius.xaml
-    5. Effects               → Effects/Shadows + Glow + Animations
-    6. Controls              → All control styles
-    7. Theme Overrides       → Applied at runtime via ThemeManager
-    8. Window Styles         → ModernWindow + WindowButtonStyles
+    2. Semantic Tokens        → Base/Colors.xaml (continued)
+    3. Typography             → Base/Typography.xaml
+    4. Spacing                → Base/Spacing.xaml
+    5. Radius                 → Base/Radius.xaml
+    6. Elevation              → Base/Elevation.xaml
+    7. Motion                 → Base/Motion.xaml
+    8. ZIndex                 → Base/ZIndex.xaml
+    9. Opacity                → Base/Opacity.xaml
+    10. Component Tokens      → Base/ComponentTokens.xaml
+    11. Effects               → Effects/Shadows + Glow + Animations
+    12. Controls              → All control styles
+    13. Theme Overrides       → Applied at runtime via ThemeManager
+    14. Window Styles         → ModernWindow + WindowButtonStyles
 
     Theme switching: ThemeManager replaces merged theme dictionaries
     at runtime (Dark/Light/Custom) while this aggregator stays loaded.
@@ -21,11 +27,16 @@
 
     <ResourceDictionary.MergedDictionaries>
 
-        <!-- Base -->
+        <!-- Base Tokens -->
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Colors.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Typography.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Spacing.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Radius.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Elevation.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Motion.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/ZIndex.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Opacity.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/ComponentTokens.xaml"/>
 
         <!-- Effects Library -->
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Shadows.xaml"/>

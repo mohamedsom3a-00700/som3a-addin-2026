@@ -7,7 +7,7 @@
     <!-- BaseButton Style with Hover Animation -->
     <Style x:Key="BaseButton" TargetType="{x:Type Button}">
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
-        <Setter Property="Background" Value="#2FFFFFFF"/>
+        <Setter Property="Background" Value="{DynamicResource Brush.Button.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="{DynamicResource ButtonPadding}"/>
@@ -74,7 +74,7 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
-                            <Setter TargetName="border" Property="Background" Value="#3FFFFFFF"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush.Button.HoverBackground}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Trigger.EnterActions>
@@ -105,7 +105,7 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
-                            <Setter TargetName="border" Property="Background" Value="#22FFFFFF"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush.Button.PressedBackground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>

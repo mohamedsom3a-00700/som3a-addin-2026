@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.Office.Tools.Excel;
+using Som3a_WPF_UI.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
-using Microsoft.Office.Tools.Excel;
 
 namespace Som3a_Addin_2026
 {
@@ -13,6 +14,8 @@ namespace Som3a_Addin_2026
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            ThemeManager.InitializeApplicationResources();
+            ThemeManager.LoadSettings();
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
