@@ -53,8 +53,6 @@ namespace Som3a_WPF_UI.Services
                     _transparencySupported = detectedMode == WindowRenderMode.WindowChrome;
 
                     _isInitialized = true;
-
-                    RenderModeChanged?.Invoke(this, new RenderModeEventArgs(_currentMode));
                 }
                 catch (Exception ex)
                 {
@@ -64,6 +62,17 @@ namespace Som3a_WPF_UI.Services
                     _gpuAvailable = false;
                     _transparencySupported = false;
                     _isInitialized = true;
+                    return;
+                }
+
+                try
+                {
+                    RenderModeChanged?.Invoke(this, new RenderModeEventArgs(_currentMode));
+                }
+                catch (Exception subscriberEx)
+                {
+                    System.Diagnostics.Debug.WriteLine(
+                        $"[RenderModeService] Subscriber exception in RenderModeChanged: {subscriberEx.Message}");
                 }
             }
         }
