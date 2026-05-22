@@ -198,12 +198,9 @@ namespace Som3a_WPF_UI.Services
                     int index = dicts.IndexOf(existingTheme);
                     if (index >= 0)
                     {
-                        dicts[index] = themeDict;
+                        dicts.RemoveAt(index);
                     }
-                    else
-                    {
-                        dicts.Add(themeDict);
-                    }
+                    dicts.Add(themeDict);
                 }
                 else
                 {
@@ -224,11 +221,8 @@ namespace Som3a_WPF_UI.Services
                 {
                     if (removedDict != null)
                     {
-                        int failIndex = dicts.IndexOf(themeDict);
-                        if (failIndex >= 0)
-                            dicts[failIndex] = removedDict;
-                        else
-                            dicts.Add(removedDict);
+                        dicts.Remove(themeDict);
+                        dicts.Add(removedDict);
                     }
                 }
                 catch { }

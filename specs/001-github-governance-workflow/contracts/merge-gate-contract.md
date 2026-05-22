@@ -57,7 +57,7 @@ Defines the mandatory requirements that must be satisfied before any pull reques
 - MG-003 (code analysis) — If analysis tool produces false positives
 
 **What CANNOT be overridden**:
-- MG-004 (two reviewers)
+- MG-004 (integration branches: two reviewers; release/hotfix branches: one reviewer)
 - MG-005 (architecture reviewer)
 - MG-006 (architecture review checklist)
 - MG-007 (no regressions)

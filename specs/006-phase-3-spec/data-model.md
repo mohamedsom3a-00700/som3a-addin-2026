@@ -70,7 +70,7 @@ Represents one of the 8 predefined color presets for the Custom theme.
 
 ## Relationships
 
-```
+```text
 Theme Preference (1) ────── uses ────── Theme Resource Set (1..*)
      │                                             │
      │ references                                   │ contains

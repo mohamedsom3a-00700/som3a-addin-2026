@@ -28,7 +28,7 @@
                 <ControlTemplate>
                     <Rectangle Margin="1"
                                SnapsToDevicePixels="True"
-                               Stroke="{DynamicResource {x:Static SystemParameters.HighContrastKey}}"
+                               Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
                                StrokeThickness="2"/>
                 </ControlTemplate>
             </Setter.Value>
