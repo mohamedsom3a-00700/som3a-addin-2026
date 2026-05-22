@@ -4,10 +4,10 @@
     <Style TargetType="{x:Type ComboBoxItem}">
 
         <Setter Property="Foreground"
-                Value="{DynamicResource TextMainBrush}"/>
+                Value="{DynamicResource Brush.Text.Primary}"/>
 
         <Setter Property="Background"
-                Value="Transparent"/>
+                Value="{DynamicResource Brush.Control.Background}"/>
 
         <Setter Property="Padding"
                 Value="12,8"/>
@@ -16,6 +16,9 @@
                 Value="Stretch"/>
 
         <Setter Property="SnapsToDevicePixels"
+                Value="True"/>
+
+        <Setter Property="UseLayoutRounding"
                 Value="True"/>
 
         <Setter Property="Template">
@@ -47,7 +50,7 @@
 
                             <Setter TargetName="Bd"
                                     Property="Background"
-                                    Value="{DynamicResource ComboBoxItemHighlight}"/>
+                                    Value="{DynamicResource Brush.Control.HoverBackground}"/>
 
                         </Trigger>
 
@@ -58,10 +61,10 @@
 
                             <Setter TargetName="Bd"
                                     Property="Background"
-                                    Value="{DynamicResource AccentBrush}"/>
+                                    Value="{DynamicResource Brush.Accent.Primary}"/>
 
                             <Setter Property="Foreground"
-                                    Value="{DynamicResource CheckMarkForeground}"/>
+                                    Value="{DynamicResource Brush.Text.OnAccent}"/>
 
                         </Trigger>
 

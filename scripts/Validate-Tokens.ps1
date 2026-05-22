@@ -8,7 +8,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$repoRoot = Split-Path -Parent $script:MyInvocation.MyCommand.Path
+$repoRoot = Split-Path -Parent $PSScriptRoot
 $themeDir = Join-Path $repoRoot "WpfApp2\Theme"
 $controlsDir = Join-Path $themeDir "Controls"
 $windowsDir = Join-Path $repoRoot "WpfApp2\Windows"
@@ -36,8 +36,9 @@ function Get-RelativePath {
 }
 
 $xamlFiles = @()
-$scanDirs = @($controlsDir, $viewsDir, $controlsSubDir)
-if (Test-Path $windowsDir) { $scanDirs += $windowsDir }
+$scanDirs = @($controlsDir, $viewsDir, $controlsSubDir, $windowsDir)
+$wpfApp2Dir = Join-Path $repoRoot "WpfApp2"
+if (Test-Path $wpfApp2Dir) { $scanDirs += $wpfApp2Dir }
 
 foreach ($dir in $scanDirs) {
     if (Test-Path $dir) {

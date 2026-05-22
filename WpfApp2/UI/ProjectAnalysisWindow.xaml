@@ -478,7 +478,7 @@
                                 Background="{DynamicResource Brush.Accent.ProgressFill}">
 
                             <Border.Effect>
-                                <StaticResource ResourceKey="ProgressGlow"/>
+                                <DynamicResource ResourceKey="ProgressGlow"/>
                             </Border.Effect>
 
                             <Border.RenderTransform>

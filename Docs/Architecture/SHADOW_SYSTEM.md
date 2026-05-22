@@ -131,4 +131,4 @@ Controls consume elevation tokens, not shadow keys directly:
 
 ---
 
-**Version**: 1.0.0 | **Last Updated**: 2026-05-21 | **Ratified by**: Architecture Review Team
+**Version**: 1.1.0 | **Last Updated**: 2026-05-22 | **Ratified by**: Architecture Review Team

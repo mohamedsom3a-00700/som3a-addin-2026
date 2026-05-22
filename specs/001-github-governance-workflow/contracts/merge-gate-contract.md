@@ -30,7 +30,7 @@ Defines the mandatory requirements that must be satisfied before any pull reques
 | MG-001 | Automated build verification passes | GitHub Actions status check | Yes (with incident ticket) |
 | MG-002 | Host compatibility test passes | GitHub Actions status check | Yes (with incident ticket) |
 | MG-003 | Automated code analysis has no unresolved critical issues | Code analysis status check | Yes (with incident ticket) |
-| MG-004 | At least two approving reviewers | GitHub branch protection | No |
+| MG-004 | Integration branches (develop, feature/*, main): at least two approving reviewers. Release branches (release/*, hotfix/*): at least one approving reviewer (manual release approval). | GitHub branch protection / PR gating logic | No |
 | MG-005 | One approving reviewer is designated architecture reviewer | CODEOWNERS + team discipline | No |
 | MG-006 | Architecture review checklist completed | Manual review | No |
 | MG-007 | No rendering, popup, or theme regressions | Manual testing + CI | No |

@@ -1,11 +1,23 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- Easing Functions -->
     <CubicEase x:Key="WindowFadeEase" EasingMode="EaseOut"/>
     <CubicEase x:Key="WindowSlideEase" EasingMode="EaseOut"/>
     <QuadraticEase x:Key="WindowPressEase" EasingMode="EaseOut"/>
 
-    <!-- Window Fade In Animation-->
+    <!-- ===================================================================
+         Window Animations
+         Duration Limits (FR-009): open ≤ 200ms, close ≤ 150ms
+         
+         Safe-Mode Gating (FR-005): When RenderModeService.IsSafeModeRequired()
+         returns true, ALL animations must be skipped. ModernWindow.OnLoaded()
+         and ModernWindow.OnClosing() already gate animations on _useSafeMode.
+         Any code consuming these storyboards must also check safe mode before
+         calling BeginStoryboard.
+         =================================================================== -->
+
+    <!-- Window Fade In Animation (≤200ms) -->
     <Storyboard x:Key="WindowFadeIn">
         <DoubleAnimation Storyboard.TargetProperty="Opacity"
                          From="0" To="1"
@@ -13,7 +25,7 @@
                          EasingFunction="{StaticResource WindowFadeEase}"/>
     </Storyboard> 
 
-    <!-- Window Fade Out Animation -->
+    <!-- Window Fade Out Animation (≤150ms) -->
     <Storyboard x:Key="WindowFadeOut">
         <DoubleAnimation Storyboard.TargetProperty="Opacity"
                          From="1" To="0"
@@ -66,13 +78,13 @@
                          EasingFunction="{StaticResource WindowFadeEase}"/>
     </Storyboard>
 
-    <!-- Window Scale Animation -->
+    <!-- Window Scale Animation (≤200ms) -->
     <Storyboard x:Key="WindowScaleEnter">
         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                         From="0.95" To="1" Duration="0:0:0.25"
+                         From="0.95" To="1" Duration="0:0:0.2"
                          EasingFunction="{StaticResource WindowSlideEase}"/>
         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                         From="0.95" To="1" Duration="0:0:0.25"
+                         From="0.95" To="1" Duration="0:0:0.2"
                          EasingFunction="{StaticResource WindowSlideEase}"/>
     </Storyboard>
 
@@ -87,6 +99,20 @@
         <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                         To="Transparent" Duration="0:0:0.08"
                         EasingFunction="{StaticResource WindowFadeEase}"/>
+    </Storyboard>
+
+    <!-- Focus Enter Animation -->
+    <Storyboard x:Key="FocusEnter">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                         From="0" To="0.35" Duration="0:0:0.15"
+                         EasingFunction="{StaticResource WindowFadeEase}"/>
+    </Storyboard>
+
+    <!-- Focus Exit Animation -->
+    <Storyboard x:Key="FocusExit">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                         From="0.35" To="0" Duration="0:0:0.1"
+                         EasingFunction="{StaticResource WindowFadeEase}"/>
     </Storyboard>
 
 </ResourceDictionary>

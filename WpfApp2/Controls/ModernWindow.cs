@@ -3,11 +3,19 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using Som3a_WPF_UI.Helpers;
 using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.Controls
 {
+    public enum WindowBackdrop
+    {
+        Solid,
+        Gradient,
+        Image
+    }
+
     public class ModernWindow : Window
     {
         private bool _useSafeMode;
@@ -30,16 +38,27 @@ namespace Som3a_WPF_UI.Controls
 
         private void InitializeWindow()
         {
-            var useSafeMode = WindowRenderModeDetector.DetectOptimalMode() == WindowRenderMode.FallbackSafe;
+            var renderService = RenderModeService.Instance;
+            renderService.Initialize();
 
-            if (useSafeMode)
+            var currentMode = renderService.GetCurrentMode();
+            SetValue(RenderModeProperty, currentMode);
+
+            _useSafeMode = currentMode == Services.RenderMode.FallbackSafe;
+            SetValue(IsSafeModePropertyKey, _useSafeMode);
+
+            if (_useSafeMode)
             {
                 WindowChromeHelper.ApplyWindowChrome(this, true);
+                AllowsTransparency = false;
+                ApplySafeModeShadowOverrides();
             }
             else
             {
                 WindowChromeHelper.ApplyWindowChrome(this, false);
             }
+
+            SetValue(DpiScaleProperty, Helpers.DpiHelper.GetCurrentDpiScale());
 
             SnapsToDevicePixels = true;
             UseLayoutRounding = true;
@@ -60,13 +79,38 @@ namespace Som3a_WPF_UI.Controls
         {
         }
 
+        private void ApplySafeModeShadowOverrides()
+        {
+            var safeOverrides = new System.Collections.Generic.Dictionary<string, string>
+            {
+                { "Shadow.Window", "Shadow.Window.Safe" },
+                { "Shadow.Card", "Shadow.Card.Safe" },
+                { "Shadow.Popup", "Shadow.Popup.Safe" },
+                { "Elevation.Window", "Elevation.Window.Safe" },
+                { "Elevation.Card", "Elevation.Card.Safe" },
+                { "Elevation.Popup", "Elevation.Popup.Safe" }
+            };
+
+            foreach (var kvp in safeOverrides)
+            {
+                var safeEffect = TryFindResource(kvp.Value) as DropShadowEffect;
+                if (safeEffect != null)
+                {
+                    Resources[kvp.Key] = safeEffect;
+                }
+            }
+        }
+
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(200))
+            if (!_useSafeMode)
             {
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-            };
-            BeginAnimation(OpacityProperty, fadeIn);
+                var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(200))
+                {
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                };
+                BeginAnimation(OpacityProperty, fadeIn);
+            }
         }
 
         private void OnStateChanged(object sender, EventArgs e)
@@ -76,12 +120,14 @@ namespace Som3a_WPF_UI.Controls
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
+            if (_useSafeMode)
+                return;
+
             var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(100))
             {
                 EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
             };
-            var clone = this;
-            clone.BeginAnimation(OpacityProperty, fadeOut);
+            BeginAnimation(OpacityProperty, fadeOut);
         }
 
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)
@@ -90,6 +136,60 @@ namespace Som3a_WPF_UI.Controls
             {
                 Close();
             }
+        }
+
+        public static readonly DependencyProperty RenderModeProperty =
+            DependencyProperty.Register(
+                nameof(RenderMode),
+                typeof(Services.RenderMode),
+                typeof(ModernWindow),
+                new PropertyMetadata(Services.RenderMode.FallbackSafe));
+
+        public Services.RenderMode RenderMode
+        {
+            get => (Services.RenderMode)GetValue(RenderModeProperty);
+            set => SetValue(RenderModeProperty, value);
+        }
+
+        private static readonly DependencyPropertyKey IsSafeModePropertyKey =
+            DependencyProperty.RegisterReadOnly(
+                nameof(IsSafeMode),
+                typeof(bool),
+                typeof(ModernWindow),
+                new PropertyMetadata(false));
+
+        public static readonly DependencyProperty IsSafeModeProperty = IsSafeModePropertyKey.DependencyProperty;
+
+        public bool IsSafeMode
+        {
+            get => (bool)GetValue(IsSafeModeProperty);
+            private set => SetValue(IsSafeModePropertyKey, value);
+        }
+
+        public static readonly DependencyProperty WindowBackdropProperty =
+            DependencyProperty.Register(
+                nameof(WindowBackdrop),
+                typeof(WindowBackdrop),
+                typeof(ModernWindow),
+                new PropertyMetadata(WindowBackdrop.Solid));
+
+        public WindowBackdrop WindowBackdrop
+        {
+            get => (WindowBackdrop)GetValue(WindowBackdropProperty);
+            set => SetValue(WindowBackdropProperty, value);
+        }
+
+        public static readonly DependencyProperty DpiScaleProperty =
+            DependencyProperty.Register(
+                nameof(DpiScale),
+                typeof(double),
+                typeof(ModernWindow),
+                new PropertyMetadata(1.0));
+
+        public double DpiScale
+        {
+            get => (double)GetValue(DpiScaleProperty);
+            set => SetValue(DpiScaleProperty, value);
         }
 
         public static readonly DependencyProperty CloseOnEscapeProperty =

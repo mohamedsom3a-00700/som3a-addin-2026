@@ -152,7 +152,7 @@ Pattern: `Component.<Control>.<Property>`
 ## Reference Rules Summary
 
 1. **Primitive** → raw hex only, never references other tokens
-2. **Semantic Color** → references Primitive or direct hex (in base only)
+2. **Semantic Color** → references Primitive tokens only — no direct hex, no Brush.* references
 3. **Semantic Brush** → references Semantic Color or Primitive, never direct hex, never other Brush tokens
 4. **Component** → references Spacing, Padding, Radius, or Brush tokens; may have hardcoded defaults where DynamicResource unsupported
 5. **Control Template** → references Brush, Component, Spacing, Radius, Motion, Opacity, Elevation, or Effect tokens via DynamicResource

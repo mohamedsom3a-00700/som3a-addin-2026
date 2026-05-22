@@ -6,7 +6,37 @@ namespace Som3a_WPF_UI.Helpers
 {
     public static class DpiHelper
     {
+        private static double? _cachedDpiScale;
+
         public static double PrimaryScreenDpi => 96.0;
+
+        public static double GetCurrentDpiScale()
+        {
+            if (_cachedDpiScale.HasValue)
+                return _cachedDpiScale.Value;
+
+            try
+            {
+                var scale = GetScalingFactor(Application.Current?.MainWindow);
+                _cachedDpiScale = scale;
+                return scale;
+            }
+            catch
+            {
+                _cachedDpiScale = 1.0;
+                return 1.0;
+            }
+        }
+
+        public static double ScaleValue(double value)
+        {
+            return value * GetCurrentDpiScale();
+        }
+
+        public static bool IsHighDpi()
+        {
+            return GetCurrentDpiScale() >= 1.5;
+        }
 
         public static double GetSystemDpi()
         {
@@ -75,6 +105,16 @@ namespace Som3a_WPF_UI.Helpers
         {
             var scale = GetScalingFactor(window);
             return new Size(size.Width * scale, size.Height * scale);
+        }
+
+        public static void InvalidateCache()
+        {
+            _cachedDpiScale = null;
+        }
+
+        public static bool IsSystemHighContrast()
+        {
+            return SystemParameters.HighContrast;
         }
     }
 }

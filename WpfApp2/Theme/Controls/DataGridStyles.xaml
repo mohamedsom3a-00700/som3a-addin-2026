@@ -20,6 +20,7 @@
         <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
         <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisualStyle}"/>
     </Style>
 
     <!-- DataGrid Column Header Style -->

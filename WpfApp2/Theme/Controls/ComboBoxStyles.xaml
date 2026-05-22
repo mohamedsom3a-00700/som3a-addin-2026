@@ -9,13 +9,13 @@
            TargetType="{x:Type ComboBox}">
 
         <Setter Property="Foreground"
-                Value="{DynamicResource TextMainBrush}"/>
+                Value="{DynamicResource Brush.Text.Primary}"/>
 
         <Setter Property="Background"
-                Value="{DynamicResource ControlBgBrush}"/>
+                Value="{DynamicResource Brush.Control.Background}"/>
 
         <Setter Property="BorderBrush"
-                Value="{DynamicResource ControlStrokeBrush}"/>
+                Value="{DynamicResource Brush.Control.Stroke}"/>
 
         <Setter Property="BorderThickness"
                 Value="1"/>
@@ -28,6 +28,12 @@
 
         <Setter Property="SnapsToDevicePixels"
                 Value="True"/>
+
+        <Setter Property="UseLayoutRounding"
+                Value="True"/>
+
+        <Setter Property="FocusVisualStyle"
+                Value="{DynamicResource FocusVisualStyle}"/>
 
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
                 Value="Disabled"/>
@@ -85,7 +91,7 @@
                   VerticalAlignment="Center"
                   HorizontalAlignment="Left"
                   RecognizesAccessKey="True"
-                  TextElement.Foreground="{DynamicResource TextMainBrush}"
+                   TextElement.Foreground="{DynamicResource Brush.Text.Primary}"
                   Content="{TemplateBinding SelectionBoxItem}"
                   ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                   ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"/>
@@ -95,7 +101,7 @@
                                 <Path x:Name="Arrow"
                                       Grid.Column="0"
                                       Data="M 0 0 L 5 5 L 10 0"
-                                      Stroke="{DynamicResource TextSubBrush}"
+                                      Stroke="{DynamicResource Brush.Text.Secondary}"
                                       StrokeThickness="2"
                                       Width="10"
                                       Height="6"
@@ -120,8 +126,8 @@
                                IsOpen="{TemplateBinding IsDropDownOpen}">
 
                             <Border Margin="0,6,0,0"
-                                    Background="{DynamicResource ComboBoxPopupBackground}"
-                                    BorderBrush="{DynamicResource ComboBoxPopupBorder}"
+                                                                    Background="{DynamicResource Brush.Background.Card}"
+                                                                    BorderBrush="{DynamicResource Brush.Control.Stroke}"
                                     BorderThickness="1"
                                     CornerRadius="{DynamicResource MediumRadius}"
                                     Effect="{DynamicResource Shadow.Popup}">
@@ -170,7 +176,11 @@
 
                             <Setter TargetName="Bd"
                                     Property="BorderBrush"
-                                    Value="{DynamicResource AccentBrush}"/>
+                                    Value="{DynamicResource Brush.Accent.Primary}"/>
+
+                            <Setter TargetName="Bd"
+                                    Property="Effect"
+                                    Value="{DynamicResource Glow.Focus}"/>
 
                         </Trigger>
 
@@ -181,15 +191,15 @@
 
                             <Setter TargetName="Bd"
                                     Property="Background"
-                                    Value="{DynamicResource ComboBoxPopupBackground}"/>
+                                    Value="{DynamicResource Brush.Background.Card}"/>
 
                             <Setter TargetName="Bd"
                                     Property="BorderBrush"
-                                    Value="{DynamicResource AccentBrush}"/>
+                                    Value="{DynamicResource Brush.Accent.Primary}"/>
 
                             <Setter TargetName="Arrow"
                                     Property="Stroke"
-                                    Value="{DynamicResource AccentBrush}"/>
+                                    Value="{DynamicResource Brush.Accent.Primary}"/>
 
                             <Setter TargetName="Arrow"
                                     Property="RenderTransform">

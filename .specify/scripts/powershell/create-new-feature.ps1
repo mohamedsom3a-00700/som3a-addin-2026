@@ -145,7 +145,7 @@ function Get-NextBranchNumber {
             $env:GIT_TERMINAL_PROMPT = '0'
             git fetch --all --prune 2>$null | Out-Null
         } catch {
-            # Ignore fetch errors
+            Write-Warning "git fetch failed while determining branch number: $_"
         } finally {
             if ($prevPrompt -ne $null) { $env:GIT_TERMINAL_PROMPT = $prevPrompt } else { Remove-Item Env:GIT_TERMINAL_PROMPT }
         }

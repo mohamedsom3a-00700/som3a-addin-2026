@@ -972,60 +972,206 @@ Create Excel-safe rendering architecture. Extend existing ModernWindow, WindowRe
 
 ---
 
-# PHASE 3 — THEME ENGINE 2.0 (Roadmap)
+# PHASE 3 — THEME ENGINE 2.0
+
+**Status**: ✅ Implementation complete — validation tasks remaining
+
+**Branch**: `002-fluent-theme-engine` (merged)
 
 ## Goal
 
-Create runtime accent/background engine.
+Build a production-grade Fluent Runtime Theme Engine with Dark/Light/Custom theme switching, accent color system, centralized effects, DPI-aware controls, and Excel VSTO-safe rendering.
 
-## Branch
+## Implementation
 
-`feature/phase-03-theme-engine-v2`
+Phase 3 was delivered via two coordinated workstreams:
 
-## Features
+| Workstream | Spec | Focus |
+|------------|------|-------|
+| WS-A | `001-fluent-theme-engine` | Theme engine, effects library, control standardization, DPI, accessibility |
+| WS-B | `002-themes-manager` | ThemeManager bug fixes, hardcoded color elimination, crash-risk removal |
 
-### Theme Base
-- Dark
-- Light
+---
 
-### Accent Engine
-User selects one accent color. System generates:
-- hover
-- pressed
-- glow
-- border
-- subtle variants
+### WS-A: Fluent Theme Engine (`specs/001-fluent-theme-engine/tasks.md`)
 
-### Background Engine
-- solid
-- gradient
-- image
-- mica-style simulation
+#### Phase A1: Setup — Effects Library & Persistence
 
-## Deliverables
+- [x] T001 Create `Theme/Effects/Shadows.xaml` — centralized DropShadowEffect definitions (Shadow.Window, Shadow.Popup, Shadow.Card, 7 variants)
+- [x] T002 Create `Theme/Effects/Glow.xaml` — centralized glow effects (Glow.Focus, Glow.ButtonHover, Glow.Primary, Glow.Selection, Glow.Accent, Glow.ThemeCard.Selected)
+- [x] T003 Create `Theme/Effects/Animations.xaml` — HoverEnter/Exit, FocusEnter/Exit, PopupOpen/Close, FadeIn/Out, all ≤200ms with CubicEase
+- [x] T004 Create `Properties/Settings.settings` — SelectedTheme + AccentColor user-scoped
+- [x] T005 Create `Settings.Designer.cs` accessor
+
+#### Phase A2: Foundational — Theme Dictionaries & ThemeManager
+
+- [x] T006 Create `Theme/Dark/DarkColors.xaml` — Dark theme semantic overrides
+- [x] T007 Create `Theme/Light/LightColors.xaml` — Light theme semantic overrides
+- [x] T008 Create `Theme/Custom/CustomColors.xaml` — Custom theme overrides + 8 accent presets
+- [x] T009 Create `Theme/Dark/DarkTheme.xaml` — merged dictionary
+- [x] T010 Create `Theme/Light/LightTheme.xaml` — merged dictionary
+- [x] T011 Create `Theme/Custom/CustomTheme.xaml` — merged dictionary with accent token
+- [x] T012 Create `Services/ThemeManager.cs` — singleton with ApplyTheme(), LoadThemeFromSettings(), SaveCurrentTheme(), ThemeChanged event
+- [x] T013 Integrate ThemeManager into `Controls/ModernWindow.cs` — LoadThemeFromSettings() on startup
+
+#### Phase A3: US1 — Theme Selection via Settings Window (P1: MVP)
+
+- [x] T014 Create `Theme/Controls/ThemeCardStyles.xaml` — glow + scale animations
+- [x] T015 Create `Theme/Controls/AccentSwatchStyles.xaml` — clickable swatch circles
+- [x] T016 Refactor `Views/SettingsWindow.xaml` — replace ComboBox with 3 theme cards
+- [x] T017 Add 8 accent swatch circles to Custom theme card
+- [x] T018 Wire card clicks → ThemeManager.ApplyTheme()
+- [x] T019 Wire swatch clicks → ThemeManager.ApplyTheme("Custom", hex)
+- [x] T020 Initial selection state on load
+- [x] T021 Glow effect on selected card
+- [ ] T022 Validate: theme switch < 1s, persistence across restarts, all windows update simultaneously
+
+#### Phase A4: US2 — Visual Quality & Consistency (P1)
+
+- [x] T023 Refactor `ButtonStyles.xaml` — VSM states (Normal/Hover/Pressed/Focused/Disabled) with glow
+- [x] T024 Refactor `ComboBoxStyles.xaml` — AllowsTransparency=False, PlacementTarget, Shadow.Popup
+- [x] T025 Create `CheckBoxStyles.xaml` — VSM states + custom checkmark
+- [x] T026 Create `RadioButtonStyles.xaml` — VSM states + dot indicator
+- [x] T027 Create `ToggleButtonStyles.xaml` — VSM states + slide animation
+- [x] T028 Refactor `TextBoxStyles.xaml` — VSM states with accent border transitions
+- [x] T029 Refactor `DataGridStyles.xaml` — EnableRowVirtualization, hover/selection via DynamicResource
+- [x] T030 Create `ScrollViewerStyles.xaml` — thin scrollbar (4px track, 8px thumb)
+- [ ] T031 Verify all states render correctly in Dark + Light
+- [ ] T032 Verify ComboBox popup renders above content with shadow, no clipping
+
+#### Phase A5: US3 — DPI Scaling (P2)
+
+- [x] T033 Audit XAML for hardcoded pixel values — all templates use DynamicResource
+- [x] T034 Audit SnapsToDevicePixels/UseLayoutRounding — present on all controls
+- [x] T035 DPI-aware ComboBox popup sizing
+- [x] T036 DPI-aware theme card preview sizing
+- [x] T037 DPI-aware accent swatch sizing
+- [ ] T038 Validate DPI at 100%, 125%, 150%, 200% — no clipping/overflow
+
+#### Phase A6: US4 — Performance Stability in Excel (P2)
+
+- [x] T039 Audit nested DropShadowEffect — found 4 inline, documented
+- [x] T040 Audit BlurEffect — zero found ✅
+- [x] T041 Create `WindowRenderModeDetector.cs` — VSTO/DPI detection
+- [x] T042 Integrate detector into ModernWindow startup
+- [ ] T043 Validate DataGrid scrolling with 1000+ rows
+- [ ] T044 Validate rapid theme switching (10x) inside Excel
+
+#### Phase A7: US5 — Keyboard Navigation & Accessibility (P3)
+
+- [x] T045 Audit Tab order in SettingsWindow — all elements Focusable/IsTabStop
+- [x] T046 Add AutomationProperties.Name to cards + swatches
+- [x] T047 Verify Enter/Space activation on all cards + swatches
+- [ ] T048 Verify focus indicators (Glow.Focus) visible on all interactive elements
+- [ ] T049 Validate WCAG 2.1 AA contrast (4.5:1) in Dark + Light
+- [ ] T050 Validate ComboBox keyboard navigation (Tab → Arrows → Escape)
+
+#### Phase A8: Polish & Cross-Cutting
+
+- [x] T051 8-gate validation checklist — Dark theme
+- [x] T052 8-gate validation checklist — Light theme
+- [x] T053 8-gate validation checklist — Custom theme (2+ accent variations)
+- [x] T054 Document resource loading order in `ThemeResources.xaml`
+- [x] T055 Remove hardcoded colors from control templates
+- [x] T056 Remove inline DropShadowEffect — 1 documented exception
+- [x] T057 Update `AGENTS.md`
+- [x] T058 Build validation — `msbuild` succeeds (warnings only)
+
+---
+
+### WS-B: Themes Manager (`specs/002-themes-manager/tasks.md`)
+
+#### Phase B1: Setup
+
+- [x] T001 Verify `msbuild` compiles before changes
+
+#### Phase B2: Foundational — ThemeManager Fixes + New Tokens
+
+- [x] T002 Fix accent persistence in `ThemeManager.cs` — preserve `_currentAccentColor` when null
+- [x] T003 Fix early-return logic — reorder `_currentTheme` update
+- [x] T004 Implement safe dictionary fallback — try/catch around removal/addition
+- [x] T005 Add `ThemeChanged` thread safety — `Dispatcher.InvokeAsync()`
+- [x] T006 Add theme switch debouncing — ~150ms coalesce window
+- [x] T007 Define `Brush.Background.Root` (LinearGradientBrush) in Colors.xaml
+- [x] T008 Define `Brush.Accent.ProgressFill` (LinearGradientBrush)
+- [x] T009 Define `Brush.Stroke.Info` (SolidColorBrush)
+- [x] T010 Define `Brush.Stroke.Status` (SolidColorBrush)
+- [x] T011 Define `Brush.Fill.Info` (SolidColorBrush)
+- [x] T012 Define `Brush.Fill.Status` (SolidColorBrush)
+- [x] T013 Dark overrides for all new tokens
+- [x] T014 Light overrides for all new tokens
+- [x] T015 Custom overrides for all new tokens
+- [x] T016 Add `ProgressGlow` DropShadowEffect to Shadows.xaml
+
+#### Phase B3: US3 — No Crashes on Startup or Theme Change (P1)
+
+- [x] T017 Remove duplicate converters from App.xaml
+- [x] T018 Remove duplicate dictionary loads from SettingsWindow.xaml
+- [x] T019 Remove orphaned FluentWhite.xaml from csproj
+- [x] T020 Remove orphaned FluentEffects.xaml + references
+- [x] T021 Remove commented-out legacy theme imports from App.xaml
+
+#### Phase B4: US1 — Theme Switching Works Reliably (P1: MVP)
+
+- [x] T022–T033 Replace root background gradient with `{DynamicResource Brush.Background.Root}` across all 12 windows
+
+#### Phase B5: US2 — Accent Color Reflects Everywhere (P1)
+
+- [x] T034–T038 Replace progress bar gradients with `{DynamicResource Brush.Accent.ProgressFill}` across 5 windows
+- [x] T039 Fix ModernWindow.xaml hardcoded `Background="White"` / `Foreground="Black"`
+- [x] T040 Replace inline DropShadowEffect on WindowBorder with `Shadow.Window`
+- [x] T041 Fix TreeView hover/selected colors in Float_path.xaml
+
+#### Phase B6: US4 — Progress Bars Display Correctly (P2)
+
+- [x] T042–T045 Replace `Foreground="White"` with `TextOnAccentBrush` on progress percent text
+- [x] T046–T047 Replace inline DropShadowEffect on progress bars with `ProgressGlow`
+
+#### Phase B7: US5 — Window Background Matches Theme (P2)
+
+- [x] T048 Add missing `Foreground` to PrimaveraResultsWindow TextBlock
+- [x] T049 Add missing `Foreground` to SettingsWindow TextBlock
+- [x] T050 Replace `Foreground="LimeGreen"` with `SuccessBrush`
+- [x] T051 Replace close button hover `#22FF4757` with `DangerBrush` 13%
+- [x] T052 Replace `#12FFFFFF` fills/strokes with `Brush.Fill.Info` / `Brush.Stroke.Info`
+- [x] T053 Replace `#18FFFFFF` fills/strokes with `Brush.Fill.Status` / `Brush.Stroke.Status`
+- [x] T054 Replace `#1FFFFFFF` fills/strokes with per-theme tokens
+- [x] T055 Replace `#22FFFFFF` fills/strokes with per-theme tokens
+
+#### Phase B8: Polish
+
+- [x] T056 Build verification — zero errors
+- [ ] T057 Runtime check: Excel VSTO — all windows update
+- [ ] T058 Runtime check: accent → glow + progress bar
+- [ ] T059 Runtime check: rapid switching (10x) — no crash
+- [ ] T060 Regression: progress bar in all 7 windows
+- [ ] T061 Regression: TreeView hover in Float_path
+- [ ] T062 Regression: close button hover color
+- [x] T063 Grep audit — zero `#HEX` in window .xaml files
+- [x] T064 Constitution compliance review
+
+---
+
+## Phase 3 Deliverables Created
 
 | File | Purpose |
 |------|---------|
-| `Services/AccentGeneratorService.cs` | Generates hover/pressed/glow/border/subtle from single accent color |
-| `Services/BackgroundManager.cs` | Manages solid/gradient/image/mica backgrounds |
-| `Theme/Generated/` | Runtime-generated brush dictionaries |
+| `Theme/Effects/Shadows.xaml` | Centralized DropShadowEffect (7 variants + safe-mode variants) |
+| `Theme/Effects/Glow.xaml` | Centralized glow effects (6 variants) |
+| `Theme/Effects/Animations.xaml` | Control state + popup storyboards (all ≤200ms) |
+| `Theme/Controls/CheckBoxStyles.xaml` | VSM states + custom checkmark |
+| `Theme/Controls/RadioButtonStyles.xaml` | VSM states + dot indicator |
+| `Theme/Controls/ToggleButtonStyles.xaml` | VSM states + slide animation |
+| `Theme/Controls/ScrollViewerStyles.xaml` | Modern thin scrollbar |
+| `Theme/Controls/ThemeCardStyles.xaml` | Theme card with glow + scale animations |
+| `Theme/Controls/AccentSwatchStyles.xaml` | Accent swatch circles |
+| `Services/RenderModeService.cs` | Render mode detection |
+| `Docs/Architecture/EXCEL_TEST_CHECKLIST.md` | VSTO test scenarios |
 
-## Key Tasks
+## Phase 3 Remaining Tasks
 
-| ID | Task |
-|----|------|
-| P3-T001 | Audit current custom theme |
-| P3-T002 | Create runtime accent engine |
-| P3-T003 | Create generated brushes |
-| P3-T004 | Create background engine |
-| P3-T005 | Create image background system |
-| P3-T006 | Add runtime theme switching |
-| P3-T007 | Add persistence |
-| P3-T008 | Add safe fallback logic |
-| P3-T009 | Add preview system |
-| P3-T010 | Validate runtime performance |
-
----
+- [ ] **WS-A**: Validate theme switch (T022), control states (T031), popup rendering (T032), DPI (T038), DataGrid performance (T043), rapid switching (T044), focus indicators (T048), contrast ratios (T049), keyboard nav (T050)
+- [ ] **WS-B**: Excel VSTO runtime checks (T057–T062)
 
 # PHASE 4 — CONTROL STANDARDIZATION (Roadmap)
 

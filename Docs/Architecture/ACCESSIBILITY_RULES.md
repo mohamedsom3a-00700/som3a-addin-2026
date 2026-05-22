@@ -94,18 +94,26 @@ Status updates MUST use `LiveRegion` so screen readers announce them.
 
 ### Hidden Decorative Elements
 
-Purely decorative elements MUST be hidden from screen readers.
+Purely decorative elements MUST be removed from the UI Automation tree.
+
+For purely decorative elements, either omit them or set `Visibility="Collapsed"`.
+Do NOT use `AutomationProperties.IsOffscreenBehavior` — that property controls
+behavior when offscreen, not suppression of decorative content.
+
+For custom controls that contain decorative sub-elements, override the
+AutomationPeer to suppress exposure rather than relying on attached properties:
 
 ```xml
-<Border AutomationProperties.IsOffscreenBehavior="FromRenderTransform"
-        ... />
+<!-- Decorative: collapse or omit the element instead of using
+     AutomationProperties.IsOffscreenBehavior -->
+<Border Visibility="Collapsed" ... />
 ```
 
 For icons that are decorative:
 
 ```xml
-<Image Source="icon.png"
-       AutomationProperties.IsOffscreenBehavior="FromRenderTransform"/>
+<!-- Decorative icon: omit from Automation tree by collapsing -->
+<Image Source="icon.png" Visibility="Collapsed"/>
 ```
 
 ---
