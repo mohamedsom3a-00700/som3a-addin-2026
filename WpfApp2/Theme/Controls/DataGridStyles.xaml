@@ -28,7 +28,7 @@
         <Setter Property="Foreground" Value="{DynamicResource TextSubBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeBrush}"/>
         <Setter Property="BorderThickness" Value="0,0,0,1"/>
-        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="Padding" Value="{DynamicResource Component.DataGrid.HeaderPadding}"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
@@ -48,7 +48,7 @@
 
     <!-- DataGrid Cell Style -->
     <Style TargetType="{x:Type DataGridCell}">
-        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="Padding" Value="{DynamicResource Component.DataGrid.CellPadding}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>

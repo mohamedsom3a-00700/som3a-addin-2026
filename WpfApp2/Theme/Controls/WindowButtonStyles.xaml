@@ -35,10 +35,10 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
-                            <Setter TargetName="border" Property="Background" Value="#15FFFFFF"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush.TitleBar.ButtonHover}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#22FFFFFF"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush.TitleBar.ButtonPressed}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -68,12 +68,12 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#22FF4757"/>
-                            <Setter TargetName="CloseIcon" Property="Stroke" Value="White"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush.CloseButton.HoverBackground}"/>
+                            <Setter TargetName="CloseIcon" Property="Stroke" Value="{DynamicResource Brush.Text.OnAccent}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#33FF4757"/>
-                            <Setter TargetName="CloseIcon" Property="Stroke" Value="White"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush.CloseButton.PressedBackground}"/>
+                            <Setter TargetName="CloseIcon" Property="Stroke" Value="{DynamicResource Brush.Text.OnAccent}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -101,10 +101,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#15FFFFFF"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush.TitleBar.ButtonHover}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#22FFFFFF"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush.TitleBar.ButtonPressed}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -131,10 +131,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#15FFFFFF"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush.TitleBar.ButtonHover}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#22FFFFFF"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Brush.TitleBar.ButtonPressed}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

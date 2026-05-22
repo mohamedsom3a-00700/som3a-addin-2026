@@ -56,12 +56,12 @@
     </controls:ModernWindow.Resources>
 
     <!-- ROOT -->
-    <Border CornerRadius="18"
+    <Border CornerRadius="{DynamicResource WindowRadius}"
             Background="{DynamicResource Brush.Background.Root}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
 
-        <Grid Margin="14">
+        <Grid Margin="{DynamicResource Padding.Medium}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="42"/>
@@ -82,10 +82,10 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Settings"
-                           Foreground="{DynamicResource TextMainBrush}"
-                           FontSize="14"
-                           FontWeight="SemiBold"
+<TextBlock Text="Settings"
+                            Foreground="{DynamicResource TextMainBrush}"
+                            FontSize="{DynamicResource SubHeaderFontSize}"
+                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
 
                 <Button Grid.Column="1"
@@ -118,10 +118,10 @@
                         Background="{DynamicResource SurfaceBrush}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
-                        CornerRadius="14"
+                        CornerRadius="{DynamicResource LargeRadius}"
                         Margin="0,0,14,0">
 
-                    <StackPanel Margin="12">
+                    <StackPanel Margin="{DynamicResource Padding.Medium}">
 
                         <TextBlock Text="Categories"
                                    FontSize="16"
@@ -158,8 +158,8 @@
                         Background="{DynamicResource CardBrush}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
-                        CornerRadius="14"
-                        Padding="18">
+                        CornerRadius="{DynamicResource LargeRadius}"
+                        Padding="{DynamicResource Padding.XLarge}">
 
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
 
@@ -192,19 +192,19 @@
 
                                     <!-- DARK -->
                                     <ToggleButton x:Name="CardDark"
-                                                  Width="140"
-                                                  Height="120"
+                                                  Width="{DynamicResource Component.ThemeCard.Width}"
+                                                  Height="{DynamicResource Component.ThemeCard.Height}"
                                                   Margin="0,0,16,0"
                                                   Tag="Dark"
                                                   Click="ThemeCard_Click"
                                                   PreviewKeyDown="ThemeCard_KeyDown"
                                                   Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
-                                            <Border CornerRadius="10,10,0,0">
+                                            <Border CornerRadius="{DynamicResource MediumRadius}">
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                        <GradientStop Color="#0E1720" Offset="0"/>
-                                                        <GradientStop Color="#1C2B3A" Offset="1"/>
+                                                        <GradientStop Color="{DynamicResource Color.Background.RootStart}" Offset="0"/>
+                                                        <GradientStop Color="{DynamicResource Color.Background.RootEnd}" Offset="1"/>
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
@@ -218,19 +218,19 @@
 
                                     <!-- LIGHT -->
                                     <ToggleButton x:Name="CardLight"
-                                                  Width="140"
-                                                  Height="120"
+                                                  Width="{DynamicResource Component.ThemeCard.Width}"
+                                                  Height="{DynamicResource Component.ThemeCard.Height}"
                                                   Margin="0,0,16,0"
                                                   Tag="Light"
                                                   Click="ThemeCard_Click"
                                                   PreviewKeyDown="ThemeCard_KeyDown"
                                                   Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
-                                            <Border CornerRadius="10,10,0,0">
+                                            <Border CornerRadius="{DynamicResource MediumRadius}">
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                        <GradientStop Color="#FAFAFA" Offset="0"/>
-                                                        <GradientStop Color="#FFFFFF" Offset="1"/>
+                                                        <GradientStop Color="{DynamicResource Color.Background.RootStart.Light}" Offset="0"/>
+                                                        <GradientStop Color="{DynamicResource Color.Background.RootEnd.Light}" Offset="1"/>
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
@@ -244,18 +244,18 @@
 
                                     <!-- CUSTOM -->
                                     <ToggleButton x:Name="CardCustom"
-                                                  Width="140"
-                                                  Height="120"
+                                                  Width="{DynamicResource Component.ThemeCard.Width}"
+                                                  Height="{DynamicResource Component.ThemeCard.Height}"
                                                   Tag="Custom"
                                                   Click="ThemeCard_Click"
                                                   PreviewKeyDown="ThemeCard_KeyDown"
                                                   Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
-                                            <Border CornerRadius="10,10,0,0">
+                                            <Border CornerRadius="{DynamicResource MediumRadius}">
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                        <GradientStop Color="#0E1720" Offset="0"/>
-                                                        <GradientStop Color="#1C2B3A" Offset="1"/>
+                                                        <GradientStop Color="{DynamicResource Color.Background.RootStart}" Offset="0"/>
+                                                        <GradientStop Color="{DynamicResource Color.Background.RootEnd}" Offset="1"/>
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>
@@ -263,7 +263,7 @@
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                                         <GradientStop Color="{DynamicResource AccentColorValue}" Offset="0"/>
-                                                        <GradientStop Color="{DynamicResource AccentColorValue}" Offset="1"/>
+                                                        <GradientStop Color="{DynamicResource AccentColorLight}" Offset="1"/>
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                             </Border>

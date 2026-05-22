@@ -79,7 +79,7 @@
     <!-- Close Button Hover Animation -->
     <Storyboard x:Key="CloseButtonHoverEnter">
         <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="#22FF4757" Duration="0:0:0.1"
+                        To="{DynamicResource Color.CloseButton.HoverBackground}" Duration="0:0:0.1"
                         EasingFunction="{StaticResource WindowFadeEase}"/>
     </Storyboard>
 

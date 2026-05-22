@@ -25,10 +25,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="#15FFFFFF"/>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.ListView.HoverBackground}"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="#40FFFFFF"/>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.ListView.SelectedBackground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.55"/>

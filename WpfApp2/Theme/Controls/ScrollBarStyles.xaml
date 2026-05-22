@@ -18,13 +18,13 @@
                                 <Thumb Focusable="False">
                                     <Thumb.Template>
                                         <ControlTemplate TargetType="{x:Type Thumb}">
-                                            <Border x:Name="ThumbBd"
-                                                    Background="#55FFFFFF"
-                                                    CornerRadius="3"
-                                                    Margin="1,0"/>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="ThumbBd" Property="Background" Value="#88FFFFFF"/>
+<Border x:Name="ThumbBd"
+                                                     Background="{DynamicResource Brush.ScrollBar.Thumb}"
+                                                     CornerRadius="3"
+                                                     Margin="1,0"/>
+                                             <ControlTemplate.Triggers>
+                                                 <Trigger Property="IsMouseOver" Value="True">
+                                                     <Setter TargetName="ThumbBd" Property="Background" Value="{DynamicResource Brush.ScrollBar.ThumbHover}"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>

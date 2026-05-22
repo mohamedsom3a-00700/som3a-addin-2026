@@ -51,6 +51,51 @@
     <SolidColorBrush x:Key="Brush.ComboBox.HoverBorder" Color="#4C7EFF"/>
     <SolidColorBrush x:Key="Brush.ComboBox.HoverBackground" Color="#E8F0FE"/>
 
+    <!-- ScrollBar -->
+    <SolidColorBrush x:Key="Brush.ScrollBar.Thumb" Color="#55000000"/>
+    <SolidColorBrush x:Key="Brush.ScrollBar.ThumbHover" Color="#88000000"/>
+
+    <!-- GroupBox -->
+    <SolidColorBrush x:Key="Brush.GroupBox.Background" Color="#0D000000"/>
+
+    <!-- Overlay -->
+    <SolidColorBrush x:Key="Brush.Overlay.Background" Color="#88000000"/>
+
+    <!-- Close Button -->
+    <SolidColorBrush x:Key="Brush.CloseButton.HoverBackground" Color="#22FF4757"/>
+    <SolidColorBrush x:Key="Brush.CloseButton.PressedBackground" Color="#44FF4757"/>
+
+    <!-- Title Bar -->
+    <SolidColorBrush x:Key="Brush.TitleBar.ButtonHover" Color="#15000000"/>
+    <SolidColorBrush x:Key="Brush.TitleBar.ButtonPressed" Color="#22000000"/>
+
+    <!-- ListView -->
+    <SolidColorBrush x:Key="Brush.ListView.HoverBackground" Color="#15000000"/>
+    <SolidColorBrush x:Key="Brush.ListView.SelectedBackground" Color="#22000000"/>
+    <SolidColorBrush x:Key="Brush.ListView.ColumnHeaderHover" Color="#1A000000"/>
+
+    <!-- Button (Light overrides) -->
+    <SolidColorBrush x:Key="Brush.Button.Background" Color="#33000000"/>
+    <SolidColorBrush x:Key="Brush.Button.HoverBackground" Color="#44000000"/>
+    <SolidColorBrush x:Key="Brush.Button.PressedBackground" Color="#22000000"/>
+
+    <!-- DataGrid (Light overrides) -->
+    <SolidColorBrush x:Key="Brush.DataGrid.AlternatingRow" Color="#0A000000"/>
+    <SolidColorBrush x:Key="Brush.DataGrid.HoverRow" Color="#15000000"/>
+    <SolidColorBrush x:Key="Brush.DataGrid.SelectedRow" Color="#333A86FF"/>
+
+    <!-- Progress -->
+    <SolidColorBrush x:Key="Brush.Progress.Background" Color="#22000000"/>
+
+    <!-- Swatch -->
+    <SolidColorBrush x:Key="Brush.Swatch.Stroke" Color="#FFFFFFFF"/>
+
+    <!-- Close Button -->
+    <SolidColorBrush x:Key="Brush.CloseButton.HoverBackground" Color="#22FF4757"/>
+
+    <!-- Loading -->
+    <SolidColorBrush x:Key="Brush.Loading.Background" Color="#88000000"/>
+
     <!-- ============================================
          LEGACY FLAT KEYS (Light theme)
          ============================================ -->
@@ -75,5 +120,23 @@
     <SolidColorBrush x:Key="FillStatusBrush" Color="#E5E7EB"/>
 
     <Color x:Key="AccentColorLight">#6688FF</Color>
+
+    <!-- Light theme color overrides for inline violation replacements -->
+    <Color x:Key="Color.ScrollBar.Thumb">#55000000</Color>
+    <Color x:Key="Color.ScrollBar.ThumbHover">#88000000</Color>
+    <Color x:Key="Color.GroupBox.Background">#0D000000</Color>
+    <Color x:Key="Color.Overlay.Background">#88000000</Color>
+    <Color x:Key="Color.Animation.ThumbFade">#66000000</Color>
+    <Color x:Key="Color.Animation.ButtonHoverDanger">#22FF4757</Color>
+    <Color x:Key="Color.Background.RootStart.Light">#FFF0F4F8</Color>
+    <Color x:Key="Color.Background.RootEnd.Light">#FFE2E8F0</Color>
+    <Color x:Key="Color.CloseButton.HoverBackground">#22FF4757</Color>
+    <Color x:Key="Color.CloseButton.PressedBackground">#44FF4757</Color>
+    <Color x:Key="Color.Loading.Background">#88000000</Color>
+    <Color x:Key="Color.TitleBar.ButtonHover">#15000000</Color>
+    <Color x:Key="Color.TitleBar.ButtonPressed">#22000000</Color>
+    <Color x:Key="Color.ListView.HoverBackground">#15000000</Color>
+    <Color x:Key="Color.ListView.SelectedBackground">#22000000</Color>
+    <Color x:Key="Color.ColumnHeader.HoverBackground">#1A000000</Color>
 
 </ResourceDictionary>

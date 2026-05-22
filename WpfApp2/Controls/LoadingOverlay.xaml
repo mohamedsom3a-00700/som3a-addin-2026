@@ -10,7 +10,7 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <Grid Background="#88000000">
+    <Grid Background="{DynamicResource Brush.Overlay.Background}">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid Width="50" Height="50">
                 <Ellipse Stroke="{DynamicResource AccentBrush}" StrokeThickness="4" Opacity="0.3"/>
@@ -22,18 +22,18 @@
                 </Ellipse>
             </Grid>
 
-            <TextBlock x:Name="MessageText"
-                       Foreground="{DynamicResource TextMainBrush}"
-                       FontSize="14"
-                       Margin="0,16,0,0"
-                       HorizontalAlignment="Center"/>
+<TextBlock x:Name="MessageText"
+                        Foreground="{DynamicResource TextMainBrush}"
+                        FontSize="{DynamicResource HeaderFontSize}"
+                        Margin="0,16,0,0"
+                        HorizontalAlignment="Center"/>
 
             <TextBlock Text="Loading..."
-                       Foreground="{DynamicResource TextSubBrush}"
-                       FontSize="12"
-                       Margin="0,8,0,0"
-                       HorizontalAlignment="Center"
-                       Visibility="{Binding Message, Converter={StaticResource NullToVisibilityConverter}}"/>
+                        Foreground="{DynamicResource TextSubBrush}"
+                        FontSize="{DynamicResource CaptionFontSize}"
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Center"
+                        Visibility="{Binding Message, Converter={StaticResource NullToVisibilityConverter}}"/>
         </StackPanel>
     </Grid>
 </UserControl>

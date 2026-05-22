@@ -36,7 +36,19 @@
     <Color x:Key="Primitive.Red.500">#FF4757</Color>
 
     <!-- Black alpha family -->
+    <Color x:Key="Primitive.Black.8">#14000000</Color>
     <Color x:Key="Primitive.Black.13">#22000000</Color>
+    <Color x:Key="Primitive.Black.53">#88000000</Color>
+
+    <!-- White alpha additions -->
+    <Color x:Key="Primitive.White.33">#54FFFFFF</Color>
+
+    <!-- Transparency tokens (documentation/validation for alpha composition) -->
+    <Color x:Key="Primitive.Transparency.Subtle">#0DFFFFFF</Color>
+    <Color x:Key="Primitive.Transparency.Light">#1AFFFFFF</Color>
+    <Color x:Key="Primitive.Transparency.MediumLow">#1FFFFFFF</Color>
+    <Color x:Key="Primitive.Transparency.Medium">#2FFFFFFF</Color>
+    <Color x:Key="Primitive.Transparency.Strong">#3FFFFFFF</Color>
 
     <!-- ============================================
          FLAT KEY ALIASES (backward compatibility)
@@ -85,6 +97,22 @@
     <Color x:Key="Color.CheckMark">#FFFFFFFF</Color>
     <Color x:Key="Color.CardHoverBorder">#4C7EFF</Color>
     <Color x:Key="Color.SwatchStroke">#FFFFFFFF</Color>
+    <Color x:Key="Color.ScrollBar.Thumb">#55FFFFFF</Color>
+    <Color x:Key="Color.ScrollBar.ThumbHover">#88FFFFFF</Color>
+    <Color x:Key="Color.GroupBox.Background">#14000000</Color>
+    <Color x:Key="Color.Overlay.Background">#88000000</Color>
+    <Color x:Key="Color.Animation.ThumbFade">#66FFFFFF</Color>
+    <Color x:Key="Color.Animation.ButtonHoverDanger">#22FF4757</Color>
+    <Color x:Key="Color.Background.RootStart.Light">#FFF0F4F8</Color>
+    <Color x:Key="Color.Background.RootEnd.Light">#FFE2E8F0</Color>
+    <Color x:Key="Color.CloseButton.HoverBackground">#22FF4757</Color>
+    <Color x:Key="Color.CloseButton.PressedBackground">#33FF4757</Color>
+    <Color x:Key="Color.Loading.Background">#88000000</Color>
+    <Color x:Key="Color.TitleBar.ButtonHover">#15FFFFFF</Color>
+    <Color x:Key="Color.TitleBar.ButtonPressed">#22FFFFFF</Color>
+    <Color x:Key="Color.ListView.HoverBackground">#15FFFFFF</Color>
+    <Color x:Key="Color.ListView.SelectedBackground">#40FFFFFF</Color>
+    <Color x:Key="Color.ColumnHeader.HoverBackground">#1AFFFFFF</Color>
 
     <!-- ============================================
          SEMANTIC TOKENS (UI meaning aliases)
@@ -155,41 +183,86 @@
     <!-- Swatch -->
     <SolidColorBrush x:Key="Brush.Swatch.Stroke" Color="{StaticResource Color.SwatchStroke}"/>
 
+    <!-- ScrollBar -->
+    <SolidColorBrush x:Key="Brush.ScrollBar.Thumb" Color="{StaticResource Color.ScrollBar.Thumb}"/>
+    <SolidColorBrush x:Key="Brush.ScrollBar.ThumbHover" Color="{StaticResource Color.ScrollBar.ThumbHover}"/>
+
+    <!-- GroupBox -->
+    <SolidColorBrush x:Key="Brush.GroupBox.Background" Color="{StaticResource Color.GroupBox.Background}"/>
+
+    <!-- Overlay -->
+    <SolidColorBrush x:Key="Brush.Overlay.Background" Color="{StaticResource Color.Overlay.Background}"/>
+
+    <!-- Close Button -->
+    <SolidColorBrush x:Key="Brush.CloseButton.HoverBackground" Color="{StaticResource Color.CloseButton.HoverBackground}"/>
+    <SolidColorBrush x:Key="Brush.CloseButton.PressedBackground" Color="{StaticResource Color.CloseButton.PressedBackground}"/>
+
+    <!-- Loading -->
+    <SolidColorBrush x:Key="Brush.Loading.Background" Color="{StaticResource Color.Overlay.Background}"/>
+
+    <!-- Title Bar -->
+    <SolidColorBrush x:Key="Brush.TitleBar.ButtonHover" Color="{StaticResource Color.TitleBar.ButtonHover}"/>
+    <SolidColorBrush x:Key="Brush.TitleBar.ButtonPressed" Color="{StaticResource Color.TitleBar.ButtonPressed}"/>
+
+    <!-- ListView -->
+    <SolidColorBrush x:Key="Brush.ListView.HoverBackground" Color="{StaticResource Color.ListView.HoverBackground}"/>
+    <SolidColorBrush x:Key="Brush.ListView.SelectedBackground" Color="{StaticResource Color.ListView.SelectedBackground}"/>
+    <SolidColorBrush x:Key="Brush.ListView.ColumnHeaderHover" Color="{StaticResource Color.ColumnHeader.HoverBackground}"/>
+
     <!-- ============================================
          LEGACY FLAT KEYS (backward compatibility)
-         Kept for existing windows. Prefer semantic
-         tokens for new work.
+         DEPRECATED: Use Brush.* namespace instead.
+         Removal: Phase 6
          ============================================ -->
+    <!-- DEPRECATED: Use Brush.Accent.Primary instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource Primitive.Blue.500}"/>
+    <!-- DEPRECATED: Use Brush.Background.Primary instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource Primitive.Slate.900}"/>
+    <!-- DEPRECATED: Use Brush.Background.Card instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="CardBrush" Color="{StaticResource Primitive.Slate.700}"/>
+    <!-- DEPRECATED: Use Brush.Background.Secondary instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource Primitive.Slate.800}"/>
+    <!-- DEPRECATED: Use Brush.Text.Primary instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="TextMainBrush" Color="{StaticResource Primitive.White.95}"/>
+    <!-- DEPRECATED: Use Brush.Text.Secondary instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="TextSubBrush" Color="{StaticResource Primitive.White.75}"/>
+    <!-- DEPRECATED: Use Brush.Text.Disabled instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="TextDisabledBrush" Color="{StaticResource Primitive.White.40}"/>
+    <!-- DEPRECATED: Use Brush.Accent.Success instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource Primitive.Green.500}"/>
+    <!-- DEPRECATED: Use Brush.Accent.Warning instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource Primitive.Orange.500}"/>
+    <!-- DEPRECATED: Use Brush.Accent.Danger instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource Primitive.Red.500}"/>
+    <!-- DEPRECATED: Use Brush.Accent.Info instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="InfoBrush" Color="{StaticResource Primitive.Blue.600}"/>
+    <!-- DEPRECATED: Use Brush.Stroke.Card instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="CardStrokeBrush" Color="{StaticResource Primitive.White.20}"/>
+    <!-- DEPRECATED: Use Brush.Control.Background instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="ControlBgBrush" Color="{StaticResource Color.Control.Background}"/>
+    <!-- DEPRECATED: Use Brush.Control.Stroke instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="ControlStrokeBrush" Color="{StaticResource Primitive.White.20}"/>
 
-    <!-- ComboBox Popup -->
+    <!-- DEPRECATED: Use Brush.ComboBox.* instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="ComboBoxPopupBackground" Color="{StaticResource Color.ComboBoxPopup}"/>
     <SolidColorBrush x:Key="ComboBoxPopupBorder" Color="{StaticResource Color.ComboBoxPopupBorder}"/>
     <SolidColorBrush x:Key="ComboBoxItemHighlight" Color="{StaticResource Color.ComboBoxItemHighlight}"/>
 
-    <!-- CheckBox foreground -->
+    <!-- DEPRECATED: Use Brush.Text.OnAccent instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="CheckMarkForeground" Color="{StaticResource Color.CheckMark}"/>
 
-    <!-- Theme Card -->
+    <!-- DEPRECATED: Use Brush.Stroke.Card (hover state) instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="CardHoverBorder" Color="{StaticResource Color.CardHoverBorder}"/>
 
+    <!-- DEPRECATED: Use Brush.Text.OnAccent instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="TextOnAccentBrush" Color="{StaticResource Color.CheckMark}"/>
+    <!-- DEPRECATED: Use Brush.Stroke.Info instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="StrokeInfoBrush" Color="{StaticResource Color.Stroke.Info}"/>
+    <!-- DEPRECATED: Use Brush.Stroke.Status instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="StrokeStatusBrush" Color="{StaticResource Color.Stroke.Status}"/>
+    <!-- DEPRECATED: Use Brush.Fill.Info instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="FillInfoBrush" Color="{StaticResource Color.Fill.Info}"/>
+    <!-- DEPRECATED: Use Brush.Fill.Status instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="FillStatusBrush" Color="{StaticResource Color.Fill.Status}"/>
 
     <Color x:Key="AccentColorLight">#6688FF</Color>

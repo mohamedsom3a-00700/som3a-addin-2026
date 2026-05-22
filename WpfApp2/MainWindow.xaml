@@ -24,7 +24,7 @@
     <!-- ===================================================== -->
 
     <Border x:Name="RootBorder"
-            CornerRadius="18"
+            CornerRadius="{DynamicResource WindowRadius}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             SnapsToDevicePixels="True" UseLayoutRounding="True"
             BorderThickness="1">
@@ -39,7 +39,7 @@
         <!-- ROOT GRID -->
         <!-- ================================================= -->
 
-        <Grid Margin="12">
+        <Grid Margin="{DynamicResource Padding.Medium}">
 
             <Grid.RowDefinitions>
 
@@ -132,8 +132,8 @@
                     Background="{DynamicResource CardBrush}"
                     BorderBrush="{DynamicResource CardStrokeBrush}"
                     BorderThickness="1"
-                    CornerRadius="14"
-                    Padding="14">
+                    CornerRadius="{DynamicResource LargeRadius}"
+                    Padding="{DynamicResource Padding.Large}">
 
                 <Grid>
 
@@ -253,8 +253,8 @@
                     Background="{DynamicResource CardBrush}"
                     BorderBrush="{DynamicResource CardStrokeBrush}"
                     BorderThickness="1"
-                    CornerRadius="14"
-                    Padding="10">
+                    CornerRadius="{DynamicResource LargeRadius}"
+                    Padding="{DynamicResource Padding.Medium}">
 
                 <ListView ItemsSource="{Binding Items}"
                           ItemContainerStyle="{DynamicResource AccentListViewItem}">
@@ -348,7 +348,7 @@
 
                 <Border Grid.Column="1"
                         Height="30"
-                        CornerRadius="10"
+                        CornerRadius="{DynamicResource MediumRadius}"
                         Background="{DynamicResource ControlBgBrush}"
                         BorderBrush="{DynamicResource ControlStrokeBrush}"
                         BorderThickness="1"
@@ -423,7 +423,7 @@
 
             <Border Grid.Row="9"
                     Background="{DynamicResource Brush.Fill.Status}"
-                    CornerRadius="12"
+                    CornerRadius="{DynamicResource CardRadius}"
                     BorderBrush="{DynamicResource CardStrokeBrush}"
                     BorderThickness="1"
                     Padding="10,6">

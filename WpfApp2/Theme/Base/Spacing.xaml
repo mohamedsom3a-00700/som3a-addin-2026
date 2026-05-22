@@ -15,7 +15,7 @@
     <!-- =========================
          Padding Values
     ========================== -->
-    <Thickness x:Key="Padding.XSmall">4</Thickness>
+    <Thickness x:Key="Padding.XSmall">4,2</Thickness>
     <Thickness x:Key="Padding.Small">8,6</Thickness>
     <Thickness x:Key="ButtonPadding">12,6</Thickness>
     <Thickness x:Key="Padding.Medium">12,8</Thickness>

@@ -1,24 +1,34 @@
 ﻿<!--
     ThemeResources.xaml — Aggregator ResourceDictionary
     ====================================================
-    Resource loading order (per constitution v1.2.0):
-    1. Primitive Tokens       → Base/Colors.xaml
-    2. Semantic Tokens        → Base/Colors.xaml (continued)
-    3. Typography             → Base/Typography.xaml
-    4. Spacing                → Base/Spacing.xaml
-    5. Radius                 → Base/Radius.xaml
-    6. Elevation              → Base/Elevation.xaml
-    7. Motion                 → Base/Motion.xaml
-    8. ZIndex                 → Base/ZIndex.xaml
-    9. Opacity                → Base/Opacity.xaml
-    10. Component Tokens      → Base/ComponentTokens.xaml
-    11. Effects               → Effects/Shadows + Glow + Animations
-    12. Controls              → All control styles
-    13. Theme Overrides       → Applied at runtime via ThemeManager
-    14. Window Styles         → ModernWindow + WindowButtonStyles
+    Resource loading order (per Constitution XV):
+    1.  Base/Colors.xaml           — Primitive + Semantic Color + Semantic Brush + Legacy tokens
+    2.  Base/Typography.xaml       — Font families, sizes, weights, Style.Text.* styles
+    3.  Base/Spacing.xaml          — Spacing scale, padding, sizes
+    4.  Base/Radius.xaml           — Corner radii
+    5.  Base/Elevation.xaml        — Elevation abstraction (Double tokens: OffsetX, OffsetY, BlurRadius, Opacity)
+    6.  Base/Motion.xaml           — Animation durations and easing
+    7.  Base/ZIndex.xaml           — Z-index layering
+    8.  Base/Opacity.xaml          — Opacity states
+    9.  Base/ComponentTokens.xaml   — Component-specific tokens
+    10. Effects/Shadows.xaml       — DropShadowEffect definitions (includes Elevation.* aliases)
+    11. Effects/Glow.xaml          — Glow effect definitions
+    12. Effects/Animations.xaml    — Storyboard animations
+    13. Controls/*.xaml            — All control styles
+    14. ModernWindow.xaml           — Window chrome template
+    15. WindowAnimations.xaml       — Window-level animations
 
-    Theme switching: ThemeManager replaces merged theme dictionaries
-    at runtime (Dark/Light/Custom) while this aggregator stays loaded.
+    Theme overrides (Dark, Light, Custom) are swapped at runtime by ThemeManager.
+    
+    Dependencies:
+    - Colors must load first (Primitive + Color + Brush tokens)
+    - Typography depends on Brush.Text.* tokens from Colors
+    - Spacing/Radius/Opacity depend on no other tokens
+    - ComponentTokens may reference Brush.*, Spacing.*, Padding.*, Radius.*
+    - Effects/Shadows may reference AccentColorValue from Colors
+    - Controls depend on all base tokens and effects
+    - ModernWindow depends on Controls and Effects
+    - WindowAnimations depends on Effects/Easing tokens
 -->
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

@@ -220,6 +220,8 @@ namespace Som3a_WPF_UI.Services
                 _currentAccentColor = effectiveAccent;
             }
 
+            ValidateTokenIntegrity();
+
             SaveCurrentTheme();
 
             var handler = ThemeChanged;
@@ -328,6 +330,51 @@ namespace Som3a_WPF_UI.Services
         public void ResetToDefault()
         {
             ApplyTheme("Dark", "#3A86FF");
+        }
+
+        public void ValidateTokenIntegrity()
+        {
+            if (Application.Current?.Resources == null) return;
+
+            var requiredTokenKeys = new[]
+            {
+                "Primitive.Blue.500", "Primitive.Slate.900", "Primitive.White.95",
+                "Brush.Background.Primary", "Brush.Text.Primary", "Brush.Accent.Primary",
+                "Brush.Control.Background", "Brush.Button.Background",
+                "Brush.ScrollBar.Thumb", "Brush.GroupBox.Background", "Brush.Overlay.Background",
+                "Elevation.Card", "Elevation.Popup", "Elevation.Window",
+                "Shadow.Card", "Shadow.Popup", "Shadow.Window",
+                "AccentColorBrush", "AccentColorValue", "AccentColorLight"
+            };
+
+            foreach (var key in requiredTokenKeys)
+            {
+                var resource = Application.Current.Resources[key];
+                if (resource == null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing required token key: {key}");
+                }
+            }
+
+            var brushKeys = new[]
+            {
+                "Brush.Background.Primary", "Brush.Background.Secondary", "Brush.Background.Card",
+                "Brush.Text.Primary", "Brush.Text.Secondary", "Brush.Text.Disabled",
+                "Brush.Accent.Primary", "Brush.Accent.Success", "Brush.Accent.Warning", "Brush.Accent.Danger",
+                "Brush.Stroke.Card", "Brush.Control.Background", "Brush.Control.Stroke",
+                "Brush.Button.Background", "Brush.Button.HoverBackground", "Brush.Button.PressedBackground",
+                "Brush.ComboBox.HoverBorder", "Brush.ComboBox.HoverBackground",
+                "Brush.DataGrid.AlternatingRow", "Brush.DataGrid.SelectedRow"
+            };
+
+            foreach (var key in brushKeys)
+            {
+                var resource = Application.Current.Resources[key];
+                if (resource == null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing brush token: {key}");
+                }
+            }
         }
     }
 }

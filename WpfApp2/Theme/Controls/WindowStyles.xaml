@@ -81,7 +81,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="CloseBtn" Property="Background" Value="#22FF4757"/>
+                            <Setter TargetName="CloseBtn" Property="Background" Value="{DynamicResource Brush.CloseButton.HoverBackground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

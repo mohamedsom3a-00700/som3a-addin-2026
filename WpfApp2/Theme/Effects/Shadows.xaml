@@ -1,6 +1,14 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- ============================================
+         SHADOW EFFECTS
+         Central DropShadowEffect definitions.
+         Controls MUST reference Shadow.* or Elevation.*
+         keys via DynamicResource, never inline effects.
+         ============================================ -->
+
+    <!-- Shadow effects (primary namespace) -->
     <DropShadowEffect x:Key="Shadow.Window"
         BlurRadius="30" ShadowDepth="8" Direction="270"
         Color="#000000" Opacity="0.4"/>
@@ -49,5 +57,49 @@
     <DropShadowEffect x:Key="Shadow.Card.Safe"
         BlurRadius="10" ShadowDepth="3" Direction="270"
         Color="#000000" Opacity="0.2"/>
+
+    <!-- ============================================
+         ELEVATION ALIASES
+         Backward-compatible keys mapping Elevation.*
+         to the same DropShadowEffect instances.
+         Controls referencing Elevation.* will resolve
+         to these shadow definitions.
+         ============================================ -->
+    <DropShadowEffect x:Key="Elevation.Card"
+        BlurRadius="16" ShadowDepth="4" Direction="270"
+        Color="#000000" Opacity="0.25"/>
+
+    <DropShadowEffect x:Key="Elevation.Popup"
+        BlurRadius="15" ShadowDepth="3" Direction="270"
+        Color="#000000" Opacity="0.3"/>
+
+    <DropShadowEffect x:Key="Elevation.Window"
+        BlurRadius="30" ShadowDepth="8" Direction="270"
+        Color="#000000" Opacity="0.4"/>
+
+    <DropShadowEffect x:Key="Elevation.Small"
+        BlurRadius="8" ShadowDepth="2" Direction="270"
+        Color="#000000" Opacity="0.2"/>
+
+    <DropShadowEffect x:Key="Elevation.Medium"
+        BlurRadius="12" ShadowDepth="3" Direction="270"
+        Color="#000000" Opacity="0.25"/>
+
+    <DropShadowEffect x:Key="Elevation.Large"
+        BlurRadius="20" ShadowDepth="5" Direction="270"
+        Color="#000000" Opacity="0.3"/>
+
+    <!-- Safe-mode elevation variants -->
+    <DropShadowEffect x:Key="Elevation.Card.Safe"
+        BlurRadius="10" ShadowDepth="3" Direction="270"
+        Color="#000000" Opacity="0.2"/>
+
+    <DropShadowEffect x:Key="Elevation.Popup.Safe"
+        BlurRadius="8" ShadowDepth="2" Direction="270"
+        Color="#000000" Opacity="0.2"/>
+
+    <DropShadowEffect x:Key="Elevation.Window.Safe"
+        BlurRadius="16" ShadowDepth="4" Direction="270"
+        Color="#000000" Opacity="0.25"/>
 
 </ResourceDictionary>

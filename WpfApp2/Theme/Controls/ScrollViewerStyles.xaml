@@ -59,10 +59,10 @@
                                 <Thumb x:Name="thumb" Focusable="False">
                                     <Thumb.Template>
                                         <ControlTemplate TargetType="{x:Type Thumb}">
-                                            <Border x:Name="ThumbBd"
+<Border x:Name="ThumbBd"
                                                     Width="4"
-                                                    CornerRadius="2"
-                                                    Background="{DynamicResource WhiteAlpha20}"
+                                                    CornerRadius="{DynamicResource SmallRadius}"
+                                                    Background="{DynamicResource Brush.ScrollBar.Thumb}"
                                                     Margin="0"/>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
@@ -73,10 +73,10 @@
                                                                                  Storyboard.TargetProperty="Width"
                                                                                  To="8" Duration="0:0:0.12"
                                                                                  EasingFunction="{StaticResource ScrollEase}"/>
-                                                                <ColorAnimation Storyboard.TargetName="ThumbBd"
-                                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                                To="#66FFFFFF" Duration="0:0:0.12"
-                                                                                EasingFunction="{StaticResource ScrollEase}"/>
+                                                                <DoubleAnimation Storyboard.TargetName="ThumbBd"
+                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                 To="{DynamicResource Opacity.Hover}" Duration="0:0:0.12"
+                                                                                 EasingFunction="{StaticResource ScrollEase}"/>
                                                             </Storyboard>
                                                         </BeginStoryboard>
                                                     </Trigger.EnterActions>
@@ -87,10 +87,10 @@
                                                                                  Storyboard.TargetProperty="Width"
                                                                                  To="4" Duration="0:0:0.12"
                                                                                  EasingFunction="{StaticResource ScrollEase}"/>
-                                                                <ColorAnimation Storyboard.TargetName="ThumbBd"
-                                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                                                Duration="0:0:0.12"
-                                                                                EasingFunction="{StaticResource ScrollEase}"/>
+                                                                <DoubleAnimation Storyboard.TargetName="ThumbBd"
+                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                 To="1" Duration="0:0:0.12"
+                                                                                 EasingFunction="{StaticResource ScrollEase}"/>
                                                             </Storyboard>
                                                         </BeginStoryboard>
                                                     </Trigger.ExitActions>

@@ -53,6 +53,48 @@
     <SolidColorBrush x:Key="Brush.ComboBox.HoverBorder" Color="#4C7EFF"/>
     <SolidColorBrush x:Key="Brush.ComboBox.HoverBackground" Color="#161F2B"/>
 
+    <!-- ScrollBar -->
+    <SolidColorBrush x:Key="Brush.ScrollBar.Thumb" Color="#55FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.ScrollBar.ThumbHover" Color="#88FFFFFF"/>
+
+    <!-- GroupBox -->
+    <SolidColorBrush x:Key="Brush.GroupBox.Background" Color="#14000000"/>
+
+    <!-- Overlay -->
+    <SolidColorBrush x:Key="Brush.Overlay.Background" Color="#88000000"/>
+
+    <!-- Button (Custom - Dark base) -->
+    <SolidColorBrush x:Key="Brush.Button.Background" Color="#2FFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Button.HoverBackground" Color="#3FFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Button.PressedBackground" Color="#22FFFFFF"/>
+
+    <!-- DataGrid (Custom - Dark base) -->
+    <SolidColorBrush x:Key="Brush.DataGrid.AlternatingRow" Color="#0AFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.DataGrid.HoverRow" Color="#15FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.DataGrid.SelectedRow" Color="#333A86FF"/>
+
+    <!-- Progress -->
+    <SolidColorBrush x:Key="Brush.Progress.Background" Color="#22000000"/>
+
+    <!-- Swatch -->
+    <SolidColorBrush x:Key="Brush.Swatch.Stroke" Color="#FFFFFFFF"/>
+
+    <!-- Close Button -->
+    <SolidColorBrush x:Key="Brush.CloseButton.HoverBackground" Color="#22FF4757"/>
+    <SolidColorBrush x:Key="Brush.CloseButton.PressedBackground" Color="#33FF4757"/>
+
+    <!-- Title Bar -->
+    <SolidColorBrush x:Key="Brush.TitleBar.ButtonHover" Color="#15FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.TitleBar.ButtonPressed" Color="#22FFFFFF"/>
+
+    <!-- ListView -->
+    <SolidColorBrush x:Key="Brush.ListView.HoverBackground" Color="#15FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.ListView.SelectedBackground" Color="#40FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.ListView.ColumnHeaderHover" Color="#1AFFFFFF"/>
+
+    <!-- Loading -->
+    <SolidColorBrush x:Key="Brush.Loading.Background" Color="#88000000"/>
+
     <!-- ============================================
          LEGACY FLAT KEYS (Custom theme - Dark base)
          ============================================ -->
@@ -94,5 +136,21 @@
     <!-- Accent color value (Color type for glow effects) -->
     <Color x:Key="AccentColorValue">#3A86FF</Color>
     <Color x:Key="AccentColorLight">#6688FF</Color>
+
+    <!-- Custom theme color overrides for inline violation replacements -->
+    <Color x:Key="Color.ScrollBar.Thumb">#55FFFFFF</Color>
+    <Color x:Key="Color.ScrollBar.ThumbHover">#88FFFFFF</Color>
+    <Color x:Key="Color.GroupBox.Background">#14000000</Color>
+    <Color x:Key="Color.Overlay.Background">#88000000</Color>
+    <Color x:Key="Color.Animation.ThumbFade">#66FFFFFF</Color>
+    <Color x:Key="Color.Animation.ButtonHoverDanger">#22FF4757</Color>
+    <Color x:Key="Color.CloseButton.HoverBackground">#22FF4757</Color>
+    <Color x:Key="Color.CloseButton.PressedBackground">#33FF4757</Color>
+    <Color x:Key="Color.Loading.Background">#88000000</Color>
+    <Color x:Key="Color.TitleBar.ButtonHover">#15FFFFFF</Color>
+    <Color x:Key="Color.TitleBar.ButtonPressed">#22FFFFFF</Color>
+    <Color x:Key="Color.ListView.HoverBackground">#15FFFFFF</Color>
+    <Color x:Key="Color.ListView.SelectedBackground">#40FFFFFF</Color>
+    <Color x:Key="Color.ColumnHeader.HoverBackground">#1AFFFFFF</Color>
 
 </ResourceDictionary>
