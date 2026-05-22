@@ -1,8 +1,8 @@
 # Shadow System Architecture
 
 **Project**: Som3a Add-in 2026  
-**Version**: 1.0.0  
-**Date**: 2026-05-21  
+**Version**: 1.1.0  
+**Date**: 2026-05-22  
 **Files**: `Theme/Effects/Shadows.xaml`, `Theme/Effects/Glow.xaml`
 
 ---

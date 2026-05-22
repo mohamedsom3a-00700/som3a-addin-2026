@@ -5,6 +5,8 @@
     <Style TargetType="{x:Type ListView}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeBrush}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
         <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisualStyle}"/>
     </Style>

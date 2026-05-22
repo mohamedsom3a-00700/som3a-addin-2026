@@ -1,14 +1,14 @@
 param(
-    [string]$ProjectRoot = "..",
+    [string]$ProjectRoot,
     [switch]$Quiet
 )
 
-$errors = @()
-$warnings = @()
+$script:errors = @()
+$script:warnings = @()
 
 function Write-ErrorMsg {
     param([string]$Msg)
-    $errors += $Msg
+    $script:errors += $Msg
     if (-not $Quiet) { Write-Host "  FAIL: $Msg" -ForegroundColor Red }
 }
 
@@ -17,6 +17,10 @@ function Write-PassMsg {
     if (-not $Quiet) { Write-Host "  PASS: $Msg" -ForegroundColor Green }
 }
 
+if (-not $ProjectRoot) {
+    $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+    $ProjectRoot = Resolve-Path (Join-Path $scriptDir "..")
+}
 $resolvedRoot = [System.IO.Path]::GetFullPath((Join-Path -Path (Get-Location) -ChildPath $ProjectRoot))
 
 # ---------------------------------------------------------------------------
@@ -258,9 +262,9 @@ if (Test-Path $trPath) {
 Write-Host "`n========================================" -ForegroundColor Cyan
 Write-Host "Token Validation Summary" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "Errors: $($errors.Count)" -ForegroundColor $(if ($errors.Count -gt 0) { "Red" } else { "Green" })
+Write-Host "Errors: $($script:errors.Count)" -ForegroundColor $(if ($script:errors.Count -gt 0) { "Red" } else { "Green" })
 
-if ($errors.Count -gt 0) {
+if ($script:errors.Count -gt 0) {
     Write-Host "`n❌ VALIDATION FAILED - Fix errors above and re-run" -ForegroundColor Red
     exit 1
 } else {

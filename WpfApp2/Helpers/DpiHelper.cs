@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -6,36 +7,41 @@ namespace Som3a_WPF_UI.Helpers
 {
     public static class DpiHelper
     {
-        private static double? _cachedDpiScale;
+        private static readonly Dictionary<Window, double> _perWindowDpiCache = new Dictionary<Window, double>();
 
         public static double PrimaryScreenDpi => 96.0;
 
-        public static double GetCurrentDpiScale()
+        public static double GetCurrentDpiScale(Window window = null)
         {
-            if (_cachedDpiScale.HasValue)
-                return _cachedDpiScale.Value;
+            if (window != null)
+            {
+                if (_perWindowDpiCache.TryGetValue(window, out var cached))
+                    return cached;
 
-            try
-            {
-                var scale = GetScalingFactor(Application.Current?.MainWindow);
-                _cachedDpiScale = scale;
-                return scale;
+                try
+                {
+                    var scale = GetScalingFactor(window);
+                    _perWindowDpiCache[window] = scale;
+                    return scale;
+                }
+                catch
+                {
+                    _perWindowDpiCache[window] = 1.0;
+                    return 1.0;
+                }
             }
-            catch
-            {
-                _cachedDpiScale = 1.0;
-                return 1.0;
-            }
+
+            return GetSystemDpi() / PrimaryScreenDpi;
         }
 
-        public static double ScaleValue(double value)
+        public static double ScaleValue(double value, Window window = null)
         {
-            return value * GetCurrentDpiScale();
+            return value * GetCurrentDpiScale(window);
         }
 
-        public static bool IsHighDpi()
+        public static bool IsHighDpi(Window window = null)
         {
-            return GetCurrentDpiScale() >= 1.5;
+            return GetCurrentDpiScale(window) >= 1.5;
         }
 
         public static double GetSystemDpi()
@@ -107,9 +113,12 @@ namespace Som3a_WPF_UI.Helpers
             return new Size(size.Width * scale, size.Height * scale);
         }
 
-        public static void InvalidateCache()
+        public static void InvalidateCache(Window window = null)
         {
-            _cachedDpiScale = null;
+            if (window != null)
+                _perWindowDpiCache.Remove(window);
+            else
+                _perWindowDpiCache.Clear();
         }
 
         public static bool IsSystemHighContrast()

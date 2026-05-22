@@ -9,6 +9,12 @@ namespace Som3a_WPF_UI.Services
         FallbackSafe
     }
 
+    public class RenderModeEventArgs : EventArgs
+    {
+        public RenderMode Mode { get; }
+        public RenderModeEventArgs(RenderMode mode) { Mode = mode; }
+    }
+
     public sealed class RenderModeService
     {
         private static readonly Lazy<RenderModeService> _instance =
@@ -20,8 +26,9 @@ namespace Som3a_WPF_UI.Services
         private bool _isInitialized;
         private bool _gpuAvailable;
         private bool _transparencySupported;
+        private readonly object _initLock = new object();
 
-        public event EventHandler<RenderMode> RenderModeChanged;
+        public event EventHandler<RenderModeEventArgs> RenderModeChanged;
 
         private RenderModeService()
         {
@@ -31,28 +38,33 @@ namespace Som3a_WPF_UI.Services
         {
             if (_isInitialized) return;
 
-            try
+            lock (_initLock)
             {
-                var detectedMode = WindowRenderModeDetector.DetectOptimalMode();
-                _currentMode = detectedMode == WindowRenderMode.WindowChrome
-                    ? RenderMode.WindowChrome
-                    : RenderMode.FallbackSafe;
+                if (_isInitialized) return;
 
-                _gpuAvailable = detectedMode == WindowRenderMode.WindowChrome;
-                _transparencySupported = detectedMode == WindowRenderMode.WindowChrome;
+                try
+                {
+                    var detectedMode = WindowRenderModeDetector.DetectOptimalMode();
+                    _currentMode = detectedMode == WindowRenderMode.WindowChrome
+                        ? RenderMode.WindowChrome
+                        : RenderMode.FallbackSafe;
 
-                _isInitialized = true;
+                    _gpuAvailable = detectedMode == WindowRenderMode.WindowChrome;
+                    _transparencySupported = detectedMode == WindowRenderMode.WindowChrome;
 
-                RenderModeChanged?.Invoke(this, _currentMode);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(
-                    $"[RenderModeService] Initialization failed, defaulting to FallbackSafe: {ex.Message}");
-                _currentMode = RenderMode.FallbackSafe;
-                _gpuAvailable = false;
-                _transparencySupported = false;
-                _isInitialized = true;
+                    _isInitialized = true;
+
+                    RenderModeChanged?.Invoke(this, new RenderModeEventArgs(_currentMode));
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(
+                        $"[RenderModeService] Initialization failed, defaulting to FallbackSafe: {ex.Message}");
+                    _currentMode = RenderMode.FallbackSafe;
+                    _gpuAvailable = false;
+                    _transparencySupported = false;
+                    _isInitialized = true;
+                }
             }
         }
 
