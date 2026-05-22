@@ -203,7 +203,7 @@ No constitutional violations. No complexity justifications required.
 
 ### TASK-3005 — Replace inline DropShadowEffect on progress bars
 - **Files**: `SubDailyReportWindow.xaml:527-531`, `ProjectAnalysisWindow.xaml:512-516`
-- **Action**: Define `ProgressGlow` DropShadowEffect in `Effects/Shadows.xaml` with `Color="{DynamicResource AccentColorValue}"`. Replace inline effect with `<Border.Effect><StaticResource ResourceKey="ProgressGlow"/></Border.Effect>`.
+- **Action**: Define `Shadow.ProgressGlow` DropShadowEffect in `Effects/Shadows.xaml` with `Color="{DynamicResource AccentColorValue}"`. Replace inline effect with `<Border.Effect><DynamicResource ResourceKey="Shadow.ProgressGlow"/></Border.Effect>`.
 
 ### TASK-3006 — Fix ModernWindow.xaml hardcoded Background/Foreground
 - **File**: `Theme/ModernWindow.xaml:8-9`

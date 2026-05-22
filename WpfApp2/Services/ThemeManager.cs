@@ -136,16 +136,15 @@ namespace Som3a_WPF_UI.Services
             if (Application.Current?.Resources == null)
                 return;
 
-            _pendingThemeName = themeName;
-            _pendingAccentColor = accentColor;
-            _debounceTimer.Stop();
-            _debounceTimer.Start();
+            ApplyThemeInternal(themeName, accentColor);
         }
 
         private void ApplyThemeInternal(string themeName, string accentColor)
         {
             if (Application.Current?.Resources == null)
                 return;
+
+            System.Diagnostics.Debug.WriteLine($"[ThemeManager] Applying Theme: {themeName}");
 
             if (!Enum.TryParse<AppTheme>(themeName, true, out var theme))
                 theme = AppTheme.Dark;
@@ -196,10 +195,27 @@ namespace Som3a_WPF_UI.Services
                 if (existingTheme != null)
                 {
                     removedDict = existingTheme;
-                    dicts.Remove(existingTheme);
+                    int index = dicts.IndexOf(existingTheme);
+                    if (index >= 0)
+                    {
+                        dicts[index] = themeDict;
+                    }
+                    else
+                    {
+                        dicts.Add(themeDict);
+                    }
+                }
+                else
+                {
+                    dicts.Add(themeDict);
                 }
 
-                dicts.Add(themeDict);
+                foreach (Window window in Application.Current.Windows)
+                {
+                    window.InvalidateVisual();
+                    window.UpdateLayout();
+                }
+                System.Diagnostics.Debug.WriteLine($"[ThemeManager] Dictionaries Count: {dicts.Count}");
             }
             catch (Exception ex)
             {
@@ -207,7 +223,13 @@ namespace Som3a_WPF_UI.Services
                 try
                 {
                     if (removedDict != null)
-                        dicts.Add(removedDict);
+                    {
+                        int failIndex = dicts.IndexOf(themeDict);
+                        if (failIndex >= 0)
+                            dicts[failIndex] = removedDict;
+                        else
+                            dicts.Add(removedDict);
+                    }
                 }
                 catch { }
                 return;

@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Som3a_WPF_UI.Controls.Toast;
+using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.Controls.Toast
 {
@@ -11,17 +12,25 @@ namespace Som3a_WPF_UI.Controls.Toast
     {
         private readonly ToastModel _model;
         private readonly DispatcherTimer _timer;
+        private readonly bool _useSafeMode;
 
         public ToastWindow(ToastModel model)
         {
             InitializeComponent();
             _model = model;
 
+            var renderService = RenderModeService.Instance;
+            renderService.Initialize();
+            _useSafeMode = renderService.IsSafeModeRequired();
+
             ConfigureToast();
             PositionWindow();
 
-            Opacity = 0;
-            RenderTransform = new System.Windows.Media.TranslateTransform(0, 20);
+            if (!_useSafeMode)
+            {
+                Opacity = 0;
+                RenderTransform = new TranslateTransform(0, 20);
+            }
 
             _timer = new DispatcherTimer
             {
@@ -41,28 +50,28 @@ namespace Som3a_WPF_UI.Controls.Toast
             switch (_model.Type)
             {
                 case ToastType.Success:
-                    ToastBorder.Background = new SolidColorBrush(Color.FromRgb(46, 213, 115));
+                    ToastBorder.Background = (System.Windows.Media.Brush)FindResource("Brush.Accent.Success");
                     IconText.Text = "✓";
-                    IconText.Foreground = Brushes.White;
+                    IconText.Foreground = (System.Windows.Media.Brush)FindResource("Brush.Text.OnAccent");
                     break;
 
                 case ToastType.Error:
-                    ToastBorder.Background = new SolidColorBrush(Color.FromRgb(255, 71, 87));
+                    ToastBorder.Background = (System.Windows.Media.Brush)FindResource("Brush.Accent.Danger");
                     IconText.Text = "✗";
-                    IconText.Foreground = Brushes.White;
+                    IconText.Foreground = (System.Windows.Media.Brush)FindResource("Brush.Text.OnAccent");
                     break;
 
                 case ToastType.Warning:
-                    ToastBorder.Background = new SolidColorBrush(Color.FromRgb(255, 165, 2));
+                    ToastBorder.Background = (System.Windows.Media.Brush)FindResource("Brush.Accent.Warning");
                     IconText.Text = "⚠";
-                    IconText.Foreground = Brushes.White;
+                    IconText.Foreground = (System.Windows.Media.Brush)FindResource("Brush.Text.OnAccent");
                     break;
 
                 case ToastType.Info:
                 default:
-                    ToastBorder.Background = new SolidColorBrush(Color.FromRgb(58, 134, 255));
+                    ToastBorder.Background = (System.Windows.Media.Brush)FindResource("Brush.Accent.Primary");
                     IconText.Text = "ℹ";
-                    IconText.Foreground = Brushes.White;
+                    IconText.Foreground = (System.Windows.Media.Brush)FindResource("Brush.Text.OnAccent");
                     break;
             }
 
@@ -78,19 +87,28 @@ namespace Som3a_WPF_UI.Controls.Toast
 
         private void ShowToast()
         {
+            if (_useSafeMode)
+                return;
+
             var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(200));
             fadeIn.EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut };
 
-            var slideUp = new DoubleAnimation(20, 0, TimeSpan.FromMilliseconds(250));
+            var slideUp = new DoubleAnimation(20, 0, TimeSpan.FromMilliseconds(200));
             slideUp.EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut };
 
             BeginAnimation(OpacityProperty, fadeIn);
-            RenderTransform.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty, slideUp);
+            RenderTransform.BeginAnimation(TranslateTransform.YProperty, slideUp);
         }
 
         private void CloseToast()
         {
             _timer.Stop();
+
+            if (_useSafeMode)
+            {
+                Close();
+                return;
+            }
 
             var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(150));
             fadeOut.EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn };
@@ -99,7 +117,7 @@ namespace Som3a_WPF_UI.Controls.Toast
             slideDown.EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn };
 
             fadeOut.Completed += (s, e) => Close();
-            RenderTransform.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty, slideDown);
+            RenderTransform.BeginAnimation(TranslateTransform.YProperty, slideDown);
             BeginAnimation(OpacityProperty, fadeOut);
         }
     }

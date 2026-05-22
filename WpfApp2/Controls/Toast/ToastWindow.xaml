@@ -7,7 +7,9 @@
         ShowInTaskbar="False"
         Topmost="True"
         SizeToContent="WidthAndHeight"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True">
 
 <Window.Resources>
         <Style x:Key="ToastIcon" TargetType="TextBlock">
@@ -33,8 +35,8 @@
             Effect="{DynamicResource Shadow.Popup}">
 
         <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="IconText" Style="{StaticResource ToastIcon}"/>
-            <TextBlock x:Name="MessageText" Style="{StaticResource ToastText}"/>
+            <TextBlock x:Name="IconText" Style="{DynamicResource ToastIcon}"/>
+            <TextBlock x:Name="MessageText" Style="{DynamicResource ToastText}"/>
         </StackPanel>
     </Border>
 </Window>

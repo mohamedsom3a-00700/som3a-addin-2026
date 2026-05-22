@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Xml.Linq;
 using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
@@ -14,7 +15,18 @@ namespace Som3a_Addin_2026
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            System.Windows.Application app = System.Windows.Application.Current;
+
+            if (app == null)
+            {
+                app = new System.Windows.Application
+                {
+                    ShutdownMode = ShutdownMode.OnExplicitShutdown
+                };
+            }
+
             ThemeManager.InitializeApplicationResources();
+
             ThemeManager.LoadSettings();
         }
 

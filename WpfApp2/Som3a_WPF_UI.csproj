@@ -96,6 +96,7 @@
     <Compile Include="Services\ThemeSettings.cs" />
     <Compile Include="Services\ThemeManager.cs" />
     <Compile Include="Services\WindowRenderModeDetector.cs" />
+    <Compile Include="Services\RenderModeService.cs" />
     <Compile Include="Services\ToastService.cs" />
     <Compile Include="Controls\LoadingOverlay.xaml.cs">
       <DependentUpon>LoadingOverlay.xaml</DependentUpon>

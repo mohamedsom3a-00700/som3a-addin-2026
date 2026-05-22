@@ -166,7 +166,7 @@
                                             <Border Width="80"
                                                     Height="22"
                                                     CornerRadius="6"
-                                                    BorderBrush="#33000000"
+                                                    BorderBrush="{DynamicResource Brush.Control.Stroke}"
                                                     BorderThickness="1"
                                                     Background="{Binding Brush}"/>
 

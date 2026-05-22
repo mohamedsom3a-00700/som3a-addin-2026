@@ -11,6 +11,7 @@
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisualStyle}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -72,6 +73,7 @@
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="track" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
                             <Setter TargetName="track" Property="BorderThickness" Value="1"/>
+                            <Setter TargetName="track" Property="Effect" Value="{DynamicResource Glow.Focus}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>

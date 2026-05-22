@@ -104,7 +104,7 @@ As a user, I want every window's background to match the selected theme — not 
 - **FR-001**: ThemeManager MUST treat `_currentAccentColor` as an independent user preference. When `ApplyTheme()` is called without an explicit `accentColor`, the current accent MUST be preserved and re-applied; it MUST NOT be reset to any theme default.
 - **FR-002**: ThemeManager MUST guard against duplicate dictionary replacement when the same theme is selected again. Additionally, rapid sequential switches to different themes MUST be debounced/coalesced so that only the final selection is applied.
 - **FR-003**: ThemeManager MUST wrap dictionary replacement in try/catch. If the requested new theme fails to load, the currently-active theme dictionary MUST be preserved. A fallback to Dark theme MUST only occur if the current dictionary itself is invalidated.
-- **FR-004**: ThemeManager MUST dispatch `ThemeChanged` events on the UI dispatcher thread.
+- **FR-004**: ThemeManager MUST wrap theme dictionary loading and application in try/catch, only commit the new resources when no exception occurs, then dispatch `ThemeChanged` on the UI dispatcher thread. If loading fails, the existing theme MUST be preserved and `ThemeChanged` MUST NOT be raised.
 - **FR-005**: Application MUST NOT contain duplicate resource keys across App.xaml and ThemeResources.xaml that would cause XAML parse exceptions.
 - **FR-006**: SettingsWindow MUST NOT load resource dictionaries (Shadows.xaml, Glow.xaml, ThemeCardStyles.xaml, AccentSwatchStyles.xaml) that are already included in ThemeResources.xaml.
 - **FR-007**: All 12 window root backgrounds MUST be defined as per-theme brush tokens (e.g., `Brush.Background.Root`) and applied via `{DynamicResource Brush.Background.Root}`.
@@ -115,7 +115,7 @@ As a user, I want every window's background to match the selected theme — not 
 - **FR-012**: ModernWindow.xaml MUST centralize its DropShadowEffect via `{DynamicResource Shadow.Window}` instead of inline definition.
 - **FR-013**: The orphaned FluentWhite.xaml file MUST be removed from the project to eliminate dead code.
 - **FR-014**: Commented-out legacy theme imports in App.xaml MUST be removed.
-- **FR-015**: All inline DropShadowEffect instances on progress bars MUST be replaced by a centralized `ProgressGlow` effect in Effects/Shadows.xaml that uses the current accent color.
+- **FR-015**: All inline DropShadowEffect instances on progress bars MUST be replaced by a centralized `Shadow.ProgressGlow` effect in Effects/Shadows.xaml that uses the current accent color via `{DynamicResource AccentColorValue}`. All XAML files MUST reference this effect via `{DynamicResource Shadow.ProgressGlow}`. Inline DropShadowEffect definitions are forbidden in any XAML file outside Effects/Shadows.xaml and Effects/Glow.xaml.
 - **FR-016**: All TextBlock elements with missing `Foreground` properties MUST have `Foreground="{DynamicResource TextMainBrush}"` to be visible on both themes.
 - **FR-017**: The TreeView hover/selected highlight colors in Float_path.xaml MUST use theme-aware accent brushes instead of hardcoded `#007ACC`.
 - **FR-018**: The named color `LimeGreen` in SubDailyReportWindow.xaml MUST be replaced with `{DynamicResource SuccessBrush}`.
