@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/008-navigation-shell-platform/plan.md
+at: specs/009-mvvm-architecture-cleanup/plan.md
 
 Also refer to the master implementation plan:
 - implementation_plan.md — Full execution plan for Phases 0-11
@@ -107,8 +107,48 @@ Docs/Architecture/
 - `.specify/memory/constitution.md` — Current active constitution (v1.2.0)
 - `.specify/memory/constitution-v2.md` — Next-generation constitution (v2.0.0)
 
+## Architecture Cleanup (Feature: 009-mvvm-architecture-cleanup)
+
+### Service Container
+
+- `Services/ServiceContainer.cs` — `IServiceContainer`, `ServiceContainer`, `IServiceScope`, `ServiceScope`
+- Singleton: `App.Container` (static), registered in `CompositionRoot.RegisterServices()`
+- Lifetimes: `RegisterSingleton<T>`, `RegisterTransient<T>`, `RegisterScoped<T>`
+- Resolution: `Resolve<T>()`, `Resolve(Type)`, `CreateScope()`
+- Error handling: Circular dependency detection (throws `InvalidOperationException` with chain), unregistered service detection (throws `InvalidOperationException` with type name)
+- Diagnostics: `ServiceResolved` and `ServiceRegistered` events
+
+### Event Bus
+
+- `Services/EventBus.cs` — `IEventBus`, `EventBus`, `SubscriptionToken`
+- Typed events: `Publish<TEvent>(TEvent)`, `Subscribe<TEvent>(Action<TEvent>)`, `Subscribe<TEvent>(Action<TEvent>, Func<TEvent, bool>)`
+- Weak reference subscriber storage — dead subscribers auto-pruned on next publish
+- Subscriber isolation — one subscriber's exception doesn't block others; errors reported via `SubscriberError` event
+- Diagnostics: `EventPublished`, `EventSubscribed`, `SubscriberError` events
+
+### Module Registry
+
+- `Services/ModuleRegistry.cs` — `IModule`, `IModuleRegistry`, `ModuleRegistry`
+- Modules self-register services and event subscriptions in `Initialize(IServiceContainer, IEventBus)`
+- Priority-based initialization order (lower = first)
+- Duplicate `ModuleId` throws `InvalidOperationException`
+- One module failure doesn't block remaining modules
+
+### MVVM ViewModels
+
+- `ViewModels/ViewModelBase.cs` — base class with `INotifyPropertyChanged`, `SetProperty<T>` helper
+- ViewModels relocated to `ViewModels/` directory with `Som3a_WPF_UI.ViewModels` namespace
+- Constructor injection via `IServiceContainer` for all service dependencies
+- Commands (`ICommand`) for user actions instead of code-behind event handlers
+
+### Composition Root
+
+- `CompositionRoot.cs` — centralized registration point called from `App.xaml.cs`
+- `RegisterServices(IServiceContainer)` — registers all core services
+- `InitializeModules(IModuleRegistry)` — initializes all modules at startup
+
 ### Build
 
 ```powershell
-msbuild WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
+& "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
 ```

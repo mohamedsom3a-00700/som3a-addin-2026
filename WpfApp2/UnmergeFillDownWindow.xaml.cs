@@ -2,6 +2,7 @@
 using System.Windows;
 using Excel = Microsoft.Office.Interop.Excel;
 using Som3a_WPF_UI.Controls;
+using Som3a_WPF_UI.ViewModels;
 
 namespace Som3a_WPF_UI
 {

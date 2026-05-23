@@ -1,11 +1,13 @@
-﻿namespace Som3a_WPF_UI
+﻿using Som3a_WPF_UI.ViewModels;
+
+namespace Som3a_WPF_UI
 {
     public partial class XerEditorWindow : Som3a_WPF_UI.Controls.ModernWindow
     {
         public XerEditorWindow()
         {
             InitializeComponent();
-            DataContext = new XerEditorVM();
+            DataContext = new XerEditorViewModel();
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

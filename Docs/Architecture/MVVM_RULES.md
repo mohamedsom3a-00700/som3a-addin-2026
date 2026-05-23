@@ -134,28 +134,72 @@ public ICommand SaveCommand => new RelayCommand(
     canExecute: () => !IsBusy && IsValid);
 ```
 
-### Service Access
+### Service Access (Phase 9+)
 
-**Phase 6+ (with DI):**
+Services MUST be resolved via constructor injection from `IServiceContainer`:
 
 ```csharp
 public class MyViewModel
 {
     private readonly IDataService _dataService;
 
-    public MyViewModel(IDataService dataService)
+    public MyViewModel(IDataService dataService, IEventBus eventBus)
     {
         _dataService = dataService;
     }
 }
 ```
 
-**Pre-Phase 6 (without DI):**
+### Service Container
+
+The `IServiceContainer` provides centralized DI. Common patterns:
 
 ```csharp
-public class MyViewModel
+// Registration (in CompositionRoot.cs or a module)
+container.RegisterSingleton<ILogger, FileLogger>();
+container.RegisterTransient<IUserService, UserService>();
+container.RegisterScoped<IDbContext, DbContext>();
+
+// Resolution (from container)
+var logger = App.Container.Resolve<ILogger>();
+```
+
+**Lifetimes**:
+- **Singleton**: One instance per container lifetime (shared across all consumers)
+- **Transient**: New instance per resolution
+- **Scoped**: One instance per `IServiceScope` (e.g., per-window)
+
+### Event Bus
+
+Use `IEventBus` for decoupled cross-component communication:
+
+```csharp
+// Define event class
+public class DataRefreshRequested { public string EntityType { get; set; } }
+
+// Publish
+eventBus.Publish(new DataRefreshRequested { EntityType = "Projects" });
+
+// Subscribe (returns IDisposable token for unsubscription)
+var token = eventBus.Subscribe<DataRefreshRequested>(OnDataRefresh);
+token.Dispose(); // Unsubscribe
+```
+
+### Module Registry
+
+Modules self-register at startup via `IModule`:
+
+```csharp
+public class ThemeModule : IModule
 {
-    private readonly IDataService _dataService = ServiceLocator.Get<IDataService>();
+    public string ModuleId => "ThemeModule";
+    public string Name => "Theme Management";
+    public int Priority => 100;
+
+    public void Initialize(IServiceContainer container, IEventBus eventBus)
+    {
+        container.RegisterSingleton<IThemeService, ThemeService>();
+    }
 }
 ```
 

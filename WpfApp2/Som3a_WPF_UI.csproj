@@ -103,7 +103,7 @@
     <Compile Include="Helpers\WindowValidationHelper.cs" />
     <Compile Include="Behaviors\DragMoveBehavior.cs" />
     <Compile Include="Behaviors\EscapeCloseBehavior.cs" />
-    <Compile Include="Models\XerEditorVM.cs" />
+    <Compile Include="ViewModels\XerEditorViewModel.cs" />
     <Compile Include="Pages\PageBase.cs" />
     <Compile Include="Pages\WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
@@ -116,6 +116,9 @@
     <Compile Include="Services\ThemeManager.cs" />
     <Compile Include="Services\WindowRenderModeDetector.cs" />
     <Compile Include="Services\RenderModeService.cs" />
+    <Compile Include="Services\ServiceContainer.cs" />
+    <Compile Include="Services\EventBus.cs" />
+    <Compile Include="Services\ModuleRegistry.cs" />
     <Compile Include="Services\ToastService.cs" />
     <Compile Include="Controls\LoadingOverlay.xaml.cs">
       <DependentUpon>LoadingOverlay.xaml</DependentUpon>
@@ -133,9 +136,11 @@
     <Compile Include="ViewModels\Primavera\PrimaveraResultsViewModel.cs" />
     <Compile Include="ViewModels\ProjectAnalysisViewModel.cs" />
     <Compile Include="Models\RelayCommand.cs" />
-    <Compile Include="Models\SubDailyReportViewModel.cs" />
-    <Compile Include="Models\UnmergeFillDownViewModel.cs" />
+    <Compile Include="ViewModels\SubDailyReportViewModel.cs" />
+    <Compile Include="ViewModels\UnmergeFillDownViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Converters\SharedConverters.cs" />
+    <Compile Include="CompositionRoot.cs" />
     <Compile Include="Controls\ModernWindow.cs" />
     <Compile Include="Views\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>

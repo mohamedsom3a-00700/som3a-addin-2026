@@ -74,7 +74,7 @@ namespace Som3a_WPF_UI
             {
                 await System.Threading.Tasks.Task.Yield();
 
-                var service = new FixPieColorsService();
+                var service = App.Container.Resolve<FixPieColorsService>();
                 var res = service.ApplyColors(_xlApp, sheetName, categoryRange, colorTableRange);
 
                 MessageBox.Show(
