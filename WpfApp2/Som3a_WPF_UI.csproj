@@ -98,7 +98,6 @@
     <Compile Include="Helpers\DpiHelper.cs" />
     <Compile Include="Helpers\ExcelOwnerHelper.cs" />
     <Compile Include="Helpers\NotifyBase.cs" />
-    <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\WindowBehaviorHelper.cs" />
     <Compile Include="Helpers\WindowChromeHelper.cs" />
     <Compile Include="Helpers\WindowValidationHelper.cs" />

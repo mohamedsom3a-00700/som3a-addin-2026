@@ -21,6 +21,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         private Frame _frame;
         private Border _errorOverlay;
         private bool _isFirstNavigation = true;
+        private Action _retryAction;
 
         public static readonly DependencyProperty WelcomePageTypeProperty =
             DependencyProperty.Register(
@@ -62,9 +63,6 @@ namespace Som3a_WPF_UI.Controls.Shell
         {
             if (_frame == null) return;
 
-            var previousKey = _isFirstNavigation ? null : (_frame.Content as FrameworkElement)?.Tag?.ToString();
-            var newKey = page?.Tag?.ToString();
-
             try
             {
                 _frame.Navigate(page);
@@ -79,22 +77,9 @@ namespace Som3a_WPF_UI.Controls.Shell
                 }
 
                 _isFirstNavigation = false;
-                OnNavigationCompleted(new NavigationEventArgs
-                {
-                    PreviousKey = previousKey,
-                    NewKey = newKey,
-                    Success = true
-                });
             }
             catch (Exception ex)
             {
-                OnNavigationCompleted(new NavigationEventArgs
-                {
-                    PreviousKey = previousKey,
-                    NewKey = newKey,
-                    Success = false,
-                    Error = ex.Message
-                });
                 ShowError(ex.Message, () => Navigate(page));
             }
         }
@@ -105,6 +90,7 @@ namespace Som3a_WPF_UI.Controls.Shell
 
             _errorOverlay.Visibility = Visibility.Visible;
             _frame.Visibility = Visibility.Collapsed;
+            _retryAction = retryAction;
 
             if (_errorOverlay.Child is FrameworkElement errorContent)
             {
@@ -114,12 +100,7 @@ namespace Som3a_WPF_UI.Controls.Shell
                 if (errorContent.FindName("PART_RetryButton") is Button retryBtn)
                 {
                     retryBtn.Click -= OnRetryClick;
-                    retryBtn.Click += (s, e) =>
-                    {
-                        _errorOverlay.Visibility = Visibility.Collapsed;
-                        _frame.Visibility = Visibility.Visible;
-                        retryAction?.Invoke();
-                    };
+                    retryBtn.Click += OnRetryClick;
                 }
             }
         }
@@ -163,6 +144,9 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnRetryClick(object sender, RoutedEventArgs e)
         {
+            _errorOverlay.Visibility = Visibility.Collapsed;
+            _frame.Visibility = Visibility.Visible;
+            _retryAction?.Invoke();
         }
 
         protected virtual void OnNavigationCompleted(NavigationEventArgs e)

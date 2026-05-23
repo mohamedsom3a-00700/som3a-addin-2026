@@ -17,6 +17,7 @@
     13. Controls/*.xaml            — All control styles
     14. ModernWindow.xaml           — Window chrome template
     15. WindowAnimations.xaml       — Window-level animations
+    16. ShellStyles.xaml            — Shell sidebar, command palette, status bar styles
 
     Theme overrides (Dark, Light, Custom) are swapped at runtime by ThemeManager.
     

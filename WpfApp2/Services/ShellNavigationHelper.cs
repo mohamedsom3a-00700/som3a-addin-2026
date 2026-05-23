@@ -15,11 +15,26 @@ namespace Som3a_WPF_UI.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Could not open shell page '{pageKey}': {ex.Message}",
-                    "Navigation Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                Window owner = null;
+                if (excelWindowHandle != IntPtr.Zero)
+                {
+                    var hwndSource = HwndSource.FromHwnd(excelWindowHandle);
+                    if (hwndSource?.RootVisual is Window rootWindow)
+                        owner = rootWindow;
+                }
+
+                if (owner != null)
+                    MessageBox.Show(owner,
+                        $"Could not open shell page '{pageKey}': {ex.Message}",
+                        "Navigation Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                else
+                    MessageBox.Show(
+                        $"Could not open shell page '{pageKey}': {ex.Message}",
+                        "Navigation Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
             }
         }
 
@@ -41,8 +56,7 @@ namespace Som3a_WPF_UI.Services
 
         public static bool IsShellPageRegistered(string pageKey)
         {
-            var page = NavigationService.Instance.CreatePage(pageKey);
-            return page != null;
+            return NavigationService.Instance.IsPageRegistered(pageKey);
         }
     }
 }

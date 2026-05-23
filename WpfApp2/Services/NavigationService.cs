@@ -10,9 +10,10 @@ namespace Som3a_WPF_UI.Services
     public interface INavigationService
     {
         void RegisterPage<T>(string key, string displayName, string icon = null, int order = 50) where T : Page, new();
-        void NavigateTo(string key);
+        void NavigateTo(string key, bool pushToHistory = true);
         bool GoBack();
         Page CreatePage(string key);
+        bool IsPageRegistered(string key);
         List<NavigationDestination> Search(string query);
         ObservableCollection<NavigationDestination> Destinations { get; }
         event EventHandler<NavigationEventArgs> NavigationChanged;
@@ -47,6 +48,9 @@ namespace Som3a_WPF_UI.Services
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentException("Key must not be null or empty", nameof(key));
 
+            if (displayName == null)
+                throw new ArgumentException("Display name must not be null", nameof(displayName));
+
             if (_registry.ContainsKey(key))
                 throw new InvalidOperationException($"A page with key '{key}' is already registered.");
 
@@ -78,7 +82,7 @@ namespace Som3a_WPF_UI.Services
             Destinations.Insert(insertIndex, destination);
         }
 
-        public void NavigateTo(string key)
+        public void NavigateTo(string key, bool pushToHistory = true)
         {
             if (!_registry.TryGetValue(key, out var navPage))
                 throw new KeyNotFoundException($"No page registered with key '{key}'.");
@@ -86,7 +90,8 @@ namespace Som3a_WPF_UI.Services
             EnsureShellOpen();
 
             var previousKey = _navigationHistory.Count > 0 ? _navigationHistory.Peek() : null;
-            _navigationHistory.Push(key);
+            if (pushToHistory)
+                _navigationHistory.Push(key);
 
             var destination = Destinations.FirstOrDefault(d => d.Key == key);
             if (destination != null)
@@ -110,7 +115,7 @@ namespace Som3a_WPF_UI.Services
             _navigationHistory.Pop();
             var previousKey = _navigationHistory.Peek();
 
-            NavigateTo(previousKey);
+            NavigateTo(previousKey, pushToHistory: false);
             return true;
         }
 
@@ -121,6 +126,11 @@ namespace Som3a_WPF_UI.Services
             return null;
         }
 
+        public bool IsPageRegistered(string key)
+        {
+            return _registry.ContainsKey(key);
+        }
+
         public List<NavigationDestination> Search(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -128,7 +138,7 @@ namespace Som3a_WPF_UI.Services
 
             var lowerQuery = query.ToLowerInvariant();
             return Destinations
-                .Where(d => d.Label.ToLowerInvariant().Contains(lowerQuery))
+                .Where(d => (d.Label ?? string.Empty).ToLowerInvariant().Contains(lowerQuery))
                 .OrderBy(d => d.Order)
                 .ToList();
         }
