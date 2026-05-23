@@ -75,6 +75,20 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Shell\CommandPalette.xaml.cs">
+      <DependentUpon>CommandPalette.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Shell\NavigationDestination.cs" />
+    <Compile Include="Controls\Shell\NavigationEventArgs.cs" />
+    <Compile Include="Controls\Shell\NavigationPage.cs" />
+    <Compile Include="Controls\Shell\ShellState.cs" />
+    <Compile Include="Controls\Shell\ShellWindow.xaml.cs">
+      <DependentUpon>ShellWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Shell\SidebarControl.xaml.cs">
+      <DependentUpon>SidebarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Shell\WorkspaceHost.cs" />
     <Compile Include="Converters\DifferenceTypeToColorConverter.cs" />
     <Compile Include="Converters\WindowConverters.cs" />
     <Compile Include="Float_path.xaml.cs">
@@ -91,8 +105,14 @@
     <Compile Include="Behaviors\DragMoveBehavior.cs" />
     <Compile Include="Behaviors\EscapeCloseBehavior.cs" />
     <Compile Include="Models\XerEditorVM.cs" />
+    <Compile Include="Pages\PageBase.cs" />
+    <Compile Include="Pages\WelcomePage.xaml.cs">
+      <DependentUpon>WelcomePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ExcelProjectAnalysisService.cs" />
+    <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\ShellNavigationHelper.cs" />
     <Compile Include="Services\ThemeSettings.cs" />
     <Compile Include="Services\ThemeManager.cs" />
     <Compile Include="Services\WindowRenderModeDetector.cs" />
@@ -171,11 +191,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Analyzers\README.md" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="scripts\Validate-Tokens.ps1" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -184,6 +206,18 @@
     <Page Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Shell\CommandPalette.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Shell\ShellWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Shell\SidebarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Float_path.xaml">
       <SubType>Designer</SubType>
@@ -204,6 +238,10 @@
     <Page Include="AssignTradeCodesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WelcomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="StyleSelectorWindow.xaml">
       <SubType>Designer</SubType>
@@ -366,6 +404,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\ModernWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\ShellStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

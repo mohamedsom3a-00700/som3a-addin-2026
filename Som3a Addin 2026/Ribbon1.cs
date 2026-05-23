@@ -6,6 +6,8 @@ using Som3a.Shared.Models;
 using Som3a_Addin_2026.Ui;
 using Som3a_Addin_2026.UIHost;
 using Som3a_WPF_UI;
+using Som3a_WPF_UI.Controls.Shell;
+using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.ViewModels;
 using Som3a_WPF_UI.Windows.PrimaveraComparison;
 using System;
@@ -455,6 +457,32 @@ namespace Som3a_Addin_2026
 
                 window.ShowDialog();
             }
+
+        private static void RegisterShellPages()
+        {
+            var ns = NavigationService.Instance;
+            ns.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("welcome", "Home", "🏠", 0);
+            ns.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("comparison", "Comparison", "📊", 10);
+            ns.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("daily-report", "Daily Report", "📋", 20);
+            ns.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("links-manager", "Links Manager", "🔗", 30);
+        }
+
+        private void btnWorkspace_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("welcome");
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "Workspace Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+            }
+        }
 
         private void addin_setting_Click(object sender, RibbonControlEventArgs e)
         {

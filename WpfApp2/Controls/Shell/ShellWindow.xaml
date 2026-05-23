@@ -1,0 +1,51 @@
+<controls:ModernWindow x:Class="Som3a_WPF_UI.Controls.Shell.ShellWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
+                      xmlns:shell="clr-namespace:Som3a_WPF_UI.Controls.Shell"
+                      Title="Som3a Add-in"
+                      Width="1200"
+                      Height="800"
+                      WindowStartupLocation="CenterScreen"
+                      SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <shell:SidebarControl x:Name="Sidebar"
+                              Grid.Column="0"
+                              Items="{Binding Destinations}"
+                              SelectedItem="{Binding SelectedDestination, Mode=TwoWay}"
+                              NavigateCommand="{Binding NavigateToPageCommand}"/>
+
+        <!-- Workspace -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <shell:WorkspaceHost x:Name="Workspace"
+                                 Grid.Row="0"
+                                 WelcomePageType="{Binding WelcomePageType}"/>
+
+            <!-- Status Bar -->
+            <StatusBar Grid.Row="1"
+                       Style="{DynamicResource Style.StatusBar}">
+                <StatusBarItem>
+                    <TextBlock x:Name="StatusText"
+                               Text="{Binding StatusMessage}"
+                               Foreground="{DynamicResource Brush.Text.Secondary}"/>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+
+        <!-- Command Palette (overlays everything) -->
+        <shell:CommandPalette x:Name="Palette"
+                              Destinations="{Binding Destinations}"/>
+    </Grid>
+</controls:ModernWindow>

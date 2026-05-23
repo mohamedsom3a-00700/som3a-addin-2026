@@ -289,5 +289,9 @@ namespace Som3a_WPF_UI.Controls
             () => WindowState == WindowState.Maximized);
 
         public bool IsMaximized => WindowState == WindowState.Maximized;
+
+        protected virtual void OnShellInitialize()
+        {
+        }
     }
 }

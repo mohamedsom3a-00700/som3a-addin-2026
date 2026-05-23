@@ -17,6 +17,10 @@
 
         <ResourceDictionary>
 
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/AccentSwatchStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
             <!-- Accent Swatches (non-selected) -->
             <Style x:Key="BlueSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
                 <Setter Property="Fill" Value="{DynamicResource Swatch.Blue}"/>
