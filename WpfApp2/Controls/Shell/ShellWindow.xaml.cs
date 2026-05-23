@@ -76,6 +76,7 @@ namespace Som3a_WPF_UI.Controls.Shell
             _viewModel.NavigateToPageCommand = new RelayCommand(p => OnNavigateCommand(p as string));
 
             NavigationService.Instance.SetShellWindow(this);
+            NavigationService.Instance.NavigationChanged += (s, args) => _hasPendingNavigation = true;
 
             Sidebar.SelectionChanged += OnSidebarSelectionChanged;
 
@@ -94,13 +95,12 @@ namespace Som3a_WPF_UI.Controls.Shell
             if (_isFirstRun && !_hasPendingNavigation)
             {
                 ShowWelcomePage();
-                _isFirstRun = false;
             }
+            _isFirstRun = false;
         }
 
         private void OnNavigateCommand(string key)
         {
-            _hasPendingNavigation = true;
             NavigationService.Instance.NavigateTo(key);
         }
 
@@ -108,7 +108,6 @@ namespace Som3a_WPF_UI.Controls.Shell
         {
             if (Sidebar.SelectedItem is NavigationDestination destination)
             {
-                _hasPendingNavigation = true;
                 NavigationService.Instance.NavigateTo(destination.Key);
             }
         }

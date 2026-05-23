@@ -10,7 +10,7 @@ namespace Som3a_WPF_UI.Services
     public interface INavigationService
     {
         void RegisterPage<T>(string key, string displayName, string icon = null, int order = 50) where T : Page, new();
-        void NavigateTo(string key, bool pushToHistory = true);
+        void NavigateTo(string key, bool pushToHistory = true, string overridePreviousKey = null);
         bool GoBack();
         Page CreatePage(string key);
         bool IsPageRegistered(string key);
@@ -82,7 +82,7 @@ namespace Som3a_WPF_UI.Services
             Destinations.Insert(insertIndex, destination);
         }
 
-        public void NavigateTo(string key, bool pushToHistory = true)
+        public void NavigateTo(string key, bool pushToHistory = true, string overridePreviousKey = null)
         {
             if (!_registry.TryGetValue(key, out var navPage))
                 throw new KeyNotFoundException($"No page registered with key '{key}'.");
@@ -90,7 +90,7 @@ namespace Som3a_WPF_UI.Services
             EnsureShellOpen();
 
             var previousKey = _navigationHistory.Count > 0 ? _navigationHistory.Peek() : null;
-            if (pushToHistory)
+            if (pushToHistory && (previousKey == null || !previousKey.Equals(key)))
                 _navigationHistory.Push(key);
 
             var destination = Destinations.FirstOrDefault(d => d.Key == key);
@@ -101,7 +101,7 @@ namespace Som3a_WPF_UI.Services
 
             OnNavigationChanged(new NavigationEventArgs
             {
-                PreviousKey = previousKey,
+                PreviousKey = overridePreviousKey ?? previousKey,
                 NewKey = key,
                 Success = true
             });
@@ -112,10 +112,10 @@ namespace Som3a_WPF_UI.Services
             if (_navigationHistory.Count <= 1)
                 return false;
 
-            _navigationHistory.Pop();
-            var previousKey = _navigationHistory.Peek();
+            var poppedKey = _navigationHistory.Pop();
+            var targetKey = _navigationHistory.Peek();
 
-            NavigateTo(previousKey, pushToHistory: false);
+            NavigateTo(targetKey, pushToHistory: false, overridePreviousKey: poppedKey);
             return true;
         }
 
@@ -150,7 +150,6 @@ namespace Som3a_WPF_UI.Services
                 _shellWindow = new ShellWindow();
                 _shellWindow.Closed += (s, e) => _shellWindow = null;
                 _shellWindow.Show();
-                _shellWindow.ShowWelcomePage();
             }
             else
             {

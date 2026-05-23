@@ -463,10 +463,9 @@ namespace Som3a_Addin_2026
         private static void RegisterShellPages()
         {
             if (_shellPagesRegistered) return;
-            _shellPagesRegistered = true;
 
-            var ns = NavigationService.Instance;
-            ns.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("welcome", "Home", "🏠", 0);
+            NavigationService.Instance.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("welcome", "Home", "🏠", 0);
+            _shellPagesRegistered = true;
         }
 
         private void btnWorkspace_Click(object sender, RibbonControlEventArgs e)
