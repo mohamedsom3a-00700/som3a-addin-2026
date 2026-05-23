@@ -107,28 +107,12 @@ namespace Som3a_WPF_UI.Services
 
         private AppTheme _currentTheme = AppTheme.Dark;
         private string _currentAccentColor = "#3A86FF";
-        private DispatcherTimer _debounceTimer;
-        private string _pendingThemeName;
-        private string _pendingAccentColor;
 
         public string CurrentTheme => _currentTheme.ToString();
         public string CurrentAccentColor => _currentAccentColor;
 
         private ThemeManager()
         {
-            _debounceTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
-            _debounceTimer.Tick += OnDebounceTimerTick;
-        }
-
-        private void OnDebounceTimerTick(object sender, EventArgs e)
-        {
-            _debounceTimer.Stop();
-            if (_pendingThemeName != null)
-            {
-                ApplyThemeInternal(_pendingThemeName, _pendingAccentColor);
-                _pendingThemeName = null;
-                _pendingAccentColor = null;
-            }
         }
 
         public void ApplyTheme(string themeName, string accentColor = null)
@@ -206,13 +190,6 @@ namespace Som3a_WPF_UI.Services
                 {
                     dicts.Add(themeDict);
                 }
-
-                foreach (Window window in Application.Current.Windows)
-                {
-                    window.InvalidateVisual();
-                    window.UpdateLayout();
-                }
-                System.Diagnostics.Debug.WriteLine($"[ThemeManager] Dictionaries Count: {dicts.Count}");
             }
             catch (Exception ex)
             {
@@ -228,6 +205,20 @@ namespace Som3a_WPF_UI.Services
                 catch { }
                 return;
             }
+
+            try
+            {
+                foreach (Window window in Application.Current.Windows)
+                {
+                    window.InvalidateVisual();
+                    window.UpdateLayout();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[ThemeManager] Window invalidation failed: {ex.Message}");
+            }
+            System.Diagnostics.Debug.WriteLine($"[ThemeManager] Dictionaries Count: {dicts.Count}");
 
             _currentTheme = theme;
 
@@ -319,9 +310,6 @@ namespace Som3a_WPF_UI.Services
                 if (string.IsNullOrEmpty(accent))
                     accent = "#3A86FF";
 
-                _debounceTimer.Stop();
-                _pendingThemeName = null;
-                _pendingAccentColor = null;
                 ApplyThemeInternal(themeName, accent);
             }
             catch

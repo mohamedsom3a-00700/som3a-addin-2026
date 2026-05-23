@@ -39,6 +39,7 @@ $xamlFiles = @()
 $scanDirs = @($controlsDir, $viewsDir, $controlsSubDir, $windowsDir)
 $wpfApp2Dir = Join-Path $repoRoot "WpfApp2"
 if (Test-Path $wpfApp2Dir) { $scanDirs += $wpfApp2Dir }
+$scanDirs = $scanDirs | Select-Object -Unique
 
 foreach ($dir in $scanDirs) {
     if (Test-Path $dir) {

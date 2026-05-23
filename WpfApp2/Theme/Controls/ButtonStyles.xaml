@@ -9,6 +9,7 @@
                 <ControlTemplate>
                     <Rectangle Margin="2"
                                SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"
                                Stroke="{DynamicResource AccentBrush}"
                                StrokeThickness="1"
                                StrokeDashArray="2 2"
@@ -26,6 +27,7 @@
                 <ControlTemplate>
                     <Rectangle Margin="1"
                                SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"
                                Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
                                StrokeThickness="2"/>
                 </ControlTemplate>

@@ -23,6 +23,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{DynamicResource MediumRadius}"
                             SnapsToDevicePixels="True"
+                            UseLayoutRounding="True"
                             Effect="{DynamicResource Shadow.TextBox.Glow}">
                         <ScrollViewer x:Name="PART_ContentHost"
                                       Margin="0"

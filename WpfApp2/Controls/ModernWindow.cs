@@ -38,13 +38,13 @@ namespace Som3a_WPF_UI.Controls
 
         private void InitializeWindow()
         {
-            var renderService = RenderModeService.Instance;
-            renderService.Initialize();
-
-            var currentMode = renderService.GetCurrentMode();
+            var detectedMode = WindowRenderModeDetector.DetectOptimalMode();
+            var currentMode = detectedMode == WindowRenderMode.WindowChrome
+                ? Services.RenderMode.WindowChrome
+                : Services.RenderMode.FallbackSafe;
             SetValue(RenderModeProperty, currentMode);
 
-            _useSafeMode = currentMode == Services.RenderMode.FallbackSafe;
+            _useSafeMode = detectedMode == WindowRenderMode.FallbackSafe;
             SetValue(IsSafeModePropertyKey, _useSafeMode);
 
             if (_useSafeMode)
@@ -58,7 +58,7 @@ namespace Som3a_WPF_UI.Controls
                 WindowChromeHelper.ApplyWindowChrome(this, false);
             }
 
-            SetValue(DpiScaleProperty, Helpers.DpiHelper.GetCurrentDpiScale());
+            SetValue(DpiScaleProperty, Helpers.DpiHelper.GetCurrentDpiScale(this));
 
             SnapsToDevicePixels = true;
             UseLayoutRounding = true;

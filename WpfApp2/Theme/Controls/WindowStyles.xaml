@@ -9,6 +9,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:ModernWindow}">
                     <Border x:Name="WindowBorder"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{DynamicResource Brush.Control.Stroke}"
                             BorderThickness="1"
