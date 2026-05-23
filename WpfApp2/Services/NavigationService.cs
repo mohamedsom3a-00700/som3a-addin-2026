@@ -115,7 +115,15 @@ namespace Som3a_WPF_UI.Services
             var poppedKey = _navigationHistory.Pop();
             var targetKey = _navigationHistory.Peek();
 
-            NavigateTo(targetKey, pushToHistory: false, overridePreviousKey: poppedKey);
+            try
+            {
+                NavigateTo(targetKey, pushToHistory: false, overridePreviousKey: poppedKey);
+            }
+            catch
+            {
+                _navigationHistory.Push(poppedKey);
+                throw;
+            }
             return true;
         }
 

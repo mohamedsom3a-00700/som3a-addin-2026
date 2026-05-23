@@ -65,6 +65,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         private readonly ShellViewModel _viewModel;
         private bool _isFirstRun = true;
         private bool _hasPendingNavigation;
+        private readonly EventHandler<NavigationEventArgs> _navigationChangedHandler;
 
         public ShellWindow()
         {
@@ -76,7 +77,8 @@ namespace Som3a_WPF_UI.Controls.Shell
             _viewModel.NavigateToPageCommand = new RelayCommand(p => OnNavigateCommand(p as string));
 
             NavigationService.Instance.SetShellWindow(this);
-            NavigationService.Instance.NavigationChanged += (s, args) => _hasPendingNavigation = true;
+            _navigationChangedHandler = (s, args) => _hasPendingNavigation = true;
+            NavigationService.Instance.NavigationChanged += _navigationChangedHandler;
 
             Sidebar.SelectionChanged += OnSidebarSelectionChanged;
 
@@ -88,6 +90,12 @@ namespace Som3a_WPF_UI.Controls.Shell
             OnShellInitialize();
 
             Loaded += OnShellLoaded;
+            Closed += OnClosed;
+        }
+
+        private void OnClosed(object sender, EventArgs e)
+        {
+            NavigationService.Instance.NavigationChanged -= _navigationChangedHandler;
         }
 
         private void OnShellLoaded(object sender, RoutedEventArgs e)
