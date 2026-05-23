@@ -458,13 +458,15 @@ namespace Som3a_Addin_2026
                 window.ShowDialog();
             }
 
+        private static bool _shellPagesRegistered;
+
         private static void RegisterShellPages()
         {
+            if (_shellPagesRegistered) return;
+            _shellPagesRegistered = true;
+
             var ns = NavigationService.Instance;
             ns.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("welcome", "Home", "🏠", 0);
-            ns.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("comparison", "Comparison", "📊", 10);
-            ns.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("daily-report", "Daily Report", "📋", 20);
-            ns.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("links-manager", "Links Manager", "🔗", 30);
         }
 
         private void btnWorkspace_Click(object sender, RibbonControlEventArgs e)

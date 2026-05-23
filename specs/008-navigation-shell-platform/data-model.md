@@ -77,7 +77,7 @@ The runtime state of the shell instance.
 
 ### Navigation Flow
 
-```
+```text
 [Welcome Page] ──→ [Page A] ──→ [Page B] ──→ [Page A]
                       ↑                          │
                       └──────────────────────────┘
@@ -86,7 +86,7 @@ The runtime state of the shell instance.
 
 ### Page Lifecycle
 
-```
+```text
 Registered → (first navigation) → Loaded → (navigate away) → Unloaded
                 ↓ (error)                           ↓
              Error State ← (retry) → Loaded   (stay in memory or dispose)

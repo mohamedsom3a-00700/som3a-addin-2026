@@ -56,10 +56,6 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private static void OnItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is SidebarControl control && e.NewValue is ObservableCollection<NavigationDestination> items)
-            {
-                control.SidebarListBox.ItemsSource = items;
-            }
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)

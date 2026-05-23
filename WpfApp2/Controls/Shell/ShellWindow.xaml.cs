@@ -19,7 +19,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         private Type _welcomePageType;
 
         public ObservableCollection<NavigationDestination> Destinations { get; } =
-            new ObservableCollection<NavigationDestination>();
+            NavigationService.Instance.Destinations;
 
         public NavigationDestination SelectedDestination
         {
@@ -64,6 +64,7 @@ namespace Som3a_WPF_UI.Controls.Shell
     {
         private readonly ShellViewModel _viewModel;
         private bool _isFirstRun = true;
+        private bool _hasPendingNavigation;
 
         public ShellWindow()
         {
@@ -90,7 +91,7 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnShellLoaded(object sender, RoutedEventArgs e)
         {
-            if (_isFirstRun)
+            if (_isFirstRun && !_hasPendingNavigation)
             {
                 ShowWelcomePage();
                 _isFirstRun = false;
@@ -99,19 +100,16 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnNavigateCommand(string key)
         {
-            var destination = NavigationService.Instance.Destinations
-                .FirstOrDefault(d => d.Key == key);
-            if (destination != null)
-            {
-                NavigateToDestination(destination);
-            }
+            _hasPendingNavigation = true;
+            NavigationService.Instance.NavigateTo(key);
         }
 
         private void OnSidebarSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Sidebar.SelectedItem is NavigationDestination destination)
             {
-                NavigateToDestination(destination);
+                _hasPendingNavigation = true;
+                NavigationService.Instance.NavigateTo(destination.Key);
             }
         }
 

@@ -79,7 +79,6 @@ WpfApp2/
 │       └── CommandPalette.xaml.cs
 ├── Services/
 │   ├── NavigationService.cs          # NEW — page registration + navigation logic
-│   ├── NavigationService.cs
 │   └── ... (existing services)
 ├── Pages/                            # NEW — shell-hosted pages
 │   ├── WelcomePage.xaml              # Default welcome/dashboard page
