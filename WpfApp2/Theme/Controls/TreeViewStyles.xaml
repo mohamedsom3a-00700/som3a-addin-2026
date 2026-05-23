@@ -1,9 +1,10 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style TargetType="{x:Type ListView}">
+    <Style TargetType="{x:Type TreeView}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Control.Stroke}"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
@@ -13,7 +14,7 @@
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListView}">
+                <ControlTemplate TargetType="{x:Type TreeView}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True"
@@ -45,28 +46,73 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ListViewItem}">
+    <Style TargetType="{x:Type TreeViewItem}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Padding" Value="6,4"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="MinHeight" Value="28"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisualStyle}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Border x:Name="Bd"
-                            Background="{TemplateBinding Background}"
-                            Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="Center"/>
-                    </Border>
+                <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                    <Grid SnapsToDevicePixels="True" UseLayoutRounding="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <ToggleButton x:Name="Expander"
+                                      Grid.Column="0"
+                                      Background="Transparent"
+                                      BorderThickness="0"
+                                      ClickMode="Press"
+                                      IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                      Width="20"
+                                      Height="20">
+                            <Path x:Name="ExpandPath"
+                                  Data="M 0 0 L 6 4 L 0 8"
+                                  Stroke="{DynamicResource Brush.Text.Secondary}"
+                                  StrokeThickness="1.5"
+                                  Stretch="Fill"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                        </ToggleButton>
+
+                        <Border x:Name="Bd"
+                                Grid.Column="1"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="{DynamicResource SmallRadius}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ItemsPresenter Grid.Row="1" Grid.ColumnSpan="2"/>
+                    </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="False">
+                            <Setter TargetName="ExpandPath" Property="Data" Value="M 0 0 L 6 4 L 0 8"/>
+                        </Trigger>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter TargetName="ExpandPath" Property="Data" Value="M 0 0 L 4 6 L 8 0"/>
+                            <Setter TargetName="ExpandPath" Property="Stroke" Value="{DynamicResource Brush.Accent.Primary}"/>
+                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.ListView.HoverBackground}"/>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.Control.HoverBackground}"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Brush.ListView.SelectedBackground}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Brush.Accent.Primary}"/>
+                            <Setter TargetName="Bd" Property="BorderThickness" Value="1"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.55"/>
@@ -75,18 +121,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type GridViewColumnHeader}">
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="UseLayoutRounding" Value="True"/>
-        <Setter Property="Background" Value="{DynamicResource Brush.Background.Secondary}"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Secondary}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Control.Stroke}"/>
-        <Setter Property="BorderThickness" Value="0,0,0,1"/>
-        <Setter Property="Padding" Value="8,6"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
 
 </ResourceDictionary>

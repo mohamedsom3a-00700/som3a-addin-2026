@@ -1,8 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!-- Easing Functions -->
-    <CubicEase x:Key="HoverEase" EasingMode="EaseOut"/>
-    <QuadraticEase x:Key="PressEase" EasingMode="EaseOut"/>
+    <!-- Easing Functions — NOT defined as shared resources (causes Storyboard freeze in shared templates) -->
 
     <!-- Focus Visual Style -->
     <Style x:Key="FocusVisualStyle" TargetType="Control">
@@ -76,16 +74,25 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="border"
                                                          Storyboard.TargetProperty="Opacity"
-                                                         To="1" Duration="0:0:0.12"
-                                                         EasingFunction="{StaticResource HoverEase}"/>
+                                                         To="1" Duration="0:0:0.12">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="ScaleTransform"
                                                          Storyboard.TargetProperty="ScaleX"
-                                                         To="1.02" Duration="0:0:0.15"
-                                                         EasingFunction="{StaticResource HoverEase}"/>
+                                                         To="1.02" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="ScaleTransform"
                                                          Storyboard.TargetProperty="ScaleY"
-                                                         To="1.02" Duration="0:0:0.15"
-                                                         EasingFunction="{StaticResource HoverEase}"/>
+                                                         To="1.02" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -94,16 +101,25 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="border"
                                                          Storyboard.TargetProperty="Opacity"
-                                                         To="1" Duration="0:0:0.1"
-                                                         EasingFunction="{StaticResource HoverEase}"/>
+                                                         To="1" Duration="0:0:0.1">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="ScaleTransform"
                                                          Storyboard.TargetProperty="ScaleX"
-                                                         To="1" Duration="0:0:0.1"
-                                                         EasingFunction="{StaticResource HoverEase}"/>
+                                                         To="1" Duration="0:0:0.1">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="ScaleTransform"
                                                          Storyboard.TargetProperty="ScaleY"
-                                                         To="1" Duration="0:0:0.1"
-                                                         EasingFunction="{StaticResource HoverEase}"/>
+                                                         To="1" Duration="0:0:0.1">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
@@ -115,12 +131,18 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ScaleTransform"
                                                          Storyboard.TargetProperty="ScaleX"
-                                                         To="0.97" Duration="0:0:0.05"
-                                                         EasingFunction="{StaticResource PressEase}"/>
+                                                         To="0.97" Duration="0:0:0.05">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuadraticEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="ScaleTransform"
                                                          Storyboard.TargetProperty="ScaleY"
-                                                         To="0.97" Duration="0:0:0.05"
-                                                         EasingFunction="{StaticResource PressEase}"/>
+                                                         To="0.97" Duration="0:0:0.05">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuadraticEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -129,12 +151,18 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ScaleTransform"
                                                          Storyboard.TargetProperty="ScaleX"
-                                                         To="1" Duration="0:0:0.08"
-                                                         EasingFunction="{StaticResource HoverEase}"/>
+                                                         To="1" Duration="0:0:0.08">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="ScaleTransform"
                                                          Storyboard.TargetProperty="ScaleY"
-                                                         To="1" Duration="0:0:0.08"
-                                                         EasingFunction="{StaticResource HoverEase}"/>
+                                                         To="1" Duration="0:0:0.08">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

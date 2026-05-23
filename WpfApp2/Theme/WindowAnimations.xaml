@@ -1,11 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Easing Functions -->
-    <CubicEase x:Key="WindowFadeEase" EasingMode="EaseOut"/>
-    <CubicEase x:Key="WindowSlideEase" EasingMode="EaseOut"/>
-    <QuadraticEase x:Key="WindowPressEase" EasingMode="EaseOut"/>
-
     <!-- ===================================================================
          Window Animations
          Duration Limits (FR-009): open ≤ 200ms, close ≤ 150ms
@@ -21,98 +16,146 @@
     <Storyboard x:Key="WindowFadeIn">
         <DoubleAnimation Storyboard.TargetProperty="Opacity"
                          From="0" To="1"
-                         Duration="0:0:0.2"
-                         EasingFunction="{StaticResource WindowFadeEase}"/>
+                         Duration="0:0:0.2">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard> 
 
     <!-- Window Fade Out Animation (≤150ms) -->
     <Storyboard x:Key="WindowFadeOut">
         <DoubleAnimation Storyboard.TargetProperty="Opacity"
                          From="1" To="0"
-                         Duration="0:0:0.1"
-                         EasingFunction="{StaticResource WindowFadeEase}"/>
+                         Duration="0:0:0.1">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard>
 
     <!-- Button Hover Animation -->
     <Storyboard x:Key="ButtonHoverEnter">
         <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                         To="1" Duration="0:0:0.12"
-                         EasingFunction="{StaticResource WindowFadeEase}"/>
+                         To="1" Duration="0:0:0.12">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard>
 
     <Storyboard x:Key="ButtonHoverExit">
         <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                         To="0" Duration="0:0:0.1"
-                         EasingFunction="{StaticResource WindowFadeEase}"/>
+                         To="0" Duration="0:0:0.1">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard>
 
     <!-- Button Press Animation -->
     <Storyboard x:Key="ButtonPressEnter">
         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                         To="0.97" Duration="0:0:0.05"
-                         EasingFunction="{StaticResource WindowPressEase}"/>
+                         To="0.97" Duration="0:0:0.05">
+            <DoubleAnimation.EasingFunction>
+                <QuadraticEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                         To="0.97" Duration="0:0:0.05"
-                         EasingFunction="{StaticResource WindowPressEase}"/>
+                         To="0.97" Duration="0:0:0.05">
+            <DoubleAnimation.EasingFunction>
+                <QuadraticEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard>
 
     <Storyboard x:Key="ButtonPressExit">
         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                         To="1" Duration="0:0:0.08"
-                         EasingFunction="{StaticResource WindowFadeEase}"/>
+                         To="1" Duration="0:0:0.08">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                         To="1" Duration="0:0:0.08"
-                         EasingFunction="{StaticResource WindowFadeEase}"/>
+                         To="1" Duration="0:0:0.08">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard>
 
     <!-- Title Bar Button Hover Animation -->
     <Storyboard x:Key="TitleBarButtonHoverEnter">
         <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                         To="1" Duration="0:0:0.08"
-                         EasingFunction="{StaticResource WindowFadeEase}"/>
+                         To="1" Duration="0:0:0.08">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard>
 
     <Storyboard x:Key="TitleBarButtonHoverExit">
         <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                         To="0" Duration="0:0:0.06"
-                         EasingFunction="{StaticResource WindowFadeEase}"/>
+                         To="0" Duration="0:0:0.06">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard>
 
     <!-- Window Scale Animation (≤200ms) -->
     <Storyboard x:Key="WindowScaleEnter">
         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                         From="0.95" To="1" Duration="0:0:0.2"
-                         EasingFunction="{StaticResource WindowSlideEase}"/>
+                         From="0.95" To="1" Duration="0:0:0.2">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                         From="0.95" To="1" Duration="0:0:0.2"
-                         EasingFunction="{StaticResource WindowSlideEase}"/>
+                         From="0.95" To="1" Duration="0:0:0.2">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard>
 
     <!-- Close Button Hover Animation -->
     <Storyboard x:Key="CloseButtonHoverEnter">
         <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="{DynamicResource Color.CloseButton.HoverBackground}" Duration="0:0:0.1"
-                        EasingFunction="{StaticResource WindowFadeEase}"/>
+                        To="#22FF4757" Duration="0:0:0.1">
+            <ColorAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </ColorAnimation.EasingFunction>
+        </ColorAnimation>
     </Storyboard>
 
     <Storyboard x:Key="CloseButtonHoverExit">
         <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="Transparent" Duration="0:0:0.08"
-                        EasingFunction="{StaticResource WindowFadeEase}"/>
+                        To="Transparent" Duration="0:0:0.08">
+            <ColorAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </ColorAnimation.EasingFunction>
+        </ColorAnimation>
     </Storyboard>
 
     <!-- Focus Enter Animation -->
     <Storyboard x:Key="FocusEnter">
         <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                         From="0" To="0.35" Duration="0:0:0.15"
-                         EasingFunction="{StaticResource WindowFadeEase}"/>
+                         From="0" To="0.35" Duration="0:0:0.15">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard>
 
     <!-- Focus Exit Animation -->
     <Storyboard x:Key="FocusExit">
         <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                         From="0.35" To="0" Duration="0:0:0.1"
-                         EasingFunction="{StaticResource WindowFadeEase}"/>
+                         From="0.35" To="0" Duration="0:0:0.1">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
     </Storyboard>
 
 </ResourceDictionary>

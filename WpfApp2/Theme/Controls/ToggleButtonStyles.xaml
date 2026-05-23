@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <CubicEase x:Key="ToggleEase" EasingMode="EaseOut"/>
+    <!-- ToggleEase — NOT a shared resource (causes Storyboard freeze in shared templates) -->
 
     <!-- Toggle thumb brush -->
     <SolidColorBrush x:Key="ToggleThumbBrush" Color="{DynamicResource Primitive.White.95}"/>
@@ -39,17 +39,17 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="track" Property="Background" Value="{DynamicResource AccentBrush}"/>
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="thumbTransform"
                                                          Storyboard.TargetProperty="X"
-                                                         To="18" Duration="0:0:0.18"
-                                                         EasingFunction="{StaticResource ToggleEase}"/>
-                                        <ColorAnimation Storyboard.TargetName="track"
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        To="{DynamicResource AccentColorValue}" Duration="0:0:0.18"
-                                                        EasingFunction="{StaticResource ToggleEase}"/>
+                                                         To="18" Duration="0:0:0.18">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -58,12 +58,11 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="thumbTransform"
                                                          Storyboard.TargetProperty="X"
-                                                         To="0" Duration="0:0:0.18"
-                                                         EasingFunction="{StaticResource ToggleEase}"/>
-                                        <ColorAnimation Storyboard.TargetName="track"
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                        Duration="0:0:0.18"
-                                                        EasingFunction="{StaticResource ToggleEase}"/>
+                                                         To="0" Duration="0:0:0.18">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

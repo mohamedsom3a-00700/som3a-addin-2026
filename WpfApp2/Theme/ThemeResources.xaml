@@ -72,6 +72,8 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ListViewItemStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ComboBoxItemStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ProgressBarStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/PasswordBoxStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/TreeViewStyles.xaml"/>
 
         <!-- Modern Window -->
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/WindowButtonStyles.xaml"/>

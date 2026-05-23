@@ -125,18 +125,30 @@
                                PopupAnimation="Fade"
                                IsOpen="{TemplateBinding IsDropDownOpen}">
 
-                            <Border Margin="0,6,0,0"
-                                                                    Background="{DynamicResource Brush.Background.Card}"
-                                                                    BorderBrush="{DynamicResource Brush.Control.Stroke}"
+                            <Border x:Name="PopupBorder"
+                                    MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Margin="0,6,0,0"
+                                    Background="{DynamicResource Brush.Background.Card}"
+                                    BorderBrush="{DynamicResource Brush.Control.Stroke}"
                                     BorderThickness="1"
                                     CornerRadius="{DynamicResource MediumRadius}"
                                     Effect="{DynamicResource Shadow.Popup}">
-                                <ScrollViewer MaxHeight="250"
-                                              VerticalScrollBarVisibility="Auto"
-                                              HorizontalScrollBarVisibility="Disabled"
-                                              CanContentScroll="False">
-                                    <ItemsPresenter/>
-                                </ScrollViewer>
+                                <Grid>
+                                    <ScrollViewer MaxHeight="250"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Disabled"
+                                                  CanContentScroll="False">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                    <TextBlock x:Name="EmptyText"
+                                               Text="No items available"
+                                               Visibility="Collapsed"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource Brush.Text.Tertiary}"
+                                               FontStyle="Italic"
+                                               Padding="12,8"/>
+                                </Grid>
                             </Border>
 
                         </Popup>
@@ -222,6 +234,14 @@
                             <Setter Property="Opacity"
                                     Value="0.5"/>
 
+                        </Trigger>
+
+                        <!-- Empty items: show indicator when no items -->
+                        <Trigger Property="HasItems"
+                                 Value="False">
+                            <Setter TargetName="EmptyText"
+                                    Property="Visibility"
+                                    Value="Visible"/>
                         </Trigger>
 
                     </ControlTemplate.Triggers>

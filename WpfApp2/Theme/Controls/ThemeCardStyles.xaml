@@ -1,8 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <CubicEase x:Key="ThemeCardEase" EasingMode="EaseOut"/>
-
     <!-- Theme Card Base (unselected) -->
     <Style x:Key="ThemeCardBase" TargetType="{x:Type Border}">
         <Setter Property="Width" Value="{DynamicResource ThemeCardWidth}"/>
@@ -38,14 +36,23 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                To="1" Duration="0:0:0.15"
-                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                                To="1" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
-                                To="1.02" Duration="0:0:0.15"
-                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                                To="1.02" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
-                                To="1.02" Duration="0:0:0.15"
-                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                                To="1.02" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.EnterActions>
@@ -53,14 +60,23 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                To="0.85" Duration="0:0:0.15"
-                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                                To="0.85" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
-                                To="1" Duration="0:0:0.15"
-                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                                To="1" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
-                                To="1" Duration="0:0:0.15"
-                                EasingFunction="{StaticResource ThemeCardEase}"/>
+                                To="1" Duration="0:0:0.15">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.ExitActions>
@@ -118,16 +134,25 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                             Storyboard.TargetProperty="Opacity"
-                                            To="1" Duration="0:0:0.15"
-                                            EasingFunction="{StaticResource ThemeCardEase}"/>
+                                            To="1" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
-                                            To="1.02" Duration="0:0:0.15"
-                                            EasingFunction="{StaticResource ThemeCardEase}"/>
+                                            To="1.02" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
-                                            To="1.02" Duration="0:0:0.15"
-                                            EasingFunction="{StaticResource ThemeCardEase}"/>
+                                            To="1.02" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.EnterActions>
@@ -136,16 +161,25 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                             Storyboard.TargetProperty="Opacity"
-                                            To="0.85" Duration="0:0:0.15"
-                                            EasingFunction="{StaticResource ThemeCardEase}"/>
+                                            To="0.85" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
-                                            To="1" Duration="0:0:0.15"
-                                            EasingFunction="{StaticResource ThemeCardEase}"/>
+                                            To="1" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
-                                            To="1" Duration="0:0:0.15"
-                                            EasingFunction="{StaticResource ThemeCardEase}"/>
+                                            To="1" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.ExitActions>
@@ -160,12 +194,18 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
-                                            To="1.02" Duration="0:0:0.15"
-                                            EasingFunction="{StaticResource ThemeCardEase}"/>
+                                            To="1.02" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
-                                            To="1.02" Duration="0:0:0.15"
-                                            EasingFunction="{StaticResource ThemeCardEase}"/>
+                                            To="1.02" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -174,12 +214,18 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
-                                            To="1" Duration="0:0:0.15"
-                                            EasingFunction="{StaticResource ThemeCardEase}"/>
+                                            To="1" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                         <DoubleAnimation Storyboard.TargetName="CardBorder"
                                             Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
-                                            To="1" Duration="0:0:0.15"
-                                            EasingFunction="{StaticResource ThemeCardEase}"/>
+                                            To="1" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

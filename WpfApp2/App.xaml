@@ -29,7 +29,7 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ProgressBarStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <!-- Shared Converters (duplicated in ThemeResources.xaml which is loaded per-window) 
+    <!-- Shared Converters (duplicated in ThemeResources.xaml for per-window loading) -->
     <conv:ProgressWidthConverter x:Key="ProgressWidthConverter"/>
     <conv:PercentToScaleConverter x:Key="PercentToScaleConverter"/>
     <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -37,5 +37,5 @@
     <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
     <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
     <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
-    <conv:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>-->
+    <conv:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
 </ResourceDictionary>
