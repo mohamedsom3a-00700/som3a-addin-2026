@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Som3a_WPF_UI.Services
 {
@@ -82,16 +83,16 @@ namespace Som3a_WPF_UI.Services
     {
         public Guid TokenId { get; }
         public Type EventType { get; }
-        public WeakReference SubscriberRef { get; }
-        public Delegate Handler { get; }
+        public WeakReference? SubscriberRef { get; }
+        public MethodInfo Method { get; }
         public object? Filter { get; }
 
-        public SubscriberEntry(Guid tokenId, Type eventType, WeakReference subscriberRef, Delegate handler, object? filter)
+        public SubscriberEntry(Guid tokenId, Type eventType, WeakReference? subscriberRef, MethodInfo method, object? filter)
         {
             TokenId = tokenId;
             EventType = eventType;
             SubscriberRef = subscriberRef;
-            Handler = handler;
+            Method = method;
             Filter = filter;
         }
     }
@@ -122,14 +123,18 @@ namespace Som3a_WPF_UI.Services
 
             foreach (var entry in snapshot)
             {
-                var target = entry.SubscriberRef.Target;
-                if (target == null)
+                object? target = null;
+                if (entry.SubscriberRef != null)
                 {
-                    lock (_lock)
+                    target = entry.SubscriberRef.Target;
+                    if (target == null)
                     {
-                        entries.RemoveAll(e => e.TokenId == entry.TokenId);
+                        lock (_lock)
+                        {
+                            entries.RemoveAll(e => e.TokenId == entry.TokenId);
+                        }
+                        continue;
                     }
-                    continue;
                 }
 
                 if (entry.Filter is Func<TEvent, bool> predicate && !predicate(@event))
@@ -139,7 +144,8 @@ namespace Som3a_WPF_UI.Services
 
                 try
                 {
-                    ((Action<TEvent>)entry.Handler)(@event);
+                    var handler = (Action<TEvent>)Delegate.CreateDelegate(typeof(Action<TEvent>), target, entry.Method);
+                    handler(@event);
                 }
                 catch (Exception ex)
                 {
@@ -159,16 +165,17 @@ namespace Som3a_WPF_UI.Services
         {
             var eventType = typeof(TEvent);
             var tokenId = Guid.NewGuid();
-            var subscriberRef = new WeakReference(handler.Target);
-            var entry = new SubscriberEntry(tokenId, eventType, subscriberRef, handler, filter);
+            var method = handler.Method;
+            WeakReference? subscriberRef = handler.Target != null ? new WeakReference(handler.Target) : null;
+            var entry = new SubscriberEntry(tokenId, eventType, subscriberRef, method, filter);
 
             var entries = _subscribers.GetOrAdd(eventType, _ => new List<SubscriberEntry>());
 
             lock (_lock)
             {
                 if (!entries.Any(e =>
-                        e.Handler == (Delegate)handler &&
-                        e.SubscriberRef.Target == handler.Target))
+                        e.Method == method &&
+                        (e.SubscriberRef == null || e.SubscriberRef.Target == handler.Target)))
                 {
                     entries.Add(entry);
                 }

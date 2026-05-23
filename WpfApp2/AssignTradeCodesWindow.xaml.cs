@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Som3a_WPF_UI.Controls;
+using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI
 {
@@ -12,7 +13,7 @@ namespace Som3a_WPF_UI
         {
             InitializeComponent();
 
-            _vm = new AssignTradeCodesViewModel();
+            _vm = App.Container.Resolve<AssignTradeCodesViewModel>();
             DataContext = _vm;
         }
 

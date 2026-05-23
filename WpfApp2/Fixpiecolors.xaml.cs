@@ -1,155 +1,121 @@
-﻿using Som3a.Shared.Core;
+﻿using Som3a_WPF_UI.Controls;
+using Som3a_WPF_UI.ViewModels;
 using System;
-using System.Linq;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Media;
 using Excel = Microsoft.Office.Interop.Excel;
-using Som3a_WPF_UI.Controls;
 
 namespace Som3a_WPF_UI
 {
     public partial class FixPieColorsWindow : ModernWindow
     {
-        private Excel.Application? _xlApp;
+        private FixPieColorsViewModel? _vm;
 
         public FixPieColorsWindow()
         {
             InitializeComponent();
+            _vm = App.Container.Resolve<FixPieColorsViewModel>();
+            DataContext = _vm;
+            WireViewModel();
+        }
+
+        private void WireViewModel()
+        {
+            if (_vm == null) return;
+
+            _vm.PropertyChanged += OnViewModelPropertyChanged;
+            _vm.SheetNames.CollectionChanged += OnSheetNamesChanged;
+            _vm.PickRangeRequested += prompt => DoPickExcelRange("Pick Range", prompt, rng =>
+                _vm.CategoryRange = rng.Address[RowAbsolute: false, ColumnAbsolute: false]);
+            _vm.PickColorTableRequested += prompt => DoPickExcelRange("Pick Color Table Range", prompt, rng =>
+                _vm.ColorTableRange = rng.Address[RowAbsolute: false, ColumnAbsolute: false]);
+            _vm.RequestClose += () => Close();
+
+            cmbSheets.SelectionChanged += OnCmbSheetsSelectionChanged;
+
+            SyncFromViewModel();
+        }
+
+        private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (_vm == null) return;
+
+            switch (e.PropertyName)
+            {
+                case nameof(_vm.CategoryRange):
+                    txtCategoryRange.Text = _vm.CategoryRange;
+                    break;
+                case nameof(_vm.ColorTableRange):
+                    txtColorTableRange.Text = _vm.ColorTableRange;
+                    break;
+                case nameof(_vm.SelectedSheet):
+                    cmbSheets.SelectedItem = _vm.SelectedSheet;
+                    break;
+                case nameof(_vm.IsBusy):
+                    BusyOverlay.Visibility = _vm.IsBusy ? Visibility.Visible : Visibility.Collapsed;
+                    btnRun.IsEnabled = !_vm.IsBusy;
+                    btnPickRange.IsEnabled = !_vm.IsBusy;
+                    btnPickColorTable.IsEnabled = !_vm.IsBusy;
+                    break;
+                case nameof(_vm.BusyText):
+                    txtBusy.Text = _vm.BusyText;
+                    break;
+                case nameof(_vm.StatusText):
+                    txtStatus.Text = _vm.StatusText;
+                    break;
+            }
+        }
+
+        private void OnSheetNamesChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            cmbSheets.Items.Clear();
+            foreach (var name in _vm!.SheetNames)
+                cmbSheets.Items.Add(name);
+            if (_vm.SheetNames.Count > 0)
+                cmbSheets.SelectedItem = _vm.SelectedSheet;
+        }
+
+        private void OnCmbSheetsSelectionChanged(object? sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (cmbSheets.SelectedItem is string name)
+                _vm!.SelectedSheet = name;
+        }
+
+        private void SyncFromViewModel()
+        {
+            if (_vm == null) return;
+
+            txtCategoryRange.Text = _vm.CategoryRange;
+            txtColorTableRange.Text = _vm.ColorTableRange;
+            OnSheetNamesChanged(null, null!);
         }
 
         public void AttachExcel(Excel.Application xlApp)
         {
-            _xlApp = xlApp;
-            LoadSheets();
+            _vm?.AttachExcel(xlApp);
         }
 
-        private void LoadSheets()
+        private void btnRun_Click(object sender, RoutedEventArgs e)
         {
-            cmbSheets.Items.Clear();
-
-            if (_xlApp?.ActiveWorkbook == null) return;
-
-            foreach (Excel.Worksheet ws in _xlApp.ActiveWorkbook.Worksheets)
-                cmbSheets.Items.Add(ws.Name);
-
-            if (cmbSheets.Items.Count > 0)
-                cmbSheets.SelectedIndex = 0;
-        }
-
-        private async void btnRun_Click(object sender, RoutedEventArgs e)
-        {
-            if (_xlApp?.ActiveWorkbook == null)
-            {
-                MessageBox.Show("No active workbook.", "Error");
-                return;
-            }
-
-            var sheetName = cmbSheets.SelectedItem?.ToString();
-            if (string.IsNullOrWhiteSpace(sheetName))
-            {
-                MessageBox.Show("Select Sheet", "Warning");
-                return;
-            }
-
-            var categoryRange = txtCategoryRange.Text?.Trim();
-            if (string.IsNullOrWhiteSpace(categoryRange))
-            {
-                MessageBox.Show("Pick Category Range", "Warning");
-                return;
-            }
-
-            var colorTableRange = txtColorTableRange.Text?.Trim();
-            if (string.IsNullOrWhiteSpace(colorTableRange))
-            {
-                MessageBox.Show("Pick Color Table Range (Label+Color)", "Warning");
-                return;
-            }
-
-            SetBusy(true, "Fixing colors...");
-            SetUiStatus("Fixing pie colors...");
-            SetExcelStatus("Fixing pie colors...");
-
-            try
-            {
-                await System.Threading.Tasks.Task.Yield();
-
-                var service = App.Container.Resolve<FixPieColorsService>();
-                var res = service.ApplyColors(_xlApp, sheetName, categoryRange, colorTableRange);
-
-                MessageBox.Show(
-                    $"Charts: {res.ChartsCount}\nSeries: {res.SeriesCount}\nPoints: {res.PointsTotal}\nMatched: {res.Matched}\nUpdated: {res.Updated}\n\n" +
-                    $"Not matched (up to 30):\n{string.Join("\n", res.NotMatchedLabels.Take(30))}",
-                    "Done"
-                );
-
-                Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "Error");
-            }
-            finally
-            {
-                ClearExcelStatus();
-                SetBusy(false);
-                SetUiStatus("Ready");
-            }
-        }
-
-        private void SetBusy(bool isBusy, string? msg = null)
-        {
-            BusyOverlay.Visibility = isBusy ? Visibility.Visible : Visibility.Collapsed;
-
-            if (!string.IsNullOrWhiteSpace(msg))
-            {
-                txtBusy.Text = msg;
-                txtStatus.Text = msg;
-            }
-
-            btnRun.IsEnabled = !isBusy;
-            btnPickRange.IsEnabled = !isBusy;
-            btnPickColorTable.IsEnabled = !isBusy;
-        }
-
-        private void SetUiStatus(string text) => txtStatus.Text = text;
-
-        private void SetExcelStatus(string text)
-        {
-            try { _xlApp!.StatusBar = text; } catch { }
-        }
-
-        private void ClearExcelStatus()
-        {
-            try
-            {
-                if (_xlApp != null)
-                    _xlApp.StatusBar = false;
-            }
-            catch { }
+            _vm?.RunCommand.Execute(null);
         }
 
         private void btnPickRange_Click(object sender, RoutedEventArgs e)
         {
-            PickExcelRange(
-                title: "Pick Range",
-                prompt: "Select the range (مثال: A1:A8)",
-                onPicked: rng => txtCategoryRange.Text = rng.Address[RowAbsolute: false, ColumnAbsolute: false]
-            );
+            _vm?.PickRangeCommand.Execute(null);
         }
 
         private void btnPickColorTable_Click(object sender, RoutedEventArgs e)
         {
-            PickExcelRange(
-                title: "Pick Color Table Range",
-                prompt: "Select the color table range (2 columns: Label | Color). مثال: A2:B9",
-                onPicked: rng => txtColorTableRange.Text = rng.Address[RowAbsolute: false, ColumnAbsolute: false]
-            );
+            _vm?.PickColorTableCommand.Execute(null);
         }
 
-        private void PickExcelRange(string title, string prompt, Action<Excel.Range> onPicked)
+        private void DoPickExcelRange(string title, string prompt, Action<Excel.Range> onPicked)
         {
-            if (_xlApp?.ActiveWorkbook == null)
+            var xlApp = _vm?.ExcelApp;
+            if (xlApp?.ActiveWorkbook == null)
             {
                 MessageBox.Show("No active workbook.", "Error");
                 return;
@@ -157,14 +123,13 @@ namespace Som3a_WPF_UI
 
             var wasTopmost = Topmost;
             Topmost = false;
-
             Hide();
 
             try
             {
-                try { _xlApp.ActiveWindow?.Activate(); } catch { }
+                try { xlApp.ActiveWindow?.Activate(); } catch { }
 
-                object picked = _xlApp.InputBox(
+                object picked = xlApp.InputBox(
                     Prompt: prompt,
                     Title: title,
                     Default: Type.Missing,
@@ -204,12 +169,12 @@ namespace Som3a_WPF_UI
                 DragMove();
         }
 
-        private void BtnMin_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void BtnMin_Click(object sender, RoutedEventArgs e)
         {
             WindowState = System.Windows.WindowState.Minimized;
         }
 
-        private void BtnClose_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }

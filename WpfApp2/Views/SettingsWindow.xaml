@@ -21,39 +21,7 @@
                 <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/AccentSwatchStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Accent Swatches (non-selected) -->
-            <Style x:Key="BlueSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
-                <Setter Property="Fill" Value="{DynamicResource Swatch.Blue}"/>
-                <Setter Property="Tag" Value="#3A86FF"/>
-            </Style>
-            <Style x:Key="GreenSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
-                <Setter Property="Fill" Value="{DynamicResource Swatch.Green}"/>
-                <Setter Property="Tag" Value="#2ED573"/>
-            </Style>
-            <Style x:Key="PurpleSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
-                <Setter Property="Fill" Value="{DynamicResource Swatch.Purple}"/>
-                <Setter Property="Tag" Value="#A855F7"/>
-            </Style>
-            <Style x:Key="OrangeSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
-                <Setter Property="Fill" Value="{DynamicResource Swatch.Orange}"/>
-                <Setter Property="Tag" Value="#FFA502"/>
-            </Style>
-            <Style x:Key="PinkSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
-                <Setter Property="Fill" Value="{DynamicResource Swatch.Pink}"/>
-                <Setter Property="Tag" Value="#EC4899"/>
-            </Style>
-            <Style x:Key="TealSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
-                <Setter Property="Fill" Value="{DynamicResource Swatch.Teal}"/>
-                <Setter Property="Tag" Value="#14B8A6"/>
-            </Style>
-            <Style x:Key="RedSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
-                <Setter Property="Fill" Value="{DynamicResource Swatch.Red}"/>
-                <Setter Property="Tag" Value="#EF4444"/>
-            </Style>
-            <Style x:Key="CyanSwatch" TargetType="{x:Type Ellipse}" BasedOn="{StaticResource AccentSwatchInteractive}">
-                <Setter Property="Fill" Value="{DynamicResource Swatch.Cyan}"/>
-                <Setter Property="Tag" Value="#06B6D4"/>
-            </Style>
+
 
         </ResourceDictionary>
 
@@ -195,13 +163,13 @@
                                             VerticalAlignment="Center">
 
                                     <!-- DARK -->
-                                    <ToggleButton x:Name="CardDark"
-                                                  Width="{DynamicResource Component.ThemeCard.Width}"
+                                    <ToggleButton Width="{DynamicResource Component.ThemeCard.Width}"
                                                   Height="{DynamicResource Component.ThemeCard.Height}"
                                                   Margin="0,0,16,0"
                                                   Tag="Dark"
-                                                  Click="ThemeCard_Click"
-                                                  PreviewKeyDown="ThemeCard_KeyDown"
+                                                  Command="{Binding ThemeCardCommand}"
+                                                  CommandParameter="Dark"
+                                                  IsChecked="{Binding IsDarkSelected}"
                                                   Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
                                             <Border CornerRadius="{DynamicResource MediumRadius}">
@@ -221,13 +189,13 @@
                                     </ToggleButton>
 
                                     <!-- LIGHT -->
-                                    <ToggleButton x:Name="CardLight"
-                                                  Width="{DynamicResource Component.ThemeCard.Width}"
+                                    <ToggleButton Width="{DynamicResource Component.ThemeCard.Width}"
                                                   Height="{DynamicResource Component.ThemeCard.Height}"
                                                   Margin="0,0,16,0"
                                                   Tag="Light"
-                                                  Click="ThemeCard_Click"
-                                                  PreviewKeyDown="ThemeCard_KeyDown"
+                                                  Command="{Binding ThemeCardCommand}"
+                                                  CommandParameter="Light"
+                                                  IsChecked="{Binding IsLightSelected}"
                                                   Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
                                             <Border CornerRadius="{DynamicResource MediumRadius}">
@@ -247,12 +215,12 @@
                                     </ToggleButton>
 
                                     <!-- CUSTOM -->
-                                    <ToggleButton x:Name="CardCustom"
-                                                  Width="{DynamicResource Component.ThemeCard.Width}"
+                                    <ToggleButton Width="{DynamicResource Component.ThemeCard.Width}"
                                                   Height="{DynamicResource Component.ThemeCard.Height}"
                                                   Tag="Custom"
-                                                  Click="ThemeCard_Click"
-                                                  PreviewKeyDown="ThemeCard_KeyDown"
+                                                  Command="{Binding ThemeCardCommand}"
+                                                  CommandParameter="Custom"
+                                                  IsChecked="{Binding IsCustomSelected}"
                                                   Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
                                             <Border CornerRadius="{DynamicResource MediumRadius}">
@@ -283,9 +251,17 @@
                             </Grid>
 
                             <!-- ACCENT SWATCHES (Custom theme only) -->
-                            <Grid x:Name="AccentSwatchesPanel"
-                                  Margin="0,0,0,16"
-                                  Visibility="Collapsed">
+                            <Grid Margin="0,0,0,16">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding AccentSwatchesVisible}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="180"/>
@@ -296,67 +272,56 @@
                                            Foreground="{DynamicResource TextMainBrush}"
                                            VerticalAlignment="Center"/>
 
-                                <StackPanel Grid.Column="1"
-                                            Orientation="Horizontal"
-                                            VerticalAlignment="Center">
-
-                                    <Ellipse x:Name="SwatchBlue"
-                                             Style="{StaticResource BlueSwatch}"
-                                             MouseLeftButtonDown="AccentSwatch_Click"
-                                             PreviewKeyDown="AccentSwatch_KeyDown"
-                                             Focusable="True"
-                                             Margin="0,0,10,0"
-                                             AutomationProperties.Name="Blue accent"/>
-                                    <Ellipse x:Name="SwatchGreen"
-                                             Style="{StaticResource GreenSwatch}"
-                                             MouseLeftButtonDown="AccentSwatch_Click"
-                                             PreviewKeyDown="AccentSwatch_KeyDown"
-                                             Focusable="True"
-                                             Margin="0,0,10,0"
-                                             AutomationProperties.Name="Green accent"/>
-                                    <Ellipse x:Name="SwatchPurple"
-                                             Style="{StaticResource PurpleSwatch}"
-                                             MouseLeftButtonDown="AccentSwatch_Click"
-                                             PreviewKeyDown="AccentSwatch_KeyDown"
-                                             Focusable="True"
-                                             Margin="0,0,10,0"
-                                             AutomationProperties.Name="Purple accent"/>
-                                    <Ellipse x:Name="SwatchOrange"
-                                             Style="{StaticResource OrangeSwatch}"
-                                             MouseLeftButtonDown="AccentSwatch_Click"
-                                             PreviewKeyDown="AccentSwatch_KeyDown"
-                                             Focusable="True"
-                                             Margin="0,0,10,0"
-                                             AutomationProperties.Name="Orange accent"/>
-                                    <Ellipse x:Name="SwatchPink"
-                                             Style="{StaticResource PinkSwatch}"
-                                             MouseLeftButtonDown="AccentSwatch_Click"
-                                             PreviewKeyDown="AccentSwatch_KeyDown"
-                                             Focusable="True"
-                                             Margin="0,0,10,0"
-                                             AutomationProperties.Name="Pink accent"/>
-                                    <Ellipse x:Name="SwatchTeal"
-                                             Style="{StaticResource TealSwatch}"
-                                             MouseLeftButtonDown="AccentSwatch_Click"
-                                             PreviewKeyDown="AccentSwatch_KeyDown"
-                                             Focusable="True"
-                                             Margin="0,0,10,0"
-                                             AutomationProperties.Name="Teal accent"/>
-                                    <Ellipse x:Name="SwatchRed"
-                                             Style="{StaticResource RedSwatch}"
-                                             MouseLeftButtonDown="AccentSwatch_Click"
-                                             PreviewKeyDown="AccentSwatch_KeyDown"
-                                             Focusable="True"
-                                             Margin="0,0,10,0"
-                                             AutomationProperties.Name="Red accent"/>
-                                    <Ellipse x:Name="SwatchCyan"
-                                             Style="{StaticResource CyanSwatch}"
-                                             MouseLeftButtonDown="AccentSwatch_Click"
-                                             PreviewKeyDown="AccentSwatch_KeyDown"
-                                             Focusable="True"
-                                             AutomationProperties.Name="Cyan accent"/>
-
-                                </StackPanel>
+                                <ItemsControl Grid.Column="1"
+                                              ItemsSource="{Binding AccentSwatches}"
+                                              VerticalAlignment="Center">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.AccentSwatchCommand, RelativeSource={RelativeSource AncestorType={x:Type controls:ModernWindow}}}"
+                                                    CommandParameter="{Binding Hex}"
+                                                    ToolTip="{Binding Name}"
+                                                    Focusable="True"
+                                                    AutomationProperties.Name="{Binding AutomationName}"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Padding="0"
+                                                    Margin="0,0,10,0"
+                                                    Width="26"
+                                                    Height="26">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Grid>
+                                                            <Ellipse Fill="{Binding Brush}"
+                                                                     Width="22" Height="22"
+                                                                     Stroke="{DynamicResource Brush.Control.Stroke}"
+                                                                     StrokeThickness="1"/>
+                                                            <Border Width="26" Height="26"
+                                                                    CornerRadius="13"
+                                                                    BorderBrush="{DynamicResource AccentBrush}"
+                                                                    BorderThickness="2"
+                                                                    Opacity="0">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                                                <Setter Property="Opacity" Value="1"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                            </Border>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
                             </Grid>
 
@@ -419,14 +384,14 @@
                         Height="34"
                         Content="Save"
                         Style="{DynamicResource PrimaryButton}"
-                        Click="Save_Click"/>
+                        Command="{Binding SaveCommand}"/>
 
                 <Button Grid.Column="3"
                         Width="120"
                         Height="34"
                         Content="Cancel"
                         Style="{DynamicResource GhostButton}"
-                        Click="Cancel_Click"/>
+                        Command="{Binding CancelCommand}"/>
 
             </Grid>
 

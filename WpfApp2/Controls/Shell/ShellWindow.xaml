@@ -45,7 +45,6 @@
         </Grid>
 
         <!-- Command Palette (overlays everything) -->
-        <shell:CommandPalette x:Name="Palette"
-                              Destinations="{Binding Destinations}"/>
+        <shell:CommandPalette x:Name="Palette"/>
     </Grid>
 </controls:ModernWindow>

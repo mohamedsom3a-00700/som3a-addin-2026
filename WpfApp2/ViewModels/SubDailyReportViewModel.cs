@@ -1,10 +1,9 @@
 using Som3a.Shared.Core;
 using Som3a.Shared.Models;
+using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,11 +13,11 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class SubDailyReportViewModel : INotifyPropertyChanged
+    public sealed class SubDailyReportViewModel : ViewModelBase
     {
         private readonly Excel.Application _app;
         private readonly Action _close;
-        private readonly SubDlyReportService _svc = new SubDlyReportService();
+        private readonly SubDlyReportService _svc;
 
         public ObservableCollection<PrevFileItem> PrevFiles { get; } = new();
         public ObservableCollection<string> PrevSheets { get; } = new();
@@ -36,11 +35,13 @@ namespace Som3a_WPF_UI.ViewModels
             get => _selectedPrevFile;
             set
             {
-                _selectedPrevFile = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsPrevFileSelected));
-                LoadPrevSheets();
-                RecalcButtons();
+                if (SetProperty(ref _selectedPrevFile, value))
+                {
+                    OnPropertyChanged(nameof(IsPrevFileSelected));
+                    ClearPreviewState();
+                    LoadPrevSheets();
+                    RecalcButtons();
+                }
             }
 
         }
@@ -49,49 +50,91 @@ namespace Som3a_WPF_UI.ViewModels
         public string? SelectedPrevSheet
         {
             get => _selectedPrevSheet;
-            set { _selectedPrevSheet = value; OnPropertyChanged(); RecalcButtons(); }
+            set
+            {
+                if (SetProperty(ref _selectedPrevSheet, value))
+                {
+                    ClearPreviewState();
+                    RecalcButtons();
+                }
+            }
         }
 
         private string? _selectedTodaySheet;
         public string? SelectedTodaySheet
         {
             get => _selectedTodaySheet;
-            set { _selectedTodaySheet = value; OnPropertyChanged(); RefreshNames(); RecalcButtons(); }
+            set
+            {
+                if (SetProperty(ref _selectedTodaySheet, value))
+                {
+                    RefreshNames();
+                    RecalcButtons();
+                }
+            }
         }
 
         private string? _nameCol;
         public string? NameCol
         {
             get => _nameCol;
-            set { _nameCol = value; OnPropertyChanged(); RefreshNames(); RecalcButtons(); }
+            set
+            {
+                if (SetProperty(ref _nameCol, value))
+                {
+                    RefreshNames();
+                    RecalcButtons();
+                }
+            }
         }
 
         private int _nameStartRow = 2;
         public int NameStartRow
         {
             get => _nameStartRow;
-            set { _nameStartRow = value; OnPropertyChanged(); RefreshNames(); RecalcButtons(); }
+            set
+            {
+                if (SetProperty(ref _nameStartRow, value))
+                {
+                    RefreshNames();
+                    RecalcButtons();
+                }
+            }
         }
 
         private string? _countCol;
         public string? CountCol
         {
             get => _countCol;
-            set { _countCol = value; OnPropertyChanged(); RecalcButtons(); }
+            set
+            {
+                if (SetProperty(ref _countCol, value))
+                {
+                    ClearPreviewState();
+                    RecalcButtons();
+                }
+            }
         }
 
         private int _countStartRow = 2;
         public int CountStartRow
         {
             get => _countStartRow;
-            set { _countStartRow = value; OnPropertyChanged(); RecalcButtons(); }
+            set
+            {
+                if (SetProperty(ref _countStartRow, value))
+                {
+                    ClearPreviewState();
+                    RecalcButtons();
+                }
+            }
         }
 
         private double _progressPercent;
-        public double ProgressPercent { get => _progressPercent; set { _progressPercent = value; OnPropertyChanged(); } }
+        public double ProgressPercent { get => _progressPercent; set => SetProperty(ref _progressPercent, value); }
 
         private string _statusText = "Ready";
-        public string StatusText { get => _statusText; set { _statusText = value; OnPropertyChanged(); } }
+        public string StatusText { get => _statusText; set => SetProperty(ref _statusText, value); }
 
         private bool _hasPreview;
         public bool CanToggleChecks => NameItems.Count > 0;
@@ -109,12 +152,11 @@ namespace Som3a_WPF_UI.ViewModels
         private double _prevTotal = 0;
         private System.Collections.Generic.Dictionary<string, (double prev, double today)>? _merged;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public SubDailyReportViewModel(Excel.Application app, Action close)
+        public SubDailyReportViewModel(IServiceContainer container, Excel.Application app, Action close)
         {
             _app = app;
             _close = close;
+            _svc = container.Resolve<SubDlyReportService>();
 
             RefreshFilesCommand = new RelayCommand(RefreshFiles);
             PreviewCommand = new RelayCommand(async () => await PreviewAsync(), () => CanPreview);
@@ -231,6 +273,14 @@ namespace Som3a_WPF_UI.ViewModels
             OnPropertyChanged(nameof(CanToggleChecks));
         }
 
+        private void ClearPreviewState()
+        {
+            _hasPreview = false;
+            _merged = null;
+            PreviewRows.Clear();
+            OnPropertyChanged(nameof(CanApply));
+        }
+
         private async Task PreviewAsync()
         {
             try
@@ -239,19 +289,17 @@ namespace Som3a_WPF_UI.ViewModels
                 StatusText = "Reading previous...";
                 ProgressPercent = 5;
 
-                var wb = (Excel.Workbook)_app.ActiveWorkbook;
-                var wsCur = (Excel.Worksheet)wb.Worksheets[SelectedTodaySheet];
-
                 var selectedKeys = NameItems.Where(x => x.IsChecked).Select(x => x.NormKey).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-                var prev = await Task.Run(() =>
-                    _svc.ReadPrevDictFromRange(_app, SelectedPrevFile!.FullPath, SelectedPrevSheet!, out _prevTopLeftAddr, out _prevTotal));
+                var prev = _svc.ReadPrevDictFromRange(_app, SelectedPrevFile!.FullPath, SelectedPrevSheet!, out _prevTopLeftAddr, out _prevTotal);
 
                 ProgressPercent = 40;
                 StatusText = "Reading today...";
 
-                var today = await Task.Run(() =>
-                    _svc.ReadTodayFiltered(wsCur, NameCol!, NameStartRow, CountCol!, CountStartRow, selectedKeys));
+                var wb = (Excel.Workbook)_app.ActiveWorkbook;
+                var wsCur = (Excel.Worksheet)wb.Worksheets[SelectedTodaySheet];
+
+                var today = _svc.ReadTodayFiltered(wsCur, NameCol!, NameStartRow, CountCol!, CountStartRow, selectedKeys);
 
                 ProgressPercent = 65;
                 StatusText = "Merging...";
@@ -322,7 +370,5 @@ namespace Som3a_WPF_UI.ViewModels
             }
             return null;
         }
-        private void OnPropertyChanged([CallerMemberName] string? name = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

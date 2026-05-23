@@ -76,7 +76,7 @@ namespace Som3a_WPF_UI.Services
     {
         private readonly List<ServiceRegistration> _registrations = new();
         private readonly Dictionary<Type, object> _singletonInstances = new();
-        private readonly HashSet<Type> _resolutionStack = new();
+        private readonly List<Type> _resolutionStack = new();
 
         public event EventHandler<ServiceResolutionEventArgs>? ServiceResolved;
         public event EventHandler<ServiceRegistrationEventArgs>? ServiceRegistered;
@@ -219,7 +219,7 @@ namespace Som3a_WPF_UI.Services
             ServiceRegistered?.Invoke(this, new ServiceRegistrationEventArgs(serviceType, implType, lifetime));
         }
 
-        internal object ResolveScoped(Type serviceType)
+        internal object ResolveScoped(Type serviceType, Dictionary<Type, object> scopedInstances)
         {
             if (_resolutionStack.Contains(serviceType))
             {
@@ -238,19 +238,23 @@ namespace Som3a_WPF_UI.Services
                 return Resolve(serviceType);
             }
 
+            if (registration.Lifetime == ServiceLifetime.Scoped && scopedInstances.TryGetValue(serviceType, out var cached))
+            {
+                return cached;
+            }
+
             _resolutionStack.Add(serviceType);
             try
             {
+                var instance = CreateInstance(registration.ImplementationType);
+
                 if (registration.Lifetime == ServiceLifetime.Scoped)
                 {
-                    var instance = CreateInstance(registration.ImplementationType);
-                    ServiceResolved?.Invoke(this, new ServiceResolutionEventArgs(serviceType, registration.Lifetime));
-                    return instance;
+                    scopedInstances[serviceType] = instance;
                 }
 
-                var transient = CreateInstance(registration.ImplementationType);
                 ServiceResolved?.Invoke(this, new ServiceResolutionEventArgs(serviceType, registration.Lifetime));
-                return transient;
+                return instance;
             }
             finally
             {
@@ -262,6 +266,7 @@ namespace Som3a_WPF_UI.Services
     public sealed class ServiceScope : IServiceScope
     {
         private readonly ServiceContainer _container;
+        private readonly Dictionary<Type, object> _scopedInstances = new();
         private bool _disposed;
 
         public ServiceScope(ServiceContainer container)
@@ -276,7 +281,7 @@ namespace Som3a_WPF_UI.Services
 
         public object Resolve(Type serviceType)
         {
-            return _container.ResolveScoped(serviceType);
+            return _container.ResolveScoped(serviceType, _scopedInstances);
         }
 
         public void Dispose()
@@ -284,6 +289,7 @@ namespace Som3a_WPF_UI.Services
             if (!_disposed)
             {
                 _disposed = true;
+                _scopedInstances.Clear();
             }
         }
     }

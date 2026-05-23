@@ -2,6 +2,7 @@
 using Som3a_WPF_UI.ViewModels.Primavera;
 using System.Windows;
 using Som3a_WPF_UI.Controls;
+using Som3a_WPF_UI;
 
 namespace Som3a_WPF_UI.Windows.PrimaveraComparison
 {
@@ -13,7 +14,7 @@ namespace Som3a_WPF_UI.Windows.PrimaveraComparison
             InitializeComponent();
 
             DataContext =
-                new PrimaveraResultsViewModel(result);
+                new PrimaveraResultsViewModel(App.Container, result);
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

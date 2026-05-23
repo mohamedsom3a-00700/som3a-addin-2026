@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using Som3a_WPF_UI.Controls.Toast;
+using Som3a_WPF_UI.ViewModels;
 
 namespace Som3a_WPF_UI.Services
 {
@@ -10,12 +11,13 @@ namespace Som3a_WPF_UI.Services
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var toast = new ToastWindow(new ToastModel
+                var viewModel = new ToastViewModel(new ToastModel
                 {
                     Message = message,
                     Type = type,
                     DurationMs = durationMs
                 });
+                var toast = new ToastWindow(viewModel);
                 toast.Show();
             });
         }

@@ -1,6 +1,7 @@
 using Som3a.Shared.Core.Primavera;
 using Som3a.Shared.Models.Primavera;
 using Som3a_WPF_UI.Helpers;
+using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.Windows.PrimaveraComparison;
 using System;
 using System.Collections.ObjectModel;
@@ -25,11 +26,11 @@ namespace Som3a_WPF_UI.ViewModels.Primavera
         private bool _isBusy;
         private string _statusMessage = "Select a Primavera database to begin.";
 
-        public PrimaveraCompareViewModel()
+        public PrimaveraCompareViewModel(IServiceContainer container)
         {
-            _dbService = new PrimaveraDbService();
-            _loaderService = new PrimaveraDataLoaderService(_dbService);
-            _comparisonService = new PrimaveraComparisonService();
+            _dbService = container.Resolve<IPrimaveraDbService>();
+            _loaderService = container.Resolve<IPrimaveraDataLoaderService>();
+            _comparisonService = container.Resolve<IPrimaveraComparisonService>();
 
             Projects = new ObservableCollection<ProjectDto>();
             FilteredProjects = new ObservableCollection<ProjectDto>();

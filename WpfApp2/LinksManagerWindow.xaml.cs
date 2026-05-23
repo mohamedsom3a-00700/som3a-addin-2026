@@ -1,8 +1,10 @@
 ﻿using Microsoft.Office.Interop.Excel;
+using Som3a.Shared.Core;
 using Som3a_WPF_UI.Helpers;
 using Som3a_WPF_UI.ViewModels;
 using System.Windows;
 using ExcelApp = Microsoft.Office.Interop.Excel.Application;
+using Som3a_WPF_UI;
 
 namespace Som3a_WPF_UI.Views
 {
@@ -14,7 +16,8 @@ namespace Som3a_WPF_UI.Views
         {
             InitializeComponent();
 
-            _vm = new LinksManagerViewModel(excelApp, this.Dispatcher);
+            var svc = new LinksManagerService(excelApp);
+            _vm = new LinksManagerViewModel(App.Container, excelApp, this.Dispatcher, svc);
             _vm.RequestClose += () => this.Close();
 
             DataContext = _vm;

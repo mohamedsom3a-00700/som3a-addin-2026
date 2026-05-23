@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using Som3a.Shared.Core;
 using Som3a.Shared.Models;
+using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -114,11 +115,11 @@ namespace Som3a_WPF_UI.ViewModels
         public RelayCommand SelectAllLinksCommand { get; }
         public RelayCommand UnselectAllLinksCommand { get; }
 
-        public LinksManagerViewModel(ExcelApp app, Dispatcher uiDispatcher)
+        public LinksManagerViewModel(IServiceContainer container, ExcelApp app, Dispatcher uiDispatcher, LinksManagerService service)
         {
             _ui = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
             _app = app ?? throw new ArgumentNullException(nameof(app));
-            _service = new LinksManagerService(app);
+            _service = service ?? throw new ArgumentNullException(nameof(service));
 
             _linksView = CollectionViewSource.GetDefaultView(Links);
             _linksView.Filter = FilterLinks;

@@ -11,7 +11,7 @@
         SnapsToDevicePixels="True"
         UseLayoutRounding="True">
 
-<Window.Resources>
+    <Window.Resources>
         <Style x:Key="ToastIcon" TargetType="TextBlock">
             <Setter Property="FontSize" Value="{DynamicResource HeaderFontSize}"/>
             <Setter Property="FontWeight" Value="{DynamicResource FontWeightBold}"/>
@@ -29,14 +29,20 @@
     </Window.Resources>
 
     <Border x:Name="ToastBorder"
+            Background="{Binding Background}"
             CornerRadius="{DynamicResource SmallRadius}"
             Padding="{DynamicResource Padding.Large}"
             Margin="{DynamicResource Padding.Small}"
             Effect="{DynamicResource Shadow.Popup}">
 
         <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="IconText" Style="{DynamicResource ToastIcon}"/>
-            <TextBlock x:Name="MessageText" Style="{DynamicResource ToastText}"/>
+            <TextBlock x:Name="IconText"
+                       Text="{Binding Icon}"
+                       Foreground="{Binding Foreground}"
+                       Style="{DynamicResource ToastIcon}"/>
+            <TextBlock x:Name="MessageText"
+                       Text="{Binding Message}"
+                       Style="{DynamicResource ToastText}"/>
         </StackPanel>
     </Border>
 </Window>

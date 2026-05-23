@@ -229,7 +229,7 @@ def _ocr_pytesseract(image_path: Path) -> tuple[str, float | None]:
             text = data["text"][i].strip()
             conf = int(data["conf"][i]) if data["conf"][i] != "-1" else 0
 
-            if data["line_num"][i] != (i > 0 and data["line_num"][i - 1]):
+            if i == 0 or data["line_num"][i] != data["line_num"][i - 1]:
                 if current_line:
                     lines.append(current_line)
                     current_line = ""

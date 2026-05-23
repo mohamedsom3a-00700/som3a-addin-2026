@@ -1,5 +1,10 @@
 using Som3a.Shared.Core;
+using Som3a.Shared.Core.Primavera;
+using Som3a.Shared.Models;
+using Som3a_WPF_UI.Controls.Shell;
 using Som3a_WPF_UI.Services;
+using Som3a_WPF_UI.ViewModels;
+using Som3a_WPF_UI.ViewModels.Primavera;
 
 namespace Som3a_WPF_UI
 {
@@ -7,6 +12,8 @@ namespace Som3a_WPF_UI
     {
         public static void RegisterServices(IServiceContainer container)
         {
+            container.RegisterSingleton<IServiceContainer>(container);
+
             var eventBus = new EventBus();
             container.RegisterSingleton<IEventBus>(eventBus);
 
@@ -17,6 +24,37 @@ namespace Som3a_WPF_UI
             container.RegisterSingleton<INavigationService>(NavigationService.Instance);
 
             container.RegisterTransient<FixPieColorsService, FixPieColorsService>();
+            container.RegisterTransient<SubDlyReportService, SubDlyReportService>();
+            container.RegisterTransient<UnmergeFillDownService, UnmergeFillDownService>();
+            container.RegisterTransient<XerParser, XerParser>();
+
+            container.RegisterTransient<ProjectAnalysisViewModel, ProjectAnalysisViewModel>();
+            container.RegisterTransient<FloatPathViewModel, FloatPathViewModel>();
+
+            container.RegisterTransient<PrimaveraCompareViewModel, PrimaveraCompareViewModel>();
+            container.RegisterTransient<PrimaveraResultsViewModel, PrimaveraResultsViewModel>();
+            container.RegisterTransient<AssignTradeCodesViewModel, AssignTradeCodesViewModel>();
+            container.RegisterTransient<LinksManagerViewModel, LinksManagerViewModel>();
+
+            container.RegisterTransient<MainViewModel, MainViewModel>();
+            container.RegisterTransient<ShellViewModel, ShellViewModel>();
+
+            container.RegisterTransient<SettingsViewModel, SettingsViewModel>();
+            container.RegisterTransient<WbsStyleSelectorViewModel, WbsStyleSelectorViewModel>();
+
+            container.RegisterTransient<LinksManagerService, LinksManagerService>();
+            container.RegisterTransient<ExcelProjectAnalysisService, ExcelProjectAnalysisService>();
+            container.RegisterTransient<XerExportService, XerExportService>();
+            container.RegisterTransient<FloatPathService, FloatPathService>();
+            container.RegisterTransient<GraphService, GraphService>();
+            container.RegisterTransient<WbsBuilder, WbsBuilder>();
+
+            container.RegisterTransient<IPrimaveraDbService, PrimaveraDbService>();
+            container.RegisterTransient<IPrimaveraDataLoaderService, PrimaveraDataLoaderService>();
+            container.RegisterTransient<IPrimaveraComparisonService, PrimaveraComparisonService>();
+
+            container.RegisterTransient<ToastViewModel, ToastViewModel>();
+            container.RegisterTransient<CommandPaletteViewModel, CommandPaletteViewModel>();
         }
 
         public static void InitializeModules(IModuleRegistry registry)

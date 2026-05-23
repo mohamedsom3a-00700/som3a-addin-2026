@@ -21,7 +21,7 @@ namespace Som3a_WPF_UI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext = new SubDailyReportViewModel(_app, Close);
+            DataContext = new SubDailyReportViewModel(App.Container, _app, Close);
         }
 
         private void ListView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

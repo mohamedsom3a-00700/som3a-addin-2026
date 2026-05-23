@@ -3,27 +3,25 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using Som3a_WPF_UI.Controls.Toast;
 using Som3a_WPF_UI.Services;
+using Som3a_WPF_UI.ViewModels;
 
 namespace Som3a_WPF_UI.Controls.Toast
 {
     public partial class ToastWindow : Window
     {
-        private readonly ToastModel _model;
         private readonly DispatcherTimer _timer;
         private readonly bool _useSafeMode;
 
-        public ToastWindow(ToastModel model)
+        public ToastWindow(ToastViewModel viewModel)
         {
             InitializeComponent();
-            _model = model;
+            DataContext = viewModel;
 
             var renderService = RenderModeService.Instance;
             renderService.Initialize();
             _useSafeMode = renderService.IsSafeModeRequired();
 
-            ConfigureToast();
             PositionWindow();
 
             if (!_useSafeMode)
@@ -34,7 +32,7 @@ namespace Som3a_WPF_UI.Controls.Toast
 
             _timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(model.DurationMs)
+                Interval = TimeSpan.FromMilliseconds(viewModel.DurationMs)
             };
             _timer.Tick += (s, e) => CloseToast();
 
@@ -43,39 +41,6 @@ namespace Som3a_WPF_UI.Controls.Toast
                 ShowToast();
                 _timer.Start();
             };
-        }
-
-        private void ConfigureToast()
-        {
-            switch (_model.Type)
-            {
-                case ToastType.Success:
-                    ToastBorder.Background = (System.Windows.Media.Brush)FindResource("Brush.Accent.Success");
-                    IconText.Text = "✓";
-                    IconText.Foreground = (System.Windows.Media.Brush)FindResource("Brush.Text.OnAccent");
-                    break;
-
-                case ToastType.Error:
-                    ToastBorder.Background = (System.Windows.Media.Brush)FindResource("Brush.Accent.Danger");
-                    IconText.Text = "✗";
-                    IconText.Foreground = (System.Windows.Media.Brush)FindResource("Brush.Text.OnAccent");
-                    break;
-
-                case ToastType.Warning:
-                    ToastBorder.Background = (System.Windows.Media.Brush)FindResource("Brush.Accent.Warning");
-                    IconText.Text = "⚠";
-                    IconText.Foreground = (System.Windows.Media.Brush)FindResource("Brush.Text.OnAccent");
-                    break;
-
-                case ToastType.Info:
-                default:
-                    ToastBorder.Background = (System.Windows.Media.Brush)FindResource("Brush.Accent.Primary");
-                    IconText.Text = "ℹ";
-                    IconText.Foreground = (System.Windows.Media.Brush)FindResource("Brush.Text.OnAccent");
-                    break;
-            }
-
-            MessageText.Text = _model.Message;
         }
 
         private void PositionWindow()

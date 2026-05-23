@@ -4,7 +4,19 @@
 
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: Tests are not explicitly requested in the feature spec. Test tasks are omitted; acceptance is verified through build validation and manual Excel host testing per the project's testing strategy.
+**Tests**: Unit tests for the service container, event bus, and ViewModel base class are required to validate correctness. Acceptance is verified through passing tests AND build validation AND manual Excel host testing per the project's testing strategy.
+
+### Test Tasks
+
+- [ ] T041 [US1] Write unit test for `ServiceContainer` — verify singleton returns same instance, transient returns different instances, scoped returns same instance within a scope and different across scopes
+- [ ] T042 [US1] [P] Write unit test for `ServiceContainer` — verify circular dependency throws `InvalidOperationException` with type chain
+- [ ] T043 [US1] [P] Write unit test for `ServiceContainer` — verify unregistered service throws `InvalidOperationException` with type name
+- [ ] T044 [US1] [P] Write unit test for `ServiceContainer` — verify `ServiceResolved` and `ServiceRegistered` events fire correctly
+- [ ] T045 [US2] Write unit test for `EventBus` — verify publish delivers event to matching subscribers
+- [ ] T046 [US2] [P] Write unit test for `EventBus` — verify weak references allow subscriber GC and auto-pruning on next publish
+- [ ] T047 [US2] [P] Write unit test for `EventBus` — verify subscriber isolation (one exception does not block others)
+- [ ] T048 [US2] [P] Write unit test for `EventBus` — verify optional filter predicate works
+- [ ] T049 [US3] Write unit test for `ViewModelBase` — verify `SetProperty` raises property changed only when value differs
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -93,11 +105,11 @@
 ### Implementation for User Story 3
 
 - [X] T025 [US3] Create base ViewModel class with `INotifyPropertyChanged` implementation in `WpfApp2/ViewModels/ViewModelBase.cs`
-- [ ] T026 [US3] [P] Audit all existing code-behind files against MVVM compliance checklist — identify files with business logic, data access, service instantiation, or complex conditionals
-- [ ] T027 [US3] [P] Refactor identified code-behind files — extract business logic to ViewModels in `WpfApp2/ViewModels/` and wire dependencies via constructor injection
+- [X] T026 [US3] [P] Audit all existing code-behind files against MVVM compliance checklist — identify files with business logic, data access, service instantiation, or complex conditionals
+- [X] T027 [US3] [P] Refactor identified code-behind files — extract business logic to ViewModels in `WpfApp2/ViewModels/` and wire dependencies via constructor injection
 - [X] T028 [US3] [P] Relocate any existing ViewModels scattered across the project into `WpfApp2/ViewModels/` with namespace updates
-- [ ] T029 [US3] [P] Replace direct service instantiation (`new ServiceX()`) in existing ViewModels with constructor injection from `IServiceContainer`
-- [ ] T030 [US3] [P] Replace code-behind event handlers with Command bindings where feasible — wire `ICommand` properties in ViewModels to XAML `Command` bindings
+- [X] T029 [US3] [P] Replace direct service instantiation (`new ServiceX()`) in existing ViewModels with constructor injection from `IServiceContainer`
+- [X] T030 [US3] [P] Replace code-behind event handlers with Command bindings where feasible — wire `ICommand` properties in ViewModels to XAML `Command` bindings
 - [X] T031 [US3] Create MVVM compliance checklist document in `Docs/Architecture/MVVM_COMPLIANCE.md` with audit criteria and pass/fail rules
 - [X] T032 [US3] Create `CompositionRoot.cs` in `WpfApp2/` — centralize all service and module registrations, called from `App.xaml.cs`
 
@@ -112,7 +124,7 @@
 - [X] T033 [P] Extract theme-related services (`ThemeManager`, `WindowRenderModeDetector`, `ThemeSettings`) into `IServiceContainer` registration in composition root
 - [X] T034 [P] Extract navigation service (`NavigationService` from Phase 5) into `IServiceContainer` registration in composition root
 - [X] T035 [P] Ensure all new and refactored services follow the research pattern — constructor injection only, no service locator anti-pattern usage in `WpfApp2/Services/`
-- [ ] T036 [P] Verify no `new ServiceX()` instantiation remains in ViewModels or code-behind across the entire `WpfApp2/` project
+- [X] T036 [P] Verify no `new ServiceX()` instantiation remains in ViewModels or code-behind across the entire `WpfApp2/` project
 - [X] T037 Run `msbuild WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug` — build must succeed with zero errors
 - [X] T038 Update `AGENTS.md` with new architecture patterns — service container, event bus, module registry, ViewModel conventions
 - [X] T039 Constitution compliance review — verify DynamicResource-only usage, ThemeManager integration, Excel rendering safety, and WindowChrome inheritance remain intact after refactoring

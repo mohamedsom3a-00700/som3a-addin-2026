@@ -3,6 +3,7 @@ using Som3a_WPF_UI.ViewModels.Primavera;
 using System.Windows;
 using System.Windows.Controls;
 using Som3a_WPF_UI.Controls;
+using Som3a_WPF_UI;
 
 namespace Som3a_WPF_UI.Windows.PrimaveraComparison
 {
@@ -12,7 +13,7 @@ namespace Som3a_WPF_UI.Windows.PrimaveraComparison
         {
             InitializeComponent();
 
-            DataContext = new PrimaveraCompareViewModel();
+            DataContext = App.Container.Resolve<PrimaveraCompareViewModel>();
         }
 
         private PrimaveraCompareViewModel? ViewModel =>

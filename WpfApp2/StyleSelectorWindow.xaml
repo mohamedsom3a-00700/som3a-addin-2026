@@ -117,19 +117,13 @@
                 <!-- STYLE SELECTOR -->
 
                 <ComboBox Grid.Row="1"
-                          x:Name="StyleCombo"
                           Margin="0,0,0,16"
                           Height="36"
-                          SelectionChanged="StyleCombo_SelectionChanged"
-                          Style="{DynamicResource RoundComboBox}">
-
-                    <ComboBoxItem Tag="1">Default</ComboBoxItem>
-                    <ComboBoxItem Tag="2">Blue Gradient</ComboBoxItem>
-                    <ComboBoxItem Tag="3">Primavera</ComboBoxItem>
-                    <ComboBoxItem Tag="4">Dark Mode</ComboBoxItem>
-                    <ComboBoxItem Tag="5">Soft Pastel</ComboBoxItem>
-
-                </ComboBox>
+                          Style="{DynamicResource RoundComboBox}"
+                          ItemsSource="{Binding StyleOptions}"
+                          SelectedValue="{Binding SelectedStyleId}"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"/>
 
                 <!-- LISTVIEW -->
 
@@ -140,7 +134,7 @@
                         CornerRadius="14"
                         Padding="10">
 
-                    <ListView x:Name="PreviewList"
+                    <ListView ItemsSource="{Binding StylePreviews}"
                               Background="Transparent"
                               BorderThickness="0">
 
@@ -195,13 +189,13 @@
                             Width="110"
                             Height="34"
                             Margin="0,0,10,0"
-                            Click="Save_Click"
+                            Command="{Binding SaveCommand}"
                             Style="{DynamicResource PrimaryButton}"/>
 
                     <Button Content="Cancel"
                             Width="110"
                             Height="34"
-                            Click="Cancel_Click"
+                            Command="{Binding CancelCommand}"
                             Style="{DynamicResource GhostButton}"/>
 
                 </StackPanel>

@@ -1,5 +1,6 @@
 using Som3a.Shared.Core.Primavera;
 using Som3a.Shared.Models.Primavera;
+using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ namespace Som3a_WPF_UI.ViewModels.Primavera
     public class PrimaveraResultsViewModel
     {
         public PrimaveraResultsViewModel(
+            IServiceContainer container,
             ComparisonResult result)
         {
             Result = result ?? new ComparisonResult();

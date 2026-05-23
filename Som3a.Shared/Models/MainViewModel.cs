@@ -5,9 +5,11 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Excel = Microsoft.Office.Interop.Excel;
 using Som3a.Shared.Controllers;
 using Som3a.Shared.Core;
+using Som3a_WPF_UI;
 
 namespace Som3a.Shared.Models
 {
@@ -15,6 +17,13 @@ namespace Som3a.Shared.Models
     {
         private readonly CompareController _controller;
         private CancellationTokenSource _cts;
+
+        public enum NotificationIcon { Information, Warning, Error }
+        public event Action<string, NotificationIcon>? NotificationRaised;
+
+        public ICommand PreviewCommand { get; }
+        public ICommand StartCommand { get; }
+        public ICommand CancelCommand { get; }
 
         private Excel.Workbook _wb;
 
@@ -109,6 +118,22 @@ namespace Som3a.Shared.Models
             _canRun = false;
             _isBusy = false;
             _lastChangesCount = 0;
+
+            PreviewCommand = new RelayCommand(async _ => await ExecuteWithNotification(true), _ => CanRun);
+            StartCommand = new RelayCommand(async _ => await ExecuteWithNotification(false), _ => CanRun);
+            CancelCommand = new RelayCommand(_ => Cancel());
+        }
+
+        private async Task ExecuteWithNotification(bool preview)
+        {
+            await RunAsync(preview);
+
+            if (StatusText.StartsWith("Error"))
+                NotificationRaised?.Invoke(StatusText, NotificationIcon.Error);
+            else if (StatusText == "Cancelled")
+                NotificationRaised?.Invoke(preview ? "Preview cancelled." : "Update cancelled.", NotificationIcon.Warning);
+            else
+                NotificationRaised?.Invoke($"{(preview ? "Preview" : "Update")} completed.\nChanges: {LastChangesCount}", NotificationIcon.Information);
         }
 
         public void AttachExcel(Excel.Application xlApp)

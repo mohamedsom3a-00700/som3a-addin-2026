@@ -70,7 +70,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         public ShellWindow()
         {
             InitializeComponent();
-            _viewModel = new ShellViewModel();
+            _viewModel = App.Container.Resolve<ShellViewModel>();
             DataContext = _viewModel;
 
             _viewModel.WelcomePageType = typeof(WelcomePage);

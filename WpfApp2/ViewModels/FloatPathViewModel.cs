@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Som3a.Shared.Core;
 using Som3a.Shared.Models;
+using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,9 @@ namespace Som3a_WPF_UI.ViewModels
         private List<Activity> _activities;
         private Dictionary<string, List<Relationship>> _graph;
         private List<WbsItem> _wbsRaw;
+        private readonly FloatPathService _floatPathService;
+        private readonly GraphService _graphService;
+        private readonly WbsBuilder _wbsBuilder;
         public string SelectedView { get; set; }
         #endregion
 
@@ -71,9 +75,7 @@ namespace Som3a_WPF_UI.ViewModels
         #region View Mode
         private void BuildGraphOnly()
         {
-            var service = new FloatPathService();
-
-            var paths = service.GetTopPaths(
+            var paths = _floatPathService.GetTopPaths(
                 SelectedActivity.Id,
                 _graph,
                 _activities,
@@ -98,10 +100,9 @@ namespace Som3a_WPF_UI.ViewModels
                     k => k.Value.Where(r => usedIds.Contains(r.SuccessorId)).ToList()
                 );
 
-            var graphService = new GraphService();
             var jsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytoscape.min.js");
 
-            GraphHtml = graphService.GenerateGraphHtml(allActivities, filteredRels);
+            GraphHtml = _graphService.GenerateGraphHtml(allActivities, filteredRels);
             MessageBox.Show($"ShowGraph = {IsGraphView}");
             SendGraphToUI?.Invoke(GraphHtml);
         }
@@ -169,8 +170,12 @@ namespace Som3a_WPF_UI.ViewModels
 
         #endregion
 
-        public FloatPathViewModel()
+        public FloatPathViewModel(IServiceContainer container)
         {
+            _floatPathService = container.Resolve<FloatPathService>();
+            _graphService = container.Resolve<GraphService>();
+            _wbsBuilder = container.Resolve<WbsBuilder>();
+
             LoadXerCommand = new RelayCommand(LoadXer);
             RunCommand = new RelayCommand(Run, () => SelectedActivity != null);
         }
@@ -204,8 +209,7 @@ namespace Som3a_WPF_UI.ViewModels
                     Activities.Add(a);
 
                 // WBS Tree
-                var builder = new WbsBuilder();
-                var tree = builder.BuildTree(_wbsRaw, _activities);
+                var tree = _wbsBuilder.BuildTree(_wbsRaw, _activities);
 
                 WBSItems.Clear();
                 OnPropertyChanged(nameof(WBSItems));
@@ -283,9 +287,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 IsLoading = true;
                 MessageBox.Show($"Start ID = {SelectedActivity?.Id}");
-                var service = new FloatPathService();
-
-                var paths = service.GetTopPaths(
+                var paths = _floatPathService.GetTopPaths(
                     SelectedActivity.Id,
                     _graph,
                     _activities,
@@ -308,7 +310,6 @@ namespace Som3a_WPF_UI.ViewModels
 
                 MessageBox.Show($"Activities in Graph: {allActivities.Count}");
 
-                var graphService = new GraphService();
                 var usedIds = allActivities.Select(a => a.Id).ToHashSet();
 
                 var filteredRels = _graph
@@ -319,7 +320,7 @@ namespace Som3a_WPF_UI.ViewModels
                     );
                 var jsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytoscape.min.js");
 
-                GraphHtml = graphService.GenerateGraphHtml(allActivities, filteredRels);
+                GraphHtml = _graphService.GenerateGraphHtml(allActivities, filteredRels);
                 MessageBox.Show(File.Exists(jsPath)
     ? "cytoscape FOUND ✅"
     : "cytoscape NOT FOUND ❌");

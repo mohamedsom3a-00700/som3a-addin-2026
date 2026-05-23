@@ -71,11 +71,11 @@ namespace Som3a_WPF_UI.ViewModels
         public RelayCommand SetTodayCommand { get; }
         public RelayCommand CloseCommand { get; }
 
-        public ProjectAnalysisViewModel(object excelApp, Window win)
+        public ProjectAnalysisViewModel(IServiceContainer container, object excelApp, Window win, ExcelProjectAnalysisService service)
         {
             _excelApp = excelApp;
             _win = win;
-            _svc = new ExcelProjectAnalysisService(_excelApp);
+            _svc = service ?? throw new ArgumentNullException(nameof(service));
 
             ValidateCommand = new RelayCommand(Validate);
             RunCommand = new RelayCommand(Run, () => CanRun);

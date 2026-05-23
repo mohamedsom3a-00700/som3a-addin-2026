@@ -139,6 +139,8 @@
     <Compile Include="ViewModels\SubDailyReportViewModel.cs" />
     <Compile Include="ViewModels\UnmergeFillDownViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\ToastViewModel.cs" />
+    <Compile Include="ViewModels\CommandPaletteViewModel.cs" />
     <Compile Include="Converters\SharedConverters.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Controls\ModernWindow.cs" />
@@ -163,7 +165,10 @@
     <Compile Include="UnmergeFillDownWindow.xaml.cs">
       <DependentUpon>UnmergeFillDownWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\FixPieColorsViewModel.cs" />
     <Compile Include="ViewModels\LinksManagerViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\WbsStyleSelectorViewModel.cs" />
     <Compile Include="Windows\PrimaveraComparison\PrimaveraCompareWindow.xaml.cs">
       <DependentUpon>PrimaveraCompareWindow.xaml</DependentUpon>
     </Compile>

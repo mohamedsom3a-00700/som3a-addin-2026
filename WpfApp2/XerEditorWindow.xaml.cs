@@ -7,7 +7,7 @@ namespace Som3a_WPF_UI
         public XerEditorWindow()
         {
             InitializeComponent();
-            DataContext = new XerEditorViewModel();
+            DataContext = new XerEditorViewModel(App.Container);
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

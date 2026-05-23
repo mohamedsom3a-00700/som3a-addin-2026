@@ -9,15 +9,34 @@ namespace Som3a_WPF_UI
 {
     public partial class MainWindow : ModernWindow
     {
-        private readonly MainViewModel _vm = new MainViewModel();
+        private readonly MainViewModel _vm;
         private Excel.Application _xlApp;
 
         public MainWindow()
         {
+            _vm = App.Container.Resolve<MainViewModel>();
             InitializeComponent();
             DataContext = _vm;
 
+            _vm.NotificationRaised += OnViewModelNotification;
             this.Closed += MainWindow_Closed;
+        }
+
+        private void OnViewModelNotification(string message, MainViewModel.NotificationIcon icon)
+        {
+            var image = icon switch
+            {
+                MainViewModel.NotificationIcon.Error => MessageBoxImage.Error,
+                MainViewModel.NotificationIcon.Warning => MessageBoxImage.Warning,
+                _ => MessageBoxImage.Information
+            };
+            var title = icon switch
+            {
+                MainViewModel.NotificationIcon.Error => "Error",
+                MainViewModel.NotificationIcon.Warning => "Cancelled",
+                _ => "Done"
+            };
+            MessageBox.Show(message, title, MessageBoxButton.OK, image);
         }
 
         public void AttachExcel(Excel.Application xlApp)
@@ -55,49 +74,21 @@ namespace Som3a_WPF_UI
             catch { }
         }
 
-        private async void Preview_Click(object sender, RoutedEventArgs e)
+        private void Preview_Click(object sender, RoutedEventArgs e)
         {
-            await _vm.PreviewAsync();
-
-            // رسالة بسيطة بعد الـ Preview
-            if (_vm.StatusText.StartsWith("Error"))
-            {
-                MessageBox.Show(_vm.StatusText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else if (_vm.StatusText == "Cancelled")
-            {
-                MessageBox.Show("Preview cancelled.", "Cancelled", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            else
-            {
-                MessageBox.Show($"Preview completed.\nChanges: {_vm.LastChangesCount}", "Done",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            if (_vm.PreviewCommand.CanExecute(null))
+                _vm.PreviewCommand.Execute(null);
         }
 
-        private async void Start_Click(object sender, RoutedEventArgs e)
+        private void Start_Click(object sender, RoutedEventArgs e)
         {
-            await _vm.StartAsync();
-
-            // رسالة بعد الـ Update
-            if (_vm.StatusText.StartsWith("Error"))
-            {
-                MessageBox.Show(_vm.StatusText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else if (_vm.StatusText == "Cancelled")
-            {
-                MessageBox.Show("Update cancelled.", "Cancelled", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            else
-            {
-                MessageBox.Show($"Update completed successfully.\nChanges: {_vm.LastChangesCount}", "Done",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            if (_vm.StartCommand.CanExecute(null))
+                _vm.StartCommand.Execute(null);
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            _vm.Cancel();
+            _vm.CancelCommand.Execute(null);
         }
         private void TitleBar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

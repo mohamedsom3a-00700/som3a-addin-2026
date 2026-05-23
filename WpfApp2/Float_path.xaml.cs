@@ -28,7 +28,7 @@ namespace Som3a_WPF_UI
         {
             InitializeComponent();
 
-            vm = new FloatPathViewModel();
+            vm = App.Container.Resolve<FloatPathViewModel>();
             DataContext = vm;
 
             Loaded += async (s, e) =>

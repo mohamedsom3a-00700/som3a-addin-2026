@@ -18,7 +18,7 @@ namespace Som3a_WPF_UI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext = new UnmergeFillDownViewModel(_excelApp, closeAction: Close);
+            DataContext = new UnmergeFillDownViewModel(App.Container, _excelApp, closeAction: Close);
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

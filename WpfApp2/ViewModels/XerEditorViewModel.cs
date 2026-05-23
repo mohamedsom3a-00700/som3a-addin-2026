@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using Som3a.Shared.Core;
+using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,11 +10,12 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public class XerEditorViewModel
+    public class XerEditorViewModel : ViewModelBase
     {
         public ObservableCollection<TableItemVM> Tables { get; set; } = new();
 
-        private XerParser _parser = new();
+        private readonly IServiceContainer _container;
+        private XerParser _parser;
         private string _filePath = "";
 
         public RelayCommand LoadCommand { get; }
@@ -21,8 +23,11 @@ namespace Som3a_WPF_UI.ViewModels
         public RelayCommand ImportFromExcelCommand { get; }
         public RelayCommand ExportXerCommand { get; }
 
-        public XerEditorViewModel()
+        public XerEditorViewModel(IServiceContainer container)
         {
+            _container = container;
+            _parser = container.Resolve<XerParser>();
+
             LoadCommand = new RelayCommand(Load);
             ExportExcelCommand = new RelayCommand(ExportExcel);
             ImportFromExcelCommand = new RelayCommand(ImportFromExcel);
@@ -209,7 +214,9 @@ namespace Som3a_WPF_UI.ViewModels
 
             var excel = new ExcelService(app);
 
-            foreach (var t in Tables.Where(x => x.IsSelected))
+            var selected = Tables.Where(x => x.IsSelected).ToList();
+
+            foreach (var t in selected)
             {
                 var updated = excel.ReadTable(t.Name);
 
@@ -225,9 +232,18 @@ namespace Som3a_WPF_UI.ViewModels
                     _parser.Tables.Remove(existing);
 
                 _parser.Tables.Add(updated);
-                RefreshTablesUI();
-                t.Count = updated.Rows.Count;
-                t.Status = "Updated";
+            }
+
+            RefreshTablesUI();
+
+            foreach (var t in selected)
+            {
+                var updated = _parser.Tables.FirstOrDefault(x => x.Name == t.Name);
+                if (updated != null)
+                {
+                    t.Count = updated.Rows.Count;
+                    t.Status = "Updated";
+                }
             }
 
             MessageBox.Show("Import completed");
@@ -241,7 +257,7 @@ namespace Som3a_WPF_UI.ViewModels
                 return;
             }
 
-            var exporter = new XerExportService();
+            var exporter = _container.Resolve<XerExportService>();
 
             exporter.Export(_filePath, _parser);
 
