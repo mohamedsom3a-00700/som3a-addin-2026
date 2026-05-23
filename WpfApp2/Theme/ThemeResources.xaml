@@ -80,6 +80,9 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ModernWindow.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/WindowAnimations.xaml"/>
 
+        <!-- Shell Styles -->
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ShellStyles.xaml"/>
+
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Converters -->

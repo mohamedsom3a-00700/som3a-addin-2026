@@ -1,0 +1,19 @@
+<pages:PageBase x:Class="Som3a_WPF_UI.Pages.WelcomePage"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:pages="clr-namespace:Som3a_WPF_UI.Pages"
+                    Title="Welcome"
+                    Tag="welcome"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+    <Grid Style="{DynamicResource Style.WelcomePage.Container}">
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    MaxWidth="500">
+            <TextBlock Text="Welcome to Som3a Add-in"
+                       Style="{DynamicResource Style.WelcomePage.Title}"/>
+            <TextBlock Text="Select a feature from the sidebar to get started."
+                       Style="{DynamicResource Style.WelcomePage.Description}"/>
+        </StackPanel>
+    </Grid>
+</pages:PageBase>

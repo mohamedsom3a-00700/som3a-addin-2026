@@ -35,37 +35,6 @@
         </Setter>
     </Style>
 
-    <!-- Focus Visual Style -->
-    <Style x:Key="FocusVisualStyle" TargetType="Control">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Rectangle Margin="2"
-                               SnapsToDevicePixels="True"
-                               Stroke="{DynamicResource AccentBrush}"
-                               StrokeThickness="1"
-                               StrokeDashArray="2 2"
-                               RadiusX="{DynamicResource SmallRadius}"
-                               RadiusY="{DynamicResource SmallRadius}"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!-- High Contrast Focus Visual Style -->
-    <Style x:Key="HighContrastFocusVisualStyle" TargetType="Control">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Rectangle Margin="1"
-                               SnapsToDevicePixels="True"
-                               Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                               StrokeThickness="2"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <!-- BaseButton Style with Hover Animation -->
     <Style x:Key="BaseButton" TargetType="{x:Type Button}">
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>

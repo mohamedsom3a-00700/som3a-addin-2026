@@ -43,6 +43,8 @@ namespace Som3a_Addin_2026
             this.comparsion = this.Factory.CreateRibbonButton();
             this.Com_Xer = this.Factory.CreateRibbonButton();
             this.button1 = this.Factory.CreateRibbonButton();
+            this.groupNav = this.Factory.CreateRibbonGroup();
+            this.btnWorkspace = this.Factory.CreateRibbonButton();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.btnDailyReport = this.Factory.CreateRibbonButton();
             this.button22 = this.Factory.CreateRibbonButton();
@@ -101,6 +103,7 @@ namespace Som3a_Addin_2026
             this.btnSafeClone = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
+            this.groupNav.SuspendLayout();
             this.group2.SuspendLayout();
             this.Tools.SuspendLayout();
             this.group3.SuspendLayout();
@@ -119,6 +122,7 @@ namespace Som3a_Addin_2026
             // tab1
             // 
             this.tab1.Groups.Add(this.group1);
+            this.tab1.Groups.Add(this.groupNav);
             this.tab1.Groups.Add(this.group2);
             this.tab1.Groups.Add(this.Tools);
             this.tab1.Groups.Add(this.group3);
@@ -167,6 +171,20 @@ namespace Som3a_Addin_2026
             this.button1.Name = "button1";
             this.button1.ShowImage = true;
             this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
+            // 
+            // groupNav
+            // 
+            this.groupNav.Items.Add(this.btnWorkspace);
+            this.groupNav.Label = "Workspace";
+            this.groupNav.Name = "groupNav";
+            // 
+            // btnWorkspace
+            // 
+            this.btnWorkspace.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnWorkspace.Label = "Shell";
+            this.btnWorkspace.Name = "btnWorkspace";
+            this.btnWorkspace.ShowImage = true;
+            this.btnWorkspace.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnWorkspace_Click);
             // 
             // group2
             // 
@@ -587,6 +605,8 @@ namespace Som3a_Addin_2026
             this.tab1.PerformLayout();
             this.group1.ResumeLayout(false);
             this.group1.PerformLayout();
+            this.groupNav.ResumeLayout(false);
+            this.groupNav.PerformLayout();
             this.group2.ResumeLayout(false);
             this.group2.PerformLayout();
             this.Tools.ResumeLayout(false);
@@ -680,6 +700,8 @@ namespace Som3a_Addin_2026
         internal RibbonButton Com_Xer;
         internal RibbonGroup group12;
         internal RibbonButton addin_setting;
+        internal RibbonGroup groupNav;
+        internal RibbonButton btnWorkspace;
     }
     partial class ThisRibbonCollection
     {
