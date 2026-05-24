@@ -70,6 +70,11 @@ namespace Som3a_WPF_UI
 
         private void OnSheetNamesChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
+            UpdateSheetList();
+        }
+
+        private void UpdateSheetList()
+        {
             cmbSheets.Items.Clear();
             foreach (var name in _vm!.SheetNames)
                 cmbSheets.Items.Add(name);
@@ -89,7 +94,7 @@ namespace Som3a_WPF_UI
 
             txtCategoryRange.Text = _vm.CategoryRange;
             txtColorTableRange.Text = _vm.ColorTableRange;
-            OnSheetNamesChanged(null, null!);
+            UpdateSheetList();
         }
 
         public void AttachExcel(Excel.Application xlApp)

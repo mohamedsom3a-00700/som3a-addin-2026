@@ -1,6 +1,6 @@
 ﻿using Microsoft.Office.Tools.Ribbon;
 using Som3a_Addin_2026;
-using Som3a_WPF_UI;
+//using Som3a_WPF_UI;
 using System;
 namespace Som3a_Addin_2026
 {
@@ -39,30 +39,37 @@ namespace Som3a_Addin_2026
         private void InitializeComponent()
         {
             this.tab1 = this.Factory.CreateRibbonTab();
+            this.groupNav = this.Factory.CreateRibbonGroup();
             this.group1 = this.Factory.CreateRibbonGroup();
+            this.group2 = this.Factory.CreateRibbonGroup();
+            this.Tools = this.Factory.CreateRibbonGroup();
+            this.group3 = this.Factory.CreateRibbonGroup();
+            this.group12 = this.Factory.CreateRibbonGroup();
+            this.group5 = this.Factory.CreateRibbonGroup();
+            this.group6 = this.Factory.CreateRibbonGroup();
+            this.group7 = this.Factory.CreateRibbonGroup();
+            this.group10 = this.Factory.CreateRibbonGroup();
+            this.group8 = this.Factory.CreateRibbonGroup();
+            this.group9 = this.Factory.CreateRibbonGroup();
+            this.group4 = this.Factory.CreateRibbonGroup();
+            this.tab2 = this.Factory.CreateRibbonTab();
+            this.group11 = this.Factory.CreateRibbonGroup();
+            this.btnWorkspace = this.Factory.CreateRibbonButton();
             this.comparsion = this.Factory.CreateRibbonButton();
             this.Com_Xer = this.Factory.CreateRibbonButton();
             this.button1 = this.Factory.CreateRibbonButton();
-            this.groupNav = this.Factory.CreateRibbonGroup();
-            this.btnWorkspace = this.Factory.CreateRibbonButton();
-            this.group2 = this.Factory.CreateRibbonGroup();
             this.btnDailyReport = this.Factory.CreateRibbonButton();
             this.button22 = this.Factory.CreateRibbonButton();
-            this.Tools = this.Factory.CreateRibbonGroup();
             this.btnProjectAnalysis = this.Factory.CreateRibbonButton();
-            this.group3 = this.Factory.CreateRibbonGroup();
             this.Coloringwbs = this.Factory.CreateRibbonButton();
             this.GroupWbs = this.Factory.CreateRibbonButton();
-            this.group12 = this.Factory.CreateRibbonGroup();
             this.addin_setting = this.Factory.CreateRibbonButton();
             this.color_setting = this.Factory.CreateRibbonButton();
-            this.group5 = this.Factory.CreateRibbonGroup();
             this.Float_Path = this.Factory.CreateRibbonButton();
             this.Xer_Editor = this.Factory.CreateRibbonButton();
             this.button10 = this.Factory.CreateRibbonButton();
             this.button17 = this.Factory.CreateRibbonButton();
             this.button16 = this.Factory.CreateRibbonButton();
-            this.group6 = this.Factory.CreateRibbonGroup();
             this.button6 = this.Factory.CreateRibbonButton();
             this.button7 = this.Factory.CreateRibbonButton();
             this.button8 = this.Factory.CreateRibbonButton();
@@ -72,38 +79,31 @@ namespace Som3a_Addin_2026
             this.button27 = this.Factory.CreateRibbonButton();
             this.button28 = this.Factory.CreateRibbonButton();
             this.button29 = this.Factory.CreateRibbonButton();
-            this.group7 = this.Factory.CreateRibbonGroup();
             this.button9 = this.Factory.CreateRibbonButton();
             this.button14 = this.Factory.CreateRibbonButton();
-            this.group10 = this.Factory.CreateRibbonGroup();
             this.button30 = this.Factory.CreateRibbonButton();
             this.button31 = this.Factory.CreateRibbonButton();
             this.button32 = this.Factory.CreateRibbonButton();
             this.button33 = this.Factory.CreateRibbonButton();
-            this.group8 = this.Factory.CreateRibbonGroup();
             this.button12 = this.Factory.CreateRibbonButton();
             this.button13 = this.Factory.CreateRibbonButton();
             this.button20 = this.Factory.CreateRibbonButton();
             this.button21 = this.Factory.CreateRibbonButton();
             this.button23 = this.Factory.CreateRibbonButton();
             this.button24 = this.Factory.CreateRibbonButton();
-            this.group9 = this.Factory.CreateRibbonGroup();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
             this.button18 = this.Factory.CreateRibbonButton();
             this.button19 = this.Factory.CreateRibbonButton();
-            this.group4 = this.Factory.CreateRibbonGroup();
             this.PreForReload = this.Factory.CreateRibbonButton();
-            this.tab2 = this.Factory.CreateRibbonTab();
-            this.group11 = this.Factory.CreateRibbonGroup();
             this.btnUnmergeFillDown = this.Factory.CreateRibbonButton();
             this.ExportPaletteHex = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
             this.btnLinksManager = this.Factory.CreateRibbonButton();
             this.btnSafeClone = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
-            this.group1.SuspendLayout();
             this.groupNav.SuspendLayout();
+            this.group1.SuspendLayout();
             this.group2.SuspendLayout();
             this.Tools.SuspendLayout();
             this.group3.SuspendLayout();
@@ -121,8 +121,8 @@ namespace Som3a_Addin_2026
             // 
             // tab1
             // 
-            this.tab1.Groups.Add(this.group1);
             this.tab1.Groups.Add(this.groupNav);
+            this.tab1.Groups.Add(this.group1);
             this.tab1.Groups.Add(this.group2);
             this.tab1.Groups.Add(this.Tools);
             this.tab1.Groups.Add(this.group3);
@@ -137,6 +137,12 @@ namespace Som3a_Addin_2026
             this.tab1.Label = "Som3a Planning Tools";
             this.tab1.Name = "tab1";
             // 
+            // groupNav
+            // 
+            this.groupNav.Items.Add(this.btnWorkspace);
+            this.groupNav.Label = "Home";
+            this.groupNav.Name = "groupNav";
+            // 
             // group1
             // 
             this.group1.Items.Add(this.comparsion);
@@ -145,47 +151,6 @@ namespace Som3a_Addin_2026
             this.group1.Label = "Comparsion";
             this.group1.Name = "group1";
             // 
-            // comparsion
-            // 
-            this.comparsion.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.comparsion.Image = global::Som3a_Addin_2026.Properties.Resources.stock_vector_comparison_icon_and_symbol_438145465;
-            this.comparsion.Label = "Comparsion";
-            this.comparsion.Name = "comparsion";
-            this.comparsion.ShowImage = true;
-            this.comparsion.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.comparsion_Click);
-            // 
-            // Com_Xer
-            // 
-            this.Com_Xer.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.Com_Xer.Image = global::Som3a_Addin_2026.Properties.Resources._3781852;
-            this.Com_Xer.Label = "Comparsion by Xer";
-            this.Com_Xer.Name = "Com_Xer";
-            this.Com_Xer.ShowImage = true;
-            this.Com_Xer.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Com_Xer_Click);
-            // 
-            // button1
-            // 
-            this.button1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button1.Image = global::Som3a_Addin_2026.Properties.Resources._3502688;
-            this.button1.Label = "Trades Codes";
-            this.button1.Name = "button1";
-            this.button1.ShowImage = true;
-            this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
-            // 
-            // groupNav
-            // 
-            this.groupNav.Items.Add(this.btnWorkspace);
-            this.groupNav.Label = "Workspace";
-            this.groupNav.Name = "groupNav";
-            // 
-            // btnWorkspace
-            // 
-            this.btnWorkspace.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnWorkspace.Label = "Shell";
-            this.btnWorkspace.Name = "btnWorkspace";
-            this.btnWorkspace.ShowImage = true;
-            this.btnWorkspace.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnWorkspace_Click);
-            // 
             // group2
             // 
             this.group2.Items.Add(this.btnDailyReport);
@@ -193,37 +158,11 @@ namespace Som3a_Addin_2026
             this.group2.Label = "Reporting";
             this.group2.Name = "group2";
             // 
-            // btnDailyReport
-            // 
-            this.btnDailyReport.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnDailyReport.Image = global::Som3a_Addin_2026.Properties.Resources._199_1998376_email_marketing_icon_daily_report_icon_png;
-            this.btnDailyReport.Label = "Daily Report";
-            this.btnDailyReport.Name = "btnDailyReport";
-            this.btnDailyReport.ShowImage = true;
-            this.btnDailyReport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDailyReport_Click);
-            // 
-            // button22
-            // 
-            this.button22.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button22.Image = global::Som3a_Addin_2026.Properties.Resources._8276278;
-            this.button22.Label = "Weekly Report Generator";
-            this.button22.Name = "button22";
-            this.button22.ShowImage = true;
-            // 
             // Tools
             // 
             this.Tools.Items.Add(this.btnProjectAnalysis);
             this.Tools.Label = "Analysis Tools";
             this.Tools.Name = "Tools";
-            // 
-            // btnProjectAnalysis
-            // 
-            this.btnProjectAnalysis.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnProjectAnalysis.Image = global::Som3a_Addin_2026.Properties.Resources.cf4c1cb044c54bfc856f2f370df8e395;
-            this.btnProjectAnalysis.Label = "Revised Baseline (Split Activity)";
-            this.btnProjectAnalysis.Name = "btnProjectAnalysis";
-            this.btnProjectAnalysis.ShowImage = true;
-            this.btnProjectAnalysis.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnProjectAnalysis_Click);
             // 
             // group3
             // 
@@ -232,48 +171,12 @@ namespace Som3a_Addin_2026
             this.group3.Label = "Formats";
             this.group3.Name = "group3";
             // 
-            // Coloringwbs
-            // 
-            this.Coloringwbs.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.Coloringwbs.Image = global::Som3a_Addin_2026.Properties.Resources.colour_wheel;
-            this.Coloringwbs.Label = "Coloring WBS";
-            this.Coloringwbs.Name = "Coloringwbs";
-            this.Coloringwbs.ShowImage = true;
-            this.Coloringwbs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Coloringwbs_Click);
-            // 
-            // GroupWbs
-            // 
-            this.GroupWbs.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.GroupWbs.Image = global::Som3a_Addin_2026.Properties.Resources._1302070;
-            this.GroupWbs.Label = "Group WBS";
-            this.GroupWbs.Name = "GroupWbs";
-            this.GroupWbs.ShowImage = true;
-            this.GroupWbs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.GroupWbs_Click);
-            // 
             // group12
             // 
             this.group12.Items.Add(this.addin_setting);
             this.group12.Items.Add(this.color_setting);
             this.group12.Label = "Setting";
             this.group12.Name = "group12";
-            // 
-            // addin_setting
-            // 
-            this.addin_setting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.addin_setting.Image = global::Som3a_Addin_2026.Properties.Resources.settings;
-            this.addin_setting.Label = "Add in Setting";
-            this.addin_setting.Name = "addin_setting";
-            this.addin_setting.ShowImage = true;
-            this.addin_setting.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.addin_setting_Click);
-            // 
-            // color_setting
-            // 
-            this.color_setting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.color_setting.Image = global::Som3a_Addin_2026.Properties.Resources._6915924;
-            this.color_setting.Label = "Color WBS Setting";
-            this.color_setting.Name = "color_setting";
-            this.color_setting.ShowImage = true;
-            this.color_setting.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.color_setting_Click);
             // 
             // group5
             // 
@@ -285,10 +188,168 @@ namespace Som3a_Addin_2026
             this.group5.Label = "Schedule Health";
             this.group5.Name = "group5";
             // 
+            // group6
+            // 
+            this.group6.Items.Add(this.button6);
+            this.group6.Items.Add(this.button7);
+            this.group6.Items.Add(this.button8);
+            this.group6.Items.Add(this.button15);
+            this.group6.Items.Add(this.button25);
+            this.group6.Items.Add(this.button26);
+            this.group6.Items.Add(this.button27);
+            this.group6.Items.Add(this.button28);
+            this.group6.Items.Add(this.button29);
+            this.group6.Label = "Delay & Claims";
+            this.group6.Name = "group6";
+            // 
+            // group7
+            // 
+            this.group7.Items.Add(this.button9);
+            this.group7.Items.Add(this.button14);
+            this.group7.Label = "Data Cleaning";
+            this.group7.Name = "group7";
+            // 
+            // group10
+            // 
+            this.group10.Items.Add(this.button30);
+            this.group10.Items.Add(this.button31);
+            this.group10.Items.Add(this.button32);
+            this.group10.Items.Add(this.button33);
+            this.group10.Label = "Management";
+            this.group10.Name = "group10";
+            // 
+            // group8
+            // 
+            this.group8.Items.Add(this.button12);
+            this.group8.Items.Add(this.button13);
+            this.group8.Items.Add(this.button20);
+            this.group8.Items.Add(this.button21);
+            this.group8.Items.Add(this.button23);
+            this.group8.Items.Add(this.button24);
+            this.group8.Label = "Lookahead";
+            this.group8.Name = "group8";
+            // 
+            // group9
+            // 
+            this.group9.Items.Add(this.button3);
+            this.group9.Items.Add(this.button4);
+            this.group9.Items.Add(this.button18);
+            this.group9.Items.Add(this.button19);
+            this.group9.Label = "AI Tools";
+            this.group9.Name = "group9";
+            // 
+            // group4
+            // 
+            this.group4.Items.Add(this.PreForReload);
+            this.group4.Label = "Info";
+            this.group4.Name = "group4";
+            // 
+            // tab2
+            // 
+            this.tab2.Groups.Add(this.group11);
+            this.tab2.Label = "Som3a Helper Tools";
+            this.tab2.Name = "tab2";
+            // 
+            // group11
+            // 
+            this.group11.Items.Add(this.btnUnmergeFillDown);
+            this.group11.Items.Add(this.ExportPaletteHex);
+            this.group11.Items.Add(this.button2);
+            this.group11.Items.Add(this.btnLinksManager);
+            this.group11.Items.Add(this.btnSafeClone);
+            this.group11.Label = "Tools";
+            this.group11.Name = "group11";
+            // 
+            // btnWorkspace
+            // 
+            this.btnWorkspace.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnWorkspace.Label = "Home";
+            this.btnWorkspace.Name = "btnWorkspace";
+            this.btnWorkspace.ShowImage = true;
+            this.btnWorkspace.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnWorkspace_Click);
+            // 
+            // comparsion
+            // 
+            this.comparsion.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.comparsion.Label = "Comparsion";
+            this.comparsion.Name = "comparsion";
+            this.comparsion.ShowImage = true;
+            this.comparsion.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.comparsion_Click);
+            // 
+            // Com_Xer
+            // 
+            this.Com_Xer.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.Com_Xer.Label = "Comparsion by Xer";
+            this.Com_Xer.Name = "Com_Xer";
+            this.Com_Xer.ShowImage = true;
+            this.Com_Xer.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Com_Xer_Click);
+            // 
+            // button1
+            // 
+            this.button1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button1.Label = "Trades Codes";
+            this.button1.Name = "button1";
+            this.button1.ShowImage = true;
+            this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
+            // 
+            // btnDailyReport
+            // 
+            this.btnDailyReport.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnDailyReport.Label = "Daily Report";
+            this.btnDailyReport.Name = "btnDailyReport";
+            this.btnDailyReport.ShowImage = true;
+            this.btnDailyReport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDailyReport_Click);
+            // 
+            // button22
+            // 
+            this.button22.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button22.Label = "Weekly Report Generator";
+            this.button22.Name = "button22";
+            this.button22.ShowImage = true;
+            // 
+            // btnProjectAnalysis
+            // 
+            this.btnProjectAnalysis.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnProjectAnalysis.Label = "Revised Baseline (Split Activity)";
+            this.btnProjectAnalysis.Name = "btnProjectAnalysis";
+            this.btnProjectAnalysis.ShowImage = true;
+            this.btnProjectAnalysis.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnProjectAnalysis_Click);
+            // 
+            // Coloringwbs
+            // 
+            this.Coloringwbs.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.Coloringwbs.Label = "Coloring WBS";
+            this.Coloringwbs.Name = "Coloringwbs";
+            this.Coloringwbs.ShowImage = true;
+            this.Coloringwbs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Coloringwbs_Click);
+            // 
+            // GroupWbs
+            // 
+            this.GroupWbs.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.GroupWbs.Label = "Group WBS";
+            this.GroupWbs.Name = "GroupWbs";
+            this.GroupWbs.ShowImage = true;
+            this.GroupWbs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.GroupWbs_Click);
+            // 
+            // addin_setting
+            // 
+            this.addin_setting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.addin_setting.Label = "Add in Setting";
+            this.addin_setting.Name = "addin_setting";
+            this.addin_setting.ShowImage = true;
+            this.addin_setting.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.addin_setting_Click);
+            // 
+            // color_setting
+            // 
+            this.color_setting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.color_setting.Label = "Color WBS Setting";
+            this.color_setting.Name = "color_setting";
+            this.color_setting.ShowImage = true;
+            this.color_setting.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.color_setting_Click);
+            // 
             // Float_Path
             // 
             this.Float_Path.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.Float_Path.Image = global::Som3a_Addin_2026.Properties.Resources._7171906;
             this.Float_Path.Label = "Float Path Analyzer";
             this.Float_Path.Name = "Float_Path";
             this.Float_Path.ShowImage = true;
@@ -297,7 +358,6 @@ namespace Som3a_Addin_2026
             // Xer_Editor
             // 
             this.Xer_Editor.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.Xer_Editor.Image = global::Som3a_Addin_2026.Properties.Resources._800a0207_9614_4cb2_8c0b_8daf79416ee0;
             this.Xer_Editor.Label = "Xer Editor";
             this.Xer_Editor.Name = "Xer_Editor";
             this.Xer_Editor.ShowImage = true;
@@ -320,20 +380,6 @@ namespace Som3a_Addin_2026
             this.button16.Label = "Windows Analyzer";
             this.button16.Name = "button16";
             this.button16.ShowImage = true;
-            // 
-            // group6
-            // 
-            this.group6.Items.Add(this.button6);
-            this.group6.Items.Add(this.button7);
-            this.group6.Items.Add(this.button8);
-            this.group6.Items.Add(this.button15);
-            this.group6.Items.Add(this.button25);
-            this.group6.Items.Add(this.button26);
-            this.group6.Items.Add(this.button27);
-            this.group6.Items.Add(this.button28);
-            this.group6.Items.Add(this.button29);
-            this.group6.Label = "Delay & Claims";
-            this.group6.Name = "group6";
             // 
             // button6
             // 
@@ -389,13 +435,6 @@ namespace Som3a_Addin_2026
             this.button29.Name = "button29";
             this.button29.ShowImage = true;
             // 
-            // group7
-            // 
-            this.group7.Items.Add(this.button9);
-            this.group7.Items.Add(this.button14);
-            this.group7.Label = "Data Cleaning";
-            this.group7.Name = "group7";
-            // 
             // button9
             // 
             this.button9.Label = "P6 Data Validator";
@@ -407,15 +446,6 @@ namespace Som3a_Addin_2026
             this.button14.Label = "Excel Schedule Sanitizer";
             this.button14.Name = "button14";
             this.button14.ShowImage = true;
-            // 
-            // group10
-            // 
-            this.group10.Items.Add(this.button30);
-            this.group10.Items.Add(this.button31);
-            this.group10.Items.Add(this.button32);
-            this.group10.Items.Add(this.button33);
-            this.group10.Label = "Management";
-            this.group10.Name = "group10";
             // 
             // button30
             // 
@@ -441,17 +471,6 @@ namespace Som3a_Addin_2026
             this.button33.Label = "Key Decisions Log";
             this.button33.Name = "button33";
             this.button33.ShowImage = true;
-            // 
-            // group8
-            // 
-            this.group8.Items.Add(this.button12);
-            this.group8.Items.Add(this.button13);
-            this.group8.Items.Add(this.button20);
-            this.group8.Items.Add(this.button21);
-            this.group8.Items.Add(this.button23);
-            this.group8.Items.Add(this.button24);
-            this.group8.Label = "Lookahead";
-            this.group8.Name = "group8";
             // 
             // button12
             // 
@@ -489,15 +508,6 @@ namespace Som3a_Addin_2026
             this.button24.Name = "button24";
             this.button24.ShowImage = true;
             // 
-            // group9
-            // 
-            this.group9.Items.Add(this.button3);
-            this.group9.Items.Add(this.button4);
-            this.group9.Items.Add(this.button18);
-            this.group9.Items.Add(this.button19);
-            this.group9.Label = "AI Tools";
-            this.group9.Name = "group9";
-            // 
             // button3
             // 
             this.button3.Label = " Ai Agent";
@@ -522,38 +532,15 @@ namespace Som3a_Addin_2026
             this.button19.Name = "button19";
             this.button19.ShowImage = true;
             // 
-            // group4
-            // 
-            this.group4.Items.Add(this.PreForReload);
-            this.group4.Label = "Info";
-            this.group4.Name = "group4";
-            // 
             // PreForReload
             // 
             this.PreForReload.Label = "Prepare for Reload";
             this.PreForReload.Name = "PreForReload";
             this.PreForReload.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.PreForReload_Click);
             // 
-            // tab2
-            // 
-            this.tab2.Groups.Add(this.group11);
-            this.tab2.Label = "Som3a Helper Tools";
-            this.tab2.Name = "tab2";
-            // 
-            // group11
-            // 
-            this.group11.Items.Add(this.btnUnmergeFillDown);
-            this.group11.Items.Add(this.ExportPaletteHex);
-            this.group11.Items.Add(this.button2);
-            this.group11.Items.Add(this.btnLinksManager);
-            this.group11.Items.Add(this.btnSafeClone);
-            this.group11.Label = "Tools";
-            this.group11.Name = "group11";
-            // 
             // btnUnmergeFillDown
             // 
             this.btnUnmergeFillDown.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnUnmergeFillDown.Image = global::Som3a_Addin_2026.Properties.Resources.editable_unmerge_table_cell_vector_260nw_2568331085;
             this.btnUnmergeFillDown.Label = "Unmerage and Fill Down";
             this.btnUnmergeFillDown.Name = "btnUnmergeFillDown";
             this.btnUnmergeFillDown.ShowImage = true;
@@ -562,7 +549,6 @@ namespace Som3a_Addin_2026
             // ExportPaletteHex
             // 
             this.ExportPaletteHex.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.ExportPaletteHex.Image = global::Som3a_Addin_2026.Properties.Resources._9604087;
             this.ExportPaletteHex.Label = "Get Cell Color";
             this.ExportPaletteHex.Name = "ExportPaletteHex";
             this.ExportPaletteHex.ShowImage = true;
@@ -571,7 +557,6 @@ namespace Som3a_Addin_2026
             // button2
             // 
             this.button2.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button2.Image = global::Som3a_Addin_2026.Properties.Resources._3892368;
             this.button2.Label = "Fix Colors Charts";
             this.button2.Name = "button2";
             this.button2.ShowImage = true;
@@ -580,7 +565,6 @@ namespace Som3a_Addin_2026
             // btnLinksManager
             // 
             this.btnLinksManager.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnLinksManager.Image = global::Som3a_Addin_2026.Properties.Resources.links;
             this.btnLinksManager.Label = "Links Mangers";
             this.btnLinksManager.Name = "btnLinksManager";
             this.btnLinksManager.ShowImage = true;
@@ -589,10 +573,10 @@ namespace Som3a_Addin_2026
             // btnSafeClone
             // 
             this.btnSafeClone.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnSafeClone.Image = global::Som3a_Addin_2026.Properties.Resources.png_clipart_computer_icons_copying_icon_design_transfer_icon_text_logo;
             this.btnSafeClone.Label = "Safe Clone Workbook";
             this.btnSafeClone.Name = "btnSafeClone";
             this.btnSafeClone.ShowImage = true;
+            this.btnSafeClone.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSafeClone_Click);
             // 
             // Ribbon1
             // 
@@ -603,10 +587,10 @@ namespace Som3a_Addin_2026
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.Ribbon1_Load);
             this.tab1.ResumeLayout(false);
             this.tab1.PerformLayout();
-            this.group1.ResumeLayout(false);
-            this.group1.PerformLayout();
             this.groupNav.ResumeLayout(false);
             this.groupNav.PerformLayout();
+            this.group1.ResumeLayout(false);
+            this.group1.PerformLayout();
             this.group2.ResumeLayout(false);
             this.group2.PerformLayout();
             this.Tools.ResumeLayout(false);

@@ -87,6 +87,8 @@ namespace Som3a_WPF_UI.Controls.Shell
                 Workspace.NavigationCompleted += OnWorkspaceNavigationCompleted;
             }
 
+            PreviewKeyDown += OnShellPreviewKeyDown;
+
             OnShellInitialize();
 
             Loaded += OnShellLoaded;
@@ -143,10 +145,8 @@ namespace Som3a_WPF_UI.Controls.Shell
             _viewModel.StatusMessage = e.Success ? "Ready" : $"Error: {e.Error}";
         }
 
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        private void OnShellPreviewKeyDown(object sender, KeyEventArgs e)
         {
-            base.OnPreviewKeyDown(e);
-
             if (e.Key == Key.K && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
                 ToggleCommandPalette();

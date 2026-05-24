@@ -29,7 +29,7 @@ namespace Som3a_WPF_UI.ViewModels
 
         public Action? CloseWindow { get; set; }
 
-        public WbsStyleSelectorViewModel(IServiceContainer container)
+        public WbsStyleSelectorViewModel()
         {
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(() => CloseWindow?.Invoke());

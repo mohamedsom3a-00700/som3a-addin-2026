@@ -25,6 +25,9 @@ namespace Som3a_Addin_2026
                 };
             }
 
+            Som3a_WPF_UI.CompositionRoot.RegisterServices(Som3a_WPF_UI.App.Container);
+            Som3a_WPF_UI.CompositionRoot.InitializeModules(Som3a_WPF_UI.App.Container.Resolve<Som3a_WPF_UI.Services.IModuleRegistry>());
+
             ThemeManager.InitializeApplicationResources();
 
             ThemeManager.LoadSettings();

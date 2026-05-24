@@ -38,11 +38,15 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         public event EventHandler<NavigationEventArgs> NavigationCompleted;
 
-        public WorkspaceHost()
+        static WorkspaceHost()
         {
             DefaultStyleKeyProperty.OverrideMetadata(
                 typeof(WorkspaceHost),
                 new FrameworkPropertyMetadata(typeof(WorkspaceHost)));
+        }
+
+        public WorkspaceHost()
+        {
         }
 
         public override void OnApplyTemplate()

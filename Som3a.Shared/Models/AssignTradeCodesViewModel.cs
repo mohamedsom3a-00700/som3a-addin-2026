@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Som3a.Shared.Models;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Som3a_WPF_UI
@@ -282,21 +283,4 @@ namespace Som3a_WPF_UI
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
-    public sealed class RelayCommand : ICommand
-    {
-        private readonly Func<object?, bool>? _can;
-        private readonly Action<object?> _exec;
-
-        public RelayCommand(Action<object?> exec, Func<object?, bool>? can = null)
-        {
-            _exec = exec;
-            _can = can;
-        }
-
-        public bool CanExecute(object? parameter) => _can?.Invoke(parameter) ?? true;
-        public void Execute(object? parameter) => _exec(parameter);
-
-        public event EventHandler? CanExecuteChanged;
-        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-    }
 }

@@ -16,7 +16,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public class FloatPathViewModel : INotifyPropertyChanged
+    public class FloatPathViewModel : ViewModelBase
     {
         #region Fields
 
@@ -103,7 +103,6 @@ namespace Som3a_WPF_UI.ViewModels
             var jsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytoscape.min.js");
 
             GraphHtml = _graphService.GenerateGraphHtml(allActivities, filteredRels);
-            MessageBox.Show($"ShowGraph = {IsGraphView}");
             SendGraphToUI?.Invoke(GraphHtml);
         }
         public List<string> ViewModes { get; set; } =
@@ -126,27 +125,11 @@ namespace Som3a_WPF_UI.ViewModels
                 if (_selectedViewMode == "Network Graph")
                 {
                     ShowWbs = false;
-
-                    MessageBox.Show("Get Graph View");
-
-                    // 🔥 شيل الشرط خالص
                     SendGraphToUI?.Invoke(GraphHtml);
                 }
-                // 🔥 تأخير بسيط عشان WebView2 يبقى visible
-                // Task.Run(async () =>
-                // {
-                // await Task.Delay(100);
-
-                //  Application.Current.Dispatcher.Invoke(() =>
-                // {
-                // BuildGraphOnly();
-                // });
-                //  });
                 else
                 {
                     ShowWbs = true;
-
-                    MessageBox.Show("Get Wbs View");
                 }
             }
         }
@@ -223,13 +206,10 @@ namespace Som3a_WPF_UI.ViewModels
 
                 ProjectName = System.IO.Path.GetFileNameWithoutExtension(dialog.FileName);
                 OnPropertyChanged(nameof(ProjectName));
-                MessageBox.Show($"Activities: {_activities.Count}");
-                MessageBox.Show($"WBS: {_wbsRaw.Count}");
-                MessageBox.Show($"Tree Roots: {WBSItems.Count}");
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.Message);
 
             }
             finally
@@ -267,7 +247,6 @@ namespace Som3a_WPF_UI.ViewModels
 
         private void Run()
         {
-            MessageBox.Show("Run Clicked ✅");
             if (SelectedViewMode == "WBS View")
             {
                 ShowWbs = true;
@@ -279,14 +258,12 @@ namespace Som3a_WPF_UI.ViewModels
 
             if (SelectedActivity == null)
             {
-                MessageBox.Show("Select Activity first");
                 return;
             }
 
             try
             {
                 IsLoading = true;
-                MessageBox.Show($"Start ID = {SelectedActivity?.Id}");
                 var paths = _floatPathService.GetTopPaths(
                     SelectedActivity.Id,
                     _graph,
@@ -295,11 +272,8 @@ namespace Som3a_WPF_UI.ViewModels
                     MaxDepth
                 );
 
-                MessageBox.Show($"Paths Count: {paths?.Count}");
-
                 if (paths == null || !paths.Any())
                 {
-                    MessageBox.Show("No Path Found ❌");
                     return;
                 }
 
@@ -308,7 +282,7 @@ namespace Som3a_WPF_UI.ViewModels
                     .Distinct()
                     .ToList();
 
-                MessageBox.Show($"Activities in Graph: {allActivities.Count}");
+
 
                 var usedIds = allActivities.Select(a => a.Id).ToHashSet();
 
@@ -321,19 +295,6 @@ namespace Som3a_WPF_UI.ViewModels
                 var jsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytoscape.min.js");
 
                 GraphHtml = _graphService.GenerateGraphHtml(allActivities, filteredRels);
-                MessageBox.Show(File.Exists(jsPath)
-    ? "cytoscape FOUND ✅"
-    : "cytoscape NOT FOUND ❌");
-                MessageBox.Show($"Nodes: {_activities.Count}");
-                MessageBox.Show($"Edges: {_graph.Sum(x => x.Value.Count)}");
-
-                MessageBox.Show("Graph Generated ✅");
-
-                // 🔥 اختبار الجراف خارج البرنامج
-               // File.WriteAllText("test.html", GraphHtml);
-                //System.Diagnostics.Process.Start("test.html");
-
-                //❌ اقفل ده مؤقتًا
                 SendGraphToUI?.Invoke(GraphHtml);
 
                 var excel = new Excel.Application();
@@ -345,7 +306,6 @@ namespace Som3a_WPF_UI.ViewModels
                 excel.Visible = true;
 
                 int row = 1;
-                MessageBox.Show("Before Excel");
                 foreach (var path in paths)
                 {
                     ws.Cells[row, 1] = "Path";
@@ -367,7 +327,7 @@ namespace Som3a_WPF_UI.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             finally
             {
@@ -384,12 +344,6 @@ namespace Som3a_WPF_UI.ViewModels
         #endregion
 
         #region INotify
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        void OnPropertyChanged([CallerMemberName] string name = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
         #endregion
     }
 }

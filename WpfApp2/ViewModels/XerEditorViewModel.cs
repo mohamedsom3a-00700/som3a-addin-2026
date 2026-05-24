@@ -55,7 +55,6 @@ namespace Som3a_WPF_UI.ViewModels
 
             _filePath = ofd.FileName;
 
-            _parser = new XerParser();
             _parser.Parse(_filePath);
 
             Tables.Clear();
@@ -238,11 +237,11 @@ namespace Som3a_WPF_UI.ViewModels
 
             foreach (var t in selected)
             {
-                var updated = _parser.Tables.FirstOrDefault(x => x.Name == t.Name);
+                var updated = Tables.FirstOrDefault(x => x.Name == t.Name);
                 if (updated != null)
                 {
-                    t.Count = updated.Rows.Count;
-                    t.Status = "Updated";
+                    updated.Count = _parser.Tables.FirstOrDefault(x => x.Name == t.Name)?.Rows.Count ?? 0;
+                    updated.Status = "Updated";
                 }
             }
 

@@ -98,6 +98,7 @@
     <Compile Include="Core\XerExportService.cs" />
     <Compile Include="Models\AssignTradeCodesViewModel.cs" />
     <Compile Include="Models\CompareResultItem.cs" />
+    <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="Models\ExcelColorHelper.cs" />
     <Compile Include="Models\ExcelService.cs" />
     <Compile Include="Models\Float_path.cs" />

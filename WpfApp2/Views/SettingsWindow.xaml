@@ -169,8 +169,8 @@
                                                   Tag="Dark"
                                                   Command="{Binding ThemeCardCommand}"
                                                   CommandParameter="Dark"
-                                                  IsChecked="{Binding IsDarkSelected}"
-                                                  Style="{DynamicResource ThemeCardToggleStyle}">
+                                                   IsChecked="{Binding IsDarkSelected, Mode=OneWay}"
+                                                   Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
                                             <Border CornerRadius="{DynamicResource MediumRadius}">
                                                 <Border.Background>
@@ -190,12 +190,12 @@
 
                                     <!-- LIGHT -->
                                     <ToggleButton Width="{DynamicResource Component.ThemeCard.Width}"
-                                                  Height="{DynamicResource Component.ThemeCard.Height}"
-                                                  Margin="0,0,16,0"
-                                                  Tag="Light"
-                                                  Command="{Binding ThemeCardCommand}"
-                                                  CommandParameter="Light"
-                                                  IsChecked="{Binding IsLightSelected}"
+                                                   Height="{DynamicResource Component.ThemeCard.Height}"
+                                                   Margin="0,0,16,0"
+                                                   Tag="Light"
+                                                   Command="{Binding ThemeCardCommand}"
+                                                   CommandParameter="Light"
+                                                   IsChecked="{Binding IsLightSelected, Mode=OneWay}"
                                                   Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
                                             <Border CornerRadius="{DynamicResource MediumRadius}">
@@ -220,7 +220,7 @@
                                                   Tag="Custom"
                                                   Command="{Binding ThemeCardCommand}"
                                                   CommandParameter="Custom"
-                                                  IsChecked="{Binding IsCustomSelected}"
+                                                   IsChecked="{Binding IsCustomSelected, Mode=OneWay}"
                                                   Style="{DynamicResource ThemeCardToggleStyle}">
                                         <Grid>
                                             <Border CornerRadius="{DynamicResource MediumRadius}">

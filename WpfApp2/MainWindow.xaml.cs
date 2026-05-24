@@ -53,6 +53,7 @@ namespace Som3a_WPF_UI
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
+            _vm.NotificationRaised -= OnViewModelNotification;
             try
             {
                 if (_xlApp != null) _xlApp.Interactive = true;

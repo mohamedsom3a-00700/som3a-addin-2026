@@ -6,7 +6,7 @@
 
 **Tests**: Unit tests for the service container, event bus, and ViewModel base class are required to validate correctness. Acceptance is verified through passing tests AND build validation AND manual Excel host testing per the project's testing strategy.
 
-### Test Tasks
+## Test Tasks
 
 - [ ] T041 [US1] Write unit test for `ServiceContainer` — verify singleton returns same instance, transient returns different instances, scoped returns same instance within a scope and different across scopes
 - [ ] T042 [US1] [P] Write unit test for `ServiceContainer` — verify circular dependency throws `InvalidOperationException` with type chain

@@ -28,13 +28,13 @@ namespace Som3a_WPF_UI
             container.RegisterTransient<UnmergeFillDownService, UnmergeFillDownService>();
             container.RegisterTransient<XerParser, XerParser>();
 
+            container.RegisterTransient<FixPieColorsViewModel, FixPieColorsViewModel>();
             container.RegisterTransient<ProjectAnalysisViewModel, ProjectAnalysisViewModel>();
             container.RegisterTransient<FloatPathViewModel, FloatPathViewModel>();
 
             container.RegisterTransient<PrimaveraCompareViewModel, PrimaveraCompareViewModel>();
             container.RegisterTransient<PrimaveraResultsViewModel, PrimaveraResultsViewModel>();
             container.RegisterTransient<AssignTradeCodesViewModel, AssignTradeCodesViewModel>();
-            container.RegisterTransient<LinksManagerViewModel, LinksManagerViewModel>();
 
             container.RegisterTransient<MainViewModel, MainViewModel>();
             container.RegisterTransient<ShellViewModel, ShellViewModel>();
@@ -42,7 +42,6 @@ namespace Som3a_WPF_UI
             container.RegisterTransient<SettingsViewModel, SettingsViewModel>();
             container.RegisterTransient<WbsStyleSelectorViewModel, WbsStyleSelectorViewModel>();
 
-            container.RegisterTransient<LinksManagerService, LinksManagerService>();
             container.RegisterTransient<ExcelProjectAnalysisService, ExcelProjectAnalysisService>();
             container.RegisterTransient<XerExportService, XerExportService>();
             container.RegisterTransient<FloatPathService, FloatPathService>();

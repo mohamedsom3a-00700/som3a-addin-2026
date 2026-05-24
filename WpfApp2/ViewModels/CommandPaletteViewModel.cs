@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Som3a_WPF_UI.Controls.Shell;
@@ -38,6 +39,7 @@ namespace Som3a_WPF_UI.ViewModels
 
         public CommandPaletteViewModel(IServiceContainer container)
         {
+            if (container is null) throw new ArgumentNullException(nameof(container));
             _navigationService = container.Resolve<INavigationService>();
 
             SelectNextCommand = new RelayCommand(SelectNext);

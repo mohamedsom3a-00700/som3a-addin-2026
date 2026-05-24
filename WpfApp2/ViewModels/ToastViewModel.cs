@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
@@ -24,6 +25,7 @@ namespace Som3a_WPF_UI.ViewModels
 
         public ToastViewModel(ToastModel model)
         {
+            if (model is null) throw new ArgumentNullException(nameof(model));
             ToastType = model.Type;
             Message = model.Message;
             DurationMs = model.DurationMs;

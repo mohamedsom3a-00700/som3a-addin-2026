@@ -9,7 +9,7 @@ using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class ProjectAnalysisViewModel : NotifyBase
+    public sealed class ProjectAnalysisViewModel : ViewModelBase
     {
         private readonly object _excelApp;
         private readonly Window _win;

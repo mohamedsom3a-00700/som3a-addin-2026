@@ -309,15 +309,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\unmerage.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pie.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\stock-vector-comparison-icon-and-symbol-438145465.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Som3a.Shared\Som3a.Shared.csproj">
       <Project>{5563203c-41d7-4ad2-943c-0c0d82f18b33}</Project>
       <Name>Som3a.Shared</Name>
@@ -328,70 +319,66 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\3892368.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\png-transparent-computer-icons-code-symbol-coding-miscellaneous-angle-text-thumbnail.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\editable-unmerge-table-cell-vector-260nw-2568331085.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\daily-report.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\links.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\audit-data-analysis-icon-financial-assessment-vector-335920716.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\colour-wheel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\9604087.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\1302070.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\png-clipart-computer-icons-copying-icon-design-transfer-icon-text-logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\updates.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\325-3255215_refresh-clipart-reload-icon-png.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\6915924.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\7171906.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\800a0207-9614-4cb2-8c0b-8daf79416ee0.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\150-1504985_open-split-icon-png.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\cf4c1cb044c54bfc856f2f370df8e395.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\199-1998376_email-marketing-icon-daily-report-icon-png.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\8276278.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\3502688.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\3781852.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\settings.jpg" />
+    <Content Include="Resources\addin_setting.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\btnWorkspace.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\color_setting.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Coloringwbs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Comparsion.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Com_Xer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\btnDailyReport.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\button2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Float_Path.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ExportPaletteHex.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\GroupWbs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\btnLinksManager.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\btnProjectAnalysis.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\btnSafeClone.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\button1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\btnUnmergeFillDown.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\button22.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Xer_Editor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -406,6 +393,14 @@
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>AFCCA7572C70FE593697672CA9E057F8EADE9D60</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+    <OutputPath>bin\ARM64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+    <OutputPath>bin\ARM64\Release\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- Include additional build rules for an Office application add-in. -->

@@ -15,7 +15,7 @@ using SysAction = System.Action;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class LinksManagerViewModel : INotifyPropertyChanged
+    public sealed class LinksManagerViewModel : ViewModelBase
     {
         private readonly Dispatcher _ui;
         private readonly ExcelApp _app;
@@ -400,17 +400,7 @@ namespace Som3a_WPF_UI.ViewModels
             UnselectAllLinksCommand.RaiseCanExecuteChanged();
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string? name = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
         private bool Set<T>(ref T field, T value, [CallerMemberName] string? name = null)
-        {
-            if (Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(name);
-            return true;
-        }
+            => SetProperty(ref field, value, name);
     }
 }

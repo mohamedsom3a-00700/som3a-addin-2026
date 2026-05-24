@@ -9,7 +9,7 @@ using System.Windows.Input;
 using Excel = Microsoft.Office.Interop.Excel;
 using Som3a.Shared.Controllers;
 using Som3a.Shared.Core;
-using Som3a_WPF_UI;
+
 
 namespace Som3a.Shared.Models
 {

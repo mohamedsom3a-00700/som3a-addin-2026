@@ -6,13 +6,15 @@ using Som3a.Shared.Models;
 using Som3a_Addin_2026.Ui;
 using Som3a_Addin_2026.UIHost;
 using Som3a_WPF_UI;
-using Som3a_WPF_UI.Controls.Shell;
+//using Som3a_WPF_UI.Controls.Shell;
 using Som3a_WPF_UI.Services;
-using Som3a_WPF_UI.ViewModels;
+//using Som3a_WPF_UI.ViewModels;
 using Som3a_WPF_UI.Windows.PrimaveraComparison;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -31,6 +33,114 @@ namespace Som3a_Addin_2026
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
+            LoadRibbonImages();
+        }
+
+        private void LoadRibbonImages()
+        {
+            string imagesFolder =
+                System.IO.Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "Resources");
+
+            string[] supportedExtensions =
+            {
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".webp",
+        ".ico"
+    };
+
+            foreach (var tab in this.Tabs)
+            {
+                foreach (RibbonGroup group in tab.Groups)
+                {
+                    foreach (var item in group.Items)
+                    {
+                        if (item is RibbonButton button)
+                        {
+                            try
+                            {
+                                string imagePath = supportedExtensions
+                                    .Select(ext =>
+                                        System.IO.Path.Combine(
+                                            imagesFolder,
+                                            button.Name + ext))
+                                    .FirstOrDefault(System.IO.File.Exists);
+
+                                if (imagePath != null)
+                                {
+                                    using (var img =
+                                        System.Drawing.Image.FromFile(imagePath))
+                                    {
+                                        button.Image =
+                                            ResizeRibbonImage(
+                                                new Bitmap(img),
+                                                32,
+                                                32);
+
+                                        button.ShowImage = true;
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                // Ignore invalid images
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private static Bitmap ResizeRibbonImage(
+            Bitmap original,
+            int width,
+            int height)
+        {
+            var resized = new Bitmap(width, height);
+
+            using (var g = Graphics.FromImage(resized))
+            {
+                g.InterpolationMode =
+                    System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+                g.DrawImage(original, 0, 0, width, height);
+            }
+
+            return resized;
+        }
+        private static void LoadImagesFromGroupItems(
+            IEnumerable<RibbonGroup> groups,
+            Dictionary<string, PropertyInfo> resourceProps)
+        {
+            foreach (var group in groups)
+            {
+                foreach (var item in group.Items)
+                {
+                    if (item is RibbonButton button)
+                    {
+                        if (!string.IsNullOrEmpty(button.Name) &&
+                            resourceProps.TryGetValue(button.Name, out var prop))
+                        {
+                            button.Image = ResizeRibbonImage((Bitmap)prop.GetValue(null, null), 32, 32);
+                            button.ShowImage = true;
+                        }
+                    }
+                    else if (item is RibbonMenu menu)
+                    {
+                        foreach (RibbonButton subButton in menu.Items.OfType<RibbonButton>())
+                        {
+                            if (!string.IsNullOrEmpty(subButton.Name) &&
+                                resourceProps.TryGetValue(subButton.Name, out var subProp))
+                            {
+                                subButton.Image = (Bitmap)subProp.GetValue(null, null);
+                                subButton.ShowImage = true;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void comparsion_Click(object sender, RibbonControlEventArgs e)

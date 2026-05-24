@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace Som3a_WPF_UI.ViewModels.Primavera
 {
-    public class PrimaveraCompareViewModel : INotifyPropertyChanged
+    public class PrimaveraCompareViewModel : ViewModelBase
     {
         private readonly IPrimaveraDbService _dbService;
         private readonly IPrimaveraDataLoaderService _loaderService;
@@ -315,13 +315,6 @@ namespace Som3a_WPF_UI.ViewModels.Primavera
                 || (project.ProjectCode?.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) ?? -1) >= 0;
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
-        private void OnPropertyChanged(
-            [CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this,
-                new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

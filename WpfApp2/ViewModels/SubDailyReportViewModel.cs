@@ -159,7 +159,7 @@ namespace Som3a_WPF_UI.ViewModels
             _svc = container.Resolve<SubDlyReportService>();
 
             RefreshFilesCommand = new RelayCommand(RefreshFiles);
-            PreviewCommand = new RelayCommand(async () => await PreviewAsync(), () => CanPreview);
+            PreviewCommand = new RelayCommand(PreviewAsync, () => CanPreview);
             ApplyCommand = new RelayCommand(Apply, () => CanApply);
             CheckAllCommand = new RelayCommand(() => { foreach (var x in NameItems) x.IsChecked = true; RecalcButtons(); });
             CheckNoneCommand = new RelayCommand(() => { foreach (var x in NameItems) x.IsChecked = false; RecalcButtons(); });
@@ -281,7 +281,7 @@ namespace Som3a_WPF_UI.ViewModels
             OnPropertyChanged(nameof(CanApply));
         }
 
-        private async Task PreviewAsync()
+        private void PreviewAsync()
         {
             try
             {
