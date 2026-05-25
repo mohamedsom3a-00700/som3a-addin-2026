@@ -6,6 +6,16 @@
   <Project Path="Som3a Addin 2026/Som3a Addin 2026.csproj" Id="7fb273b7-14c8-4397-ae13-fab0cb8390e1">
     <Platform Solution="*|ARM64" Project="ARM64" />
   </Project>
+  <Project Path="Som3a.AI/Som3a.AI.csproj" />
+  <Project Path="Som3a.Bridge/Som3a.Bridge.csproj" />
+  <Project Path="Som3a.Contracts/Som3a.Contracts.csproj" />
+  <Project Path="Som3a.Diagnostics/Som3a.Diagnostics.csproj" />
+  <Project Path="Som3a.Domain/Som3a.Domain.csproj" />
+  <Project Path="Som3a.Exporting/Som3a.Exporting.csproj" />
+  <Project Path="Som3a.Infrastructure/Som3a.Infrastructure.csproj" />
+  <Project Path="Som3a.Localization/Som3a.Localization.csproj" />
+  <Project Path="Som3a.Plugin.SDK/Som3a.Plugin.SDK.csproj" />
   <Project Path="Som3a.Shared/Som3a.Shared.csproj" Id="5563203c-41d7-4ad2-943c-0c0d82f18b33" />
+  <Project Path="Som3a.Validation/Som3a.Validation.csproj" />
   <Project Path="WpfApp2/Som3a_WPF_UI.csproj" Id="abd7291f-8847-4c5d-b93f-fe1a76337a74" />
 </Solution>
