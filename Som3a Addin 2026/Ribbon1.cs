@@ -149,6 +149,14 @@ namespace Som3a_Addin_2026
         {
             if (_groupModules is null || actions is null) return;
 
+            var prefix = $"module_{moduleId}_";
+            var toRemove = _groupModules.Items
+                .OfType<Microsoft.Office.Tools.Ribbon.RibbonControl>()
+                .Where(c => c.Name != null && c.Name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            foreach (var item in toRemove)
+                _groupModules.Items.Remove(item);
+
             foreach (var action in actions)
             {
                 try
