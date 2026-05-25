@@ -319,8 +319,16 @@ namespace Som3a_Addin_2026
         }
         private void btnUnmergeFillDown_Click(object sender, RibbonControlEventArgs e)
         {
-            RegisterShellPages();
-            NavigationService.Instance.NavigateTo("unmerge-fill-down");
+            try
+            {
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("unmerge-fill-down");
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.ToString(), "Unmerge Fill Down Error",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
         }
 
         private void btnDailyReport_Click(object sender, RibbonControlEventArgs e)

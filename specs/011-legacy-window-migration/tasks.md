@@ -269,7 +269,7 @@
 - [x] T136 Build validation: `msbuild WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug` succeeds with zero errors
 - [ ] T137 [US5] Update `specs/011-legacy-window-migration/data-model.md` final MigrationRecord status for all 14 windows
 
-**Checkpoint**: Phase 11 complete — all windows migrated, validated, documented
+**Checkpoint**: Phase 11 code migration complete — 13 windows migrated, build verified (0 errors). Validation in Excel VSTO host in progress (4/13 quick-tested, 9 remaining). Original XAML preserved as rollback buffer. TODO: T137 — update MigrationRecord statuses for all 14 windows after full validation.
 
 ---
 

@@ -45,6 +45,8 @@ namespace Som3a_WPF_UI.Pages
 
                     await GraphBrowser.EnsureCoreWebView2Async(env);
 
+                    GraphBrowser.CoreWebView2.WebMessageReceived += WebMessageHandler;
+
                     if (!string.IsNullOrEmpty(_pendingHtml))
                     {
                         GraphBrowser.CoreWebView2.NavigateToString(_pendingHtml);
@@ -55,6 +57,12 @@ namespace Som3a_WPF_UI.Pages
                 {
                     MessageBox.Show("ERROR: " + ex.Message);
                 }
+            };
+
+            Unloaded += (s, e) =>
+            {
+                if (GraphBrowser.CoreWebView2 != null)
+                    GraphBrowser.CoreWebView2.WebMessageReceived -= WebMessageHandler;
             };
 
             vm.SendGraphToUI = (html) =>

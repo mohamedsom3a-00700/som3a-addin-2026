@@ -29,9 +29,17 @@ namespace Som3a_WPF_UI.Pages
 
             _xlApp = xlApp;
 
-            try { _xlApp.Interactive = false; } catch { }
+            try
+            {
+                try { _xlApp.Interactive = false; } catch { }
 
-            _vm.AttachExcel(xlApp);
+                _vm.AttachExcel(xlApp);
+            }
+            catch
+            {
+                try { _xlApp.Interactive = true; } catch { }
+                throw;
+            }
         }
 
         private void OnViewModelNotification(string message, MainViewModel.NotificationIcon icon)

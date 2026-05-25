@@ -84,7 +84,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 FinishDateText = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             });
-            CloseCommand = new RelayCommand(() => _win.Close());
+            CloseCommand = new RelayCommand(() => _win?.Close());
 
             LoadSheets();
             AutoSelectDefaults();
