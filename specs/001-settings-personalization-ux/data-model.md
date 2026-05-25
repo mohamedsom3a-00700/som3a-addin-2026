@@ -39,7 +39,7 @@ Represents a top-level settings group in the sidebar navigation.
 | excel | Excel | 5 | Render mode, safe mode, DPI |
 | plugins | Plugins | 6 | Plugin list (stub until Phase 9) |
 
-## Entity: SettingsSnapshot
+## Entity: SettingsExport
 
 Represents a serializable snapshot of UserSettings for import/export operations.
 

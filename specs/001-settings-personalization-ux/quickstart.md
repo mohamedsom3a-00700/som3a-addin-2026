@@ -14,7 +14,7 @@
 
 ## Implementation Order
 
-1. **Data models**: Create `UserSettings`, `SettingsCategory`, `SettingsSnapshot` - pure data classes
+1. **Data models**: Create `UserSettings`, `SettingsCategory`, `SettingsExport` - pure data classes
 2. **Persistence service**: Implement `SettingsPersistenceService` (Load/Save/Import/Export)
 3. **ViewModel**: Create `SettingsViewModel` with category navigation, preview state machine, commands
 4. **Sidebar navigation**: Refactor `SettingsWindow.xaml` to add sidebar + ContentControl

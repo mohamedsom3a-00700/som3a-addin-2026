@@ -25,7 +25,9 @@
                                         CornerRadius="{DynamicResource MediumRadius}"
                                         SnapsToDevicePixels="True"
                                         UseLayoutRounding="True">
-                                    <Grid Margin="{TemplateBinding Padding}">
+                                    <Grid Margin="{TemplateBinding Padding}"
+                                          SnapsToDevicePixels="True"
+                                          UseLayoutRounding="True">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
@@ -36,19 +38,23 @@
                                                    FontSize="16"
                                                    Foreground="{DynamicResource TextSubBrush}"
                                                    VerticalAlignment="Center"
-                                                   Margin="0,0,10,0"/>
+                                                   Margin="0,0,10,0"
+                                                   SnapsToDevicePixels="True"
+                                                   UseLayoutRounding="True"/>
                                         <TextBlock Grid.Column="1"
                                                    Text="{Binding DisplayName}"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource TextMainBrush}"
-                                                   VerticalAlignment="Center"/>
+                                                   VerticalAlignment="Center"
+                                                   SnapsToDevicePixels="True"
+                                                   UseLayoutRounding="True"/>
                                     </Grid>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="Border" Property="Background" Value="{DynamicResource AccentBrush}"/>
-                                        <Setter TargetName="IconText" Property="Foreground" Value="White"/>
-                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter TargetName="IconText" Property="Foreground" Value="{DynamicResource Brush.Text.OnAccent}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.OnAccent}"/>
                                     </Trigger>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush.Control.Hover}"/>

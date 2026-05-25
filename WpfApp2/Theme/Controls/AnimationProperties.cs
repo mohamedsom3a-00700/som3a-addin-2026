@@ -12,6 +12,13 @@ namespace Som3a_WPF_UI.Theme.Controls
                 typeof(AnimationProperties),
                 new PropertyMetadata(1.0, OnAnimationScaleChanged));
 
+        private static readonly DependencyProperty OriginalDurationProperty =
+            DependencyProperty.RegisterAttached(
+                "OriginalDuration",
+                typeof(Duration?),
+                typeof(AnimationProperties),
+                new PropertyMetadata(null));
+
         public static double GetAnimationScale(DependencyObject obj)
         {
             return (double)obj.GetValue(AnimationScaleProperty);
@@ -24,11 +31,21 @@ namespace Som3a_WPF_UI.Theme.Controls
 
         private static void OnAnimationScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Timeline timeline && e.NewValue is double scale)
+            if (d is not Timeline timeline || e.NewValue is not double scale)
+                return;
+
+            if (!timeline.Duration.HasTimeSpan)
+                return;
+
+            var original = (Duration?)timeline.GetValue(OriginalDurationProperty);
+            if (original == null || !original.Value.HasTimeSpan)
             {
-                timeline.Duration = new Duration(System.TimeSpan.FromTicks(
-                    (long)(timeline.Duration.TimeSpan.Ticks * scale)));
+                original = timeline.Duration;
+                timeline.SetValue(OriginalDurationProperty, original);
             }
+
+            timeline.Duration = new Duration(
+                System.TimeSpan.FromTicks((long)(original.Value.TimeSpan.Ticks * scale)));
         }
     }
 }

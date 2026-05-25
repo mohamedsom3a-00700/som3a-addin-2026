@@ -10,15 +10,25 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  SnapsToDevicePixels="True"
+                  UseLayoutRounding="True">
+        <StackPanel SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
 
             <!-- Animation Speed -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <StackPanel>
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
                     <TextBlock Text="Animation Speed"
-                               Style="{DynamicResource SectionHeaderStyle}"/>
-                    <StackPanel Margin="0,0,0,12">
+                               Style="{DynamicResource SectionHeaderStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
+                    <StackPanel Margin="0,0,0,12"
+                                SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
                         <RadioButton Content="Off"
                                      GroupName="AnimSpeed"
                                      Margin="0,0,0,8"
@@ -26,7 +36,9 @@
                                      Command="{Binding AnimationSpeedCommand}"
                                      CommandParameter="Off"
                                      Foreground="{DynamicResource TextMainBrush}"
-                                     AutomationProperties.Name="Animation Speed Off"/>
+                                     AutomationProperties.Name="Animation Speed Off"
+                                     SnapsToDevicePixels="True"
+                                     UseLayoutRounding="True"/>
                         <RadioButton Content="Reduced"
                                      GroupName="AnimSpeed"
                                      Margin="0,0,0,8"
@@ -34,24 +46,35 @@
                                      Command="{Binding AnimationSpeedCommand}"
                                      CommandParameter="Reduced"
                                      Foreground="{DynamicResource TextMainBrush}"
-                                     AutomationProperties.Name="Animation Speed Reduced"/>
+                                     AutomationProperties.Name="Animation Speed Reduced"
+                                     SnapsToDevicePixels="True"
+                                     UseLayoutRounding="True"/>
                         <RadioButton Content="Full"
                                      GroupName="AnimSpeed"
                                      IsChecked="{Binding AnimationFull, Mode=OneWay}"
                                      Command="{Binding AnimationSpeedCommand}"
                                      CommandParameter="Full"
                                      Foreground="{DynamicResource TextMainBrush}"
-                                     AutomationProperties.Name="Animation Speed Full"/>
+                                     AutomationProperties.Name="Animation Speed Full"
+                                     SnapsToDevicePixels="True"
+                                     UseLayoutRounding="True"/>
                     </StackPanel>
                 </StackPanel>
             </Border>
 
             <!-- UI Density -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <StackPanel>
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
                     <TextBlock Text="UI Density"
-                               Style="{DynamicResource SectionHeaderStyle}"/>
-                    <StackPanel Margin="0,0,0,12">
+                               Style="{DynamicResource SectionHeaderStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
+                    <StackPanel Margin="0,0,0,12"
+                                SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
                     <RadioButton Content="Compact"
                                  GroupName="UiDensity"
                                  Margin="0,0,0,8"
@@ -59,7 +82,9 @@
                                  Command="{Binding DensityCommand}"
                                  CommandParameter="Compact"
                                  Foreground="{DynamicResource TextMainBrush}"
-                                 AutomationProperties.Name="UI Density Compact"/>
+                                 AutomationProperties.Name="UI Density Compact"
+                                 SnapsToDevicePixels="True"
+                                 UseLayoutRounding="True"/>
                     <RadioButton Content="Normal"
                                  GroupName="UiDensity"
                                  Margin="0,0,0,8"
@@ -67,14 +92,18 @@
                                  Command="{Binding DensityCommand}"
                                  CommandParameter="Normal"
                                  Foreground="{DynamicResource TextMainBrush}"
-                                 AutomationProperties.Name="UI Density Normal"/>
+                                 AutomationProperties.Name="UI Density Normal"
+                                 SnapsToDevicePixels="True"
+                                 UseLayoutRounding="True"/>
                     <RadioButton Content="Spacious"
                                  GroupName="UiDensity"
                                  IsChecked="{Binding DensitySpacious, Mode=OneWay}"
                                  Command="{Binding DensityCommand}"
                                  CommandParameter="Spacious"
                                  Foreground="{DynamicResource TextMainBrush}"
-                                 AutomationProperties.Name="UI Density Spacious"/>
+                                 AutomationProperties.Name="UI Density Spacious"
+                                 SnapsToDevicePixels="True"
+                                 UseLayoutRounding="True"/>
                     </StackPanel>
                 </StackPanel>
             </Border>
