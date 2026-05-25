@@ -108,6 +108,45 @@
     <Compile Include="Pages\WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ProjectAnalysisPage.xaml.cs">
+      <DependentUpon>ProjectAnalysisPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FloatPathPage.xaml.cs">
+      <DependentUpon>FloatPathPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LinksManagerPage.xaml.cs">
+      <DependentUpon>LinksManagerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SubDailyReportPage.xaml.cs">
+      <DependentUpon>SubDailyReportPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AssignTradeCodesPage.xaml.cs">
+      <DependentUpon>AssignTradeCodesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PrimaveraComparePage.xaml.cs">
+      <DependentUpon>PrimaveraComparePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PrimaveraResultsPage.xaml.cs">
+      <DependentUpon>PrimaveraResultsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\XerEditorPage.xaml.cs">
+      <DependentUpon>XerEditorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FixPieColorsPage.xaml.cs">
+      <DependentUpon>FixPieColorsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\StyleSelectorPage.xaml.cs">
+      <DependentUpon>StyleSelectorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UnmergeFillDownPage.xaml.cs">
+      <DependentUpon>UnmergeFillDownPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\DiagnosticsService.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ExcelProjectAnalysisService.cs" />
@@ -300,8 +339,60 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\WelcomePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ProjectAnalysisPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\FloatPathPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\LinksManagerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SubDailyReportPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AssignTradeCodesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PrimaveraComparePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PrimaveraResultsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\XerEditorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\FixPieColorsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\StyleSelectorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UnmergeFillDownPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StyleSelectorWindow.xaml">
       <SubType>Designer</SubType>

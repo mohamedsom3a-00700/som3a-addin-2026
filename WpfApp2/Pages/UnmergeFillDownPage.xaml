@@ -1,0 +1,157 @@
+<Page x:Class="Som3a_WPF_UI.Pages.UnmergeFillDownPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Title="Unmerge Fill Down"
+      Background="{DynamicResource Brush.Background.Primary}"
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- TITLE BAR -->
+        <Grid Grid.Row="0" x:Name="TitleBar"
+              Margin="{DynamicResource TitleBarMargin}">
+            <TextBlock Text="Unmerge Fill Down"
+                       Foreground="{DynamicResource TextMainBrush}"
+                       FontSize="14" FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- MAIN CONTENT -->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- SETTINGS -->
+            <Border Grid.Row="0"
+                    Background="{DynamicResource CardBrush}"
+                    BorderBrush="{DynamicResource CardStrokeBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{DynamicResource LargeRadius}"
+                    Padding="14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Active Sheet"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMainBrush}"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,0"
+                             Text="{Binding ActiveSheetName}" IsReadOnly="True"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Header Row"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMainBrush}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,0"
+                             Text="{Binding HeaderRow}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Column Letter"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMainBrush}"/>
+                    <ComboBox Grid.Row="2" Grid.Column="1" Margin="8,0,0,0"
+                              ItemsSource="{Binding Columns}"
+                              SelectedItem="{Binding SelectedColumn, UpdateSourceTrigger=PropertyChanged}"
+                              Style="{DynamicResource RoundComboBox}"/>
+
+                    <Border Grid.Row="3" Grid.ColumnSpan="2"
+                            Margin="0,12,0,0" Padding="10"
+                            CornerRadius="{DynamicResource MediumRadius}"
+                            Background="{DynamicResource Brush.Fill.Info}"
+                            BorderBrush="{DynamicResource Brush.Stroke.Info}"
+                            BorderThickness="1">
+                        <TextBlock Text="{Binding InfoText}"
+                                   Foreground="{DynamicResource TextSubBrush}"
+                                   TextWrapping="Wrap"/>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- PROGRESS -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="90"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Height="24" Margin="0,0,10,0"
+                        Background="{DynamicResource Brush.Progress.Background}"
+                        BorderBrush="{DynamicResource CardStrokeBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{DynamicResource MediumRadius}"
+                        VerticalAlignment="Center">
+                    <Grid ClipToBounds="True">
+                        <Border CornerRadius="{DynamicResource MediumRadius}"
+                                HorizontalAlignment="Stretch" RenderTransformOrigin="0,0.5"
+                                Background="{DynamicResource Brush.Accent.ProgressFill}">
+                            <Border.RenderTransform>
+                                <ScaleTransform ScaleY="1"
+                                    ScaleX="{Binding ProgressPercent, Converter={StaticResource PercentToScaleConverter}}"/>
+                            </Border.RenderTransform>
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="1" Height="30"
+                        Background="{DynamicResource ControlBgBrush}"
+                        BorderBrush="{DynamicResource ControlStrokeBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{DynamicResource MediumRadius}"
+                        VerticalAlignment="Center">
+                    <TextBlock Text="{Binding ProgressPercent, StringFormat={}{0:0}%}"
+                               Foreground="{DynamicResource TextOnAccentBrush}"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+
+            <!-- BUTTONS -->
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Height="36" Content="Run"
+                        Style="{DynamicResource PrimaryButton}"
+                        Command="{Binding RunCommand}"
+                        IsEnabled="{Binding CanRun}"/>
+                <Button Grid.Column="2" Height="36" Content="Close"
+                        Style="{DynamicResource BaseButton}"
+                        Command="{Binding CloseCommand}"/>
+            </Grid>
+
+            <!-- STATUS -->
+            <Border Grid.Row="6"
+                    Background="{DynamicResource Brush.Fill.Status}"
+                    BorderBrush="{DynamicResource CardStrokeBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{DynamicResource CardRadius}"
+                    Padding="{DynamicResource StatusBarPadding}">
+                <TextBlock Text="{Binding StatusText}"
+                           Foreground="{DynamicResource TextSubBrush}"
+                           TextTrimming="CharacterEllipsis"/>
+            </Border>
+        </Grid>
+    </Grid>
+
+</Page>

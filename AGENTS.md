@@ -5,6 +5,9 @@ at: specs/013-enterprise-polish/plan.md
 
 Also refer to the master implementation plan:
 - implementation_plan.md — Full execution plan for Phases 0-11
+
+Current phase plan:
+- specs/011-legacy-window-migration/plan.md — Phase 11: Legacy Window Migration
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes
