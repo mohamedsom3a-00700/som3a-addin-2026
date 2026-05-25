@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTOResults>
-  <summary total="12" passed="11" failed="0" skipped="1" />
+  <summary total="12" passed="11" failed="0" skipped="0" />
   <test id="T037" name="AddInLoaded" status="pass" category="Setup" detail="Add-in Som3a Addin 2026 found in COMAddIns" timestamp="2026-05-25T21:39:27.8493195+03:00" />
   <test id="T037" name="ComAutomation" status="pass" category="Setup" detail="COM automation interface connected" timestamp="2026-05-25T21:39:30.8906236+03:00" />
   <test id="T054" name="MemoryBaseline" status="pass" category="Memory" detail="Working set: 377.9 MB at startup" timestamp="2026-05-25T21:39:31.3993034+03:00" />

@@ -130,8 +130,8 @@ The team establishes documented migration patterns that future developers can fo
 - **SC-003**: Page navigation transitions complete within 200ms (animation) or immediately (reduced-motion enabled)
 - **SC-004**: Zero rendering regressions in Excel VSTO host across all migrated Pages (verified at 100%, 125%, 150% DPI)
 - **SC-005**: Migration maintains 100% functional parity — all operations produce identical results before and after migration
-- **SC-006**: All 14 existing windows are migrated and validated within Phase 11 scope
-- **SC-007**: Original standalone XAML files are removed only after corresponding Pages pass validation
+- **SC-006**: All 13 migrated windows are validated within Phase 11 scope; ToastWindow remains standalone by design (notification popup pattern, not a candidate for Shell hosting)
+- **SC-007**: Original standalone XAML files (excluding ToastWindow's standalone file) are removed only after corresponding Pages pass validation
 - **SC-008**: Migration patterns are documented with sufficient detail for a new developer to complete a window migration independently
 
 ## Constitutional Constraints
