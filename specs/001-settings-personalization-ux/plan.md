@@ -22,7 +22,7 @@ Refactor the existing SettingsWindow into a categorized Windows 11-style setting
 
 **Project Type**: Desktop add-in (Excel VSTO)
 
-**Performance Goals**: Panel switching <500ms, live preview render <1s, theme apply propagate <2s, settings persistance <500ms
+**Performance Goals**: Panel switching <500ms, live preview render <1s, theme apply propagate <2s, settings persistence <500ms
 
 **Constraints**: DynamicResource-only for themeable properties; Excel VSTO safe rendering; animations ≤200ms; centralized effects only; MVVM with no code-behind business logic; ThemeManager-only theme mutations
 

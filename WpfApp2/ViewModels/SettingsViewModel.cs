@@ -113,10 +113,10 @@ namespace Som3a_WPF_UI.ViewModels
 
         public Action<bool?>? CloseWindow { get; set; }
 
-        public SettingsViewModel(IServiceContainer container)
+        public SettingsViewModel(SettingsPersistenceService settingsService)
         {
-            _themeManager = container.Resolve<ThemeManager>();
-            _settingsService = container.Resolve<SettingsPersistenceService>();
+            _themeManager = ThemeManager.Instance;
+            _settingsService = settingsService;
 
             _currentSettings = _settingsService.LoadSettings();
             _previewSettings = CloneSettings(_currentSettings);
@@ -313,6 +313,8 @@ namespace Som3a_WPF_UI.ViewModels
                 _themeManager.ApplyTheme(_currentSettings.SelectedTheme,
                     _currentSettings.SelectedTheme == "Custom" ? _currentSettings.AccentColor : null);
                 _settingsService.SaveSettings(_currentSettings);
+                _originalTheme = _currentSettings.SelectedTheme;
+                _originalAccent = _currentSettings.SelectedTheme == "Custom" ? _currentSettings.AccentColor : null;
                 RefreshPreviewBindings();
                 UpdateSwatchSelection();
 
@@ -387,6 +389,7 @@ namespace Som3a_WPF_UI.ViewModels
         private void OnSave()
         {
             OnApplyTheme();
+            _themeManager.ThemeChanged -= OnThemeChanged;
             CloseWindow?.Invoke(true);
         }
 

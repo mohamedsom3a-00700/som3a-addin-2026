@@ -10,23 +10,33 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  SnapsToDevicePixels="True"
+                  UseLayoutRounding="True">
+        <StackPanel SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
 
             <!-- Theme Cards Section -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <Grid>
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="180"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Theme"
-                               Style="{DynamicResource SettingLabelStyle}"/>
+                               Style="{DynamicResource SettingLabelStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
 
                     <StackPanel Grid.Column="1"
                                 Orientation="Horizontal"
-                                VerticalAlignment="Center">
+                                VerticalAlignment="Center"
+                                SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
 
                         <ToggleButton Width="{DynamicResource Component.ThemeCard.Width}"
                                       Height="{DynamicResource Component.ThemeCard.Height}"
@@ -36,9 +46,14 @@
                                       CommandParameter="Dark"
                                       IsChecked="{Binding IsDarkSelected, Mode=OneWay}"
                                       Style="{DynamicResource ThemeCardToggleStyle}"
-                                      AutomationProperties.Name="Dark Theme Card">
-                            <Grid>
-                                <Border CornerRadius="{DynamicResource MediumRadius}">
+                                      AutomationProperties.Name="Dark Theme Card"
+                                      SnapsToDevicePixels="True"
+                                      UseLayoutRounding="True">
+                            <Grid SnapsToDevicePixels="True"
+                                  UseLayoutRounding="True">
+                                <Border CornerRadius="{DynamicResource MediumRadius}"
+                                        SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                             <GradientStop Color="{DynamicResource Color.Background.RootStart}" Offset="0"/>
@@ -46,10 +61,18 @@
                                         </LinearGradientBrush>
                                     </Border.Background>
                                 </Border>
-                                <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"/>
-                                <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
-                                    <TextBlock Text="Dark" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"/>
-                                    <TextBlock Text="Full dark theme" Foreground="{DynamicResource TextSubBrush}" FontSize="10"/>
+                                <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"
+                                        SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True"/>
+                                <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10"
+                                            SnapsToDevicePixels="True"
+                                            UseLayoutRounding="True">
+                                    <TextBlock Text="Dark" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"
+                                               SnapsToDevicePixels="True"
+                                               UseLayoutRounding="True"/>
+                                    <TextBlock Text="Full dark theme" Foreground="{DynamicResource TextSubBrush}" FontSize="10"
+                                               SnapsToDevicePixels="True"
+                                               UseLayoutRounding="True"/>
                                 </StackPanel>
                             </Grid>
                         </ToggleButton>
@@ -62,9 +85,14 @@
                                       CommandParameter="Light"
                                       IsChecked="{Binding IsLightSelected, Mode=OneWay}"
                                       Style="{DynamicResource ThemeCardToggleStyle}"
-                                      AutomationProperties.Name="Light Theme Card">
-                            <Grid>
-                                <Border CornerRadius="{DynamicResource MediumRadius}">
+                                      AutomationProperties.Name="Light Theme Card"
+                                      SnapsToDevicePixels="True"
+                                      UseLayoutRounding="True">
+                            <Grid SnapsToDevicePixels="True"
+                                  UseLayoutRounding="True">
+                                <Border CornerRadius="{DynamicResource MediumRadius}"
+                                        SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                             <GradientStop Color="{DynamicResource Color.Background.RootStart.Light}" Offset="0"/>
@@ -72,10 +100,18 @@
                                         </LinearGradientBrush>
                                     </Border.Background>
                                 </Border>
-                                <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"/>
-                                <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
-                                    <TextBlock Text="Light" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"/>
-                                    <TextBlock Text="Clean light theme" Foreground="{DynamicResource TextSubBrush}" FontSize="10"/>
+                                <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"
+                                        SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True"/>
+                                <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10"
+                                            SnapsToDevicePixels="True"
+                                            UseLayoutRounding="True">
+                                    <TextBlock Text="Light" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"
+                                               SnapsToDevicePixels="True"
+                                               UseLayoutRounding="True"/>
+                                    <TextBlock Text="Clean light theme" Foreground="{DynamicResource TextSubBrush}" FontSize="10"
+                                               SnapsToDevicePixels="True"
+                                               UseLayoutRounding="True"/>
                                 </StackPanel>
                             </Grid>
                         </ToggleButton>
@@ -87,9 +123,14 @@
                                       CommandParameter="Custom"
                                       IsChecked="{Binding IsCustomSelected, Mode=OneWay}"
                                       Style="{DynamicResource ThemeCardToggleStyle}"
-                                      AutomationProperties.Name="Custom Theme Card">
-                            <Grid>
-                                <Border CornerRadius="{DynamicResource MediumRadius}">
+                                      AutomationProperties.Name="Custom Theme Card"
+                                      SnapsToDevicePixels="True"
+                                      UseLayoutRounding="True">
+                            <Grid SnapsToDevicePixels="True"
+                                  UseLayoutRounding="True">
+                                <Border CornerRadius="{DynamicResource MediumRadius}"
+                                        SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                             <GradientStop Color="{DynamicResource Color.Background.RootStart}" Offset="0"/>
@@ -97,7 +138,9 @@
                                         </LinearGradientBrush>
                                     </Border.Background>
                                 </Border>
-                                <Border VerticalAlignment="Bottom" Height="6">
+                                <Border VerticalAlignment="Bottom" Height="6"
+                                        SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                             <GradientStop Color="{DynamicResource AccentColorValue}" Offset="0"/>
@@ -105,9 +148,15 @@
                                         </LinearGradientBrush>
                                     </Border.Background>
                                 </Border>
-                                <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
-                                    <TextBlock Text="Custom" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"/>
-                                    <TextBlock Text="Your accent color" Foreground="{DynamicResource TextSubBrush}" FontSize="10"/>
+                                <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10"
+                                            SnapsToDevicePixels="True"
+                                            UseLayoutRounding="True">
+                                    <TextBlock Text="Custom" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"
+                                               SnapsToDevicePixels="True"
+                                               UseLayoutRounding="True"/>
+                                    <TextBlock Text="Your accent color" Foreground="{DynamicResource TextSubBrush}" FontSize="10"
+                                               SnapsToDevicePixels="True"
+                                               UseLayoutRounding="True"/>
                                 </StackPanel>
                             </Grid>
                         </ToggleButton>
@@ -117,7 +166,8 @@
             </Border>
 
             <!-- Accent Swatches -->
-            <Border>
+            <Border SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
                 <Border.Style>
                     <Style TargetType="Border" BasedOn="{StaticResource PanelSectionStyle}">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -128,21 +178,28 @@
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-                <Grid>
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="180"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Accent Color"
-                               Style="{DynamicResource SettingLabelStyle}"/>
+                               Style="{DynamicResource SettingLabelStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
 
                     <ItemsControl Grid.Column="1"
                                   ItemsSource="{Binding AccentSwatches}"
-                                  VerticalAlignment="Center">
+                                  VerticalAlignment="Center"
+                                  SnapsToDevicePixels="True"
+                                  UseLayoutRounding="True">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
+                                <StackPanel Orientation="Horizontal"
+                                            SnapsToDevicePixels="True"
+                                            UseLayoutRounding="True"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
@@ -157,19 +214,26 @@
                                         Padding="0"
                                         Margin="0,0,10,0"
                                         Width="26"
-                                        Height="26">
+                                        Height="26"
+                                        SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
-                                            <Grid>
+                                            <Grid SnapsToDevicePixels="True"
+                                                  UseLayoutRounding="True">
                                                 <Ellipse Fill="{Binding Brush}"
                                                          Width="22" Height="22"
                                                          Stroke="{DynamicResource Brush.Control.Stroke}"
-                                                         StrokeThickness="1"/>
+                                                         StrokeThickness="1"
+                                                         SnapsToDevicePixels="True"
+                                                         UseLayoutRounding="True"/>
                                                 <Border Width="26" Height="26"
                                                         CornerRadius="13"
                                                         BorderBrush="{DynamicResource AccentBrush}"
                                                         BorderThickness="2"
-                                                        Opacity="0">
+                                                        Opacity="0"
+                                                        SnapsToDevicePixels="True"
+                                                        UseLayoutRounding="True">
                                                     <Border.Style>
                                                         <Style TargetType="Border">
                                                             <Style.Triggers>
@@ -191,17 +255,25 @@
             </Border>
 
             <!-- Background Style -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <Grid>
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="180"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Background Style"
-                               Style="{DynamicResource SettingLabelStyle}"/>
+                               Style="{DynamicResource SettingLabelStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
                         <RadioButton Content="Solid"
                                      GroupName="BgStyle"
                                      Margin="0,0,20,0"
@@ -209,31 +281,43 @@
                                      Command="{Binding BackgroundStyleCommand}"
                                      CommandParameter="Solid"
                                      Foreground="{DynamicResource TextMainBrush}"
-                                     AutomationProperties.Name="Solid Background Style"/>
+                                     AutomationProperties.Name="Solid Background Style"
+                                     SnapsToDevicePixels="True"
+                                     UseLayoutRounding="True"/>
                         <RadioButton Content="Gradient"
                                      GroupName="BgStyle"
                                      IsChecked="{Binding BackgroundGradient, Mode=OneWay}"
                                      Command="{Binding BackgroundStyleCommand}"
                                      CommandParameter="Gradient"
                                      Foreground="{DynamicResource TextMainBrush}"
-                                     AutomationProperties.Name="Gradient Background Style"/>
+                                     AutomationProperties.Name="Gradient Background Style"
+                                     SnapsToDevicePixels="True"
+                                     UseLayoutRounding="True"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
             <!-- Live Preview Area -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <StackPanel>
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
                     <TextBlock Text="Preview"
-                               Style="{DynamicResource SectionHeaderStyle}"/>
+                               Style="{DynamicResource SectionHeaderStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
                 <Border x:Name="PreviewArea"
                         Height="160"
                         CornerRadius="{DynamicResource MediumRadius}"
                         Background="{DynamicResource CardBrush}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
-                        Padding="16">
-                    <Grid>
+                        Padding="16"
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True">
+                    <Grid SnapsToDevicePixels="True"
+                          UseLayoutRounding="True">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -241,21 +325,32 @@
                         <TextBlock Text="Theme Preview"
                                    FontSize="16"
                                    FontWeight="SemiBold"
-                                   Foreground="{DynamicResource TextMainBrush}"/>
-                        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
+                        <StackPanel Grid.Row="1"
+                                    VerticalAlignment="Center"
+                                    SnapsToDevicePixels="True"
+                                    UseLayoutRounding="True">
                             <TextBlock Text="Sample Heading" 
                                        FontSize="20" 
                                        FontWeight="Bold"
-                                       Foreground="{DynamicResource TextMainBrush}"/>
+                                       Foreground="{DynamicResource TextMainBrush}"
+                                       SnapsToDevicePixels="True"
+                                       UseLayoutRounding="True"/>
                             <TextBlock Text="Sample body text for preview purposes"
                                        FontSize="12"
                                        Foreground="{DynamicResource TextSubBrush}"
-                                       Margin="0,8,0,0"/>
+                                       Margin="0,8,0,0"
+                                       SnapsToDevicePixels="True"
+                                       UseLayoutRounding="True"/>
                             <Border Width="80"
                                     Height="6"
                                     CornerRadius="3"
                                     Background="{DynamicResource AccentBrush}"
-                                    Margin="0,12,0,0"/>
+                                    Margin="0,12,0,0"
+                                    SnapsToDevicePixels="True"
+                                    UseLayoutRounding="True"/>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -263,19 +358,28 @@
             </Border>
 
             <!-- Apply / Cancel -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
                     <Button Content="Apply"
                             Width="120"
                             Height="34"
                             Style="{DynamicResource PrimaryButton}"
                             Command="{Binding ApplyThemeCommand}"
-                            Margin="0,0,10,0"/>
+                            Margin="0,0,10,0"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True"/>
                     <Button Content="Cancel"
                             Width="120"
                             Height="34"
                             Style="{DynamicResource GhostButton}"
-                            Command="{Binding CancelPreviewCommand}"/>
+                            Command="{Binding CancelPreviewCommand}"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True"/>
                 </StackPanel>
             </Border>
 

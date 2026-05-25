@@ -3,58 +3,81 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  SnapsToDevicePixels="True"
+                  UseLayoutRounding="True">
+        <StackPanel SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
 
             <!-- High Contrast -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <Grid>
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel>
+                    <StackPanel SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
                         <TextBlock Text="High Contrast Mode"
                                    FontSize="14"
                                    FontWeight="SemiBold"
-                                   Foreground="{DynamicResource TextMainBrush}"/>
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
                         <TextBlock Text="Increase contrast for better visibility"
                                    FontSize="12"
                                    Foreground="{DynamicResource TextSubBrush}"
-                                   Margin="0,4,0,0"/>
+                                   Margin="0,4,0,0"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
                     </StackPanel>
                     <ToggleButton Grid.Column="1"
                                   Width="44"
                                   Height="22"
                                   IsChecked="{Binding CurrentSettings.HighContrastEnabled}"
                                   Style="{DynamicResource ToggleSwitchStyle}"
-                                  AutomationProperties.Name="High Contrast Toggle"/>
+                                  AutomationProperties.Name="High Contrast Toggle"
+                                  SnapsToDevicePixels="True"
+                                  UseLayoutRounding="True"/>
                 </Grid>
             </Border>
 
             <!-- Focus Indicator -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <Grid>
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel>
+                    <StackPanel SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
                         <TextBlock Text="Focus Indicator"
                                    FontSize="14"
                                    FontWeight="SemiBold"
-                                   Foreground="{DynamicResource TextMainBrush}"/>
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
                         <TextBlock Text="Show focus glow around selected elements"
                                    FontSize="12"
                                    Foreground="{DynamicResource TextSubBrush}"
-                                   Margin="0,4,0,0"/>
+                                   Margin="0,4,0,0"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
                     </StackPanel>
                     <ToggleButton Grid.Column="1"
                                   Width="44"
                                   Height="22"
                                   IsChecked="{Binding CurrentSettings.FocusIndicatorEnabled}"
                                   Style="{DynamicResource ToggleSwitchStyle}"
-                                  AutomationProperties.Name="Focus Indicator Toggle"/>
+                                  AutomationProperties.Name="Focus Indicator Toggle"
+                                  SnapsToDevicePixels="True"
+                                  UseLayoutRounding="True"/>
                 </Grid>
             </Border>
 

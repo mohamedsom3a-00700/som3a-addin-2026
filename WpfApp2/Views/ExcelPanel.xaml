@@ -3,27 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  SnapsToDevicePixels="True"
+                  UseLayoutRounding="True">
+        <StackPanel SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
 
             <!-- Render Mode -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <Grid>
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="180"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Render Mode"
-                               Style="{DynamicResource SettingLabelStyle}"/>
+                               Style="{DynamicResource SettingLabelStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
 
                     <ComboBox Grid.Column="1"
                               Width="200"
                               HorizontalAlignment="Left"
-                              Text="{Binding CurrentSettings.RenderMode}"
-                              IsEditable="False"
-                              Style="{DynamicResource SettingsComboBoxStyle}">
-                        <ComboBoxItem Content="Auto" IsSelected="True"/>
+                              SelectedValue="{Binding CurrentSettings.RenderMode, Mode=TwoWay}"
+                              SelectedValuePath="Content"
+                              Style="{DynamicResource SettingsComboBoxStyle}"
+                              SnapsToDevicePixels="True"
+                              UseLayoutRounding="True">
+                        <ComboBoxItem Content="Auto"/>
                         <ComboBoxItem Content="Safe"/>
                         <ComboBoxItem Content="Full"/>
                     </ComboBox>
@@ -31,43 +41,62 @@
             </Border>
 
             <!-- Safe Mode Toggle -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <Grid>
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel>
+                    <StackPanel SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
                         <TextBlock Text="Safe Mode"
                                    FontSize="14"
                                    FontWeight="SemiBold"
-                                   Foreground="{DynamicResource TextMainBrush}"/>
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
                         <TextBlock Text="Force safe rendering mode for Excel compatibility"
                                    FontSize="12"
                                    Foreground="{DynamicResource TextSubBrush}"
-                                   Margin="0,4,0,0"/>
+                                   Margin="0,4,0,0"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
                     </StackPanel>
                     <ToggleButton Grid.Column="1"
                                   Width="44"
                                   Height="22"
                                   IsChecked="{Binding CurrentSettings.SafeModeEnabled}"
                                   Style="{DynamicResource ToggleSwitchStyle}"
-                                  AutomationProperties.Name="Safe Mode Toggle"/>
+                                  AutomationProperties.Name="Safe Mode Toggle"
+                                  SnapsToDevicePixels="True"
+                                  UseLayoutRounding="True"/>
                 </Grid>
             </Border>
 
             <!-- DPI Info -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <StackPanel>
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
                     <TextBlock Text="DPI Information"
-                               Style="{DynamicResource SectionHeaderStyle}"/>
+                               Style="{DynamicResource SectionHeaderStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
                     <Border Background="{DynamicResource Brush.Control.Hover}"
                             CornerRadius="{DynamicResource MediumRadius}"
-                            Padding="12">
+                            Padding="12"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
                         <TextBlock Text="DPI scaling is handled automatically by the Windows rendering pipeline. Adjust render mode if you experience display issues."
                                    FontSize="12"
                                    Foreground="{DynamicResource TextSubBrush}"
-                                   TextWrapping="Wrap"/>
+                                   TextWrapping="Wrap"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
                     </Border>
                 </StackPanel>
             </Border>

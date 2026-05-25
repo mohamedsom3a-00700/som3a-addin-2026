@@ -157,42 +157,47 @@ namespace Som3a_WPF_UI.Services
         private static void ValidateSettings(UserSettings settings, List<string> warnings)
         {
             var validThemes = new[] { "Dark", "Light", "Custom" };
-            if (!string.IsNullOrEmpty(settings.SelectedTheme) &&
-                !validThemes.Contains(settings.SelectedTheme))
+            if (string.IsNullOrEmpty(settings.SelectedTheme) || !validThemes.Contains(settings.SelectedTheme))
             {
-                warnings.Add($"Unknown theme '{settings.SelectedTheme}'. Defaulting to 'Dark'.");
+                warnings.Add(string.IsNullOrEmpty(settings.SelectedTheme)
+                    ? "Theme not specified. Defaulting to 'Dark'."
+                    : $"Unknown theme '{settings.SelectedTheme}'. Defaulting to 'Dark'.");
                 settings.SelectedTheme = "Dark";
             }
 
             var validSpeeds = new[] { "Off", "Reduced", "Full" };
-            if (!string.IsNullOrEmpty(settings.AnimationSpeed) &&
-                !validSpeeds.Contains(settings.AnimationSpeed))
+            if (string.IsNullOrEmpty(settings.AnimationSpeed) || !validSpeeds.Contains(settings.AnimationSpeed))
             {
-                warnings.Add($"Unknown animation speed '{settings.AnimationSpeed}'. Defaulting to 'Full'.");
+                warnings.Add(string.IsNullOrEmpty(settings.AnimationSpeed)
+                    ? "Animation speed not specified. Defaulting to 'Full'."
+                    : $"Unknown animation speed '{settings.AnimationSpeed}'. Defaulting to 'Full'.");
                 settings.AnimationSpeed = "Full";
             }
 
             var validDensities = new[] { "Compact", "Normal", "Spacious" };
-            if (!string.IsNullOrEmpty(settings.UiDensity) &&
-                !validDensities.Contains(settings.UiDensity))
+            if (string.IsNullOrEmpty(settings.UiDensity) || !validDensities.Contains(settings.UiDensity))
             {
-                warnings.Add($"Unknown UI density '{settings.UiDensity}'. Defaulting to 'Normal'.");
+                warnings.Add(string.IsNullOrEmpty(settings.UiDensity)
+                    ? "UI density not specified. Defaulting to 'Normal'."
+                    : $"Unknown UI density '{settings.UiDensity}'. Defaulting to 'Normal'.");
                 settings.UiDensity = "Normal";
             }
 
             var validBgStyles = new[] { "Solid", "Gradient" };
-            if (!string.IsNullOrEmpty(settings.BackgroundStyle) &&
-                !validBgStyles.Contains(settings.BackgroundStyle))
+            if (string.IsNullOrEmpty(settings.BackgroundStyle) || !validBgStyles.Contains(settings.BackgroundStyle))
             {
-                warnings.Add($"Unknown background style '{settings.BackgroundStyle}'. Defaulting to 'Gradient'.");
+                warnings.Add(string.IsNullOrEmpty(settings.BackgroundStyle)
+                    ? "Background style not specified. Defaulting to 'Gradient'."
+                    : $"Unknown background style '{settings.BackgroundStyle}'. Defaulting to 'Gradient'.");
                 settings.BackgroundStyle = "Gradient";
             }
 
             var validRenderModes = new[] { "Auto", "Safe", "Full" };
-            if (!string.IsNullOrEmpty(settings.RenderMode) &&
-                !validRenderModes.Contains(settings.RenderMode))
+            if (string.IsNullOrEmpty(settings.RenderMode) || !validRenderModes.Contains(settings.RenderMode))
             {
-                warnings.Add($"Unknown render mode '{settings.RenderMode}'. Defaulting to 'Auto'.");
+                warnings.Add(string.IsNullOrEmpty(settings.RenderMode)
+                    ? "Render mode not specified. Defaulting to 'Auto'."
+                    : $"Unknown render mode '{settings.RenderMode}'. Defaulting to 'Auto'.");
                 settings.RenderMode = "Auto";
             }
         }
