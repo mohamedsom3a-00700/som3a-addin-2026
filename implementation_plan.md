@@ -1474,42 +1474,168 @@ Load modules only when needed.
 
 ## Goal
 
-Production-grade optimization.
+Production-grade optimization — validate, harden, and polish every aspect of the application for enterprise deployment. Address all remaining validation gaps from prior phases, eliminate technical debt, and produce auditable proof of quality across performance, accessibility, DPI, stability, and resource management.
 
 ## Branch
 
 `feature/phase-10-enterprise-polish`
 
-## Required Work
+## Prerequisites
 
-### Performance
-- memory optimization
-- rendering optimization
-- virtualization tuning
+Before Phase 10 work begins, the following **must** be confirmed complete:
 
-### Accessibility
-- keyboard audit
-- focus audit
-- screen reader prep
+| Dependency | Why |
+|------------|-----|
+| Phase 4 (Control Standardization) | All control templates must be standardized before final polish |
+| Phase 3 remaining validation (15 tasks) | Unchecked WS-A tasks (T022, T031, T032, T038, T043, T044, T048, T049, T050) and WS-B tasks (T057–T062) must be resolved |
+| Phase 5 (Navigation Shell) | Shell must be stable for Page-level polish |
+| Phase 6 (MVVM Cleanup) | Architecture must be clean before final audit |
+| Phase 9 (Plugin Platform) | Module system must be stable before final diagnostics |
 
-### DPI
-- scaling validation
-- multi-monitor validation
+## Workstreams
+
+### WS-A: Performance Hardening
+
+- Memory profiling and leak detection
+- Rendering path optimization (layout passes, visual tree depth)
+- Virtualization tuning (DataGrid, ListView, TreeView)
+- Animation budget compliance (all ≤200ms, no jank)
+- Startup time optimization (cold start, background initialization)
+- Resource dictionary merging optimization (eliminate duplicate loads)
+- Freezable optimization (Freeze() on all frozen brushes, pens, transforms)
+- BitmapScalingMode and RenderOptions optimization for all images/icons
+- ClearType/font rendering consistency across all DPIs
+
+### WS-B: Accessibility Compliance
+
+- Full keyboard navigation audit (Tab order, arrow keys, Enter/Space activation, Escape close)
+- Focus visual audit (Glow.Focus visible on every interactive element)
+- Screen reader preparation (AutomationProperties.Name, HelpText, LabeledBy on all controls)
+- WCAG 2.1 AA contrast validation (4.5:1 minimum) in Dark, Light, and all Custom themes
+- Reduced motion support (respects system "Reduce motion" setting)
+- High contrast mode awareness (fall back to system colors when active)
+- Focus trap detection and prevention
+- Accessibility compliance report generation
+
+### WS-C: DPI & Multi-Monitor Validation
+
+- DPI scaling validation at 100%, 125%, 150%, 200% — no clipping, overflow, or misalignment
+- Multi-monitor validation across mixed DPI configurations
+- Per-monitor DPI awareness (WPF PerMonitorDPI scaling)
+- DPI-aware popup positioning (ComboBox, context menus)
+- DPI-aware window sizing and layout
+- DPI-aware font scaling consistency
+- DPI regression checklist documented
+
+### WS-D: Excel Host Stability
+
+- All 15 remaining Phase 3 validation tasks closed
+- Full Excel VSTO host test pass across all 14 windows
+- Rapid theme switching validation (10+ switches, no crash, no leak)
+- DataGrid virtualization stress test (10,000+ rows)
+- Popup rendering validation in Excel host (no clipping, no black rectangles)
+- Safe mode activation/deactivation validation
+- Memory stability during extended Excel session (2+ hours)
+- Crash-safe loading under low-memory conditions
+
+### WS-E: Technical Debt Cleanup
+
+- ToastWindow.xaml migration from plain `<Window>` to `controls:ModernWindow`
+- Final hardcoded-value grep sweep — zero `#HEX`, zero inline effects, zero hardcoded margins in all .xaml files outside Theme/Base/
+- ValidationEngine TODO resolved — implement proper XAML/dictionary resource resolver
+- MVVM_COMPLIANCE.md per-file audit table filled (all 10 files)
+- Dispose pattern audit — ensure IDisposable implementations on all services with unmanaged resources
+- Event handler unsubscription audit — prevent memory leaks from lingering subscriptions
+- Static event cleanup — identify and remove any static event handlers on services
+- ResourceDictionary cleanup — remove orphaned/unreferenced dictionaries from MergedDictionaries
+
+### WS-F: Diagnostics & Monitoring Finalization
+
+- DiagnosticsService snapshot coverage audit (all windows, all render modes)
+- LoggingService rotation validation (5MB rollover, 3-file rotation, AppData path)
+- ValidationEngine inline color scan across ALL .xaml files (not just known locations)
+- Missing token detection coverage (validate all 70+ tokens expected by control templates)
+- Diagnostics panel UX polish (loading states, error states, empty states)
+- Plugin diagnostics integration (module state, version, memory in diagnostics panel)
+- Performance counters or lightweight telemetry for long-running sessions
+- Crash recovery validation (corrupt theme settings, missing resource dictionaries)
+
+### WS-G: Documentation & Audit Deliverables
+
+- `Docs/Architecture/PERFORMANCE_AUDIT_REPORT.md` — perf findings, measurements, optimizations applied
+- `Docs/Architecture/ACCESSIBILITY_AUDIT_REPORT.md` — keyboard nav, focus, contrast, screen reader results
+- `Docs/Architecture/DPI_AUDIT_REPORT.md` — scaling validation at all DPIs, multi-monitor results
+- `Docs/Architecture/EXCEL_STABILITY_REPORT.md` — host test pass, stress test, memory stability results
+- `Docs/Architecture/LOCALIZATION_READINESS.md` — document architecture readiness for future i18n
+- `Docs/Architecture/ENTERPRISE_POLISH_CHECKLIST.md` — Phase 10 validation checklist
+- Update `AGENTS.md` with Phase 10 paths, build commands, audit references
 
 ## Key Tasks
 
-| ID | Task |
-|----|------|
-| P10-T001 | Run performance audit |
-| P10-T002 | Optimize rendering |
-| P10-T003 | Optimize memory |
-| P10-T004 | Optimize animations |
-| P10-T005 | Run accessibility audit |
-| P10-T006 | Run DPI audit |
-| P10-T007 | Run Excel host audit |
-| P10-T008 | Finalize diagnostics |
-| P10-T009 | Finalize documentation |
-| P10-T010 | Production validation |
+| ID | Task | Workstream |
+|----|------|------------|
+| P10-T001 | Run comprehensive performance audit — profile memory, rendering, layout passes, visual tree depth | WS-A |
+| P10-T002 | Optimize rendering — reduce layout passes, simplify visual trees, optimize bindings | WS-A |
+| P10-T003 | Optimize memory — implement Freeze() on all freezable resources, fix leaks, add disposal patterns | WS-A |
+| P10-T004 | Optimize animations — validate all storyboards ≤200ms, no jank, reduced-motion support | WS-A |
+| P10-T005 | Optimize startup — cold-start timing, background initialization, lazy resource loading | WS-A |
+| P10-T006 | Optimize resource dictionaries — deduplicate MergedDictionaries, remove orphans | WS-A |
+| P10-T007 | Run full accessibility audit — keyboard nav, focus visuals, automation properties, contrast | WS-B |
+| P10-T008 | Fix all accessibility violations found in audit — focus traps, missing labels, contrast failures | WS-B |
+| P10-T009 | Implement screen reader preparation — AutomationProperties on all interactive elements | WS-B |
+| P10-T010 | Validate reduced motion and high contrast mode across all themes | WS-B |
+| P10-T011 | Run DPI audit — 100%, 125%, 150%, 200% — clipping, overflow, alignment | WS-C |
+| P10-T012 | Implement per-monitor DPI awareness — popup positioning, window sizing, font scaling | WS-C |
+| P10-T013 | Validate multi-monitor mixed DPI configurations | WS-C |
+| P10-T014 | Document DPI regression checklist | WS-C |
+| P10-T015 | Close all 15 remaining Phase 3 validation tasks (WS-A T022/T031/T032/T038/T043/T044/T048/T049/T050; WS-B T057–T062) | WS-D |
+| P10-T016 | Run full Excel VSTO host test pass — all 14 windows, theme switching, popups, safe mode | WS-D |
+| P10-T017 | Run DataGrid virtualization stress test (10,000+ rows) in Excel host | WS-D |
+| P10-T018 | Validate memory stability during extended Excel session (2+ hours) | WS-D |
+| P10-T019 | Migrate ToastWindow.xaml from plain &lt;Window&gt; to controls:ModernWindow | WS-E |
+| P10-T020 | Run final hardcoded-value grep sweep — zero #HEX, zero inline effects, zero hardcoded margins outside Theme/Base/ | WS-E |
+| P10-T021 | Fix ValidationEngine TODO — implement proper XAML/dictionary resource resolver | WS-E |
+| P10-T022 | Fill MVVM_COMPLIANCE.md per-file audit table with pass/fail for all 10 files | WS-E |
+| P10-T023 | Run dispose pattern audit — IDisposable on all services with unmanaged resources | WS-E |
+| P10-T024 | Run event handler unsubscription audit — prevent memory leaks from lingering subscriptions | WS-E |
+| P10-T025 | Validate DiagnosticsService snapshot coverage — all windows, all render modes | WS-F |
+| P10-T026 | Validate LoggingService — rotation, path, rollover behavior | WS-F |
+| P10-T027 | Extend ValidationEngine — inline color scan across ALL .xaml files, 70+ token coverage | WS-F |
+| P10-T028 | Polish diagnostics panel UX — loading, error, and empty states | WS-F |
+| P10-T029 | Validate crash recovery — corrupt theme settings, missing dictionaries | WS-F |
+| P10-T030 | Create PERFORMANCE_AUDIT_REPORT.md | WS-G |
+| P10-T031 | Create ACCESSIBILITY_AUDIT_REPORT.md | WS-G |
+| P10-T032 | Create DPI_AUDIT_REPORT.md | WS-G |
+| P10-T033 | Create EXCEL_STABILITY_REPORT.md | WS-G |
+| P10-T034 | Create LOCALIZATION_READINESS.md | WS-G |
+| P10-T035 | Create ENTERPRISE_POLISH_CHECKLIST.md | WS-G |
+| P10-T036 | Update AGENTS.md with Phase 10 paths and audit references | WS-G |
+| P10-T037 | Production validation — build passes, Excel host test, all checklists green | ALL |
+
+## Phase 10 Acceptance Criteria
+
+- [ ] Performance audit complete with report (P10-T001 through P10-T006)
+- [ ] All animations within 200ms budget, reduced motion supported (P10-T004)
+- [ ] All freezable resources frozen, no resource leaks detected (P10-T003)
+- [ ] Startup time measured and optimized (P10-T005)
+- [ ] Accessibility audit complete with report (P10-T007 through P10-T010)
+- [ ] WCAG 2.1 AA contrast (4.5:1) met in Dark, Light, all Custom themes
+- [ ] All interactive elements have AutomationProperties.Name, keyboard navigable, visible focus indicators
+- [ ] DPI audit complete, multi-monitor mixed DPI validated (P10-T011 through P10-T014)
+- [ ] All 15 Phase 3 validation tasks closed (P10-T015)
+- [ ] Excel VSTO test pass green across all 14 windows (P10-T016, P10-T017, P10-T018)
+- [ ] ToastWindow.xaml migrated to ModernWindow (P10-T019)
+- [ ] Zero hardcoded #HEX, inline effects, or hardcoded margins outside Theme/Base/ (P10-T020)
+- [ ] ValidationEngine TODO resolved (P10-T021)
+- [ ] MVVM_COMPLIANCE.md fully populated (P10-T022)
+- [ ] Dispose pattern and event handler audits clean (P10-T023, P10-T024)
+- [ ] All diagnostic services validated, panels polished (P10-T025 through P10-T029)
+- [ ] All 6 audit/report documents created (P10-T030 through P10-T035)
+- [ ] AGENTS.md updated (P10-T036)
+- [ ] Production validation green — build, host, all checklists (P10-T037)
+- [ ] GitHub PR created and approved
+- [ ] CodeRabbit review clean
+- [ ] Manual architecture review passed
 
 ---
 
