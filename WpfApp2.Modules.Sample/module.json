@@ -1,0 +1,10 @@
+{
+  "id": "som3a.sample",
+  "version": "1.0.0",
+  "displayName": "Sample Module",
+  "description": "A sample hello-world module demonstrating the plugin platform.",
+  "hash": "",
+  "hashAlgorithm": "SHA256",
+  "capabilities": ["pages", "ribbonActions"],
+  "dependencies": []
+}

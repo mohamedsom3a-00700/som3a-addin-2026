@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/001-diagnostics-stability-platform/plan.md
+at: specs/012-plugin-feature-platform/plan.md
 
 Also refer to the master implementation plan:
 - implementation_plan.md — Full execution plan for Phases 0-11

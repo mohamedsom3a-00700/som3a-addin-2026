@@ -3,23 +3,53 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
-    <Grid VerticalAlignment="Center"
-          HorizontalAlignment="Center">
-        <Border Background="{DynamicResource Brush.Control.Hover}"
-                CornerRadius="{DynamicResource MediumRadius}"
-                Padding="24">
-            <StackPanel HorizontalAlignment="Center">
-                <TextBlock Text="No plugins installed"
-                           FontSize="16"
-                           FontWeight="SemiBold"
-                           Foreground="{DynamicResource TextMainBrush}"
-                           HorizontalAlignment="Center"/>
-                <TextBlock Text="Plugins will appear here once installed."
-                           FontSize="12"
-                           Foreground="{DynamicResource TextSubBrush}"
-                           HorizontalAlignment="Center"
-                           Margin="0,8,0,0"/>
-            </StackPanel>
-        </Border>
-    </Grid>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  SnapsToDevicePixels="True"
+                  UseLayoutRounding="True">
+        <StackPanel SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                    <Grid SnapsToDevicePixels="True"
+                          UseLayoutRounding="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Installed Plugins"
+                                   Style="{DynamicResource SectionHeaderStyle}"/>
+                        <Button Grid.Column="1"
+                                Content="Refresh"
+                                Style="{DynamicResource ActionButtonStyle}"
+                                Command="{Binding RefreshCommand}"/>
+                    </Grid>
+
+                    <DataGrid ItemsSource="{Binding Modules}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              EnableRowVirtualization="True"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling"
+                              MaxHeight="400"
+                              SnapsToDevicePixels="True"
+                              UseLayoutRounding="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Module" Binding="{Binding ModuleId}" Width="150"/>
+                            <DataGridTextColumn Header="Version" Binding="{Binding Version}" Width="70"/>
+                            <DataGridTextColumn Header="State" Binding="{Binding StateDisplay}" Width="80"/>
+                            <DataGridTextColumn Header="Capabilities" Binding="{Binding Capabilities}" Width="120"/>
+                            <DataGridTextColumn Header="Memory" Binding="{Binding MemoryDisplay}" Width="80"/>
+                            <DataGridTextColumn Header="Load Time" Binding="{Binding LoadTimeDisplay}" Width="70"/>
+                            <DataGridTextColumn Header="Last Error" Binding="{Binding LastError}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

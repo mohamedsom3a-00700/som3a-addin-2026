@@ -164,8 +164,26 @@ namespace Som3a_WPF_UI.Services
         private static string FormatEntry(LogEntry entry)
         {
             var timestamp = entry.Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
-            var ex = string.IsNullOrEmpty(entry.Exception) ? "" : $" | {entry.Exception}";
-            return $"[{timestamp}] [{entry.Severity}] [{entry.Category}] [{entry.Source}] {entry.Message}{ex}{Environment.NewLine}";
+            var safeMessage = SanitizeLogField(entry.Message);
+            var safeException = SanitizeLogField(entry.Exception);
+            var ex = string.IsNullOrEmpty(safeException) ? "" : $" | {safeException}";
+            return $"[{timestamp}] [{entry.Severity}] [{entry.Category}] [{entry.Source}] {safeMessage}{ex}{Environment.NewLine}";
+        }
+
+        private static string SanitizeLogField(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return value ?? string.Empty;
+
+            var sb = new StringBuilder(value.Length);
+            foreach (var c in value)
+            {
+                if (c < 0x20 && c != '\t')
+                    sb.Append(' ');
+                else
+                    sb.Append(c);
+            }
+            return sb.ToString();
         }
 
         private static LogEntry ParseEntry(string line)
