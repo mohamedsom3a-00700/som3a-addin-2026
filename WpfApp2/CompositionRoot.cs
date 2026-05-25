@@ -55,6 +55,11 @@ namespace Som3a_WPF_UI
 
             container.RegisterTransient<ToastViewModel, ToastViewModel>();
             container.RegisterTransient<CommandPaletteViewModel, CommandPaletteViewModel>();
+
+            container.RegisterSingleton<ILoggingService, LoggingService>();
+            container.RegisterSingleton<IDiagnosticsService, DiagnosticsService>();
+            container.RegisterSingleton<IValidationEngine, ValidationEngine>();
+            container.RegisterSingleton<DiagnosticsViewModel, DiagnosticsViewModel>();
         }
 
         public static void InitializeModules(IModuleRegistry registry)

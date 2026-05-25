@@ -113,10 +113,13 @@ namespace Som3a_WPF_UI.ViewModels
 
         public Action<bool?>? CloseWindow { get; set; }
 
-        public SettingsViewModel(SettingsPersistenceService settingsService)
+        public DiagnosticsViewModel DiagnosticsVM { get; }
+
+        public SettingsViewModel(SettingsPersistenceService settingsService, DiagnosticsViewModel diagnosticsVm)
         {
             _themeManager = ThemeManager.Instance;
             _settingsService = settingsService;
+            DiagnosticsVM = diagnosticsVm;
 
             _currentSettings = _settingsService.LoadSettings();
             _previewSettings = CloneSettings(_currentSettings);
@@ -427,6 +430,7 @@ namespace Som3a_WPF_UI.ViewModels
         public void Cleanup()
         {
             _themeManager.ThemeChanged -= OnThemeChanged;
+            DiagnosticsVM.Cleanup();
         }
     }
 

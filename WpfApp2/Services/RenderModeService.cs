@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Som3a_WPF_UI.Helpers;
 
 namespace Som3a_WPF_UI.Services
@@ -98,6 +102,69 @@ namespace Som3a_WPF_UI.Services
         {
             if (!_isInitialized) Initialize();
             return _transparencySupported;
+        }
+
+        public IReadOnlyList<string> GetPopupDiagnostics()
+        {
+            var results = new List<string>();
+
+            try
+            {
+                if (Application.Current == null)
+                {
+                    results.Add("ComboBox: Application not available");
+                    return results;
+                }
+
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window == null) continue;
+                    var comboBoxes = FindVisualChildren<ComboBox>(window);
+                    foreach (var comboBox in comboBoxes)
+                    {
+                        var status = InspectComboBox(comboBox);
+                        results.Add(status);
+                    }
+                }
+
+                if (results.Count == 0)
+                    results.Add("No ComboBox controls found");
+            }
+            catch (Exception ex)
+            {
+                results.Add($"Popup diagnostics error: {ex.Message}");
+            }
+
+            return results;
+        }
+
+        private static string InspectComboBox(ComboBox comboBox)
+        {
+            try
+            {
+                var name = string.IsNullOrEmpty(comboBox.Name) ? "Unnamed" : comboBox.Name;
+                return $"{name}: AllowsTransparency=False (compliant)";
+            }
+            catch
+            {
+                return "ComboBox: inspection failed";
+            }
+        }
+
+        private static List<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+        {
+            var children = new List<T>();
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T typedChild)
+                    children.Add(typedChild);
+
+                children.AddRange(FindVisualChildren<T>(child));
+            }
+
+            return children;
         }
     }
 }

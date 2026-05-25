@@ -229,7 +229,7 @@
                                                          UseLayoutRounding="True"/>
                                                 <Border Width="26" Height="26"
                                                         CornerRadius="13"
-                                                        BorderBrush="{DynamicResource AccentBrush}"
+                                                         BorderBrush="{DynamicResource Brush.Accent.Primary}"
                                                         BorderThickness="2"
                                                         Opacity="0"
                                                         SnapsToDevicePixels="True"

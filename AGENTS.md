@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/001-settings-personalization-ux/plan.md
+at: specs/001-diagnostics-stability-platform/plan.md
 
 Also refer to the master implementation plan:
 - implementation_plan.md — Full execution plan for Phases 0-11
@@ -149,6 +149,12 @@ Docs/Architecture/
 
 ### Build
 
+Build using **MSBuild** (command line, no Visual Studio needed):
 ```powershell
 & "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
+```
+
+Build using **devenv.exe** (Visual Studio IDE):
+```powershell
+& "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\devenv.exe" WpfApp2\Som3a_WPF_UI.csproj /Build Debug
 ```

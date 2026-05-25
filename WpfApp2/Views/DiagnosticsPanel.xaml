@@ -3,12 +3,283 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  SnapsToDevicePixels="True"
+                  UseLayoutRounding="True">
+        <StackPanel SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
 
-            <!-- Export Section -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <StackPanel>
+            <!-- Diagnostics Status -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                    <TextBlock Text="Diagnostics"
+                               Style="{DynamicResource SectionHeaderStyle}"/>
+                    <TextBlock Text="{Binding DiagnosticsVM.StatusMessage}"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextSubBrush}"
+                               Margin="0,0,0,12"
+                               TextWrapping="Wrap"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Button Content="Refresh"
+                                Style="{DynamicResource ActionButtonStyle}"
+                                Margin="0,0,10,0"
+                                Command="{Binding DiagnosticsVM.RefreshCommand}"/>
+                        <Button Content="Run Validation"
+                                Style="{DynamicResource ActionButtonStyle}"
+                                Command="{Binding DiagnosticsVM.RunValidationCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Render Mode -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Render Mode"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.RenderMode}"
+                               Foreground="{DynamicResource TextMainBrush}"
+                               VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Row="1"
+                               Text="Render Source"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.RenderModeSource}"
+                               Foreground="{DynamicResource TextSubBrush}"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Grid.Row="2"
+                               Text="GPU Available"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.GpuAvailable}"
+                               Foreground="{DynamicResource TextMainBrush}"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- GPU Info -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="GPU Name"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.GpuName}"
+                               Foreground="{DynamicResource TextMainBrush}"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap"/>
+                </Grid>
+            </Border>
+
+            <!-- Theme Info -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Active Theme"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.ActiveTheme}"
+                               Foreground="{DynamicResource TextMainBrush}"
+                               VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Row="1"
+                               Text="Accent Color"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.AccentColor}"
+                               Foreground="{DynamicResource TextMainBrush}"
+                               VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Row="2"
+                               Text="Fallback Mode"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.IsFallbackMode}"
+                               Foreground="{DynamicResource TextMainBrush}"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- Memory Usage -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Working Set (MB)"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.MemoryWorkingSetMB, StringFormat={}{0:F1}}"
+                               Foreground="{DynamicResource TextMainBrush}"
+                               VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Row="1"
+                               Text="Managed Heap (MB)"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.MemoryManagedMB, StringFormat={}{0:F1}}"
+                               Foreground="{DynamicResource TextMainBrush}"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- Popup Health -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                    <TextBlock Text="Popup Health"
+                               Style="{DynamicResource SectionHeaderStyle}"/>
+                    <ItemsControl ItemsSource="{Binding DiagnosticsVM.CurrentSnapshot.PopupStatus}"
+                                  SnapsToDevicePixels="True"
+                                  UseLayoutRounding="True">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"
+                                           Foreground="{DynamicResource Brush.Text.Primary}"
+                                           FontSize="12"
+                                           Margin="0,2,0,2"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Validation Results -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                    <TextBlock Text="Validation Results"
+                               Style="{DynamicResource SectionHeaderStyle}"/>
+
+                    <DataGrid ItemsSource="{Binding DiagnosticsVM.ValidationResults}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              EnableRowVirtualization="True"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling"
+                              MaxHeight="200"
+                              SnapsToDevicePixels="True"
+                              UseLayoutRounding="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="70"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100"/>
+                            <DataGridTextColumn Header="Dictionary" Binding="{Binding DictionaryName}" Width="120"/>
+                            <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="120"/>
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                            <DataGridTextColumn Header="Fix" Binding="{Binding SuggestedFix}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- Log Viewer -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                    <Grid SnapsToDevicePixels="True"
+                          UseLayoutRounding="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Application Logs"
+                                   Style="{DynamicResource SectionHeaderStyle}"/>
+
+                        <ToggleButton Grid.Column="1"
+                                      Content="View Logs"
+                                      IsChecked="{Binding DiagnosticsVM.IsLogViewVisible}"
+                                      Style="{DynamicResource ActionButtonStyle}"
+                                      Margin="0,0,0,8"/>
+                    </Grid>
+
+                    <DataGrid ItemsSource="{Binding DiagnosticsVM.RecentLogs}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              EnableRowVirtualization="True"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling"
+                              MaxHeight="200"
+                              SnapsToDevicePixels="True"
+                              UseLayoutRounding="True">
+                        <DataGrid.Style>
+                            <Style TargetType="DataGrid">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DiagnosticsVM.IsLogViewVisible}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.Style>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Time" Binding="{Binding Timestamp, StringFormat={}{0:HH:mm:ss}}" Width="70"/>
+                            <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="70"/>
+                            <DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="100"/>
+                            <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- Export / Import (existing) -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
                     <TextBlock Text="Settings Export / Import"
                                Style="{DynamicResource SectionHeaderStyle}"/>
                     <TextBlock Text="Export your current settings to a JSON file for backup or transfer to another machine."
@@ -25,48 +296,6 @@
                                 Style="{DynamicResource ActionButtonStyle}"
                                 Command="{Binding ImportSettingsCommand}"/>
                     </StackPanel>
-                </StackPanel>
-            </Border>
-
-            <!-- System Info -->
-            <Border Style="{DynamicResource PanelSectionStyle}">
-                <StackPanel>
-                    <TextBlock Text="System Information"
-                               Style="{DynamicResource SectionHeaderStyle}"/>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="180"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="Application Version"
-                                   Style="{DynamicResource SettingLabelStyle}"/>
-                        <TextBlock Grid.Column="1"
-                                   Text="2026.1.0.0"
-                                   Foreground="{DynamicResource TextMainBrush}"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   Text="Settings Version"
-                                   Style="{DynamicResource SettingLabelStyle}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="1"
-                                   Text="1.0.0"
-                                   Foreground="{DynamicResource TextMainBrush}"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="2"
-                                   Text="Status"
-                                   Style="{DynamicResource SettingLabelStyle}"/>
-                        <TextBlock Grid.Row="2" Grid.Column="1"
-                                   Text="All settings saved"
-                                   Foreground="{DynamicResource TextSubBrush}"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
                 </StackPanel>
             </Border>
 

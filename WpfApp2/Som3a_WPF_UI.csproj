@@ -108,8 +108,11 @@
     <Compile Include="Pages\WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\DiagnosticsService.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ExcelProjectAnalysisService.cs" />
+    <Compile Include="Services\LoggingService.cs" />
+    <Compile Include="Services\ValidationEngine.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\ShellNavigationHelper.cs" />
     <Compile Include="Theme\Controls\AnimationProperties.cs" />
@@ -140,7 +143,9 @@
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="Models\UserSettings.cs" />
     <Compile Include="Models\SettingsExport.cs" />
+    <Compile Include="Models\DiagnosticsModels.cs" />
     <Compile Include="Models\SettingsCategory.cs" />
+    <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="ViewModels\SubDailyReportViewModel.cs" />
     <Compile Include="ViewModels\UnmergeFillDownViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />

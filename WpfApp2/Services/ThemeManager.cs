@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Som3a_WPF_UI.Models;
 using Som3a_WPF_UI.Properties;
 
 namespace Som3a_WPF_UI.Services
@@ -107,12 +109,29 @@ namespace Som3a_WPF_UI.Services
 
         private AppTheme _currentTheme = AppTheme.Dark;
         private string _currentAccentColor = "#3A86FF";
+        private ILoggingService _logger;
 
         public string CurrentTheme => _currentTheme.ToString();
         public string CurrentAccentColor => _currentAccentColor;
+        public bool IsFallbackActive { get; private set; }
+        public FallbackManifest FallbackManifest { get; private set; } = new FallbackManifest();
 
         private ThemeManager()
         {
+            try
+            {
+                _logger = App.Container?.Resolve<ILoggingService>();
+            }
+            catch
+            {
+            }
+        }
+
+        public FallbackManifest GetFallbackManifest() => FallbackManifest;
+
+        public void SetLogger(ILoggingService logger)
+        {
+            _logger = logger;
         }
 
         public void ApplyTheme(string themeName, string accentColor = null)
@@ -128,7 +147,7 @@ namespace Som3a_WPF_UI.Services
             if (Application.Current?.Resources == null)
                 return;
 
-            System.Diagnostics.Debug.WriteLine($"[ThemeManager] Applying Theme: {themeName}");
+            _logger?.Log("INFO", "Theme", $"Applying theme: {themeName}", "ThemeManager");
 
             if (!Enum.TryParse<AppTheme>(themeName, true, out var theme))
                 theme = AppTheme.Dark;
@@ -162,49 +181,56 @@ namespace Som3a_WPF_UI.Services
                     break;
             }
 
-            ResourceDictionary themeDict;
+            ResourceDictionary themeDict = null;
+            var failedDictionaries = new List<string>();
+            var failureReasons = new List<string>();
+            bool loadSucceeded = false;
+
             try
             {
                 themeDict = new ResourceDictionary { Source = themeUri };
+                loadSucceeded = true;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[ThemeManager] Failed to load theme: {ex.Message}");
+                _logger?.Log("ERROR", "Theme", $"Failed to load theme dictionary: {ex.Message}", "ThemeManager", ex.ToString());
+                failedDictionaries.Add(themeUri.ToString());
+                failureReasons.Add(ex.Message);
+            }
+
+            if (loadSucceeded && themeDict != null)
+            {
+                try
+                {
+                    if (existingTheme != null)
+                    {
+                        int index = dicts.IndexOf(existingTheme);
+                        if (index >= 0)
+                            dicts.RemoveAt(index);
+                        dicts.Add(themeDict);
+                    }
+                    else
+                    {
+                        dicts.Add(themeDict);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger?.Log("ERROR", "Theme", $"Dictionary replacement failed: {ex.Message}", "ThemeManager", ex.ToString());
+                    failedDictionaries.Add(themeUri.ToString());
+                    failureReasons.Add(ex.Message);
+                    loadSucceeded = false;
+                }
+            }
+
+            if (!loadSucceeded)
+            {
+                ActivateFallbackMode(failedDictionaries, failureReasons);
                 return;
             }
 
-            ResourceDictionary removedDict = null;
-            try
-            {
-                if (existingTheme != null)
-                {
-                    removedDict = existingTheme;
-                    int index = dicts.IndexOf(existingTheme);
-                    if (index >= 0)
-                    {
-                        dicts.RemoveAt(index);
-                    }
-                    dicts.Add(themeDict);
-                }
-                else
-                {
-                    dicts.Add(themeDict);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"[ThemeManager] Dictionary replacement failed: {ex.Message}");
-                try
-                {
-                    if (removedDict != null)
-                    {
-                        dicts.Remove(themeDict);
-                        dicts.Add(removedDict);
-                    }
-                }
-                catch { }
-                return;
-            }
+            IsFallbackActive = false;
+            FallbackManifest = new FallbackManifest();
 
             try
             {
@@ -216,6 +242,7 @@ namespace Som3a_WPF_UI.Services
             }
             catch (Exception ex)
             {
+                _logger?.Log("WARN", "Render", $"Window invalidation failed: {ex.Message}", "ThemeManager", ex.ToString());
                 System.Diagnostics.Debug.WriteLine($"[ThemeManager] Window invalidation failed: {ex.Message}");
             }
             System.Diagnostics.Debug.WriteLine($"[ThemeManager] Dictionaries Count: {dicts.Count}");
@@ -312,8 +339,9 @@ namespace Som3a_WPF_UI.Services
 
                 ApplyThemeInternal(themeName, accent);
             }
-            catch
+            catch (Exception ex)
             {
+                _logger?.Log("ERROR", "Theme", "Failed to load theme from settings, falling back to Dark", "ThemeManager", ex.ToString());
                 ApplyThemeInternal("Dark", "#3A86FF");
             }
         }
@@ -328,7 +356,10 @@ namespace Som3a_WPF_UI.Services
                 Settings.Default.AccentColor = _currentAccentColor;
                 Settings.Default.Save();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                _logger?.Log("ERROR", "Theme", $"Failed to save theme settings: {ex.Message}", "ThemeManager");
+            }
         }
 
         public void ResetToDefault()
@@ -356,7 +387,8 @@ namespace Som3a_WPF_UI.Services
                 var resource = Application.Current.Resources[key];
                 if (resource == null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing required token key: {key}");
+                    _logger?.Log("WARN", "Validation", $"Missing required token key: {key}", "ThemeManager");
+                System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing required token key: {key}");
                 }
             }
 
@@ -376,8 +408,87 @@ namespace Som3a_WPF_UI.Services
                 var resource = Application.Current.Resources[key];
                 if (resource == null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing brush token: {key}");
+                    _logger?.Log("WARN", "Validation", $"Missing brush token: {key}", "ThemeManager");
+                System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing brush token: {key}");
                 }
+            }
+        }
+
+        private void ActivateFallbackMode(List<string> failedDictionaries, List<string> failureReasons)
+        {
+            IsFallbackActive = true;
+            FallbackManifest = new FallbackManifest
+            {
+                IsActive = true,
+                FailedDictionaries = failedDictionaries.ToArray(),
+                FailureReasons = failureReasons.ToArray(),
+                ActivatedAt = DateTime.UtcNow,
+                HardcodedResourcesCount = 6
+            };
+
+            LoadHardcodedFallbackTheme();
+
+            _logger?.Log("ERROR", "Theme", $"Fallback mode activated. Failed dictionaries: {string.Join(", ", failedDictionaries)}", "ThemeManager");
+
+            try
+            {
+                ToastService.Warning("Theme loading failed. Fallback mode activated.");
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                ThemeChanged?.Invoke(Instance, new ThemeChangedEventArgs("", "Fallback", "", "#000000"));
+            }
+            catch
+            {
+            }
+        }
+
+        private void LoadHardcodedFallbackTheme()
+        {
+            var dicts = Application.Current?.Resources?.MergedDictionaries;
+            if (dicts == null) return;
+
+            var existingTheme = dicts.FirstOrDefault(d =>
+                d.Source?.ToString().Contains("/Theme/Dark/") == true ||
+                d.Source?.ToString().Contains("/Theme/Light/") == true ||
+                d.Source?.ToString().Contains("/Theme/Custom/") == true);
+
+            if (existingTheme != null)
+            {
+                try
+                {
+                    dicts.Remove(existingTheme);
+                }
+                catch { }
+            }
+
+            var fallback = new ResourceDictionary();
+
+            fallback["Brush.Background.Primary"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(14, 23, 32));
+            fallback["Brush.Background.Secondary"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(28, 43, 58));
+            fallback["Brush.Background.Card"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(21, 32, 43));
+            fallback["Brush.Text.Primary"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
+            fallback["Brush.Text.Secondary"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(191, 191, 191));
+            fallback["Brush.Accent.Primary"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(58, 134, 255));
+            fallback["AccentColor"] = System.Windows.Media.Color.FromRgb(58, 134, 255);
+            fallback["AccentBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(58, 134, 255));
+            fallback["AccentColorValue"] = System.Windows.Media.Color.FromRgb(58, 134, 255);
+            fallback["AccentColorBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(58, 134, 255));
+            fallback["WindowBackgroundBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(14, 23, 32));
+            fallback["TextMainBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
+            fallback["TextSubBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(191, 191, 191));
+
+            try
+            {
+                dicts.Add(fallback);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log("FATAL", "Theme", $"Failed to load hardcoded fallback: {ex.Message}", "ThemeManager", ex.ToString());
             }
         }
     }
