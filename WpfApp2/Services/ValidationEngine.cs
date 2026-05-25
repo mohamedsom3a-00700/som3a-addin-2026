@@ -196,12 +196,10 @@ namespace Som3a_WPF_UI.Services
                 var dictPath = dict.Source.OriginalString;
                 foreach (var key in dict.Keys)
                 {
-                    if (key is string strKey)
-                    {
-                        _resourceRegistry[strKey] = dictPath;
-                        if (dict[strKey] is Style s)
-                            _styleInstanceMap[s] = strKey;
-                    }
+                    var registryKey = key is string strKey ? strKey : dictPath;
+                    _resourceRegistry[registryKey] = dictPath;
+                    if (dict[key] is Style s)
+                        _styleInstanceMap[s] = registryKey;
                 }
             }
         }

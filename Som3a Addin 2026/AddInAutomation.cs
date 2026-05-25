@@ -94,8 +94,16 @@ namespace Som3a_Addin_2026
                 if (window != null)
                 {
                     _openWindows[name] = window;
-                    window.Closed += (s, e) => _openWindows.Remove(name);
-                    window.Show();
+                    var capturedWindow = window;
+                    EventHandler handler = null;
+                    handler = (s, e) =>
+                    {
+                        capturedWindow.Closed -= handler;
+                        if (_openWindows.TryGetValue(name, out var existing) && existing == capturedWindow)
+                            _openWindows.Remove(name);
+                    };
+                    capturedWindow.Closed += handler;
+                    capturedWindow.Show();
                     return "OK";
                 }
                 return "NULL_WINDOW";
