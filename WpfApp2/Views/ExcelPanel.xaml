@@ -55,12 +55,12 @@
                         <TextBlock Text="Safe Mode"
                                    FontSize="14"
                                    FontWeight="SemiBold"
-                                   Foreground="{DynamicResource TextMainBrush}"
+                                   Foreground="{DynamicResource Brush.Text.Primary}"
                                    SnapsToDevicePixels="True"
                                    UseLayoutRounding="True"/>
                         <TextBlock Text="Force safe rendering mode for Excel compatibility"
                                    FontSize="12"
-                                   Foreground="{DynamicResource TextSubBrush}"
+                                   Foreground="{DynamicResource Brush.Text.Secondary}"
                                    Margin="0,4,0,0"
                                    SnapsToDevicePixels="True"
                                    UseLayoutRounding="True"/>
@@ -93,7 +93,7 @@
                             UseLayoutRounding="True">
                         <TextBlock Text="DPI scaling is handled automatically by the Windows rendering pipeline. Adjust render mode if you experience display issues."
                                    FontSize="12"
-                                   Foreground="{DynamicResource TextSubBrush}"
+                                   Foreground="{DynamicResource Brush.Text.Secondary}"
                                    TextWrapping="Wrap"
                                    SnapsToDevicePixels="True"
                                    UseLayoutRounding="True"/>

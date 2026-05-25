@@ -314,7 +314,7 @@ namespace Som3a_WPF_UI.ViewModels
                     _currentSettings.SelectedTheme == "Custom" ? _currentSettings.AccentColor : null);
                 _settingsService.SaveSettings(_currentSettings);
                 _originalTheme = _currentSettings.SelectedTheme;
-                _originalAccent = _currentSettings.SelectedTheme == "Custom" ? _currentSettings.AccentColor : null;
+                _originalAccent = _currentSettings.AccentColor;
                 RefreshPreviewBindings();
                 UpdateSwatchSelection();
 

@@ -61,16 +61,16 @@
                                         </LinearGradientBrush>
                                     </Border.Background>
                                 </Border>
-                                <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"
+                                <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource Brush.Accent.Primary}"
                                         SnapsToDevicePixels="True"
                                         UseLayoutRounding="True"/>
                                 <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10"
                                             SnapsToDevicePixels="True"
                                             UseLayoutRounding="True">
-                                    <TextBlock Text="Dark" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"
+                                    <TextBlock Text="Dark" Foreground="{DynamicResource Brush.Text.Primary}" FontWeight="SemiBold" FontSize="13"
                                                SnapsToDevicePixels="True"
                                                UseLayoutRounding="True"/>
-                                    <TextBlock Text="Full dark theme" Foreground="{DynamicResource TextSubBrush}" FontSize="10"
+                                    <TextBlock Text="Full dark theme" Foreground="{DynamicResource Brush.Text.Secondary}" FontSize="10"
                                                SnapsToDevicePixels="True"
                                                UseLayoutRounding="True"/>
                                 </StackPanel>
@@ -100,16 +100,16 @@
                                         </LinearGradientBrush>
                                     </Border.Background>
                                 </Border>
-                                <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"
+                                <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource Brush.Accent.Primary}"
                                         SnapsToDevicePixels="True"
                                         UseLayoutRounding="True"/>
                                 <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10"
                                             SnapsToDevicePixels="True"
                                             UseLayoutRounding="True">
-                                    <TextBlock Text="Light" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"
+                                    <TextBlock Text="Light" Foreground="{DynamicResource Brush.Text.Primary}" FontWeight="SemiBold" FontSize="13"
                                                SnapsToDevicePixels="True"
                                                UseLayoutRounding="True"/>
-                                    <TextBlock Text="Clean light theme" Foreground="{DynamicResource TextSubBrush}" FontSize="10"
+                                    <TextBlock Text="Clean light theme" Foreground="{DynamicResource Brush.Text.Secondary}" FontSize="10"
                                                SnapsToDevicePixels="True"
                                                UseLayoutRounding="True"/>
                                 </StackPanel>
@@ -151,10 +151,10 @@
                                 <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10"
                                             SnapsToDevicePixels="True"
                                             UseLayoutRounding="True">
-                                    <TextBlock Text="Custom" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"
+                                    <TextBlock Text="Custom" Foreground="{DynamicResource Brush.Text.Primary}" FontWeight="SemiBold" FontSize="13"
                                                SnapsToDevicePixels="True"
                                                UseLayoutRounding="True"/>
-                                    <TextBlock Text="Your accent color" Foreground="{DynamicResource TextSubBrush}" FontSize="10"
+                                    <TextBlock Text="Your accent color" Foreground="{DynamicResource Brush.Text.Secondary}" FontSize="10"
                                                SnapsToDevicePixels="True"
                                                UseLayoutRounding="True"/>
                                 </StackPanel>
@@ -280,7 +280,7 @@
                                      IsChecked="{Binding BackgroundSolid, Mode=OneWay}"
                                      Command="{Binding BackgroundStyleCommand}"
                                      CommandParameter="Solid"
-                                     Foreground="{DynamicResource TextMainBrush}"
+                                     Foreground="{DynamicResource Brush.Text.Primary}"
                                      AutomationProperties.Name="Solid Background Style"
                                      SnapsToDevicePixels="True"
                                      UseLayoutRounding="True"/>
@@ -289,7 +289,7 @@
                                      IsChecked="{Binding BackgroundGradient, Mode=OneWay}"
                                      Command="{Binding BackgroundStyleCommand}"
                                      CommandParameter="Gradient"
-                                     Foreground="{DynamicResource TextMainBrush}"
+                                     Foreground="{DynamicResource Brush.Text.Primary}"
                                      AutomationProperties.Name="Gradient Background Style"
                                      SnapsToDevicePixels="True"
                                      UseLayoutRounding="True"/>
@@ -310,8 +310,8 @@
                 <Border x:Name="PreviewArea"
                         Height="160"
                         CornerRadius="{DynamicResource MediumRadius}"
-                        Background="{DynamicResource CardBrush}"
-                        BorderBrush="{DynamicResource CardStrokeBrush}"
+                        Background="{DynamicResource Brush.Background.Card}"
+                        BorderBrush="{DynamicResource Brush.Stroke.Card}"
                         BorderThickness="1"
                         Padding="16"
                         SnapsToDevicePixels="True"
@@ -325,7 +325,7 @@
                         <TextBlock Text="Theme Preview"
                                    FontSize="16"
                                    FontWeight="SemiBold"
-                                   Foreground="{DynamicResource TextMainBrush}"
+                                   Foreground="{DynamicResource Brush.Text.Primary}"
                                    SnapsToDevicePixels="True"
                                    UseLayoutRounding="True"/>
                         <StackPanel Grid.Row="1"
@@ -335,19 +335,19 @@
                             <TextBlock Text="Sample Heading" 
                                        FontSize="20" 
                                        FontWeight="Bold"
-                                       Foreground="{DynamicResource TextMainBrush}"
+                                       Foreground="{DynamicResource Brush.Text.Primary}"
                                        SnapsToDevicePixels="True"
                                        UseLayoutRounding="True"/>
                             <TextBlock Text="Sample body text for preview purposes"
                                        FontSize="12"
-                                       Foreground="{DynamicResource TextSubBrush}"
+                                       Foreground="{DynamicResource Brush.Text.Secondary}"
                                        Margin="0,8,0,0"
                                        SnapsToDevicePixels="True"
                                        UseLayoutRounding="True"/>
                             <Border Width="80"
                                     Height="6"
                                     CornerRadius="3"
-                                    Background="{DynamicResource AccentBrush}"
+                                    Background="{DynamicResource Brush.Accent.Primary}"
                                     Margin="0,12,0,0"
                                     SnapsToDevicePixels="True"
                                     UseLayoutRounding="True"/>
