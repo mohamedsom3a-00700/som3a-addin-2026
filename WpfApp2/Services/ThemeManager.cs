@@ -417,16 +417,19 @@ namespace Som3a_WPF_UI.Services
         private void ActivateFallbackMode(List<string> failedDictionaries, List<string> failureReasons)
         {
             IsFallbackActive = true;
+
+            LoadHardcodedFallbackTheme();
+            var fallbackCount = Application.Current?.Resources?.MergedDictionaries
+                .LastOrDefault()?.Count ?? 0;
+
             FallbackManifest = new FallbackManifest
             {
                 IsActive = true,
                 FailedDictionaries = failedDictionaries.ToArray(),
                 FailureReasons = failureReasons.ToArray(),
                 ActivatedAt = DateTime.UtcNow,
-                HardcodedResourcesCount = 6
+                HardcodedResourcesCount = fallbackCount
             };
-
-            LoadHardcodedFallbackTheme();
 
             _logger?.Log("ERROR", "Theme", $"Fallback mode activated. Failed dictionaries: {string.Join(", ", failedDictionaries)}", "ThemeManager");
 
@@ -464,6 +467,14 @@ namespace Som3a_WPF_UI.Services
                     dicts.Remove(existingTheme);
                 }
                 catch { }
+            }
+
+            var priorFallbacks = dicts
+                .Where(d => d.Source == null && d.Contains("Brush.Background.Primary"))
+                .ToList();
+            foreach (var fb in priorFallbacks)
+            {
+                try { dicts.Remove(fb); } catch { }
             }
 
             var fallback = new ResourceDictionary();

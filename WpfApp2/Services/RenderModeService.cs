@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using Som3a_WPF_UI.Helpers;
 
@@ -143,11 +144,32 @@ namespace Som3a_WPF_UI.Services
             try
             {
                 var name = string.IsNullOrEmpty(comboBox.Name) ? "Unnamed" : comboBox.Name;
-                return $"{name}: AllowsTransparency=False (compliant)";
+
+                if (comboBox.Template == null)
+                    return $"{name}: template not applied";
+
+                var popup = comboBox.Template.FindName("PART_Popup", comboBox) as Popup;
+                if (popup == null)
+                    return $"{name}: PART_Popup not found in template";
+
+                var issues = new List<string>();
+                if (popup.AllowsTransparency)
+                    issues.Add("AllowsTransparency=True (non-compliant)");
+                else
+                    issues.Add("AllowsTransparency=False");
+
+                if (popup.Child != null)
+                {
+                    var parentWindow = Window.GetWindow(popup.Child);
+                    if (parentWindow != null && parentWindow.AllowsTransparency)
+                        issues.Add("parent Window AllowsTransparency=True");
+                }
+
+                return $"{name}: {string.Join(", ", issues)}";
             }
-            catch
+            catch (Exception ex)
             {
-                return "ComboBox: inspection failed";
+                return $"ComboBox: inspection failed - {ex.Message}";
             }
         }
 

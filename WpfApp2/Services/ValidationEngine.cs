@@ -37,6 +37,8 @@ namespace Som3a_WPF_UI.Services
                     return results;
                 }
 
+                var seenTypes = new HashSet<string>();
+
                 foreach (var dict in Application.Current.Resources.MergedDictionaries)
                 {
                     if (dict == null) continue;
@@ -45,7 +47,7 @@ namespace Som3a_WPF_UI.Services
 
                     results.AddRange(ScanForMissingTokens(dict, dictName));
                     results.AddRange(ScanForInlineColors(dict, dictName));
-                    results.AddRange(ScanForDuplicateStyles(dict, dictName));
+                    results.AddRange(ScanForDuplicateStyles(dict, dictName, seenTypes));
                     results.AddRange(ScanForInvalidResources(dict, dictName));
                 }
 
@@ -132,14 +134,12 @@ namespace Som3a_WPF_UI.Services
             return results;
         }
 
-        private List<ValidationResult> ScanForDuplicateStyles(ResourceDictionary dict, string dictName)
+        private List<ValidationResult> ScanForDuplicateStyles(ResourceDictionary dict, string dictName, HashSet<string> seenTypes)
         {
             var results = new List<ValidationResult>();
 
             try
             {
-                var seenTypes = new HashSet<string>();
-
                 foreach (var key in dict.Keys)
                 {
                     if (dict[key] is Style style && style.TargetType != null)
@@ -182,24 +182,8 @@ namespace Som3a_WPF_UI.Services
                     {
                         if (style.BasedOn != null)
                         {
-                            try
-                            {
-                                var resolved = style.BasedOn;
-                            }
-                            catch
-                            {
-                                results.Add(new ValidationResult
-                                {
-                                    Id = $"VR-IR-{_scanCounter:D3}-{results.Count + 1:D3}",
-                                    Severity = "warning",
-                                    Category = "invalid-resource",
-                                    DictionaryName = dictName,
-                                    Location = key?.ToString() ?? "Unknown",
-                                    Description = $"Style '{key}' has an unresolvable BasedOn reference",
-                                    SuggestedFix = "Ensure the BasedOn style key exists in a loaded dictionary",
-                                    Timestamp = DateTime.UtcNow
-                                });
-                            }
+                            // TODO: proper XAML/dictionary resolver needed to validate
+                            // style.BasedOn at runtime without emitting false warnings
                         }
                     }
                 }

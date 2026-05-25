@@ -174,7 +174,7 @@ Task: "Create DiagnosticsViewModel in WpfApp2/ViewModels/DiagnosticsViewModel.cs
 ### MVP First (US1 + US2 Only — Both P1)
 
 1. Complete Phase 1: Setup
-2. Complete Phase 2: Foundational (optional for US1 — skip if USA1 needed standalone)
+2. Complete Phase 2: Foundational (optional for US1 — skip if US1 needed standalone)
 3. Complete Phase 3: User Story 1 (diagnostics panel)
 4. Complete Phase 4: User Story 2 (validation engine)
 5. **STOP and VALIDATE**: Test US1 + US2 independently

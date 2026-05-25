@@ -30,8 +30,8 @@ namespace Som3a_WPF_UI.Services
         public DiagnosticSnapshot CaptureSnapshot()
         {
             var process = Process.GetCurrentProcess();
-            double workingSetMB = 0;
-            double managedMB = 0;
+            double? workingSetMB = null;
+            double? managedMB = null;
 
             try
             {
@@ -39,7 +39,6 @@ namespace Som3a_WPF_UI.Services
             }
             catch
             {
-                workingSetMB = -1;
             }
 
             try
@@ -48,7 +47,6 @@ namespace Som3a_WPF_UI.Services
             }
             catch
             {
-                managedMB = -1;
             }
 
             var snapshot = new DiagnosticSnapshot
@@ -60,8 +58,8 @@ namespace Som3a_WPF_UI.Services
                 ActiveTheme = _themeManager.CurrentTheme,
                 AccentColor = _themeManager.CurrentAccentColor,
                 IsFallbackMode = _themeManager.IsFallbackActive,
-                MemoryWorkingSetMB = workingSetMB >= 0 ? workingSetMB : -1,
-                MemoryManagedMB = managedMB >= 0 ? managedMB : -1,
+                MemoryWorkingSetMB = workingSetMB,
+                MemoryManagedMB = managedMB,
                 PopupStatus = GetPopupDiagnosticsSafe(),
                 Timestamp = DateTime.UtcNow
             };
@@ -90,9 +88,9 @@ namespace Som3a_WPF_UI.Services
         {
             try
             {
-                if (!_renderModeService.IsGpuAvailable())
-                    return "N/A (GPU not available)";
-                return "WPF Software Renderer";
+                if (_renderModeService.IsGpuAvailable())
+                    return "WPF GPU Renderer";
+                return "N/A (GPU not available)";
             }
             catch
             {

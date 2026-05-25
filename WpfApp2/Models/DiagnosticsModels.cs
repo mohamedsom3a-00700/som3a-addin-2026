@@ -11,8 +11,8 @@ namespace Som3a_WPF_UI.Models
         public string ActiveTheme { get; set; } = "Dark";
         public string AccentColor { get; set; } = "#3A86FF";
         public bool IsFallbackMode { get; set; }
-        public double MemoryWorkingSetMB { get; set; }
-        public double MemoryManagedMB { get; set; }
+        public double? MemoryWorkingSetMB { get; set; }
+        public double? MemoryManagedMB { get; set; }
         public string[] PopupStatus { get; set; } = Array.Empty<string>();
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
     }

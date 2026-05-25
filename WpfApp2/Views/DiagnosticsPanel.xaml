@@ -19,7 +19,7 @@
                                Style="{DynamicResource SectionHeaderStyle}"/>
                     <TextBlock Text="{Binding DiagnosticsVM.StatusMessage}"
                                FontSize="12"
-                               Foreground="{DynamicResource TextSubBrush}"
+                               Foreground="{DynamicResource Brush.Text.Secondary}"
                                Margin="0,0,0,12"
                                TextWrapping="Wrap"/>
 
@@ -55,7 +55,7 @@
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.RenderMode}"
-                               Foreground="{DynamicResource TextMainBrush}"
+                               Foreground="{DynamicResource Brush.Text.Primary}"
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="1"
@@ -63,7 +63,7 @@
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Row="1" Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.RenderModeSource}"
-                               Foreground="{DynamicResource TextSubBrush}"
+                               Foreground="{DynamicResource Brush.Text.Secondary}"
                                VerticalAlignment="Center"
                                TextWrapping="Wrap"/>
 
@@ -72,7 +72,7 @@
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Row="2" Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.GpuAvailable}"
-                               Foreground="{DynamicResource TextMainBrush}"
+                               Foreground="{DynamicResource Brush.Text.Primary}"
                                VerticalAlignment="Center"/>
                 </Grid>
             </Border>
@@ -92,7 +92,7 @@
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.GpuName}"
-                               Foreground="{DynamicResource TextMainBrush}"
+                               Foreground="{DynamicResource Brush.Text.Primary}"
                                VerticalAlignment="Center"
                                TextWrapping="Wrap"/>
                 </Grid>
@@ -118,7 +118,7 @@
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.ActiveTheme}"
-                               Foreground="{DynamicResource TextMainBrush}"
+                               Foreground="{DynamicResource Brush.Text.Primary}"
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="1"
@@ -126,7 +126,7 @@
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Row="1" Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.AccentColor}"
-                               Foreground="{DynamicResource TextMainBrush}"
+                               Foreground="{DynamicResource Brush.Text.Primary}"
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="2"
@@ -134,7 +134,7 @@
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Row="2" Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.IsFallbackMode}"
-                               Foreground="{DynamicResource TextMainBrush}"
+                               Foreground="{DynamicResource Brush.Text.Primary}"
                                VerticalAlignment="Center"/>
                 </Grid>
             </Border>
@@ -157,16 +157,16 @@
                     <TextBlock Text="Working Set (MB)"
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Column="1"
-                               Text="{Binding DiagnosticsVM.CurrentSnapshot.MemoryWorkingSetMB, StringFormat={}{0:F1}}"
-                               Foreground="{DynamicResource TextMainBrush}"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.MemoryWorkingSetMB, StringFormat={}{0:F1}, TargetNullValue=N/A}"
+                               Foreground="{DynamicResource Brush.Text.Primary}"
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="1"
                                Text="Managed Heap (MB)"
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Row="1" Grid.Column="1"
-                               Text="{Binding DiagnosticsVM.CurrentSnapshot.MemoryManagedMB, StringFormat={}{0:F1}}"
-                               Foreground="{DynamicResource TextMainBrush}"
+                               Text="{Binding DiagnosticsVM.CurrentSnapshot.MemoryManagedMB, StringFormat={}{0:F1}, TargetNullValue=N/A}"
+                               Foreground="{DynamicResource Brush.Text.Primary}"
                                VerticalAlignment="Center"/>
                 </Grid>
             </Border>
@@ -284,7 +284,7 @@
                                Style="{DynamicResource SectionHeaderStyle}"/>
                     <TextBlock Text="Export your current settings to a JSON file for backup or transfer to another machine."
                                FontSize="12"
-                               Foreground="{DynamicResource TextSubBrush}"
+                               Foreground="{DynamicResource Brush.Text.Secondary}"
                                Margin="0,0,0,16"
                                TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal">

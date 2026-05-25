@@ -69,7 +69,7 @@ A single event recorded to the application log.
 | `Exception` | string | Exception details (if applicable), truncated to 1000 chars | Caller |
 
 **File Format (per FR-010):**
-```
+```text
 [2026-05-25 14:30:00] [ERROR] [ThemeManager] Failed to load DarkColors.xaml | Source: ApplyTheme
 [2026-05-25 14:30:05] [INFO] [Validation] Scan completed: 3 issues found | Source: ValidationEngine
 ```
@@ -98,7 +98,7 @@ The set of resource dictionaries and state used when primary theme resources fai
 
 ## Relationships
 
-```
+```text
 ThemeManager (applies theme)
     │
     ├── FallbackManifest (tracks fallback state)

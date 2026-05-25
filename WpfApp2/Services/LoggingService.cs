@@ -25,6 +25,7 @@ namespace Som3a_WPF_UI.Services
         private readonly string _logDir;
         private readonly object _writeLock = new object();
         private string _currentLogFilePath;
+        private DateTime _currentLogDate;
 
         public string CurrentLogFilePath => _currentLogFilePath;
 
@@ -44,6 +45,7 @@ namespace Som3a_WPF_UI.Services
                 Directory.CreateDirectory(_logDir);
             }
 
+            _currentLogDate = DateTime.Today;
             _currentLogFilePath = GenerateLogFilePath();
         }
 
@@ -54,6 +56,7 @@ namespace Som3a_WPF_UI.Services
                 var line = FormatEntry(entry);
                 lock (_writeLock)
                 {
+                    CheckDailyRollover();
                     CheckRotation();
                     File.AppendAllText(_currentLogFilePath, line, Encoding.UTF8);
                 }
@@ -109,6 +112,20 @@ namespace Som3a_WPF_UI.Services
             return Path.Combine(_logDir, $"{LogFilePrefix}{DateTime.Now:yyyyMMdd}.log");
         }
 
+        private void CheckDailyRollover()
+        {
+            var today = DateTime.Today;
+            if (today == _currentLogDate)
+                return;
+
+            var newPath = GenerateLogFilePath();
+            if (newPath != _currentLogFilePath)
+            {
+                _currentLogFilePath = newPath;
+                _currentLogDate = today;
+            }
+        }
+
         private void CheckRotation()
         {
             var current = _currentLogFilePath;
@@ -148,7 +165,7 @@ namespace Som3a_WPF_UI.Services
         {
             var timestamp = entry.Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
             var ex = string.IsNullOrEmpty(entry.Exception) ? "" : $" | {entry.Exception}";
-            return $"[{timestamp}] [{entry.Severity}] [{entry.Source}] {entry.Message}{ex}{Environment.NewLine}";
+            return $"[{timestamp}] [{entry.Severity}] [{entry.Category}] [{entry.Source}] {entry.Message}{ex}{Environment.NewLine}";
         }
 
         private static LogEntry ParseEntry(string line)
@@ -177,6 +194,16 @@ namespace Som3a_WPF_UI.Services
                     var close = line.IndexOf(']', idx + 1);
                     if (close < 0) return null;
                     entry.Severity = line.Substring(idx + 1, close - idx - 1);
+                    idx = close + 1;
+                }
+
+                idx = SkipWhitespace(line, idx);
+
+                if (idx < line.Length && line[idx] == '[')
+                {
+                    var close = line.IndexOf(']', idx + 1);
+                    if (close < 0) return null;
+                    entry.Category = line.Substring(idx + 1, close - idx - 1);
                     idx = close + 1;
                 }
 
