@@ -1,13 +1,14 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/013-enterprise-polish/plan.md
+at: specs/014-platform-foundation/plan.md
 
-Also refer to the master implementation plan:
+Also refer to the master implementation plans:
 - implementation_plan.md — Full execution plan for Phases 0-11
+- enterprise_planning_platform_plan.md — Enterprise Planning Platform Phases 14-26
 
 Current phase plan:
-- specs/011-legacy-window-migration/plan.md — Phase 11: Legacy Window Migration
+- specs/014-platform-foundation/plan.md — Phase 14: Platform Foundation
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes
@@ -167,4 +168,91 @@ Build using **MSBuild** (command line, no Visual Studio needed):
 Build using **devenv.exe** (Visual Studio IDE):
 ```powershell
 & "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\devenv.exe" WpfApp2\Som3a_WPF_UI.csproj /Build Debug
+```
+
+## Platform Foundation (Phase 14)
+
+### Build Commands
+
+Build all .NET 8.0 libraries:
+```powershell
+dotnet build Som3a.Bridge/Som3a.Bridge.csproj
+dotnet build Som3a.Contracts/Som3a.Contracts.csproj
+dotnet build Som3a.Domain/Som3a.Domain.csproj
+dotnet build Som3a.Plugin.SDK/Som3a.Plugin.SDK.csproj
+dotnet build Som3a.AI/Som3a.AI.csproj
+dotnet build Som3a.Exporting/Som3a.Exporting.csproj
+dotnet build Som3a.Localization/Som3a.Localization.csproj
+dotnet build Som3a.Validation/Som3a.Validation.csproj
+dotnet build Som3a.Diagnostics/Som3a.Diagnostics.csproj
+dotnet build Som3a.Infrastructure/Som3a.Infrastructure.csproj
+```
+
+Build WPF host with Bridge reference:
+```powershell
+& "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
+```
+
+### Project Dependency Graph
+
+```
+Som3a.Contracts (no dependencies)
+    |
+Som3a.Domain → Som3a.Contracts
+Som3a.Plugin.SDK → Som3a.Contracts
+Som3a.AI → Som3a.Contracts, Som3a.Domain
+Som3a.Exporting → Som3a.Contracts, Som3a.Domain
+Som3a.Validation → Som3a.Contracts, Som3a.Domain
+Som3a.Diagnostics → Som3a.Contracts, Som3a.Plugin.SDK
+Som3a.Infrastructure → Som3a.Contracts
+Som3a.Localization → Som3a.Contracts
+Som3a.Bridge (.NET Standard 2.0) — standalone
+WpfApp2 (.NET Framework 4.8) → Som3a.Bridge, Som3a.Shared
+```
+
+### Project Structure (Phase 14)
+
+```
+Som3a Addin 2026/
+├── Som3a.Bridge/            # .NET Standard 2.0 interop bridge
+│   ├── InteropContracts.cs
+│   └── DiagnosticsChannel.cs
+├── Som3a.Contracts/         # .NET 8.0 contract interfaces
+│   ├── IPlugin.cs
+│   ├── IAIProvider.cs
+│   ├── IExportEngine.cs
+│   ├── ISettingsModule.cs
+│   ├── IPromptProvider.cs
+│   └── IDiagnosticsProvider.cs
+├── Som3a.Domain/            # .NET 8.0 domain entities
+│   ├── BOQ/
+│   ├── Activities/
+│   ├── WBS/
+│   ├── Relationships/
+│   ├── Calendars/
+│   ├── Constraints/
+│   ├── Resources/
+│   ├── Export/
+│   └── Serialization/
+├── Som3a.Plugin.SDK/        # .NET 8.0 plugin framework
+│   ├── Attributes/
+│   ├── Discovery/
+│   ├── Validation/
+│   └── Hosting/
+├── Som3a.AI/                # .NET 8.0 AI abstraction
+│   ├── Providers/
+│   ├── Orchestration/
+│   ├── Prompts/
+│   ├── Parsing/
+│   └── Tracking/
+├── Som3a.Exporting/         # .NET 8.0 export engine
+│   ├── Pipeline/
+│   ├── Excel/
+│   ├── Primavera/
+│   └── Formats/
+├── Som3a.Localization/      # .NET 8.0 i18n
+├── Som3a.Validation/        # .NET 8.0 validation
+├── Som3a.Diagnostics/       # .NET 8.0 diagnostics
+├── Som3a.Infrastructure/    # .NET 8.0 security/config
+└── WpfApp2/                 # Existing .NET Framework 4.8 host
 ```

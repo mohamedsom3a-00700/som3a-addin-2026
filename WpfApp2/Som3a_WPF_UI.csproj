@@ -644,6 +644,9 @@
       <Project>{5563203c-41d7-4ad2-943c-0c0d82f18b33}</Project>
       <Name>Som3a.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Som3a.Bridge\Som3a.Bridge.csproj">
+      <Name>Som3a.Bridge</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
