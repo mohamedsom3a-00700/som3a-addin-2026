@@ -1,0 +1,77 @@
+<UserControl x:Class="Som3a_WPF_UI.Views.ExcelPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+
+            <!-- Render Mode -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Render Mode"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+
+                    <ComboBox Grid.Column="1"
+                              Width="200"
+                              HorizontalAlignment="Left"
+                              Text="{Binding CurrentSettings.RenderMode}"
+                              IsEditable="False"
+                              Style="{DynamicResource SettingsComboBoxStyle}">
+                        <ComboBoxItem Content="Auto" IsSelected="True"/>
+                        <ComboBoxItem Content="Safe"/>
+                        <ComboBoxItem Content="Full"/>
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+            <!-- Safe Mode Toggle -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Safe Mode"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextMainBrush}"/>
+                        <TextBlock Text="Force safe rendering mode for Excel compatibility"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextSubBrush}"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <ToggleButton Grid.Column="1"
+                                  Width="44"
+                                  Height="22"
+                                  IsChecked="{Binding CurrentSettings.SafeModeEnabled}"
+                                  Style="{DynamicResource ToggleSwitchStyle}"
+                                  AutomationProperties.Name="Safe Mode Toggle"/>
+                </Grid>
+            </Border>
+
+            <!-- DPI Info -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <StackPanel>
+                    <TextBlock Text="DPI Information"
+                               Style="{DynamicResource SectionHeaderStyle}"/>
+                    <Border Background="{DynamicResource Brush.Control.Hover}"
+                            CornerRadius="{DynamicResource MediumRadius}"
+                            Padding="12">
+                        <TextBlock Text="DPI scaling is handled automatically by the Windows rendering pipeline. Adjust render mode if you experience display issues."
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextSubBrush}"
+                                   TextWrapping="Wrap"/>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

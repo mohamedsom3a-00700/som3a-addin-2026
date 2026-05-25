@@ -193,6 +193,22 @@ namespace Som3a_WPF_UI.ViewModels
                 });
             }
         }
+        private void RefreshTablesUI(IEnumerable<TableItemVM> previous)
+        {
+            Tables.Clear();
+
+            foreach (var t in _parser.Tables)
+            {
+                var prev = previous.FirstOrDefault(x => x.Name == t.Name);
+                Tables.Add(new TableItemVM
+                {
+                    Name = t.Name,
+                    DisplayName = GetDisplayName(t.Name),
+                    Count = t.Rows.Count,
+                    Status = prev is { Status: "Sheet Not Found" } ? "Sheet Not Found" : "Updated"
+                });
+            }
+        }
         private void ImportFromExcel()
         {
             if (_parser == null || !_parser.Tables.Any())
@@ -233,9 +249,9 @@ namespace Som3a_WPF_UI.ViewModels
                 _parser.Tables.Add(updated);
             }
 
-            RefreshTablesUI();
+            RefreshTablesUI(selected);
 
-            foreach (var t in selected)
+            foreach (var t in selected.Where(x => x.Status != "Sheet Not Found"))
             {
                 var updated = Tables.FirstOrDefault(x => x.Name == t.Name);
                 if (updated != null)

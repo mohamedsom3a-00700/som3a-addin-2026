@@ -1,0 +1,63 @@
+<UserControl x:Class="Som3a_WPF_UI.Views.AccessibilityPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+
+            <!-- High Contrast -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="High Contrast Mode"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextMainBrush}"/>
+                        <TextBlock Text="Increase contrast for better visibility"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextSubBrush}"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <ToggleButton Grid.Column="1"
+                                  Width="44"
+                                  Height="22"
+                                  IsChecked="{Binding CurrentSettings.HighContrastEnabled}"
+                                  Style="{DynamicResource ToggleSwitchStyle}"
+                                  AutomationProperties.Name="High Contrast Toggle"/>
+                </Grid>
+            </Border>
+
+            <!-- Focus Indicator -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Focus Indicator"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextMainBrush}"/>
+                        <TextBlock Text="Show focus glow around selected elements"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextSubBrush}"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <ToggleButton Grid.Column="1"
+                                  Width="44"
+                                  Height="22"
+                                  IsChecked="{Binding CurrentSettings.FocusIndicatorEnabled}"
+                                  Style="{DynamicResource ToggleSwitchStyle}"
+                                  AutomationProperties.Name="Focus Indicator Toggle"/>
+                </Grid>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
