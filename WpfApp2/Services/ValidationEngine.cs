@@ -43,6 +43,8 @@ namespace Som3a_WPF_UI.Services
 
                 var seenTypes = new HashSet<string>();
 
+                BuildResourceRegistry();
+
                 foreach (var dict in Application.Current.Resources.MergedDictionaries)
                 {
                     if (dict == null) continue;
@@ -310,7 +312,6 @@ namespace Som3a_WPF_UI.Services
 
         private List<ValidationResult> ScanForInvalidResources(ResourceDictionary dict, string dictName)
         {
-            BuildResourceRegistry();
             var results = new List<ValidationResult>();
 
             try

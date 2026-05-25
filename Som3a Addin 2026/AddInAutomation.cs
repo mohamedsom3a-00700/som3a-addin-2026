@@ -148,6 +148,8 @@ namespace Som3a_Addin_2026
 
         public string GetCurrentTheme()
         {
+            return InvokeOnUI(() =>
+            {
             try
             {
                 if (ThemeManager.Instance == null)
@@ -158,6 +160,7 @@ namespace Som3a_Addin_2026
             {
                 return "ERROR: " + ex.Message;
             }
+            });
         }
 
         public string GetStatus()
