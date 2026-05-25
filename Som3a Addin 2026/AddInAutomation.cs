@@ -94,8 +94,8 @@ namespace Som3a_Addin_2026
                 if (window != null)
                 {
                     _openWindows[name] = window;
+                    window.Closed += (s, e) => _openWindows.Remove(name);
                     window.Show();
-                    System.Threading.Thread.Sleep(500);
                     return "OK";
                 }
                 return "NULL_WINDOW";

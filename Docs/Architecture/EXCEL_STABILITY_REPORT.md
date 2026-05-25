@@ -69,7 +69,7 @@
 | WS-B T059 | Rapid theme switching (10x) — no crash | T048 | ✅ PASS — no crash |
 | WS-B T060 | Progress bar in all 7 windows | T049 | ⏳ Manual visual |
 | WS-B T061 | TreeView hover color | T050 | ⏳ Manual visual |
-| WS-B T062 | Close button hover color across all windows | T051 | ⏳ Manual visual | |
+| WS-B T062 | Close button hover color across all windows | T051 | ⏳ Manual visual |
 
 ## Optimizations Applied
 

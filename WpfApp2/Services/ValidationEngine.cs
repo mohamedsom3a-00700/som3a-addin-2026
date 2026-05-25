@@ -183,10 +183,12 @@ namespace Som3a_WPF_UI.Services
         }
 
         private readonly Dictionary<string, string> _resourceRegistry = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<Style, string> _styleInstanceMap = new Dictionary<Style, string>();
 
         private void BuildResourceRegistry()
         {
-            if (_resourceRegistry.Count > 0) return;
+            _resourceRegistry.Clear();
+            _styleInstanceMap.Clear();
 
             foreach (var dict in Application.Current.Resources.MergedDictionaries)
             {
@@ -195,7 +197,11 @@ namespace Som3a_WPF_UI.Services
                 foreach (var key in dict.Keys)
                 {
                     if (key is string strKey)
+                    {
                         _resourceRegistry[strKey] = dictPath;
+                        if (dict[strKey] is Style s)
+                            _styleInstanceMap[s] = strKey;
+                    }
                 }
             }
         }
@@ -282,11 +288,14 @@ namespace Som3a_WPF_UI.Services
         {
             if (style.BasedOn == null) return;
 
-            var basedOnKey = style.BasedOn.ToString();
+            string basedOnKey;
+            if (_styleInstanceMap.TryGetValue(style.BasedOn, out var mappedKey))
+                basedOnKey = mappedKey;
+            else
+                basedOnKey = style.BasedOn.TargetType?.Name ?? "Unknown";
+
             if (!_resourceRegistry.ContainsKey(basedOnKey))
             {
-                if (Application.Current.Resources[basedOnKey] != null) return;
-
                 results.Add(new ValidationResult
                 {
                     Id = $"VR-BO-{_scanCounter:D3}-{results.Count + 1:D3}",
@@ -295,7 +304,7 @@ namespace Som3a_WPF_UI.Services
                     DictionaryName = dictName,
                     Location = $"Style Key='{styleKey}', BasedOn='{basedOnKey}'",
                     Description = $"Style '{styleKey}' references BasedOn='{basedOnKey}' which was not found in any loaded dictionary",
-                    SuggestedFix = $"Ensure '{basedOnKey}' is defined in a loaded dictionary before this style",
+                    SuggestedFix = $"Ensure the based-on style is defined in a loaded dictionary before this style",
                     Timestamp = DateTime.UtcNow
                 });
             }

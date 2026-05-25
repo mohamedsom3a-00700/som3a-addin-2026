@@ -53,14 +53,16 @@ function Get-Timestamp {
 }
 
 function Get-ExcelProcess {
-    return Get-Process -Name "EXCEL" -ErrorAction SilentlyContinue | Select-Object -First 1
+    return Get-Process -Name "EXCEL" -ErrorAction SilentlyContinue
 }
 
 function Kill-Excel {
     $procs = Get-ExcelProcess
     if ($procs) {
-        Write-Log "Killing $($procs.Count) existing Excel process(es)..."
-        $procs | Stop-Process -Force -ErrorAction SilentlyContinue
+        foreach ($p in $procs) {
+            Write-Log "Killing Excel process $($p.Id)..."
+            Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+        }
         Start-Sleep -Seconds 2
     }
 }
@@ -130,9 +132,9 @@ function Get-WindowByTitle {
                 $name = $elem.Current.Name
                 if ($name -like "*$Title*") {
                     if ($ProcessId -gt 0) {
-                        $pid = 0
-                        try { $pid = $elem.Current.ProcessId } catch { }
-                        if ($pid -eq $ProcessId) { return $elem }
+                        $windowPid = 0
+                        try { $windowPid = $elem.Current.ProcessId } catch { }
+                        if ($windowPid -eq $ProcessId) { return $elem }
                     } else {
                         return $elem
                     }
@@ -159,7 +161,7 @@ function Get-WpfChildWindows {
 }
 
 function Get-MemoryMB {
-    $proc = Get-ExcelProcess
+    $proc = Get-ExcelProcess | Select-Object -First 1
     if (-not $proc) { return $null }
     [math]::Round($proc.WorkingSet64 / 1MB, 1)
 }
@@ -333,7 +335,7 @@ if ($Quick) {
 # ====================================================================
 
 $resultsDoc = New-ResultXml
-$overallPass = $true
+$overallPass = $false
 
 try {
     # Step 1: Clean slate
@@ -480,14 +482,17 @@ try {
 
     # Step 9: Rapid theme switching
     Write-Log "===== Rapid Theme Switch Test (T048) ====="
-    $rapidSuccess = $true
-    for ($i = 0; $i -lt 10; $i++) {
-        $t = @("Dark", "Light", "Custom")[$i % 3]
-        if ($auto) {
+    $rapidSuccess = $false
+    if ($auto) {
+        $rapidSuccess = $true
+        for ($i = 0; $i -lt 10; $i++) {
+            $t = @("Dark", "Light", "Custom")[$i % 3]
             $r = $auto.SwitchTheme($t)
             if ($r -ne "OK") { $rapidSuccess = $false; Write-Log "  Rapid switch $i ($t): $r" -Level "WARN" }
+            Start-Sleep -Milliseconds 200
         }
-        Start-Sleep -Milliseconds 200
+    } else {
+        Write-Log "  Skipped: COM automation not available" -Level "WARN"
     }
     $memAfterRapid = Get-MemoryMB
     Add-Result -Doc $resultsDoc -TaskId "T048" -Name "RapidThemeSwitch_10x" -Status $(if ($rapidSuccess) { "pass" } else { "warn" }) `
@@ -521,10 +526,13 @@ try {
 $resultsDoc.Save($ResultsFile)
 Write-Log "Results saved to: $ResultsFile"
 
-# Print summary table
-Write-Log "`n===== RESULTS SUMMARY ====="
+# Compute overall pass from individual test results
 $summary = $resultsDoc.DocumentElement.SelectSingleNode("summary")
 $totalVal = $summary.GetAttribute("total"); $passedVal = $summary.GetAttribute("passed"); $failedVal = $summary.GetAttribute("failed"); $skippedVal = $summary.GetAttribute("skipped")
+$overallPass = [int]$failedVal -eq 0 -and [int]$passedVal -gt 0
+
+# Print summary table
+Write-Log "`n===== RESULTS SUMMARY ====="
 Write-Log "Total: $totalVal | Passed: $passedVal | Failed: $failedVal | Skipped: $skippedVal"
 Write-Log "`nWindow Test Results:"
 $windowResults | Format-Table -Property Name, Status, OpenTimeMs, MemDeltaMB -AutoSize

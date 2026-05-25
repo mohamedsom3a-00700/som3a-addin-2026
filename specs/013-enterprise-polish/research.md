@@ -13,7 +13,7 @@
 ### UI Virtualization
 - WPF VirtualizingStackPanel is the default for ListBox, ListView, DataGrid.
 - `VirtualizationMode="Recycling"` reuses containers instead of creating new ones — critical for DataGrid with 1000+ rows.
-- `ScrollUnit="Item"` for pixel-based scrolling vs `"Pixel"` for item-based.
+- `ScrollUnit="Item"` for item-based scrolling vs `"Pixel"` for pixel-based.
 - Known issue: Virtualization breaks when DataGrid is inside ScrollViewer — ensure no nested ScrollViewer in DataGrid templates.
 
 ### Animation Budget

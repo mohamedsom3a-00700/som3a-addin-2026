@@ -298,17 +298,23 @@
                                         <TextBlock Text="{Binding ModuleId}"
                                                    FontWeight="SemiBold"
                                                    Foreground="{DynamicResource Brush.Text.Primary}"
-                                                   VerticalAlignment="Center"/>
+                                                   VerticalAlignment="Center"
+                                                   SnapsToDevicePixels="True"
+                                                   UseLayoutRounding="True"/>
                                         <TextBlock Grid.Column="1"
                                                    Text="{Binding State}"
                                                    Foreground="{DynamicResource Brush.Accent.Success}"
                                                    FontSize="11"
-                                                   VerticalAlignment="Center"/>
+                                                   VerticalAlignment="Center"
+                                                   SnapsToDevicePixels="True"
+                                                   UseLayoutRounding="True"/>
                                         <TextBlock Grid.Column="2"
                                                    Text="{Binding Version}"
                                                    Foreground="{DynamicResource Brush.Text.Disabled}"
                                                    FontSize="11"
-                                                   VerticalAlignment="Center"/>
+                                                   VerticalAlignment="Center"
+                                                   SnapsToDevicePixels="True"
+                                                   UseLayoutRounding="True"/>
 
                                         <StackPanel Grid.Row="1"
                                                     Grid.ColumnSpan="3"

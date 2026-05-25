@@ -138,16 +138,22 @@ namespace Som3a_WPF_UI.Services
         {
             if (Application.Current?.Resources?.MergedDictionaries == null) return;
 
-            foreach (var dict in Application.Current.Resources.MergedDictionaries)
+            FreezeDictionaryRecursive(Application.Current.Resources);
+        }
+
+        private static void FreezeDictionaryRecursive(ResourceDictionary dict)
+        {
+            foreach (var key in dict.Keys)
             {
-                if (dict == null) continue;
-                foreach (var key in dict.Keys)
+                if (dict[key] is Freezable freezable && !freezable.IsFrozen && freezable.CanFreeze)
                 {
-                    if (dict[key] is Freezable freezable && !freezable.IsFrozen && freezable.CanFreeze)
-                    {
-                        freezable.Freeze();
-                    }
+                    freezable.Freeze();
                 }
+            }
+
+            foreach (var mergedDict in dict.MergedDictionaries)
+            {
+                FreezeDictionaryRecursive(mergedDict);
             }
         }
 

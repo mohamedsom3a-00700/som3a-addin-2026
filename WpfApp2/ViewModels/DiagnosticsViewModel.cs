@@ -3,6 +3,8 @@ using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -15,6 +17,7 @@ namespace Som3a_WPF_UI.ViewModels
         private readonly ILoggingService _loggingService;
         private readonly IModuleDiagnosticsService _moduleDiagnosticsService;
         private readonly DispatcherTimer _refreshTimer;
+        private readonly SemaphoreSlim _refreshSemaphore = new SemaphoreSlim(1, 1);
 
         private DiagnosticSnapshot _currentSnapshot = new DiagnosticSnapshot();
         private bool _isScanning;
@@ -118,29 +121,44 @@ namespace Som3a_WPF_UI.ViewModels
             _refreshTimer.Start();
         }
 
-        public async void RefreshSnapshot()
+        public async Task RefreshSnapshotAsync()
         {
-            IsLoading = true;
-            HasError = false;
-            StatusMessage = "Capturing diagnostics...";
+            if (!await _refreshSemaphore.WaitAsync(0))
+                return;
 
             try
             {
-                CurrentSnapshot = await System.Threading.Tasks.Task.Run(() => _diagnosticsService.CaptureSnapshot());
-                _moduleDiagnosticsService.RefreshSnapshot();
-                StatusMessage = $"Last updated: {DateTime.Now:HH:mm:ss}";
-            }
-            catch (Exception ex)
-            {
-                HasError = true;
-                ErrorMessage = ex.Message;
-                StatusMessage = $"Snapshot failed: {ex.Message}";
-                _loggingService.Log("ERROR", "Diagnostics", $"Failed to capture snapshot: {ex.Message}", "DiagnosticsViewModel");
+                IsLoading = true;
+                HasError = false;
+                StatusMessage = "Capturing diagnostics...";
+
+                try
+                {
+                    CurrentSnapshot = await Task.Run(() => _diagnosticsService.CaptureSnapshot());
+                    _moduleDiagnosticsService.RefreshSnapshot();
+                    StatusMessage = $"Last updated: {DateTime.Now:HH:mm:ss}";
+                }
+                catch (Exception ex)
+                {
+                    HasError = true;
+                    ErrorMessage = ex.Message;
+                    StatusMessage = $"Snapshot failed: {ex.Message}";
+                    _loggingService.Log("ERROR", "Diagnostics", $"Failed to capture snapshot: {ex.Message}", "DiagnosticsViewModel");
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
             }
             finally
             {
-                IsLoading = false;
+                _refreshSemaphore.Release();
             }
+        }
+
+        public async void RefreshSnapshot()
+        {
+            await RefreshSnapshotAsync();
         }
 
         public void RunValidation()

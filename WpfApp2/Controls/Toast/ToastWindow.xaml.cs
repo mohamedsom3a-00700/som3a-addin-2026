@@ -32,6 +32,11 @@ namespace Som3a_WPF_UI.Controls.Toast
                 Opacity = 0;
                 RenderTransform = new TranslateTransform(0, 20);
             }
+            else
+            {
+                Opacity = 1;
+                RenderTransform = null;
+            }
 
             _timer = new DispatcherTimer
             {

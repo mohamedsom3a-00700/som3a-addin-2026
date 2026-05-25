@@ -27,13 +27,20 @@ namespace Som3a_WPF_UI
 
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                CompositionRoot.InitializeModules(Container.Resolve<Services.IModuleRegistry>());
+                try
+                {
+                    CompositionRoot.InitializeModules(Container.Resolve<Services.IModuleRegistry>());
 
-                var pluginLoader = Container.Resolve<PluginLoader>();
-                var orchestrator = Container.Resolve<ModuleLoadOrchestrator>();
-                orchestrator.SetNavigationService(NavigationService.Instance);
-                var manifests = pluginLoader.DiscoverModules();
-                orchestrator.OnModulesDiscovered(manifests);
+                    var pluginLoader = Container.Resolve<PluginLoader>();
+                    var orchestrator = Container.Resolve<ModuleLoadOrchestrator>();
+                    orchestrator.SetNavigationService(NavigationService.Instance);
+                    var manifests = pluginLoader.DiscoverModules();
+                    orchestrator.OnModulesDiscovered(manifests);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.TraceError($"Deferred initialization failed: {ex}");
+                }
             }));
         }
 

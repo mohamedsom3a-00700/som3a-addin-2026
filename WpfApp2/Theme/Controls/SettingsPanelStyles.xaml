@@ -80,13 +80,17 @@
                        FontFamily="Segoe MDL2 Assets"
                        FontSize="14"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center"
+                       SnapsToDevicePixels="True"
+                       UseLayoutRounding="True"/>
             <TextBlock Grid.Column="1"
                        Text="{Binding DisplayName}"
                        FontSize="13"
                        VerticalAlignment="Center"
                        Margin="10,0,0,0"
-                       Foreground="{DynamicResource Brush.Foreground.Primary}"/>
+                       Foreground="{DynamicResource Brush.Foreground.Primary}"
+                       SnapsToDevicePixels="True"
+                       UseLayoutRounding="True"/>
         </Grid>
     </DataTemplate>
 

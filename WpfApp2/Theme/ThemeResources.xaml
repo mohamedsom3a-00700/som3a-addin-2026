@@ -75,6 +75,7 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/ProgressBarStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/PasswordBoxStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/TreeViewStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml"/>
 
         <!-- Modern Window -->
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/WindowButtonStyles.xaml"/>
@@ -83,9 +84,6 @@
 
         <!-- Shell Styles -->
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ShellStyles.xaml"/>
-
-        <!-- Panel Styles (used by SettingsWindow and settings panels) -->
-        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
 
