@@ -28,11 +28,34 @@ namespace Som3a_Addin_2026
             Som3a_WPF_UI.CompositionRoot.RegisterServices(Som3a_WPF_UI.App.Container);
             Som3a_WPF_UI.CompositionRoot.InitializeModules(Som3a_WPF_UI.App.Container.Resolve<Som3a_WPF_UI.Services.IModuleRegistry>());
 
-            var pluginLoader = Som3a_WPF_UI.App.Container.Resolve<PluginLoader>();
-            var orchestrator = Som3a_WPF_UI.App.Container.Resolve<ModuleLoadOrchestrator>();
-            orchestrator.SetNavigationService(NavigationService.Instance);
-            var manifests = pluginLoader.DiscoverModules();
-            orchestrator.OnModulesDiscovered(manifests);
+            try
+            {
+                var pluginLoader = Som3a_WPF_UI.App.Container.Resolve<PluginLoader>();
+                var orchestrator = Som3a_WPF_UI.App.Container.Resolve<ModuleLoadOrchestrator>();
+
+                try
+                {
+                    orchestrator.SetNavigationService(NavigationService.Instance);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.WriteLine($"[ThisAddIn] Failed to set navigation service: {ex.Message}");
+                }
+
+                try
+                {
+                    var manifests = pluginLoader.DiscoverModules();
+                    orchestrator.OnModulesDiscovered(manifests);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.WriteLine($"[ThisAddIn] Module discovery failed: {ex.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine($"[ThisAddIn] Plugin bootstrap failed: {ex.Message}");
+            }
 
             ThemeManager.InitializeApplicationResources();
 
