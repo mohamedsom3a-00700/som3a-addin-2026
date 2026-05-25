@@ -30,7 +30,9 @@ namespace Som3a_WPF_UI.Services
                 throw new ArgumentException("Module display name cannot be null or empty.", nameof(manifest));
 
             ValidateVersion(manifest);
-            ValidateDependencies(manifest);
+
+            if (manifest.Dependencies?.Contains(manifest.Id, StringComparer.OrdinalIgnoreCase) == true)
+                throw new InvalidOperationException($"Module '{manifest.Id}' declares a self-referencing dependency.");
 
             lock (_lock)
             {
@@ -39,17 +41,27 @@ namespace Som3a_WPF_UI.Services
 
                 _manifests[manifest.Id] = manifest;
 
-                var info = new ModuleInfo
-                {
-                    Id = manifest.Id,
-                    Version = manifest.Version,
-                    DisplayName = manifest.DisplayName,
-                    Description = manifest.Description,
-                    State = ModuleState.Registered,
-                    Capabilities = manifest.Capabilities ?? Array.Empty<string>(),
-                };
+                var info = new ModuleInfo(
+                    manifest.Id,
+                    manifest.Version,
+                    manifest.DisplayName,
+                    manifest.Description ?? "",
+                    ModuleState.Registered,
+                    manifest.Capabilities ?? Array.Empty<string>());
 
                 _modules[manifest.Id] = info;
+            }
+        }
+
+        internal void ValidateResolvedDependencies()
+        {
+            lock (_lock)
+            {
+                foreach (var manifest in _manifests.Values)
+                {
+                    ValidateDependencies(manifest);
+                    DetectCircularDependencies(manifest);
+                }
             }
         }
 
@@ -62,7 +74,7 @@ namespace Som3a_WPF_UI.Services
             {
                 if (!_modules.TryGetValue(moduleId, out var info))
                     throw new InvalidOperationException($"Module '{moduleId}' is not registered.");
-                return info;
+                return new ModuleInfo(info); // defensive copy
             }
         }
 
@@ -70,7 +82,7 @@ namespace Som3a_WPF_UI.Services
         {
             lock (_lock)
             {
-                return _modules.Values.ToList().AsReadOnly();
+                return _modules.Values.Select(m => new ModuleInfo(m)).ToList().AsReadOnly();
             }
         }
 
@@ -78,7 +90,7 @@ namespace Som3a_WPF_UI.Services
         {
             lock (_lock)
             {
-                return _modules.Values.Where(m => m.State == state).ToList().AsReadOnly();
+                return _modules.Values.Where(m => m.State == state).Select(m => new ModuleInfo(m)).ToList().AsReadOnly();
             }
         }
 
@@ -96,8 +108,7 @@ namespace Som3a_WPF_UI.Services
                     throw new InvalidOperationException($"Module '{moduleId}' is in state '{info.State}'. Only Failed modules can be retried.");
 
                 var oldState = info.State;
-                info.State = ModuleState.Registered;
-                info.LastError = null;
+                _modules[moduleId] = info.With(state: ModuleState.Registered, lastError: null);
 
                 RaiseStateChanged(moduleId, oldState, ModuleState.Registered);
             }
@@ -117,7 +128,7 @@ namespace Som3a_WPF_UI.Services
                     throw new InvalidOperationException($"Module '{moduleId}' is in state '{info.State}'. Only Active modules can be unloaded.");
 
                 var oldState = info.State;
-                info.State = ModuleState.Unloaded;
+                _modules[moduleId] = info.With(state: ModuleState.Unloaded);
 
                 RaiseStateChanged(moduleId, oldState, ModuleState.Unloaded);
             }
@@ -137,7 +148,7 @@ namespace Som3a_WPF_UI.Services
                     throw new InvalidOperationException($"Module '{moduleId}' is in state '{info.State}'. Only Active modules can be disabled.");
 
                 var oldState = info.State;
-                info.State = ModuleState.Disabled;
+                _modules[moduleId] = info.With(state: ModuleState.Disabled);
 
                 RaiseStateChanged(moduleId, oldState, ModuleState.Disabled);
             }
@@ -151,8 +162,7 @@ namespace Som3a_WPF_UI.Services
                     throw new InvalidOperationException($"Module '{moduleId}' is not registered.");
 
                 var oldState = info.State;
-                info.State = newState;
-                info.LastError = lastError;
+                _modules[moduleId] = info.With(state: newState, lastError: lastError);
 
                 RaiseStateChanged(moduleId, oldState, newState);
             }
@@ -164,8 +174,7 @@ namespace Som3a_WPF_UI.Services
             {
                 if (_modules.TryGetValue(moduleId, out var info))
                 {
-                    info.MemoryBytes = memoryBytes;
-                    info.LoadTimeMs = loadTimeMs;
+                    _modules[moduleId] = info.With(memoryBytes: memoryBytes, loadTimeMs: loadTimeMs);
                 }
             }
         }
@@ -246,9 +255,18 @@ namespace Som3a_WPF_UI.Services
             visited.Add(moduleId);
             recursionStack.Add(moduleId);
 
-            if (_manifests.TryGetValue(moduleId, out var manifest) && manifest.Dependencies is not null)
+            string[]? deps;
+            lock (_lock)
             {
-                foreach (var depId in manifest.Dependencies)
+                if (!_manifests.TryGetValue(moduleId, out var manifest) || manifest.Dependencies is null)
+                    deps = null;
+                else
+                    deps = manifest.Dependencies.ToArray();
+            }
+
+            if (deps is not null)
+            {
+                foreach (var depId in deps)
                 {
                     if (HasCycle(depId, visited, recursionStack))
                         return true;
@@ -261,12 +279,7 @@ namespace Som3a_WPF_UI.Services
 
         private void RaiseStateChanged(string moduleId, ModuleState oldState, ModuleState newState)
         {
-            ModuleStateChanged?.Invoke(this, new ModuleStateChangedEventArgs
-            {
-                ModuleId = moduleId,
-                OldState = oldState,
-                NewState = newState
-            });
+            ModuleStateChanged?.Invoke(this, new ModuleStateChangedEventArgs(moduleId, oldState, newState));
         }
     }
 }

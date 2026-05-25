@@ -123,7 +123,7 @@
 - [X] T034 [US4] Implement contract validation at registration time in `ModuleRegistry.cs` — validate that module assembly contains a type implementing IModule (via reflection), validate manifest fields are non-empty and well-formed
 - [X] T035 [US4] Implement version validation — compare module contract version string against host expected version; reject with clear error if mismatch
 - [X] T036 [US4] Implement dependency validation — check all dependency IDs exist in registry, detect circular dependencies via dependency graph cycle detection; reject with specific error listing missing or circular dependencies
-- [ ] T037 [US4] Implement settings schema rendering in Diagnostics UI — if module declares settings (via ISettingsSchema), render configuration fields from schema; save changes back to module's settings dictionary
+- [ ] T037 [US4] Implement settings schema rendering in Diagnostics UI — if module declares settings (via ISettingsSchema), render configuration fields from schema; save changes back to module's settings dictionary ( **deferred** — requires ISettingsSchema/SettingsSchema interfaces and module settings persistence, neither scoped in current Phase 9; revisit when module settings API is designed )
 
 **Checkpoint**: Administrators can monitor and manage all modules through the diagnostics view. Contract violations produce specific, actionable error messages.
 

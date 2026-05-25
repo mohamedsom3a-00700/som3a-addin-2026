@@ -22,11 +22,15 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Installed Plugins"
-                                   Style="{DynamicResource SectionHeaderStyle}"/>
+                                   Style="{DynamicResource SectionHeaderStyle}"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
                         <Button Grid.Column="1"
                                 Content="Refresh"
                                 Style="{DynamicResource ActionButtonStyle}"
-                                Command="{Binding RefreshCommand}"/>
+                                Command="{Binding RefreshCommand}"
+                                SnapsToDevicePixels="True"
+                                UseLayoutRounding="True"/>
                     </Grid>
 
                     <DataGrid ItemsSource="{Binding Modules}"

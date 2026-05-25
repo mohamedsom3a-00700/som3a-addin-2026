@@ -48,6 +48,18 @@ namespace Som3a_WPF_UI.Services
                     Debug.WriteLine($"Failed to register module '{manifest.Id}': {ex.Message}");
                 }
             }
+
+            if (_registry is PluginRegistry pluginRegistry)
+            {
+                try
+                {
+                    pluginRegistry.ValidateResolvedDependencies();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Dependency validation failed: {ex.Message}");
+                }
+            }
         }
 
         public Contracts.IModule? EnsureModuleLoaded(string moduleId)
@@ -63,65 +75,62 @@ namespace Som3a_WPF_UI.Services
                 var info = _registry.GetModuleInfo(moduleId);
                 if (info.State != ModuleState.Registered)
                     return null;
-            }
 
-            LogLifecycleEvent(moduleId, "LoadStart", $"Loading module '{moduleId}'...");
+                LogLifecycleEvent(moduleId, "LoadStart", $"Loading module '{moduleId}'...");
 
-            try
-            {
-                TransitionTo(moduleId, ModuleState.Loading);
-
-                var stopwatch = Stopwatch.StartNew();
-                var module = _loader.LoadModule(moduleId);
-                stopwatch.Stop();
-
-                var navReg = new NavigationRegistrar();
-                var ribbonReg = new RibbonRegistrar();
-                var cmdReg = new CommandRegistrar();
-                var context = new ModuleInitializationContext(_container, navReg, ribbonReg, cmdReg);
-
-                module.Initialize(context);
-
-                _moduleRegistrars[moduleId] = navReg;
-
-                foreach (var (pageId, title, pageType) in navReg.RegisteredPages)
+                try
                 {
-                    var fullKey = $"{moduleId}.{pageId}";
-                    _pageToModuleMap[fullKey] = moduleId;
+                    TransitionTo(moduleId, ModuleState.Loading);
 
-                    try
+                    var stopwatch = Stopwatch.StartNew();
+                    var module = _loader.LoadModule(moduleId);
+                    stopwatch.Stop();
+
+                    var navReg = new NavigationRegistrar();
+                    var ribbonReg = new RibbonRegistrar();
+                    var cmdReg = new CommandRegistrar();
+                    var context = new ModuleInitializationContext(_container, navReg, ribbonReg, cmdReg);
+
+                    module.Initialize(context);
+
+                    _moduleRegistrars[moduleId] = navReg;
+
+                    foreach (var (pageId, title, pageType) in navReg.RegisteredPages)
                     {
-                        _navigationService?.RegisterPage(pageType, fullKey, title);
+                        var fullKey = $"{moduleId}.{pageId}";
+                        _pageToModuleMap[fullKey] = moduleId;
+
+                        try
+                        {
+                            _navigationService?.RegisterPage(pageType, fullKey, title);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Failed to register page '{fullKey}' to navigation: {ex.Message}");
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"Failed to register page '{fullKey}' to navigation: {ex.Message}");
-                    }
-                }
 
-                var memBefore = GC.GetTotalMemory(false);
-                var memAfter = GC.GetTotalMemory(false);
+                    var memBefore = GC.GetTotalMemory(false);
+                    var memAfter = GC.GetTotalMemory(false);
 
-                if (_registry is PluginRegistry pluginRegistry)
-                    pluginRegistry.UpdateDiagnostics(moduleId, memAfter - memBefore, stopwatch.ElapsedMilliseconds);
+                    if (_registry is PluginRegistry pluginRegistry)
+                        pluginRegistry.UpdateDiagnostics(moduleId, memAfter - memBefore, stopwatch.ElapsedMilliseconds);
 
-                lock (_lock)
-                {
                     _initializedModules.Add(moduleId);
                     _loadedModuleInstances[moduleId] = module;
+
+                    TransitionTo(moduleId, ModuleState.Active);
+                    LogLifecycleEvent(moduleId, "LoadSuccess", $"Module '{moduleId}' loaded successfully in {stopwatch.ElapsedMilliseconds}ms.");
+
+                    return module;
                 }
-
-                TransitionTo(moduleId, ModuleState.Active);
-                LogLifecycleEvent(moduleId, "LoadSuccess", $"Module '{moduleId}' loaded successfully in {stopwatch.ElapsedMilliseconds}ms.");
-
-                return module;
-            }
-            catch (Exception ex)
-            {
-                TransitionTo(moduleId, ModuleState.Failed, ex.Message);
-                LogLifecycleEvent(moduleId, "LoadFailed", $"Module '{moduleId}' failed to load: {ex.Message}");
-                Debug.WriteLine($"Failed to load module '{moduleId}': {ex.Message}");
-                return null;
+                catch (Exception ex)
+                {
+                    TransitionTo(moduleId, ModuleState.Failed, ex.Message);
+                    LogLifecycleEvent(moduleId, "LoadFailed", $"Module '{moduleId}' failed to load: {ex.Message}");
+                    Debug.WriteLine($"Failed to load module '{moduleId}': {ex.Message}");
+                    return null;
+                }
             }
         }
 

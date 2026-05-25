@@ -129,12 +129,17 @@ namespace Som3a_WPF_UI.Services
 
         private void ValidateIntegrity(string moduleId, byte[] assemblyBytes, ModuleManifest manifest)
         {
+            if (string.IsNullOrWhiteSpace(manifest.Hash))
+                throw new InvalidOperationException(
+                    $"Assembly integrity check skipped for module '{moduleId}': manifest hash is empty or missing. " +
+                    $"Set manifest.Hash to the SHA256 of the assembly file.");
+
             using var sha256 = SHA256.Create();
             var computedHash = sha256.ComputeHash(assemblyBytes);
             var computed = BitConverter.ToString(computedHash).Replace("-", "").ToUpperInvariant();
-            var expected = (manifest.Hash ?? "").Trim().ToUpperInvariant();
+            var expected = manifest.Hash.Trim().ToUpperInvariant();
 
-            if (!string.IsNullOrEmpty(expected) && computed != expected)
+            if (computed != expected)
             {
                 throw new InvalidOperationException(
                     $"Assembly integrity check failed for module '{moduleId}'. " +
