@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTOResults>
+  <summary total="12" passed="11" failed="0" skipped="1" />
+  <test id="T037" name="AddInLoaded" status="pass" category="Setup" detail="Add-in Som3a Addin 2026 found in COMAddIns" timestamp="2026-05-25T21:39:27.8493195+03:00" />
+  <test id="T037" name="ComAutomation" status="pass" category="Setup" detail="COM automation interface connected" timestamp="2026-05-25T21:39:30.8906236+03:00" />
+  <test id="T054" name="MemoryBaseline" status="pass" category="Memory" detail="Working set: 377.9 MB at startup" timestamp="2026-05-25T21:39:31.3993034+03:00" />
+  <test id="T037-T046" name="Window_Som3a Add-in" status="pass" category="Window" detail="Opened in 267ms, mem delta: 82.7MB" timestamp="2026-05-25T21:39:32.2970566+03:00" />
+  <test id="T037-T046" name="Window_Comparison P6 Activity" status="pass" category="Window" detail="Opened in 107ms, mem delta: 13.9MB" timestamp="2026-05-25T21:39:33.5418802+03:00" />
+  <test id="T037" name="Window_Trades Codes" status="pass" category="Window" detail="Opened in 204ms, mem delta: 8.5MB" timestamp="2026-05-25T21:39:34.8089651+03:00" />
+  <test id="T037" name="Window_Daily Report" status="pass" category="Window" detail="Opened in 238ms, mem delta: 11.2MB" timestamp="2026-05-25T21:39:36.0897537+03:00" />
+  <test id="T042" name="ThemeSwitch_Dark" status="pass" category="Theme" detail="Theme switch in 1036ms, result: OK" timestamp="2026-05-25T21:39:37.6590512+03:00" />
+  <test id="T042" name="ThemeSwitch_Light" status="pass" category="Theme" detail="Theme switch in 1222ms, result: OK" timestamp="2026-05-25T21:39:38.9051310+03:00" />
+  <test id="T042" name="ThemeSwitch_Custom" status="pass" category="Theme" detail="Theme switch in 1035ms, result: OK" timestamp="2026-05-25T21:39:39.9686895+03:00" />
+  <test id="T048" name="RapidThemeSwitch_10x" status="pass" category="Theme" detail="10 rapid switches completed, memory: 504.4 MB" timestamp="2026-05-25T21:39:42.3419313+03:00" />
+  <test id="T054" name="MemoryStability" status="warn" category="Memory" detail="Memory growth: 33.5pct (baseline: 377.9MB, final: 504.4MB)" timestamp="2026-05-25T21:39:42.3596821+03:00" />
+</VSTOResults>

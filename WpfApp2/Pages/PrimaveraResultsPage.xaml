@@ -1,0 +1,70 @@
+<Page x:Class="Som3a_WPF_UI.Pages.PrimaveraResultsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Primavera Comparison Results"
+      Background="{DynamicResource Brush.Background.Primary}"
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True">
+
+    <Grid Margin="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- TITLE BAR -->
+        <Grid Grid.Row="0" x:Name="TitleBar"
+              Margin="{DynamicResource TitleBarMargin}">
+            <TextBlock Text="Primavera Comparison Results"
+                       Foreground="{DynamicResource TextMainBrush}"
+                       FontSize="14" FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- CONTENT -->
+        <Grid Grid.Row="1" Margin="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- HEADER -->
+            <Border Grid.Row="0"
+                    Background="{DynamicResource CardBrush}"
+                    BorderBrush="{DynamicResource CardStrokeBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{DynamicResource LargeRadius}"
+                    Padding="16" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{Binding Result}"
+                               FontSize="18" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextMainBrush}"/>
+                    <TextBlock Margin="0,6,0,0"
+                               Foreground="{DynamicResource TextSubBrush}"
+                               Text="{Binding Result.Summary}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- TABS -->
+            <Border Grid.Row="1"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource CardStrokeBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{DynamicResource LargeRadius}"
+                    Padding="10">
+                <TabControl>
+                    <TabItem Header="Activities">
+                        <DataGrid ItemsSource="{Binding ActivityRows}"/>
+                    </TabItem>
+                    <TabItem Header="Relationships">
+                        <DataGrid ItemsSource="{Binding RelationshipRows}"/>
+                    </TabItem>
+                    <TabItem Header="Resources">
+                        <DataGrid ItemsSource="{Binding ResourceRows}"/>
+                    </TabItem>
+                </TabControl>
+            </Border>
+        </Grid>
+    </Grid>
+
+</Page>

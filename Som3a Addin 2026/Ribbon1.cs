@@ -25,12 +25,6 @@ namespace Som3a_Addin_2026
 {
     public partial class Ribbon1
     {
-        private MainWindow _window;
-        private FixPieColorsWindow _pieWindow;
-
-        // ✅ Trades Codes window
-        private AssignTradeCodesWindow _tradeWindow;
-
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             LoadRibbonImages();
@@ -277,29 +271,16 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                if (_window == null || !_window.IsVisible)
-                {
-                    Excel.Application xlApp = Globals.ThisAddIn.Application;
-
-                    _window = new MainWindow();
-                    _window.AttachExcel(xlApp);
-
-                    var helper = new WindowInteropHelper(_window);
-                    helper.Owner = new IntPtr(xlApp.Hwnd);
-
-                    _window.Closed += (s, args) => { _window = null; };
-
-                    _window.Show();
-                    _window.Activate();
-                }
-                else
-                {
-                    _window.Activate();
-                }
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("main");
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.ToString(), "Error");
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "Comparison Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
         }
 
@@ -307,108 +288,88 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                Excel.Application xlApp = Globals.ThisAddIn.Application;
-
-                if (_pieWindow == null || !_pieWindow.IsVisible)
-                {
-                    _pieWindow = new FixPieColorsWindow();
-                    _pieWindow.AttachExcel(xlApp);
-
-                    var helper = new WindowInteropHelper(_pieWindow);
-                    helper.Owner = new IntPtr(xlApp.Hwnd);
-
-                    _pieWindow.Closed += (s, args) => { _pieWindow = null; };
-
-                    _pieWindow.Show();
-                    _pieWindow.Activate();
-                }
-                else
-                {
-                    _pieWindow.Activate();
-                }
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("fix-pie-colors");
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.ToString(), "Error");
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "Fix Pie Colors Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
         }
 
-        // ✅ Trades Codes button
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
             try
             {
-                Excel.Application xlApp = Globals.ThisAddIn.Application;
-
-                if (_tradeWindow == null || !_tradeWindow.IsVisible)
-                {
-                    _tradeWindow = new AssignTradeCodesWindow();
-
-                    // لو نافذتك فيها AttachExcel زي باقي النوافذ (مُستحسن)
-                    // _tradeWindow.AttachExcel(xlApp);
-
-                    var helper = new WindowInteropHelper(_tradeWindow);
-                    helper.Owner = new IntPtr(xlApp.Hwnd);
-
-                    _tradeWindow.Closed += (s, args) => { _tradeWindow = null; };
-
-                    _tradeWindow.Show();
-                    _tradeWindow.Activate();
-                }
-                else
-                {
-                    _tradeWindow.Activate();
-                }
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("assign-trade-codes");
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.ToString(), "Error");
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "Assign Trade Codes Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
         }
         private void btnUnmergeFillDown_Click(object sender, RibbonControlEventArgs e)
         {
-            Excel.Application app = Globals.ThisAddIn.Application;
-            var win = new UnmergeFillDownWindow(app);
-            WpfDialogHost.ShowDialog(win, app);
+            RegisterShellPages();
+            NavigationService.Instance.NavigateTo("unmerge-fill-down");
         }
 
         private void btnDailyReport_Click(object sender, RibbonControlEventArgs e)
         {
             try
             {
-                Excel.Application app = Globals.ThisAddIn.Application;
-
-                var w = new SubDailyReportWindow(app);
-
-
-                ExcelWindowHandle.SetOwnerToExcel(w, app);
-
-
-                w.ShowDialog();
-
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("sub-daily-report");
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.ToString(), "DailyReport Error");
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "Sub Daily Report Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
         }
         private void btnLinksManager_Click(object sender, RibbonControlEventArgs e)
         {
-            var app = Globals.ThisAddIn.Application;
-            LinksManagerLauncher.Show(app);
+            try
+            {
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("links-manager");
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "Links Manager Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+            }
         }
 
         private void btnProjectAnalysis_Click(object sender, RibbonControlEventArgs e)
         {
             try
             {
-                var app = Globals.ThisAddIn.Application;
-                Som3a_Addin_2026.UI.WpfDialogHost.Show(app.Hwnd, () =>
-                    new Som3a_WPF_UI.Ui.ProjectAnalysisWindow(app));
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("project-analysis");
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.ToString(), "Open Project Analysis Failed");
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "Project Analysis Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
         }
 
@@ -622,11 +583,6 @@ namespace Som3a_Addin_2026
 
         private void CloseAllToolWindows()
         {
-            try { if (_window != null) { _window.Close(); _window = null; } } catch { }
-            try { if (_pieWindow != null) { _pieWindow.Close(); _pieWindow = null; } } catch { }
-            try { if (_tradeWindow != null) { _tradeWindow.Close(); _tradeWindow = null; } } catch { }
-
-            // لو عندك DialogHost / أي Hosts تانية اقفلها هنا برضه
         }
         public void PrepareForReloadInternal()
         {
@@ -654,50 +610,75 @@ namespace Som3a_Addin_2026
         {
 
         }
-        private Float_path _Float_path;
         private RibbonGroup _groupModules;
 
         private void Float_Path_Click(object sender, RibbonControlEventArgs e)
         {
-            if (_Float_path == null || !_Float_path.IsLoaded)
+            try
             {
-                _Float_path = new Float_path();
-                _Float_path.Show();
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("float-path");
             }
-            else
+            catch (Exception ex)
             {
-                _Float_path.Activate();
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "Float Path Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
         }
 
         private void color_setting_Click(object sender, RibbonControlEventArgs e)
         {
-            var win = new StyleSelectorWindow();
-            win.ShowDialog();
+            try
+            {
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("style-selector");
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "Style Selector Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+            }
         }
 
         private void Xer_Editor_Click(object sender, RibbonControlEventArgs e)
         {
-            var win = new Som3a_WPF_UI.XerEditorWindow();
-
-            if (win == null || !win.IsLoaded)
+            try
             {
-                win.Show();
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("xer-editor");
             }
-            else
+            catch (Exception ex)
             {
-                win.Activate();
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "XER Editor Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
-
         }
 
         private void Com_Xer_Click(object sender, RibbonControlEventArgs e)
         {
-                var window =
-                    new PrimaveraCompareWindow();
-
-                window.ShowDialog();
+            try
+            {
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("primavera-compare");
             }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    ex.ToString(),
+                    "Primavera Compare Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+            }
+        }
 
         private static bool _shellPagesRegistered;
 
@@ -705,7 +686,21 @@ namespace Som3a_Addin_2026
         {
             if (_shellPagesRegistered) return;
 
-            NavigationService.Instance.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("welcome", "Home", "🏠", 0);
+            var nav = NavigationService.Instance;
+            nav.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("welcome", "Home", null, 0);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.MainPage>("main", "Comparison P6", null, 10);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.SettingsPage>("settings", "Settings", null, 20);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.ProjectAnalysisPage>("project-analysis", "Project Analysis", null, 30);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.FloatPathPage>("float-path", "Float Path", null, 40);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.LinksManagerPage>("links-manager", "Links Manager", null, 50);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.SubDailyReportPage>("sub-daily-report", "Sub Daily Report", null, 60);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.AssignTradeCodesPage>("assign-trade-codes", "Assign Trade Codes", null, 70);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.PrimaveraComparePage>("primavera-compare", "Primavera Compare", null, 80);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.PrimaveraResultsPage>("primavera-results", "Primavera Results", null, 90);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.XerEditorPage>("xer-editor", "XER Editor", null, 100);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.FixPieColorsPage>("fix-pie-colors", "Fix Pie Colors", null, 110);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.StyleSelectorPage>("style-selector", "Style Selector", null, 120);
+            nav.RegisterPage<Som3a_WPF_UI.Pages.UnmergeFillDownPage>("unmerge-fill-down", "Unmerge Fill Down", null, 130);
             _shellPagesRegistered = true;
         }
 
@@ -730,47 +725,8 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                if (System.Windows.Application.Current == null)
-                {
-                    new System.Windows.Application
-                    {
-                        ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown
-                    };
-                }
-
-                System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                {
-                    var existing = System.Windows.Application.Current.Windows
-                        .OfType<Som3a_WPF_UI.Views.SettingsWindow>()
-                        .FirstOrDefault();
-
-                    if (existing != null)
-                    {
-                        existing.Activate();
-                        existing.Focus();
-                        return;
-                    }
-
-                    Som3a_WPF_UI.Services.ThemeManager.LoadSettings();
-
-                    var win = new Som3a_WPF_UI.Views.SettingsWindow();
-
-                    var excelHandle = new IntPtr(
-                        Globals.ThisAddIn.Application.Hwnd);
-
-                    new System.Windows.Interop.WindowInteropHelper(win)
-                    {
-                        Owner = excelHandle
-                    };
-
-                    win.WindowStartupLocation =
-                        System.Windows.WindowStartupLocation.CenterScreen;
-
-                    win.Topmost = true;
-                    win.Activate();
-
-                    win.ShowDialog();
-                });
+                RegisterShellPages();
+                NavigationService.Instance.NavigateTo("settings");
             }
             catch (Exception ex)
             {
