@@ -112,7 +112,9 @@
     <Compile Include="Services\ExcelProjectAnalysisService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\ShellNavigationHelper.cs" />
+    <Compile Include="Theme\Controls\AnimationProperties.cs" />
     <Compile Include="Services\ThemeSettings.cs" />
+    <Compile Include="Services\SettingsPersistenceService.cs" />
     <Compile Include="Services\ThemeManager.cs" />
     <Compile Include="Services\WindowRenderModeDetector.cs" />
     <Compile Include="Services\RenderModeService.cs" />
@@ -136,6 +138,9 @@
     <Compile Include="ViewModels\Primavera\PrimaveraResultsViewModel.cs" />
     <Compile Include="ViewModels\ProjectAnalysisViewModel.cs" />
     <Compile Include="Models\RelayCommand.cs" />
+    <Compile Include="Models\UserSettings.cs" />
+    <Compile Include="Models\SettingsExport.cs" />
+    <Compile Include="Models\SettingsCategory.cs" />
     <Compile Include="ViewModels\SubDailyReportViewModel.cs" />
     <Compile Include="ViewModels\UnmergeFillDownViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -146,6 +151,24 @@
     <Compile Include="Controls\ModernWindow.cs" />
     <Compile Include="Views\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AppearancePanel.xaml.cs">
+      <DependentUpon>AppearancePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PerformancePanel.xaml.cs">
+      <DependentUpon>PerformancePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccessibilityPanel.xaml.cs">
+      <DependentUpon>AccessibilityPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DiagnosticsPanel.xaml.cs">
+      <DependentUpon>DiagnosticsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExcelPanel.xaml.cs">
+      <DependentUpon>ExcelPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PluginsPanel.xaml.cs">
+      <DependentUpon>PluginsPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Fixpiecolors.xaml.cs">
       <DependentUpon>Fixpiecolors.xaml</DependentUpon>
@@ -437,6 +460,34 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AppearancePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PerformancePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccessibilityPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DiagnosticsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExcelPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PluginsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Controls\SettingsPanelStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

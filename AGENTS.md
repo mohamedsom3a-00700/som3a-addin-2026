@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/009-mvvm-architecture-cleanup/plan.md
+at: specs/001-settings-personalization-ux/plan.md
 
 Also refer to the master implementation plan:
 - implementation_plan.md — Full execution plan for Phases 0-11

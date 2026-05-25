@@ -1,0 +1,284 @@
+<UserControl x:Class="Som3a_WPF_UI.Views.AppearancePanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+
+            <!-- Theme Cards Section -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Theme"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center">
+
+                        <ToggleButton Width="{DynamicResource Component.ThemeCard.Width}"
+                                      Height="{DynamicResource Component.ThemeCard.Height}"
+                                      Margin="0,0,16,0"
+                                      Tag="Dark"
+                                      Command="{Binding ThemeCardCommand}"
+                                      CommandParameter="Dark"
+                                      IsChecked="{Binding IsDarkSelected, Mode=OneWay}"
+                                      Style="{DynamicResource ThemeCardToggleStyle}"
+                                      AutomationProperties.Name="Dark Theme Card">
+                            <Grid>
+                                <Border CornerRadius="{DynamicResource MediumRadius}">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="{DynamicResource Color.Background.RootStart}" Offset="0"/>
+                                            <GradientStop Color="{DynamicResource Color.Background.RootEnd}" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"/>
+                                <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
+                                    <TextBlock Text="Dark" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"/>
+                                    <TextBlock Text="Full dark theme" Foreground="{DynamicResource TextSubBrush}" FontSize="10"/>
+                                </StackPanel>
+                            </Grid>
+                        </ToggleButton>
+
+                        <ToggleButton Width="{DynamicResource Component.ThemeCard.Width}"
+                                      Height="{DynamicResource Component.ThemeCard.Height}"
+                                      Margin="0,0,16,0"
+                                      Tag="Light"
+                                      Command="{Binding ThemeCardCommand}"
+                                      CommandParameter="Light"
+                                      IsChecked="{Binding IsLightSelected, Mode=OneWay}"
+                                      Style="{DynamicResource ThemeCardToggleStyle}"
+                                      AutomationProperties.Name="Light Theme Card">
+                            <Grid>
+                                <Border CornerRadius="{DynamicResource MediumRadius}">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="{DynamicResource Color.Background.RootStart.Light}" Offset="0"/>
+                                            <GradientStop Color="{DynamicResource Color.Background.RootEnd.Light}" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Border VerticalAlignment="Bottom" Height="6" Background="{DynamicResource AccentBrush}"/>
+                                <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
+                                    <TextBlock Text="Light" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"/>
+                                    <TextBlock Text="Clean light theme" Foreground="{DynamicResource TextSubBrush}" FontSize="10"/>
+                                </StackPanel>
+                            </Grid>
+                        </ToggleButton>
+
+                        <ToggleButton Width="{DynamicResource Component.ThemeCard.Width}"
+                                      Height="{DynamicResource Component.ThemeCard.Height}"
+                                      Tag="Custom"
+                                      Command="{Binding ThemeCardCommand}"
+                                      CommandParameter="Custom"
+                                      IsChecked="{Binding IsCustomSelected, Mode=OneWay}"
+                                      Style="{DynamicResource ThemeCardToggleStyle}"
+                                      AutomationProperties.Name="Custom Theme Card">
+                            <Grid>
+                                <Border CornerRadius="{DynamicResource MediumRadius}">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="{DynamicResource Color.Background.RootStart}" Offset="0"/>
+                                            <GradientStop Color="{DynamicResource Color.Background.RootEnd}" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Border VerticalAlignment="Bottom" Height="6">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="{DynamicResource AccentColorValue}" Offset="0"/>
+                                            <GradientStop Color="{DynamicResource AccentColorLight}" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <StackPanel VerticalAlignment="Bottom" Margin="10,0,10,10">
+                                    <TextBlock Text="Custom" Foreground="{DynamicResource TextMainBrush}" FontWeight="SemiBold" FontSize="13"/>
+                                    <TextBlock Text="Your accent color" Foreground="{DynamicResource TextSubBrush}" FontSize="10"/>
+                                </StackPanel>
+                            </Grid>
+                        </ToggleButton>
+
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Accent Swatches -->
+            <Border>
+                <Border.Style>
+                    <Style TargetType="Border" BasedOn="{StaticResource PanelSectionStyle}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AccentSwatchesVisible}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Accent Color"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+
+                    <ItemsControl Grid.Column="1"
+                                  ItemsSource="{Binding AccentSwatches}"
+                                  VerticalAlignment="Center">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.AccentSwatchCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        CommandParameter="{Binding Hex}"
+                                        ToolTip="{Binding Name}"
+                                        Focusable="True"
+                                        AutomationProperties.Name="{Binding AutomationName}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Padding="0"
+                                        Margin="0,0,10,0"
+                                        Width="26"
+                                        Height="26">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid>
+                                                <Ellipse Fill="{Binding Brush}"
+                                                         Width="22" Height="22"
+                                                         Stroke="{DynamicResource Brush.Control.Stroke}"
+                                                         StrokeThickness="1"/>
+                                                <Border Width="26" Height="26"
+                                                        CornerRadius="13"
+                                                        BorderBrush="{DynamicResource AccentBrush}"
+                                                        BorderThickness="2"
+                                                        Opacity="0">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                                    <Setter Property="Opacity" Value="1"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Border>
+
+            <!-- Background Style -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Background Style"
+                               Style="{DynamicResource SettingLabelStyle}"/>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <RadioButton Content="Solid"
+                                     GroupName="BgStyle"
+                                     Margin="0,0,20,0"
+                                     IsChecked="{Binding BackgroundSolid, Mode=OneWay}"
+                                     Command="{Binding BackgroundStyleCommand}"
+                                     CommandParameter="Solid"
+                                     Foreground="{DynamicResource TextMainBrush}"
+                                     AutomationProperties.Name="Solid Background Style"/>
+                        <RadioButton Content="Gradient"
+                                     GroupName="BgStyle"
+                                     IsChecked="{Binding BackgroundGradient, Mode=OneWay}"
+                                     Command="{Binding BackgroundStyleCommand}"
+                                     CommandParameter="Gradient"
+                                     Foreground="{DynamicResource TextMainBrush}"
+                                     AutomationProperties.Name="Gradient Background Style"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Live Preview Area -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <StackPanel>
+                    <TextBlock Text="Preview"
+                               Style="{DynamicResource SectionHeaderStyle}"/>
+                <Border x:Name="PreviewArea"
+                        Height="160"
+                        CornerRadius="{DynamicResource MediumRadius}"
+                        Background="{DynamicResource CardBrush}"
+                        BorderBrush="{DynamicResource CardStrokeBrush}"
+                        BorderThickness="1"
+                        Padding="16">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Theme Preview"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextMainBrush}"/>
+                        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                            <TextBlock Text="Sample Heading" 
+                                       FontSize="20" 
+                                       FontWeight="Bold"
+                                       Foreground="{DynamicResource TextMainBrush}"/>
+                            <TextBlock Text="Sample body text for preview purposes"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource TextSubBrush}"
+                                       Margin="0,8,0,0"/>
+                            <Border Width="80"
+                                    Height="6"
+                                    CornerRadius="3"
+                                    Background="{DynamicResource AccentBrush}"
+                                    Margin="0,12,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Apply / Cancel -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Apply"
+                            Width="120"
+                            Height="34"
+                            Style="{DynamicResource PrimaryButton}"
+                            Command="{Binding ApplyThemeCommand}"
+                            Margin="0,0,10,0"/>
+                    <Button Content="Cancel"
+                            Width="120"
+                            Height="34"
+                            Style="{DynamicResource GhostButton}"
+                            Command="{Binding CancelPreviewCommand}"/>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

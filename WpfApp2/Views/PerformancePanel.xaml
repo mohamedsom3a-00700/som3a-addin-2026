@@ -1,0 +1,84 @@
+<UserControl x:Class="Som3a_WPF_UI.Views.PerformancePanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+
+            <!-- Animation Speed -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <StackPanel>
+                    <TextBlock Text="Animation Speed"
+                               Style="{DynamicResource SectionHeaderStyle}"/>
+                    <StackPanel Margin="0,0,0,12">
+                        <RadioButton Content="Off"
+                                     GroupName="AnimSpeed"
+                                     Margin="0,0,0,8"
+                                     IsChecked="{Binding AnimationOff, Mode=OneWay}"
+                                     Command="{Binding AnimationSpeedCommand}"
+                                     CommandParameter="Off"
+                                     Foreground="{DynamicResource TextMainBrush}"
+                                     AutomationProperties.Name="Animation Speed Off"/>
+                        <RadioButton Content="Reduced"
+                                     GroupName="AnimSpeed"
+                                     Margin="0,0,0,8"
+                                     IsChecked="{Binding AnimationReduced, Mode=OneWay}"
+                                     Command="{Binding AnimationSpeedCommand}"
+                                     CommandParameter="Reduced"
+                                     Foreground="{DynamicResource TextMainBrush}"
+                                     AutomationProperties.Name="Animation Speed Reduced"/>
+                        <RadioButton Content="Full"
+                                     GroupName="AnimSpeed"
+                                     IsChecked="{Binding AnimationFull, Mode=OneWay}"
+                                     Command="{Binding AnimationSpeedCommand}"
+                                     CommandParameter="Full"
+                                     Foreground="{DynamicResource TextMainBrush}"
+                                     AutomationProperties.Name="Animation Speed Full"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- UI Density -->
+            <Border Style="{DynamicResource PanelSectionStyle}">
+                <StackPanel>
+                    <TextBlock Text="UI Density"
+                               Style="{DynamicResource SectionHeaderStyle}"/>
+                    <StackPanel Margin="0,0,0,12">
+                    <RadioButton Content="Compact"
+                                 GroupName="UiDensity"
+                                 Margin="0,0,0,8"
+                                 IsChecked="{Binding DensityCompact, Mode=OneWay}"
+                                 Command="{Binding DensityCommand}"
+                                 CommandParameter="Compact"
+                                 Foreground="{DynamicResource TextMainBrush}"
+                                 AutomationProperties.Name="UI Density Compact"/>
+                    <RadioButton Content="Normal"
+                                 GroupName="UiDensity"
+                                 Margin="0,0,0,8"
+                                 IsChecked="{Binding DensityNormal, Mode=OneWay}"
+                                 Command="{Binding DensityCommand}"
+                                 CommandParameter="Normal"
+                                 Foreground="{DynamicResource TextMainBrush}"
+                                 AutomationProperties.Name="UI Density Normal"/>
+                    <RadioButton Content="Spacious"
+                                 GroupName="UiDensity"
+                                 IsChecked="{Binding DensitySpacious, Mode=OneWay}"
+                                 Command="{Binding DensityCommand}"
+                                 CommandParameter="Spacious"
+                                 Foreground="{DynamicResource TextMainBrush}"
+                                 AutomationProperties.Name="UI Density Spacious"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

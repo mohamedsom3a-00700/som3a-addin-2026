@@ -39,6 +39,7 @@ namespace Som3a_WPF_UI
             container.RegisterTransient<MainViewModel, MainViewModel>();
             container.RegisterTransient<ShellViewModel, ShellViewModel>();
 
+            container.RegisterTransient<SettingsPersistenceService, SettingsPersistenceService>();
             container.RegisterTransient<SettingsViewModel, SettingsViewModel>();
             container.RegisterTransient<WbsStyleSelectorViewModel, WbsStyleSelectorViewModel>();
 

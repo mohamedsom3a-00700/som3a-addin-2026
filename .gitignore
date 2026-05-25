@@ -266,6 +266,7 @@ FodyWeavers.xsd
 # Error diagnostics (may contain local paths / usernames)
 # -----------------------------------------------------------------------------
 Error/
+Errortofix/
 
 # -----------------------------------------------------------------------------
 # Extraction notes

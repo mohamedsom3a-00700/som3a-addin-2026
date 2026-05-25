@@ -84,9 +84,9 @@ namespace Som3a_Addin_2026
                                     }
                                 }
                             }
-                            catch
+                            catch (Exception ex)
                             {
-                                // Ignore invalid images
+                                System.Diagnostics.Trace.WriteLine($"Failed to load image for {button.Name}: {ex.Message}");
                             }
                         }
                     }

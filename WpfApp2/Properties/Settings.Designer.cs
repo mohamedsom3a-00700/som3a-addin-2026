@@ -46,5 +46,89 @@ namespace Som3a_WPF_UI.Properties {
                 this["AccentColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Full")]
+        public string AnimationSpeed {
+            get {
+                return ((string)(this["AnimationSpeed"]));
+            }
+            set {
+                this["AnimationSpeed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public string UiDensity {
+            get {
+                return ((string)(this["UiDensity"]));
+            }
+            set {
+                this["UiDensity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Gradient")]
+        public string BackgroundStyle {
+            get {
+                return ((string)(this["BackgroundStyle"]));
+            }
+            set {
+                this["BackgroundStyle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HighContrastEnabled {
+            get {
+                return ((bool)(this["HighContrastEnabled"]));
+            }
+            set {
+                this["HighContrastEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FocusIndicatorEnabled {
+            get {
+                return ((bool)(this["FocusIndicatorEnabled"]));
+            }
+            set {
+                this["FocusIndicatorEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Auto")]
+        public string RenderMode {
+            get {
+                return ((string)(this["RenderMode"]));
+            }
+            set {
+                this["RenderMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SafeModeEnabled {
+            get {
+                return ((bool)(this["SafeModeEnabled"]));
+            }
+            set {
+                this["SafeModeEnabled"] = value;
+            }
+        }
     }
 }
