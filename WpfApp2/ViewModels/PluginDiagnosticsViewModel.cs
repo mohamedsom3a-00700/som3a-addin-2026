@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Services;
@@ -14,13 +15,20 @@ namespace Som3a_WPF_UI.ViewModels
 
         public ObservableCollection<PluginEntryViewModel> Modules { get; } = new();
 
-        public PluginDiagnosticsViewModel(
-            ModuleDiagnosticsService diagnosticsService,
-            Som3a_WPF_UI.Contracts.IModuleRegistry registry)
+        public PluginDiagnosticsViewModel(IServiceContainer serviceContainer)
         {
-            _diagnosticsService = diagnosticsService ?? throw new ArgumentNullException(nameof(diagnosticsService));
-            _registry = registry ?? throw new ArgumentNullException(nameof(registry));
-            _diagnosticsService.SnapshotUpdated += (s, e) => Refresh();
+            if (serviceContainer is null)
+                throw new ArgumentNullException(nameof(serviceContainer));
+
+            _diagnosticsService = serviceContainer.Resolve<ModuleDiagnosticsService>();
+            _registry = serviceContainer.Resolve<Som3a_WPF_UI.Contracts.IModuleRegistry>();
+            _diagnosticsService.SnapshotUpdated += (s, e) =>
+            {
+                if (Application.Current.Dispatcher.CheckAccess())
+                    Refresh();
+                else
+                    Application.Current.Dispatcher.Invoke(Refresh);
+            };
             RefreshCommand = new RelayCommand(_ => Refresh());
         }
 
@@ -46,7 +54,7 @@ namespace Som3a_WPF_UI.ViewModels
         }
     }
 
-    public class PluginEntryViewModel
+    public class PluginEntryViewModel : ViewModelBase
     {
         public string ModuleId { get; set; } = "";
         public string Version { get; set; } = "";

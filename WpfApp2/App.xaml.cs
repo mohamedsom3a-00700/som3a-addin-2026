@@ -50,8 +50,9 @@ namespace Som3a_WPF_UI
                     {
                         return Assembly.LoadFrom(assemblyPath);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        System.Diagnostics.Debug.WriteLine($"AssemblyResolve failed for '{assemblyPath}': {ex.Message}");
                     }
                 }
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using Som3a_WPF_UI.Services;
@@ -19,14 +20,13 @@ namespace Som3a_WPF_UI.Views
             {
                 try
                 {
-                    var diagnostics = App.Container.Resolve<ModuleDiagnosticsService>();
-                    var registry = App.Container.Resolve<Som3a_WPF_UI.Contracts.IModuleRegistry>();
-                    var vm = new PluginDiagnosticsViewModel(diagnostics, registry);
+                    var vm = new PluginDiagnosticsViewModel(App.Container);
                     vm.Refresh();
                     DataContext = vm;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    System.Diagnostics.Debug.WriteLine($"PluginsPanel initialization failed: {ex.Message}");
                 }
             }
         }

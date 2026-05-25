@@ -1,10 +1,18 @@
 <UserControl x:Class="Som3a_WPF_UI.Controls.ModuleLoadingOverlay"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
 
-    <Grid Background="{DynamicResource Brush.Overlay.Background}">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Grid Width="50" Height="50">
+    <Grid Background="{DynamicResource Brush.Overlay.Background}"
+          SnapsToDevicePixels="True"
+          UseLayoutRounding="True">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+            <Grid Width="50" Height="50"
+                  SnapsToDevicePixels="True"
+                  UseLayoutRounding="True">
                 <Ellipse Stroke="{DynamicResource AccentBrush}" StrokeThickness="4" Opacity="0.3"/>
                 <Ellipse Stroke="{DynamicResource AccentBrush}" StrokeThickness="4"
                          StrokeDashArray="2,2" StrokeDashOffset="0">
@@ -17,12 +25,16 @@
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="{DynamicResource HeaderFontSize}"
                        Margin="0,16,0,0"
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center"
+                       SnapsToDevicePixels="True"
+                       UseLayoutRounding="True"/>
             <TextBlock Text="Loading module..."
                        Foreground="{DynamicResource TextSubBrush}"
                        FontSize="{DynamicResource CaptionFontSize}"
                        Margin="0,8,0,0"
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center"
+                       SnapsToDevicePixels="True"
+                       UseLayoutRounding="True"/>
         </StackPanel>
     </Grid>
 </UserControl>

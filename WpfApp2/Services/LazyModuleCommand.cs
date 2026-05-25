@@ -38,7 +38,8 @@ namespace Som3a_WPF_UI.Services
                     _moduleLoaded = module is not null || _orchestrator.IsModuleLoaded(_moduleId);
                 }
 
-                _innerCommand.Execute(parameter);
+                if (_moduleLoaded)
+                    _innerCommand.Execute(parameter);
             }
             catch (Exception ex)
             {

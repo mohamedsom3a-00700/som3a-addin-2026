@@ -46,7 +46,7 @@ namespace Som3a_WPF_UI.Services
                 MemoryBytes = m.MemoryBytes,
                 LoadTimeMs = m.LoadTimeMs,
                 LastError = m.LastError,
-                Capabilities = m.Capabilities
+                Capabilities = m.Capabilities?.ToArray() ?? Array.Empty<string>()
             }).ToList();
 
             SnapshotUpdated?.Invoke(this, EventArgs.Empty);

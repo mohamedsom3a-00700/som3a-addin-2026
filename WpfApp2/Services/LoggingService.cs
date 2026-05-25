@@ -166,8 +166,11 @@ namespace Som3a_WPF_UI.Services
             var timestamp = entry.Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
             var safeMessage = SanitizeLogField(entry.Message);
             var safeException = SanitizeLogField(entry.Exception);
+            var safeSeverity = SanitizeLogField(entry.Severity);
+            var safeCategory = SanitizeLogField(entry.Category);
+            var safeSource = SanitizeLogField(entry.Source);
             var ex = string.IsNullOrEmpty(safeException) ? "" : $" | {safeException}";
-            return $"[{timestamp}] [{entry.Severity}] [{entry.Category}] [{entry.Source}] {safeMessage}{ex}{Environment.NewLine}";
+            return $"[{timestamp}] [{safeSeverity}] [{safeCategory}] [{safeSource}] {safeMessage}{ex}{Environment.NewLine}";
         }
 
         private static string SanitizeLogField(string value)

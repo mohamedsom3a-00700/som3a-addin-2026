@@ -27,7 +27,7 @@ Registered → Loading → Active → Failed (terminal)
 | Loading | Assembly load in progress; loading spinner visible |
 | Active | Module loaded, initialized, and ready for use |
 | Failed | Module load or initialization failed; manual retry required |
-| Unloaded | Module explicitly unloaded via diagnostics UI; assembly unloaded |
+| Unloaded | Logically deactivated (module stopped; requires AppDomain or process unload to reclaim assembly) |
 | Disabled | Module explicitly disabled by user; not loaded on navigation |
 
 ### State Transition Rules
