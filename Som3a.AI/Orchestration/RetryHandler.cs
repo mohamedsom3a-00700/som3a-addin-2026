@@ -6,7 +6,7 @@ namespace Som3a.AI.Orchestration
         private readonly int _maxConsecutiveFailures = 5;
 
         public int MaxConsecutiveFailures => _maxConsecutiveFailures;
-        public int[] BackoffSeconds => _backoffSeconds;
+        public IReadOnlyList<int> BackoffSeconds => Array.AsReadOnly(_backoffSeconds);
 
         public async Task<T?> ExecuteWithRetryAsync<T>(Func<Task<T>> action, CancellationToken ct = default)
         {

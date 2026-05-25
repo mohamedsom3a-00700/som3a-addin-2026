@@ -39,9 +39,12 @@ namespace Som3a.Plugin.SDK.Hosting
 
         public bool Initialize(IPluginContext context)
         {
+            if (_pluginInstance == null)
+                return false;
+
             try
             {
-                _pluginInstance?.Initialize(context);
+                _pluginInstance.Initialize(context);
                 _initialized = true;
                 return true;
             }

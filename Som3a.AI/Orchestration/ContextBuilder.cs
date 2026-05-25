@@ -40,16 +40,17 @@ namespace Som3a.AI.Orchestration
 
         private string BuildActivityContext(IEnumerable<Activity> activities)
         {
+            var activityList = activities.ToList();
             var sb = new StringBuilder();
             sb.AppendLine("Activities:");
-            foreach (var a in activities)
+            foreach (var a in activityList)
             {
                 sb.AppendLine($"  [{a.ActivityId}] {a.Name}");
                 if (a.Duration.HasValue)
                     sb.AppendLine($"    Duration: {a.Duration}, Qty: {a.Quantity} {a.Unit}");
                 sb.AppendLine($"    WBS: {a.WBSNode?.FullPath ?? "N/A"}");
             }
-            sb.AppendLine($"Total: {activities.Count()} activities");
+            sb.AppendLine($"Total: {activityList.Count} activities");
             return sb.ToString();
         }
 

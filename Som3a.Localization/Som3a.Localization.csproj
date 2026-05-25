@@ -10,9 +10,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Som3a.Contracts\Som3a.Contracts.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-  </ItemGroup>
 </Project>

@@ -21,7 +21,7 @@ namespace Som3a.Infrastructure.Configuration
 
         public string GetValue(string key, string defaultValue = "")
         {
-            if (_values.TryGetValue(key, out var element))
+            if (_values.TryGetValue(key, out var element) && element.ValueKind == JsonValueKind.String)
                 return element.GetString() ?? defaultValue;
             return defaultValue;
         }

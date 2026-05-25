@@ -68,6 +68,13 @@ namespace Som3a.Domain.WBS
 
         public void AddChild(WBSNode child)
         {
+            if (child == null)
+                throw new ArgumentNullException(nameof(child));
+            if (Children.Contains(child))
+                throw new ArgumentException("Child is already a child of this node.", nameof(child));
+            if (child.Parent != null && child.Parent != this)
+                throw new InvalidOperationException("Cannot reparent a WBSNode from another parent.");
+
             child.Parent = this;
             Children.Add(child);
         }

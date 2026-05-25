@@ -196,6 +196,7 @@ Build WPF host with Bridge reference:
 ### Project Dependency Graph
 
 ```
+text
 Som3a.Contracts (no dependencies)
     |
 Som3a.Domain → Som3a.Contracts
@@ -212,7 +213,7 @@ WpfApp2 (.NET Framework 4.8) → Som3a.Bridge, Som3a.Shared
 
 ### Project Structure (Phase 14)
 
-```
+```text
 Som3a Addin 2026/
 ├── Som3a.Bridge/            # .NET Standard 2.0 interop bridge
 │   ├── InteropContracts.cs

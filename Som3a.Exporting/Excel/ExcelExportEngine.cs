@@ -13,10 +13,12 @@ namespace Som3a.Exporting.Excel
 
                 return new ExportResult
                 {
-                    IsSuccess = true,
+                    IsSuccess = false,
                     OutputPath = request.TargetPath,
+                    ErrorMessage = "Excel export is handled in the .NET Framework 4.8 VSTO host via the interop bridge. " +
+                                   "Call the bridge channel to marshal data and use the VSTO Excel interop.",
                     RowCount = data.Count,
-                    SheetCount = 1,
+                    SheetCount = 0,
                     Duration = sw.Elapsed
                 };
             }

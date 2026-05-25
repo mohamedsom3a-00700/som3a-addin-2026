@@ -17,14 +17,16 @@ namespace Som3a.Exporting.Formats
                     ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
                 };
 
-                var json = JsonSerializer.Serialize(request.Data, options);
+                var items = request.Data.ToList();
+
+                var json = JsonSerializer.Serialize(items, options);
                 await File.WriteAllTextAsync(request.TargetPath, json, ct);
 
                 return new ExportResult
                 {
                     IsSuccess = true,
                     OutputPath = request.TargetPath,
-                    RowCount = request.Data.Count(),
+                    RowCount = items.Count,
                     SheetCount = 1,
                     Duration = sw.Elapsed
                 };

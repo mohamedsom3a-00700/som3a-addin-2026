@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Resources;
+using Som3a.Localization.RTL;
 
 namespace Som3a.Localization.Services
 {
@@ -44,7 +45,7 @@ namespace Som3a.Localization.Services
 
         public bool IsRTL()
         {
-            return CurrentCulture.TextInfo.IsRightToLeft;
+            return RTLHelper.IsRTLCulture(CurrentCulture.Name);
         }
     }
 }

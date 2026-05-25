@@ -15,7 +15,16 @@ namespace Som3a.Validation.Export
             if (request.Data == null || !request.Data.Any())
                 return ValidationResult.Failure("No data to export.");
 
-            var dir = Path.GetDirectoryName(request.TargetPath);
+            string dir;
+            try
+            {
+                dir = Path.GetDirectoryName(request.TargetPath);
+            }
+            catch (ArgumentException ex)
+            {
+                return ValidationResult.Failure($"Invalid TargetPath: {ex.Message}");
+            }
+
             if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
                 return ValidationResult.Failure($"Directory does not exist: {dir}");
 

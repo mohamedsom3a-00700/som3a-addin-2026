@@ -70,12 +70,14 @@ namespace Som3a.AI.Prompts
             if (string.IsNullOrWhiteSpace(template.UserPromptTemplate))
                 return ValidationResult.Failure("UserPromptTemplate is empty.");
 
+            var effectiveParams = parameters ?? new Dictionary<string, string>();
+
             var templateParams = Regex
                 .Matches(template.UserPromptTemplate, @"\{\{(\w+)\}\}")
                 .Select(m => m.Groups[1].Value)
                 .Distinct();
 
-            var missing = templateParams.Where(p => !parameters.ContainsKey(p)).ToList();
+            var missing = templateParams.Where(p => !effectiveParams.ContainsKey(p)).ToList();
             if (missing.Count > 0)
                 return ValidationResult.Failure($"Missing parameters: {string.Join(", ", missing)}");
 
