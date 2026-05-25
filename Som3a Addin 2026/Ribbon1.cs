@@ -34,6 +34,9 @@ namespace Som3a_Addin_2026
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             LoadRibbonImages();
+            EnsureModuleGroup();
+            PopulateAllModuleButtons();
+            SubscribeToModuleRibbonEvents();
         }
 
         private void LoadRibbonImages()
@@ -110,6 +113,125 @@ namespace Som3a_Addin_2026
 
             return resized;
         }
+        private void EnsureModuleGroup()
+        {
+            try
+            {
+                _groupModules = this.Factory.CreateRibbonGroup();
+                _groupModules.Label = "Modules";
+                _groupModules.Name = "groupModules";
+                this.tab1.Groups.Add(_groupModules);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine($"Failed to create Modules ribbon group: {ex.Message}");
+            }
+        }
+
+        private void PopulateAllModuleButtons()
+        {
+            try
+            {
+                var orchestrator = Som3a_WPF_UI.App.Container.Resolve<ModuleLoadOrchestrator>();
+                var allActions = orchestrator.GetAllModuleRibbonActions();
+                foreach (var kvp in allActions)
+                {
+                    PopulateModuleButtons(kvp.Key, kvp.Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine($"Failed to populate module ribbon buttons: {ex.Message}");
+            }
+        }
+
+        private void PopulateModuleButtons(string moduleId, IReadOnlyList<object> actions)
+        {
+            if (_groupModules is null || actions is null) return;
+
+            foreach (var action in actions)
+            {
+                try
+                {
+                    if (action is RibbonRegistrar.RibbonButtonEntry btnEntry)
+                    {
+                        var button = this.Factory.CreateRibbonButton();
+                        button.Label = btnEntry.Label;
+                        button.Name = $"module_{moduleId}_{btnEntry.Id}";
+                        button.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeRegular;
+                        button.ShowImage = false;
+                        var capturedAction = btnEntry;
+                        button.Click += (s, e) => capturedAction.OnClick();
+                        _groupModules.Items.Add(button);
+                    }
+                    else if (action is RibbonRegistrar.RibbonToggleButtonEntry toggleEntry)
+                    {
+                        var toggle = this.Factory.CreateRibbonToggleButton();
+                        toggle.Label = toggleEntry.Label;
+                        toggle.Name = $"module_{moduleId}_{toggleEntry.Id}";
+                        toggle.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeRegular;
+                        toggle.ShowImage = false;
+                        toggle.Checked = toggleEntry.InitialState;
+                        var capturedAction = toggleEntry;
+                        toggle.Click += (s, e) => capturedAction.OnToggle(toggle.Checked);
+                        _groupModules.Items.Add(toggle);
+                    }
+                    else if (action is RibbonRegistrar.RibbonMenuEntry menuEntry)
+                    {
+                        var menu = this.Factory.CreateRibbonMenu();
+                        menu.Label = menuEntry.Label;
+                        menu.Name = $"module_{moduleId}_{menuEntry.Id}";
+                        if (menuEntry.Items != null)
+                        {
+                            foreach (var item in menuEntry.Items)
+                            {
+                                var subItem = this.Factory.CreateRibbonButton();
+                                subItem.Label = item.Label;
+                                subItem.Name = $"module_{moduleId}_{menuEntry.Id}_{item.Id}";
+                                subItem.ShowImage = false;
+                                var capturedItem = item;
+                                subItem.Click += (s, e) => capturedItem.OnClick();
+                                menu.Items.Add(subItem);
+                            }
+                        }
+                        _groupModules.Items.Add(menu);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.WriteLine($"Failed to create ribbon action for module '{moduleId}': {ex.Message}");
+                }
+            }
+        }
+
+        private void SubscribeToModuleRibbonEvents()
+        {
+            try
+            {
+                var eventBus = Som3a_WPF_UI.App.Container.Resolve<IEventBus>();
+                eventBus.Subscribe<ModuleRibbonActionsAvailableEvent>(OnModuleRibbonActionsAvailable);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine($"Failed to subscribe to module ribbon events: {ex.Message}");
+            }
+        }
+
+        private void OnModuleRibbonActionsAvailable(ModuleRibbonActionsAvailableEvent evt)
+        {
+            try
+            {
+                System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+                {
+                    PopulateModuleButtons(evt.ModuleId, evt.Actions);
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine($"Failed handling module ribbon actions for '{evt.ModuleId}': {ex.Message}");
+            }
+        }
+
         private static void LoadImagesFromGroupItems(
             IEnumerable<RibbonGroup> groups,
             Dictionary<string, PropertyInfo> resourceProps)
@@ -525,6 +647,7 @@ namespace Som3a_Addin_2026
 
         }
         private Float_path _Float_path;
+        private RibbonGroup _groupModules;
 
         private void Float_Path_Click(object sender, RibbonControlEventArgs e)
         {

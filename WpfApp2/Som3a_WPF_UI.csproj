@@ -172,6 +172,7 @@
     <Compile Include="Services\LazyModuleCommand.cs" />
     <Compile Include="Services\ModuleLoadOrchestrator.cs" />
     <Compile Include="Services\RibbonRegistrar.cs" />
+    <Compile Include="Services\ModuleRibbonActionsAvailableEvent.cs" />
     <Compile Include="Controls\ModuleLoadingOverlay.xaml.cs">
       <DependentUpon>ModuleLoadingOverlay.xaml</DependentUpon>
     </Compile>

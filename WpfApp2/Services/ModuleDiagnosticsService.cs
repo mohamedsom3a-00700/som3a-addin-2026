@@ -7,13 +7,26 @@ namespace Som3a_WPF_UI.Services
 {
     public class DiagnosticsSnapshot
     {
-        public string ModuleId { get; set; } = "";
-        public ModuleState State { get; set; }
-        public string Version { get; set; } = "";
-        public long MemoryBytes { get; set; }
-        public long LoadTimeMs { get; set; }
-        public string? LastError { get; set; }
-        public string[] Capabilities { get; set; } = Array.Empty<string>();
+        public string ModuleId { get; }
+        public ModuleState State { get; }
+        public string Version { get; }
+        public long MemoryBytes { get; }
+        public long LoadTimeMs { get; }
+        public string? LastError { get; }
+        public IReadOnlyList<string> Capabilities { get; }
+
+        public DiagnosticsSnapshot(string moduleId, ModuleState state, string version,
+            long memoryBytes, long loadTimeMs, string? lastError, IEnumerable<string>? capabilities)
+        {
+            ModuleId = moduleId ?? "";
+            State = state;
+            Version = version ?? "";
+            MemoryBytes = memoryBytes;
+            LoadTimeMs = loadTimeMs;
+            LastError = lastError;
+            var caps = capabilities?.ToArray() ?? Array.Empty<string>();
+            Capabilities = Array.AsReadOnly(caps);
+        }
     }
 
     public class ModuleDiagnosticsService
@@ -38,16 +51,9 @@ namespace Som3a_WPF_UI.Services
         public void RefreshSnapshot()
         {
             var modules = _registry.GetAllModules();
-            _cachedSnapshot = modules.Select(m => new DiagnosticsSnapshot
-            {
-                ModuleId = m.Id,
-                State = m.State,
-                Version = m.Version,
-                MemoryBytes = m.MemoryBytes,
-                LoadTimeMs = m.LoadTimeMs,
-                LastError = m.LastError,
-                Capabilities = m.Capabilities?.ToArray() ?? Array.Empty<string>()
-            }).ToList();
+            _cachedSnapshot = modules.Select(m => new DiagnosticsSnapshot(
+                m.Id, m.State, m.Version, m.MemoryBytes, m.LoadTimeMs, m.LastError, m.Capabilities
+            )).ToList();
 
             SnapshotUpdated?.Invoke(this, EventArgs.Empty);
         }
