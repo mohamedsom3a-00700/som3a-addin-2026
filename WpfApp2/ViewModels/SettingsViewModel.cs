@@ -366,6 +366,83 @@ namespace Som3a_WPF_UI.ViewModels
             return dialog.ShowDialog() == true ? dialog.FileName : null;
         }
 
+        private void OnExportSettings()
+        {
+            try
+            {
+                var filePath = GetExportFilePath();
+                if (string.IsNullOrEmpty(filePath)) return;
+                _settingsService.ExportSettings(_currentSettings, filePath);
+                ToastService.Success("Settings exported successfully.");
+            }
+            catch (Exception ex)
+            {
+                ToastService.Error($"Export failed: {ex.Message}");
+            }
+        }
+
+        private void OnImportSettings()
+        {
+            var filePath = GetImportFilePath();
+            if (string.IsNullOrEmpty(filePath)) return;
+            try
+            {
+                var result = _settingsService.ImportSettings(filePath);
+                _currentSettings = result.Settings;
+                _previewSettings = CloneSettings(_currentSettings);
+                _themeManager.ApplyTheme(_currentSettings.SelectedTheme,
+                    _currentSettings.SelectedTheme == "Custom" ? _currentSettings.AccentColor : null);
+                _settingsService.SaveSettings(_currentSettings);
+                _originalTheme = _currentSettings.SelectedTheme;
+                _originalAccent = _currentSettings.AccentColor;
+                RefreshPreviewBindings();
+                UpdateSwatchSelection();
+
+                if (result.Warnings.Count > 0)
+                {
+                    var warnings = string.Join("\n", result.Warnings);
+                    ToastService.Warning($"Settings imported with warnings:\n{warnings}");
+                }
+                else
+                {
+                    ToastService.Success("Settings imported successfully.");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                ToastService.Error("Settings file not found.");
+            }
+            catch (SettingsImportException ex)
+            {
+                ToastService.Error($"Import failed: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                ToastService.Error($"Unexpected error: {ex.Message}");
+            }
+        }
+
+        private static string? GetExportFilePath()
+        {
+            var dialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = "JSON Files (*.json)|*.json|All Files (*.*)|*.*",
+                DefaultExt = ".json",
+                FileName = "Som3a-Settings.json"
+            };
+            return dialog.ShowDialog() == true ? dialog.FileName : null;
+        }
+
+        private static string? GetImportFilePath()
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "JSON Files (*.json)|*.json|All Files (*.*)|*.*",
+                DefaultExt = ".json"
+            };
+            return dialog.ShowDialog() == true ? dialog.FileName : null;
+        }
+
         private void UpdateSwatchSelection()
         {
             foreach (var swatch in AccentSwatches)
