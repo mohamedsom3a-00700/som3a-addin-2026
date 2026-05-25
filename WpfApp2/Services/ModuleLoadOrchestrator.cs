@@ -11,6 +11,7 @@ namespace Som3a_WPF_UI.Services
         private readonly PluginLoader _loader;
         private readonly IServiceContainer _container;
         private readonly Dictionary<string, NavigationRegistrar> _moduleRegistrars = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, RibbonRegistrar> _ribbonRegistrars = new(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, string> _pageToModuleMap = new(StringComparer.OrdinalIgnoreCase);
         private readonly HashSet<string> _initializedModules = new(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, Contracts.IModule> _loadedModuleInstances = new(StringComparer.OrdinalIgnoreCase);
@@ -82,9 +83,9 @@ namespace Som3a_WPF_UI.Services
                 {
                     TransitionTo(moduleId, ModuleState.Loading);
 
+                    var memBefore = GC.GetTotalMemory(false);
                     var stopwatch = Stopwatch.StartNew();
                     var module = _loader.LoadModule(moduleId);
-                    stopwatch.Stop();
 
                     var navReg = new NavigationRegistrar();
                     var ribbonReg = new RibbonRegistrar();
@@ -94,6 +95,7 @@ namespace Som3a_WPF_UI.Services
                     module.Initialize(context);
 
                     _moduleRegistrars[moduleId] = navReg;
+                    _ribbonRegistrars[moduleId] = ribbonReg;
 
                     foreach (var (pageId, title, pageType) in navReg.RegisteredPages)
                     {
@@ -110,8 +112,18 @@ namespace Som3a_WPF_UI.Services
                         }
                     }
 
-                    var memBefore = GC.GetTotalMemory(false);
+                    try
+                    {
+                        var eventBus = _container.Resolve<IEventBus>();
+                        eventBus?.Publish(new ModuleRibbonActionsAvailableEvent(moduleId, ribbonReg.RegisteredActions));
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Failed to publish ribbon actions event for '{moduleId}': {ex.Message}");
+                    }
+
                     var memAfter = GC.GetTotalMemory(false);
+                    stopwatch.Stop();
 
                     if (_registry is PluginRegistry pluginRegistry)
                         pluginRegistry.UpdateDiagnostics(moduleId, memAfter - memBefore, stopwatch.ElapsedMilliseconds);
@@ -136,24 +148,52 @@ namespace Som3a_WPF_UI.Services
 
         public string? GetModuleIdForPage(string pageKey)
         {
-            return _pageToModuleMap.TryGetValue(pageKey, out var moduleId) ? moduleId : null;
+            lock (_lock)
+                return _pageToModuleMap.TryGetValue(pageKey, out var moduleId) ? moduleId : null;
         }
 
         public NavigationRegistrar? GetModuleNavigationRegistrar(string moduleId)
         {
-            return _moduleRegistrars.TryGetValue(moduleId, out var reg) ? reg : null;
+            lock (_lock)
+                return _moduleRegistrars.TryGetValue(moduleId, out var reg) ? reg : null;
         }
 
         public bool IsModulePage(string pageKey)
         {
-            return _pageToModuleMap.ContainsKey(pageKey);
+            lock (_lock)
+                return _pageToModuleMap.ContainsKey(pageKey);
         }
 
         public IReadOnlyList<(string PageId, string Title, Type PageType)> GetModulePages(string moduleId)
         {
-            return _moduleRegistrars.TryGetValue(moduleId, out var reg)
-                ? reg.RegisteredPages
-                : Array.Empty<(string, string, Type)>();
+            lock (_lock)
+                return _moduleRegistrars.TryGetValue(moduleId, out var reg)
+                    ? reg.RegisteredPages
+                    : Array.Empty<(string, string, Type)>();
+        }
+
+        public IReadOnlyList<object> GetModuleRibbonActions(string moduleId)
+        {
+            lock (_lock)
+                return _ribbonRegistrars.TryGetValue(moduleId, out var reg)
+                    ? reg.RegisteredActions
+                    : Array.Empty<object>();
+        }
+
+        public IReadOnlyDictionary<string, IReadOnlyList<object>> GetAllModuleRibbonActions()
+        {
+            var result = new Dictionary<string, IReadOnlyList<object>>(StringComparer.OrdinalIgnoreCase);
+            lock (_lock)
+            {
+                foreach (var kvp in _ribbonRegistrars)
+                {
+                    if (_initializedModules.Contains(kvp.Key))
+                    {
+                        result[kvp.Key] = kvp.Value.RegisteredActions;
+                    }
+                }
+            }
+            return result;
         }
 
         public bool IsModuleLoaded(string moduleId)

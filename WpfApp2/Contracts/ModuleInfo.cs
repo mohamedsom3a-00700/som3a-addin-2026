@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Som3a_WPF_UI.Contracts
@@ -10,20 +11,21 @@ namespace Som3a_WPF_UI.Contracts
         public string DisplayName { get; }
         public string Description { get; }
         public ModuleState State { get; }
-        public string[] Capabilities { get; }
+        public IReadOnlyList<string> Capabilities { get; }
         public long MemoryBytes { get; }
         public long LoadTimeMs { get; }
         public string? LastError { get; }
 
         public ModuleInfo(string id, string version, string displayName, string description,
-            ModuleState state, string[] capabilities, long memoryBytes = 0, long loadTimeMs = 0, string? lastError = null)
+            ModuleState state, IEnumerable<string>? capabilities, long memoryBytes = 0, long loadTimeMs = 0, string? lastError = null)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Version = version ?? throw new ArgumentNullException(nameof(version));
             DisplayName = displayName ?? throw new ArgumentNullException(nameof(displayName));
             Description = description ?? "";
             State = state;
-            Capabilities = capabilities?.ToArray() ?? Array.Empty<string>();
+            var caps = capabilities?.ToArray() ?? Array.Empty<string>();
+            Capabilities = Array.AsReadOnly(caps);
             MemoryBytes = memoryBytes;
             LoadTimeMs = loadTimeMs;
             LastError = lastError;
@@ -36,7 +38,8 @@ namespace Som3a_WPF_UI.Contracts
             DisplayName = other.DisplayName;
             Description = other.Description;
             State = other.State;
-            Capabilities = other.Capabilities?.ToArray() ?? Array.Empty<string>();
+            var caps = other.Capabilities?.ToArray() ?? Array.Empty<string>();
+            Capabilities = Array.AsReadOnly(caps);
             MemoryBytes = other.MemoryBytes;
             LoadTimeMs = other.LoadTimeMs;
             LastError = other.LastError;
@@ -45,9 +48,9 @@ namespace Som3a_WPF_UI.Contracts
         internal ModuleInfo With(ModuleState? state = null, string? lastError = null, long? memoryBytes = null, long? loadTimeMs = null)
         {
             return new ModuleInfo(Id, Version, DisplayName, Description,
-                state ?? State, Capabilities,
+                state ?? State, Capabilities?.ToArray() ?? Array.Empty<string>(),
                 memoryBytes ?? MemoryBytes, loadTimeMs ?? LoadTimeMs,
-                lastError ?? LastError);
+                lastError);
         }
     }
 

@@ -109,7 +109,7 @@ namespace Som3a_WPF_UI.Services
             Contracts.IModule module;
             try
             {
-                var assembly = Assembly.LoadFile(mainAssemblyPath);
+                var assembly = Assembly.Load(assemblyBytes);
                 var moduleType = assembly.GetTypes()
                     .FirstOrDefault(t => typeof(Contracts.IModule).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface);
 
