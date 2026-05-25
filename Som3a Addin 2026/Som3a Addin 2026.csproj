@@ -253,6 +253,8 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="AddInAutomation.cs" />
+    <Compile Include="IAddInAutomation.cs" />
     <Compile Include="ExcelWindowHandle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

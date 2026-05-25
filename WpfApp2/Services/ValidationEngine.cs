@@ -1,8 +1,12 @@
 using Som3a_WPF_UI.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Markup;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Som3a_WPF_UI.Services
 {
@@ -49,6 +53,14 @@ namespace Som3a_WPF_UI.Services
                     results.AddRange(ScanForInlineColors(dict, dictName));
                     results.AddRange(ScanForDuplicateStyles(dict, dictName, seenTypes));
                     results.AddRange(ScanForInvalidResources(dict, dictName));
+                }
+
+                var appDirectory = Path.GetDirectoryName(Application.Current?.GetType().Assembly.Location);
+                if (appDirectory != null)
+                {
+                    var projectRoot = Directory.GetParent(appDirectory)?.Parent?.Parent?.FullName;
+                    if (projectRoot != null)
+                        results.AddRange(ScanAllXamlFiles(projectRoot));
                 }
 
                 var readOnlyResults = results.AsReadOnly();
@@ -170,8 +182,128 @@ namespace Som3a_WPF_UI.Services
             return results;
         }
 
+        private readonly Dictionary<string, string> _resourceRegistry = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        private void BuildResourceRegistry()
+        {
+            if (_resourceRegistry.Count > 0) return;
+
+            foreach (var dict in Application.Current.Resources.MergedDictionaries)
+            {
+                if (dict?.Source == null) continue;
+                var dictPath = dict.Source.OriginalString;
+                foreach (var key in dict.Keys)
+                {
+                    if (key is string strKey)
+                        _resourceRegistry[strKey] = dictPath;
+                }
+            }
+        }
+
+        private void ScanXamlFileForInlineIssues(string filePath, List<ValidationResult> results)
+        {
+            try
+            {
+                if (!File.Exists(filePath)) return;
+                var xaml = File.ReadAllText(filePath);
+                var doc = XDocument.Parse(xaml);
+                var ns = doc.Root?.GetDefaultNamespace() ?? XNamespace.None;
+
+                foreach (var element in doc.Descendants())
+                {
+                    var lineInfo = (IXmlLineInfo)element;
+
+                    foreach (var attr in element.Attributes())
+                    {
+                        if (attr.Value.StartsWith("#") && attr.Value.Length >= 7 && attr.Value.Length <= 9)
+                        {
+                            if (filePath.Contains("\\Base\\")) continue;
+
+                            var isTokenDefinition = attr.Name.LocalName == "Color"
+                                && (element.Name.LocalName == "SolidColorBrush" || element.Name.LocalName == "Color");
+                            if (isTokenDefinition) continue;
+
+                            results.Add(new ValidationResult
+                            {
+                                Id = $"VR-FS-{_scanCounter:D3}-{results.Count + 1:D3}",
+                                Severity = "warning",
+                                Category = "file-scan-inline-color",
+                                DictionaryName = filePath,
+                                Location = $"Line {lineInfo.LineNumber}, Attr '{attr.Name.LocalName}'",
+                                Description = $"Hardcoded color '{attr.Value}' found in {Path.GetFileName(filePath)}",
+                                SuggestedFix = "Replace with a DynamicResource reference to a semantic token",
+                                Timestamp = DateTime.UtcNow
+                            });
+                        }
+
+                        if ((attr.Name.LocalName == "Margin" || attr.Name.LocalName == "Padding")
+                            && attr.Value.Any(char.IsDigit)
+                            && !attr.Value.Contains("{DynamicResource"))
+                        {
+                            results.Add(new ValidationResult
+                            {
+                                Id = $"VR-FS-{_scanCounter:D3}-{results.Count + 1:D3}",
+                                Severity = "info",
+                                Category = "file-scan-raw-dimension",
+                                DictionaryName = filePath,
+                                Location = $"Line {lineInfo.LineNumber}, Attr '{attr.Name.LocalName}'",
+                                Description = $"Raw {attr.Name.LocalName}='{attr.Value}' in {Path.GetFileName(filePath)}",
+                                SuggestedFix = "Consider using a Spacing/Padding token from Theme/Base/",
+                                Timestamp = DateTime.UtcNow
+                            });
+                        }
+
+                        if (attr.Name.LocalName == "CornerRadius"
+                            && attr.Value.Any(char.IsDigit)
+                            && !attr.Value.Contains("{DynamicResource"))
+                        {
+                            results.Add(new ValidationResult
+                            {
+                                Id = $"VR-FS-{_scanCounter:D3}-{results.Count + 1:D3}",
+                                Severity = "info",
+                                Category = "file-scan-raw-radius",
+                                DictionaryName = filePath,
+                                Location = $"Line {lineInfo.LineNumber}, Attr '{attr.Name.LocalName}'",
+                                Description = $"Raw CornerRadius='{attr.Value}' in {Path.GetFileName(filePath)}",
+                                SuggestedFix = "Consider using a Radius token from Theme/Base/Radius.xaml",
+                                Timestamp = DateTime.UtcNow
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.Log("WARN", "Validation", $"Error scanning file {filePath}: {ex.Message}", "ValidationEngine");
+            }
+        }
+
+        private void ValidateStyleBasedOn(Style style, string dictName, string styleKey, List<ValidationResult> results)
+        {
+            if (style.BasedOn == null) return;
+
+            var basedOnKey = style.BasedOn.ToString();
+            if (!_resourceRegistry.ContainsKey(basedOnKey))
+            {
+                if (Application.Current.Resources[basedOnKey] != null) return;
+
+                results.Add(new ValidationResult
+                {
+                    Id = $"VR-BO-{_scanCounter:D3}-{results.Count + 1:D3}",
+                    Severity = "warning",
+                    Category = "basedon-not-found",
+                    DictionaryName = dictName,
+                    Location = $"Style Key='{styleKey}', BasedOn='{basedOnKey}'",
+                    Description = $"Style '{styleKey}' references BasedOn='{basedOnKey}' which was not found in any loaded dictionary",
+                    SuggestedFix = $"Ensure '{basedOnKey}' is defined in a loaded dictionary before this style",
+                    Timestamp = DateTime.UtcNow
+                });
+            }
+        }
+
         private List<ValidationResult> ScanForInvalidResources(ResourceDictionary dict, string dictName)
         {
+            BuildResourceRegistry();
             var results = new List<ValidationResult>();
 
             try
@@ -180,11 +312,8 @@ namespace Som3a_WPF_UI.Services
                 {
                     if (dict[key] is Style style)
                     {
-                        if (style.BasedOn != null)
-                        {
-                            // TODO: proper XAML/dictionary resolver needed to validate
-                            // style.BasedOn at runtime without emitting false warnings
-                        }
+                        var styleKey = key?.ToString() ?? "Unnamed";
+                        ValidateStyleBasedOn(style, dictName, styleKey, results);
                     }
                 }
             }
@@ -194,6 +323,26 @@ namespace Som3a_WPF_UI.Services
             }
 
             return results;
+        }
+
+        public IReadOnlyList<ValidationResult> ScanAllXamlFiles(string rootDirectory)
+        {
+            var results = new List<ValidationResult>();
+            if (!Directory.Exists(rootDirectory)) return results;
+
+            var xamlFiles = Directory.GetFiles(rootDirectory, "*.xaml", SearchOption.AllDirectories)
+                .Where(f => !f.Contains("\\obj\\") && !f.Contains("\\bin\\"))
+                .ToList();
+
+            _loggingService.Log("INFO", "Validation", $"Scanning {xamlFiles.Count} XAML files for inline issues", "ValidationEngine");
+
+            foreach (var file in xamlFiles)
+            {
+                ScanXamlFileForInlineIssues(file, results);
+            }
+
+            _loggingService.Log("INFO", "Validation", $"File scan complete: {results.Count} issues found", "ValidationEngine");
+            return results.AsReadOnly();
         }
     }
 }

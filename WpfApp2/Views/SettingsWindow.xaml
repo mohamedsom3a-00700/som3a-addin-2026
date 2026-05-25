@@ -14,42 +14,7 @@
         UseLayoutRounding="True">
 
     <controls:ModernWindow.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/AccentSwatchStyles.xaml"/>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-
-            <!-- Sidebar Full Template (labels visible) -->
-            <DataTemplate x:Key="SidebarFullTemplate">
-                <Grid ToolTip="{Binding DisplayName}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"
-                               Text="{Binding Icon}"
-                               FontSize="16"
-                               VerticalAlignment="Center"
-                               Margin="0,0,10,0"/>
-                    <TextBlock Grid.Column="1"
-                               Text="{Binding DisplayName}"
-                               FontSize="14"
-                               VerticalAlignment="Center"/>
-                </Grid>
-            </DataTemplate>
-
-            <!-- Sidebar Icon Template (collapsed, only icons with tooltips) -->
-            <DataTemplate x:Key="SidebarIconTemplate">
-                <Grid HorizontalAlignment="Center"
-                      ToolTip="{Binding DisplayName}">
-                    <TextBlock Text="{Binding Icon}"
-                               FontSize="20"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                </Grid>
-            </DataTemplate>
-        </ResourceDictionary>
+        <ResourceDictionary/>
     </controls:ModernWindow.Resources>
 
     <!-- ROOT -->
@@ -69,8 +34,8 @@
             <!-- TITLE BAR -->
             <Grid Grid.Row="0"
                   x:Name="TitleBar"
-                  Margin="4,2,4,0"
-                  MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                   Margin="{DynamicResource TitleBarMargin}"
+                   MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

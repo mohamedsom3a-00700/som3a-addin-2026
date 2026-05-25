@@ -12,6 +12,7 @@ namespace Som3a_WPF_UI.Views
         {
             InitializeComponent();
             Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -28,6 +29,14 @@ namespace Som3a_WPF_UI.Views
                 {
                     System.Diagnostics.Debug.WriteLine($"PluginsPanel initialization failed: {ex.Message}");
                 }
+            }
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is PluginDiagnosticsViewModel vm)
+            {
+                vm.Cleanup();
             }
         }
     }

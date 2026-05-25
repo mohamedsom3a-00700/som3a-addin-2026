@@ -22,17 +22,24 @@ namespace Som3a_WPF_UI.ViewModels
 
             _diagnosticsService = serviceContainer.Resolve<ModuleDiagnosticsService>();
             _registry = serviceContainer.Resolve<Som3a_WPF_UI.Contracts.IModuleRegistry>();
-            _diagnosticsService.SnapshotUpdated += (s, e) =>
-            {
-                if (Application.Current.Dispatcher.CheckAccess())
-                    Refresh();
-                else
-                    Application.Current.Dispatcher.Invoke(Refresh);
-            };
+            _diagnosticsService.SnapshotUpdated += OnSnapshotUpdated;
             RefreshCommand = new RelayCommand(_ => Refresh());
         }
 
         public ICommand RefreshCommand { get; }
+
+        public void Cleanup()
+        {
+            _diagnosticsService.SnapshotUpdated -= OnSnapshotUpdated;
+        }
+
+        private void OnSnapshotUpdated(object sender, EventArgs e)
+        {
+            if (Application.Current.Dispatcher.CheckAccess())
+                Refresh();
+            else
+                Application.Current.Dispatcher.Invoke(Refresh);
+        }
 
         public void Refresh()
         {

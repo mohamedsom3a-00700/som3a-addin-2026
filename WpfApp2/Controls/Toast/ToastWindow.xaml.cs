@@ -3,15 +3,18 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using Som3a_WPF_UI.Controls;
 using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.ViewModels;
 
 namespace Som3a_WPF_UI.Controls.Toast
 {
-    public partial class ToastWindow : Window
+    public partial class ToastWindow : ModernWindow
     {
         private readonly DispatcherTimer _timer;
         private readonly bool _useSafeMode;
+        private static bool IsReducedMotionEnabled =>
+            !SystemParameters.ClientAreaAnimation;
 
         public ToastWindow(ToastViewModel viewModel)
         {
@@ -52,7 +55,7 @@ namespace Som3a_WPF_UI.Controls.Toast
 
         private void ShowToast()
         {
-            if (_useSafeMode)
+            if (_useSafeMode || IsReducedMotionEnabled)
                 return;
 
             var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(200));
@@ -69,7 +72,7 @@ namespace Som3a_WPF_UI.Controls.Toast
         {
             _timer.Stop();
 
-            if (_useSafeMode)
+            if (_useSafeMode || IsReducedMotionEnabled)
             {
                 Close();
                 return;

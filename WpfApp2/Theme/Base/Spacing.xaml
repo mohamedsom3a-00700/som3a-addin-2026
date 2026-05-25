@@ -19,10 +19,10 @@
     <Thickness x:Key="Padding.Small">8,6</Thickness>
     <Thickness x:Key="ButtonPadding">12,6</Thickness>
     <Thickness x:Key="Padding.Medium">12,8</Thickness>
-    <Thickness x:Key="CardPadding">16,12</Thickness>
     <Thickness x:Key="Padding.Large">16,12</Thickness>
     <Thickness x:Key="InputPadding">10,6</Thickness>
-    <Thickness x:Key="SectionPadding">20,16</Thickness>
+    <Thickness x:Key="TitleBarMargin">4,2,4,0</Thickness>
+    <Thickness x:Key="StatusBarPadding">10,6</Thickness>
     <Thickness x:Key="Padding.XLarge">20,16</Thickness>
 
     <!-- =========================

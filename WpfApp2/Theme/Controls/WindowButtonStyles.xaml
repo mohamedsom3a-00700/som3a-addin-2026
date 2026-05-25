@@ -49,6 +49,7 @@
 
     <!-- Close Button Style -->
     <Style x:Key="CloseButton" TargetType="{x:Type Button}" BasedOn="{StaticResource TitleBarButton}">
+        <Setter Property="AutomationProperties.Name" Value="Close window"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -84,6 +85,7 @@
 
     <!-- Maximize Button Style -->
     <Style x:Key="MaximizeButton" TargetType="{x:Type Button}" BasedOn="{StaticResource TitleBarButton}">
+        <Setter Property="AutomationProperties.Name" Value="Maximize window"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -115,6 +117,7 @@
 
     <!-- Minimize Button Style -->
     <Style x:Key="MinimizeButton" TargetType="{x:Type Button}" BasedOn="{StaticResource TitleBarButton}">
+        <Setter Property="AutomationProperties.Name" Value="Minimize window"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">

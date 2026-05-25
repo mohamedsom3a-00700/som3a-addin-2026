@@ -70,9 +70,10 @@
                                       BorderThickness="0"
                                       Focusable="False"
                                       ClickMode="Press"
+                                      AutomationProperties.Name="Open drop-down"
                                       IsChecked="{Binding IsDropDownOpen,
-                                                          Mode=TwoWay,
-                                                          RelativeSource={RelativeSource TemplatedParent}}">
+                                                           Mode=TwoWay,
+                                                           RelativeSource={RelativeSource TemplatedParent}}">
 
                             <Grid Margin="12,0,12,0">
 

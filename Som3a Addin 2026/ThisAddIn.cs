@@ -13,6 +13,15 @@ namespace Som3a_Addin_2026
 {
     public partial class ThisAddIn
     {
+        private IAddInAutomation _automation;
+
+        protected override object RequestComAddInAutomationService()
+        {
+            if (_automation == null)
+                _automation = new AddInAutomation();
+            return _automation;
+        }
+
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             System.Windows.Application app = System.Windows.Application.Current;

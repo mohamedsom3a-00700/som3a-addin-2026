@@ -15,25 +15,16 @@
                         UseLayoutRounding="True">
 
     <controls:ModernWindow.Resources>
-
-        <ResourceDictionary>
-
-            <ResourceDictionary.MergedDictionaries>
-
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
-
-            </ResourceDictionary.MergedDictionaries>
-
-        </ResourceDictionary>
-
+        <ResourceDictionary/>
     </controls:ModernWindow.Resources>
+
 
     <!-- ===================================================== -->
     <!-- ROOT CARD -->
     <!-- ===================================================== -->
 
     <Border x:Name="RootBorder"
-            CornerRadius="18"
+            CornerRadius="{DynamicResource WindowRadius}"
             Background="{DynamicResource Brush.Background.Root}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
@@ -84,7 +75,7 @@
 
             <Grid Grid.Row="0"
                   x:Name="TitleBar"
-                  Margin="4,2,4,0"
+                  Margin="{DynamicResource TitleBarMargin}"
                   MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
 
                 <Grid.ColumnDefinitions>
@@ -135,7 +126,7 @@
                     Background="{DynamicResource CardBrush}"
                     BorderBrush="{DynamicResource CardStrokeBrush}"
                     BorderThickness="1"
-                    CornerRadius="14"
+                    CornerRadius="{DynamicResource LargeRadius}"
                     Padding="14">
 
                 <Grid>
@@ -277,7 +268,7 @@
                         Background="{DynamicResource CardBrush}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
-                        CornerRadius="14"
+                        CornerRadius="{DynamicResource LargeRadius}"
                         Padding="10">
 
                     <Grid>
@@ -340,7 +331,7 @@
                         Background="{DynamicResource CardBrush}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
-                        CornerRadius="14"
+                        CornerRadius="{DynamicResource LargeRadius}"
                         Padding="10">
 
                     <Grid>
@@ -463,7 +454,7 @@
 
                 <Border Grid.Column="0"
                         Height="24"
-                        CornerRadius="10"
+                        CornerRadius="{DynamicResource MediumRadius}"
                         Background="{DynamicResource Brush.Progress.Background}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
@@ -472,7 +463,7 @@
 
                     <Grid ClipToBounds="True">
 
-                        <Border CornerRadius="10"
+                        <Border CornerRadius="{DynamicResource MediumRadius}"
                                 HorizontalAlignment="Stretch"
                                 RenderTransformOrigin="0,0.5"
                                 Background="{DynamicResource Brush.Accent.ProgressFill}">
@@ -498,7 +489,7 @@
 
                 <Border Grid.Column="1"
                         Height="30"
-                        CornerRadius="10"
+                        CornerRadius="{DynamicResource MediumRadius}"
                         Background="{DynamicResource ControlBgBrush}"
                         BorderBrush="{DynamicResource ControlStrokeBrush}"
                         BorderThickness="1"
@@ -552,10 +543,10 @@
 
             <Border Grid.Row="9"
                     Background="{DynamicResource Brush.Fill.Status}"
-                    CornerRadius="12"
+                    CornerRadius="{DynamicResource CardRadius}"
                     BorderBrush="{DynamicResource CardStrokeBrush}"
                     BorderThickness="1"
-                    Padding="10,6">
+                    Padding="{DynamicResource StatusBarPadding}">
 
                 <TextBlock Text="{Binding StatusText}"
                            Foreground="{DynamicResource TextSubBrush}"

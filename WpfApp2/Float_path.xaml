@@ -24,7 +24,7 @@
     <!-- ===================================================== -->
 
     <Border x:Name="RootBorder"
-            CornerRadius="18"
+            CornerRadius="{DynamicResource WindowRadius}"
             Background="{DynamicResource Brush.Background.Root}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
@@ -51,7 +51,7 @@
 
             <Grid Grid.Row="0"
                   x:Name="TitleBar"
-                  Margin="4,2,4,0"
+                  Margin="{DynamicResource TitleBarMargin}"
                   MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
 
                 <Grid.ColumnDefinitions>
@@ -121,7 +121,7 @@
                         Background="{DynamicResource CardBrush}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
-                        CornerRadius="14">
+                        CornerRadius="{DynamicResource LargeRadius}">
 
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
 
@@ -130,7 +130,7 @@
                             <!-- PROJECT -->
 
                             <Border Padding="12"
-                                    CornerRadius="12"
+                                    CornerRadius="{DynamicResource CardRadius}"
                                     Background="{DynamicResource Brush.Fill.Info}"
                                     BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                     BorderThickness="1"
@@ -171,7 +171,7 @@
                             <Border Background="{DynamicResource Brush.Background.CardSubtle}"
                                     BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                     BorderThickness="1"
-                                    CornerRadius="12"
+                                    CornerRadius="{DynamicResource CardRadius}"
                                     Padding="12">
 
                                 <StackPanel>
@@ -241,7 +241,7 @@
 
                             <Border Margin="0,20,0,0"
                                     Padding="10"
-                                    CornerRadius="12"
+                                    CornerRadius="{DynamicResource CardRadius}"
                                     Background="{DynamicResource Brush.Fill.Info}"
                                     BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                     BorderThickness="1">
@@ -275,7 +275,7 @@
                         Background="{DynamicResource CardBrush}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
-                        CornerRadius="14"
+                        CornerRadius="{DynamicResource LargeRadius}"
                         Padding="10">
 
                     <Grid>

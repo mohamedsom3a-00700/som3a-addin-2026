@@ -2,6 +2,7 @@
 
 using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -20,17 +21,17 @@ namespace Som3a_WPF_UI.Converters
                 switch (type)
                 {
                     case DifferenceType.Added:
-                        return Brushes.LightGreen;
+                        return Application.Current?.TryFindResource("Brush.Accent.Success") as Brush ?? Brushes.Green;
 
                     case DifferenceType.Deleted:
-                        return Brushes.LightCoral;
+                        return Application.Current?.TryFindResource("Brush.Accent.Danger") as Brush ?? Brushes.Red;
 
                     case DifferenceType.Modified:
-                        return Brushes.Orange;
+                        return Application.Current?.TryFindResource("Brush.Accent.Warning") as Brush ?? Brushes.Orange;
                 }
             }
 
-            return Brushes.White;
+            return Application.Current?.TryFindResource("Brush.Text.Primary") as Brush ?? Brushes.White;
         }
 
         public object ConvertBack(

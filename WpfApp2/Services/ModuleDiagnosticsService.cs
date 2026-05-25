@@ -5,17 +5,18 @@ using Som3a_WPF_UI.Contracts;
 
 namespace Som3a_WPF_UI.Services
 {
-    public class DiagnosticsSnapshot
+    public class ModuleDiagnosticsSnapshot
     {
         public string ModuleId { get; }
         public ModuleState State { get; }
         public string Version { get; }
         public long MemoryBytes { get; }
+        public double MemoryMB => Math.Round(MemoryBytes / (1024.0 * 1024.0), 1);
         public long LoadTimeMs { get; }
         public string? LastError { get; }
         public IReadOnlyList<string> Capabilities { get; }
 
-        public DiagnosticsSnapshot(string moduleId, ModuleState state, string version,
+        public ModuleDiagnosticsSnapshot(string moduleId, ModuleState state, string version,
             long memoryBytes, long loadTimeMs, string? lastError, IEnumerable<string>? capabilities)
         {
             ModuleId = moduleId ?? "";
@@ -29,10 +30,17 @@ namespace Som3a_WPF_UI.Services
         }
     }
 
-    public class ModuleDiagnosticsService
+    public interface IModuleDiagnosticsService
+    {
+        IReadOnlyList<ModuleDiagnosticsSnapshot> GetSnapshot();
+        void RefreshSnapshot();
+        event EventHandler? SnapshotUpdated;
+    }
+
+    public class ModuleDiagnosticsService : IModuleDiagnosticsService
     {
         private readonly Som3a_WPF_UI.Contracts.IModuleRegistry _registry;
-        private List<DiagnosticsSnapshot> _cachedSnapshot = new();
+        private List<ModuleDiagnosticsSnapshot> _cachedSnapshot = new();
 
         public ModuleDiagnosticsService(Som3a_WPF_UI.Contracts.IModuleRegistry registry)
         {
@@ -43,7 +51,7 @@ namespace Som3a_WPF_UI.Services
 
         public event EventHandler? SnapshotUpdated;
 
-        public IReadOnlyList<DiagnosticsSnapshot> GetSnapshot()
+        public IReadOnlyList<ModuleDiagnosticsSnapshot> GetSnapshot()
         {
             return _cachedSnapshot.AsReadOnly();
         }
@@ -51,7 +59,7 @@ namespace Som3a_WPF_UI.Services
         public void RefreshSnapshot()
         {
             var modules = _registry.GetAllModules();
-            _cachedSnapshot = modules.Select(m => new DiagnosticsSnapshot(
+            _cachedSnapshot = modules.Select(m => new ModuleDiagnosticsSnapshot(
                 m.Id, m.State, m.Version, m.MemoryBytes, m.LoadTimeMs, m.LastError, m.Capabilities
             )).ToList();
 

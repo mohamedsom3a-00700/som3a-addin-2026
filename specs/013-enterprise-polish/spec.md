@@ -137,6 +137,12 @@ An enterprise user runs the add-in inside Excel for a full workday. All 14 windo
 - **SC-013**: All 6 audit/report documents are created and contain actionable findings.
 - **SC-014**: Build passes with zero errors; Excel VSTO host test passes for all 14 windows.
 
+## Clarifications
+
+### Session 2026-05-25
+
+- Q: If Phase 4 (Control Standardization) is not complete, should Phase 10 include control standardization work, or is Phase 4 a hard prerequisite? → A: Phase 4 is a hard prerequisite — must be completed and merged before Phase 10 starts. No control standardization work in Phase 10.
+
 ## Constitutional Constraints
 
 The following constraints are mandated by the project constitution and MUST be respected:
@@ -151,7 +157,7 @@ The following constraints are mandated by the project constitution and MUST be r
 
 ## Assumptions
 
-- Phase 4 (Control Standardization) is complete before Phase 10 begins — all control templates use semantic tokens, centralized shadows, keyboard navigation, and reduced motion support.
+- Phase 4 (Control Standardization) is a **hard prerequisite** — must be completed and merged before Phase 10 begins. No control standardization work is included in Phase 10 scope. All control templates must use semantic tokens, centralized shadows, keyboard navigation, and reduced motion support before Phase 10 starts.
 - Phase 5 (Navigation Shell), Phase 6 (MVVM Cleanup), and Phase 9 (Plugin Platform) are complete before Phase 10 begins.
 - The 15 remaining Phase 3 validation tasks are either resolved during Phase 10 or confirmed as needing resolution here.
 - ToastWindow.xaml is the only remaining window using plain `<Window>` — all other 13 windows already inherit from ModernWindow.

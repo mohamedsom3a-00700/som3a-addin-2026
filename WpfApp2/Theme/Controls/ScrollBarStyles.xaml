@@ -12,10 +12,10 @@
                     <Grid Background="Transparent">
                         <Track x:Name="PART_Track" IsDirectionReversed="True">
                             <Track.DecreaseRepeatButton>
-                                <RepeatButton Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="False"/>
+                                <RepeatButton Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="False" AutomationProperties.Name="Scroll up"/>
                             </Track.DecreaseRepeatButton>
                             <Track.Thumb>
-                                <Thumb Focusable="False">
+                                <Thumb Focusable="False" AutomationProperties.Name="Scroll position">
                                     <Thumb.Template>
                                         <ControlTemplate TargetType="{x:Type Thumb}">
 <Border x:Name="ThumbBd"
@@ -32,7 +32,7 @@
                                 </Thumb>
                             </Track.Thumb>
                             <Track.IncreaseRepeatButton>
-                                <RepeatButton Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="False"/>
+                                <RepeatButton Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="False" AutomationProperties.Name="Scroll down"/>
                             </Track.IncreaseRepeatButton>
                         </Track>
                     </Grid>
@@ -59,10 +59,10 @@
                         <Track x:Name="PART_Track">
                             <Track.DecreaseRepeatButton>
                                 <RepeatButton Command="ScrollBar.LineUpCommand"
-                                              Opacity="0" Focusable="False"/>
+                                              Opacity="0" Focusable="False" AutomationProperties.Name="Scroll up"/>
                             </Track.DecreaseRepeatButton>
                             <Track.Thumb>
-                                <Thumb Focusable="False">
+                                <Thumb Focusable="False" AutomationProperties.Name="Scroll position">
                                     <Thumb.Template>
                                         <ControlTemplate TargetType="{x:Type Thumb}">
                                             <Border x:Name="ThumbBd"
@@ -86,7 +86,7 @@
                             </Track.Thumb>
                             <Track.IncreaseRepeatButton>
                                 <RepeatButton Command="ScrollBar.LineDownCommand"
-                                              Opacity="0" Focusable="False"/>
+                                              Opacity="0" Focusable="False" AutomationProperties.Name="Scroll down"/>
                             </Track.IncreaseRepeatButton>
                         </Track>
                     </Grid>

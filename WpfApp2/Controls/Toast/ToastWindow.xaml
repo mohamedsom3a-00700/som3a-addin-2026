@@ -1,9 +1,9 @@
-<Window x:Class="Som3a_WPF_UI.Controls.Toast.ToastWindow"
+<controls:ModernWindow x:Class="Som3a_WPF_UI.Controls.Toast.ToastWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
         WindowStyle="None"
-        AllowsTransparency="True"
-        Background="Transparent"
+        AllowsTransparency="False"
         ShowInTaskbar="False"
         Topmost="True"
         SizeToContent="WidthAndHeight"
@@ -29,7 +29,7 @@
     </Window.Resources>
 
     <Border x:Name="ToastBorder"
-            Background="{Binding Background}"
+            Background="{DynamicResource Brush.Background.Root}"
             CornerRadius="{DynamicResource SmallRadius}"
             Padding="{DynamicResource Padding.Large}"
             Margin="{DynamicResource Padding.Small}"
@@ -45,4 +45,4 @@
                        Style="{DynamicResource ToastText}"/>
         </StackPanel>
     </Border>
-</Window>
+</controls:ModernWindow>

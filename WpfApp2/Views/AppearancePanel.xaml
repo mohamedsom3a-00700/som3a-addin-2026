@@ -4,11 +4,7 @@
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary/>
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   SnapsToDevicePixels="True"
@@ -208,6 +204,7 @@
                                         CommandParameter="{Binding Hex}"
                                         ToolTip="{Binding Name}"
                                         Focusable="True"
+                                        FocusVisualStyle="{DynamicResource FocusVisualStyle}"
                                         AutomationProperties.Name="{Binding AutomationName}"
                                         Background="Transparent"
                                         BorderThickness="0"

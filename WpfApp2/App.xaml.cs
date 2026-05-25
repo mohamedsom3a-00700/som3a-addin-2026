@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Threading;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Services;
 
@@ -22,13 +23,18 @@ namespace Som3a_WPF_UI
 
             ThemeManager.LoadSettings();
 
-            CompositionRoot.InitializeModules(Container.Resolve<Services.IModuleRegistry>());
+            ThemeManager.FreezeResources();
 
-            var pluginLoader = Container.Resolve<PluginLoader>();
-            var orchestrator = Container.Resolve<ModuleLoadOrchestrator>();
-            orchestrator.SetNavigationService(NavigationService.Instance);
-            var manifests = pluginLoader.DiscoverModules();
-            orchestrator.OnModulesDiscovered(manifests);
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                CompositionRoot.InitializeModules(Container.Resolve<Services.IModuleRegistry>());
+
+                var pluginLoader = Container.Resolve<PluginLoader>();
+                var orchestrator = Container.Resolve<ModuleLoadOrchestrator>();
+                orchestrator.SetNavigationService(NavigationService.Instance);
+                var manifests = pluginLoader.DiscoverModules();
+                orchestrator.OnModulesDiscovered(manifests);
+            }));
         }
 
         private static Assembly? OnAssemblyResolve(object sender, ResolveEventArgs args)

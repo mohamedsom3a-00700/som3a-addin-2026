@@ -17,7 +17,7 @@
     <!-- ROOT -->
 
     <Border x:Name="RootBorder"
-            CornerRadius="18"
+            CornerRadius="{DynamicResource WindowRadius}"
             Background="{DynamicResource Brush.Background.Root}"
             BorderBrush="{DynamicResource CardStrokeBrush}"
             BorderThickness="1">
@@ -42,7 +42,7 @@
 
             <Grid Grid.Row="0"
                   x:Name="TitleBar"
-                  Margin="4,2,4,0"
+                  Margin="{DynamicResource TitleBarMargin}"
                   MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
 
                 <Grid.ColumnDefinitions>
@@ -131,7 +131,7 @@
                         Background="{DynamicResource SurfaceBrush}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1"
-                        CornerRadius="14"
+                        CornerRadius="{DynamicResource LargeRadius}"
                         Padding="10">
 
                     <ListView ItemsSource="{Binding StylePreviews}"
@@ -159,7 +159,7 @@
 
                                             <Border Width="80"
                                                     Height="22"
-                                                    CornerRadius="6"
+                                                    CornerRadius="{DynamicResource SmallRadius}"
                                                     BorderBrush="{DynamicResource Brush.Control.Stroke}"
                                                     BorderThickness="1"
                                                     Background="{Binding Brush}"/>

@@ -134,6 +134,23 @@ namespace Som3a_WPF_UI.Services
             _logger = logger;
         }
 
+        public static void FreezeResources()
+        {
+            if (Application.Current?.Resources?.MergedDictionaries == null) return;
+
+            foreach (var dict in Application.Current.Resources.MergedDictionaries)
+            {
+                if (dict == null) continue;
+                foreach (var key in dict.Keys)
+                {
+                    if (dict[key] is Freezable freezable && !freezable.IsFrozen && freezable.CanFreeze)
+                    {
+                        freezable.Freeze();
+                    }
+                }
+            }
+        }
+
         public void ApplyTheme(string themeName, string accentColor = null)
         {
             if (Application.Current?.Resources == null)
@@ -258,6 +275,8 @@ namespace Som3a_WPF_UI.Services
 
             SaveCurrentTheme();
 
+            FreezeResources();
+
             var handler = ThemeChanged;
             if (handler != null && Application.Current?.Dispatcher != null)
             {
@@ -307,9 +326,11 @@ namespace Som3a_WPF_UI.Services
                             Opacity = effect.Opacity,
                             Direction = effect.Direction
                         };
+                        if (newEffect.CanFreeze) newEffect.Freeze();
                         Application.Current.Resources[key] = newEffect;
                     }
                 }
+                FreezeResources();
                 return true;
             }
             catch
@@ -496,6 +517,7 @@ namespace Som3a_WPF_UI.Services
             try
             {
                 dicts.Add(fallback);
+                FreezeResources();
             }
             catch (Exception ex)
             {

@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using Som3a_WPF_UI.Helpers;
@@ -19,6 +20,8 @@ namespace Som3a_WPF_UI.Controls
     public class ModernWindow : Window
     {
         private bool _useSafeMode;
+        private bool _isHighContrast;
+        private ResourceDictionary _originalThemeResources;
 
         //static ModernWindow()
         //{
@@ -63,11 +66,32 @@ namespace Som3a_WPF_UI.Controls
             SnapsToDevicePixels = true;
             UseLayoutRounding = true;
 
-           Loaded += OnLoaded;
+            ApplyHighContrastMode();
+
+            Loaded += OnLoaded;
             StateChanged += OnStateChanged;
-           Closing += OnClosing;
+            Closing += OnClosing;
 
             PreviewKeyDown += OnPreviewKeyDown;
+        }
+
+        private void ApplyHighContrastMode()
+        {
+            _isHighContrast = SystemParameters.HighContrast;
+            if (!_isHighContrast)
+                return;
+
+            Resources["Brush.Background.Primary"] = SystemColors.WindowBrush;
+            Resources["Brush.Background.Secondary"] = SystemColors.WindowBrush;
+            Resources["Brush.Background.Card"] = SystemColors.WindowBrush;
+            Resources["Brush.Text.Primary"] = SystemColors.WindowTextBrush;
+            Resources["Brush.Text.Secondary"] = SystemColors.WindowTextBrush;
+            Resources["Brush.Accent.Primary"] = SystemColors.HighlightBrush;
+            Resources["Brush.Button.Background"] = SystemColors.ControlBrush;
+            Resources["Brush.Button.HoverBackground"] = SystemColors.ControlLightBrush;
+            Resources["Brush.Button.PressedBackground"] = SystemColors.ControlDarkBrush;
+            Resources["Brush.Control.Background"] = SystemColors.WindowBrush;
+            Resources["Brush.Control.Stroke"] = SystemColors.WindowTextBrush;
         }
 
         private void SetupAnimations()
@@ -101,9 +125,12 @@ namespace Som3a_WPF_UI.Controls
             }
         }
 
+        private static bool IsReducedMotionEnabled =>
+            !SystemParameters.ClientAreaAnimation;
+
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (!_useSafeMode)
+            if (!_useSafeMode && !IsReducedMotionEnabled)
             {
                 var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(200))
                 {
@@ -120,7 +147,7 @@ namespace Som3a_WPF_UI.Controls
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
-            if (_useSafeMode)
+            if (_useSafeMode || IsReducedMotionEnabled)
                 return;
 
             var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(100))

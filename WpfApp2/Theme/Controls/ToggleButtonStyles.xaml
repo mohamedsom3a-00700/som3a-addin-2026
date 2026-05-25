@@ -12,6 +12,7 @@
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="AutomationProperties.Name" Value="{Binding Content, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisualStyle}"/>
         <Setter Property="Template">
             <Setter.Value>

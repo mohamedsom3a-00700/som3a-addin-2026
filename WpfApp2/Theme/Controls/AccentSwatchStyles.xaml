@@ -7,6 +7,7 @@
         <Setter Property="Stroke" Value="Transparent"/>
         <Setter Property="StrokeThickness" Value="2"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="AutomationProperties.Name" Value="Accent color swatch"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>

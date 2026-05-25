@@ -3,9 +3,78 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
-    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                  SnapsToDevicePixels="True"
-                  UseLayoutRounding="True">
+    <Grid SnapsToDevicePixels="True"
+          UseLayoutRounding="True">
+
+        <!-- Loading State -->
+        <Border Style="{DynamicResource PanelSectionStyle}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Visibility="{Binding DiagnosticsVM.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+                SnapsToDevicePixels="True"
+                UseLayoutRounding="True">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True">
+                <ProgressBar IsIndeterminate="True"
+                             Width="200"
+                             Height="4"
+                             Margin="10"
+                             Foreground="{DynamicResource Brush.Accent.Primary}"
+                             SnapsToDevicePixels="True"
+                             UseLayoutRounding="True"/>
+                <TextBlock Text="Capturing diagnostics..."
+                           FontSize="14"
+                           Foreground="{DynamicResource Brush.Text.Secondary}"
+                           HorizontalAlignment="Center"
+                           SnapsToDevicePixels="True"
+                           UseLayoutRounding="True"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Error State -->
+        <Border Style="{DynamicResource PanelSectionStyle}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Visibility="{Binding DiagnosticsVM.HasError, Converter={StaticResource BoolToVisibilityConverter}}"
+                SnapsToDevicePixels="True"
+                UseLayoutRounding="True">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True">
+                <TextBlock Text="⚠ Diagnostics Unavailable"
+                           FontSize="14"
+                           Foreground="{DynamicResource Brush.Accent.Danger}"
+                           HorizontalAlignment="Center"
+                           SnapsToDevicePixels="True"
+                           UseLayoutRounding="True"/>
+                <TextBlock Text="{Binding DiagnosticsVM.ErrorMessage}"
+                           FontSize="12"
+                           Foreground="{DynamicResource Brush.Text.Secondary}"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center"
+                           Margin="0,8,0,0"
+                           SnapsToDevicePixels="True"
+                           UseLayoutRounding="True"/>
+                <Button Content="Retry"
+                        Style="{DynamicResource ActionButtonStyle}"
+                        Command="{Binding DiagnosticsVM.RefreshCommand}"
+                        HorizontalAlignment="Center"
+                        Margin="0,12,0,0"
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True"/>
+            </StackPanel>
+        </Border>
+
+
+
+        <!-- Content State (shown when data is available) -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      Visibility="{Binding DiagnosticsVM.IsDataAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
+                      SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
         <StackPanel SnapsToDevicePixels="True"
                     UseLayoutRounding="True">
 
@@ -194,6 +263,75 @@
                 </StackPanel>
             </Border>
 
+            <!-- Module Diagnostics -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                    <TextBlock Text="Plugin Modules"
+                               Style="{DynamicResource SectionHeaderStyle}"/>
+
+                    <ItemsControl ItemsSource="{Binding DiagnosticsVM.ModuleSnapshots}"
+                                  SnapsToDevicePixels="True"
+                                  UseLayoutRounding="True">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{DynamicResource Brush.Background.Card}"
+                                        CornerRadius="{DynamicResource SmallRadius}"
+                                        Padding="{DynamicResource Padding.Small}"
+                                        Margin="0,0,0,6"
+                                        SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True">
+                                    <Grid SnapsToDevicePixels="True"
+                                          UseLayoutRounding="True">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="140"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding ModuleId}"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource Brush.Text.Primary}"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1"
+                                                   Text="{Binding State}"
+                                                   Foreground="{DynamicResource Brush.Accent.Success}"
+                                                   FontSize="11"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2"
+                                                   Text="{Binding Version}"
+                                                   Foreground="{DynamicResource Brush.Text.Disabled}"
+                                                   FontSize="11"
+                                                   VerticalAlignment="Center"/>
+
+                                        <StackPanel Grid.Row="1"
+                                                    Grid.ColumnSpan="3"
+                                                    Orientation="Horizontal"
+                                                    Margin="0,4,0,0"
+                                                    SnapsToDevicePixels="True"
+                                                    UseLayoutRounding="True">
+                                            <TextBlock Text="{Binding MemoryMB, StringFormat={}{0:F1} MB}"
+                                                       Foreground="{DynamicResource Brush.Text.Secondary}"
+                                                       FontSize="11"
+                                                       Margin="0,0,16,0"/>
+                                            <TextBlock Text="{Binding LoadTimeMs, StringFormat={}{0}ms load time}"
+                                                       Foreground="{DynamicResource Brush.Text.Secondary}"
+                                                       FontSize="11"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
             <!-- Validation Results -->
             <Border Style="{DynamicResource PanelSectionStyle}"
                     SnapsToDevicePixels="True"
@@ -301,4 +439,5 @@
 
         </StackPanel>
     </ScrollViewer>
+</Grid>
 </UserControl>

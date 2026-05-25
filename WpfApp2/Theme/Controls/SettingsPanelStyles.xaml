@@ -68,6 +68,28 @@
         </Setter>
     </Style>
 
+    <!-- Sidebar Item Template -->
+    <DataTemplate x:Key="SidebarFullTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Icon}"
+                       FontFamily="Segoe MDL2 Assets"
+                       FontSize="14"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="1"
+                       Text="{Binding DisplayName}"
+                       FontSize="13"
+                       VerticalAlignment="Center"
+                       Margin="10,0,0,0"
+                       Foreground="{DynamicResource Brush.Foreground.Primary}"/>
+        </Grid>
+    </DataTemplate>
+
     <!-- Panel Container Style -->
     <Style x:Key="PanelContainerStyle" TargetType="Border">
         <Setter Property="Background" Value="{DynamicResource CardBrush}"/>

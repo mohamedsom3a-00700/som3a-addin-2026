@@ -102,6 +102,8 @@
         <Setter Property="Width" Value="{DynamicResource ThemeCardWidth}"/>
         <Setter Property="Height" Value="{DynamicResource ThemeCardHeight}"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="AutomationProperties.Name" Value="{Binding Content, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisualStyle}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>

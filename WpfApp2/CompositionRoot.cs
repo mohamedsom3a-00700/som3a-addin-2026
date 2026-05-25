@@ -63,6 +63,7 @@ namespace Som3a_WPF_UI
 
             container.RegisterSingleton<Som3a_WPF_UI.Contracts.IModuleRegistry, PluginRegistry>();
             container.RegisterSingleton<PluginLoader, PluginLoader>();
+            container.RegisterSingleton<IModuleDiagnosticsService, ModuleDiagnosticsService>();
             container.RegisterSingleton<ModuleDiagnosticsService, ModuleDiagnosticsService>();
             container.RegisterSingleton<ModuleLoadOrchestrator, ModuleLoadOrchestrator>();
         }

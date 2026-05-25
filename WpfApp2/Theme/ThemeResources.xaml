@@ -84,6 +84,9 @@
         <!-- Shell Styles -->
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ShellStyles.xaml"/>
 
+        <!-- Panel Styles (used by SettingsWindow and settings panels) -->
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml"/>
+
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Converters -->

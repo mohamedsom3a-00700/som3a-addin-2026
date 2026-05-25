@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/012-plugin-feature-platform/plan.md
+at: specs/013-enterprise-polish/plan.md
 
 Also refer to the master implementation plan:
 - implementation_plan.md — Full execution plan for Phases 0-11
@@ -99,7 +99,14 @@ Docs/Architecture/
 ├── AGENT_RULES.md
 ├── PERFORMANCE_RULES.md
 ├── AUDIT_REPORT.md
-└── EXCEL_TEST_CHECKLIST.md
+├── EXCEL_TEST_CHECKLIST.md
+├── MVVM_COMPLIANCE.md
+├── PERFORMANCE_AUDIT_REPORT.md      # Phase 10: baseline + optimizations
+├── ACCESSIBILITY_AUDIT_REPORT.md    # Phase 10: keyboard nav + contrast
+├── DPI_AUDIT_REPORT.md              # Phase 10: per-level + multi-monitor
+├── EXCEL_STABILITY_REPORT.md        # Phase 10: VSTO stability results
+├── LOCALIZATION_READINESS.md        # Phase 10: i18n architecture
+└── ENTERPRISE_POLISH_CHECKLIST.md   # Phase 10: master validation
 ```
 
 ### Constitution
