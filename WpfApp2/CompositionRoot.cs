@@ -60,6 +60,11 @@ namespace Som3a_WPF_UI
             container.RegisterSingleton<IDiagnosticsService, DiagnosticsService>();
             container.RegisterSingleton<IValidationEngine, ValidationEngine>();
             container.RegisterSingleton<DiagnosticsViewModel, DiagnosticsViewModel>();
+
+            container.RegisterSingleton<Som3a_WPF_UI.Contracts.IModuleRegistry, PluginRegistry>();
+            container.RegisterSingleton<PluginLoader, PluginLoader>();
+            container.RegisterSingleton<ModuleDiagnosticsService, ModuleDiagnosticsService>();
+            container.RegisterSingleton<ModuleLoadOrchestrator, ModuleLoadOrchestrator>();
         }
 
         public static void InitializeModules(IModuleRegistry registry)

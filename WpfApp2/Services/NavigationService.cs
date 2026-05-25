@@ -10,6 +10,7 @@ namespace Som3a_WPF_UI.Services
     public interface INavigationService
     {
         void RegisterPage<T>(string key, string displayName, string icon = null, int order = 50) where T : Page, new();
+        void RegisterPage(Type pageType, string key, string displayName, string icon = null, int order = 50);
         void NavigateTo(string key, bool pushToHistory = true, string overridePreviousKey = null);
         bool GoBack();
         Page CreatePage(string key);
@@ -44,12 +45,21 @@ namespace Som3a_WPF_UI.Services
 
         public void RegisterPage<T>(string key, string displayName, string icon = null, int order = 50)
             where T : Page, new()
+            => RegisterPageByType(typeof(T), key, displayName, icon, order);
+
+        public void RegisterPage(Type pageType, string key, string displayName, string icon = null, int order = 50)
+            => RegisterPageByType(pageType, key, displayName, icon, order);
+
+        private void RegisterPageByType(Type pageType, string key, string displayName, string icon, int order)
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentException("Key must not be null or empty", nameof(key));
 
             if (displayName == null)
                 throw new ArgumentException("Display name must not be null", nameof(displayName));
+
+            if (pageType == null)
+                throw new ArgumentNullException(nameof(pageType));
 
             if (_registry.ContainsKey(key))
                 throw new InvalidOperationException($"A page with key '{key}' is already registered.");
@@ -60,7 +70,7 @@ namespace Som3a_WPF_UI.Services
                 DisplayName = displayName,
                 Icon = icon,
                 Order = order,
-                PageType = typeof(T)
+                PageType = pageType
             };
 
             _registry[key] = navPage;
@@ -93,18 +103,32 @@ namespace Som3a_WPF_UI.Services
             if (pushToHistory && (previousKey == null || !previousKey.Equals(key)))
                 _navigationHistory.Push(key);
 
-            var destination = Destinations.FirstOrDefault(d => d.Key == key);
-            if (destination != null)
+            try
             {
-                _shellWindow.NavigateToDestination(destination);
-            }
+                var destination = Destinations.FirstOrDefault(d => d.Key == key);
+                if (destination != null)
+                {
+                    _shellWindow.NavigateToDestination(destination);
+                }
 
-            OnNavigationChanged(new NavigationEventArgs
+                OnNavigationChanged(new NavigationEventArgs
+                {
+                    PreviousKey = overridePreviousKey ?? previousKey,
+                    NewKey = key,
+                    Success = true
+                });
+            }
+            catch (Exception ex)
             {
-                PreviousKey = overridePreviousKey ?? previousKey,
-                NewKey = key,
-                Success = true
-            });
+                System.Diagnostics.Debug.WriteLine($"NavigationService.NavigateTo failed for '{key}': {ex.Message}");
+                OnNavigationChanged(new NavigationEventArgs
+                {
+                    PreviousKey = overridePreviousKey ?? previousKey,
+                    NewKey = key,
+                    Success = false,
+                    Error = ex.Message
+                });
+            }
         }
 
         public bool GoBack()
@@ -129,8 +153,15 @@ namespace Som3a_WPF_UI.Services
 
         public Page CreatePage(string key)
         {
-            if (_registry.TryGetValue(key, out var navPage))
-                return navPage.CreateInstance();
+            try
+            {
+                if (_registry.TryGetValue(key, out var navPage))
+                    return navPage.CreateInstance();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"NavigationService.CreatePage failed for '{key}': {ex.Message}");
+            }
             return null;
         }
 

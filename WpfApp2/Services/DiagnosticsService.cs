@@ -29,16 +29,18 @@ namespace Som3a_WPF_UI.Services
 
         public DiagnosticSnapshot CaptureSnapshot()
         {
-            var process = Process.GetCurrentProcess();
             double? workingSetMB = null;
             double? managedMB = null;
 
-            try
+            using (var process = Process.GetCurrentProcess())
             {
-                workingSetMB = Math.Round(process.WorkingSet64 / (1024.0 * 1024.0), 1);
-            }
-            catch
-            {
+                try
+                {
+                    workingSetMB = Math.Round(process.WorkingSet64 / (1024.0 * 1024.0), 1);
+                }
+                catch
+                {
+                }
             }
 
             try
