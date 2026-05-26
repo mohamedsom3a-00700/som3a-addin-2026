@@ -10,6 +10,8 @@ namespace Som3a_WPF_UI.Controls.Shell
         public string Icon { get; set; }
         public int Order { get; set; }
         public Type PageType { get; set; }
+        public string Category { get; set; }
+        public bool IsPluginPage { get; set; }
 
         public Page CreateInstance()
         {

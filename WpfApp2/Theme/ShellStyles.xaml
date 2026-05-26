@@ -3,6 +3,108 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:shell="clr-namespace:Som3a_WPF_UI.Controls.Shell">
 
+    <!-- Sidebar Collapse Toggle Button Style -->
+    <Style x:Key="Style.ToggleButton.SidebarCollapse" TargetType="ToggleButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource Brush.ListView.HoverBackground}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Sidebar Category Header Style (Expander-based) -->
+    <Style x:Key="Style.Sidebar.CategoryHeader" TargetType="GroupItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GroupItem">
+                    <Expander IsExpanded="True"
+                              Header="{Binding Name}"
+                              Style="{DynamicResource Style.Sidebar.CategoryExpander}"
+                              SnapsToDevicePixels="True"
+                              UseLayoutRounding="True">
+                        <ItemsPresenter SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True"/>
+                    </Expander>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Sidebar Category Expander Style -->
+    <Style x:Key="Style.Sidebar.CategoryExpander" TargetType="Expander">
+        <Setter Property="Background" Value="{DynamicResource Brush.Background.Secondary}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Expander">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0"
+                                Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton Grid.Column="0"
+                                              x:Name="HeaderToggle"
+                                              IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Content="▶"
+                                              Foreground="{DynamicResource Brush.Text.Secondary}"
+                                              FontSize="10"
+                                              Width="16"
+                                              Height="16"
+                                              Margin="0,0,4,0"
+                                              VerticalAlignment="Center"
+                                              SnapsToDevicePixels="True"
+                                              UseLayoutRounding="True"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="{TemplateBinding Header}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           FontWeight="{TemplateBinding FontWeight}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ContentPresenter Grid.Row="1"
+                                          x:Name="ContentSite"
+                                          Visibility="Collapsed"
+                                          SnapsToDevicePixels="True"
+                                          UseLayoutRounding="True"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="HeaderToggle" Property="IsChecked" Value="True">
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="HeaderToggle" Property="Content" Value="▼"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Sidebar Item Style -->
     <Style x:Key="Style.Sidebar.Item" TargetType="ListBoxItem">
         <Setter Property="Background" Value="{DynamicResource Brush.Background.Primary}"/>
@@ -91,6 +193,29 @@
         </Style.Triggers>
     </Style>
 
+    <!-- Skip Link Style -->
+    <Style x:Key="Style.SkipLink" TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource Brush.Accent.Primary}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.OnAccent}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Height" Value="0"/>
+        <Setter Property="Opacity" Value="0"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Style.Triggers>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="Height" Value="Auto"/>
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="IsTabStop" Value="True"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <!-- Welcome Page Style -->
     <Style x:Key="Style.WelcomePage.Container" TargetType="Grid">
         <Setter Property="Background" Value="{DynamicResource Brush.Background.Primary}"/>
@@ -123,6 +248,14 @@
                                JournalOwnership="OwnsJournal"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
+                        <ProgressBar x:Name="PART_LoadingIndicator"
+                                     IsIndeterminate="True"
+                                     Visibility="Collapsed"
+                                     Height="3"
+                                     VerticalAlignment="Top"
+                                     Foreground="{DynamicResource Brush.Accent.Primary}"
+                                     Background="{DynamicResource Brush.Background.Card}"
+                                     SnapsToDevicePixels="True"/>
                         <Border x:Name="PART_ErrorOverlay"
                                 Visibility="Collapsed"
                                 Background="{DynamicResource Brush.Background.Primary}">

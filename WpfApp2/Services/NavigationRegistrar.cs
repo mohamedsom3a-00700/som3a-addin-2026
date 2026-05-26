@@ -12,6 +12,11 @@ namespace Som3a_WPF_UI.Services
 
         public void RegisterPage(string id, string title, Type pageType)
         {
+            RegisterPage(id, title, pageType, null);
+        }
+
+        public void RegisterPage(string id, string title, Type pageType, string category)
+        {
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentNullException(nameof(id));
             if (string.IsNullOrWhiteSpace(title))

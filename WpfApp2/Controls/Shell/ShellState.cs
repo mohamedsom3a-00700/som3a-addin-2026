@@ -9,7 +9,9 @@ namespace Som3a_WPF_UI.Controls.Shell
         private string _activePageKey;
         private string _lastActivePageKey;
         private bool _sidebarVisible = true;
+        private bool _sidebarCollapsed;
         private bool _commandPaletteOpen;
+        private readonly HashSet<string> _collapsedCategories = new HashSet<string>();
         private readonly Stack<string> _previousPageStack = new Stack<string>();
 
         public const int MaxHistoryDepth = 10;
@@ -40,6 +42,21 @@ namespace Som3a_WPF_UI.Controls.Shell
             get => _sidebarVisible;
             set { _sidebarVisible = value; OnPropertyChanged(); }
         }
+
+        public bool SidebarCollapsed
+        {
+            get => _sidebarCollapsed;
+            set
+            {
+                if (_sidebarCollapsed != value)
+                {
+                    _sidebarCollapsed = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public HashSet<string> CollapsedCategories => _collapsedCategories;
 
         public bool CommandPaletteOpen
         {

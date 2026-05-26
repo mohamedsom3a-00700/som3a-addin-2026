@@ -11,6 +11,10 @@ namespace Som3a_WPF_UI.Controls.Shell
         private int _order;
         private bool _isVisible = true;
         private bool _isSelected;
+        private string _category;
+        private string _itemId;
+        private bool _isEnabled = true;
+        private int _priority;
 
         public string Key
         {
@@ -46,6 +50,30 @@ namespace Som3a_WPF_UI.Controls.Shell
         {
             get => _isSelected;
             set { _isSelected = value; OnPropertyChanged(); }
+        }
+
+        public string Category
+        {
+            get => _category;
+            set { _category = value; OnPropertyChanged(); }
+        }
+
+        public string ItemId
+        {
+            get => _itemId;
+            set { _itemId = value; OnPropertyChanged(); }
+        }
+
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set { _isEnabled = value; OnPropertyChanged(); }
+        }
+
+        public int Priority
+        {
+            get => _priority;
+            set { _priority = value; OnPropertyChanged(); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

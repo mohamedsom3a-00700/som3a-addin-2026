@@ -9,7 +9,6 @@ using Som3a_WPF_UI;
 //using Som3a_WPF_UI.Controls.Shell;
 using Som3a_WPF_UI.Services;
 //using Som3a_WPF_UI.ViewModels;
-using Som3a_WPF_UI.Windows.PrimaveraComparison;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -271,7 +270,6 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
                 NavigationService.Instance.NavigateTo("main");
             }
             catch (Exception ex)
@@ -288,8 +286,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("fix-pie-colors");
+                NavigationService.Instance.NavigateTo("excel.piecolors");
             }
             catch (Exception ex)
             {
@@ -305,8 +302,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("assign-trade-codes");
+                NavigationService.Instance.NavigateTo("excel.tradecodes");
             }
             catch (Exception ex)
             {
@@ -321,8 +317,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("unmerge-fill-down");
+                NavigationService.Instance.NavigateTo("excel.unmerge");
             }
             catch (Exception ex)
             {
@@ -335,8 +330,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("sub-daily-report");
+                NavigationService.Instance.NavigateTo("excel.subdaily");
             }
             catch (Exception ex)
             {
@@ -351,8 +345,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("links-manager");
+                NavigationService.Instance.NavigateTo("excel.links");
             }
             catch (Exception ex)
             {
@@ -368,8 +361,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("project-analysis");
+                NavigationService.Instance.NavigateTo("planning.analysis");
             }
             catch (Exception ex)
             {
@@ -624,8 +616,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("float-path");
+                NavigationService.Instance.NavigateTo("analysis.floatpath");
             }
             catch (Exception ex)
             {
@@ -641,8 +632,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("style-selector");
+                NavigationService.Instance.NavigateTo("excel.styles");
             }
             catch (Exception ex)
             {
@@ -658,8 +648,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("xer-editor");
+                NavigationService.Instance.NavigateTo("planning.xereditor");
             }
             catch (Exception ex)
             {
@@ -675,8 +664,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("primavera-compare");
+                NavigationService.Instance.NavigateTo("planning.primavera.compare");
             }
             catch (Exception ex)
             {
@@ -688,35 +676,10 @@ namespace Som3a_Addin_2026
             }
         }
 
-        private static bool _shellPagesRegistered;
-
-        private static void RegisterShellPages()
-        {
-            if (_shellPagesRegistered) return;
-
-            var nav = NavigationService.Instance;
-            nav.RegisterPage<Som3a_WPF_UI.Pages.WelcomePage>("welcome", "Home", null, 0);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.MainPage>("main", "Comparison P6", null, 10);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.SettingsPage>("settings", "Settings", null, 20);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.ProjectAnalysisPage>("project-analysis", "Project Analysis", null, 30);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.FloatPathPage>("float-path", "Float Path", null, 40);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.LinksManagerPage>("links-manager", "Links Manager", null, 50);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.SubDailyReportPage>("sub-daily-report", "Sub Daily Report", null, 60);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.AssignTradeCodesPage>("assign-trade-codes", "Assign Trade Codes", null, 70);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.PrimaveraComparePage>("primavera-compare", "Primavera Compare", null, 80);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.PrimaveraResultsPage>("primavera-results", "Primavera Results", null, 90);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.XerEditorPage>("xer-editor", "XER Editor", null, 100);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.FixPieColorsPage>("fix-pie-colors", "Fix Pie Colors", null, 110);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.StyleSelectorPage>("style-selector", "Style Selector", null, 120);
-            nav.RegisterPage<Som3a_WPF_UI.Pages.UnmergeFillDownPage>("unmerge-fill-down", "Unmerge Fill Down", null, 130);
-            _shellPagesRegistered = true;
-        }
-
         private void btnWorkspace_Click(object sender, RibbonControlEventArgs e)
         {
             try
             {
-                RegisterShellPages();
                 NavigationService.Instance.NavigateTo("welcome");
             }
             catch (Exception ex)
@@ -733,8 +696,7 @@ namespace Som3a_Addin_2026
         {
             try
             {
-                RegisterShellPages();
-                NavigationService.Instance.NavigateTo("settings");
+                NavigationService.Instance.NavigateTo("settings.general");
             }
             catch (Exception ex)
             {

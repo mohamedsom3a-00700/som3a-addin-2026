@@ -1,6 +1,7 @@
 using Som3a.Shared.Core;
 using Som3a.Shared.Core.Primavera;
 using Som3a.Shared.Models;
+using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Controls.Shell;
 using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.ViewModels;
@@ -18,7 +19,7 @@ namespace Som3a_WPF_UI
             container.RegisterSingleton<IEventBus>(eventBus);
 
             var moduleRegistry = new ModuleRegistry(container, eventBus);
-            container.RegisterSingleton<IModuleRegistry>(moduleRegistry);
+            container.RegisterSingleton<Services.IModuleRegistry>(moduleRegistry);
 
             container.RegisterSingleton<ThemeManager>(ThemeManager.Instance);
             container.RegisterSingleton<INavigationService>(NavigationService.Instance);
@@ -61,13 +62,14 @@ namespace Som3a_WPF_UI
             container.RegisterSingleton<IValidationEngine, ValidationEngine>();
             container.RegisterSingleton<DiagnosticsViewModel, DiagnosticsViewModel>();
 
+            container.RegisterSingleton<ISidebarRegistrationProvider, SidebarRegistrationService>();
             container.RegisterSingleton<Som3a_WPF_UI.Contracts.IModuleRegistry, PluginRegistry>();
             container.RegisterSingleton<PluginLoader, PluginLoader>();
             container.RegisterSingleton<IModuleDiagnosticsService, ModuleDiagnosticsService>();
             container.RegisterSingleton<ModuleLoadOrchestrator, ModuleLoadOrchestrator>();
         }
 
-        public static void InitializeModules(IModuleRegistry registry)
+        public static void InitializeModules(Services.IModuleRegistry registry)
         {
             registry.InitializeAll();
         }

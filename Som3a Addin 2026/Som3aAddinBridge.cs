@@ -1,9 +1,7 @@
 using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using Som3a_WPF_UI.Services;
-using Som3a_WPF_UI.Views;
 using WpfApp2 = Som3a_WPF_UI;
 
 namespace Som3a_Addin_2026
@@ -33,13 +31,14 @@ namespace Som3a_Addin_2026
         {
             if (_wpfDispatcher != null && _wpfDispatcher.CheckAccess())
             {
-                ShowSettingsWindow();
+                NavigationService.Instance.NavigateTo("settings.general");
                 return;
             }
 
             if (Application.Current?.Dispatcher != null)
             {
-                Application.Current.Dispatcher.Invoke(ShowSettingsWindow);
+                Application.Current.Dispatcher.Invoke(() =>
+                    NavigationService.Instance.NavigateTo("settings.general"));
             }
             else
             {
@@ -48,30 +47,13 @@ namespace Som3a_Addin_2026
                     var app = new Application();
                     app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                     WpfApp2.Services.ThemeManager.LoadSettings();
-                    ShowSettingsWindow();
+                    NavigationService.Instance.NavigateTo("settings.general");
                     Dispatcher.Run();
                 });
                 thread.SetApartmentState(System.Threading.ApartmentState.STA);
                 thread.IsBackground = true;
                 thread.Start();
             }
-        }
-
-        private static void ShowSettingsWindow()
-        {
-            var existing = Application.Current?.Windows
-                .OfType<WpfApp2.Views.SettingsWindow>()
-                .FirstOrDefault();
-
-            if (existing != null)
-            {
-                existing.Activate();
-                existing.Focus();
-                return;
-            }
-
-            var win = new WpfApp2.Views.SettingsWindow();
-            win.ShowDialog();
         }
 
         public static void Shutdown()

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using Som3a.Contracts;
 
 namespace Som3a.Plugin.SDK.Discovery
 {
@@ -38,6 +40,28 @@ namespace Som3a.Plugin.SDK.Discovery
             }
 
             return assemblies;
+        }
+
+        public List<Type> FindTypesWithNavigationItemAttribute(List<Assembly> assemblies)
+        {
+            var results = new List<Type>();
+
+            foreach (var assembly in assemblies)
+            {
+                try
+                {
+                    var types = assembly.GetTypes()
+                        .Where(t => t.GetCustomAttribute<NavigationItemAttribute>() != null)
+                        .ToList();
+
+                    results.AddRange(types);
+                }
+                catch
+                {
+                }
+            }
+
+            return results;
         }
     }
 }

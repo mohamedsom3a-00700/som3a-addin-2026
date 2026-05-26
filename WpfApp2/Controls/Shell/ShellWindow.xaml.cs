@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Som3a_WPF_UI.Helpers;
+using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Pages;
 using Som3a_WPF_UI.Services;
 
@@ -65,6 +66,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         private readonly ShellViewModel _viewModel;
         private bool _isFirstRun = true;
         private bool _hasPendingNavigation;
+        private NavigationDestination _pendingDestination;
         private readonly EventHandler<NavigationEventArgs> _navigationChangedHandler;
 
         public ShellWindow()
@@ -102,11 +104,18 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnShellLoaded(object sender, RoutedEventArgs e)
         {
-            if (_isFirstRun && !_hasPendingNavigation)
+            if (_pendingDestination != null)
+            {
+                var pending = _pendingDestination;
+                _pendingDestination = null;
+                _isFirstRun = false;
+                PerformNavigation(pending);
+            }
+            else if (_isFirstRun && !_hasPendingNavigation)
             {
                 ShowWelcomePage();
+                _isFirstRun = false;
             }
-            _isFirstRun = false;
         }
 
         private void OnNavigateCommand(string key)
@@ -118,7 +127,15 @@ namespace Som3a_WPF_UI.Controls.Shell
         {
             if (Sidebar.SelectedItem is NavigationDestination destination)
             {
-                NavigationService.Instance.NavigateTo(destination.Key);
+                var navigated = NavigationService.Instance.RequestNavigation(destination.Key);
+                if (!navigated)
+                {
+                    var lastActive = NavigationService.Instance.GetActiveDestination();
+                    if (lastActive != null)
+                        Sidebar.SelectedItem = lastActive;
+                    else
+                        Sidebar.SelectedItem = null;
+                }
             }
         }
 
@@ -126,6 +143,20 @@ namespace Som3a_WPF_UI.Controls.Shell
         {
             if (destination == null) return;
 
+            if (_isFirstRun)
+            {
+                _pendingDestination = destination;
+                _viewModel.SelectedDestination = destination;
+                return;
+            }
+
+            PerformNavigation(destination);
+        }
+
+
+
+        private void PerformNavigation(NavigationDestination destination)
+        {
             _viewModel.SelectedDestination = destination;
             _viewModel.StatusMessage = $"Navigating to {destination.Label}...";
 
@@ -165,6 +196,16 @@ namespace Som3a_WPF_UI.Controls.Shell
         public void ShowWelcomePage()
         {
             Workspace?.ShowWelcome();
+        }
+
+        private void OnSkipLinkClick(object sender, RoutedEventArgs e)
+        {
+            Workspace?.Focus();
+            Keyboard.Focus(Workspace);
+        }
+
+        protected override void OnShellInitialize()
+        {
         }
     }
 }

@@ -1,0 +1,118 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Som3a_WPF_UI.Contracts;
+using Som3a_WPF_UI.Controls.Shell;
+
+namespace Som3a_WPF_UI.Services
+{
+    public class SidebarRegistrationService : ISidebarRegistrationProvider
+    {
+        private readonly NavigationService _navigationService;
+        private readonly HashSet<string> _registeredItemIds = new HashSet<string>();
+        private bool _staticPagesRegistered;
+        private bool _pluginPagesRegistered;
+
+        public SidebarRegistrationService()
+        {
+            _navigationService = NavigationService.Instance;
+        }
+
+        public void RegisterStaticPages()
+        {
+            if (_staticPagesRegistered) return;
+            _staticPagesRegistered = true;
+
+            _navigationService.RegisterPage("Planning", typeof(Pages.ProjectAnalysisPage), "planning.analysis", "Project Analysis", "ChartTimelineVariant", 10);
+            _navigationService.RegisterPage("Planning", typeof(Pages.PrimaveraComparePage), "planning.primavera.compare", "Primavera Compare", "Compare", 20);
+            _navigationService.RegisterPage("Planning", typeof(Pages.PrimaveraResultsPage), "planning.primavera.results", "Primavera Results", "FileDocument", 30);
+            _navigationService.RegisterPage("Planning", typeof(Pages.XerEditorPage), "planning.xereditor", "XER Editor", "FileCode", 40);
+
+            _navigationService.RegisterPage("Analysis", typeof(Pages.FloatPathPage), "analysis.floatpath", "Float Path", "Routes", 10);
+
+            _navigationService.RegisterPage("Excel", typeof(Pages.LinksManagerPage), "excel.links", "Links Manager", "LinkVariant", 10);
+            _navigationService.RegisterPage("Excel", typeof(Pages.SubDailyReportPage), "excel.subdaily", "Sub-Daily Report", "FileTable", 20);
+            _navigationService.RegisterPage("Excel", typeof(Pages.AssignTradeCodesPage), "excel.tradecodes", "Assign Trade Codes", "Tag", 30);
+            _navigationService.RegisterPage("Excel", typeof(Pages.FixPieColorsPage), "excel.piecolors", "Fix Pie Colors", "Palette", 40);
+            _navigationService.RegisterPage("Excel", typeof(Pages.StyleSelectorPage), "excel.styles", "Style Selector", "FormatPaint", 50);
+            _navigationService.RegisterPage("Excel", typeof(Pages.UnmergeFillDownPage), "excel.unmerge", "Unmerge Fill Down", "TableMergeCells", 60);
+
+            _navigationService.RegisterPage("Settings", typeof(Pages.SettingsPage), "settings.general", "Settings", "Cog", 10);
+
+            _navigationService.RegisterPage("Other", typeof(Pages.WelcomePage), "welcome", "Home", null, 0);
+            _navigationService.RegisterPage("Other", typeof(Pages.MainPage), "main", "Comparison P6", null, 10);
+
+            foreach (var d in _navigationService.Destinations)
+            {
+                if (d.Key == "welcome" || d.Key == "main")
+                    d.IsVisible = false;
+            }
+        }
+
+        public void RegisterPluginPages(IEnumerable<Type> pageTypes)
+        {
+            if (pageTypes == null)
+                return;
+
+            if (_pluginPagesRegistered) return;
+            _pluginPagesRegistered = true;
+
+            foreach (var pageType in pageTypes)
+            {
+                try
+                {
+                    RegisterPluginPage(pageType);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Failed to register plugin page '{pageType.FullName}': {ex.Message}");
+                }
+            }
+        }
+
+        private void RegisterPluginPage(Type pageType)
+        {
+            var category = "Other";
+            var label = pageType.Name;
+            var icon = "HelpCircleOutline";
+            var order = 50;
+            var itemId = pageType.FullName;
+
+            if (_registeredItemIds.Contains(itemId))
+            {
+                System.Diagnostics.Debug.WriteLine($"Duplicate ItemId '{itemId}' rejected for plugin page '{pageType.FullName}'.");
+                return;
+            }
+
+            if (!IsValidCategory(category))
+            {
+                System.Diagnostics.Debug.WriteLine($"Invalid category '{category}' for plugin page '{pageType.FullName}'. Falling back to 'Other'.");
+                category = "Other";
+            }
+
+            var key = $"plugin.{itemId}";
+
+            _navigationService.RegisterPage(category, pageType, key, label, icon, order);
+            _registeredItemIds.Add(itemId);
+        }
+
+        private static bool IsValidCategory(string category)
+        {
+            return category switch
+            {
+                "Planning" => true,
+                "Analysis" => true,
+                "Excel" => true,
+                "AI" => true,
+                "Settings" => true,
+                "Other" => true,
+                _ => false
+            };
+        }
+
+        public void ClearPluginPages()
+        {
+            _registeredItemIds.Clear();
+        }
+    }
+}

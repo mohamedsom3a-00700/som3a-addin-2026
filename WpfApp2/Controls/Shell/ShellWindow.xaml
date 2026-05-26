@@ -10,20 +10,54 @@
                       SnapsToDevicePixels="True"
                       UseLayoutRounding="True">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
+            <ColumnDefinition x:Name="SidebarColumn" Width="220"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <!-- Skip Link -->
+        <Button x:Name="SkipLink"
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Content="Skip to content"
+                AutomationProperties.Name="Skip to content"
+                IsTabStop="True"
+                Height="0"
+                Opacity="0"
+                Style="{DynamicResource Style.SkipLink}"
+                Click="OnSkipLinkClick"/>
+
         <!-- Sidebar -->
-        <shell:SidebarControl x:Name="Sidebar"
-                              Grid.Column="0"
-                              Items="{Binding Destinations}"
-                              SelectedItem="{Binding SelectedDestination, Mode=TwoWay}"
-                              NavigateCommand="{Binding NavigateToPageCommand}"/>
+        <Grid Grid.Row="1"
+              Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Hamburger Toggle Button -->
+            <ToggleButton x:Name="CollapseToggle"
+                          Grid.Row="0"
+                          Content="☰"
+                          IsChecked="{Binding IsCollapsed, ElementName=Sidebar}"
+                          Style="{DynamicResource Style.ToggleButton.SidebarCollapse}"
+                          ToolTip="Toggle sidebar"
+                          AutomationProperties.Name="Toggle sidebar collapse"/>
+
+            <shell:SidebarControl x:Name="Sidebar"
+                                  Grid.Row="1"
+                                  Items="{Binding Destinations}"
+                                  SelectedItem="{Binding SelectedDestination, Mode=TwoWay}"
+                                  NavigateCommand="{Binding NavigateToPageCommand}"/>
+        </Grid>
 
         <!-- Workspace -->
-        <Grid Grid.Column="1">
+        <Grid Grid.Row="1"
+              Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
@@ -45,6 +79,8 @@
         </Grid>
 
         <!-- Command Palette (overlays everything) -->
-        <shell:CommandPalette x:Name="Palette"/>
+        <shell:CommandPalette x:Name="Palette"
+                              Grid.RowSpan="2"
+                              Grid.ColumnSpan="2"/>
     </Grid>
 </controls:ModernWindow>

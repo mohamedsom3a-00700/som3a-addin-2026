@@ -1,14 +1,14 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/014-platform-foundation/plan.md
+at: specs/015-shell-refactor/plan.md
 
 Also refer to the master implementation plans:
 - implementation_plan.md — Full execution plan for Phases 0-11
 - enterprise_planning_platform_plan.md — Enterprise Planning Platform Phases 14-26
 
 Current phase plan:
-- specs/014-platform-foundation/plan.md — Phase 14: Platform Foundation
+- specs/015-shell-refactor/plan.md — Phase 15: Shell Refactor
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes

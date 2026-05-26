@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 using Som3a_WPF_UI.Controls.Shell;
+using Som3a_WPF_UI.Pages;
 
 namespace Som3a_WPF_UI.Services
 {
@@ -11,11 +12,15 @@ namespace Som3a_WPF_UI.Services
     {
         void RegisterPage<T>(string key, string displayName, string icon = null, int order = 50) where T : Page, new();
         void RegisterPage(Type pageType, string key, string displayName, string icon = null, int order = 50);
+        void RegisterPage(string category, Type pageType, string key, string displayName, string icon = null, int order = 50);
         void NavigateTo(string key, bool pushToHistory = true, string overridePreviousKey = null);
         bool GoBack();
         Page CreatePage(string key);
         bool IsPageRegistered(string key);
         List<NavigationDestination> Search(string query);
+        IReadOnlyList<string> GetCategories();
+        NavigationDestination GetActiveDestination();
+        bool RequestNavigation(string targetKey);
         ObservableCollection<NavigationDestination> Destinations { get; }
         event EventHandler<NavigationEventArgs> NavigationChanged;
     }
@@ -34,6 +39,19 @@ namespace Som3a_WPF_UI.Services
 
         private ShellWindow _shellWindow;
 
+        private static readonly Dictionary<string, int> CategoryOrder = new Dictionary<string, int>
+        {
+            { "Planning", 1 },
+            { "Analysis", 2 },
+            { "Excel", 3 },
+            { "AI", 4 },
+            { "Settings", 5 },
+            { "Other", 99 }
+        };
+
+        public Dictionary<string, object> NavigationData { get; } =
+            new Dictionary<string, object>();
+
         public ObservableCollection<NavigationDestination> Destinations { get; } =
             new ObservableCollection<NavigationDestination>();
 
@@ -45,24 +63,29 @@ namespace Som3a_WPF_UI.Services
 
         public void RegisterPage<T>(string key, string displayName, string icon = null, int order = 50)
             where T : Page, new()
-            => RegisterPageByType(typeof(T), key, displayName, icon, order);
+            => RegisterPageByType(typeof(T), key, displayName, icon, order, null);
 
         public void RegisterPage(Type pageType, string key, string displayName, string icon = null, int order = 50)
-            => RegisterPageByType(pageType, key, displayName, icon, order);
+            => RegisterPageByType(pageType, key, displayName, icon, order, null);
 
-        private void RegisterPageByType(Type pageType, string key, string displayName, string icon, int order)
+        public void RegisterPage(string category, Type pageType, string key, string displayName, string icon = null, int order = 50)
+            => RegisterPageByType(pageType, key, displayName, icon, order, category ?? "Other");
+
+        private void RegisterPageByType(Type pageType, string key, string displayName, string icon, int order, string category)
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentException("Key must not be null or empty", nameof(key));
-
             if (displayName == null)
                 throw new ArgumentException("Display name must not be null", nameof(displayName));
-
             if (pageType == null)
                 throw new ArgumentNullException(nameof(pageType));
 
             if (_registry.ContainsKey(key))
                 throw new InvalidOperationException($"A page with key '{key}' is already registered.");
+
+            var resolvedCategory = string.IsNullOrEmpty(category) ? "Other" : category;
+            if (!CategoryOrder.ContainsKey(resolvedCategory))
+                resolvedCategory = "Other";
 
             var navPage = new NavigationPage
             {
@@ -70,7 +93,8 @@ namespace Som3a_WPF_UI.Services
                 DisplayName = displayName,
                 Icon = icon,
                 Order = order,
-                PageType = pageType
+                PageType = pageType,
+                Category = resolvedCategory
             };
 
             _registry[key] = navPage;
@@ -81,7 +105,10 @@ namespace Som3a_WPF_UI.Services
                 Label = displayName,
                 Icon = icon,
                 Order = order,
-                IsVisible = true
+                IsVisible = true,
+                IsEnabled = true,
+                Category = resolvedCategory,
+                ItemId = key
             };
 
             var insertIndex = 0;
@@ -182,10 +209,74 @@ namespace Som3a_WPF_UI.Services
                 .ToList();
         }
 
+        public IReadOnlyList<string> GetCategories()
+        {
+            return Destinations
+                .Select(d => d.Category)
+                .Where(c => !string.IsNullOrEmpty(c))
+                .Distinct()
+                .OrderBy(c => CategoryOrder.TryGetValue(c, out var order) ? order : 99)
+                .ToList()
+                .AsReadOnly();
+        }
+
+        public NavigationDestination GetActiveDestination()
+        {
+            return Destinations.FirstOrDefault(d => d.IsSelected);
+        }
+
+        public bool RequestNavigation(string targetKey)
+        {
+            if (_shellWindow == null)
+                return false;
+
+            if (_shellWindow.Workspace?.CurrentPage is ISupportsDirtyTracking dirtyPage && dirtyPage.IsDirty)
+            {
+                var result = System.Windows.MessageBox.Show(
+                    "You have unsaved changes. Save before navigating?",
+                    "Unsaved Changes",
+                    System.Windows.MessageBoxButton.YesNoCancel,
+                    System.Windows.MessageBoxImage.Warning);
+
+                switch (result)
+                {
+                    case System.Windows.MessageBoxResult.Yes:
+                        SaveCurrentPage();
+                        break;
+                    case System.Windows.MessageBoxResult.No:
+                        break;
+                    case System.Windows.MessageBoxResult.Cancel:
+                        OnNavigationChanged(new NavigationEventArgs
+                        {
+                            NewKey = targetKey,
+                            Success = false,
+                            Cancelled = true
+                        });
+                        return false;
+                }
+            }
+
+            NavigateTo(targetKey);
+            return true;
+        }
+
+        private void SaveCurrentPage()
+        {
+            if (_shellWindow?.Workspace?.CurrentPage is PageBase dirtyPage && dirtyPage.IsDirty)
+            {
+                dirtyPage.SetDirty(false);
+            }
+        }
+
         private void EnsureShellOpen()
         {
-            if (_shellWindow == null || !_shellWindow.IsLoaded)
+            if (_shellWindow == null || !_shellWindow.IsVisible)
             {
+                if (_shellWindow != null && !_shellWindow.IsVisible)
+                {
+                    _shellWindow.Close();
+                    _shellWindow = null;
+                }
                 _shellWindow = new ShellWindow();
                 _shellWindow.Closed += (s, e) => _shellWindow = null;
                 _shellWindow.Show();
