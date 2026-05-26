@@ -2,30 +2,38 @@
     ThemeResources.xaml — Aggregator ResourceDictionary
     ====================================================
     Resource loading order (per Constitution XV):
-    1.  Base/Colors.xaml           — Primitive + Semantic Color + Semantic Brush + Legacy tokens
-    2.  Base/Typography.xaml       — Font families, sizes, weights, Style.Text.* styles
-    3.  Base/Spacing.xaml          — Spacing scale, padding, sizes
-    4.  Base/Radius.xaml           — Corner radii
-    5.  Base/Elevation.xaml        — Elevation abstraction (Double tokens: OffsetX, OffsetY, BlurRadius, Opacity)
-    6.  Base/Motion.xaml           — Animation durations and easing
-    7.  Base/ZIndex.xaml           — Z-index layering
-    8.  Base/Opacity.xaml          — Opacity states
-    9.  Base/ComponentTokens.xaml   — Component-specific tokens
-    10. Effects/Shadows.xaml       — DropShadowEffect definitions (includes Elevation.* aliases)
-    11. Effects/Glow.xaml          — Glow effect definitions
-    12. Effects/Animations.xaml    — Storyboard animations
-    13. Controls/*.xaml            — All control styles
-    14. ModernWindow.xaml           — Window chrome template
-    15. WindowAnimations.xaml       — Window-level animations
-    16. ShellStyles.xaml            — Shell sidebar, command palette, status bar styles
+    1.  Base/Colors.xaml              — Primitive + Semantic Color + Semantic Brush + Legacy tokens
+    2.  Base/Typography.xaml          — Font families, sizes, weights, Style.Text.* styles
+    3.  Base/Spacing.xaml             — Spacing scale, padding, sizes
+    4.  Base/Radius.xaml              — Corner radii
+    5.  Base/Elevation.xaml           — Elevation abstraction (Double tokens: OffsetX, OffsetY, BlurRadius, Opacity)
+    6.  Base/Motion.xaml              — Animation durations and easing
+    7.  Base/ZIndex.xaml              — Z-index layering
+    8.  Base/Opacity.xaml             — Opacity states
+    9.  Base/ComponentTokens.xaml     — Component-specific tokens
+    10. MaterialIntegration.xaml      — MaterialDesign bridging (key remaps, dynamic theme source)
+    11. Effects/Shadows.xaml          — DropShadowEffect definitions (includes Elevation.* aliases)
+    12. Effects/Glow.xaml             — Glow effect definitions
+    13. Effects/Backdrop.xaml         — Background image brush, blur/transparency property hooks
+    14. Effects/Animations.xaml       — Storyboard animations
+    15. Controls/ButtonStyles.xaml    — All control styles
+        Controls/**/*.xaml
+    16. Controls/MaterialIcons.xaml   — Material icon style definitions
+    17. Controls/MaterialControls.xaml— Material Slider/Toggle/Chip templates
+    18. Controls/WindowButtonStyles.xaml — Title bar button styles
+    19. ModernWindow.xaml              — Window chrome template
+    20. WindowAnimations.xaml          — Window-level animations
+    21. ShellStyles.xaml               — Shell sidebar, command palette, status bar styles
 
     Theme overrides (Dark, Light, Custom) are swapped at runtime by ThemeManager.
+    MaterialDesign theme (Light/Dark) is swapped dynamically alongside the theme override.
     
     Dependencies:
     - Colors must load first (Primitive + Color + Brush tokens)
     - Typography depends on Brush.Text.* tokens from Colors
     - Spacing/Radius/Opacity depend on no other tokens
     - ComponentTokens may reference Brush.*, Spacing.*, Padding.*, Radius.*
+    - MaterialIntegration.xaml depends on Brush.* tokens
     - Effects/Shadows may reference AccentColorValue from Colors
     - Controls depend on all base tokens and effects
     - ModernWindow depends on Controls and Effects

@@ -39,7 +39,7 @@ All source is in `WpfApp2/`. Theme resources at `WpfApp2/Theme/`, Services at `W
 - [X] T004 Extend ThemeManager.ApplyTheme() in WpfApp2/Services/ThemeManager.cs to call new ApplyBackground(), ApplyFont(), GenerateAccentVariants(), ValidateContrast() subroutines (stubbed initially, filled by respective stories)
 - [X] T005 Extend ThemeManager.SaveCurrentTheme() and LoadThemeFromSettings() in WpfApp2/Services/ThemeManager.cs to persist/restore new WindowBackdropStyle, BackgroundImagePath, BackgroundBlurIntensity, BackgroundBlurEnabled, SelectedFontFamily from Properties.Settings.Default
 - [X] T006 Implement Theme/MaterialIntegration.xaml — merge MaterialDesignTheme.Defaults.xaml only (NOT Light/Dark), define bridging resources (MaterialDesignBody → {DynamicResource Brush.Text.Primary}, MaterialDesignPaper → {DynamicResource Brush.Surface.Primary}, MaterialDesignTextBoxBorder → {DynamicResource Brush.Border.Default})
-- [X] T007 Register MaterialIntegration.xaml in WpfApp2/Theme/ThemeResources.xaml MergedDictionaries at position after Base/Opactiy.xaml and before Control styles
+- [X] T007 Register MaterialIntegration.xaml in WpfApp2/Theme/ThemeResources.xaml MergedDictionaries at position after Base/Opacity.xaml and before Control styles
 
 **Checkpoint**: Foundation ready — user story implementation can now begin in parallel
 

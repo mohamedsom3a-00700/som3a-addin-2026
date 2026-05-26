@@ -68,9 +68,9 @@
 
                                             <!-- Window Buttons -->
                                             <StackPanel Grid.Column="2"
-                                        Orientation="Horizontal"
-                                        VerticalAlignment="Center"
-                                        WindowChrome.IsHitTestVisibleInChrome="False">
+                                         Orientation="Horizontal"
+                                         VerticalAlignment="Center"
+                                         WindowChrome.IsHitTestVisibleInChrome="True">
 
                                                 <!-- Theme Toggle -->
                                                 <Button x:Name="ThemeToggleBtn"

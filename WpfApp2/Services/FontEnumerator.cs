@@ -57,7 +57,6 @@ namespace Som3a_WPF_UI.Services
                             if (glyphTypeface.CharacterToGlyphMap.TryGetValue(cp, out _))
                                 return true;
                         }
-                        return false;
                     }
                 }
             }

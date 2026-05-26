@@ -10,19 +10,8 @@ namespace Som3a_WPF_UI.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FontPreview),
                 new FrameworkPropertyMetadata(typeof(FontPreview)));
-        }
-
-        public static readonly DependencyProperty FontFamilyProperty =
-            DependencyProperty.Register(
-                nameof(FontFamily),
-                typeof(FontFamily),
-                typeof(FontPreview),
-                new PropertyMetadata(new FontFamily("Segoe UI")));
-
-        public FontFamily FontFamily
-        {
-            get => (FontFamily)GetValue(FontFamilyProperty);
-            set => SetValue(FontFamilyProperty, value);
+            Control.FontFamilyProperty.OverrideMetadata(typeof(FontPreview),
+                new FrameworkPropertyMetadata(new FontFamily("Segoe UI")));
         }
 
         public static readonly DependencyProperty FontNameProperty =
