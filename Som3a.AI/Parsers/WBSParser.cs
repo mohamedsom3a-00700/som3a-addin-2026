@@ -20,7 +20,8 @@ public class WBSParser : BaseStructuredParser<WBSNode>
 
     protected override Task<WBSNode> ParseEntityAsync(JsonElement element, CancellationToken ct)
     {
-        var node = ParseNode(element);
+        var wbsElement = element.TryGetProperty("wbs", out var wbs) ? wbs : element;
+        var node = ParseNode(wbsElement);
         return Task.FromResult(node);
     }
 

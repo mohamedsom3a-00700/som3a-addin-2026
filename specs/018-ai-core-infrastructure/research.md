@@ -82,7 +82,7 @@
 - **Rationale**: After N consecutive failures (configurable, default 3), the provider is marked as degraded and skipped for a cooldown period (configurable, default 60s). This prevents hammering a failing provider and enables faster fallback. Status transitions: Healthy → Degraded (after N failures) → Healthy (after cooldown + successful health check).
 - **Alternatives considered**:
   - Immediate failover on first failure (too aggressive; transient failures cause unnecessary fallback)
-  - Always try primary first even if degraded (wastes latency; contrains failover purpose)
+  - Always try primary first even if degraded (wastes latency; constrains failover purpose)
   - Round-robin across all providers (no primary preference; inconsistent for cost optimization)
 
 ## Dependencies

@@ -55,7 +55,7 @@
 - Deprecated templates cannot be selected for new prompts
 
 **State Transitions** (TemplateLifecycleState):
-```
+```text
 Draft ──┬──→ Published (via publication action)
          └──→ [deleted] (author only, deletes permanently)
 
@@ -89,7 +89,7 @@ Deprecated ──→ [retained indefinitely for audit]
 | FallbackChain | string[] | Providers tried in order (primary → secondary → ...) |
 
 **State** (ExecutionStatus):
-```
+```text
 Queued → Running → Completed
                 → Failed (after retries exhausted)
                 → Cancelled (user or timeout)

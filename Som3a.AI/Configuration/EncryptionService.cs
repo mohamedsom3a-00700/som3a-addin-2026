@@ -26,9 +26,13 @@ public class EncryptionService
             var decrypted = ProtectedData.Unprotect(data, null, DataProtectionScope.CurrentUser);
             return Encoding.UTF8.GetString(decrypted);
         }
-        catch
+        catch (FormatException ex)
         {
-            return string.Empty;
+            throw new InvalidOperationException($"Decryption failed: invalid base64 format for key.", ex);
+        }
+        catch (CryptographicException ex)
+        {
+            throw new InvalidOperationException($"Decryption failed: cryptographic operation error.", ex);
         }
     }
 }

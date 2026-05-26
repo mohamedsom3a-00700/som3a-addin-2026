@@ -26,6 +26,10 @@ public abstract class BaseStructuredParser<TEntity>
         {
             return ParserResult<TEntity>.Failure($"Invalid JSON format: {ex.Message}");
         }
+        catch (Exception ex)
+        {
+            return ParserResult<TEntity>.Failure($"Parsing failed: {ex.Message}");
+        }
     }
 
     protected abstract Task<TEntity> ParseEntityAsync(JsonElement element, CancellationToken ct);
@@ -33,8 +37,12 @@ public abstract class BaseStructuredParser<TEntity>
     protected virtual List<ParserError> ValidateAgainstSchema(JsonElement element)
     {
         var errors = new List<ParserError>();
-        var schema = ExpectedSchema.RootElement;
+        ValidateRecursive(ExpectedSchema.RootElement, element, "$", errors);
+        return errors;
+    }
 
+    private void ValidateRecursive(JsonElement schema, JsonElement element, string path, List<ParserError> errors)
+    {
         if (schema.TryGetProperty("required", out var required))
         {
             foreach (var field in required.EnumerateArray())
@@ -42,12 +50,32 @@ public abstract class BaseStructuredParser<TEntity>
                 var fieldName = field.GetString();
                 if (fieldName != null && !element.TryGetProperty(fieldName, out _))
                 {
-                    errors.Add(new ParserError(fieldName, $"Missing required field: {fieldName}", ParserErrorSeverity.Error));
+                    errors.Add(new ParserError($"{path}.{fieldName}", $"Missing required field: {fieldName}", ParserErrorSeverity.Error));
                 }
             }
         }
 
-        return errors;
+        if (schema.TryGetProperty("properties", out var properties) && element.ValueKind == JsonValueKind.Object)
+        {
+            foreach (var prop in properties.EnumerateObject())
+            {
+                if (element.TryGetProperty(prop.Name, out var childElement))
+                {
+                    var childSchema = prop.Value;
+                    ValidateRecursive(childSchema, childElement, $"{path}.{prop.Name}", errors);
+                }
+            }
+        }
+
+        if (schema.TryGetProperty("items", out var itemsSchema) && element.ValueKind == JsonValueKind.Array)
+        {
+            int index = 0;
+            foreach (var item in element.EnumerateArray())
+            {
+                ValidateRecursive(itemsSchema, item, $"{path}[{index}]", errors);
+                index++;
+            }
+        }
     }
 }
 

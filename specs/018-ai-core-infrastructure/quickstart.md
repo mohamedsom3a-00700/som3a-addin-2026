@@ -13,6 +13,7 @@ dotnet new xunit -n Som3a.AI.Tests -o Som3a.AI.Tests
 dotnet add Som3a.AI/Som3a.AI.csproj reference Som3a.Domain/Som3a.Domain.csproj
 dotnet add Som3a.AI/Som3a.AI.csproj package OpenAI
 dotnet add Som3a.AI/Som3a.AI.csproj package Anthropic
+dotnet add Som3a.AI/Som3a.AI.csproj package System.Security.Cryptography.ProtectedData
 dotnet add Som3a.AI.Tests/Som3a.AI.Tests.csproj reference Som3a.AI/Som3a.AI.csproj
 dotnet add Som3a.AI.Tests/Som3a.AI.Tests.csproj package Moq
 ```

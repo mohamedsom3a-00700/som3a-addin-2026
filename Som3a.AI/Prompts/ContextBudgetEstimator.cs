@@ -8,6 +8,12 @@ public class ContextBudgetEstimator
 
     public BudgetEstimate Estimate(EnhancedPromptTemplate template, string userContext, int? providerMaxTokens = null)
     {
+        if (template == null)
+            throw new ArgumentNullException(nameof(template));
+
+        if (providerMaxTokens.HasValue && providerMaxTokens.Value <= 0)
+            throw new ArgumentOutOfRangeException(nameof(providerMaxTokens), "Provider max tokens must be positive.");
+
         var systemTokens = EstimateTokenCount(template.SystemPrompt);
         var userTokens = EstimateTokenCount(template.UserPrompt);
         var contextTokens = EstimateTokenCount(userContext);

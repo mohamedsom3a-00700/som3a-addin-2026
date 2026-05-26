@@ -26,7 +26,7 @@ Implement the full AI abstraction layer for the Som3a Enterprise Planning Platfo
 
 **Constraints**: No third-party UI frameworks (Constitution §XIV); all provider communication async non-blocking; API keys encrypted at rest (DPAPI/Windows Data Protection); standard AI SDK rate limit compliance
 
-**Scale/Scope**: Single-user desktop app (Excel VSTO); 6 AI providers; 6 prompt template categories; 5 structured parser types; single concurrent active request per user with queue for serialization
+**Scale/Scope**: Single-user desktop app (Excel VSTO); 6 AI providers; 6 prompt template categories; 5 structured parser types; one active request per provider per user (per-provider RequestQueue with token-bucket rate limiting allows concurrent requests to different providers)
 
 ## Constitution Check
 

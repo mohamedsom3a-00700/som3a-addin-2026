@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Som3a.Domain.Activities;
 using Som3a.Domain.Relationships;
 
 namespace Som3a.AI.Parsers;
@@ -43,8 +44,13 @@ public class RelationshipParser : BaseStructuredParser<List<Relationship>>
                 _ => RelationshipType.FS
             };
 
+            var predecessor = new Activity { ActivityId = item.GetProperty("predecessorId").GetString() ?? string.Empty };
+            var successor = new Activity { ActivityId = item.GetProperty("successorId").GetString() ?? string.Empty };
+
             var rel = new Relationship
             {
+                Predecessor = predecessor,
+                Successor = successor,
                 Type = type,
                 Lag = item.TryGetProperty("lagDays", out var lag)
                     ? TimeSpan.FromDays(lag.GetDouble())
