@@ -1,14 +1,14 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/017-theme-expansion/plan.md
+at: specs/019-wbs-engine/plan.md
 
 Also refer to the master implementation plans:
 - implementation_plan.md — Full execution plan for Phases 0-11
 - enterprise_planning_platform_plan.md — Enterprise Planning Platform Phases 14-26
 
 Current phase plan:
-- specs/018-ai-core-infrastructure/plan.md — Phase 18: AI Core Infrastructure
+- specs/019-wbs-engine/plan.md — Phase 19: WBS Engine
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes

@@ -46,7 +46,10 @@ public class OrchestrationEngine
             StartedAt = DateTime.UtcNow
         };
 
-        var contextText = _contextBuilder.BuildContext(contextEntities.Values.FirstOrDefault()!);
+        var entity = contextEntities.Values.FirstOrDefault();
+        if (entity == null)
+            throw new ArgumentException("Context entity required for orchestration.", nameof(contextEntities));
+        var contextText = _contextBuilder.BuildContext(entity);
         var request = new AIRequest
         {
             SystemPrompt = "Execute the requested AI operation.",
@@ -99,10 +102,10 @@ public class OrchestrationEngine
 
                 _router.RecordFailure(provider.ProviderId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _router.RecordFailure(provider.ProviderId);
-                fallbackChain.Add($"{provider.ProviderId}: {ex.Message}");
+                fallbackChain.Add($"{provider.ProviderId}: failed");
             }
         }
 
@@ -119,7 +122,18 @@ public class OrchestrationEngine
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken ct = default)
     {
         var executionId = Guid.NewGuid().ToString();
-        var contextText = _contextBuilder.BuildContext(contextEntities.Values.FirstOrDefault()!);
+        var entity = contextEntities.Values.FirstOrDefault();
+        if (entity == null)
+        {
+            yield return new OrchestrationStreamEvent
+            {
+                ExecutionId = executionId,
+                IsFinal = true,
+                ContentDelta = "Context entity required for streaming."
+            };
+            yield break;
+        }
+        var contextText = _contextBuilder.BuildContext(entity);
         var request = new AIRequest
         {
             SystemPrompt = "Execute the requested AI operation.",
@@ -137,6 +151,17 @@ public class OrchestrationEngine
                 ExecutionId = executionId,
                 IsFinal = true,
                 ContentDelta = "No AI providers available."
+            };
+            yield break;
+        }
+
+        if (!await _requestQueue.TryAcquireAsync(provider.ProviderId, ct))
+        {
+            yield return new OrchestrationStreamEvent
+            {
+                ExecutionId = executionId,
+                IsFinal = true,
+                ContentDelta = $"Provider {provider.ProviderId} rate limited. Try again later."
             };
             yield break;
         }

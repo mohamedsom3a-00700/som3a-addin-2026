@@ -5,11 +5,12 @@ namespace Som3a.AI.Orchestration;
 public class RequestQueue
 {
     private readonly ConcurrentDictionary<string, TokenBucket> _buckets = new();
-    private readonly SemaphoreSlim _globalThrottle = new(1, 1);
+    private readonly ConcurrentDictionary<string, SemaphoreSlim> _providerThrottles = new();
 
     public async Task<bool> TryAcquireAsync(string providerId, CancellationToken ct = default)
     {
-        await _globalThrottle.WaitAsync(ct);
+        var semaphore = _providerThrottles.GetOrAdd(providerId, _ => new SemaphoreSlim(1, 1));
+        await semaphore.WaitAsync(ct);
         try
         {
             var bucket = _buckets.GetOrAdd(providerId, _ => new TokenBucket(30, TimeSpan.FromMinutes(1)));
@@ -17,13 +18,21 @@ public class RequestQueue
         }
         finally
         {
-            _globalThrottle.Release();
+            semaphore.Release();
         }
     }
 
     public void ConfigureRateLimit(string providerId, int rpm)
     {
-        _buckets[providerId] = new TokenBucket(rpm, TimeSpan.FromMinutes(1));
+        var bucket = new TokenBucket(rpm, TimeSpan.FromMinutes(1));
+        _buckets.AddOrUpdate(providerId, bucket, (_, _) => bucket);
+    }
+
+    public void DisposeProvider(string providerId)
+    {
+        if (_providerThrottles.TryRemove(providerId, out var semaphore))
+            semaphore.Dispose();
+        _buckets.TryRemove(providerId, out _);
     }
 
     private class TokenBucket

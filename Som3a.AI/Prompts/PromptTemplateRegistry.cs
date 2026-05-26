@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Text.Json;
 using Som3a.Contracts;
 
@@ -6,7 +7,8 @@ namespace Som3a.AI.Prompts;
 public class PromptTemplateRegistry
 {
     private readonly string _storagePath;
-    private readonly Dictionary<string, EnhancedPromptTemplate> _templates = new();
+    private readonly ConcurrentDictionary<string, EnhancedPromptTemplate> _templates = new();
+    private readonly object _diskLock = new();
 
     public PromptTemplateRegistry(string? storagePath = null)
     {
@@ -21,7 +23,7 @@ public class PromptTemplateRegistry
     public Task<EnhancedPromptTemplate> GetAsync(string templateId)
     {
         if (_templates.TryGetValue(templateId, out var template))
-            return Task.FromResult(template);
+            return Task.FromResult(Clone(template));
         throw new KeyNotFoundException($"Prompt template '{templateId}' not found.");
     }
 
@@ -34,7 +36,7 @@ public class PromptTemplateRegistry
         if (state.HasValue)
             query = query.Where(t => t.LifecycleState == state.Value);
 
-        return Task.FromResult(query.OrderBy(t => t.Name).ToList());
+        return Task.FromResult(query.OrderBy(t => t.Name).Select(Clone).ToList());
     }
 
     public async Task<EnhancedPromptTemplate> CreateAsync(CreateTemplateRequest request, string actorId)
@@ -47,7 +49,7 @@ public class PromptTemplateRegistry
             SystemPrompt = request.SystemPrompt,
             UserPrompt = request.UserPrompt,
             JsonSchema = request.JsonSchema,
-            ContextRequirements = request.ContextRequirements ?? new List<string>(),
+            ContextRequirements = new List<string>(request.ContextRequirements ?? Enumerable.Empty<string>()),
             OwnershipScope = request.OwnershipScope,
             OwnerId = request.OwnershipScope == TemplateOwnership.Personal ? actorId : null,
             LifecycleState = TemplateLifecycleState.Draft,
@@ -59,46 +61,55 @@ public class PromptTemplateRegistry
 
         _templates[template.Id] = template;
         await SaveToDiskAsync(template);
-        return template;
+        return Clone(template);
     }
 
     public async Task<EnhancedPromptTemplate> UpdateAsync(string templateId, UpdateTemplateRequest request, string actorId)
     {
-        var template = await GetAsync(templateId);
-        if (template.LifecycleState == TemplateLifecycleState.Published)
+        if (!_templates.TryGetValue(templateId, out var template))
+            throw new KeyNotFoundException($"Prompt template '{templateId}' not found.");
+
+        lock (_diskLock)
         {
-            template.Version++;
-            template.LifecycleState = TemplateLifecycleState.Draft;
+            if (template.LifecycleState == TemplateLifecycleState.Published)
+            {
+                template.Version++;
+                template.LifecycleState = TemplateLifecycleState.Draft;
+            }
+
+            if (request.Name != null) template.Name = request.Name;
+            if (request.SystemPrompt != null) template.SystemPrompt = request.SystemPrompt;
+            if (request.UserPrompt != null) template.UserPrompt = request.UserPrompt;
+            if (request.JsonSchema != null) template.JsonSchema = request.JsonSchema;
+            if (request.ContextRequirements != null) template.ContextRequirements = request.ContextRequirements.ToList();
+            template.UpdatedAt = DateTime.UtcNow;
         }
 
-        if (request.Name != null) template.Name = request.Name;
-        if (request.SystemPrompt != null) template.SystemPrompt = request.SystemPrompt;
-        if (request.UserPrompt != null) template.UserPrompt = request.UserPrompt;
-        if (request.JsonSchema != null) template.JsonSchema = request.JsonSchema;
-        if (request.ContextRequirements != null) template.ContextRequirements = request.ContextRequirements.ToList();
-        template.UpdatedAt = DateTime.UtcNow;
-
         await SaveToDiskAsync(template);
-        return template;
+        return Clone(template);
     }
 
     public async Task<EnhancedPromptTemplate> PublishAsync(string templateId, string actorId)
     {
-        var template = await GetAsync(templateId);
+        if (!_templates.TryGetValue(templateId, out var template))
+            throw new KeyNotFoundException($"Prompt template '{templateId}' not found.");
+
         template.LifecycleState = TemplateLifecycleState.Published;
         template.UpdatedAt = DateTime.UtcNow;
         await SaveToDiskAsync(template);
-        return template;
+        return Clone(template);
     }
 
     public async Task<EnhancedPromptTemplate> DeprecateAsync(string templateId, string actorId)
     {
-        var template = await GetAsync(templateId);
+        if (!_templates.TryGetValue(templateId, out var template))
+            throw new KeyNotFoundException($"Prompt template '{templateId}' not found.");
+
         template.LifecycleState = TemplateLifecycleState.Deprecated;
         template.DeprecatedAt = DateTime.UtcNow;
         template.UpdatedAt = DateTime.UtcNow;
         await SaveToDiskAsync(template);
-        return template;
+        return Clone(template);
     }
 
     private void LoadFromDisk()
@@ -114,7 +125,14 @@ public class PromptTemplateRegistry
                 if (template != null && !string.IsNullOrEmpty(template.Id))
                     _templates[template.Id] = template;
             }
-            catch { }
+            catch (IOException ex)
+            {
+                throw new InvalidOperationException($"Cannot read template file {file}.", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new InvalidOperationException($"Corrupt template file {file}.", ex);
+            }
         }
     }
 
@@ -123,6 +141,28 @@ public class PromptTemplateRegistry
         var path = Path.Combine(_storagePath, $"{template.Id}.json");
         var json = JsonSerializer.Serialize(template, new JsonSerializerOptions { WriteIndented = true });
         await File.WriteAllTextAsync(path, json);
+    }
+
+    private static EnhancedPromptTemplate Clone(EnhancedPromptTemplate source)
+    {
+        return new EnhancedPromptTemplate
+        {
+            Id = source.Id,
+            Name = source.Name,
+            Category = source.Category,
+            SystemPrompt = source.SystemPrompt,
+            UserPrompt = source.UserPrompt,
+            JsonSchema = source.JsonSchema,
+            ContextRequirements = new List<string>(source.ContextRequirements),
+            LifecycleState = source.LifecycleState,
+            Version = source.Version,
+            OwnershipScope = source.OwnershipScope,
+            OwnerId = source.OwnerId,
+            CreatedAt = source.CreatedAt,
+            UpdatedAt = source.UpdatedAt,
+            DeprecatedAt = source.DeprecatedAt,
+            CreatedBy = source.CreatedBy
+        };
     }
 }
 

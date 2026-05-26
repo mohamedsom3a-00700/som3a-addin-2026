@@ -13,7 +13,9 @@ public class AuditTrail
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "Som3a", "audit", "templates.json");
 
-        Directory.CreateDirectory(Path.GetDirectoryName(_logPath)!);
+        var dir = Path.GetDirectoryName(_logPath);
+        if (!string.IsNullOrEmpty(dir))
+            Directory.CreateDirectory(dir);
     }
 
     public void Record(string entityType, string entityId, string action, string actorId, object? previousState = null)
@@ -37,6 +39,33 @@ public class AuditTrail
         }
     }
 
+    public void AppendRecord(string entityType, string entityId, string action, string actorId, object? previousState = null)
+    {
+        var entry = new AuditEntry
+        {
+            Id = Guid.NewGuid().ToString(),
+            EntityType = entityType,
+            EntityId = entityId,
+            Action = action,
+            ActorId = actorId,
+            Timestamp = DateTime.UtcNow,
+            PreviousState = previousState != null ? JsonSerializer.Serialize(previousState) : null
+        };
+
+        lock (_lock)
+        {
+            var json = JsonSerializer.Serialize(entry, new JsonSerializerOptions { WriteIndented = false }) + Environment.NewLine;
+            try
+            {
+                File.AppendAllText(_logPath, json);
+            }
+            catch (IOException ex)
+            {
+                throw new InvalidOperationException($"Failed to append audit entry to {_logPath}.", ex);
+            }
+        }
+    }
+
     public List<AuditEntry> GetHistory(string? entityId = null)
     {
         lock (_lock)
@@ -56,7 +85,14 @@ public class AuditTrail
             var json = File.ReadAllText(_logPath);
             return JsonSerializer.Deserialize<List<AuditEntry>>(json) ?? new();
         }
-        catch { return new(); }
+        catch (JsonException ex)
+        {
+            throw new InvalidOperationException($"Corrupt audit file at {_logPath}.", ex);
+        }
+        catch (IOException ex)
+        {
+            throw new InvalidOperationException($"Cannot read audit file at {_logPath}.", ex);
+        }
     }
 
     private void SaveEntries(List<AuditEntry> entries)
