@@ -5,6 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Som3a_WPF_UI.Services
 {
@@ -20,9 +24,30 @@ namespace Som3a_WPF_UI.Services
         public SettingsImportException(string message, Exception inner) : base(message, inner) { }
     }
 
+    public sealed class PluginSettingsDocument
+    {
+        public int Version { get; set; } = 1;
+        public string? PluginVersion { get; set; }
+        public DateTime LastModified { get; set; }
+        public List<string> SectionKeys { get; set; } = new();
+        public Dictionary<string, object?> Values { get; set; } = new();
+    }
+
+    public sealed class SnapshotBundle
+    {
+        public string Version { get; set; } = "1.0.0";
+        public DateTime ExportedAt { get; set; }
+        public string AppVersion { get; set; } = string.Empty;
+        public Dictionary<string, PluginSettingsDocument> Plugins { get; set; } = new();
+    }
+
     public sealed class SettingsPersistenceService
     {
         private readonly JsonSerializerSettings _jsonSettings;
+
+        private static readonly string PluginsBasePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "Som3a", "Plugins");
 
         public SettingsPersistenceService()
         {
@@ -200,6 +225,209 @@ namespace Som3a_WPF_UI.Services
                     : $"Unknown render mode '{settings.RenderMode}'. Defaulting to 'Auto'.");
                 settings.RenderMode = "Auto";
             }
+        }
+
+        public async Task<PluginSettingsDocument?> LoadPluginSettingsAsync(string pluginId)
+        {
+            var filePath = GetPluginSettingsPath(pluginId);
+            if (!File.Exists(filePath))
+                return null;
+
+            try
+            {
+                var json = await Task.Run(() => File.ReadAllText(filePath));
+                return JsonConvert.DeserializeObject<PluginSettingsDocument>(json, _jsonSettings);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task SavePluginSettingsAsync(string pluginId, PluginSettingsDocument document)
+        {
+            var filePath = GetPluginSettingsPath(pluginId);
+            var dir = Path.GetDirectoryName(filePath);
+            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            document.LastModified = DateTime.UtcNow;
+
+            var json = JsonConvert.SerializeObject(document, _jsonSettings);
+            var tempPath = filePath + ".tmp";
+            await Task.Run(() =>
+            {
+                File.WriteAllText(tempPath, json);
+                if (File.Exists(filePath))
+                    File.Delete(filePath);
+                File.Move(tempPath, filePath);
+            });
+        }
+
+        public async Task<byte[]?> LoadEncryptedValueAsync(string pluginId, string key)
+        {
+            var secretsPath = GetPluginSecretsPath(pluginId);
+            if (!File.Exists(secretsPath))
+                return null;
+
+            try
+            {
+                var json = await Task.Run(() => File.ReadAllText(secretsPath));
+                var secrets = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                if (secrets != null && secrets.TryGetValue(key, out var encryptedBase64))
+                {
+                    var encryptedBytes = Convert.FromBase64String(encryptedBase64);
+                    return ProtectedData.Unprotect(encryptedBytes, null, DataProtectionScope.CurrentUser);
+                }
+            }
+            catch
+            {
+            }
+
+            return null;
+        }
+
+        public async Task SaveEncryptedValueAsync(string pluginId, string key, byte[] plaintextData)
+        {
+            var secretsPath = GetPluginSecretsPath(pluginId);
+            var dir = Path.GetDirectoryName(secretsPath);
+            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            Dictionary<string, string> secrets;
+            if (File.Exists(secretsPath))
+            {
+                try
+                {
+                    var existingJson = await Task.Run(() => File.ReadAllText(secretsPath));
+                    secrets = JsonConvert.DeserializeObject<Dictionary<string, string>>(existingJson) ?? new Dictionary<string, string>();
+                }
+                catch
+                {
+                    secrets = new Dictionary<string, string>();
+                }
+            }
+            else
+            {
+                secrets = new Dictionary<string, string>();
+            }
+
+            var encryptedBytes = ProtectedData.Protect(plaintextData, null, DataProtectionScope.CurrentUser);
+            secrets[key] = Convert.ToBase64String(encryptedBytes);
+
+            var json = JsonConvert.SerializeObject(secrets, _jsonSettings);
+            await Task.Run(() => File.WriteAllText(secretsPath, json));
+        }
+
+        public async Task ExportSnapshotAsync(string exportPath, IReadOnlyList<string>? pluginIds = null)
+        {
+            var bundle = new SnapshotBundle
+            {
+                Version = "1.0.0",
+                ExportedAt = DateTime.UtcNow,
+                AppVersion = typeof(SettingsPersistenceService).Assembly.GetName().Version?.ToString() ?? "0.0.0.0",
+                Plugins = new Dictionary<string, PluginSettingsDocument>()
+            };
+
+            var pluginsDir = PluginsBasePath;
+            if (!Directory.Exists(pluginsDir))
+            {
+                var json = JsonConvert.SerializeObject(bundle, _jsonSettings);
+                var exportDir = Path.GetDirectoryName(exportPath);
+                if (!string.IsNullOrEmpty(exportDir) && !Directory.Exists(exportDir))
+                    Directory.CreateDirectory(exportDir);
+                await Task.Run(() => File.WriteAllText(exportPath, json));
+                return;
+            }
+
+            var pluginDirs = pluginIds != null
+                ? pluginIds.Select(id => Path.Combine(pluginsDir, id)).Where(Directory.Exists).ToList()
+                : Directory.GetDirectories(pluginsDir).ToList();
+
+            foreach (var dir in pluginDirs)
+            {
+                var settingsFile = Path.Combine(dir, "settings.json");
+                if (!File.Exists(settingsFile))
+                    continue;
+
+                try
+                {
+                    var json = await Task.Run(() => File.ReadAllText(settingsFile));
+                    var doc = JsonConvert.DeserializeObject<PluginSettingsDocument>(json, _jsonSettings);
+                    if (doc != null)
+                        bundle.Plugins[Path.GetFileName(dir)] = doc;
+                }
+                catch
+                {
+                }
+            }
+
+            var exportDirPath = Path.GetDirectoryName(exportPath);
+            if (!string.IsNullOrEmpty(exportDirPath) && !Directory.Exists(exportDirPath))
+                Directory.CreateDirectory(exportDirPath);
+
+            var bundleJson = JsonConvert.SerializeObject(bundle, _jsonSettings);
+            await Task.Run(() => File.WriteAllText(exportPath, bundleJson));
+        }
+
+        public async Task<SnapshotBundle?> ImportSnapshotAsync(string importPath, IReadOnlyList<string>? pluginIds = null)
+        {
+            if (!File.Exists(importPath))
+                throw new FileNotFoundException("Import file not found.", importPath);
+
+            string json;
+            try
+            {
+                json = await Task.Run(() => File.ReadAllText(importPath));
+            }
+            catch (Exception ex)
+            {
+                throw new SettingsImportException("Failed to read import file.", ex);
+            }
+
+            SnapshotBundle? bundle;
+            try
+            {
+                bundle = JsonConvert.DeserializeObject<SnapshotBundle>(json, _jsonSettings);
+            }
+            catch (JsonReaderException ex)
+            {
+                throw new SettingsImportException("Invalid JSON format in import file.", ex);
+            }
+
+            if (bundle == null)
+                throw new SettingsImportException("Invalid import file format.");
+
+            var pluginsToImport = pluginIds != null
+                ? bundle.Plugins.Where(p => pluginIds.Contains(p.Key)).ToDictionary(p => p.Key, p => p.Value)
+                : bundle.Plugins;
+
+            foreach (var kvp in pluginsToImport)
+            {
+                var pluginId = kvp.Key;
+                var doc = kvp.Value;
+                if (doc == null) continue;
+
+                var filePath = GetPluginSettingsPath(pluginId);
+                var dir = Path.GetDirectoryName(filePath);
+                if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+
+                var docJson = JsonConvert.SerializeObject(doc, _jsonSettings);
+                await Task.Run(() => File.WriteAllText(filePath, docJson));
+            }
+
+            return bundle;
+        }
+
+        private static string GetPluginSettingsPath(string pluginId)
+        {
+            return Path.Combine(PluginsBasePath, pluginId, "settings.json");
+        }
+
+        private static string GetPluginSecretsPath(string pluginId)
+        {
+            return Path.Combine(PluginsBasePath, pluginId, "secrets.json");
         }
     }
 }

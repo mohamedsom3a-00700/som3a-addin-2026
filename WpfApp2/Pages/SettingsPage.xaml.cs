@@ -42,6 +42,34 @@ namespace Som3a_WPF_UI.Pages
             if (_containerGrid != null)
                 _originalColumnWidth = _containerGrid.ColumnDefinitions[0].Width;
             ApplySidebarState();
+
+            if (DataContext is ViewModels.SettingsViewModel vm)
+            {
+                if (FindName("DebugCount") is System.Windows.Controls.TextBlock tb)
+                {
+                    tb.Text = $"Categories: {vm.Categories.Count} items";
+                    if (vm.Categories.Count > 0)
+                        tb.Text += $" | First: '{vm.Categories[0].DisplayName}'";
+                    else
+                        tb.Text += " | EMPTY!";
+                    tb.Foreground = System.Windows.Media.Brushes.Lime;
+                }
+
+                System.Diagnostics.Trace.WriteLine($"[SettingsPage] DataContext: SettingsViewModel with {vm.Categories.Count} categories");
+                if (vm.Categories.Count > 0)
+                {
+                    System.Diagnostics.Trace.WriteLine($"[SettingsPage] First category: '{vm.Categories[0].DisplayName}' Icon='{vm.Categories[0].Icon}'");
+                }
+            }
+            else
+            {
+                if (FindName("DebugCount") is System.Windows.Controls.TextBlock tb)
+                {
+                    tb.Text = "DataContext is NULL or wrong type!";
+                    tb.Foreground = System.Windows.Media.Brushes.Red;
+                }
+                System.Diagnostics.Trace.WriteLine("[SettingsPage] DataContext is null or wrong type!");
+            }
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)

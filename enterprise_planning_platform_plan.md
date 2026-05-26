@@ -14,7 +14,7 @@
 
 Transform the current Excel VSTO Add-in into a complete **AI-powered Enterprise Planning Platform** for construction planning engineers — BOQ analysis, WBS generation, activity generation, logic relationships, duration estimation, productivity analysis, and Primavera-compatible scheduling workflows. The platform leverages the existing WPF Shell Workspace, Fluent theme engine, MVVM architecture, and plugin infrastructure as its foundation, extending them with new domain libraries, AI orchestration, and intelligent planning engines.
 
-**Scope**: Phases 14–26 — 13 new phases building on the existing 0–11 foundation.
+**Scope**: Phases 14–27 — 14 new phases building on the existing 0–11 foundation.
 
 **Priority**: Phase 14 (Platform Foundation) first — establishes the Domain layer, Contracts, Plugin SDK, and AI Abstraction Layer as the architectural spine for all subsequent phases.
 
@@ -1331,6 +1331,285 @@ with:
 
 ---
 
+## Phase 27 — Persistence & Platform Database Infrastructure
+
+**Goal**: Introduce a stable enterprise persistence layer for settings, AI metadata, diagnostics, plugin metadata, templates, and platform history after all core platform systems become stable.
+
+**Branch**: `feature/phase-27-persistence-database`
+
+**Prerequisites**: All Phases 14–26
+
+### 27.1 Architectural Reasoning
+
+Database integration is intentionally delayed until:
+
+- Domain models stabilize
+- Plugin architecture finalizes
+- AI workflows mature
+- Export workflows stabilize
+- Dynamic settings registry completes
+
+This prevents:
+
+- Schema instability
+- Repeated migrations
+- Architectural rewrites
+- Early coupling issues
+
+### 27.2 Hybrid Persistence Architecture
+
+| Data Type         | Storage Type |
+| ----------------- | ------------ |
+| Excel Files       | File-based   |
+| BOQ Files         | File-based   |
+| Exports           | File-based   |
+| Branding Assets   | File-based   |
+| Platform Settings | Database     |
+| AI Metadata       | Database     |
+| Plugin Metadata   | Database     |
+| Diagnostics       | Database     |
+| Templates         | Database     |
+
+### 27.3 Database Technology
+
+**Engine**: SQLite
+
+#### Why SQLite
+
+| Reason                      | Benefit                      |
+| --------------------------- | ---------------------------- |
+| Local Desktop Platform      | Perfect fit                  |
+| No Server Required          | Simple deployment            |
+| Lightweight                 | Fast startup                 |
+| Offline Support             | Full compatibility           |
+| WPF Friendly                | Excellent integration        |
+| Plugin Friendly             | Easy modular access          |
+| Backup Friendly             | Single DB file               |
+| Future Expandable           | Repository abstraction ready |
+
+### 27.4 Enterprise Persistence Architecture
+
+```text
+Planova.Infrastructure/
+ └── Persistence/
+      ├── SQLite/
+      │    ├── DatabaseContext.cs
+      │    ├── DatabaseFactory.cs
+      │    ├── ConnectionManager.cs
+      │    └── SQLiteConfiguration.cs
+      │
+      ├── Repositories/
+      │    ├── SettingsRepository.cs
+      │    ├── AIRepository.cs
+      │    ├── PluginRepository.cs
+      │    ├── DiagnosticsRepository.cs
+      │    └── TemplateRepository.cs
+      │
+      ├── Interfaces/
+      │    ├── ISettingsRepository.cs
+      │    ├── IAIRepository.cs
+      │    ├── IPluginRepository.cs
+      │    ├── ILogRepository.cs
+      │    └── ITemplateRepository.cs
+      │
+      ├── Migrations/
+      ├── Seeders/
+      ├── UnitOfWork/
+      └── Backup/
+```
+
+### 27.5 Repository Pattern Strategy
+
+#### Required Abstractions
+
+- `ISettingsRepository`
+- `IAIRepository`
+- `IPluginRepository`
+- `ILogRepository`
+- `ITemplateRepository`
+
+### 27.6 Unit of Work Architecture
+
+Ensures:
+
+- Transaction safety
+- Plugin isolation
+- Rollback support
+- Export consistency
+
+### 27.7 Database Tables
+
+#### Settings
+
+- `UserSettings`
+- `ThemeSettings`
+- `AppearanceSettings`
+- `AccessibilitySettings`
+- `PerformanceSettings`
+- `ExcelSettings`
+- `PluginSettings`
+
+#### AI
+
+- `AIProviders`
+- `AIPromptTemplates`
+- `AIExecutions`
+- `AITokenUsage`
+- `AIProviderConfigurations`
+- `AIHistory`
+
+#### Plugin System
+
+- `Plugins`
+- `PluginStates`
+- `PluginVersions`
+- `PluginDependencies`
+- `PluginDiagnostics`
+
+#### Diagnostics
+
+- `Logs`
+- `Exceptions`
+- `CrashReports`
+- `ExportHistory`
+- `PerformanceSnapshots`
+
+#### Templates
+
+- `WBSTemplates`
+- `ActivityTemplates`
+- `RelationshipTemplates`
+- `ProductivityBenchmarks`
+
+#### Localization (Future)
+
+- `Languages`
+- `Translations`
+- `FontProfiles`
+- `RTLProfiles`
+
+### 27.8 Persistence Scope
+
+#### Stored in Database
+
+- **Settings**: User preferences, theme selections, font selections, plugin settings
+- **AI**: Prompt templates, AI execution history, token usage, provider metadata
+- **Plugins**: Installed plugins, enable/disable states, plugin diagnostics
+- **Diagnostics**: Errors, crashes, logs, export history
+- **Templates**: WBS templates, productivity benchmarks, relationship templates
+
+#### File-Based (Remains)
+
+- Excel Workbooks
+- BOQ Files
+- Exported Reports
+- Branding Assets
+- Splash Assets
+- Images
+- Attachments
+
+### 27.9 Future Cloud Readiness
+
+The persistence layer must support future migration to PostgreSQL, SQL Server, or cloud synchronization without rewriting the Domain layer, Plugin system, AI orchestration, or Shell platform.
+
+### 27.10 Migration System
+
+- Automatic migrations
+- Version tracking
+- Rollback support
+- Plugin-aware migrations
+
+### 27.11 Backup & Recovery
+
+- **Backup**: Scheduled backups, manual backups, safe restore
+- **Recovery**: Crash-safe recovery, corrupted DB recovery, export recovery logs
+
+### 27.12 Async Persistence Strategy
+
+All DB operations must support:
+
+- Async/await
+- Background execution
+- Cancellation tokens
+
+to avoid UI freezing, Excel blocking, and Shell lag.
+
+### 27.13 Diagnostics Integration
+
+Monitor query performance, migration failures, connection stability, and file corruption.
+
+### 27.14 AI Persistence Integration
+
+Track prompt execution history, provider usage, token usage, retry attempts, and validation failures.
+
+### 27.15 Security Requirements
+
+Protect API keys, provider credentials, and sensitive logs using encryption, secure local storage, and safe serialization.
+
+### 27.16 Performance Goals
+
+| Area             | Goal   |
+| ---------------- | ------ |
+| DB Startup       | <100ms |
+| Settings Load    | <50ms  |
+| AI History Query | <300ms |
+| Plugin Load      | <100ms |
+
+### 27.17 Plugin Persistence Support
+
+Each plugin must support local persistence, settings persistence, diagnostics persistence, and safe migrations.
+
+### 27.18 Persistence Validation Engine
+
+Validate DB schema integrity, migration consistency, corrupted records, and plugin compatibility.
+
+### 27.19 Final Execution Order
+
+```text
+Phase 25 — Full Platform Rebranding
+Phase 26 — Release Candidate
+Phase 27 — Persistence & Platform Database Infrastructure
+```
+
+### 27.20 Final Deliverables
+
+- **Infrastructure**: SQLite integration, repository abstraction, migration engine, backup system
+- **Platform**: Settings persistence, AI metadata persistence, plugin metadata persistence, diagnostics persistence
+
+### 27.21 Final Architectural Result
+
+After Phase 27 the platform becomes **Planova Platform** with:
+
+- Enterprise AI planning infrastructure
+- Plugin-driven architecture
+- Dynamic settings persistence
+- AI execution history
+- Diagnostics persistence
+- Future cloud-ready architecture
+- Professional desktop platform foundation
+
+### 27.22 Final Conclusion
+
+Database integration is intentionally delayed until platform stabilization to ensure clean architecture, stable schemas, future scalability, reliable plugin persistence, and enterprise-grade maintainability. This phase finalizes the transition from **Advanced Excel Add-in** into a **Full Enterprise AI Planning Platform**.
+
+**Acceptance Criteria**:
+- [ ] SQLite integration complete with DatabaseContext, Factory, ConnectionManager
+- [ ] All 5 repository interfaces implemented (Settings, AI, Plugin, Logs, Templates)
+- [ ] Repository implementations for all 5 interfaces
+- [ ] Unit of Work pattern with transaction safety and rollback
+- [ ] Migration engine with version tracking and rollback
+- [ ] Backup & recovery system operational
+- [ ] All DB operations async with cancellation tokens
+- [ ] Plugin persistence support per plugin
+- [ ] Persistence validation engine functional
+- [ ] Performance targets met (DB startup <100ms, Settings Load <50ms)
+- [ ] Build passes with zero errors
+- [ ] Excel VSTO host test passes
+- [ ] GitHub PR created and approved
+- [ ] CodeRabbit review clean
+
+---
+
 ## Git Branch Strategy
 
 ```text
@@ -1347,6 +1626,7 @@ feature/phase-23-dashboard-home
 feature/phase-24-localization-rtl
 feature/phase-25-platform-rebranding
 feature/phase-26-release-candidate
+feature/phase-27-persistence-database
 ```
 
 Plugin branches follow pattern:

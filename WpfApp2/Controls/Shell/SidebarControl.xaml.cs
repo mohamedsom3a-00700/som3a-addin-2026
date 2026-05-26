@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
@@ -104,6 +105,48 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private static void OnItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var control = (SidebarControl)d;
+            control.TryRebuildGroupedView();
+        }
+
+        private void TryRebuildGroupedView()
+        {
+            if (SidebarListBox == null || Items == null)
+                return;
+            if (!IsLoaded)
+            {
+                RoutedEventHandler handler = null;
+                handler = (s, ev) =>
+                {
+                    Loaded -= handler;
+                    RebuildGroupedView();
+                };
+                Loaded += handler;
+                return;
+            }
+            RebuildGroupedView();
+        }
+
+        private void RebuildGroupedView()
+        {
+            var view = new ListCollectionView(Items)
+            {
+                Filter = dest =>
+                {
+                    if (dest is NavigationDestination nd)
+                        return nd.IsVisible;
+                    return true;
+                }
+            };
+            view.GroupDescriptions.Add(new PropertyGroupDescription(nameof(NavigationDestination.Category)));
+            view.SortDescriptions.Add(
+                new System.ComponentModel.SortDescription(nameof(NavigationDestination.Category),
+                    System.ComponentModel.ListSortDirection.Ascending));
+            view.SortDescriptions.Add(
+                new System.ComponentModel.SortDescription(nameof(NavigationDestination.Order),
+                    System.ComponentModel.ListSortDirection.Ascending));
+
+            SidebarListBox.ItemsSource = view;
         }
 
         private static void OnIsCollapsedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -117,12 +160,6 @@ namespace Som3a_WPF_UI.Controls.Shell
                 SetCurrentValue(SelectedItemProperty, selected);
             }
             SelectionChanged?.Invoke(this, e);
-        }
-
-        private void OnFilterDestinations(object sender, FilterEventArgs e)
-        {
-            if (e.Item is NavigationDestination dest)
-                e.Accepted = dest.IsVisible;
         }
 
         private void OnGridMouseEnter(object sender, MouseEventArgs e)

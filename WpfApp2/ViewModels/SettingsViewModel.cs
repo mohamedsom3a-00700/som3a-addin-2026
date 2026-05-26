@@ -3,6 +3,7 @@ using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -12,6 +13,9 @@ namespace Som3a_WPF_UI.ViewModels
     {
         private readonly ThemeManager _themeManager;
         private readonly SettingsPersistenceService _settingsService;
+        private readonly SettingsRegistry _registry;
+        private readonly SettingsValidator _validator;
+        private readonly IEventBus _eventBus;
 
         private UserSettings _currentSettings;
         private UserSettings _previewSettings;
@@ -21,9 +25,11 @@ namespace Som3a_WPF_UI.ViewModels
         private string _originalTheme;
         private string _originalAccent;
         private object? _currentPanel;
+        private SettingsSectionViewModel? _selectedSection;
 
         public ObservableCollection<SettingsCategory> Categories { get; } = new();
         public ObservableCollection<AccentSwatchItem> AccentSwatches { get; } = new();
+        public ObservableCollection<SettingsSectionViewModel> DynamicSections { get; } = new();
 
         public SettingsCategory? SelectedCategory
         {
@@ -40,6 +46,12 @@ namespace Som3a_WPF_UI.ViewModels
                     UpdateCurrentPanel();
                 }
             }
+        }
+
+        public SettingsSectionViewModel? SelectedSection
+        {
+            get => _selectedSection;
+            set => SetProperty(ref _selectedSection, value);
         }
 
         private void UpdateCurrentPanel()
@@ -119,7 +131,9 @@ namespace Som3a_WPF_UI.ViewModels
         {
             _themeManager = ThemeManager.Instance;
             _settingsService = settingsService;
-            DiagnosticsVM = diagnosticsVm;
+            _registry = SettingsRegistry.Instance;
+            _validator = new SettingsValidator();
+            _eventBus = App.Container.Resolve<IEventBus>();
 
             _currentSettings = _settingsService.LoadSettings();
             _previewSettings = CloneSettings(_currentSettings);
@@ -129,6 +143,7 @@ namespace Som3a_WPF_UI.ViewModels
 
             InitializeCategories();
             InitializeSwatches();
+            LoadDynamicSections();
 
             ThemeCardCommand = new RelayCommand(param => OnThemeCardClick(param as string));
             AccentSwatchCommand = new RelayCommand(param => OnAccentSwatchClick(param as string));
@@ -143,6 +158,27 @@ namespace Som3a_WPF_UI.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
 
             _themeManager.ThemeChanged += OnThemeChanged;
+        }
+
+        private void LoadDynamicSections()
+        {
+            DynamicSections.Clear();
+
+            var categories = _registry.GetAllCategories();
+            foreach (var category in categories)
+            {
+                var sections = _registry.GetSectionsByCategory(category);
+                foreach (var section in sections)
+                {
+                    var sectionVm = new SettingsSectionViewModel(section, _validator);
+                    DynamicSections.Add(sectionVm);
+                }
+            }
+        }
+
+        public void RefreshDynamicSections()
+        {
+            LoadDynamicSections();
         }
 
         private void InitializeCategories()
@@ -289,13 +325,14 @@ namespace Som3a_WPF_UI.ViewModels
             UpdateSwatchSelection();
         }
 
-        private void OnExportSettings()
+        private async void OnExportSettings()
         {
             try
             {
                 var filePath = GetExportFilePath();
                 if (string.IsNullOrEmpty(filePath)) return;
                 _settingsService.ExportSettings(_currentSettings, filePath);
+                await _settingsService.ExportSnapshotAsync(filePath, null);
                 ToastService.Success("Settings exported successfully.");
             }
             catch (Exception ex)
@@ -304,12 +341,25 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private void OnImportSettings()
+        private async void OnImportSettings()
         {
             var filePath = GetImportFilePath();
             if (string.IsNullOrEmpty(filePath)) return;
             try
             {
+                var bundle = await _settingsService.ImportSnapshotAsync(filePath, null);
+                if (bundle != null)
+                {
+                    var pluginCount = bundle.Plugins.Count;
+                    var sectionCount = bundle.Plugins.Sum(p => p.Value?.SectionKeys.Count ?? 0);
+
+                    if (sectionCount > 0)
+                    {
+                        ToastService.Success($"Settings imported: {pluginCount} plugins, {sectionCount} sections restored.");
+                        RefreshDynamicSections();
+                    }
+                }
+
                 var result = _settingsService.ImportSettings(filePath);
                 _currentSettings = result.Settings;
                 _previewSettings = CloneSettings(_currentSettings);
@@ -389,9 +439,51 @@ namespace Som3a_WPF_UI.ViewModels
             OnPropertyChanged(nameof(PreviewSettings));
         }
 
-        private void OnSave()
+        private async void OnSave()
         {
             OnApplyTheme();
+
+            foreach (var sectionVm in DynamicSections)
+            {
+                var pluginId = sectionVm.PluginId;
+                var doc = new PluginSettingsDocument
+                {
+                    Version = 1,
+                    LastModified = DateTime.UtcNow,
+                    SectionKeys = new System.Collections.Generic.List<string> { sectionVm.Id }
+                };
+
+                foreach (var control in sectionVm.Controls)
+                {
+                    doc.Values[control.Key] = control.CurrentValue;
+
+                    if (control.IsEncrypted && control.CurrentValue is string secret && !string.IsNullOrEmpty(secret))
+                    {
+                        var bytes = System.Text.Encoding.UTF8.GetBytes(secret);
+                        await _settingsService.SaveEncryptedValueAsync(pluginId, $"{sectionVm.Id}.{control.Key}", bytes);
+                        doc.Values[control.Key] = null;
+                    }
+
+                    _registry.UpdateSettingValue(sectionVm.Id, control.Key, control.CurrentValue);
+
+                    var isSecret = control.IsEncrypted;
+                    _eventBus.Publish(new SettingsChangedEvent
+                    {
+                        ModuleId = pluginId,
+                        SectionId = sectionVm.Id,
+                        SettingKey = control.Key,
+                        OldValue = isSecret ? "***" : null,
+                        NewValue = isSecret ? "***" : control.CurrentValue,
+                        ChangedAt = DateTime.UtcNow
+                    });
+                }
+
+                await _settingsService.SavePluginSettingsAsync(pluginId, doc);
+            }
+
+            _registry.MarkClean();
+            IsDirty = false;
+
             _themeManager.ThemeChanged -= OnThemeChanged;
             CloseWindow?.Invoke(true);
         }

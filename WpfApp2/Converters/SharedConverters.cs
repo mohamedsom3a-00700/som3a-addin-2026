@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Som3a_WPF_UI.Converters
 {
@@ -125,6 +126,32 @@ namespace Som3a_WPF_UI.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class StringToBrushConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string hex && !string.IsNullOrEmpty(hex))
+            {
+                try
+                {
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hex));
+                }
+                catch
+                {
+                }
+            }
+
+            return new SolidColorBrush(Colors.Transparent);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is SolidColorBrush brush)
+                return brush.Color.ToString();
+            return string.Empty;
         }
     }
 }

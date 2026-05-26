@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
@@ -160,6 +162,11 @@
     <Compile Include="Theme\Controls\AnimationProperties.cs" />
     <Compile Include="Services\ThemeSettings.cs" />
     <Compile Include="Services\SettingsPersistenceService.cs" />
+    <Compile Include="Services\SettingsRegistry.cs" />
+    <Compile Include="Services\SettingsChangedEvent.cs" />
+    <Compile Include="Services\SettingsValidator.cs" />
+    <Compile Include="Services\SettingsMigrationService.cs" />
+    <Compile Include="Services\SettingsModuleIntegration.cs" />
     <Compile Include="Services\ThemeManager.cs" />
     <Compile Include="Services\WindowRenderModeDetector.cs" />
     <Compile Include="Services\RenderModeService.cs" />
@@ -235,9 +242,15 @@
     <Compile Include="Views\PluginsPanel.xaml.cs">
       <DependentUpon>PluginsPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SettingControlSelector.cs" />
+    <Compile Include="Views\SettingsSectionView.xaml.cs">
+      <DependentUpon>SettingsSectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\FixPieColorsViewModel.cs" />
     <Compile Include="ViewModels\LinksManagerViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\SettingsSectionViewModel.cs" />
+    <Compile Include="ViewModels\SettingControlViewModel.cs" />
     <Compile Include="ViewModels\WbsStyleSelectorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -558,6 +571,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\Controls\SettingsPanelStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingControlTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsSectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

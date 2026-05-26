@@ -2,33 +2,37 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:shell="clr-namespace:Som3a_WPF_UI.Controls.Shell"
-             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
-    <UserControl.Resources>
-        <CollectionViewSource x:Key="GroupedDestinations"
-                               Source="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Items}"
-                               Filter="OnFilterDestinations">
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Category"/>
-            </CollectionViewSource.GroupDescriptions>
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Order" Direction="Ascending"/>
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-    </UserControl.Resources>
     <Grid MouseEnter="OnGridMouseEnter"
           MouseLeave="OnGridMouseLeave"
           PreviewKeyDown="OnPreviewKeyDown">
-        <ListBox x:Name="SidebarListBox"
-                 ItemsSource="{Binding Source={StaticResource GroupedDestinations}}"
-                 SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=SelectedItem, Mode=TwoWay}"
-                 ItemContainerStyle="{DynamicResource Style.Sidebar.Item}"
-                 VirtualizingPanel.IsVirtualizing="True"
-                 VirtualizingPanel.VirtualizationMode="Recycling"
-                 KeyboardNavigation.TabNavigation="Continue"
-                 KeyboardNavigation.DirectionalNavigation="Cycle"
-                 SelectionChanged="OnSelectionChanged">
+         <ListBox x:Name="SidebarListBox"
+                  SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=SelectedItem, Mode=TwoWay}"
+                  ItemContainerStyle="{DynamicResource Style.Sidebar.Item}"
+                   VirtualizingPanel.IsVirtualizing="False"
+                  KeyboardNavigation.TabNavigation="Continue"
+                  KeyboardNavigation.DirectionalNavigation="Cycle"
+                  SelectionChanged="OnSelectionChanged">
+            <ListBox.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="GroupItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="GroupItem">
+                                        <Expander IsExpanded="True"
+                                                  Header="{Binding Name}"
+                                                  Style="{DynamicResource Style.Sidebar.CategoryExpander}">
+                                            <ItemsPresenter/>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListBox.GroupStyle>
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource Style.Sidebar.ListBox}">
                     <Setter Property="IsTabStop" Value="True"/>

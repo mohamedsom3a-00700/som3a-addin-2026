@@ -6,6 +6,7 @@ using Som3a_WPF_UI.Controls.Shell;
 using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.ViewModels;
 using Som3a_WPF_UI.ViewModels.Primavera;
+using System.Threading.Tasks;
 
 namespace Som3a_WPF_UI
 {
@@ -40,6 +41,10 @@ namespace Som3a_WPF_UI
             container.RegisterTransient<MainViewModel, MainViewModel>();
             container.RegisterTransient<ShellViewModel, ShellViewModel>();
 
+            container.RegisterSingleton<SettingsRegistry>(SettingsRegistry.Instance);
+            container.RegisterSingleton<SettingsValidator, SettingsValidator>();
+            container.RegisterSingleton<SettingsMigrationService, SettingsMigrationService>();
+            container.RegisterSingleton<SettingsModuleIntegration, SettingsModuleIntegration>();
             container.RegisterTransient<SettingsPersistenceService, SettingsPersistenceService>();
             container.RegisterTransient<SettingsViewModel, SettingsViewModel>();
             container.RegisterTransient<WbsStyleSelectorViewModel, WbsStyleSelectorViewModel>();
@@ -72,6 +77,12 @@ namespace Som3a_WPF_UI
         public static void InitializeModules(Services.IModuleRegistry registry)
         {
             registry.InitializeAll();
+        }
+
+        public static async Task RunStartupTasksAsync(IServiceContainer container)
+        {
+            var migrationService = container.Resolve<SettingsMigrationService>();
+            await migrationService.MigrateAllUnmigratedAsync();
         }
     }
 }

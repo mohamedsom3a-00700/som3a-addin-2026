@@ -57,7 +57,7 @@
                                         <Setter Property="Foreground" Value="{DynamicResource Brush.Text.OnAccent}"/>
                                     </Trigger>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush.Control.Hover}"/>
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush.Control.HoverBackground}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -67,6 +67,20 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- Sidebar Icon-Only Template (used when sidebar is collapsed) -->
+    <DataTemplate x:Key="SidebarIconTemplate">
+        <Grid>
+            <TextBlock Text="{Binding Icon}"
+                       FontFamily="Segoe MDL2 Assets"
+                       FontSize="16"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource TextSubBrush}"
+                       SnapsToDevicePixels="True"
+                       UseLayoutRounding="True"/>
+        </Grid>
+    </DataTemplate>
 
     <!-- Sidebar Item Template -->
     <DataTemplate x:Key="SidebarFullTemplate">
@@ -88,7 +102,7 @@
                        FontSize="13"
                        VerticalAlignment="Center"
                        Margin="10,0,0,0"
-                       Foreground="{DynamicResource Brush.Foreground.Primary}"
+                       Foreground="{DynamicResource TextMainBrush}"
                        SnapsToDevicePixels="True"
                        UseLayoutRounding="True"/>
         </Grid>
