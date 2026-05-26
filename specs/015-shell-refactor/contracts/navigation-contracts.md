@@ -62,7 +62,7 @@ public interface ISidebarRegistrationProvider
 
 Implemented by `SidebarRegistrationService`. Called during Shell initialization (CompositionRoot).
 
-## Interface: INavigationItemAttribute *(new, in Som3a.Contracts)*
+## Class: NavigationItemAttribute *(new, in Som3a.Contracts)*
 
 Defined in Phase 14's Som3a.Contracts as a .NET Standard 2.0 compatible attribute.
 

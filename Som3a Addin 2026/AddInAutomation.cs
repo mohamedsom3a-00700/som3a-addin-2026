@@ -37,53 +37,61 @@ namespace Som3a_Addin_2026
             try
             {
                 var nav = Som3a_WPF_UI.Services.NavigationService.Instance;
+                string route;
                 switch (name)
                 {
                     case "Home":
                     case "Som3a Add-in":
-                        nav.NavigateTo("main");
-                        return "OK";
+                        route = "welcome";
+                        break;
                     case "Trades Codes":
-                        nav.NavigateTo("excel.tradecodes");
-                        return "OK";
+                        route = "excel.tradecodes";
+                        break;
                     case "Daily Report":
-                        nav.NavigateTo("excel.subdaily");
-                        return "OK";
+                        route = "excel.subdaily";
+                        break;
                     case "Links Manager":
-                        nav.NavigateTo("excel.links");
-                        return "OK";
+                        route = "excel.links";
+                        break;
                     case "Project Analysis":
                     case "Revised Baseline (Split Activity)":
-                        nav.NavigateTo("planning.analysis");
-                        return "OK";
+                        route = "planning.analysis";
+                        break;
                     case "XER Editor":
                     case "Xer Editor":
-                        nav.NavigateTo("planning.xereditor");
-                        return "OK";
+                        route = "planning.xereditor";
+                        break;
                     case "WBS Color Styles":
                     case "Color WBS Setting":
-                        nav.NavigateTo("excel.styles");
-                        return "OK";
+                        route = "excel.styles";
+                        break;
                     case "Unmerge Fill Down":
-                        nav.NavigateTo("excel.unmerge");
-                        return "OK";
+                        route = "excel.unmerge";
+                        break;
                     case "Float Path Analyzer":
-                        nav.NavigateTo("analysis.floatpath");
-                        return "OK";
+                        route = "analysis.floatpath";
+                        break;
                     case "Fix Pie Chart Colors":
-                        nav.NavigateTo("excel.piecolors");
-                        return "OK";
+                        route = "excel.piecolors";
+                        break;
+                    case "Comparsion":
+                        route = "main";
+                        break;
                     case "Primavera Compare":
                     case "Comparsion by Xer":
-                        nav.NavigateTo("planning.primavera.compare");
-                        return "OK";
+                        route = "planning.primavera.compare";
+                        break;
                     case "Settings":
                     case "Add in Setting":
-                        nav.NavigateTo("settings.general");
-                        return "OK";
+                        route = "settings.general";
+                        break;
                     default:
                         return "WINDOW_NOT_FOUND";
                 }
+                nav.NavigateTo(route);
+                if (!_openWindows.ContainsKey(name) && Application.Current?.MainWindow != null)
+                    _openWindows[name] = Application.Current.MainWindow;
+                return "OK";
             }
             catch (Exception ex)
             {

@@ -242,7 +242,8 @@ Note: The master plan lives at repo root (`enterprise_planning_platform_plan.md`
 - `ExportValidator` — Pre-export validation
 
 ### P14-T007: Build Validation
-- `msbuild` solution — all new projects compile
+- `msbuild` solution — WpfApp2 (NETFX 4.8) compiles
+- `dotnet build` all .NET 8.0 libraries (Som3a.Contracts, Som3a.Domain, etc.)
 - All contracts implementable and testable
 - Domain entities serializable/deserializable (JSON)
 - Plugin SDK can discover a test plugin

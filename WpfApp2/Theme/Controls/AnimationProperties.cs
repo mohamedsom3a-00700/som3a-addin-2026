@@ -55,10 +55,10 @@ namespace Som3a_WPF_UI.Theme.Controls
         public override Type TargetPropertyType => typeof(GridLength);
 
         public static readonly DependencyProperty FromProperty =
-            DependencyProperty.Register("From", typeof(GridLength), typeof(GridLengthAnimation));
+            DependencyProperty.Register("From", typeof(GridLength?), typeof(GridLengthAnimation));
 
         public static readonly DependencyProperty ToProperty =
-            DependencyProperty.Register("To", typeof(GridLength), typeof(GridLengthAnimation));
+            DependencyProperty.Register("To", typeof(GridLength?), typeof(GridLengthAnimation));
 
         public GridLength? From
         {

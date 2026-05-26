@@ -24,7 +24,7 @@
 
 ## R2: Dynamic Navigation Registration via [NavigationItem] Attribute
 
-**Decision**: Define `INavigationItemAttribute` in `Som3a.Contracts` (Phase 14), create `SidebarRegistrationService` in WpfApp2.Services that discovers attribute-decorated types and registers them via `NavigationService.RegisterPage()`.
+**Decision**: Define `NavigationItemAttribute` in `Som3a.Contracts` (Phase 14), create `SidebarRegistrationService` in WpfApp2.Services that discovers attribute-decorated types and registers them via `NavigationService.RegisterPage()`.
 
 **Rationale**: The Plugin SDK's `AssemblyScanner` and `PluginDiscoverer` (Phase 14) provide assembly scanning infrastructure. A new `SidebarRegistrationService` wraps this: it scans loaded assemblies for types decorated with `[NavigationItem]`, reads Category, Label, Icon, Order, Priority from the attribute, and calls `NavigationService.Instance.RegisterPage()`. This bridges the Phase 14 .NET 8.0 Contracts layer to the .NET Framework 4.8 WPF host via the existing Som3a.Bridge interop.
 
@@ -104,7 +104,7 @@
 - **Define in Som3a.Bridge** — Violates project structure; Bridge is for interop only, not domain types.
 
 **Implementation notes**:
-- `Som3a.Contracts/INavigationItemAttribute.cs` defines the attribute with Category, Label, Icon, Order, Priority properties
+- `Som3a.Contracts/NavigationItemAttribute.cs` defines the attribute with Category, Label, Icon, Order, Priority properties
 - `Som3a.Plugin.SDK/Discovery/AssemblyScanner` scans for types with this attribute
 - `WpfApp2/Services/SidebarRegistrationService.cs` receives discovered types and calls `NavigationService.RegisterPage()`
 - Bridge passes `Type` objects back and forth

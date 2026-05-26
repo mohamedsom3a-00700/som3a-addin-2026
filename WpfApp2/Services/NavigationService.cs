@@ -79,6 +79,8 @@ namespace Som3a_WPF_UI.Services
                 throw new ArgumentException("Display name must not be null", nameof(displayName));
             if (pageType == null)
                 throw new ArgumentNullException(nameof(pageType));
+            if (!typeof(System.Windows.Controls.Page).IsAssignableFrom(pageType))
+                throw new ArgumentException($"Type '{pageType.FullName}' must derive from System.Windows.Controls.Page", nameof(pageType));
 
             if (_registry.ContainsKey(key))
                 throw new InvalidOperationException($"A page with key '{key}' is already registered.");
