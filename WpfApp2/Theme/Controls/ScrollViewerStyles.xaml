@@ -130,6 +130,7 @@
 
     <!-- Implicit ScrollViewer style — applies thin scrollbar to all scroll viewers -->
     <Style TargetType="{x:Type ScrollViewer}">
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">

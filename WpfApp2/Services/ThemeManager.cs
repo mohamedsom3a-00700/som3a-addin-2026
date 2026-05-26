@@ -110,6 +110,11 @@ namespace Som3a_WPF_UI.Services
         private AppTheme _currentTheme = AppTheme.Dark;
         private string _currentAccentColor = "#3A86FF";
         private ILoggingService _logger;
+        private string _currentFontFamily = "Segoe UI";
+        private string _backgroundImagePath = "";
+        private double _backgroundBlurIntensity = 0.0;
+        private bool _backgroundBlurEnabled = false;
+        private string _windowBackdropStyle = "Solid";
 
         public string CurrentTheme => _currentTheme.ToString();
         public string CurrentAccentColor => _currentAccentColor;
@@ -170,8 +175,6 @@ namespace Som3a_WPF_UI.Services
             if (Application.Current?.Resources == null)
                 return;
 
-            _logger?.Log("INFO", "Theme", $"Applying theme: {themeName}", "ThemeManager");
-
             if (!Enum.TryParse<AppTheme>(themeName, true, out var theme))
                 theme = AppTheme.Dark;
 
@@ -204,56 +207,26 @@ namespace Som3a_WPF_UI.Services
                     break;
             }
 
-            ResourceDictionary themeDict = null;
-            var failedDictionaries = new List<string>();
-            var failureReasons = new List<string>();
-            bool loadSucceeded = false;
-
+            ResourceDictionary themeDict;
             try
             {
                 themeDict = new ResourceDictionary { Source = themeUri };
-                loadSucceeded = true;
             }
             catch (Exception ex)
             {
                 _logger?.Log("ERROR", "Theme", $"Failed to load theme dictionary: {ex.Message}", "ThemeManager", ex.ToString());
-                failedDictionaries.Add(themeUri.ToString());
-                failureReasons.Add(ex.Message);
-            }
-
-            if (loadSucceeded && themeDict != null)
-            {
-                try
-                {
-                    if (existingTheme != null)
-                    {
-                        int index = dicts.IndexOf(existingTheme);
-                        if (index >= 0)
-                            dicts.RemoveAt(index);
-                        dicts.Add(themeDict);
-                    }
-                    else
-                    {
-                        dicts.Add(themeDict);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger?.Log("ERROR", "Theme", $"Dictionary replacement failed: {ex.Message}", "ThemeManager", ex.ToString());
-                    failedDictionaries.Add(themeUri.ToString());
-                    failureReasons.Add(ex.Message);
-                    loadSucceeded = false;
-                }
-            }
-
-            if (!loadSucceeded)
-            {
-                ActivateFallbackMode(failedDictionaries, failureReasons);
+                ActivateFallbackMode(new List<string> { themeUri.ToString() }, new List<string> { ex.Message });
                 return;
             }
 
+            dicts.Add(themeDict);
+
+            if (existingTheme != null)
+            {
+                try { dicts.Remove(existingTheme); } catch { }
+            }
+
             IsFallbackActive = false;
-            FallbackManifest = new FallbackManifest();
 
             try
             {
@@ -263,25 +236,36 @@ namespace Som3a_WPF_UI.Services
                     window.UpdateLayout();
                 }
             }
-            catch (Exception ex)
-            {
-                _logger?.Log("WARN", "Render", $"Window invalidation failed: {ex.Message}", "ThemeManager", ex.ToString());
-                System.Diagnostics.Debug.WriteLine($"[ThemeManager] Window invalidation failed: {ex.Message}");
-            }
-            System.Diagnostics.Debug.WriteLine($"[ThemeManager] Dictionaries Count: {dicts.Count}");
+            catch { }
 
             _currentTheme = theme;
 
             if (ApplyAccentColor(effectiveAccent))
-            {
                 _currentAccentColor = effectiveAccent;
-            }
 
             ValidateTokenIntegrity();
 
+            ApplyBackground(_backgroundImagePath, _backgroundBlurIntensity);
+            ApplyFont(_currentFontFamily);
+
+            if (!string.IsNullOrEmpty(effectiveAccent))
+            {
+                try
+                {
+                    var baseColor = (Color)ColorConverter.ConvertFromString(effectiveAccent);
+                    GenerateAccentVariants(baseColor);
+                }
+                catch { }
+            }
+
+            ValidateContrast();
             SaveCurrentTheme();
 
-            FreezeResources();
+            foreach (Window window in Application.Current.Windows)
+            {
+                window.InvalidateVisual();
+                window.UpdateLayout();
+            }
 
             var handler = ThemeChanged;
             if (handler != null && Application.Current?.Dispatcher != null)
@@ -364,6 +348,12 @@ namespace Som3a_WPF_UI.Services
                 if (string.IsNullOrEmpty(accent))
                     accent = "#3A86FF";
 
+                _windowBackdropStyle = Settings.Default.WindowBackdropStyle ?? "Solid";
+                _backgroundImagePath = Settings.Default.BackgroundImagePath ?? "";
+                _backgroundBlurIntensity = Settings.Default.BackgroundBlurIntensity;
+                _backgroundBlurEnabled = Settings.Default.BackgroundBlurEnabled;
+                _currentFontFamily = Settings.Default.SelectedFontFamily ?? "Segoe UI";
+
                 ApplyThemeInternal(themeName, accent);
             }
             catch (Exception ex)
@@ -381,6 +371,11 @@ namespace Som3a_WPF_UI.Services
             {
                 Settings.Default.SelectedTheme = _currentTheme.ToString();
                 Settings.Default.AccentColor = _currentAccentColor;
+                Settings.Default.WindowBackdropStyle = _windowBackdropStyle;
+                Settings.Default.BackgroundImagePath = _backgroundImagePath;
+                Settings.Default.BackgroundBlurIntensity = _backgroundBlurIntensity;
+                Settings.Default.BackgroundBlurEnabled = _backgroundBlurEnabled;
+                Settings.Default.SelectedFontFamily = _currentFontFamily;
                 Settings.Default.Save();
             }
             catch (Exception ex)
@@ -392,6 +387,232 @@ namespace Som3a_WPF_UI.Services
         public void ResetToDefault()
         {
             ApplyTheme("Dark", "#3A86FF");
+        }
+
+        private void RefreshCriticalResources()
+        {
+            if (Application.Current?.Resources == null) return;
+
+            foreach (Window window in Application.Current.Windows)
+            {
+                window.ClearValue(Window.BackgroundProperty);
+                window.ClearValue(Window.ForegroundProperty);
+                window.ClearValue(System.Windows.Controls.Control.BackgroundProperty);
+                window.ClearValue(System.Windows.Controls.Control.ForegroundProperty);
+                window.InvalidateVisual();
+                window.UpdateLayout();
+            }
+        }
+
+        public void ApplyBackground(string imagePath, double blurIntensity)
+        {
+            _backgroundImagePath = imagePath ?? "";
+            _backgroundBlurIntensity = Math.Max(0.0, Math.Min(1.0, blurIntensity));
+            _backgroundBlurEnabled = blurIntensity > 0;
+
+            try
+            {
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window is Controls.ModernWindow modernWindow)
+                    {
+                        modernWindow.SetBackground(imagePath, blurIntensity);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log("WARN", "Background", $"Failed to apply background: {ex.Message}", "ThemeManager");
+            }
+        }
+
+        public void ApplyFont(string fontFamilyName)
+        {
+            if (string.IsNullOrEmpty(fontFamilyName))
+                fontFamilyName = "Segoe UI";
+
+            _currentFontFamily = fontFamilyName;
+
+            try
+            {
+                var fontFamily = new FontFamily(fontFamilyName);
+                Application.Current.Resources["CustomFontFamily"] = fontFamily;
+                SetResource("CustomFontFamily", fontFamily);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log("WARN", "Font", $"Failed to apply font '{fontFamilyName}', falling back to Segoe UI: {ex.Message}", "ThemeManager");
+                try
+                {
+                    var fallbackFont = new FontFamily("Segoe UI");
+                    Application.Current.Resources["CustomFontFamily"] = fallbackFont;
+                    SetResource("CustomFontFamily", fallbackFont);
+                }
+                catch { }
+            }
+        }
+
+        public void GenerateAccentVariants(Color baseColor)
+        {
+            try
+            {
+                var (h, s, l) = RgbToHsl(baseColor);
+
+                var hover = HslToRgb(h, s, Math.Min(1.0, l + 0.10));
+                var pressed = HslToRgb(h, s, Math.Max(0.0, l - 0.10));
+                var glow = HslToRgb(h, Math.Min(1.0, s + 0.15), Math.Min(1.0, l + 0.05));
+                var border = HslToRgb(h, Math.Max(0.0, s - 0.10), Math.Min(1.0, l + 0.20));
+                var subtle = HslToRgb(h, Math.Max(0.0, s - 0.30), Math.Min(1.0, l + 0.30));
+
+                Application.Current.Resources["Accent.Color.Hover"] = hover;
+                Application.Current.Resources["Accent.Color.Pressed"] = pressed;
+                Application.Current.Resources["Accent.Color.Glow"] = glow;
+                Application.Current.Resources["Accent.Color.Border"] = border;
+                Application.Current.Resources["Accent.Color.Subtle"] = subtle;
+
+                Application.Current.Resources["Accent.Brush.Hover"] = new SolidColorBrush(hover);
+                Application.Current.Resources["Accent.Brush.Pressed"] = new SolidColorBrush(pressed);
+                Application.Current.Resources["Accent.Brush.Glow"] = new SolidColorBrush(glow);
+                Application.Current.Resources["Accent.Brush.Border"] = new SolidColorBrush(border);
+                Application.Current.Resources["Accent.Brush.Subtle"] = new SolidColorBrush(subtle);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log("ERROR", "Accent", $"Failed to generate accent variants: {ex.Message}", "ThemeManager");
+            }
+        }
+
+        public void ValidateContrast()
+        {
+            if (Application.Current?.Resources == null) return;
+
+            var tokenPairs = new (string Foreground, string Background, double RequiredRatio)[]
+            {
+                ("Brush.Text.Primary", "Brush.Background.Primary", 4.5),
+                ("Brush.Text.Secondary", "Brush.Background.Primary", 4.5),
+                ("Brush.Text.Primary", "Brush.Background.Card", 4.5),
+                ("Brush.Accent.Primary", "Brush.Background.Primary", 3.0),
+                ("Brush.Text.OnAccent", "Brush.Accent.Primary", 4.5),
+            };
+
+            foreach (var pair in tokenPairs)
+            {
+                var fg = Application.Current.Resources[pair.Foreground] as SolidColorBrush;
+                var bg = Application.Current.Resources[pair.Background] as SolidColorBrush;
+
+                if (fg == null || bg == null)
+                {
+                    _logger?.Log("WARN", "Contrast", $"Missing token for contrast check: {pair.Foreground} or {pair.Background}", "ThemeManager");
+                    continue;
+                }
+
+                double ratio = ComputeContrastRatio(fg.Color, bg.Color);
+
+                if (ratio < pair.RequiredRatio)
+                {
+                    _logger?.Log("WARN", "Contrast",
+                        $"Contrast ratio {ratio:F2}:1 for {pair.Foreground} vs {pair.Background} " +
+                        $"is below required {pair.RequiredRatio}:1", "ThemeManager");
+                    System.Diagnostics.Debug.WriteLine(
+                        $"[ThemeManager] WARNING: Contrast {ratio:F2}:1 for {pair.Foreground} vs {pair.Background}");
+                }
+            }
+        }
+
+        private static double ComputeContrastRatio(Color fg, Color bg)
+        {
+            double l1 = RelativeLuminance(fg);
+            double l2 = RelativeLuminance(bg);
+            double lighter = Math.Max(l1, l2);
+            double darker = Math.Min(l1, l2);
+            return (lighter + 0.05) / (darker + 0.05);
+        }
+
+        private static double RelativeLuminance(Color c)
+        {
+            double Linearize(double channel)
+            {
+                double v = channel / 255.0;
+                return v <= 0.04045 ? v / 12.92 : Math.Pow((v + 0.055) / 1.055, 2.4);
+            }
+            return 0.2126 * Linearize(c.R) + 0.7152 * Linearize(c.G) + 0.0722 * Linearize(c.B);
+        }
+
+        private static (double H, double S, double L) RgbToHsl(Color c)
+        {
+            double r = c.R / 255.0;
+            double g = c.G / 255.0;
+            double b = c.B / 255.0;
+
+            double max = Math.Max(r, Math.Max(g, b));
+            double min = Math.Min(r, Math.Min(g, b));
+            double delta = max - min;
+
+            double h = 0;
+            if (delta > 0.0001)
+            {
+                if (max == r) h = 60 * (((g - b) / delta) % 6);
+                else if (max == g) h = 60 * (((b - r) / delta) + 2);
+                else if (max == b) h = 60 * (((r - g) / delta) + 4);
+                if (h < 0) h += 360;
+            }
+
+            double l = (max + min) / 2.0;
+            double s = delta == 0 ? 0 : delta / (1 - Math.Abs(2 * l - 1));
+
+            return (h / 360.0, s, l);
+        }
+
+        private static Color HslToRgb(double h, double s, double l)
+        {
+            h = Math.Max(0, Math.Min(1, h)) * 360;
+            s = Math.Max(0, Math.Min(1, s));
+            l = Math.Max(0, Math.Min(1, l));
+
+            double c = (1 - Math.Abs(2 * l - 1)) * s;
+            double x = c * (1 - Math.Abs((h / 60) % 2 - 1));
+            double m = l - c / 2;
+
+            double r1, g1, b1;
+            if (h < 60) { r1 = c; g1 = x; b1 = 0; }
+            else if (h < 120) { r1 = x; g1 = c; b1 = 0; }
+            else if (h < 180) { r1 = 0; g1 = c; b1 = x; }
+            else if (h < 240) { r1 = 0; g1 = x; b1 = c; }
+            else if (h < 300) { r1 = x; g1 = 0; b1 = c; }
+            else { r1 = c; g1 = 0; b1 = x; }
+
+            return Color.FromRgb(
+                (byte)Math.Round((r1 + m) * 255),
+                (byte)Math.Round((g1 + m) * 255),
+                (byte)Math.Round((b1 + m) * 255));
+        }
+
+        private static void CopyKeysToRoot(ResourceDictionary source)
+        {
+            if (Application.Current?.Resources == null || source == null) return;
+
+            CopyDictRecursive(source, Application.Current.Resources);
+        }
+
+        private static void CopyDictRecursive(ResourceDictionary source, ResourceDictionary target)
+        {
+            foreach (var key in source.Keys)
+            {
+                try
+                {
+                    var value = source[key];
+                    if (value != null && value is not System.Windows.Media.Effects.DropShadowEffect)
+                    {
+                        target[key] = value;
+                    }
+                }
+                catch { }
+            }
+
+            for (int i = 0; i < source.MergedDictionaries.Count; i++)
+            {
+                CopyDictRecursive(source.MergedDictionaries[i], target);
+            }
         }
 
         public void ValidateTokenIntegrity()
@@ -415,7 +636,7 @@ namespace Som3a_WPF_UI.Services
                 if (resource == null)
                 {
                     _logger?.Log("WARN", "Validation", $"Missing required token key: {key}", "ThemeManager");
-                System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing required token key: {key}");
+                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing required token key: {key}");
                 }
             }
 
@@ -436,7 +657,7 @@ namespace Som3a_WPF_UI.Services
                 if (resource == null)
                 {
                     _logger?.Log("WARN", "Validation", $"Missing brush token: {key}", "ThemeManager");
-                System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing brush token: {key}");
+                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing brush token: {key}");
                 }
             }
         }

@@ -3,6 +3,7 @@
 
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="Background" Value="{DynamicResource Brush.Control.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Control.Stroke}"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -80,6 +81,7 @@
 
     <Style TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Secondary}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Padding" Value="0"/>
     </Style>

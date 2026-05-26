@@ -7,7 +7,9 @@
 
     <!-- Background -->
     <SolidColorBrush x:Key="Brush.Background.Primary" Color="#FAFAFA"/>
+    <SolidColorBrush x:Key="Brush.Background.Primary.Translucent" Color="#80FAFAFA"/>
     <SolidColorBrush x:Key="Brush.Background.Secondary" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Background.Secondary.Translucent" Color="#80FFFFFF"/>
     <SolidColorBrush x:Key="Brush.Background.Card" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="Brush.Background.CardSubtle" Color="#0D000000"/>
     <LinearGradientBrush x:Key="Brush.Background.Root" StartPoint="0,0" EndPoint="1,1">
@@ -17,7 +19,7 @@
 
     <!-- Text -->
     <SolidColorBrush x:Key="Brush.Text.Primary" Color="#1A1A1A"/>
-    <SolidColorBrush x:Key="Brush.Text.Secondary" Color="#666666"/>
+    <SolidColorBrush x:Key="Brush.Text.Secondary" Color="#5B7186"/>
     <SolidColorBrush x:Key="Brush.Text.Disabled" Color="#AAAAAA"/>
     <SolidColorBrush x:Key="Brush.Text.OnAccent" Color="White"/>
 
@@ -90,9 +92,6 @@
     <!-- Swatch -->
     <SolidColorBrush x:Key="Brush.Swatch.Stroke" Color="#FFFFFFFF"/>
 
-    <!-- Close Button -->
-    <SolidColorBrush x:Key="Brush.CloseButton.HoverBackground" Color="#22FF4757"/>
-
     <!-- Loading -->
     <SolidColorBrush x:Key="Brush.Loading.Background" Color="#88000000"/>
 
@@ -104,7 +103,7 @@
     <SolidColorBrush x:Key="CardBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="TextMainBrush" Color="#1A1A1A"/>
-    <SolidColorBrush x:Key="TextSubBrush" Color="#666666"/>
+    <SolidColorBrush x:Key="TextSubBrush" Color="#5B7186"/>
     <SolidColorBrush x:Key="TextDisabledBrush" Color="#AAAAAA"/>
     <SolidColorBrush x:Key="SuccessBrush" Color="#2ED573"/>
     <SolidColorBrush x:Key="WarningBrush" Color="#FFA502"/>

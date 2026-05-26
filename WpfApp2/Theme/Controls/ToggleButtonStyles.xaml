@@ -9,6 +9,7 @@
     <!-- Fluent ToggleButton / Switch -->
     <Style x:Key="FluentToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>

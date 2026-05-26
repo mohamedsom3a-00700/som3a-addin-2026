@@ -4,8 +4,10 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Som3a_WPF_UI.ViewModels
 {
@@ -30,6 +32,370 @@ namespace Som3a_WPF_UI.ViewModels
         public ObservableCollection<SettingsCategory> Categories { get; } = new();
         public ObservableCollection<AccentSwatchItem> AccentSwatches { get; } = new();
         public ObservableCollection<SettingsSectionViewModel> DynamicSections { get; } = new();
+        public ObservableCollection<AccentVariantItem> AccentVariants { get; } = new();
+        public ObservableCollection<Services.FontFamilyInfo> AvailableFonts { get; } = new();
+        public ObservableCollection<WallpaperItem> WallpaperImages { get; } = new();
+
+        private Color _selectedCustomColor = Color.FromRgb(58, 134, 255);
+        public Color SelectedCustomColor
+        {
+            get => _selectedCustomColor;
+            set
+            {
+                if (SetProperty(ref _selectedCustomColor, value))
+                {
+                    var hex = $"#{value.R:X2}{value.G:X2}{value.B:X2}";
+                    _hexColorText = hex;
+                    OnPropertyChanged(nameof(HexColorText));
+                    AccentPreviewBrush = new SolidColorBrush(value);
+                    OnPropertyChanged(nameof(AccentPreviewBrush));
+                    ApplyAccentWithDebounce(hex);
+                }
+            }
+        }
+
+        private string _hexColorText = "#3A86FF";
+        public string HexColorText
+        {
+            get => _hexColorText;
+            set
+            {
+                if (string.IsNullOrEmpty(value) || value.Length < 7)
+                    return;
+
+                try
+                {
+                    var color = (Color)ColorConverter.ConvertFromString(value);
+                    if (SetProperty(ref _hexColorText, value))
+                    {
+                        _selectedCustomColor = color;
+                        OnPropertyChanged(nameof(SelectedCustomColor));
+                        AccentPreviewBrush = new SolidColorBrush(color);
+                        OnPropertyChanged(nameof(AccentPreviewBrush));
+                        ApplyAccentWithDebounce(value);
+                        UpdateAccentVariants(color);
+                    }
+                }
+                catch { }
+            }
+        }
+
+        private Brush _accentPreviewBrush = new SolidColorBrush(Color.FromRgb(58, 134, 255));
+        public Brush AccentPreviewBrush
+        {
+            get => _accentPreviewBrush;
+            set => SetProperty(ref _accentPreviewBrush, value);
+        }
+
+        private System.Windows.Threading.DispatcherTimer _accentDebounceTimer;
+
+        private void ApplyAccentWithDebounce(string hex)
+        {
+            if (_accentDebounceTimer == null)
+            {
+                _accentDebounceTimer = new System.Windows.Threading.DispatcherTimer
+                {
+                    Interval = TimeSpan.FromMilliseconds(100)
+                };
+                _accentDebounceTimer.Tick += (s, e) =>
+                {
+                    _accentDebounceTimer.Stop();
+                    _themeManager.ApplyTheme("Custom", hex);
+                };
+            }
+            _accentDebounceTimer.Stop();
+            _accentDebounceTimer.Start();
+        }
+
+        private void UpdateAccentVariants(Color baseColor)
+        {
+            AccentVariants.Clear();
+
+            void AddVariant(string label, string suffix)
+            {
+                var color = Application.Current?.Resources[$"Accent.Color.{suffix}"] as Color?;
+                if (color.HasValue)
+                {
+                    var brush = new SolidColorBrush(color.Value);
+                    brush.Freeze();
+                    AccentVariants.Add(new AccentVariantItem { Label = label, Brush = brush, Color = color.Value });
+                }
+            }
+
+            AddVariant("Hover", "Hover");
+            AddVariant("Pressed", "Pressed");
+            AddVariant("Glow", "Glow");
+            AddVariant("Border", "Border");
+            AddVariant("Subtle", "Subtle");
+        }
+
+        private string _imageFileName = "";
+        public string ImageFileName
+        {
+            get => _imageFileName;
+            set => SetProperty(ref _imageFileName, value);
+        }
+
+        private string _imageValidationError = "";
+        public string ImageValidationError
+        {
+            get => _imageValidationError;
+            set => SetProperty(ref _imageValidationError, value);
+        }
+
+        private double _blurIntensity = 0.0;
+        public double BlurIntensityPercent
+        {
+            get => _blurIntensity * 100.0;
+            set
+            {
+                _blurIntensity = value / 100.0;
+                OnPropertyChanged(nameof(BlurIntensityPercent));
+                ThemeManager.Instance.ApplyBackground(_imagePath, _blurEnabled ? _blurIntensity : 0.0);
+            }
+        }
+
+        private bool _blurEnabled = false;
+        public bool BlurEnabled
+        {
+            get => _blurEnabled;
+            set
+            {
+                if (SetProperty(ref _blurEnabled, value))
+                {
+                    ThemeManager.Instance.ApplyBackground(_imagePath, value ? _blurIntensity : 0.0);
+                }
+            }
+        }
+
+        private string _imagePath = "";
+        private Services.FontFamilyInfo _selectedFont;
+        public Services.FontFamilyInfo SelectedFont
+        {
+            get => _selectedFont;
+            set
+            {
+                if (SetProperty(ref _selectedFont, value) && value != null)
+                {
+                    ThemeManager.Instance.ApplyFont(value.FamilyName);
+                }
+            }
+        }
+
+        public ICommand SelectImageCommand { get; private set; }
+        public ICommand ClearImageCommand { get; private set; }
+        public ICommand SetWallpaperColorCommand { get; private set; }
+        public ICommand SetWallpaperImageCommand { get; private set; }
+        public ICommand ClearWallpaperCommand { get; private set; }
+        public ICommand CustomBaseThemeCommand { get; private set; }
+
+        private string _customBaseTheme = "Dark";
+        public bool CustomBaseIsDark => _customBaseTheme == "Dark";
+        public bool CustomBaseIsLight => _customBaseTheme == "Light";
+
+        private void ExecuteSetWallpaperColor(object parameter)
+        {
+            if (parameter is string hexColor)
+            {
+                _imagePath = "";
+                ImageFileName = "";
+                ImageValidationError = "";
+                try
+                {
+                    var color = (Color)ColorConverter.ConvertFromString(hexColor);
+                    var brush = new SolidColorBrush(color);
+                    ThemeManager.Instance.ApplyBackground("", 0.0);
+                    if (Application.Current?.Windows.Count > 0)
+                    {
+                        foreach (Window window in Application.Current.Windows)
+                        {
+                            if (window is Controls.ModernWindow mw)
+                            {
+                                mw.Background = brush;
+                            }
+                        }
+                    }
+                }
+                catch { }
+            }
+        }
+
+        private void ExecuteSetWallpaperImage(object parameter)
+        {
+            if (parameter is string imagePath)
+            {
+                _imagePath = imagePath;
+                ImageFileName = System.IO.Path.GetFileName(imagePath);
+                ImageValidationError = "";
+                ThemeManager.Instance.ApplyBackground(imagePath, _blurEnabled ? _blurIntensity : 0.0);
+                Properties.Settings.Default.BackgroundImagePath = imagePath;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void LoadWallpapers()
+        {
+            WallpaperImages.Clear();
+            try
+            {
+                var candidates = new[]
+                {
+                    System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Wallpaper"),
+                    System.IO.Path.Combine(System.IO.Path.GetDirectoryName(
+                        System.Reflection.Assembly.GetExecutingAssembly().Location) ?? ".", "Wallpaper"),
+                    System.IO.Path.Combine(Environment.CurrentDirectory, "WpfApp2", "Wallpaper"),
+                    System.IO.Path.Combine(Environment.CurrentDirectory, "Wallpaper"),
+                    System.IO.Path.Combine(
+                        System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(
+                        System.IO.Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory))) ?? ".", 
+                        "WpfApp2", "Wallpaper"),
+                };
+
+                string wallpaperDir = null;
+                foreach (var dir in candidates)
+                {
+                    if (System.IO.Directory.Exists(dir))
+                    {
+                        wallpaperDir = dir;
+                        break;
+                    }
+                }
+
+                if (wallpaperDir == null) return;
+
+                var extensions = new[] { ".png", ".jpg", ".jpeg", ".bmp" };
+                foreach (var file in System.IO.Directory.GetFiles(wallpaperDir))
+                {
+                    var ext = System.IO.Path.GetExtension(file).ToLowerInvariant();
+                    if (Array.IndexOf(extensions, ext) >= 0)
+                    {
+                        var thumb = CreateThumbnail(file, 240, 144);
+                        WallpaperImages.Add(new WallpaperItem
+                        {
+                            ImagePath = file,
+                            Name = System.IO.Path.GetFileNameWithoutExtension(file),
+                            Thumbnail = thumb
+                        });
+                    }
+                }
+            }
+            catch { }
+
+            if (WallpaperImages.Count == 0)
+            {
+                WallpaperImages.Add(new WallpaperItem { Name = "No wallpapers found" });
+            }
+        }
+
+        private static ImageSource CreateThumbnail(string path, int width, int height)
+        {
+            try
+            {
+                var bmp = new System.Windows.Media.Imaging.BitmapImage();
+                bmp.BeginInit();
+                bmp.UriSource = new Uri(path);
+                bmp.DecodePixelWidth = width;
+                bmp.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                bmp.EndInit();
+                bmp.Freeze();
+                return bmp;
+            }
+            catch { return null; }
+        }
+
+        public sealed class WallpaperItem
+        {
+            public string ImagePath { get; set; } = "";
+            public string Name { get; set; } = "";
+            public ImageSource Thumbnail { get; set; }
+        }
+
+        private void ExecuteClearWallpaper(object parameter)
+        {
+            _imagePath = "";
+            ImageFileName = "";
+            ImageValidationError = "";
+            ThemeManager.Instance.ApplyBackground("", 0.0);
+        }
+
+        private void SetCustomBaseTheme(string themeName)
+        {
+            if (string.IsNullOrEmpty(themeName)) return;
+            _customBaseTheme = themeName;
+            OnPropertyChanged(nameof(CustomBaseIsDark));
+            OnPropertyChanged(nameof(CustomBaseIsLight));
+            _previewSettings.SelectedTheme = "Custom";
+            _themeManager.ApplyTheme(themeName, _previewSettings.AccentColor);
+            if (!string.IsNullOrEmpty(_imagePath))
+                ThemeManager.Instance.ApplyBackground(_imagePath, _blurEnabled ? _blurIntensity : 0.0);
+            RefreshPreviewBindings();
+        }
+
+        private void ExecuteSelectImage()
+        {
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp|All Files|*.*",
+                Title = "Select Background Image"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                try
+                {
+                    var fileInfo = new System.IO.FileInfo(dlg.FileName);
+                    if (fileInfo.Length > 10 * 1024 * 1024)
+                    {
+                        ImageValidationError = "Image must be 10MB or smaller";
+                        return;
+                    }
+
+                    var ext = System.IO.Path.GetExtension(dlg.FileName).ToLowerInvariant();
+                    if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".bmp")
+                    {
+                        ImageValidationError = "Supported formats: PNG, JPG, JPEG, BMP";
+                        return;
+                    }
+
+                    var img = new System.Windows.Media.Imaging.BitmapImage();
+                    img.BeginInit();
+                    img.UriSource = new Uri(dlg.FileName);
+                    img.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                    img.EndInit();
+
+                    if (img.PixelWidth > 4096 || img.PixelHeight > 4096)
+                    {
+                        ImageValidationError = "Image dimensions must be 4096px or smaller";
+                        return;
+                    }
+
+                    _imagePath = dlg.FileName;
+                    ImageFileName = fileInfo.Name;
+                    ImageValidationError = "";
+                    ThemeManager.Instance.ApplyBackground(_imagePath, BlurEnabled ? _blurIntensity : 0.0);
+                }
+                catch
+                {
+                    ImageValidationError = "Failed to load image. File may be corrupt.";
+                }
+            }
+        }
+
+        private void ExecuteClearImage()
+        {
+            _imagePath = "";
+            ImageFileName = "";
+            ImageValidationError = "";
+            ThemeManager.Instance.ApplyBackground("", 0.0);
+        }
+
+        private void LoadFonts()
+        {
+            AvailableFonts.Clear();
+            var fonts = Services.FontEnumerator.GetSystemFonts();
+            foreach (var font in fonts)
+                AvailableFonts.Add(font);
+        }
 
         public SettingsCategory? SelectedCategory
         {
@@ -157,8 +523,16 @@ namespace Som3a_WPF_UI.ViewModels
             BackgroundStyleCommand = new RelayCommand(param => OnBackgroundStyleChanged(param as string));
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
+            SelectImageCommand = new RelayCommand(_ => ExecuteSelectImage());
+            ClearImageCommand = new RelayCommand(_ => ExecuteClearImage());
+            SetWallpaperColorCommand = new RelayCommand(param => ExecuteSetWallpaperColor(param));
+            SetWallpaperImageCommand = new RelayCommand(param => ExecuteSetWallpaperImage(param));
+            ClearWallpaperCommand = new RelayCommand(_ => ExecuteClearWallpaper(""));
+            CustomBaseThemeCommand = new RelayCommand(param => SetCustomBaseTheme(param as string));
 
             _themeManager.ThemeChanged += OnThemeChanged;
+            LoadFonts();
+            LoadWallpapers();
         }
 
         private void LoadDynamicSections()
@@ -188,7 +562,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "appearance",
                 DisplayName = "Appearance",
-                Icon = "\u26A1",
+                Icon = "Palette",
                 PanelType = typeof(Views.AppearancePanel),
                 Order = 1
             });
@@ -196,7 +570,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "performance",
                 DisplayName = "Performance",
-                Icon = "\u2699",
+                Icon = "Speedometer",
                 PanelType = typeof(Views.PerformancePanel),
                 Order = 2
             });
@@ -204,7 +578,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "accessibility",
                 DisplayName = "Accessibility",
-                Icon = "\u267F",
+                Icon = "Human",
                 PanelType = typeof(Views.AccessibilityPanel),
                 Order = 3
             });
@@ -212,7 +586,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "diagnostics",
                 DisplayName = "Diagnostics",
-                Icon = "\u2139",
+                Icon = "ChartBar",
                 PanelType = typeof(Views.DiagnosticsPanel),
                 Order = 4
             });
@@ -220,7 +594,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "excel",
                 DisplayName = "Excel",
-                Icon = "\uD83D\uDCC4",
+                Icon = "FileExcel",
                 PanelType = typeof(Views.ExcelPanel),
                 Order = 5
             });
@@ -228,7 +602,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "plugins",
                 DisplayName = "Plugins",
-                Icon = "\uD83D\uDD17",
+                Icon = "Puzzle",
                 PanelType = typeof(Views.PluginsPanel),
                 Order = 6
             });
@@ -549,5 +923,12 @@ namespace Som3a_WPF_UI.ViewModels
             AutomationName = automationName;
             Brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(hex));
         }
+    }
+
+    public sealed class AccentVariantItem
+    {
+        public string Label { get; set; } = "";
+        public Brush Brush { get; set; } = Brushes.White;
+        public Color Color { get; set; }
     }
 }

@@ -123,7 +123,9 @@
 
     <!-- Background -->
     <SolidColorBrush x:Key="Brush.Background.Primary" Color="{StaticResource Primitive.Slate.900}"/>
+    <SolidColorBrush x:Key="Brush.Background.Primary.Translucent" Color="#800E1720"/>
     <SolidColorBrush x:Key="Brush.Background.Secondary" Color="{StaticResource Primitive.Slate.800}"/>
+    <SolidColorBrush x:Key="Brush.Background.Secondary.Translucent" Color="#801C2B3A"/>
     <SolidColorBrush x:Key="Brush.Background.Card" Color="{StaticResource Primitive.Slate.700}"/>
     <SolidColorBrush x:Key="Brush.Background.CardSubtle" Color="{StaticResource Color.Background.CardSubtle}"/>
     <LinearGradientBrush x:Key="Brush.Background.Root" StartPoint="0,0" EndPoint="1,1">

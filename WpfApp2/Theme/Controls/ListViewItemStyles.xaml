@@ -4,6 +4,7 @@
     <!-- ListViewItem — Default (applied automatically) -->
     <Style TargetType="{x:Type ListViewItem}">
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Padding" Value="6,4"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -29,6 +30,7 @@
     <!-- GridViewColumnHeader — Default -->
     <Style TargetType="{x:Type GridViewColumnHeader}">
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="Background" Value="{DynamicResource Brush.ListView.ColumnHeaderHover}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeBrush}"/>
         <Setter Property="BorderThickness" Value="0,0,0,1"/>

@@ -9,7 +9,9 @@
 
     <!-- Background (Dark base) -->
     <SolidColorBrush x:Key="Brush.Background.Primary" Color="#0E1720"/>
+    <SolidColorBrush x:Key="Brush.Background.Primary.Translucent" Color="#800E1720"/>
     <SolidColorBrush x:Key="Brush.Background.Secondary" Color="#1C2B3A"/>
+    <SolidColorBrush x:Key="Brush.Background.Secondary.Translucent" Color="#801C2B3A"/>
     <SolidColorBrush x:Key="Brush.Background.Card" Color="#15202B"/>
     <SolidColorBrush x:Key="Brush.Background.CardSubtle" Color="#10FFFFFF"/>
     <LinearGradientBrush x:Key="Brush.Background.Root" StartPoint="0,0" EndPoint="1,1">

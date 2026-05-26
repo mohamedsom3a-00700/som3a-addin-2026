@@ -34,6 +34,15 @@ namespace Som3a_WPF_UI.Pages
             SizeChanged -= OnSizeChanged;
         }
 
+        private void OnScrollViewerPreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            if (sender is ScrollViewer sv)
+            {
+                sv.ScrollToVerticalOffset(sv.VerticalOffset - e.Delta / 3.0);
+                e.Handled = true;
+            }
+        }
+
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             _sidebarPanel = FindName("SidebarPanel") as FrameworkElement;

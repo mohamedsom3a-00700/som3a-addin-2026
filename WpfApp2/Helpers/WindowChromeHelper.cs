@@ -35,28 +35,33 @@ namespace Som3a_WPF_UI.Helpers
                 return;
             }
 
+            window.WindowStyle = WindowStyle.None;
+            window.AllowsTransparency = false;
+
             var chrome = new System.Windows.Shell.WindowChrome
             {
-                ResizeBorderThickness = new Thickness(8),
+                ResizeBorderThickness = new Thickness(6),
                 CaptionHeight = 40,
                 GlassFrameThickness = new Thickness(0),
-                NonClientFrameEdges = System.Windows.Shell.NonClientFrameEdges.None
+                NonClientFrameEdges = System.Windows.Shell.NonClientFrameEdges.None,
+                CornerRadius = new CornerRadius(8)
             };
 
-            window.WindowStyle = WindowStyle.SingleBorderWindow;
             window.SetValue(System.Windows.Shell.WindowChrome.WindowChromeProperty, chrome);
         }
 
         private static void ApplySafeWindowChrome(Window window)
         {
-            window.WindowStyle = WindowStyle.SingleBorderWindow;
+            window.WindowStyle = WindowStyle.None;
+            window.AllowsTransparency = false;
 
             var chrome = new System.Windows.Shell.WindowChrome
             {
                 ResizeBorderThickness = new Thickness(4),
                 CaptionHeight = 36,
                 GlassFrameThickness = new Thickness(0),
-                NonClientFrameEdges = System.Windows.Shell.NonClientFrameEdges.None
+                NonClientFrameEdges = System.Windows.Shell.NonClientFrameEdges.None,
+                CornerRadius = new CornerRadius(0)
             };
 
             window.SetValue(System.Windows.Shell.WindowChrome.WindowChromeProperty, chrome);

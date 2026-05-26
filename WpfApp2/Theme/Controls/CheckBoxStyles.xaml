@@ -4,6 +4,7 @@
     <!-- Fluent CheckBox -->
     <Style x:Key="FluentCheckBox" TargetType="{x:Type CheckBox}">
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>

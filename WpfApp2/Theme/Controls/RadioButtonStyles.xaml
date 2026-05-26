@@ -4,6 +4,7 @@
     <!-- Fluent RadioButton -->
     <Style x:Key="FluentRadioButton" TargetType="{x:Type RadioButton}">
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>

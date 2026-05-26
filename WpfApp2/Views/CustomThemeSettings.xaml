@@ -1,0 +1,97 @@
+<UserControl x:Class="Som3a_WPF_UI.Views.CustomThemeSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock" x:Key="SectionHeader">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
+            <Setter Property="Margin" Value="0,16,0,8"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="FieldLabel">
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Secondary}"/>
+            <Setter Property="Margin" Value="0,4,0,2"/>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16">
+            <!-- Background Image Section -->
+            <TextBlock Text="Background" Style="{StaticResource SectionHeader}"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,4">
+                <Button x:Name="SelectImageBtn" Content="Choose Image..."
+                        Style="{DynamicResource PrimaryButton}"
+                        Width="120"
+                        Command="{Binding SelectImageCommand}"/>
+                <Button x:Name="ClearImageBtn" Content="Clear"
+                        Style="{DynamicResource SecondaryButton}"
+                        Width="80"
+                        Margin="8,0,0,0"
+                        Command="{Binding ClearImageCommand}"/>
+            </StackPanel>
+
+            <TextBlock Text="{Binding ImageFileName}"
+                       Foreground="{DynamicResource Brush.Text.Secondary}"
+                       Margin="0,4"
+                       TextTrimming="CharacterEllipsis"/>
+
+            <TextBlock Text="{Binding ImageValidationError}"
+                       Foreground="{DynamicResource Brush.Accent.Danger}"
+                       Margin="0,2"
+                       Visibility="{Binding ImageValidationError, Converter={StaticResource StringToVisibilityConverter}}"/>
+
+            <!-- Blur Controls -->
+            <TextBlock Text="Blur" Style="{StaticResource FieldLabel}" Margin="0,16,0,2"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Intensity:" VerticalAlignment="Center"
+                           Foreground="{DynamicResource Brush.Text.Secondary}" Width="60"/>
+                <Slider x:Name="BlurSlider"
+                        Minimum="0" Maximum="100"
+                        Value="{Binding BlurIntensityPercent}"
+                        Width="200"
+                        VerticalAlignment="Center"
+                        TickFrequency="1"/>
+                <TextBlock Text="{Binding BlurIntensityPercent, StringFormat={}{0}%}"
+                           Foreground="{DynamicResource Brush.Text.Secondary}"
+                           VerticalAlignment="Center" Margin="8,0"/>
+            </StackPanel>
+
+            <CheckBox Content="Enable Blur"
+                      IsChecked="{Binding BlurEnabled}"
+                      Margin="0,8"
+                      Foreground="{DynamicResource Brush.Text.Primary}"/>
+
+            <!-- Font Selection -->
+            <TextBlock Text="Font" Style="{StaticResource SectionHeader}"/>
+
+            <ListBox x:Name="FontList"
+                     ItemsSource="{Binding AvailableFonts}"
+                     SelectedItem="{Binding SelectedFont}"
+                     MaxHeight="200"
+                     Background="{DynamicResource Brush.Background.Card}"
+                     Foreground="{DynamicResource Brush.Text.Primary}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="4,2">
+                            <TextBlock Text="{Binding FamilyName}"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource Brush.Text.Primary}"/>
+                            <TextBlock Text=" [AR]"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource Brush.Accent.Success}"
+                                       Visibility="{Binding IsArabicCompatible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                       Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
