@@ -40,6 +40,12 @@ namespace Som3a_WPF_UI
                     var manifests = pluginLoader.DiscoverModules();
                     orchestrator.OnModulesDiscovered(manifests);
 
+                    foreach (var manifest in manifests)
+                    {
+                        if (!orchestrator.IsModuleLoaded(manifest.Id))
+                            orchestrator.EnsureModuleLoaded(manifest.Id);
+                    }
+
                     var pluginTypes = orchestrator.GetAllPluginPageTypes();
                     if (pluginTypes.Count > 0)
                         sidebarRegistration.RegisterPluginPages(pluginTypes);

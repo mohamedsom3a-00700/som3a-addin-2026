@@ -117,6 +117,12 @@ namespace Som3a_WPF_UI.Services
 
         public void ClearPluginPages()
         {
+            var stale = _navigationService.Destinations
+                .Where(d => d.Key != null && d.Key.StartsWith("plugin.", StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            foreach (var d in stale)
+                _navigationService.Destinations.Remove(d);
+
             _registeredItemIds.Clear();
             _pluginPagesRegistered = false;
         }

@@ -422,12 +422,38 @@ namespace Som3a_WPF_UI.Services
 
         private static string GetPluginSettingsPath(string pluginId)
         {
-            return Path.Combine(PluginsBasePath, pluginId, "settings.json");
+            var sanitized = SanitizePluginId(pluginId);
+            var path = Path.Combine(PluginsBasePath, sanitized, "settings.json");
+            ValidatePluginPath(path);
+            return path;
         }
 
         private static string GetPluginSecretsPath(string pluginId)
         {
-            return Path.Combine(PluginsBasePath, pluginId, "secrets.json");
+            var sanitized = SanitizePluginId(pluginId);
+            var path = Path.Combine(PluginsBasePath, sanitized, "secrets.json");
+            ValidatePluginPath(path);
+            return path;
+        }
+
+        private static string SanitizePluginId(string pluginId)
+        {
+            if (string.IsNullOrEmpty(pluginId))
+                throw new ArgumentException("Plugin ID must not be null or empty.", nameof(pluginId));
+
+            var invalid = Path.GetInvalidFileNameChars();
+            if (pluginId.IndexOfAny(invalid) >= 0)
+                throw new ArgumentException($"Plugin ID contains invalid characters: '{pluginId}'", nameof(pluginId));
+
+            return pluginId;
+        }
+
+        private static void ValidatePluginPath(string path)
+        {
+            var fullPath = Path.GetFullPath(path);
+            var baseFull = Path.GetFullPath(PluginsBasePath);
+            if (!fullPath.StartsWith(baseFull, StringComparison.OrdinalIgnoreCase))
+                throw new InvalidOperationException($"Path traversal detected for plugin path: '{path}'");
         }
     }
 }

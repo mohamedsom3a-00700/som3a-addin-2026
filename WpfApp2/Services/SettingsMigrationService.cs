@@ -12,7 +12,7 @@ namespace Som3a_WPF_UI.Services
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "Som3a", "migration-tracker.json");
 
-        public HashSet<string> MigratedCategories { get; set; } = new();
+        public HashSet<string> MigratedCategories { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 
         public static MigrationTracker Load()
         {

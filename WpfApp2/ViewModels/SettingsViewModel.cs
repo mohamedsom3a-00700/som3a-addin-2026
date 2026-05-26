@@ -127,13 +127,14 @@ namespace Som3a_WPF_UI.ViewModels
 
         public DiagnosticsViewModel DiagnosticsVM { get; }
 
-        public SettingsViewModel(SettingsPersistenceService settingsService, DiagnosticsViewModel diagnosticsVm)
+        public SettingsViewModel(SettingsPersistenceService settingsService, DiagnosticsViewModel diagnosticsVm,
+            SettingsRegistry registry, SettingsValidator validator, IEventBus eventBus)
         {
             _themeManager = ThemeManager.Instance;
             _settingsService = settingsService;
-            _registry = SettingsRegistry.Instance;
-            _validator = new SettingsValidator();
-            _eventBus = App.Container.Resolve<IEventBus>();
+            _registry = registry;
+            _validator = validator;
+            _eventBus = eventBus;
 
             _currentSettings = _settingsService.LoadSettings();
             _previewSettings = CloneSettings(_currentSettings);

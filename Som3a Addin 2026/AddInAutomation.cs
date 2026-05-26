@@ -11,7 +11,13 @@ namespace Som3a_Addin_2026
     [ClassInterface(ClassInterfaceType.None)]
     public class AddInAutomation : IAddInAutomation
     {
-        private readonly Dictionary<string, Window> _openWindows = new Dictionary<string, Window>();
+        private readonly Dictionary<string, RouteInfo> _openWindows = new Dictionary<string, RouteInfo>();
+
+        public sealed class RouteInfo
+        {
+            public string Route { get; set; }
+            public DateTime OpenedAt { get; set; } = DateTime.UtcNow;
+        }
 
         private T InvokeOnUI<T>(Func<T> action)
         {
@@ -89,6 +95,7 @@ namespace Som3a_Addin_2026
                         return "WINDOW_NOT_FOUND";
                 }
                 nav.NavigateTo(route);
+                _openWindows[name] = new RouteInfo { Route = route };
                 return "OK";
             }
             catch (Exception ex)
@@ -172,9 +179,8 @@ namespace Som3a_Addin_2026
             {
             try
             {
-                if (_openWindows.TryGetValue(name, out var window))
+                if (_openWindows.TryGetValue(name, out _))
                 {
-                    window.Close();
                     _openWindows.Remove(name);
                     return "OK";
                 }

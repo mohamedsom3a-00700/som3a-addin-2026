@@ -68,6 +68,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         private bool _hasPendingNavigation;
         private NavigationDestination _pendingDestination;
         private readonly EventHandler<NavigationEventArgs> _navigationChangedHandler;
+        private bool _suppressSelectionChanged;
 
         public ShellWindow()
         {
@@ -125,6 +126,8 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnSidebarSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_suppressSelectionChanged) return;
+
             var previous = e.RemovedItems.Count > 0 ? e.RemovedItems[0] as NavigationDestination : null;
 
             if (Sidebar.SelectedItem is NavigationDestination destination)
@@ -132,7 +135,9 @@ namespace Som3a_WPF_UI.Controls.Shell
                 var navigated = NavigationService.Instance.RequestNavigation(destination.Key);
                 if (!navigated)
                 {
+                    _suppressSelectionChanged = true;
                     Sidebar.SelectedItem = previous;
+                    _suppressSelectionChanged = false;
                 }
             }
         }

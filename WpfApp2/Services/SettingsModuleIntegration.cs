@@ -33,7 +33,17 @@ namespace Som3a_WPF_UI.Services
 
         public void DiscoverAndRegisterModules(Assembly assembly)
         {
-            var moduleTypes = assembly.GetTypes()
+            Type[] types;
+            try
+            {
+                types = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                types = ex.Types.Where(t => t != null).ToArray()!;
+            }
+
+            var moduleTypes = types
                 .Where(t => typeof(ISettingsModule).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                 .ToList();
 

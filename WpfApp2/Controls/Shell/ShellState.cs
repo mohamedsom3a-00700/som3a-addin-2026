@@ -62,6 +62,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         {
             if (!_collapsedCategories.Remove(category))
                 _collapsedCategories.Add(category);
+            OnPropertyChanged(nameof(CollapsedCategories));
         }
 
         public bool IsCategoryCollapsed(string category) => _collapsedCategories.Contains(category);

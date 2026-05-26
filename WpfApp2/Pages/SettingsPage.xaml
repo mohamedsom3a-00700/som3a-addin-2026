@@ -48,8 +48,8 @@
             <!-- SIDEBAR -->
             <Border x:Name="SidebarPanel"
                     Grid.Column="0"
-                    Background="Gray"
-                    BorderBrush="DimGray"
+                    Background="{DynamicResource Brush.Background.Secondary}"
+                    BorderBrush="{DynamicResource Brush.Stroke.Card}"
                     BorderThickness="1"
                     CornerRadius="8"
                     Margin="0,0,14,0">
@@ -63,30 +63,30 @@
                     <StackPanel Grid.Row="0" Background="Transparent">
                         <TextBlock Text="Categories"
                                    FontSize="16"
-                                   Foreground="White"
+                                   Foreground="{DynamicResource Brush.Text.Primary}"
                                    FontWeight="SemiBold"
                                    Margin="0,0,0,14"/>
                         <TextBlock x:Name="DebugCount"
                                    Text="..."
                                    FontSize="12"
-                                   Foreground="Lime"
+                                   Foreground="{DynamicResource Brush.Accent.Success}"
                                    Margin="0,0,0,8"/>
                     </StackPanel>
 
-                    <ListBox x:Name="SidebarList"
-                             Grid.Row="1"
-                             ItemsSource="{Binding Categories}"
-                             SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             Foreground="White"
-                             AutomationProperties.Name="Settings Categories"
-                             KeyboardNavigation.TabNavigation="Local">
+                     <ListBox x:Name="SidebarList"
+                              Grid.Row="1"
+                              ItemsSource="{Binding Categories}"
+                              SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                              Background="Transparent"
+                              BorderThickness="0"
+                              Foreground="{DynamicResource Brush.Text.Primary}"
+                              AutomationProperties.Name="Settings Categories"
+                              KeyboardNavigation.TabNavigation="Local">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Icon}" FontSize="16" Foreground="White" Margin="0,0,8,0"/>
-                                    <TextBlock Text="{Binding DisplayName}" FontSize="14" Foreground="White"/>
+                                    <TextBlock Text="{Binding Icon}" FontSize="16" Foreground="{DynamicResource Brush.Text.Primary}" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding DisplayName}" FontSize="14" Foreground="{DynamicResource Brush.Text.Primary}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

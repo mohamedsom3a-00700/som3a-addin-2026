@@ -232,6 +232,17 @@ namespace Som3a_WPF_UI.Services
             if (_shellWindow == null)
                 return false;
 
+            if (!_registry.ContainsKey(targetKey))
+            {
+                OnNavigationChanged(new NavigationEventArgs
+                {
+                    NewKey = targetKey,
+                    Success = false,
+                    Cancelled = false
+                });
+                return false;
+            }
+
             if (_shellWindow.Workspace?.CurrentPage is ISupportsDirtyTracking dirtyPage && dirtyPage.IsDirty)
             {
                 var result = System.Windows.MessageBox.Show(

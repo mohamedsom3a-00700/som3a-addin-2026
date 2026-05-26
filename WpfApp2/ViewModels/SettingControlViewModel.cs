@@ -88,11 +88,12 @@ namespace Som3a_WPF_UI.ViewModels
             Validate();
         }
 
-        private static void OnBrowse()
+        private void OnBrowse()
         {
             using var dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
+                CurrentValue = dialog.SelectedPath;
             }
         }
     }

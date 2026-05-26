@@ -185,6 +185,7 @@
             <PasswordBox Grid.Row="0"
                          PasswordChar="●"
                          Style="{DynamicResource PasswordBoxStyle}"
+                         views:PasswordBoxHelper.BoundPassword="{Binding CurrentValue, Mode=TwoWay}"
                          AutomationProperties.Name="{Binding DisplayName}"/>
             <TextBlock Grid.Row="1"
                        Text="{Binding ValidationMessage}"

@@ -178,6 +178,7 @@ namespace Som3a_WPF_UI.Controls.Shell
             if (_loadingIndicator != null)
                 _loadingIndicator.Visibility = Visibility.Collapsed;
             Interlocked.Exchange(ref _isNavigating, 0);
+            OnNavigationCompleted(new NavigationEventArgs { Success = false, Error = $"Navigation failed: {e.Exception?.Message ?? "Unknown error"}" });
         }
 
         private void OnFrameNavigationStopped(object sender, NavEventArgs e)
@@ -185,6 +186,7 @@ namespace Som3a_WPF_UI.Controls.Shell
             if (_loadingIndicator != null)
                 _loadingIndicator.Visibility = Visibility.Collapsed;
             Interlocked.Exchange(ref _isNavigating, 0);
+            OnNavigationCompleted(new NavigationEventArgs { Success = false, Error = "Navigation stopped" });
         }
 
         protected virtual void OnNavigationCompleted(NavigationEventArgs e)

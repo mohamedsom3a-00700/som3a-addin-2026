@@ -92,7 +92,7 @@ namespace Som3a_WPF_UI.Services
 
         public event EventHandler<SettingsChangedEventArgs>? SettingChanged;
 
-        public SettingsRegistry() { }
+        private SettingsRegistry() { }
 
         public void RegisterSection(string pluginId, SettingsSection section)
         {
