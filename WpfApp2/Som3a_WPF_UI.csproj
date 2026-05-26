@@ -75,6 +75,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Contracts\ISidebarRegistrationProvider.cs" />
+    <Compile Include="Pages\ISupportsDirtyTracking.cs" />
+    <Compile Include="Services\SidebarRegistrationService.cs" />
     <Compile Include="Controls\Shell\CommandPalette.xaml.cs">
       <DependentUpon>CommandPalette.xaml</DependentUpon>
     </Compile>
@@ -171,9 +174,6 @@
     <Compile Include="Controls\Toast\ToastWindow.xaml.cs">
       <DependentUpon>ToastWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StyleSelectorWindow.xaml.cs">
-      <DependentUpon>StyleSelectorWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UIHost\WpfWindowManager.cs" />
     <Compile Include="ViewModels\FloatPathViewModel.cs" />
     <Compile Include="ViewModels\Primavera\PrimaveraCompareViewModel.cs" />
@@ -216,9 +216,7 @@
       <DependentUpon>ModuleLoadingOverlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ModernWindow.cs" />
-    <Compile Include="Views\SettingsWindow.xaml.cs">
-      <DependentUpon>SettingsWindow.xaml</DependentUpon>
-    </Compile>
+
     <Compile Include="Views\AppearancePanel.xaml.cs">
       <DependentUpon>AppearancePanel.xaml</DependentUpon>
     </Compile>
@@ -237,42 +235,12 @@
     <Compile Include="Views\PluginsPanel.xaml.cs">
       <DependentUpon>PluginsPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Fixpiecolors.xaml.cs">
-      <DependentUpon>Fixpiecolors.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AssignTradeCodesWindow.xaml.cs">
-      <DependentUpon>AssignTradeCodesWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LinksManagerWindow.xaml.cs">
-      <DependentUpon>LinksManagerWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SubDailyReportWindow.xaml.cs">
-      <DependentUpon>SubDailyReportWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\ProjectAnalysisWindow.xaml.cs">
-      <DependentUpon>ProjectAnalysisWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UnmergeFillDownWindow.xaml.cs">
-      <DependentUpon>UnmergeFillDownWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\FixPieColorsViewModel.cs" />
     <Compile Include="ViewModels\LinksManagerViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\WbsStyleSelectorViewModel.cs" />
-    <Compile Include="Windows\PrimaveraComparison\PrimaveraCompareWindow.xaml.cs">
-      <DependentUpon>PrimaveraCompareWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\PrimaveraComparison\PrimaveraResultsWindow.xaml.cs">
-      <DependentUpon>PrimaveraResultsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="XerEditorWindow.xaml.cs">
-      <DependentUpon>XerEditorWindow.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -322,22 +290,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LinksManagerWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Fixpiecolors.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AssignTradeCodesWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+
     <Page Include="Pages\WelcomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -394,10 +347,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StyleSelectorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+
     <Page Include="Theme\Base\Colors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -582,10 +532,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+
     <Page Include="Views\AppearancePanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -614,30 +561,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SubDailyReportWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\ProjectAnalysisWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UnmergeFillDownWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\PrimaveraComparison\PrimaveraCompareWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\PrimaveraComparison\PrimaveraResultsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="XerEditorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Som3a.Shared\Som3a.Shared.csproj">

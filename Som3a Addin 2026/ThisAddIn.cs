@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Tools.Excel;
+using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,21 @@ namespace Som3a_Addin_2026
             ThemeManager.InitializeApplicationResources();
 
             ThemeManager.LoadSettings();
+
+            try
+            {
+                var sidebarRegistration = Som3a_WPF_UI.App.Container.Resolve<ISidebarRegistrationProvider>();
+                sidebarRegistration.RegisterStaticPages();
+
+                var orchestrator = Som3a_WPF_UI.App.Container.Resolve<ModuleLoadOrchestrator>();
+                var pluginTypes = orchestrator.GetAllPluginPageTypes();
+                if (pluginTypes.Count > 0)
+                    sidebarRegistration.RegisterPluginPages(pluginTypes);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine($"[ThisAddIn] Sidebar registration failed: {ex.Message}");
+            }
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)

@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
 using Som3a_WPF_UI.Services;
-using Som3a_WPF_UI.Views;
 
 namespace Som3a_Addin_2026
 {
@@ -38,75 +36,54 @@ namespace Som3a_Addin_2026
             {
             try
             {
-                Window window = null;
+                var nav = Som3a_WPF_UI.Services.NavigationService.Instance;
                 switch (name)
                 {
                     case "Home":
                     case "Som3a Add-in":
-                        window = new Som3a_WPF_UI.Controls.Shell.ShellWindow();
-                        break;
-                    case "Comparsion":
-                    case "Comparison P6 Activity":
-                        window = new Som3a_WPF_UI.MainWindow();
-                        break;
+                        nav.NavigateTo("main");
+                        return "OK";
                     case "Trades Codes":
-                        window = new Som3a_WPF_UI.AssignTradeCodesWindow();
-                        break;
+                        nav.NavigateTo("excel.tradecodes");
+                        return "OK";
                     case "Daily Report":
-                        window = new Som3a_WPF_UI.SubDailyReportWindow(Globals.ThisAddIn.Application);
-                        break;
+                        nav.NavigateTo("excel.subdaily");
+                        return "OK";
                     case "Links Manager":
-                        window = new Som3a_WPF_UI.Views.LinksManagerWindow(Globals.ThisAddIn.Application);
-                        break;
+                        nav.NavigateTo("excel.links");
+                        return "OK";
                     case "Project Analysis":
                     case "Revised Baseline (Split Activity)":
-                        window = new Som3a_WPF_UI.Ui.ProjectAnalysisWindow(Globals.ThisAddIn.Application);
-                        break;
+                        nav.NavigateTo("planning.analysis");
+                        return "OK";
                     case "XER Editor":
                     case "Xer Editor":
-                        window = new Som3a_WPF_UI.XerEditorWindow();
-                        break;
+                        nav.NavigateTo("planning.xereditor");
+                        return "OK";
                     case "WBS Color Styles":
                     case "Color WBS Setting":
-                        window = new Som3a_WPF_UI.StyleSelectorWindow();
-                        break;
+                        nav.NavigateTo("excel.styles");
+                        return "OK";
                     case "Unmerge Fill Down":
-                        window = new Som3a_WPF_UI.UnmergeFillDownWindow(Globals.ThisAddIn.Application);
-                        break;
+                        nav.NavigateTo("excel.unmerge");
+                        return "OK";
                     case "Float Path Analyzer":
-                        window = new Som3a_WPF_UI.Float_path();
-                        break;
+                        nav.NavigateTo("analysis.floatpath");
+                        return "OK";
                     case "Fix Pie Chart Colors":
-                        window = new Som3a_WPF_UI.FixPieColorsWindow();
-                        break;
+                        nav.NavigateTo("excel.piecolors");
+                        return "OK";
                     case "Primavera Compare":
                     case "Comparsion by Xer":
-                        window = new Som3a_WPF_UI.Windows.PrimaveraComparison.PrimaveraCompareWindow();
-                        break;
+                        nav.NavigateTo("planning.primavera.compare");
+                        return "OK";
                     case "Settings":
                     case "Add in Setting":
-                        window = new Som3a_WPF_UI.Views.SettingsWindow();
-                        break;
+                        nav.NavigateTo("settings.general");
+                        return "OK";
                     default:
                         return "WINDOW_NOT_FOUND";
                 }
-
-                if (window != null)
-                {
-                    _openWindows[name] = window;
-                    var capturedWindow = window;
-                    EventHandler handler = null;
-                    handler = (s, e) =>
-                    {
-                        capturedWindow.Closed -= handler;
-                        if (_openWindows.TryGetValue(name, out var existing) && existing == capturedWindow)
-                            _openWindows.Remove(name);
-                    };
-                    capturedWindow.Closed += handler;
-                    capturedWindow.Show();
-                    return "OK";
-                }
-                return "NULL_WINDOW";
             }
             catch (Exception ex)
             {

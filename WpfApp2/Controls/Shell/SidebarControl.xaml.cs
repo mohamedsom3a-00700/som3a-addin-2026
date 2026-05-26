@@ -2,12 +2,18 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Som3a_WPF_UI.Controls.Shell
 {
     public partial class SidebarControl : UserControl
     {
+        private bool _isHoverExpanded;
+        private bool _isCollapsed;
+
         public static readonly DependencyProperty ItemsProperty =
             DependencyProperty.Register(
                 nameof(Items),
@@ -29,6 +35,13 @@ namespace Som3a_WPF_UI.Controls.Shell
                 typeof(SidebarControl),
                 new PropertyMetadata(null));
 
+        public static readonly DependencyProperty IsCollapsedProperty =
+            DependencyProperty.Register(
+                nameof(IsCollapsed),
+                typeof(bool),
+                typeof(SidebarControl),
+                new PropertyMetadata(false, OnIsCollapsedChanged));
+
         public ObservableCollection<NavigationDestination> Items
         {
             get => (ObservableCollection<NavigationDestination>)GetValue(ItemsProperty);
@@ -47,6 +60,12 @@ namespace Som3a_WPF_UI.Controls.Shell
             set => SetValue(NavigateCommandProperty, value);
         }
 
+        public bool IsCollapsed
+        {
+            get => (bool)GetValue(IsCollapsedProperty);
+            set => SetValue(IsCollapsedProperty, value);
+        }
+
         public event SelectionChangedEventHandler SelectionChanged;
 
         public SidebarControl()
@@ -54,20 +73,90 @@ namespace Som3a_WPF_UI.Controls.Shell
             InitializeComponent();
         }
 
+        public void ToggleCollapse()
+        {
+            IsCollapsed = !IsCollapsed;
+        }
+
+        public void SetCollapsed(bool collapsed)
+        {
+            IsCollapsed = collapsed;
+        }
+
+        public void TemporarilyExpand()
+        {
+            if (IsCollapsed && !_isHoverExpanded)
+            {
+                _isHoverExpanded = true;
+                SetCollapsed(false);
+            }
+        }
+
+        public void TemporarilyCollapse()
+        {
+            if (_isHoverExpanded)
+            {
+                _isHoverExpanded = false;
+                SetCollapsed(true);
+            }
+        }
+
         private static void OnItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        private static void OnIsCollapsedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selected = SidebarListBox.SelectedItem as NavigationDestination;
-            if (selected != null)
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] is NavigationDestination selected)
             {
                 SetCurrentValue(SelectedItemProperty, selected);
-                if (NavigateCommand?.CanExecute(selected.Key) == true)
-                    NavigateCommand.Execute(selected.Key);
             }
             SelectionChanged?.Invoke(this, e);
+        }
+
+        private void OnFilterDestinations(object sender, FilterEventArgs e)
+        {
+            if (e.Item is NavigationDestination dest)
+                e.Accepted = dest.IsVisible;
+        }
+
+        private void OnGridMouseEnter(object sender, MouseEventArgs e)
+        {
+            TemporarilyExpand();
+        }
+
+        private void OnGridMouseLeave(object sender, MouseEventArgs e)
+        {
+            TemporarilyCollapse();
+        }
+
+        private void OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Left || e.Key == Key.Right)
+            {
+                var focused = FocusManager.GetFocusedElement(this) as DependencyObject;
+                if (focused != null)
+                {
+                    var expander = FindVisualParent<Expander>(focused);
+                    if (expander != null)
+                    {
+                        expander.IsExpanded = e.Key == Key.Right;
+                        e.Handled = true;
+                    }
+                }
+            }
+        }
+
+        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            var parent = VisualTreeHelper.GetParent(child);
+            while (parent != null && !(parent is T))
+                parent = VisualTreeHelper.GetParent(parent);
+            return parent as T;
         }
     }
 }

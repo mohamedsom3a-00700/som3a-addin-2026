@@ -25,6 +25,9 @@ namespace Som3a_WPF_UI
 
             ThemeManager.FreezeResources();
 
+            var sidebarRegistration = Container.Resolve<ISidebarRegistrationProvider>();
+            sidebarRegistration.RegisterStaticPages();
+
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 try
@@ -36,6 +39,10 @@ namespace Som3a_WPF_UI
                     orchestrator.SetNavigationService(NavigationService.Instance);
                     var manifests = pluginLoader.DiscoverModules();
                     orchestrator.OnModulesDiscovered(manifests);
+
+                    var pluginTypes = orchestrator.GetAllPluginPageTypes();
+                    if (pluginTypes.Count > 0)
+                        sidebarRegistration.RegisterPluginPages(pluginTypes);
                 }
                 catch (Exception ex)
                 {

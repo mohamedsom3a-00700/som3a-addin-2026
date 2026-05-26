@@ -8,5 +8,6 @@ namespace Som3a_WPF_UI.Controls.Shell
         public string NewKey { get; set; }
         public bool Success { get; set; }
         public string Error { get; set; }
+        public bool Cancelled { get; set; }
     }
 }

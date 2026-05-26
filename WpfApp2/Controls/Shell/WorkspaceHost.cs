@@ -22,6 +22,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         private Border _errorOverlay;
         private bool _isFirstNavigation = true;
         private Action _retryAction;
+        private Page _currentPage;
 
         public static readonly DependencyProperty WelcomePageTypeProperty =
             DependencyProperty.Register(
@@ -57,11 +58,11 @@ namespace Som3a_WPF_UI.Controls.Shell
 
             if (_frame != null)
             {
-                _frame.Navigated += OnFrameNavigated;
                 _frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
-                _frame.JournalOwnership = JournalOwnership.OwnsJournal;
             }
         }
+
+        public Page CurrentPage => _currentPage;
 
         public void Navigate(Page page)
         {
@@ -69,6 +70,9 @@ namespace Som3a_WPF_UI.Controls.Shell
 
             try
             {
+                _currentPage = page;
+                _errorOverlay.Visibility = Visibility.Collapsed;
+                _frame.Visibility = Visibility.Visible;
                 _frame.Navigate(page);
 
                 if (!_isFirstNavigation)
@@ -81,6 +85,12 @@ namespace Som3a_WPF_UI.Controls.Shell
                 }
 
                 _isFirstNavigation = false;
+
+                OnNavigationCompleted(new NavigationEventArgs
+                {
+                    NewKey = page.Tag as string,
+                    Success = true
+                });
             }
             catch (Exception ex)
             {
@@ -132,18 +142,6 @@ namespace Som3a_WPF_UI.Controls.Shell
             }
             if (_errorOverlay != null)
                 _errorOverlay.Visibility = Visibility.Collapsed;
-        }
-
-        private void OnFrameNavigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
-        {
-            if (e.Content is Page page && page.Tag is string tag)
-            {
-                OnNavigationCompleted(new NavigationEventArgs
-                {
-                    NewKey = tag,
-                    Success = true
-                });
-            }
         }
 
         private void OnRetryClick(object sender, RoutedEventArgs e)

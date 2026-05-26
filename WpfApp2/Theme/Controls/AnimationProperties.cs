@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Media.Animation;
 
@@ -46,6 +47,50 @@ namespace Som3a_WPF_UI.Theme.Controls
 
             timeline.Duration = new Duration(
                 System.TimeSpan.FromTicks((long)(original.Value.TimeSpan.Ticks * scale)));
+        }
+    }
+
+    public class GridLengthAnimation : AnimationTimeline
+    {
+        public override Type TargetPropertyType => typeof(GridLength);
+
+        public static readonly DependencyProperty FromProperty =
+            DependencyProperty.Register("From", typeof(GridLength), typeof(GridLengthAnimation));
+
+        public static readonly DependencyProperty ToProperty =
+            DependencyProperty.Register("To", typeof(GridLength), typeof(GridLengthAnimation));
+
+        public GridLength? From
+        {
+            get => (GridLength?)GetValue(FromProperty);
+            set => SetValue(FromProperty, value);
+        }
+
+        public GridLength? To
+        {
+            get => (GridLength?)GetValue(ToProperty);
+            set => SetValue(ToProperty, value);
+        }
+
+        public override object GetCurrentValue(object defaultOriginValue, object defaultDestinationValue, AnimationClock animationClock)
+        {
+            if (animationClock.CurrentProgress == null)
+                return new GridLength(220);
+
+            var from = From ?? (defaultOriginValue is GridLength gl ? gl : new GridLength(220));
+            var to = To ?? (defaultDestinationValue is GridLength gl2 ? gl2 : new GridLength(48));
+            var progress = animationClock.CurrentProgress.Value;
+
+            var fromValue = from.IsAbsolute ? from.Value : 220;
+            var toValue = to.IsAbsolute ? to.Value : 48;
+
+            var currentValue = fromValue + (toValue - fromValue) * progress;
+            return new GridLength(currentValue);
+        }
+
+        protected override Freezable CreateInstanceCore()
+        {
+            return new GridLengthAnimation();
         }
     }
 }

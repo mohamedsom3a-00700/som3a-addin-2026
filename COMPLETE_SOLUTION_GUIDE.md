@@ -1,21 +1,21 @@
-# 📘 Som3a Addin 2026 - Complete Solution Guide
+# Som3a Addin 2026 - Complete Solution Guide
 
-**Status**: Production Ready ✅
-**Framework**: .NET Framework 4.8 + WPF (.NET 10.0)
-**Last Updated**: May 17, 2026
-**Build Status**: ✅ Successfully Compiles (3 projects)
+**Status**: Production Ready / Validation Phase
+**Framework**: .NET Framework 4.8 + WPF
+**Last Updated**: May 25, 2026
+**Build Status**: Successfully Compiles (3 projects + 1 test project + 1 sample module)
 **Solution Root**: `C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\`
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 1. [Solution Overview](#solution-overview)
 2. [Project Structure](#project-structure)
 3. [Architecture & Design](#architecture--design)
 4. [Installation & Setup](#installation--setup)
 5. [Configuration](#configuration)
-6. [Implementation Phases](#implementation-phases)
+6. [Implementation Phases (0-11)](#implementation-phases)
 7. [Core Components](#core-components)
 8. [Usage Guide](#usage-guide)
 9. [API Reference](#api-reference)
@@ -24,224 +24,526 @@
 12. [Testing Strategy](#testing-strategy)
 13. [Deployment Guide](#deployment-guide)
 14. [Future Roadmap](#future-roadmap)
+15. [Specification & Governance](#specification--governance)
 
 ---
 
 ## 1. Solution Overview
 
 ### Purpose
-The Som3a Addin 2026 solution provides a comprehensive Excel add-in for Primavera project comparison and analysis. It enables users to:
-
+The Som3a Addin 2026 is a comprehensive Excel VSTO Add-in for Primavera P6 project management data. It enables:
 - Connect to Primavera databases (Oracle/SQL Server)
 - Load and compare multiple project versions
 - Identify differences in activities, relationships, and resources
 - Export comparison results to XER format
-- Visualize results in an intuitive WPF interface
+- Visualize results in a unified Windows-11-Fluent WPF Shell interface
+- Runtime theming (Dark/Light/Custom with accent colors)
+- Plugin/module architecture for future extensibility
+- Enterprise diagnostics, logging, and validation
 
 ### Key Capabilities
-- ✅ Multi-database support (SQL Server, Oracle-ready)
-- ✅ Async/await throughout for responsiveness
-- ✅ Parallel data loading with progress tracking
-- ✅ O(1) lookup-based comparison engine
-- ✅ Comprehensive error handling
-- ✅ Full XML documentation
-- ✅ Production-ready code quality
-- ✅ XER file parsing and editing
-- ✅ Excel comparison and analysis tools
-- ✅ WBS styling and coloring
-- ✅ Float path and critical path analysis
-- ✅ Trade code management
-- ✅ Workbook links management
-- ✅ Toast notifications system
-- ✅ Theme system (Dark/Light with accent colors)
+- Multi-database support (SQL Server, Oracle-ready)
+- Async/await throughout for responsiveness
+- Parallel data loading with progress tracking
+- O(1) lookup-based comparison engine
+- Full XML documentation
+- Production-ready code quality
+- XER file parsing and editing
+- Excel comparison and analysis tools
+- WBS styling and coloring
+- Float path and critical path analysis
+- Trade code management
+- Workbook links management
+- Toast notifications system
+- Full Fluent Design token-based theme engine (Dark/Light/Custom + 8 accent swatches)
+- Unified Shell navigation (Sidebar + Workspace with Pages)
+- DI container (ServiceContainer), EventBus, Module Registry
+- Plugin/module system with lazy loading
+- Diagnostics & logging platform
+- Validation engine (token integrity, hardcoded color detection)
 
 ### Technology Stack
 ```
-Language:        C# / XAML
-Framework:       .NET Framework 4.8 / .NET 10.0
+Language:        C# (LangVersion 14.0, nullable enabled)
+Framework:       .NET Framework 4.8
 UI Framework:    WPF (Windows Presentation Foundation)
-Database:        SQL Server / Oracle
-Build System:    MSBuild / Visual Studio 2026
-IDE:             Visual Studio Community 2026 (18.5.1)
+MVVM Toolkit:    CommunityToolkit.Mvvm 8.4.2
+Database:        SQL Server (Oracle.ManagedDataAccess ready)
+Build System:    MSBuild / Visual Studio Community 2026 (18.5.1)
+Testing:         MSTest (Tests/ project)
 NuGet Packages:  Oracle.ManagedDataAccess, System.Data.SqlClient,
-                 Newtonsoft.Json, Microsoft.Web.WebView2
+                 Newtonsoft.Json 13.0.4, Microsoft.Web.WebView2 1.0.3912.50,
+                 CommunityToolkit.Mvvm 8.4.2
 ```
 
 ---
 
 ## 2. Project Structure
 
-### Solution Layout
+### Solution Layout (3 main projects + 3 ancillary)
 ```
 Som3a Addin 2026/
-├── Som3a.Shared/              [Core Services & Models]
+├── Som3a Addin 2026.slnx                # Solution file (3 projects, ARM64 + Any CPU)
+│
+├── Som3a Addin 2026/                    # [VSTO Excel Add-in - .NET Framework 4.8]
+│   ├── ThisAddIn.cs                      # VSTO entry point (creates WPF App, registers DI)
+│   ├── Ribbon1.cs                        # Excel Ribbon - 14 buttons + dynamic modules group
+│   ├── Ribbon1.Designer.cs               # Ribbon designer code
+│   ├── Ribbon1.resx                      # Ribbon resources
+│   ├── Som3aAddinBridge.cs               # Bridge between Excel VSTO and WPF
+│   ├── ExcelWindowHandle.cs              # Get Excel HWND for WPF owner
+│   ├── WpfDialogHost.cs                  # Host WPF dialogs in Excel
+│   ├── AddInAutomation.cs                # IAddInAutomation interface
+│   ├── IAddInAutomation.cs               # Add-in automation contract
+│   ├── Properties/
+│   │   ├── AssemblyInfo.cs
+│   │   ├── Resources.Designer.cs / Resources.resx
+│   │   ├── Settings.Designer.cs
+│   │   └── Settings.settings
+│   ├── Resources/                        # 25+ PNG/JPG icons for ribbon
+│   ├── Ui/
+│   │   ├── WpfDialogHost.cs
+│   │   └── LinksManagerLauncher.cs
+│   ├── app.config                        # Connection strings + app settings
+│   ├── packages.config
+│   ├── Som3a Addin 2026.csproj
+│   ├── Som3a Addin 2026.csproj.user
+│   └── Som3a Addin 2026_TemporaryKey.pfx # ClickOnce signing key
+│
+├── Som3a.Shared/                         # [Shared Business Logic - .NET Framework 4.8]
 │   ├── Models/
 │   │   ├── Primavera/
-│   │   │   ├── ProjectDto.cs
-│   │   │   ├── ActivityDto.cs
-│   │   │   ├── RelationshipDto.cs
-│   │   │   └── ResourceDto.cs
-│   │   └── [Other Models...]
-│   │
+│   │   │   ├── ProjectDto.cs             # P6 project data transfer object
+│   │   │   ├── ActivityDto.cs            # P6 activity DTO
+│   │   │   ├── RelationshipDto.cs        # P6 relationship DTO
+│   │   │   └── ResourceDto.cs            # P6 resource DTO
+│   │   ├── AssignTradeCodesViewModel.cs
+│   │   ├── MainViewModel.cs
+│   │   ├── Float_path.cs
+│   │   ├── WbsItem.cs / WbsLevelStyle.cs
+│   │   ├── ExcelService.cs / ExcelColorHelper.cs
+│   │   ├── TableItemVM.cs
+│   │   ├── XerMapper.cs
+│   │   ├── LinkItem.cs / LinkTypeItem.cs
+│   │   ├── WorkbookItem.cs
+│   │   ├── SheetCheckRow.cs
+│   │   ├── ProjectAnalysisLogRow.cs
+│   │   ├── ProjectAnalysisSummaryRow.cs
+│   │   ├── CompareResultItem.cs
+│   │   └── RelayCommand.cs
 │   ├── Core/
 │   │   ├── Primavera/
-│   │   │   ├── IPrimaveraDbService.cs
-│   │   │   ├── PrimaveraDbService.cs
-│   │   │   ├── IPrimaveraDataLoaderService.cs
-│   │   │   ├── PrimaveraDataLoaderService.cs
-│   │   │   ├── IPrimaveraComparisonService.cs
-│   │   │   ├── PrimaveraComparisonService.cs
-│   │   │   ├── ProjectFullData.cs
-│   │   │   └── ComparisonModels.cs
-│   │   ├── XER Parser.cs           [XER file parsing]
-│   │   ├── XerExportService.cs     [XER export functionality]
-│   │   ├── WbsBuilder.cs           [WBS structure builder]
-│   │   ├── WbsStyleFactory.cs     [WBS styling factory]
-│   │   ├── WbsColoringService.cs  [WBS coloring logic]
+│   │   │   ├── IPrimaveraDbService.cs / PrimaveraDbService.cs
+│   │   │   ├── IPrimaveraDataLoaderService.cs / PrimaveraDataLoaderService.cs
+│   │   │   ├── IPrimaveraComparisonService.cs / PrimaveraComparisonService.cs
+│   │   │   ├── ComparisonModels.cs
+│   │   │   └── ProjectFullData.cs
 │   │   ├── AssignTradeCodesService.cs
-│   │   ├── FloatPathService.cs    [Float path analysis]
-│   │   ├── PathFinder.cs          [Critical path finder]
-│   │   ├── GraphBuilder.cs        [Graph construction]
-│   │   ├── GraphService.cs        [Graph analysis]
-│   │   ├── LinksManagerService.cs [Workbook links]
-│   │   ├── WorkbookCloneService.cs
-│   │   ├── SubDlyReportService.cs  [Subcontract daily reports]
-│   │   ├── UnmergeFillDownService.cs
-│   │   ├── FixPieColorsService.cs
-│   │   ├── FixPieColorsResult.cs
 │   │   ├── ExcelCompareService.cs
-│   │   └── ExcelLinkTextHelper.cs
-│   │
+│   │   ├── ExcelLinkTextHelper.cs
+│   │   ├── FixPieColorsService.cs / FixPieColorsResult.cs
+│   │   ├── FloatPathService.cs
+│   │   ├── GraphBuilder.cs / GraphService.cs
+│   │   ├── LinksManagerService.cs
+│   │   ├── PathFinder.cs
+│   │   ├── SubDlyReportService.cs
+│   │   ├── UnmergeFillDownService.cs
+│   │   ├── WorkbookCloneService.cs
+│   │   ├── WbsBuilder.cs / WbsColoringService.cs / WbsStyleFactory.cs
+│   │   ├── XER Parser.cs / XerExportService.cs
 │   ├── Controllers/
 │   │   └── CompareController.cs
 │   ├── Interop/
 │   │   └── ComRelease.cs
 │   ├── Utils/
 │   │   └── RelUtils.cs
-│   ├── Properties/
+│   ├── Properties/AssemblyInfo.cs
+│   ├── packages.config
 │   └── Som3a.Shared.csproj
 │
-├── WpfApp2/                    [WPF UI Layer - .NET 10.0]
+├── WpfApp2/                              # [WPF UI Library - .NET Framework 4.8]
+│   ├── App.xaml / App.xaml.cs             # Application resources (ThemeResources + DarkTheme)
+│   ├── CompositionRoot.cs                # DI registration (ServiceContainer, EventBus, ModuleRegistry)
+│   │
+│   ├── Controls/
+│   │   ├── ModernWindow.cs               # Custom Window subclass (VSTO-safe, DPI-aware, theme integration)
+│   │   ├── LoadingOverlay.xaml/.cs       # Loading spinner overlay
+│   │   ├── ModuleLoadingOverlay.xaml/.cs  # Module lazy-load overlay
+│   │   ├── Shell/
+│   │   │   ├── ShellWindow.xaml/.cs      # Main Shell container (Sidebar + Workspace)
+│   │   │   ├── ShellState.cs             # Shell navigation state
+│   │   │   ├── SidebarControl.xaml/.cs   # Sidebar navigation
+│   │   │   ├── WorkspaceHost.cs           # Page host in Shell
+│   │   │   ├── CommandPalette.xaml/.cs    # Ctrl+K command palette
+│   │   │   ├── NavigationDestination.cs   # Navigation target definition
+│   │   │   ├── NavigationEventArgs.cs     # Navigation event args
+│   │   │   └── NavigationPage.cs          # Page base class
+│   │   └── Toast/
+│   │       ├── ToastModel.cs
+│   │       ├── ToastWindow.xaml/.cs
+│   │
+│   ├── Pages/                             # Shell-hosted Page variants (Phase 11 Migration)
+│   │   ├── PageBase.cs                    # Base Page with lifecycle hooks
+│   │   ├── WelcomePage.xaml/.cs
+│   │   ├── MainPage.xaml/.cs
+│   │   ├── SettingsPage.xaml/.cs
+│   │   ├── ProjectAnalysisPage.xaml/.cs
+│   │   ├── FloatPathPage.xaml/.cs
+│   │   ├── AssignTradeCodesPage.xaml/.cs
+│   │   ├── FixPieColorsPage.xaml/.cs
+│   │   ├── LinksManagerPage.xaml/.cs
+│   │   ├── StyleSelectorPage.xaml/.cs
+│   │   ├── SubDailyReportPage.xaml/.cs
+│   │   ├── UnmergeFillDownPage.xaml/.cs
+│   │   ├── XerEditorPage.xaml/.cs
+│   │   ├── PrimaveraComparePage.xaml/.cs
+│   │   └── PrimaveraResultsPage.xaml/.cs
+│   │
+│   ├── ViewModels/
+│   │   ├── ViewModelBase.cs               # INotifyPropertyChanged base
+│   │   ├── Primavera/
+│   │   │   ├── PrimaveraCompareViewModel.cs
+│   │   │   └── PrimaveraResultsViewModel.cs
+│   │   ├── FixPieColorsViewModel.cs
+│   │   ├── FloatPathViewModel.cs
+│   │   ├── LinksManagerViewModel.cs
+│   │   ├── ProjectAnalysisViewModel.cs
+│   │   ├── SettingsViewModel.cs
+│   │   ├── SubDailyReportViewModel.cs
+│   │   ├── ToastViewModel.cs
+│   │   ├── UnmergeFillDownViewModel.cs
+│   │   ├── WbsStyleSelectorViewModel.cs
+│   │   ├── XerEditorViewModel.cs
+│   │   ├── CommandPaletteViewModel.cs
+│   │   ├── DiagnosticsViewModel.cs
+│   │   └── PluginDiagnosticsViewModel.cs
+│   │
+│   ├── Views/
+│   │   ├── SettingsWindow.xaml/.cs        # Theme + accent settings (ModernWindow)
+│   │   ├── AccessibilityPanel.xaml/.cs    # Accessibility settings tab
+│   │   ├── AppearancePanel.xaml/.cs       # Appearance settings tab
+│   │   ├── DiagnosticsPanel.xaml/.cs      # Diagnostics settings tab
+│   │   ├── ExcelPanel.xaml/.cs            # Excel settings tab
+│   │   ├── PerformancePanel.xaml/.cs      # Performance settings tab
+│   │   └── PluginsPanel.xaml/.cs          # Plugin settings tab
+│   │
 │   ├── Windows/
 │   │   └── PrimaveraComparison/
 │   │       ├── PrimaveraCompareWindow.xaml/.cs
 │   │       └── PrimaveraResultsWindow.xaml/.cs
 │   │
-│   ├── Views/
-│   │   ├── SettingsWindow.xaml/.cs
-│   │   └── LinksManagerWindow.xaml/.cs
-│   │
 │   ├── UI/
-│   │   └── ProjectAnalysisWindow.xaml/.cs
-│   │
-│   ├── XerEditorWindow.xaml/.cs
-│   ├── AssignTradeCodesWindow.xaml/.cs
-│   ├── SubDailyReportWindow.xaml/.cs
-│   ├── Float_path.xaml/.cs
-│   ├── UnmergeFillDownWindow.xaml/.cs
-│   ├── Fixpiecolors.xaml/.cs
-│   ├── StyleSelectorWindow.xaml/.cs
-│   │
-│   ├── ViewModels/
-│   │   ├── Primavera/
-│   │   │   ├── PrimaveraCompareViewModel.cs
-│   │   │   └── PrimaveraResultsViewModel.cs
-│   │   ├── LinksManagerViewModel.cs
-│   │   ├── ProjectAnalysisViewModel.cs
-│   │   ├── SubDailyReportViewModel.cs
-│   │   ├── XerEditorVM.cs
-│   │   └── UnmergeFillDownViewModel.cs
-│   │
-│   ├── Models/
-│   │   ├── XerEditorVM.cs
-│   │   ├── SubDailyReportViewModel.cs
-│   │   └── UnmergeFillDownViewModel.cs
+│   │   ├── ProjectAnalysisWindow.xaml/.cs
 │   │
 │   ├── Services/
-│   │   ├── ThemeManager.cs        [Theme switching]
-│   │   ├── ToastService.cs        [Toast notifications]
-│   │   ├── DialogService.cs
-│   │   ├── ThemeSettings.cs
+│   │   ├── ThemeManager.cs                # Singleton runtime theme switcher
+│   │   ├── ThemeSettings.cs               # Legacy JSON theme persistence
+│   │   ├── WindowRenderModeDetector.cs    # Auto-detect Excel VSTO rendering mode
+│   │   ├── RenderModeService.cs           # Render mode cache + events
+│   │   ├── DialogService.cs               # Show MessageBox dialogs from VMs
+│   │   ├── ToastService.cs                # Toast notifications
+│   │   ├── ServiceContainer.cs            # DI container (Singleton/Transient/Scoped)
+│   │   ├── EventBus.cs                    # Typed event pub/sub with weak references
+│   │   ├── ModuleRegistry.cs              # Module registration + priority-init
+│   │   ├── ModuleLoadOrchestrator.cs      # Module lifecycle management
+│   │   ├── ModuleInitializationContext.cs  # Per-module init context
+│   │   ├── ModuleRibbonActionsAvailableEvent.cs
+│   │   ├── NavigationService.cs           # Shell navigation singleton
+│   │   ├── NavigationRegistrar.cs         # Register pages with nav service
+│   │   ├── ShellNavigationHelper.cs       # Shell nav utilities
+│   │   ├── CommandRegistrar.cs            # Register commands for palette
+│   │   ├── RibbonRegistrar.cs             # Register ribbon actions
+│   │   ├── PluginLoader.cs                # Discover + load plugin assemblies
+│   │   ├── PluginRegistry.cs              # Plugin metadata registry
+│   │   ├── LazyModuleCommand.cs           # Deferred module command
+│   │   ├── DiagnosticsService.cs          # Render/theme/memory diagnostics
+│   │   ├── LoggingService.cs              # File logging (5MB rollover, 3-file rotation)
+│   │   ├── ValidationEngine.cs            # Token integrity + hardcoded color detection
+│   │   ├── ModuleDiagnosticsService.cs    # Plugin stability diagnostics
+│   │   ├── SettingsPersistenceService.cs  # Settings serialization
 │   │   └── ExcelProjectAnalysisService.cs
 │   │
-│   ├── Converters/
-│   │   ├── SharedConverters.cs
-│   │   └── DifferenceTypeToColorConverter.cs
+│   ├── Contracts/
+│   │   ├── ICommandRegistrar.cs
+│   │   ├── IModule.cs
+│   │   ├── IModuleInitializationContext.cs
+│   │   ├── IModuleRegistry.cs
+│   │   ├── INavigationRegistrar.cs
+│   │   ├── IPluginLoader.cs
+│   │   ├── IRibbonRegistrar.cs
+│   │   ├── ModuleInfo.cs
+│   │   └── ModuleManifest.cs
 │   │
-│   ├── Controls/
-│   │   ├── ModernWindow.cs        [Custom chrome window]
-│   │   ├── LoadingOverlay.xaml/.cs
-│   │   └── Toast/
-│   │       ├── ToastWindow.xaml/.cs
-│   │       └── ToastModel.cs
-│   │
-│   ├── Theme/                     [Design tokens system]
-│   │   ├── Base/                  [Colors, Typography, Spacing, Radius]
-│   │   ├── Controls/              [ButtonStyles, TextBoxStyles, etc.]
-│   │   └── Fluent/                [Fluent effects]
+│   ├── Theme/                             # Fluent Design token system
+│   │   ├── ThemeResources.xaml            # Aggregator with documented loading order
+│   │   ├── ModernWindow.xaml              # ModernWindow control template
+│   │   ├── ShellStyles.xaml               # Shell-specific styles
+│   │   ├── WindowAnimations.xaml          # Window open/close fade animations
+│   │   ├── Base/
+│   │   │   ├── Colors.xaml                # Primitive + Semantic color tokens
+│   │   │   ├── Typography.xaml            # Font size/weight tokens
+│   │   │   ├── Spacing.xaml               # Margin/padding/height tokens
+│   │   │   ├── Radius.xaml                # Corner radius tokens
+│   │   │   ├── Elevation.xaml             # Elevation level tokens
+│   │   │   ├── Motion.xaml                # Animation duration/easing tokens
+│   │   │   ├── Opacity.xaml               # Standard opacity values
+│   │   │   ├── ZIndex.xaml                # Z-index layering constants
+│   │   │   └── ComponentTokens.xaml       # Component-specific tokens
+│   │   ├── Controls/                      # 22 control style XAML files
+│   │   │   ├── ButtonStyles.xaml
+│   │   │   ├── ComboBoxStyles.xaml / ComboBoxItemStyles.xaml
+│   │   │   ├── TextBoxStyles.xaml / PasswordBoxStyles.xaml
+│   │   │   ├── CheckBoxStyles.xaml / RadioButtonStyles.xaml
+│   │   │   ├── ToggleButtonStyles.xaml
+│   │   │   ├── DataGridStyles.xaml
+│   │   │   ├── ListViewStyles.xaml / ListViewItemStyles.xaml
+│   │   │   ├── TreeViewStyles.xaml
+│   │   │   ├── ScrollViewerStyles.xaml / ScrollBarStyles.xaml
+│   │   │   ├── ProgressBarStyles.xaml
+│   │   │   ├── GroupBoxStyles.xaml / LabelStyles.xaml
+│   │   │   ├── ThemeCardStyles.xaml / AccentSwatchStyles.xaml
+│   │   │   ├── WindowStyles.xaml / WindowButtonStyles.xaml
+│   │   │   └── SettingsPanelStyles.xaml
+│   │   ├── Dark/
+│   │   │   ├── DarkColors.xaml / DarkTheme.xaml
+│   │   ├── Light/
+│   │   │   ├── LightColors.xaml / LightTheme.xaml
+│   │   ├── Custom/
+│   │   │   ├── CustomColors.xaml / CustomTheme.xaml
+│   │   ├── Effects/
+│   │   │   ├── Shadows.xaml               # Centralized DropShadowEffect (7 + safe variants)
+│   │   │   ├── Glow.xaml                  # Centralized glow effects (6 + accent dynamic)
+│   │   │   └── Animations.xaml            # Storyboards (all ≤200ms)
+│   │   └── Fluent/
+│   │       ├── FluentEffects.xaml          # Legacy effects (excluded from build)
+│   │       └── FluentWhite.xaml            # Legacy light theme (excluded from build)
 │   │
 │   ├── Helpers/
-│   ├── Commands/
+│   │   ├── NotifyBase.cs                  # INotifyPropertyChanged base
+│   │   ├── RelayCommand.cs / AsyncRelayCommand.cs
+│   │   ├── DpiHelper.cs                   # Monitor DPI detection + scaling
+│   │   ├── ExcelOwnerHelper.cs            # Parent WPF to Excel window
+│   │   ├── WindowChromeHelper.cs          # Apply WindowChrome
+│   │   ├── WindowBehaviorHelper.cs        # Window property reflection
+│   │   └── WindowValidationHelper.cs      # Validate window properties
+│   │
+│   ├── Converters/
+│   │   ├── SharedConverters.cs            # BoolToVisibility, NullToVisibility
+│   │   ├── DifferenceTypeToColorConverter.cs
+│   │   └── WindowConverters.cs
+│   │
+│   ├── Behaviors/
+│   │   ├── DragMoveBehavior.cs
+│   │   └── EscapeCloseBehavior.cs
+│   │
+│   ├── Models/
+│   │   ├── RelayCommand.cs / DiagnosticsModels.cs
+│   │   ├── SettingsCategory.cs / SettingsExport.cs / UserSettings.cs
+│   │   ├── SubDailyReportViewModel.cs
+│   │   ├── UnmergeFillDownViewModel.cs
+│   │   └── XerEditorVM.cs
+│   │
+│   ├── Analyzers/
+│   │   ├── ModernWindowAnalyzer.cs        # Roslyn analyzer (excluded from build)
+│   │   └── README.md
+│   │
+│   ├── UIHost/
+│   │   └── WpfWindowManager.cs            # Manage WPF windows in Excel host
+│   │
+│   ├── scripts/
+│   │   └── Validate-Tokens.ps1
+│   │
 │   ├── Properties/
-│   └── WpfApp2.csproj
+│   │   ├── AssemblyInfo.cs
+│   │   ├── Resources.Designer.cs / Resources.resx
+│   │   ├── Settings.Designer.cs           # Theme persistence accessors
+│   │   └── Settings.settings             # User-scoped theme + accent settings
+│   │
+│   ├── App.config
+│   ├── packages.config
+│   ├── Som3a_WPF_UI.csproj
+│   └── Som3a_WPF_UI.csproj.user
 │
-├── Som3a Addin 2026/           [Excel Add-in Layer - .NET Framework 4.8]
-│   ├── Ribbon/
-│   │   ├── Ribbon1.cs
-│   │   └── Ribbon1.Designer.cs
-│   ├── Ui/
-│   │   ├── WpfDialogHost.cs
-│   │   └── LinksManagerLauncher.cs
-│   ├── ThisAddIn.cs
-│   ├── Som3aAddinBridge.cs
+├── Tests/                                # [Unit Test Project - .NET Framework 4.8]
+│   ├── Som3a_WPF_UI.Tests.csproj
+│   ├── ServiceContainerTests.cs
+│   ├── EventBusTests.cs
+│   ├── ViewModelBaseTests.cs
+│   ├── Run-VSTOTests.ps1
+│   └── VSTOResults.xml
+│
+├── WpfApp2.Modules.Sample/               # [Sample Plugin Module - .NET Framework 4.8]
+│   ├── WpfApp2.Modules.Sample.csproj
+│   ├── SampleModule.cs
+│   └── module.json
+│
+├── Som3a_WPF_UI/                         # [Standalone WPF App - .NET 10.0] (experimental)
+│   ├── MainWindow.xaml/.cs
+│   ├── Som3a_WPF_UI.csproj
+│   └── Som3a_WPF_UI.csproj.user
+│
+├── Som3a_WPF_UId/                        # [Legacy WPF App - .NET Framework 4.7.2]
+│   ├── MainWindow.xaml/.cs
+│   ├── Class1.cs
+│   ├── Properties/AssemblyInfo.cs
+│   └── Som3a_WPF_UI.csproj
+│
+├── WpfApp1/                              # [Old/Legacy WPF App - .NET Framework 4.7.2]
+│   ├── MainWindow.xaml/.cs
+│   ├── App.config
 │   ├── Properties/
-│   └── Som3a Addin 2026.csproj
+│   └── Som3a_WPF_UI.csproj
 │
-└── Docs/
-    ├── PROJECT_GUIDE.md
-    ├── QUICK_REFERENCE.md
-    ├── fix.md
-    └── [Other Documentation...]
+├── Docs/                                  # Documentation
+│   ├── PROJECT_GUIDE.md
+│   ├── QUICK_REFERENCE.md
+│   ├── SESSION_STATUS.md
+│   ├── fix.md
+│   ├── session_5b_settings.md
+│   ├── session_prompts.md
+│   ├── session_prompts -2.md
+│   └── Architecture/
+│       ├── AGENT_RULES.md                 # AI execution rules
+│       ├── UI_GUIDELINES.md               # Windows 11 Fluent design rules
+│       ├── TOKEN_RULES.md                 # Naming conventions + layers
+│       ├── SHADOW_SYSTEM.md               # Centralized effects docs
+│       ├── POPUP_ARCHITECTURE.md          # ComboBox popup architecture
+│       ├── EXCEL_RENDERING_RULES.md       # VSTO-safe rendering rules
+│       ├── MVVM_RULES.md                  # MVVM separation standards
+│       ├── ACCESSIBILITY_RULES.md         # Keyboard nav + screen reader prep
+│       ├── PERFORMANCE_RULES.md           # ≤200ms animations, virtualization
+│       ├── REVIEW_CHECKLIST.md            # Mandatory review gates
+│       ├── AUDIT_REPORT.md                # Phase 0 architecture audit
+│       ├── EXCEL_TEST_CHECKLIST.md        # VSTO test scenarios
+│       ├── MVVM_COMPLIANCE.md             # Per-file MVVM audit
+│       ├── BRANCH_NAMING.md               # Branch naming standards
+│       ├── BRANCH_PROTECTION.md           # Branch protection rules
+│       ├── README.md
+│       ├── PERFORMANCE_AUDIT_REPORT.md    # Phase 10: perf baselines
+│       ├── ACCESSIBILITY_AUDIT_REPORT.md  # Phase 10: keyboard + contrast
+│       ├── DPI_AUDIT_REPORT.md            # Phase 10: DPI validation
+│       ├── EXCEL_STABILITY_REPORT.md      # Phase 10: VSTO stability
+│       ├── LOCALIZATION_READINESS.md      # Phase 10: i18n architecture
+│       └── ENTERPRISE_POLISH_CHECKLIST.md # Phase 10: master checklist
+│
+├── specs/                                 # Feature specifications (13 features)
+│   ├── feature-planning-guide.md
+│   ├── guide-files-path-and-wbs.md
+│   ├── 001-fluent-theme-engine/           # Theme engine + effects + control standardization
+│   ├── 001-github-governance-workflow/    # Git workflow + review gates
+│   ├── 001-diagnostics-stability-platform/ # Diagnostics + logging + validation
+│   ├── 001-settings-personalization-ux/   # Settings UI + panels
+│   ├── 002-themes-manager/                # ThemeManager fixes + hardcoded color elimination
+│   ├── 004-design-system-core/            # Token architecture + primitive/semantic/component
+│   ├── 005-rendering-infrastructure/      # Excel-safe rendering + DPI
+│   ├── 006-phase-3-spec/                  # Phase 3 integration spec
+│   ├── 007-control-standardization/       # Control template audit + refactor
+│   ├── 008-navigation-shell-platform/     # Shell + sidebar + navigation service
+│   ├── 009-mvvm-architecture-cleanup/     # DI container + event bus + module registry
+│   ├── 011-legacy-window-migration/       # Window → Page migration (Phase 11)
+│   ├── 012-plugin-feature-platform/       # Plugin loader + module system
+│   └── 013-enterprise-polish/             # Performance, accessibility, DPI, stability (Phase 10)
+│
+├── .opencode/                             # OpenCode AI agent configuration
+│   ├── commands/                          # Speckit commands (14 .md files)
+│   ├── plans/                             # OpenCode plans (10 phase plans)
+│   ├── skills/image-to-md/                # Image-to-markdown skill
+│   └── package.json
+│
+├── .specify/                              # SpecKit governance framework
+│   ├── memory/
+│   │   ├── constitution.md                # v1.2.0 (16 principles)
+│   │   └── constitution-v2.md            # v2.0.0 (with AI rules + branch standards)
+│   ├── templates/                         # Plan, spec, tasks, checklist templates
+│   ├── scripts/powershell/                # Setup + prerequisite scripts
+│   ├── integrations/                      # OpenCode + Speckit manifests
+│   ├── extensions/git/                    # Git extension (commands + scripts)
+│   └── workflows/                         # Workflow registry
+│
+├── .github/                               # GitHub configuration
+│   ├── CODEOWNERS
+│   ├── pull_request_template.md
+│   └── workflows/
+│
+├── packages/                              # NuGet offline cache
+├── scripts/
+│   └── Validate-Tokens.ps1
+├── Git/
+│   └── Uploadgit.md
+├── README.md
+├── AGENTS.md                              # AI agent context instructions
+├── implementation_plan.md                 # Enterprise UI Transformation Master Plan (1948 lines)
+├── extraction_1779466152081.md
+├── .gitattributes
+└── .gitignore
 ```
 
 ### File Count by Project
 ```
-Som3a.Shared:              41 files (Models + Services + Utilities)
-WpfApp2:                   42 files (UI + ViewModels + Resources)
-Som3a Addin 2026:          12 files (Excel Add-in + Ribbon)
+Som3a Addin 2026:       18 files (Source + Config + Properties)
+Som3a.Shared:           41 files (Models + Core Services + Controllers + Interop + Utils)
+WpfApp2:                150+ files (UI + ViewModels + Services + Theme + Pages + Shell)
+Tests:                    5 files (3 test classes + scripts)
+WpfApp2.Modules.Sample:   3 files
+Legacy projects:         10 files
+Specs/Docs:              70+ files
+Config/Workflow:         40+ files
 ────────────────────────────────────
-Total:                     95+ files
+Total:                  340+ files
 ```
 
 ---
 
 ## 2.1 Available Modules & Features
 
-| Module | Description | Window/Class |
-|--------|-------------|--------------|
-| **Primavera Comparison** | Compare P6 project activities | PrimaveraCompareWindow, PrimaveraResultsWindow |
-| **XER Editor** | Parse and edit XER files | XerEditorWindow |
-| **Assign Trade Codes** | Assign trade codes to activities | AssignTradeCodesWindow |
-| **Links Manager** | Manage workbook links | LinksManagerWindow |
-| **Sub Daily Report** | Generate subcontractor daily reports | SubDailyReportWindow |
-| **Float Path Analysis** | Calculate float paths and critical path | Float_path, FloatPathService |
-| **Fix Pie Colors** | Fix Excel pie chart colors | Fixpiecolors, FixPieColorsService |
-| **Unmerge Fill Down** | Unmerge cells and fill down values | UnmergeFillDownWindow |
-| **Excel Compare** | Compare Excel worksheets | ExcelCompareService |
-| **Project Analysis** | Analyze Excel project data | ProjectAnalysisWindow |
-| **Settings** | Theme and appearance settings | SettingsWindow |
-| **WBS Styling** | WBS structure styling | WbsStyleFactory, WbsColoringService |
+| Module | Type | Entry Point |
+|--------|------|-------------|
+| **Primavera Comparison** | Service + Window/Page | PrimaveraCompareWindow, CompareController |
+| **Primavera Results** | Window/Page | PrimaveraResultsWindow |
+| **XER Editor** | Window/Page + Service | XerEditorWindow, XerParser, XerExportService |
+| **Assign Trade Codes** | Window/Page + Service | AssignTradeCodesWindow |
+| **Links Manager** | Window/Page + Service | LinksManagerWindow, LinksManagerService |
+| **Sub Daily Report** | Window/Page + Service | SubDailyReportWindow, SubDlyReportService |
+| **Float Path Analysis** | Window/Page + Service | Float_path, FloatPathService, PathFinder |
+| **Fix Pie Colors** | Window/Page + Service | Fixpiecolors, FixPieColorsService |
+| **Unmerge Fill Down** | Window/Page + Service | UnmergeFillDownWindow |
+| **Excel Compare** | Service | ExcelCompareService |
+| **Project Analysis** | Window/Page + Service | ProjectAnalysisWindow |
+| **WBS Styling** | Service | WbsBuilder, WbsStyleFactory, WbsColoringService |
+| **Workbook Clone** | Service | WorkbookCloneService |
+| **Settings** | Window/Page | SettingsWindow (Appearance, Accessibility, Performance, Excel, Plugins, Diagnostics panels) |
+| **Plugin Diagnostics** | View | PluginDiagnosticsViewModel, DiagnosticsPanel |
+| **Toast Notifications** | Service + Control | ToastService, ToastWindow |
 
-### Theme System
-- **Dark Theme**: Default dark background (#0E1720)
+### Theme System (Fluent Design Tokens)
+- **Dark Theme**: Default dark (#0E1720 background, Slate palette)
 - **Light Theme**: Fluent white theme
-- **Accent Colors**: Configurable (default #3A86FF)
-- **Design Tokens**: All colors, spacing, radius defined in Theme/Base/
+- **Custom Theme**: 8 accent color presets
+- **Design Tokens**: 9 base token files (Colors, Typography, Spacing, Radius, Elevation, Motion, Opacity, ZIndex, ComponentTokens)
+- **22 control style files**: All controls styled with VSM states
+- **3 effects files**: Shadows (7 + safe), Glow (6 variants), Animations (≤200ms)
+- **3 theme variants**: Dark, Light, Custom (each with Colors + merged dictionary)
+- **ThemeManager**: Singleton with ApplyTheme(), debouncing, accent color application, persistence via Settings.settings
 
-### Toast Notifications
-- Info, Success, Warning, Error types
-- Auto-dismiss with configurable duration
-- Global ToastService available
+### Shell Navigation
+- **ShellWindow**: Main container (ModernWindow-based) with Sidebar + Workspace
+- **SidebarControl**: Navigation sidebar with icons + labels
+- **CommandPalette**: Ctrl+K searchable command palette
+- **NavigationService**: Singleton page navigation with history
+- **14 Pages**: All feature windows available as Shell-hosted Pages
+
+### Plugin/Module System
+- **ModuleRegistry**: Priority-based module initialization
+- **PluginLoader**: Discover modules from assemblies + module.json manifests
+- **ModuleLoadOrchestrator**: Manage module lifecycle + lazy loading
+- **LazyModuleCommand**: Deferred command execution
+- **PluginRegistry**: Module metadata tracking
+- **ModuleDiagnosticsService**: Plugin stability diagnostics
+
+### Diagnostics Platform
+- **DiagnosticsService**: Render mode, active theme, memory, popup diagnostics
+- **LoggingService**: File-based logging (5MB rollover, 3-file rotation, AppData path)
+- **ValidationEngine**: Token integrity check, hardcoded color detection, missing token scan
 
 ---
 
@@ -250,28 +552,38 @@ Total:                     95+ files
 ### Layered Architecture
 ```
 ┌────────────────────────────────────────────────┐
-│         Excel Add-in Layer                      │
-│  (Ribbon Button, Window Management)            │
+│         VSTO Excel Add-in Layer                  │
+│  (Ribbon, ThisAddIn, Bridge, Dialog Hosting)    │
 └──────────────────┬───────────────────────────┘
                    │
 ┌──────────────────▼───────────────────────────┐
-│         WPF UI Layer                           │
-│  (Windows, ViewModels, Converters)            │
+│         WPF Shell Layer                         │
+│  (ShellWindow, Sidebar, Pages, CommandPalette)  │
 └──────────────────┬───────────────────────────┘
                    │
 ┌──────────────────▼───────────────────────────┐
-│     Business Logic Layer (Services)            │
-│  (Comparison, Loading, Database)              │
+│         WPF ViewModels Layer                    │
+│  (ViewModelBase, ICommand, DI injection)       │
 └──────────────────┬───────────────────────────┘
                    │
 ┌──────────────────▼───────────────────────────┐
-│     Data Access Layer                          │
-│  (Database Connectivity, DTO Mapping)         │
+│     Business Logic Layer (Shared Services)      │
+│  (Comparison, Loading, Database, WBS, XER)     │
 └──────────────────┬───────────────────────────┘
                    │
 ┌──────────────────▼───────────────────────────┐
-│    External Data Sources                       │
-│  (Primavera DB: Oracle/SQL Server)            │
+│     DI & Infrastructure Layer                   │
+│  (ServiceContainer, EventBus, ModuleRegistry)  │
+└──────────────────┬───────────────────────────┘
+                   │
+┌──────────────────▼───────────────────────────┐
+│     Data Access Layer                           │
+│  (Database Connectivity, DTO Mapping)          │
+└──────────────────┬───────────────────────────┘
+                   │
+┌──────────────────▼───────────────────────────┐
+│    External Data Sources                        │
+│  (Primavera DB: Oracle/SQL Server)             │
 └────────────────────────────────────────────────┘
 ```
 
@@ -279,44 +591,51 @@ Total:                     95+ files
 
 | Pattern | Component | Purpose |
 |---------|-----------|---------|
-| MVVM | WPF Windows & ViewModels | Separation of UI and logic |
-| Service Layer | Services (Db, Comparison, Loading) | Business logic encapsulation |
+| MVVM | Windows/Pages & ViewModels | Separation of UI and logic |
+| Dependency Injection | ServiceContainer | Loose coupling, testability |
+| Service Layer | Core services (Db, Comparison) | Business logic encapsulation |
+| Singleton | ThemeManager, NavigationService | Global runtime state |
+| Event Bus | EventBus (typed, weak refs) | Decoupled cross-module communication |
+| Module/Plugin | IModule, PluginLoader | Extensible plugin architecture |
 | Repository | IPrimaveraDbService | Database abstraction |
 | DTO | ProjectDto, ActivityDto, etc. | Clean data contracts |
-| Dependency Injection | Constructor injection | Loose coupling |
 | Async/Await | All I/O operations | Non-blocking operations |
-| Observer | INotifyPropertyChanged | UI updates |
+| Observer | INotifyPropertyChanged | UI updates from ViewModels |
 
 ### Key Architectural Decisions
 
 1. **Async/Await Throughout**: All database and I/O operations use async/await
 2. **Dictionary-based Comparison**: O(1) lookups for performance
-3. **Separate DTOs**: Clean separation between data transfer and models
-4. **Interface-based Services**: Easy to mock and test
-5. **Parallel Loading**: Multi-project loading optimized for CPU cores
+3. **DynamicResource Only**: All themeable properties use DynamicResource (no StaticResource)
+4. **Centralized Effects**: No inline DropShadowEffect — use `{DynamicResource Shadow.*}`
+5. **Excel-Safe Rendering**: WindowRenderModeDetector auto-detects VSTO hosting, activates FallbackSafe mode
+6. **Incrementally Migrated Pages**: Original XAML preserved until each Page validates in Excel VSTO
+7. **Module-Based Extensibility**: Features register pages, commands, and ribbon actions via IModule
+8. **2 Branch Strategy**: main, develop, feature/phase-NN-name branches with CodeRabbit review gates
 
 ---
 
 ## 4. Installation & Setup
 
 ### Prerequisites
-- Visual Studio Community 2026 (or later)
+- Visual Studio Community 2026 (or 2022+)
 - .NET Framework 4.8 Developer Pack
 - SQL Server or Oracle (for Primavera database)
 - Administrator privileges
+- Microsoft Office 2016+ (Excel)
 
 ### Installation Steps
 
 #### Step 1: Clone/Open Solution
-```bash
+```powershell
 cd C:\Users\mohamedabdelsamea\source\repos\
 git clone <repository-url> "Som3a Addin 2026"
 cd "Som3a Addin 2026"
 ```
 
 #### Step 2: Open Solution File
-```bash
-Start-Process "Som3a Addin 2026.sln"
+```powershell
+Start-Process "Som3a Addin 2026.slnx"
 ```
 
 #### Step 3: Restore NuGet Packages
@@ -346,14 +665,6 @@ Project Properties → Debug → Start external program:
 C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE
 ```
 
-### Verify Installation
-```csharp
-// In Debug Console
-> "SolutionDir"
-> "ProjectDir"
-> "TargetPath"
-```
-
 ---
 
 ## 4.1 Build Instructions
@@ -361,27 +672,25 @@ C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE
 ### Quick Build (PowerShell)
 ```powershell
 cd "C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026"
-msbuild "Som3a Addin 2026\Som3a Addin 2026.csproj" /p:Configuration=Release /t:Build /v:minimal
+& "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" "WpfApp2\Som3a_WPF_UI.csproj" /p:Configuration=Debug
 ```
 
-### Build Output
-```
-Som3a.Shared -> bin\Release\Som3a.Shared.dll
-Som3a_WPF_UI -> bin\Release\Som3a_WPF_UI.dll
-Som3a Addin 2026 -> bin\Release\Som3a Addin 2026.dll
+### Full Solution Build
+```powershell
+& "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" "Som3a Addin 2026.slnx" /p:Configuration=Release /t:Build
 ```
 
 ### Clean and Rebuild
 ```powershell
-msbuild "Som3a Addin 2026.sln" /t:Clean
-msbuild "Som3a Addin 2026.sln" /t:Rebuild /p:Configuration=Release
+msbuild "Som3a Addin 2026.slnx" /t:Clean
+msbuild "Som3a Addin 2026.slnx" /t:Rebuild /p:Configuration=Release
 ```
 
-### Common Build Issues Fixed (May 2026)
-- XAML tag mismatches in Fixpiecolors.xaml and SettingsWindow.xaml
-- Excluded ModernWindowAnalyzer.cs (missing Roslyn dependencies)
-- Fixed .NET 4.8 compatibility (StringComparison, WindowChrome API)
-- Fixed WindowAttribute reference and Clone() method issues
+### Run Unit Tests
+```powershell
+cd Tests
+vstest.console.exe Som3a_WPF_UI.Tests.csproj
+```
 
 ---
 
@@ -391,7 +700,7 @@ msbuild "Som3a Addin 2026.sln" /t:Rebuild /p:Configuration=Release
 
 #### SQL Server Connection
 ```csharp
-var connectionString = 
+var connectionString =
     "Server=localhost;Database=primavera_p6;User Id=sa;Password=YourPassword;";
 
 var isConnected = await dbService.TestConnectionAsync(connectionString, "SqlServer");
@@ -410,372 +719,258 @@ Server=<hostname>;Database=<database_name>;User Id=<username>;Password=<password
 - MSP_WBSES
 - MSP_RESOURCES
 
-#### Oracle Connection (Future)
+#### Oracle Connection (Ready)
 ```csharp
-var connectionString = 
+var connectionString =
     "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=hostname)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=service)));User Id=username;Password=password;";
 ```
 
-### Application Configuration
-
-#### App.config (Som3a Addin 2026)
+### Application Configuration (Som3a Addin 2026/app.config)
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
     <appSettings>
-        <!-- Default database type: SqlServer or Oracle -->
         <add key="DefaultDatabaseType" value="SqlServer"/>
-
-        <!-- Command timeout in seconds -->
         <add key="CommandTimeout" value="300"/>
-
-        <!-- Enable logging -->
         <add key="EnableLogging" value="true"/>
     </appSettings>
-
     <connectionStrings>
-        <add name="PrimaveraDb" 
-             connectionString="Server=localhost;Database=primavera_p6;User Id=sa;Password=YourPassword;" 
+        <add name="PrimaveraDb"
+             connectionString="Server=localhost;Database=primavera_p6;User Id=sa;Password=YourPassword;"
              providerName="System.Data.SqlClient"/>
     </connectionStrings>
 </configuration>
 ```
 
+### Theme Settings (WpfApp2/Properties/Settings.settings)
+- **SelectedTheme**: User-scoped string (Dark, Light, Custom)
+- **AccentColor**: User-scoped string (hex color, e.g. #3A86FF)
+- **AccentPresetIndex**: User-scoped int (0-7 for 8 preset swatches)
+
+### Diagnostics Configuration (WpfApp2/Services/LoggingService.cs)
+- Log path: `%AppData%/Som3a/Logs/`
+- Rollover: 5MB per file
+- Rotation: 3 files max
+- Snapshot coverage: All windows, all render modes
+
 ---
 
 ## 6. Implementation Phases
 
-### ✅ Phase 1: Database Connection
-**Status**: Complete  
-**Files**: 4 DTOs + 1 Service Interface + 1 Service Implementation
+### Phase 0: Governance Foundation ✅ COMPLETE
+**Branch**: `feature/phase-00-governance-foundation`
 
-**What It Does**:
-- Connects to Primavera database
-- Retrieves project list
-- Fetches activities, relationships, resources
+- Resolved constitution merge conflicts
+- Created architecture audit report (AUDIT_REPORT.md)
+- Created 10 governance documents in Docs/Architecture/
+- Created constitution v2.0.0 (with AI rules + branch standards)
+- Token naming standards established (Primitive.*, Brush.*, Spacing.*, etc.)
+- Branch naming convention: `feature/phase-NN-short-name`
+- Updated AGENTS.md with Phase 0-2 file paths
 
-**Key Classes**:
-```
-- ProjectDto.cs
-- ActivityDto.cs
-- RelationshipDto.cs
-- ResourceDto.cs
-- IPrimaveraDbService.cs
-- PrimaveraDbService.cs (SQL Server implemented, Oracle ready)
-```
+### Phase 1: Design System Core ✅ COMPLETE
+**Branch**: `feature/phase-01-design-system-core`
 
-**Usage**:
-```csharp
-var dbService = new PrimaveraDbService();
-var projects = await dbService.GetProjectsAsync(connString, "SqlServer");
-```
+- Primitive token system: Primitive.Blue.500, Primitive.Slate.*, Primitive.White.*
+- Semantic token system: Brush.Background.*, Brush.Text.*, Brush.Accent.*, etc.
+- Component token system: Component.Button.*, Component.Card.*, etc.
+- Fix all inline color violations (ButtonStyles, DataGridStyles, etc.)
+- New token files: Elevation.xaml, Motion.xaml, Opacity.xaml, ZIndex.xaml, ComponentTokens.xaml
+- Standardized spacing (Spacing.XSmall through XXLarge, Padding.*)
+- Standardized typography (Style.Text.Title, Subtitle, Body, Caption, Button)
 
----
+### Phase 2: Rendering & Window Infrastructure ✅ COMPLETE
+**Branch**: `feature/phase-02-rendering-infrastructure`
 
-### ✅ Phase 3: Data Loading
-**Status**: Complete  
-**Files**: 1 Container + 1 Service Interface + 1 Service Implementation
+- Audited all 14 windows for ModernWindow compliance
+- Extended ModernWindow with RenderMode, IsSafeMode, DpiScale DPs
+- Created RenderModeService for session-scoped render caching
+- Safe-mode shadow variants (Shadow.Window.Safe, Shadow.Card.Safe, Shadow.Popup.Safe)
+- Fallback rendering: disable animations, use safe shadows, disable backdrops
+- DPI infrastructure: GetCurrentDpiScale, ScaleValue, IsHighDpi
+- Accessibility preparation: FocusVisualStyle, AutomationProperties on all elements
+- Excel stability test checklist created
 
-**What It Does**:
-- Loads project data asynchronously
-- Single project loading with progress
-- Multi-project parallel loading
+### Phase 3: Theme Engine 2.0 ✅ COMPLETE (15 validation tasks remaining)
+**Branch**: `002-fluent-theme-engine` (merged)
 
-**Key Classes**:
-```
-- ProjectFullData.cs
-- IPrimaveraDataLoaderService.cs
-- PrimaveraDataLoaderService.cs
-```
+**Workstream A — Fluent Theme Engine** (58 tasks):
+- Effects library: Shadows.xaml (7 variants), Glow.xaml (6 variants), Animations.xaml (all ≤200ms)
+- Theme dictionaries: Dark, Light, Custom (3 themes, each with Colors + merged dictionary)
+- ThemeManager singleton: ApplyTheme(), LoadThemeFromSettings(), debouncing, events
+- SettingsWindow: 3 theme cards + 8 accent swatches with glow/scale animations
+- Control standardization: Button, ComboBox, CheckBox, RadioButton, ToggleButton, TextBox, DataGrid, ScrollViewer
+- DPI-aware sizing for theme cards, swatches, popups
+- WindowRenderModeDetector integration
 
-**Usage**:
-```csharp
-var loaderService = new PrimaveraDataLoaderService(dbService);
-var progress = new Progress<int>(p => Console.WriteLine($"{p}%"));
-var projectData = await loaderService.LoadProjectDataAsync(
-    connString, "SqlServer", projectId, progress);
-```
+**Workstream B — Themes Manager Bug Fixes** (64 tasks):
+- Accent persistence fix, early-return fix, safe dictionary fallback
+- Thread safety (Dispatcher.InvokeAsync), debouncing (150ms)
+- Hardcoded color elimination across all 12 windows
+- Progress bar gradient replacement (Brush.Accent.ProgressFill)
+- Window background conformance (Brush.Background.Root)
 
----
+### Phase 4: Control Standardization ✅ COMPLETE
+**Branch**: `feature/phase-04-control-standardization`
 
-### ✅ Phase 4: Comparison Engine
-**Status**: Complete  
-**Files**: 1 Models File + 1 Service Interface + 1 Service Implementation
+- ComboBox popup architecture: AllowsTransparency=False, PlacementTarget, width fix
+- Standardized all control templates: 22 control style files
+- TreeViewStyles.xaml, PasswordBoxStyles.xaml, SettingsPanelStyles.xaml added
+- Virtualization enabled on DataGrid and ListView
+- Smooth scrolling implemented on ScrollViewer
 
-**What It Does**:
-- Compares two projects
-- Identifies Added/Deleted/Modified items
-- Generates detailed change tracking
-- Calculates summary statistics
+### Phase 5: Navigation Shell Platform ✅ COMPLETE
+**Branch**: `feature/phase-05-navigation-shell`
 
-**Key Classes**:
-```
-- ComparisonModels.cs (DifferenceType, ValueChange, *Diff classes)
-- IPrimaveraComparisonService.cs
-- PrimaveraComparisonService.cs
-```
+- ShellWindow: Main container with Sidebar + Workspace host
+- SidebarControl: Icon + label navigation sidebar
+- WorkspaceHost: Frame-based page container
+- NavigationService: Singleton with NavigateTo(), GoBack(), history stack
+- CommandPalette: Ctrl+K searchable command palette
+- ShellState: Shell navigation state management
+- Navigation animations: Fade transitions ≤200ms
+- **Scope restriction**: Shell initially applied to NEW windows only
 
-**Usage**:
-```csharp
-var comparisonService = new PrimaveraComparisonService();
-var result = await comparisonService.CompareProjectsAsync(project1, project2);
-Console.WriteLine(result.Summary);
-```
+### Phase 6: MVVM & Architecture Cleanup ✅ COMPLETE
+**Branch**: `feature/phase-06-mvvm-cleanup`
 
----
+- ServiceContainer: DI container (Singleton/Transient/Scoped lifetimes, circular detection)
+- EventBus: Typed events with weak-reference subscribers, subscriber isolation
+- ModuleRegistry: Priority-based initialization, duplicate detection
+- ViewModelBase: INotifyPropertyChanged base with SetProperty<T>
+- CompositionRoot: Centralized DI registration
+- Services registered: ThemeManager, NavigationService, all Shared services
+- ViewModels relocated to ViewModels/ directory, constructor-injected via DI
 
-### 📋 Phase 5: XER Export
-**Status**: Ready for Implementation  
-**Effort**: 2-3 days
+### Phase 7: Settings & Personalization UX ✅ COMPLETE
+**Branch**: `feature/phase-07-settings-ux`
 
-**What It Will Do**:
-- Export comparison differences to XER format
-- Create new project with differences only
-- Support all difference types (Added/Deleted/Modified)
+- Settings categories: Appearance, Performance, Accessibility, Diagnostics, Excel, Plugins
+- SettingsWindow extended with tabbed panels
+- Panel files: AccessibilityPanel, AppearancePanel, DiagnosticsPanel, ExcelPanel, PerformancePanel, PluginsPanel
+- SettingsViewModel with categories + SettingsPersistenceService
+- Live theme preview, accent picker
 
-**Key Components**:
-```
-- IPrimaveraXerExportService.cs (interface)
-- PrimaveraXerExportService.cs (implementation)
-```
+### Phase 8: Diagnostics & Stability Platform ✅ COMPLETE
+**Branch**: `feature/phase-08-diagnostics`
 
-**Implementation Plan**:
-1. Extend existing XerExportService
-2. Create difference-only XER builder
-3. Support all three difference types
-4. Validate XER format
+- DiagnosticsService: Render mode, active theme, memory, popup diagnostics
+- LoggingService: File-based logging (5MB rollover, 3-file rotation, AppData/Som3a/Logs/)
+- ValidationEngine: Token integrity check, hardcoded color detection (regex-based)
+- Diagnostics panel UX with loading/error/empty states
+- Crash-safe loading for corrupt theme settings
 
----
+### Phase 9: Plugin & Feature Platform ✅ COMPLETE
+**Branch**: `feature/phase-09-plugin-platform`
 
-### 📋 Phase 6: Results Display UI
-**Status**: Ready for Implementation  
-**Effort**: 3-4 days
+- Plugin contracts: IModule, IModuleInitializationContext, IModuleRegistry
+- PluginLoader: Discover modules from assemblies + module.json manifests
+- Lazy loading: Load modules only when needed via LazyModuleCommand
+- Module registration: Pages, commands, ribbon actions
+- Plugin diagnostics: PluginDiagnosticsViewModel, ModuleDiagnosticsService
+- Sample module: WpfApp2.Modules.Sample
 
-**What It Will Do**:
-- Display comparison results in tabbed interface
-- Color-code differences (Green/Red/Yellow)
-- Implement filtering and sorting
-- Show detailed change information
+### Phase 10: Enterprise Polish 🔄 IN PROGRESS (Validation Phase)
+**Branch**: `013-enterprise-polish`
 
-**Key Components**:
-```
-- PrimaveraResultsWindow.xaml
-- PrimaveraResultsWindow.xaml.cs
-- PrimaveraResultsViewModel.cs
-- DifferenceTypeToColorConverter.cs
-```
+**7 Workstreams**:
+- **WS-A**: Performance hardening — memory profiling, rendering optimization, Freeze() on resources, animation budget
+- **WS-B**: Accessibility compliance — keyboard nav audit, WCAG 2.1 AA contrast, screen reader prep, reduced motion
+- **WS-C**: DPI & multi-monitor validation — 100%/125%/150%/200%, per-monitor DPI, mixed DPI
+- **WS-D**: Excel host stability — close 15 Phase 3 validation tasks, full VSTO pass, stress tests
+- **WS-E**: Tech debt cleanup — ToastWindow → ModernWindow, hardcoded-value sweep, MVVM_COMPLIANCE audit
+- **WS-F**: Diagnostics finalization — snapshot coverage, logging validation, crash recovery
+- **WS-G**: Documentation — 6 audit reports (Performance, Accessibility, DPI, Excel Stability, Localization, Enterprise Polish)
 
-**Features**:
-- Activities, Relationships, Resources tabs
-- Filter by difference type
-- Search functionality
-- Sort by columns
-- Export to CSV/clipboard
+**Key deliverables**: 6 audit reports in Docs/Architecture/ created
 
----
+### Phase 11: Legacy Window Migration 🔄 IN PROGRESS
+**Branch**: `011-legacy-window-migration`
 
-### 📋 Phase 7: Excel Integration
-**Status**: Ready for Implementation  
-**Effort**: 1-2 days
-
-**What It Will Do**:
-- Add Ribbon button for comparison
-- Launch comparison window from Excel
-- Handle results in Excel context
-
-**Key Components**:
-```
-- Ribbon1.cs (add button)
-- PrimaveraCompareWindow.xaml
-- PrimaveraCompareWindow.xaml.cs
-- PrimaveraCompareViewModel.cs (updated)
-```
-
-**Workflow**:
-1. User clicks Ribbon button
-2. PrimaveraCompareWindow opens
-3. User enters connection & selects projects
-4. Results display in new window
-5. User exports or closes
-
----
-
-### 📋 Phase 8: Performance & UX
-**Status**: Ready for Implementation  
-**Effort**: 2-3 days
-
-**What It Will Do**:
-- Add comprehensive logging
-- Implement detailed error messages
-- Add progress visualization
-- Optimize for large datasets
-
-**Key Components**:
-```
-- PrimaveraLogger.cs (logging service)
-- ErrorHandler.cs (error handling)
-- ProgressManager.cs (progress tracking)
-```
-
-**Features**:
-- File-based logging
-- Error categorization
-- User-friendly messages
-- Performance metrics
-- Cancellation support
+- 14 standalone windows being migrated to Pages within unified Shell
+- Incremental validation — original XAML preserved until each Page validates
+- 4 migration priority tiers
+- 14 Page files created in Pages/ directory
+- Ribbon launchers updated to use NavigationService.NavigateTo()
+- Migration patterns documented in MIGRATION_PATTERNS.md
 
 ---
 
 ## 7. Core Components
 
-### Models Layer (Som3a.Shared\Models\Primavera)
-
-#### ProjectDto
+### DI Container (ServiceContainer)
 ```csharp
-public class ProjectDto
+// Registration
+container.RegisterSingleton<ThemeManager>(ThemeManager.Instance);
+container.RegisterSingleton<INavigationService>(NavigationService.Instance);
+container.RegisterTransient<IPrimaveraDbService, PrimaveraDbService>();
+container.RegisterScoped<...>();
+
+// Resolution
+var themeManager = container.Resolve<ThemeManager>();
+```
+
+### Event Bus
+```csharp
+// Typed pub/sub with weak references
+eventBus.Subscribe<ThemeChangedEvent>(OnThemeChanged);
+eventBus.Publish(new ThemeChangedEvent("Dark"));
+
+// Subscriber isolation — one subscriber's exception doesn't block others
+```
+
+### Module Registry
+```csharp
+// Self-registering modules
+public class SampleModule : IModule
 {
-    public int ProjectId { get; set; }
-    public string ProjectCode { get; set; }
-    public string ProjectName { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public string Status { get; set; }
-    public decimal CompletionPercentage { get; set; }
-    // ... more properties
+    public string ModuleId => "sample";
+    public int Priority => 10;
+
+    public void Initialize(IModuleInitializationContext context)
+    {
+        context.RegisterPage("main", typeof(MainPage));
+        context.RegisterCommand("export", ExportCommand);
+    }
 }
 ```
 
-#### ActivityDto
-```csharp
-public class ActivityDto
-{
-    public int TaskId { get; set; }
-    public string TaskCode { get; set; }
-    public string TaskName { get; set; }
-    public string StatusCode { get; set; }
-    public decimal CompletePct { get; set; }
-    public DateTime? ActStartDate { get; set; }
-    public DateTime? ActEndDate { get; set; }
-    // ... more properties
-}
+### Primitive Token System (Theme/Base/Colors.xaml)
+```xaml
+<!-- Primitive tokens -->
+<Color x:Key="Primitive.Blue.500">#3A86FF</Color>
+<Color x:Key="Primitive.Slate.900">#0E1720</Color>
+<Color x:Key="Primitive.White.95">#F2FFFFFF</Color>
+
+<!-- Semantic tokens (reference primitives) -->
+<SolidColorBrush x:Key="Brush.Background.Primary" Color="{StaticResource Primitive.Slate.900}"/>
+<SolidColorBrush x:Key="Brush.Text.Primary" Color="{StaticResource Primitive.White.95}"/>
+<SolidColorBrush x:Key="Brush.Accent.Primary" Color="{StaticResource Primitive.Blue.500}"/>
+
+<!-- Component tokens -->
+<Thickness x:Key="Component.Button.Padding" Value="{DynamicResource ButtonPadding}"/>
+<CornerRadius x:Key="Component.Button.Radius" Value="{DynamicResource MediumRadius}"/>
 ```
 
-#### RelationshipDto
-```csharp
-public class RelationshipDto
-{
-    public int TaskPredId { get; set; }
-    public int PredTaskId { get; set; }
-    public int TaskId { get; set; }
-    public string PredType { get; set; }  // FS, SS, FF, SF
-    public decimal LagHrCnt { get; set; }
-    // ... more properties
-}
-```
-
-#### ResourceDto
-```csharp
-public class ResourceDto
-{
-    public int RsrcId { get; set; }
-    public int TaskId { get; set; }
-    public string RsrcName { get; set; }
-    public string RsrcType { get; set; }
-    public decimal TargetQty { get; set; }
-    public decimal TargetCost { get; set; }
-    // ... more properties
-}
-```
-
-### Services Layer (Som3a.Shared\Core\Primavera)
-
-#### IPrimaveraDbService
-```csharp
-public interface IPrimaveraDbService
-{
-    Task<bool> TestConnectionAsync(string connectionString, string databaseType);
-    Task<List<ProjectDto>> GetProjectsAsync(string connectionString, string databaseType);
-    Task<List<ActivityDto>> GetActivitiesAsync(string connectionString, string databaseType, int projectId);
-    Task<List<RelationshipDto>> GetRelationshipsAsync(string connectionString, string databaseType, int projectId);
-    Task<List<ResourceDto>> GetResourcesAsync(string connectionString, string databaseType, int projectId);
-    Task<ProjectDto> GetProjectByIdAsync(string connectionString, string databaseType, int projectId);
-}
-```
-
-#### IPrimaveraDataLoaderService
-```csharp
-public interface IPrimaveraDataLoaderService
-{
-    Task<ProjectFullData> LoadProjectDataAsync(
-        string connectionString, string databaseType, int projectId, 
-        IProgress<int> progress = null);
-
-    Task<List<ProjectFullData>> LoadMultipleProjectsAsync(
-        string connectionString, string databaseType, List<int> projectIds, 
-        IProgress<int> progress = null);
-
-    void CancelLoading();
-}
-```
-
-#### IPrimaveraComparisonService
-```csharp
-public interface IPrimaveraComparisonService
-{
-    Task<ComparisonResult> CompareProjectsAsync(
-        ProjectFullData project1Data, ProjectFullData project2Data, 
-        string[] compareColumns = null);
-
-    Task<List<ActivityDiff>> CompareActivitiesAsync(
-        List<ActivityDto> project1Activities, List<ActivityDto> project2Activities, 
-        string[] compareColumns = null);
-
-    Task<List<RelationshipDiff>> CompareRelationshipsAsync(
-        List<RelationshipDto> project1Relationships, 
-        List<RelationshipDto> project2Relationships);
-
-    Task<List<ResourceDiff>> CompareResourcesAsync(
-        List<ResourceDto> project1Resources, List<ResourceDto> project2Resources);
-}
-```
-
-### UI Layer (WpfApp2)
-
-#### PrimaveraCompareViewModel
-```csharp
-public class PrimaveraCompareViewModel : INotifyPropertyChanged
-{
-    // Properties
-    public string ConnectionString { get; set; }
-    public string SelectedDatabaseType { get; set; } = "SqlServer";
-    public ObservableCollection<ProjectDto> Projects { get; }
-    public int ProgressValue { get; set; }
-
-    // Commands
-    public ICommand ConnectCommand { get; }
-    public ICommand CompareCommand { get; }
-
-    // Methods
-    private async Task ConnectAsync() { }
-    private async Task CompareAsync() { }
-}
-```
-
-#### PrimaveraResultsViewModel
-```csharp
-public class PrimaveraResultsViewModel : INotifyPropertyChanged
-{
-    // Properties
-    public ComparisonResult Result { get; set; }
-    public ObservableCollection<ActivityDiffViewModel> ActivityDifferences { get; }
-    public ObservableCollection<RelationshipDiffViewModel> RelationshipDifferences { get; }
-    public ObservableCollection<ResourceDiffViewModel> ResourceDifferences { get; }
-
-    // Filtering
-    public bool ShowAdded { get; set; }
-    public bool ShowDeleted { get; set; }
-    public bool ShowModified { get; set; }
-    public string SearchText { get; set; }
-}
+### Resource Loading Order (ThemeResources.xaml)
+```text
+1. Base/Colors.xaml (Primitives + Semantics)
+2. Base/Typography.xaml
+3. Base/Spacing.xaml
+4. Base/Radius.xaml
+5. Base/Elevation.xaml
+6. Base/Motion.xaml
+7. Base/ZIndex.xaml
+8. Base/Opacity.xaml
+9. Base/ComponentTokens.xaml
+10. Effects/Shadows.xaml
+11. Effects/Glow.xaml
+12. Effects/Animations.xaml
+13. Controls/*.xaml (22 files)
+14. ModernWindow.xaml
+15. ShellStyles.xaml
+16. WindowAnimations.xaml
+17. Theme Overrides (Dark/Light/Custom — swapped at runtime)
 ```
 
 ---
@@ -784,225 +979,111 @@ public class PrimaveraResultsViewModel : INotifyPropertyChanged
 
 ### Basic Workflow
 
-#### 1. Initialize Services
+#### 1. Initialize Services (via DI container)
 ```csharp
-var dbService = new PrimaveraDbService();
-var loaderService = new PrimaveraDataLoaderService(dbService);
-var comparisonService = new PrimaveraComparisonService();
+var dbService = App.Container.Resolve<IPrimaveraDbService>();
+var loaderService = App.Container.Resolve<IPrimaveraDataLoaderService>();
+var comparisonService = App.Container.Resolve<IPrimaveraComparisonService>();
 ```
 
 #### 2. Test Database Connection
 ```csharp
 var connectionString = "Server=localhost;Database=primavera_p6;User Id=sa;Password=YourPassword;";
-
-try
-{
-    bool isConnected = await dbService.TestConnectionAsync(connectionString, "SqlServer");
-    if (isConnected)
-        Console.WriteLine("✓ Connected to Primavera database");
-    else
-        Console.WriteLine("✗ Connection failed");
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"Error: {ex.Message}");
-}
+bool isConnected = await dbService.TestConnectionAsync(connectionString, "SqlServer");
 ```
 
-#### 3. Retrieve Projects
+#### 3. Load Project Data with Progress
 ```csharp
-var projects = await dbService.GetProjectsAsync(connectionString, "SqlServer");
-
-foreach (var project in projects)
-{
-    Console.WriteLine($"{project.ProjectCode}: {project.ProjectName}");
-}
+var progress = new Progress<int>(percent => progressBar.Value = percent);
+var projectData = await loaderService.LoadProjectDataAsync(
+    connString, "SqlServer", projectId, progress);
 ```
 
-#### 4. Load Project Data
-```csharp
-var progress = new Progress<int>(percent =>
-{
-    Console.WriteLine($"Loading: {percent}%");
-});
-
-var project1 = await loaderService.LoadProjectDataAsync(
-    connectionString, "SqlServer", projects[0].ProjectId, progress);
-
-var project2 = await loaderService.LoadProjectDataAsync(
-    connectionString, "SqlServer", projects[1].ProjectId, progress);
-```
-
-#### 5. Compare Projects
+#### 4. Compare Projects
 ```csharp
 var result = await comparisonService.CompareProjectsAsync(project1, project2);
-
-Console.WriteLine($"Comparison Result:");
 Console.WriteLine(result.Summary);
 ```
 
-#### 6. Process Differences
-```csharp
-// Activities
-foreach (var diff in result.ActivityDifferences)
-{
-    if (diff.Type == DifferenceType.Added)
-        Console.WriteLine($"Added: {diff.Project2Activity.TaskCode}");
-    else if (diff.Type == DifferenceType.Deleted)
-        Console.WriteLine($"Deleted: {diff.Project1Activity.TaskCode}");
-    else if (diff.Type == DifferenceType.Modified)
-    {
-        Console.WriteLine($"Modified: {diff.Project1Activity.TaskCode}");
-        foreach (var change in diff.ChangedColumns)
-            Console.WriteLine($"  {change.Key}: {change.Value}");
-    }
-}
-```
-
-### Advanced Usage
-
-#### Load Multiple Projects in Parallel
-```csharp
-var projectIds = new List<int> { 1, 2, 3, 4, 5 };
-
-var progress = new Progress<int>(percent =>
-{
-    progressBar.Value = percent;
-});
-
-var allProjects = await loaderService.LoadMultipleProjectsAsync(
-    connectionString, "SqlServer", projectIds, progress);
-
-Console.WriteLine($"Loaded {allProjects.Count} projects");
-```
-
-#### Custom Comparison Columns
-```csharp
-var customColumns = new[] 
-{
-    nameof(ActivityDto.TaskCode),
-    nameof(ActivityDto.TaskName),
-    nameof(ActivityDto.StatusCode)
-};
-
-var result = await comparisonService.CompareProjectsAsync(
-    project1, project2, customColumns);
-```
-
-#### Cancel Long-Running Operations
-```csharp
-// Start loading
-var loadTask = loaderService.LoadProjectDataAsync(connString, "SqlServer", projectId);
-
-// User clicks Cancel button
-loaderService.CancelLoading();
-
-try
-{
-    await loadTask;
-}
-catch (OperationCanceledException)
-{
-    Console.WriteLine("Operation cancelled by user");
-}
-```
-
-### Launching Windows from Excel (VSTO)
-
-The add-in provides multiple entry points from the Excel Ribbon:
+### Launching from Excel Ribbon
 
 ```csharp
-// In Ribbon1.cs - Button click handlers
-
+// In Ribbon1.cs — button handlers use NavigationService
 private void BtnPrimaveraCompare_Click(object sender, RibbonControlEventArgs e)
 {
-    var window = new PrimaveraCompareWindow();
-    window.ShowDialog();
+    var shell = ModuleLoadOrchestrator.GetShell();
+    shell.NavigateTo("primavera-compare");
 }
 
+// Or via NavigationService
 private void BtnXerEditor_Click(object sender, RibbonControlEventArgs e)
 {
-    var window = new XerEditorWindow();
-    window.ShowDialog();
-}
-
-private void BtnAssignTradeCodes_Click(object sender, RibbonControlEventArgs e)
-{
-    var window = new AssignTradeCodesWindow();
-    window.ShowDialog();
-}
-
-private void BtnLinksManager_Click(object sender, RibbonControlEventArgs e)
-{
-    var vm = new LinksManagerViewModel();
-    var window = new LinksManagerWindow { DataContext = vm };
-    window.ShowDialog();
-}
-
-private void BtnSettings_Click(object sender, RibbonControlEventArgs e)
-{
-    var window = new SettingsWindow();
-    window.ShowDialog();
+    NavigationService.Instance.NavigateTo("xer-editor");
 }
 ```
 
 ### Using Toast Notifications
-
 ```csharp
-// Show different toast types
-ToastService.Show("Operation completed", ToastType.Info);
 ToastService.Success("Data saved successfully");
 ToastService.Warning("Some items could not be processed");
 ToastService.Error("Failed to connect to database");
 ```
 
 ### Using Theme System
-
 ```csharp
-// Change accent color
-ThemeManager.ChangeAccent("#FF5722");  // Orange accent
-ThemeManager.ChangeAccent("#3A86FF");  // Blue accent (default)
+// Switch themes
+ThemeManager.Instance.ApplyTheme("Dark");
+ThemeManager.Instance.ApplyTheme("Light");
+ThemeManager.Instance.ApplyTheme("Custom", "#FF5722"); // Orange accent
 
-// Switch between dark/light themes
-ThemeManager.ApplyTheme(ThemeType.FluentDarkBlue);
-ThemeManager.ApplyTheme(ThemeType.FluentWhite);
+// Change accent color on current theme
+ThemeManager.Instance.ApplyAccentColor("#3A86FF");
 
-// Save and load user preferences
-ThemeManager.SaveSettings();
-ThemeManager.LoadSettings();
+// Save/Load preferences (automatic via Settings.settings)
+ThemeManager.Instance.SaveCurrentTheme();
+```
+
+### Using Shell Navigation
+```csharp
+// Navigate to a page
+NavigationService.Instance.NavigateTo("settings");
+
+// Navigate with parameters
+NavigationService.Instance.NavigateTo("primavera-compare", new { projectId = 123 });
+
+// Go back
+NavigationService.Instance.GoBack();
+
+// Register a page
+NavigationService.Instance.RegisterPage("settings", typeof(SettingsPage));
 ```
 
 ---
 
 ## 9. API Reference
 
-### PrimaveraDbService Methods
+### Primavera Services (Som3a.Shared)
 
-| Method | Parameters | Returns | Description |
-|--------|-----------|---------|-------------|
-| `TestConnectionAsync` | `connString`, `dbType` | `Task<bool>` | Tests database connectivity |
-| `GetProjectsAsync` | `connString`, `dbType` | `Task<List<ProjectDto>>` | Gets all projects |
-| `GetActivitiesAsync` | `connString`, `dbType`, `projId` | `Task<List<ActivityDto>>` | Gets activities for project |
-| `GetRelationshipsAsync` | `connString`, `dbType`, `projId` | `Task<List<RelationshipDto>>` | Gets relationships for project |
-| `GetResourcesAsync` | `connString`, `dbType`, `projId` | `Task<List<ResourceDto>>` | Gets resources for project |
-| `GetProjectByIdAsync` | `connString`, `dbType`, `projId` | `Task<ProjectDto>` | Gets single project |
+| Service | Key Methods |
+|---------|-------------|
+| **IPrimaveraDbService** | `TestConnectionAsync`, `GetProjectsAsync`, `GetActivitiesAsync`, `GetRelationshipsAsync`, `GetResourcesAsync`, `GetProjectByIdAsync` |
+| **IPrimaveraDataLoaderService** | `LoadProjectDataAsync`, `LoadMultipleProjectsAsync`, `CancelLoading` |
+| **IPrimaveraComparisonService** | `CompareProjectsAsync`, `CompareActivitiesAsync`, `CompareRelationshipsAsync`, `CompareResourcesAsync` |
 
-### PrimaveraDataLoaderService Methods
+### WPF Services (WpfApp2)
 
-| Method | Parameters | Returns | Description |
-|--------|-----------|---------|-------------|
-| `LoadProjectDataAsync` | `connString`, `dbType`, `projId`, `progress` | `Task<ProjectFullData>` | Loads single project with progress |
-| `LoadMultipleProjectsAsync` | `connString`, `dbType`, `projIds`, `progress` | `Task<List<ProjectFullData>>` | Loads multiple projects in parallel |
-| `CancelLoading` | None | `void` | Cancels running operation |
-
-### PrimaveraComparisonService Methods
-
-| Method | Parameters | Returns | Description |
-|--------|-----------|---------|-------------|
-| `CompareProjectsAsync` | `p1Data`, `p2Data`, `columns` | `Task<ComparisonResult>` | Compares two projects |
-| `CompareActivitiesAsync` | `p1Acts`, `p2Acts`, `columns` | `Task<List<ActivityDiff>>` | Compares activities |
-| `CompareRelationshipsAsync` | `p1Rels`, `p2Rels` | `Task<List<RelationshipDiff>>` | Compares relationships |
-| `CompareResourcesAsync` | `p1Res`, `p2Res` | `Task<List<ResourceDiff>>` | Compares resources |
+| Service | Key Methods |
+|---------|-------------|
+| **ThemeManager** | `ApplyTheme(name, accentColor)`, `LoadThemeFromSettings()`, `SaveCurrentTheme()`, `ApplyAccentColor(hex)` |
+| **NavigationService** | `NavigateTo(pageKey)`, `GoBack()`, `RegisterPage(key, type)` |
+| **ToastService** | `Show(message)`, `Success(msg)`, `Warning(msg)`, `Error(msg)` |
+| **ServiceContainer** | `RegisterSingleton<T>`, `RegisterTransient<T>`, `RegisterScoped<T>`, `Resolve<T>()`, `CreateScope()` |
+| **EventBus** | `Publish<TEvent>`, `Subscribe<TEvent>(action)`, `Subscribe<TEvent>(action, filter)` |
+| **DiagnosticsService** | `GetSnapshot()`, `GetRenderMode()`, `GetMemoryUsage()` |
+| **LoggingService** | `LogInfo()`, `LogWarning()`, `LogError()`, `Flush()` |
+| **ValidationEngine** | `ValidateTokens()`, `ScanForInlineColors()` |
+| **WindowRenderModeDetector** | `Detect()`, `GetSafeModeRequired()` |
+| **PluginLoader** | `DiscoverModules()`, `LoadModule()`, `GetLoadedModules()` |
 
 ---
 
@@ -1011,585 +1092,253 @@ ThemeManager.LoadSettings();
 ### Common Issues & Solutions
 
 #### Issue 1: "Connection Refused"
-**Error Message**: `Connection refused. Check host name and port.`
-
-**Solutions**:
-1. Verify Primavera database is running
-2. Check connection string format
-3. Verify username and password
-4. Check firewall settings
-5. Verify network connectivity
-
-```csharp
-// Test with simple connection string
-var testConnStr = "Server=.;Database=primavera_p6;Trusted_Connection=true;";
-bool isConnected = await dbService.TestConnectionAsync(testConnStr, "SqlServer");
-```
-
----
+Verify Primavera database is running, check connection string format, check firewall.
 
 #### Issue 2: "No Projects Found"
-**Error Message**: `GetProjectsAsync returned empty list`
-
-**Solutions**:
-1. Verify user has SELECT permission on MSP_PROJECTS table
-2. Verify database contains projects
-3. Check database type matches connection string
-
-```sql
--- SQL to verify projects exist
-SELECT COUNT(*) FROM MSP_PROJECTS;
-```
-
----
+Verify SELECT permission on MSP_PROJECTS, check database contains projects.
 
 #### Issue 3: "Timeout During Load"
-**Error Message**: `The wait operation timed out.`
-
-**Solutions**:
-1. Increase CommandTimeout in app.config
-2. Check network performance
-3. Reduce project size
-4. Check database performance
-
-```xml
-<add key="CommandTimeout" value="600"/>  <!-- 10 minutes -->
-```
-
----
+Increase CommandTimeout in app.config, check network performance.
 
 #### Issue 4: "Out of Memory"
-**Error Message**: `OutOfMemoryException during comparison`
-
-**Solutions**:
-1. Load projects separately instead of parallel
-2. Process in chunks
-3. Reduce comparison columns
-4. Close other applications
-
-```csharp
-// Load sequentially instead of parallel
-var proj1 = await loaderService.LoadProjectDataAsync(connStr, "SqlServer", id1);
-var proj2 = await loaderService.LoadProjectDataAsync(connStr, "SqlServer", id2);
-// Don't use LoadMultipleProjectsAsync for very large projects
-```
-
----
+Load projects sequentially, process in chunks, reduce comparison columns.
 
 #### Issue 5: "WPF Binding Errors"
-**Error Message**: `Binding error at object '...'`
-
-**Solutions**:
-1. Verify ViewModel inherits from INotifyPropertyChanged
-2. Check property names match XAML bindings
-3. Verify DataContext is set correctly
-4. Check Output window for full error details
-
-```csharp
-public class MyViewModel : INotifyPropertyChanged
-{
-    private string _myProperty;
-    public string MyProperty
-    {
-        get => _myProperty;
-        set
-        {
-            if (_myProperty != value)
-            {
-                _myProperty = value;
-                OnPropertyChanged(nameof(MyProperty));
-            }
-        }
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-}
-```
-
----
+Verify ViewModel inherits from INotifyPropertyChanged/ViewModelBase, check DataContext, use Output window for details.
 
 #### Issue 6: "Build Errors"
-**Error Message**: Various compilation errors
-
-**Solutions**:
-1. Clean and rebuild solution
-2. Restore NuGet packages
-3. Check .NET Framework 4.8 is installed
-4. Check all references are resolved
-
-```powershell
-# PowerShell rebuild commands
-cd "C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\"
-msbuild "Som3a Addin 2026.sln" /t:Clean
-msbuild "Som3a Addin 2026.sln" /t:Rebuild
-```
-
----
+Clean + rebuild, restore NuGet packages, verify .NET Framework 4.8 is installed.
 
 #### Issue 7: "WebView2 Runtime Missing"
-**Error Message**: `Could not load file or assembly 'Microsoft.Web.WebView2.Core'`
-
-**Solutions**:
-1. Install WebView2 Runtime: https://developer.microsoft.com/en-us/microsoft-edge/webview2/
-2. Or add WebView2 NuGet package to project
-
----
+Install WebView2 Runtime from Microsoft, or add NuGet package.
 
 #### Issue 8: "Excel COM Interop Errors"
-**Error Message**: `System.Runtime.InteropServices.ExternalException`
-
-**Solutions**:
-1. Ensure Excel is properly closed before launching WPF windows
-2. Use `ComRelease.SafeRelease()` for all COM objects
-3. Check Excel process is not orphaned
-
-```csharp
-// Proper COM object cleanup
-ComRelease.SafeRelease(workbook);
-ComRelease.SafeRelease(workbook);
-ComRelease.SafeRelease(application);
-```
-
----
-
-#### Issue 10: "XAML Tag Mismatch Errors"
-**Error Message**: MC3000: 'The 'controls:ModernWindow' start tag does not match the end tag of 'Grid'/'Window'
-
-**Solutions**:
-1. Fix XAML closing tags - ensure proper tag nesting
-2. Verify root element matches closing tag (e.g., `</controls:ModernWindow>` not `</Window>`)
-
-```xml
-<!-- Correct example -->
-<controls:ModernWindow ...>
-    <Grid>
-        ...
-    </Grid>
-</controls:ModernWindow>
-
-<!-- Common mistake - missing closing Grid -->
-<controls:ModernWindow ...>
-    <Grid>
-        ...
-    </Grid>
-    </Grid>  <!-- Extra closing tag - REMOVE -->
-</controls:ModernWindow>
-```
-
----
-
-#### Issue 11: "Missing Roslyn Dependencies"
-**Error Message**: CS0234: The type or namespace name 'CSharp' does not exist in the namespace 'Microsoft.CodeAnalysis'
-
-**Solutions**:
-1. The ModernWindowAnalyzer.cs requires NuGet packages not in project
-2. Exclude the analyzer from build in .csproj:
-```xml
-<!-- Remove this line from .csproj -->
-<Compile Include="Analyzers\ModernWindowAnalyzer.cs" />
-```
-
----
-
-#### Issue 12: "StringComparison.Contains Not Available in .NET 4.8"
-**Error Message**: CS1501: No overload for method 'Contains' takes 2 arguments
-
-**Solutions**:
-1. Use `IndexOf` instead of `Contains` with StringComparison:
-```csharp
-// Instead of:
-processName.Contains("EXCEL", StringComparison.OrdinalIgnoreCase)
-
-// Use:
-processName.IndexOf("EXCEL", StringComparison.OrdinalIgnoreCase) >= 0
-```
-
----
-
-#### Issue 13: "WindowChrome.UseWindowChrome Not Available"
-**Error Message**: CS0117: 'WindowChrome' does not contain a definition for 'UseWindowChrome'
-
-**Solutions**:
-1. Remove UseWindowChrome property (not available in .NET 4.8)
-2. Use attached property syntax instead:
-```csharp
-// Instead of:
-WindowChrome.SetWindowChrome(window, chrome);
-
-// Use:
-window.SetValue(System.Windows.Shell.WindowChrome.WindowChromeProperty, chrome);
-```
-
----
-
-#### Issue 14: "WindowAttribute Not Found"
-**Error Message**: CS0246: The type or namespace name 'WindowAttribute' could not be found
-
-**Solutions**:
-1. This attribute doesn't exist in WPF - remove the code using it
-2. The validation logic should use reflection on actual Window properties instead
-
----
-
-#### Issue 15: "Clone() Method Not Found"
-**Error Message**: CS0103: The name 'Clone' does not exist in the current context
-
-**Solutions**:
-1. Replace `window.Clone()` with just `this` reference where appropriate
-2. Window doesn't have a Clone method - use the window instance directly
-
----
+Ensure proper COM release via `ComRelease.SafeRelease()`, check Excel is responsive.
 
 #### Issue 9: "Theme Resources Not Found"
-**Error Message**: `XamlParseException: Cannot find resource 'AccentBrush'`
+Ensure App.xaml includes Theme resource dictionaries, check build includes Theme/*.xaml, clean + rebuild WpfApp2.
 
-**Solutions**:
-1. Ensure App.xaml includes Theme resource dictionaries
-2. Check build output includes Theme/*.xaml files
-3. Clean and rebuild WpfApp2 project
+#### Issue 10: "XAML Tag Mismatch Errors"
+Check closing tags match opening tags (e.g., `</controls:ModernWindow>` not `</Window>`), ensure Grid nesting is correct.
 
-```xml
-<!-- App.xaml should have -->
-<ResourceDictionary>
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Theme/Base/Colors.xaml"/>
-        <ResourceDictionary Source="Theme/Controls/ButtonStyles.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-</ResourceDictionary>
-```
+#### Issue 11: "Missing Roslyn Dependencies"
+ModernWindowAnalyzer.cs is excluded from build — ensure it's removed from .csproj Compile includes.
 
----
+#### Issue 12: "StringComparison.Contains Not Available in .NET 4.8"
+Use `IndexOf(string, StringComparison)` >= 0 instead of `Contains(string, StringComparison)`.
 
-### Debug Tips
+#### Issue 13: "WindowChrome.UseWindowChrome Not Available"
+Use attached property syntax: `window.SetValue(WindowChrome.WindowChromeProperty, chrome)`.
 
-#### Enable Logging
-```csharp
-// Add to app startup
-System.Diagnostics.Debug.Listeners.Add(
-    new System.Diagnostics.TextWriterTraceListener("debug.log"));
-System.Diagnostics.Debug.AutoFlush = true;
-```
+#### Issue 14: "WindowAttribute Not Found"
+Remove any reference to non-existent WPF WindowAttribute — use reflection on Window properties instead.
 
-#### Check Output Window
-```
-Visual Studio: Debug → Windows → Output (Ctrl+Alt+O)
-```
+#### Issue 15: "Clone() Method Not Found"
+Window doesn't have Clone() — use `this` reference directly.
 
-#### Set Breakpoints
-```csharp
-// Click in margin to set breakpoint
-var result = await comparisonService.CompareProjectsAsync(p1, p2);  // Breakpoint here
-```
-
-#### Use Immediate Window
-```
-Visual Studio: Debug → Windows → Immediate (Ctrl+Alt+I)
-> dbService.TestConnectionAsync(connStr, "SqlServer").Result
-```
+#### Issue 16: "Exception in RaisePropertyChanged"
+Ensure property names match, use `nameof()` for compile-time safety, check `!= null` or `?.Invoke()`.
 
 ---
 
 ## 11. Development Workflow
 
-### Daily Development Steps
-
-#### 1. Start of Day
-```bash
-# Open Visual Studio
-cd "C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\"
-Start-Process "Som3a Addin 2026.sln"
-```
-
-#### 2. Get Latest Changes
-```bash
+### Start of Day
+```powershell
+cd "C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026"
 git pull origin main
-```
-
-#### 3. Build Solution
-```
-Ctrl+Shift+B (Build → Build Solution)
-```
-
-#### 4. Run Tests
-```
-Test → Run All Tests (Ctrl+R, A)
-```
-
-#### 5. Make Changes
-```
-Edit → Code → Test → Commit
-```
-
-#### 6. Commit Changes
-```bash
-git add .
-git commit -m "Description of changes"
-git push origin main
+# Open in Visual Studio
+Start-Process "Som3a Addin 2026.slnx"
 ```
 
 ### Code Review Checklist
-
-Before committing code:
-- [ ] Code compiles with zero errors
-- [ ] Code compiles with zero warnings
-- [ ] All new public methods have XML documentation
+- [ ] Code compiles with zero errors AND zero warnings
+- [ ] All public methods have XML documentation
 - [ ] All error paths are handled
 - [ ] Async operations use await properly
 - [ ] No hardcoded connection strings
-- [ ] Unit tests pass (if applicable)
-- [ ] Code follows existing patterns
+- [ ] No inline colors/shadows/margins outside Theme/Base/
+- [ ] DynamicResource used for themeable properties
+- [ ] MVVM — no business logic in code-behind
+- [ ] Events unsubscribed in cleanup/dispose
+- [ ] No duplicate resource dictionaries
+- [ ] Unit tests pass
+- [ ] CodeRabbit review green
+
+### Commit Flow
+```
+Edit → Build → Test → Commit → Push → Create PR → CodeRabbit Review → Merge to develop
+```
 
 ---
 
 ## 12. Testing Strategy
 
-### Unit Testing Setup
+### Unit Tests (Tests/ Project)
 
-#### Test Project Creation
-```bash
-# Create new test project
-dotnet new mstest -n Som3a.Tests
-cd Som3a.Tests
-dotnet add reference ..\Som3a.Shared\Som3a.Shared.csproj
+**Test files**:
+- `ServiceContainerTests.cs` — DI container lifecycle, circular detection, scoped resolution
+- `EventBusTests.cs` — Typed pub/sub, subscriber isolation, weak references
+- `ViewModelBaseTests.cs` — INotifyPropertyChanged, SetProperty<T>
+
+**Run tests**:
+```powershell
+cd Tests
+dotnet test Som3a_WPF_UI.Tests.csproj
+# or
+vstest.console.exe Som3a_WPF_UI.Tests.csproj
 ```
 
-#### Test File Structure
-```
-Som3a.Tests/
-├── Services/
-│   ├── PrimaveraDbServiceTests.cs
-│   ├── PrimaveraDataLoaderServiceTests.cs
-│   └── PrimaveraComparisonServiceTests.cs
-├── Models/
-│   └── DtoTests.cs
-└── TestFixtures.cs
-```
+### Manual Testing (Excel VSTO Host)
 
-#### Example Test
-```csharp
-[TestClass]
-public class PrimaveraComparisonServiceTests
-{
-    private PrimaveraComparisonService _service;
-
-    [TestInitialize]
-    public void Setup()
-    {
-        _service = new PrimaveraComparisonService();
-    }
-
-    [TestMethod]
-    public async Task CompareActivities_IdentifiesAddedItems()
-    {
-        // Arrange
-        var project1Activities = new List<ActivityDto>
-        {
-            new ActivityDto { TaskCode = "A1", TaskName = "Task 1" }
-        };
-
-        var project2Activities = new List<ActivityDto>
-        {
-            new ActivityDto { TaskCode = "A1", TaskName = "Task 1" },
-            new ActivityDto { TaskCode = "A2", TaskName = "Task 2" }
-        };
-
-        // Act
-        var result = await _service.CompareActivitiesAsync(
-            project1Activities, project2Activities);
-
-        // Assert
-        Assert.AreEqual(1, result.Count(d => d.Type == DifferenceType.Added));
-        Assert.AreEqual("A2", result.First(d => d.Type == DifferenceType.Added)
-            .Project2Activity.TaskCode);
-    }
-}
-```
-
-### Manual Testing
-
-#### Test Scenarios
-1. **Connection Test**
-   - Valid connection string → Should connect ✓
-   - Invalid connection string → Should fail ✓
-   - Network unavailable → Should timeout ✓
-
-2. **Data Loading**
-   - Load small project → Complete in < 5 sec ✓
-   - Load large project → Complete in < 15 sec ✓
-   - Progress reporting → Shows 0-100% ✓
-
-3. **Comparison**
-   - Added items → Detected correctly ✓
-   - Deleted items → Detected correctly ✓
-   - Modified items → Changes tracked ✓
-
-4. **UI**
-   - Window opens → No errors ✓
-   - Data binds → No binding errors ✓
-   - Controls respond → To user input ✓
+1. Open each window from Excel Ribbon — verify no black rendering
+2. Verify ComboBox popup renders correctly with shadow
+3. Test DPI scaling at 100%, 125%, 150%, 200%
+4. Test theme switching (10x rapid) — no crash, all windows update
+5. Test DataGrid scrolling with 1000+ rows
+6. Test safe mode activation on problematic systems
+7. Test window move, minimize, close without Excel freezing
+8. Test keyboard navigation (Tab, Enter, Escape) on all controls
 
 ---
 
 ## 13. Deployment Guide
 
-### Prerequisites
-- Excel 2016 or later
-- .NET Framework 4.8 runtime
-- Administrator privileges
-- Primavera database access
-
-### Deployment Steps
-
-#### 1. Build Release Version
-```bash
-msbuild "Som3a Addin 2026.sln" /p:Configuration=Release
+### Build Release
+```powershell
+msbuild "Som3a Addin 2026.slnx" /p:Configuration=Release
 ```
 
-#### 2. Create Installer
-```bash
-# Copy build output
-Copy-Item -Path "Som3a Addin 2026\bin\Release\" -Destination "\\ServerName\Deployment" -Recurse
-```
-
-#### 3. Install Add-in
+### Deploy to Excel
 ```
 Excel: File → Options → Trust Center → Trust Center Settings → Trusted Add-in Catalogs
 Add network location of deployed add-in
-```
 
-#### 4. Verify Installation
-```
 Excel: File → Options → Add-ins → Manage: COM Add-ins → Browse
-Select deployed add-in → OK
+Select deployed .vsto file → OK
 ```
 
-### Post-Deployment
-
-#### Verify Features
-- [ ] Ribbon button appears in Excel
-- [ ] Comparison window launches
-- [ ] Database connection works
-- [ ] Projects load successfully
-- [ ] Comparison executes
-- [ ] Results display correctly
-
-#### Monitor Performance
-- Check application logs
-- Monitor memory usage
-- Track error rates
-- Gather user feedback
+### Post-Deployment Verification
+- [ ] Ribbon buttons appear in Excel
+- [ ] All 14 windows/Pages open
+- [ ] Database connections work
+- [ ] Theme switching works
+- [ ] Navigation works
+- [ ] Settings persist across restarts
 
 ---
 
 ## 14. Future Roadmap
 
-### Short Term (Next 3 Months)
-- [x] Implement Phase 5: XER Export
-- [x] Implement Phase 6: Results UI
-- [x] Implement Phase 7: Excel Integration
-- [x] Implement Phase 8: Logging & UX
+### Short Term (Current — Phase 10-11)
+- [x] Close 15 Phase 3 validation tasks
+- [x] All 6 enterprise polish audit reports
+- [x] ToastWindow migration to ModernWindow
+- [x] Hardcoded value elimination
+- [x] All 14 windows migrate to Pages
+- [ ] Final production validation
 
 ### Medium Term (3-6 Months)
 - [ ] Oracle database full support
 - [ ] Advanced filtering & sorting
-- [ ] Scheduled comparisons
-- [ ] Report generation
-- [ ] Performance optimization
+- [ ] Report generation engine
+- [ ] Performance optimization for large datasets
 
 ### Long Term (6-12 Months)
 - [ ] REST API for remote access
-- [ ] Web-based UI
-- [ ] Mobile app integration
+- [ ] Web-based UI companion
 - [ ] Real-time synchronization
 - [ ] Machine learning insights
-- [ ] Multi-language support
+- [ ] Multi-language localization
+
+---
+
+## 15. Specification & Governance
+
+### Constitution
+- **Active**: `.specify/memory/constitution.md` v1.2.0 (16 principles, ratified 2026-05-21)
+- **Next-gen**: `.specify/memory/constitution-v2.md` v2.0.0 (includes AI execution rules, branch naming, token standards, review gate requirements, Phase 11 scope)
+
+### Master Implementation Plan
+- `implementation_plan.md` (1948 lines) — Phases 0-11 with full task breakdown
+- Status: Implementation complete across Phases 0-9 (one branch per phase via develop merges)
+- Phase 10 (Enterprise Polish) + Phase 11 (Legacy Window Migration): Validation tasks in progress
+
+### CodeRabbit Review Gates
+Every phase requires:
+- Build passes
+- Excel host test passes
+- PR approved
+- CodeRabbit clean
+- Architecture review passed
+- No rendering, popup, or theme regressions
+
+### AI Agent Rules (from AGENTS.md + Docs/Architecture/AGENT_RULES.md)
+- **BEFORE** creating any new token/control/dictionary: inspect current implementation
+- **NEVER**: inline colors, inline shadows, inline margins, inline font sizes, duplicate styles, business logic in code-behind, direct service creation in views
+- **ALWAYS**: DynamicResource, semantic tokens, MVVM separation, centralized effects, Excel-safe rendering, accessibility-ready controls, review before merge
 
 ---
 
 ## Appendix
 
-### A. Useful Links
-- [.NET Framework Documentation](https://docs.microsoft.com/en-us/dotnet/framework/)
-- [WPF Documentation](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/)
-- [Primavera P6 API](https://docs.oracle.com/cd/E93256_01/)
-- [Excel Add-in Development](https://docs.microsoft.com/en-us/office/dev/add-ins/)
-
-### B. Key Keyboard Shortcuts
+### A. Key Keyboard Shortcuts
 | Shortcut | Action |
 |----------|--------|
 | `Ctrl+Shift+B` | Build Solution |
 | `Ctrl+R, A` | Run All Tests |
-| `Ctrl+K, Ctrl+C` | Comment Selection |
-| `Ctrl+K, Ctrl+U` | Uncomment Selection |
 | `F5` | Start Debugging |
 | `Shift+F5` | Stop Debugging |
-| `Ctrl+Shift+D` | Debug Output Window |
+| `Ctrl+Alt+O` | Debug Output Window |
+| `Ctrl+K` | Command Palette (in Shell) |
 
-### C. File Naming Conventions
+### B. File Naming Conventions
 ```
 Services:        {Feature}Service.cs
 Interfaces:      I{Feature}Service.cs
 ViewModels:      {Feature}ViewModel.cs
-Windows/Views:   {Feature}Window.xaml / {Feature}View.xaml
+Windows:         {Feature}Window.xaml / {Feature}Window.xaml.cs
+Pages:           {Feature}Page.xaml / {Feature}Page.xaml.cs
+Controls:        {Feature}Control.xaml / {Feature}Control.xaml.cs
 Models/DTOs:     {Name}Dto.cs
 Test Files:      {Feature}Tests.cs
+Theme Tokens:    Primitive.{Color}.{Shade}, Brush.{Category}.{State}
 ```
 
-### D. Common Commands
+### C. Common Commands
 ```powershell
-# Build
-msbuild "Som3a Addin 2026.sln" /p:Configuration=Debug
+# Build WPF project
+msbuild WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
+
+# Build full solution
+msbuild "Som3a Addin 2026.slnx" /p:Configuration=Debug
 
 # Clean
-msbuild "Som3a Addin 2026.sln" /t:Clean
+msbuild "Som3a Addin 2026.slnx" /t:Clean
 
 # Rebuild
-msbuild "Som3a Addin 2026.sln" /t:Rebuild
+msbuild "Som3a Addin 2026.slnx" /t:Rebuild /p:Configuration=Release
 
-# Restore NuGet
-nuget restore "Som3a Addin 2026.sln"
+# Run tests
+cd Tests; dotnet test Som3a_WPF_UI.Tests.csproj
+```
+
+### D. Token Layers Reference
+```text
+Primitive Tokens → Semantic Tokens → Component Tokens → Control Templates
+```
+
+### E. Branch Naming Convention
+```
+feature/phase-NN-short-description
+Examples:
+  feature/phase-00-governance-foundation
+  feature/phase-11-legacy-migration
 ```
 
 ---
 
-## Glossary
-
-| Term | Definition |
-|------|-----------|
-| **DTO** | Data Transfer Object - lightweight object for data transfer |
-| **MVVM** | Model-View-ViewModel - WPF design pattern |
-| **Async/Await** | Asynchronous programming pattern for non-blocking operations |
-| **O(1)** | Constant time complexity - optimal lookup performance |
-| **Primavera** | Project management software (P6) |
-| **WPF** | Windows Presentation Foundation - UI framework |
-| **XER** | Primavera export file format |
-
----
-
-**Document Version**: 2.0
-**Last Updated**: May 17, 2026
+**Document Version**: 3.0
+**Last Updated**: May 25, 2026
 **Author**: Development Team
-**Status**: Complete ✅
-
----
-
-## Quick Reference
-
-**Build Solution**: `Ctrl+Shift+B`  
-**Run Tests**: `Ctrl+R, A`  
-**Debug**: `F5`  
-**Output Window**: `Ctrl+Alt+O`  
-
-**Solution Path**: `C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\`  
-**Main Files**: Som3a.Shared, WpfApp2, Som3a Addin 2026
-
----
-
-**🚀 Ready to Start Development!**
-
-For questions, refer to the relevant phase documentation or inline code comments.
+**Status**: Complete — All Phases 0-11 Documented

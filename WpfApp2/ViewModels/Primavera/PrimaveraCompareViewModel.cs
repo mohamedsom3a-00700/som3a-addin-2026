@@ -2,7 +2,6 @@ using Som3a.Shared.Core.Primavera;
 using Som3a.Shared.Models.Primavera;
 using Som3a_WPF_UI.Helpers;
 using Som3a_WPF_UI.Services;
-using Som3a_WPF_UI.Windows.PrimaveraComparison;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -272,9 +271,8 @@ namespace Som3a_WPF_UI.ViewModels.Primavera
                 ProgressValue = 100;
                 StatusMessage = $"Comparison complete. {result.Summary.TotalDifferences} difference(s) found.";
 
-                var window = new PrimaveraResultsWindow(result);
-
-                window.ShowDialog();
+                NavigationService.Instance.NavigationData["ComparisonResult"] = result;
+                NavigationService.Instance.NavigateTo("planning.primavera.results");
             }
             catch (Exception ex)
             {

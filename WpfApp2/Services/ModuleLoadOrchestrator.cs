@@ -172,6 +172,26 @@ namespace Som3a_WPF_UI.Services
                     : Array.Empty<(string, string, Type)>();
         }
 
+        public IReadOnlyList<Type> GetAllPluginPageTypes()
+        {
+            lock (_lock)
+            {
+                var types = new List<Type>();
+                foreach (var kvp in _moduleRegistrars)
+                {
+                    if (_initializedModules.Contains(kvp.Key))
+                    {
+                        foreach (var (_, _, pageType) in kvp.Value.RegisteredPages)
+                        {
+                            if (pageType != null)
+                                types.Add(pageType);
+                        }
+                    }
+                }
+                return types.AsReadOnly();
+            }
+        }
+
         public IReadOnlyList<object> GetModuleRibbonActions(string moduleId)
         {
             lock (_lock)
