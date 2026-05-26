@@ -8,7 +8,7 @@ Also refer to the master implementation plans:
 - enterprise_planning_platform_plan.md — Enterprise Planning Platform Phases 14-26
 
 Current phase plan:
-- specs/017-theme-expansion/plan.md — Phase 17: Theme Expansion
+- specs/018-ai-core-infrastructure/plan.md — Phase 18: AI Core Infrastructure
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes
