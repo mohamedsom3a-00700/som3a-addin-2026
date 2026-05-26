@@ -125,16 +125,14 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnSidebarSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var previous = e.RemovedItems.Count > 0 ? e.RemovedItems[0] as NavigationDestination : null;
+
             if (Sidebar.SelectedItem is NavigationDestination destination)
             {
                 var navigated = NavigationService.Instance.RequestNavigation(destination.Key);
                 if (!navigated)
                 {
-                    var lastActive = NavigationService.Instance.GetActiveDestination();
-                    if (lastActive != null)
-                        Sidebar.SelectedItem = lastActive;
-                    else
-                        Sidebar.SelectedItem = null;
+                    Sidebar.SelectedItem = previous;
                 }
             }
         }

@@ -6,9 +6,9 @@ namespace Som3a_WPF_UI.Services
 {
     public class NavigationRegistrar : INavigationRegistrar
     {
-        private readonly List<(string Id, string Title, Type PageType)> _pages = new();
+        private readonly List<(string Id, string Title, Type PageType, string Category)> _pages = new();
 
-        public IReadOnlyList<(string Id, string Title, Type PageType)> RegisteredPages => _pages.AsReadOnly();
+        public IReadOnlyList<(string Id, string Title, Type PageType, string Category)> RegisteredPages => _pages.AsReadOnly();
 
         public void RegisterPage(string id, string title, Type pageType)
         {
@@ -26,7 +26,7 @@ namespace Som3a_WPF_UI.Services
             if (!typeof(System.Windows.Controls.Page).IsAssignableFrom(pageType))
                 throw new ArgumentException($"Type '{pageType.FullName}' must derive from System.Windows.Controls.Page.", nameof(pageType));
 
-            _pages.Add((id, title, pageType));
+            _pages.Add((id, title, pageType, category ?? "Other"));
         }
     }
 }

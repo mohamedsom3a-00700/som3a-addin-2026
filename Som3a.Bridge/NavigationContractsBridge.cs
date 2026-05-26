@@ -9,12 +9,14 @@ namespace Som3a.Bridge
         {
             var pages = new List<DiscoveredNavigationPage>();
 
+            if (pageTypes == null) return pages;
+
             foreach (var type in pageTypes)
             {
                 foreach (var attr in type.GetCustomAttributes(false))
                 {
                     var attrType = attr.GetType();
-                    if (attrType.Name == "NavigationItemAttribute")
+                    if (attrType.FullName == "Som3a.Contracts.NavigationItemAttribute" || attrType.FullName == "Som3a.Plugin.SDK.Attributes.NavigationItemAttribute")
                     {
                         var category = GetAttributeProperty<string>(attr, "Category") ?? "Other";
                         var label = GetAttributeProperty<string>(attr, "Label") ?? type.Name;

@@ -97,7 +97,7 @@ namespace Som3a_WPF_UI.Services
                     _moduleRegistrars[moduleId] = navReg;
                     _ribbonRegistrars[moduleId] = ribbonReg;
 
-                    foreach (var (pageId, title, pageType) in navReg.RegisteredPages)
+                    foreach (var (pageId, title, pageType, _) in navReg.RegisteredPages)
                     {
                         var fullKey = $"{moduleId}.{pageId}";
                         _pageToModuleMap[fullKey] = moduleId;
@@ -164,12 +164,12 @@ namespace Som3a_WPF_UI.Services
                 return _pageToModuleMap.ContainsKey(pageKey);
         }
 
-        public IReadOnlyList<(string PageId, string Title, Type PageType)> GetModulePages(string moduleId)
+        public IReadOnlyList<(string PageId, string Title, Type PageType, string Category)> GetModulePages(string moduleId)
         {
             lock (_lock)
                 return _moduleRegistrars.TryGetValue(moduleId, out var reg)
                     ? reg.RegisteredPages
-                    : Array.Empty<(string, string, Type)>();
+                    : Array.Empty<(string, string, Type, string)>();
         }
 
         public IReadOnlyList<Type> GetAllPluginPageTypes()
@@ -181,7 +181,7 @@ namespace Som3a_WPF_UI.Services
                 {
                     if (_initializedModules.Contains(kvp.Key))
                     {
-                        foreach (var (_, _, pageType) in kvp.Value.RegisteredPages)
+                        foreach (var (_, _, pageType, _) in kvp.Value.RegisteredPages)
                         {
                             if (pageType != null)
                                 types.Add(pageType);

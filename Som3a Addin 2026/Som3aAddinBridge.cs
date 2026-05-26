@@ -44,8 +44,9 @@ namespace Som3a_Addin_2026
             {
                 var thread = new System.Threading.Thread(() =>
                 {
-                    var app = new Application();
-                    app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                    _wpfApp = new Application();
+                    _wpfApp.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                    _wpfDispatcher = Dispatcher.CurrentDispatcher;
                     WpfApp2.Services.ThemeManager.LoadSettings();
                     NavigationService.Instance.NavigateTo("settings.general");
                     Dispatcher.Run();

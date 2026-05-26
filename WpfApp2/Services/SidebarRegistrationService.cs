@@ -117,6 +117,7 @@ namespace Som3a_WPF_UI.Services
         public void ClearPluginPages()
         {
             _registeredItemIds.Clear();
+            _pluginPagesRegistered = false;
         }
 
         private static string ReadAttrProperty(System.Reflection.CustomAttributeData attr, string propertyName)

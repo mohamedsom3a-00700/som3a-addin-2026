@@ -48,16 +48,23 @@ namespace Som3a.Plugin.SDK.Discovery
 
             foreach (var assembly in assemblies)
             {
+                List<Type>? assemblyTypes;
                 try
                 {
-                    var types = assembly.GetTypes()
-                        .Where(t => t.GetCustomAttribute<NavigationItemAttribute>() != null)
-                        .ToList();
-
-                    results.AddRange(types);
+                    assemblyTypes = assembly.GetTypes().ToList();
                 }
-                catch
+                catch (ReflectionTypeLoadException ex)
                 {
+                    assemblyTypes = ex.Types?.Where(t => t != null).ToList()!;
+                }
+
+                if (assemblyTypes != null)
+                {
+                    results.AddRange(assemblyTypes.Where(t =>
+                    {
+                        try { return t?.GetCustomAttribute<NavigationItemAttribute>() != null; }
+                        catch { return false; }
+                    }));
                 }
             }
 

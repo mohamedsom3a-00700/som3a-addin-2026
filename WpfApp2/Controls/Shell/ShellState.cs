@@ -56,7 +56,15 @@ namespace Som3a_WPF_UI.Controls.Shell
             }
         }
 
-        public HashSet<string> CollapsedCategories => _collapsedCategories;
+        public IReadOnlyCollection<string> CollapsedCategories => _collapsedCategories;
+
+        public void ToggleCategoryCollapse(string category)
+        {
+            if (!_collapsedCategories.Remove(category))
+                _collapsedCategories.Add(category);
+        }
+
+        public bool IsCategoryCollapsed(string category) => _collapsedCategories.Contains(category);
 
         public bool CommandPaletteOpen
         {

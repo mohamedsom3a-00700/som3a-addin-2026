@@ -1,25 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTOResults>
-  <summary total="21" passed="19" failed="0" skipped="2" />
-  <test id="T037" name="AddInLoaded" status="pass" category="Setup" detail="Add-in Som3a Addin 2026 found in COMAddIns" timestamp="2026-05-26T09:11:41.2922655+03:00" />
-  <test id="T037" name="ComAutomation" status="pass" category="Setup" detail="COM automation interface connected" timestamp="2026-05-26T09:11:44.3797163+03:00" />
-  <test id="T054" name="MemoryBaseline" status="pass" category="Memory" detail="Working set: 362 MB at startup" timestamp="2026-05-26T09:11:44.8312243+03:00" />
-  <test id="T037-T046" name="Window_Som3a Add-in" status="pass" category="Window" detail="Opened in 314ms, mem delta: 96.1MB" timestamp="2026-05-26T09:11:45.7210172+03:00" />
-  <test id="T037-T046" name="Window_Comparison P6 Activity" status="skip" category="Window" detail="Window not found" timestamp="2026-05-26T09:11:58.7455599+03:00" />
-  <test id="T037" name="Window_Trades Codes" status="pass" category="Window" detail="Opened in 20ms, mem delta: 10.5MB" timestamp="2026-05-26T09:11:59.8118223+03:00" />
-  <test id="T037" name="Window_Daily Report" status="pass" category="Window" detail="Opened in 20ms, mem delta: 3.09999999999997MB" timestamp="2026-05-26T09:12:00.9267602+03:00" />
-  <test id="T037" name="Window_Links Manager" status="pass" category="Window" detail="Opened in 15ms, mem delta: 0.100000000000023MB" timestamp="2026-05-26T09:12:01.9879964+03:00" />
-  <test id="T037" name="Window_Project Analysis" status="pass" category="Window" detail="Opened in 15ms, mem delta: 0MB" timestamp="2026-05-26T09:12:03.0635296+03:00" />
-  <test id="T037" name="Window_XER Editor" status="pass" category="Window" detail="Opened in 8ms, mem delta: 0MB" timestamp="2026-05-26T09:12:04.1102910+03:00" />
-  <test id="T037" name="Window_WBS Color Styles" status="pass" category="Window" detail="Opened in 10ms, mem delta: 1.60000000000002MB" timestamp="2026-05-26T09:12:05.1724501+03:00" />
-  <test id="T037" name="Window_Unmerge Fill Down" status="pass" category="Window" detail="Opened in 9ms, mem delta: -0.100000000000023MB" timestamp="2026-05-26T09:12:06.2120896+03:00" />
-  <test id="T037" name="Window_Float Path Analyzer" status="pass" category="Window" detail="Opened in 34ms, mem delta: 4.5MB" timestamp="2026-05-26T09:12:07.2895566+03:00" />
-  <test id="T037" name="Window_Fix Pie Chart Colors" status="pass" category="Window" detail="Opened in 13ms, mem delta: 0.100000000000023MB" timestamp="2026-05-26T09:12:08.3494852+03:00" />
-  <test id="T040" name="Window_Primavera Compare" status="pass" category="Window" detail="Opened in 17ms, mem delta: 3.5MB" timestamp="2026-05-26T09:12:09.4385258+03:00" />
-  <test id="T037" name="Window_Settings" status="pass" category="Window" detail="Opened in 39ms, mem delta: 4.60000000000002MB" timestamp="2026-05-26T09:12:10.5151162+03:00" />
-  <test id="T042" name="ThemeSwitch_Dark" status="pass" category="Theme" detail="Theme switch in 1022ms, result: OK" timestamp="2026-05-26T09:12:12.0794527+03:00" />
-  <test id="T042" name="ThemeSwitch_Light" status="pass" category="Theme" detail="Theme switch in 1075ms, result: OK" timestamp="2026-05-26T09:12:13.1692051+03:00" />
-  <test id="T042" name="ThemeSwitch_Custom" status="pass" category="Theme" detail="Theme switch in 1034ms, result: OK" timestamp="2026-05-26T09:12:14.2289789+03:00" />
-  <test id="T048" name="RapidThemeSwitch_10x" status="pass" category="Theme" detail="10 rapid switches completed, memory: 491.8 MB" timestamp="2026-05-26T09:12:16.7133680+03:00" />
-  <test id="T054" name="MemoryStability" status="warn" category="Memory" detail="Memory growth: 35.9pct (baseline: 362MB, final: 491.8MB)" timestamp="2026-05-26T09:12:16.7303334+03:00" />
+  <summary total="12" passed="12" failed="0" skipped="0" />
+  <test id="T037" name="AddInLoaded" status="pass" category="Setup" detail="Add-in Som3a Addin 2026 found in COMAddIns" timestamp="2026-05-26T09:44:15.4204941+03:00" />
+  <test id="T037" name="ComAutomation" status="pass" category="Setup" detail="COM automation interface connected" timestamp="2026-05-26T09:44:18.6844587+03:00" />
+  <test id="T054" name="MemoryBaseline" status="pass" category="Memory" detail="Working set: 416.3 MB at startup" timestamp="2026-05-26T09:44:19.2535846+03:00" />
+  <test id="T037-T046" name="Window_Som3a Add-in" status="pass" category="Window" detail="Opened in 285ms, mem delta: 43.3MB" timestamp="2026-05-26T09:44:20.1604406+03:00" />
+  <test id="T037-T046" name="Window_Comparison P6 Activity" status="pass" category="Window" detail="Opened in 107ms, mem delta: 2.60000000000002MB" timestamp="2026-05-26T09:44:21.3248582+03:00" />
+  <test id="T037" name="Window_Trades Codes" status="pass" category="Window" detail="Opened in 100ms, mem delta: 0MB" timestamp="2026-05-26T09:44:22.4916153+03:00" />
+  <test id="T037" name="Window_Daily Report" status="pass" category="Window" detail="Opened in 111ms, mem delta: -0.100000000000023MB" timestamp="2026-05-26T09:44:23.6527065+03:00" />
+  <test id="T042" name="ThemeSwitch_Dark" status="pass" category="Theme" detail="Theme switch in 1021ms, result: OK" timestamp="2026-05-26T09:44:25.2201019+03:00" />
+  <test id="T042" name="ThemeSwitch_Light" status="pass" category="Theme" detail="Theme switch in 1096ms, result: OK" timestamp="2026-05-26T09:44:26.3347264+03:00" />
+  <test id="T042" name="ThemeSwitch_Custom" status="pass" category="Theme" detail="Theme switch in 1031ms, result: OK" timestamp="2026-05-26T09:44:27.3798261+03:00" />
+  <test id="T048" name="RapidThemeSwitch_10x" status="pass" category="Theme" detail="10 rapid switches completed, memory: 485.5 MB" timestamp="2026-05-26T09:44:29.7274250+03:00" />
+  <test id="T054" name="MemoryStability" status="pass" category="Memory" detail="Memory growth: 16.6pct (baseline: 416.3MB, final: 485.5MB)" timestamp="2026-05-26T09:44:29.7462894+03:00" />
 </VSTOResults>

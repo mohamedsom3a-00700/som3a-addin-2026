@@ -78,8 +78,10 @@ namespace Som3a_WPF_UI.Controls.Shell
             try
             {
                 _currentPage = page;
-                _errorOverlay.Visibility = Visibility.Collapsed;
-                _frame.Visibility = Visibility.Visible;
+                if (_errorOverlay != null)
+                    _errorOverlay.Visibility = Visibility.Collapsed;
+                if (_frame != null)
+                    _frame.Visibility = Visibility.Visible;
 
                 if (_loadingIndicator != null)
                     _loadingIndicator.Visibility = Visibility.Visible;
@@ -111,6 +113,7 @@ namespace Som3a_WPF_UI.Controls.Shell
             if (_loadingIndicator != null)
                 _loadingIndicator.Visibility = Visibility.Collapsed;
             Interlocked.Exchange(ref _isNavigating, 0);
+            OnNavigationCompleted(new NavigationEventArgs { Success = true });
         }
 
         public void ShowError(string message, Action retryAction)
@@ -161,8 +164,10 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnRetryClick(object sender, RoutedEventArgs e)
         {
-            _errorOverlay.Visibility = Visibility.Collapsed;
-            _frame.Visibility = Visibility.Visible;
+            if (_errorOverlay != null)
+                _errorOverlay.Visibility = Visibility.Collapsed;
+            if (_frame != null)
+                _frame.Visibility = Visibility.Visible;
             _retryAction?.Invoke();
         }
 

@@ -1008,17 +1008,16 @@ Console.WriteLine(result.Summary);
 ### Launching from Excel Ribbon
 
 ```csharp
-// In Ribbon1.cs — button handlers use NavigationService
+// In Ribbon1.cs — button handlers use NavigationService with namespaced keys
 private void BtnPrimaveraCompare_Click(object sender, RibbonControlEventArgs e)
 {
-    var shell = ModuleLoadOrchestrator.GetShell();
-    shell.NavigateTo("primavera-compare");
+    NavigationService.Instance.NavigateTo("planning.primavera.compare");
 }
 
 // Or via NavigationService
 private void BtnXerEditor_Click(object sender, RibbonControlEventArgs e)
 {
-    NavigationService.Instance.NavigateTo("xer-editor");
+    NavigationService.Instance.NavigateTo("planning.xereditor");
 }
 ```
 
