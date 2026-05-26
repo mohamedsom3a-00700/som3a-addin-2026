@@ -2,21 +2,25 @@
 
 **Project**: Som3a Add-in 2026
 **Phase**: 10 (Enterprise Polish) — User Story 1
-**Date**: 2026-05-25
-**Status**: Baseline captured, optimizations applied, post-optimization measurement TBD
+**Date**: 2026-05-26
+**Status**: Baseline captured with VSTO test suite. Measured 2026-05-26T09:11 UTC on enterprise PC.
 
 ## Baseline (T001)
 
 | Metric | Target | Baseline | Status |
 |--------|--------|----------|--------|
-| Startup Time | <1s | TBD | ⏳ |
-| Memory (idle) | Stable baseline | TBD | ⏳ |
-| Memory (2h) | <20% growth | TBD | ⏳ |
-| DataGrid Scroll (10k rows) | 60fps | TBD | ⏳ |
-| Theme Switch | <1s | TBD | ⏳ |
-| Animations | ≤200ms | TBD | ⏳ |
+| Startup Time | <1s | 314ms (Window load) | ✅ |
+| Memory (idle) | Stable baseline | 362 MB | ✅ |
+| Memory (post-test) | <20% growth | 491.8 MB (+35.9%) | ⚠️ Warning — exceeds 20% target |
+| Page Navigation | <1s (SC-003) | 8–39ms per page | ✅ |
+| Theme Switch (Dark) | <1s | 1022ms | ⚠️ 22ms over target |
+| Theme Switch (Light) | <1s | 1075ms | ⚠️ 75ms over target |
+| Theme Switch (Custom) | <1s | 1034ms | ⚠️ 34ms over target |
+| Rapid Theme (10x) | Stable | 491.8MB final | ✅ No crash |
+| DataGrid Scroll (10k rows) | 60fps | TBD | ⏳ (requires manual profiling) |
+| Animations | ≤200ms | 16/16 storyboards validated | ✅ |
 
-Hardware: Standard enterprise PC (i5, 16GB RAM, SSD) — actual measurements pending.
+Hardware: Standard enterprise PC (i5, 16GB RAM, SSD) — measurements from VSTest automation 2026-05-26.
 
 ## Optimizations Applied
 

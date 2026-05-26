@@ -1,9 +1,11 @@
 using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Som3a_WPF_UI.Pages;
+using NavEventArgs = System.Windows.Navigation.NavigationEventArgs;
 
 namespace Som3a_WPF_UI.Controls.Shell
 {
@@ -19,10 +21,12 @@ namespace Som3a_WPF_UI.Controls.Shell
     public class WorkspaceHost : ContentControl, IPageHost
     {
         private Frame _frame;
+        private ProgressBar _loadingIndicator;
         private Border _errorOverlay;
         private bool _isFirstNavigation = true;
         private Action _retryAction;
         private Page _currentPage;
+        private int _isNavigating;
 
         public static readonly DependencyProperty WelcomePageTypeProperty =
             DependencyProperty.Register(
@@ -54,11 +58,13 @@ namespace Som3a_WPF_UI.Controls.Shell
         {
             base.OnApplyTemplate();
             _frame = GetTemplateChild("PART_Frame") as Frame;
+            _loadingIndicator = GetTemplateChild("PART_LoadingIndicator") as ProgressBar;
             _errorOverlay = GetTemplateChild("PART_ErrorOverlay") as Border;
 
             if (_frame != null)
             {
                 _frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
+                _frame.LoadCompleted += OnFrameLoadCompleted;
             }
         }
 
@@ -67,12 +73,17 @@ namespace Som3a_WPF_UI.Controls.Shell
         public void Navigate(Page page)
         {
             if (_frame == null) return;
+            if (Interlocked.Exchange(ref _isNavigating, 1) == 1) return;
 
             try
             {
                 _currentPage = page;
                 _errorOverlay.Visibility = Visibility.Collapsed;
                 _frame.Visibility = Visibility.Visible;
+
+                if (_loadingIndicator != null)
+                    _loadingIndicator.Visibility = Visibility.Visible;
+
                 _frame.Navigate(page);
 
                 if (!_isFirstNavigation)
@@ -85,17 +96,21 @@ namespace Som3a_WPF_UI.Controls.Shell
                 }
 
                 _isFirstNavigation = false;
-
-                OnNavigationCompleted(new NavigationEventArgs
-                {
-                    NewKey = page.Tag as string,
-                    Success = true
-                });
             }
             catch (Exception ex)
             {
+                if (_loadingIndicator != null)
+                    _loadingIndicator.Visibility = Visibility.Collapsed;
+                Interlocked.Exchange(ref _isNavigating, 0);
                 ShowError(ex.Message, () => Navigate(page));
             }
+        }
+
+        private void OnFrameLoadCompleted(object sender, NavEventArgs e)
+        {
+            if (_loadingIndicator != null)
+                _loadingIndicator.Visibility = Visibility.Collapsed;
+            Interlocked.Exchange(ref _isNavigating, 0);
         }
 
         public void ShowError(string message, Action retryAction)

@@ -136,17 +136,23 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
+            var focused = FocusManager.GetFocusedElement(this) as DependencyObject;
+            var expander = focused != null ? FindVisualParent<Expander>(focused) : null;
+
             if (e.Key == Key.Left || e.Key == Key.Right)
             {
-                var focused = FocusManager.GetFocusedElement(this) as DependencyObject;
-                if (focused != null)
+                if (expander != null)
                 {
-                    var expander = FindVisualParent<Expander>(focused);
-                    if (expander != null)
-                    {
-                        expander.IsExpanded = e.Key == Key.Right;
-                        e.Handled = true;
-                    }
+                    expander.IsExpanded = e.Key == Key.Right;
+                    e.Handled = true;
+                }
+            }
+            else if (e.Key == Key.Space || e.Key == Key.Enter)
+            {
+                if (expander != null)
+                {
+                    expander.IsExpanded = !expander.IsExpanded;
+                    e.Handled = true;
                 }
             }
         }
