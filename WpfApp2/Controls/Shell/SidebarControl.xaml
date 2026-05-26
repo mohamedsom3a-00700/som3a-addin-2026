@@ -24,16 +24,21 @@
                  ItemsSource="{Binding Source={StaticResource GroupedDestinations}}"
                  SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=SelectedItem, Mode=TwoWay}"
                  ItemContainerStyle="{DynamicResource Style.Sidebar.Item}"
-                 Style="{DynamicResource Style.Sidebar.ListBox}"
                  VirtualizingPanel.IsVirtualizing="True"
                  VirtualizingPanel.VirtualizationMode="Recycling"
-                 IsTabStop="True"
                  KeyboardNavigation.TabNavigation="Continue"
                  KeyboardNavigation.DirectionalNavigation="Cycle"
                  SelectionChanged="OnSelectionChanged">
-            <ListBox.GroupStyle>
-                <GroupStyle ContainerStyle="{StaticResource Style.Sidebar.CategoryHeader}"/>
-            </ListBox.GroupStyle>
+            <ListBox.Style>
+                <Style TargetType="ListBox" BasedOn="{StaticResource Style.Sidebar.ListBox}">
+                    <Setter Property="IsTabStop" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCollapsed, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                            <Setter Property="IsTabStop" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="shell:NavigationDestination">
                     <Grid MinHeight="36"

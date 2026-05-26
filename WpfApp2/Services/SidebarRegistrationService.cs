@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Controls.Shell;
 
@@ -54,7 +55,7 @@ namespace Som3a_WPF_UI.Services
             if (pageTypes == null)
                 return;
 
-            if (_pluginPagesRegistered) return;
+            ClearPluginPages();
             _pluginPagesRegistered = true;
 
             foreach (var pageType in pageTypes)
@@ -72,10 +73,13 @@ namespace Som3a_WPF_UI.Services
 
         private void RegisterPluginPage(Type pageType)
         {
-            var category = "Other";
-            var label = pageType.Name;
-            var icon = "HelpCircleOutline";
-            var order = 50;
+            var attr = pageType.GetCustomAttributesData()
+                .FirstOrDefault(a => a.AttributeType.Name == "NavigationItemAttribute");
+
+            var category = ReadAttrProperty(attr, "Category") ?? "Other";
+            var label = ReadAttrProperty(attr, "Label") ?? pageType.Name;
+            var icon = ReadAttrProperty(attr, "Icon") ?? "HelpCircleOutline";
+            var order = ReadAttrPropertyAsInt(attr, "Order") ?? 50;
             var itemId = pageType.FullName;
 
             if (_registeredItemIds.Contains(itemId))
@@ -113,6 +117,30 @@ namespace Som3a_WPF_UI.Services
         public void ClearPluginPages()
         {
             _registeredItemIds.Clear();
+        }
+
+        private static string ReadAttrProperty(System.Reflection.CustomAttributeData attr, string propertyName)
+        {
+            if (attr == null) return null;
+            foreach (var namedArg in attr.NamedArguments)
+            {
+                if (namedArg.MemberName == propertyName)
+                    return namedArg.TypedValue.Value?.ToString();
+            }
+            if (attr.ConstructorArguments.Count > 0)
+                return attr.ConstructorArguments[0].Value?.ToString();
+            return null;
+        }
+
+        private static int? ReadAttrPropertyAsInt(System.Reflection.CustomAttributeData attr, string propertyName)
+        {
+            if (attr == null) return null;
+            foreach (var namedArg in attr.NamedArguments)
+            {
+                if (namedArg.MemberName == propertyName && namedArg.TypedValue.Value is int intVal)
+                    return intVal;
+            }
+            return null;
         }
     }
 }
