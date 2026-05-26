@@ -3,6 +3,7 @@
 
     <Style TargetType="{x:Type ListView}">
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Control.Stroke}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
@@ -47,6 +48,7 @@
 
     <Style TargetType="{x:Type ListViewItem}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -79,6 +81,7 @@
 
     <Style TargetType="{x:Type GridViewColumnHeader}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource Brush.Background.Secondary}"/>
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Secondary}"/>

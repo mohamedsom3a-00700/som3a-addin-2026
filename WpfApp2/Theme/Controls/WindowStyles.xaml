@@ -4,6 +4,7 @@
 
     <Style TargetType="{x:Type controls:ModernWindow}">
         <Setter Property="Background" Value="{DynamicResource Brush.Background.Primary}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
         <Setter Property="Template">
             <Setter.Value>

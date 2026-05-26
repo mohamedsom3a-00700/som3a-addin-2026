@@ -130,5 +130,65 @@ namespace Som3a_WPF_UI.Properties {
                 this["SafeModeEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Solid")]
+        public string WindowBackdropStyle {
+            get {
+                return ((string)(this["WindowBackdropStyle"]));
+            }
+            set {
+                this["WindowBackdropStyle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BackgroundImagePath {
+            get {
+                return ((string)(this["BackgroundImagePath"]));
+            }
+            set {
+                this["BackgroundImagePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double BackgroundBlurIntensity {
+            get {
+                return ((double)(this["BackgroundBlurIntensity"]));
+            }
+            set {
+                this["BackgroundBlurIntensity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BackgroundBlurEnabled {
+            get {
+                return ((bool)(this["BackgroundBlurEnabled"]));
+            }
+            set {
+                this["BackgroundBlurEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI")]
+        public string SelectedFontFamily {
+            get {
+                return ((string)(this["SelectedFontFamily"]));
+            }
+            set {
+                this["SelectedFontFamily"] = value;
+            }
+        }
     }
 }

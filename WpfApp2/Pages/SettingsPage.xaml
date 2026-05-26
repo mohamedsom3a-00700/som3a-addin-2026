@@ -3,8 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:vm="clr-namespace:Som3a_WPF_UI.ViewModels"
       xmlns:views="clr-namespace:Som3a_WPF_UI.Views"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       Title="Settings"
-      Background="{DynamicResource Brush.Background.Primary}"
+      Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
 
@@ -48,10 +49,10 @@
             <!-- SIDEBAR -->
             <Border x:Name="SidebarPanel"
                     Grid.Column="0"
-                    Background="{DynamicResource Brush.Background.Secondary}"
+                    Background="{DynamicResource Brush.Background.Secondary.Translucent}"
                     BorderBrush="{DynamicResource Brush.Stroke.Card}"
                     BorderThickness="1"
-                    CornerRadius="8"
+                    CornerRadius="{DynamicResource MediumRadius}"
                     Margin="0,0,14,0">
 
                 <Grid Background="Transparent" Margin="12">
@@ -85,7 +86,11 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Icon}" FontSize="16" Foreground="{DynamicResource Brush.Text.Primary}" Margin="0,0,8,0"/>
+                                    <materialDesign:PackIcon Kind="{Binding Icon, Converter={StaticResource MaterialIconConverter}}"
+                                                            Width="16" Height="16"
+                                                            VerticalAlignment="Center"
+                                                            Foreground="{DynamicResource Brush.Text.Primary}"
+                                                            Margin="0,0,8,0"/>
                                     <TextBlock Text="{Binding DisplayName}" FontSize="14" Foreground="{DynamicResource Brush.Text.Primary}"/>
                                 </StackPanel>
                             </DataTemplate>
@@ -97,13 +102,16 @@
             </Border>
 
             <!-- MAIN PANEL -->
-            <Border Grid.Column="1" Style="{DynamicResource PanelContainerStyle}">
+            <Border Grid.Column="1" Style="{DynamicResource PanelContainerStyle}"
+                    CornerRadius="{DynamicResource MediumRadius}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                               SnapsToDevicePixels="True"
-                              UseLayoutRounding="True">
+                              UseLayoutRounding="True"
+                              PreviewMouseWheel="OnScrollViewerPreviewMouseWheel">
                     <StackPanel>
                         <ContentControl Content="{Binding CurrentPanel}"
-                                        AutomationProperties.Name="Settings Panel Content"/>
+                                        AutomationProperties.Name="Settings Panel Content"
+                                        VerticalAlignment="Top"/>
 
                         <ItemsControl ItemsSource="{Binding DynamicSections}"
                                       Visibility="{Binding DynamicSections.Count, Converter={StaticResource CountToVisibilityConverter}}"

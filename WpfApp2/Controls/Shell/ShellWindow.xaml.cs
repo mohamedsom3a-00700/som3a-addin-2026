@@ -207,6 +207,32 @@ namespace Som3a_WPF_UI.Controls.Shell
             Keyboard.Focus(Workspace);
         }
 
+        private void OnThemeToggle(object sender, RoutedEventArgs e)
+        {
+            var current = ThemeManager.Instance.CurrentTheme;
+            if (current == "Dark")
+                ThemeManager.Instance.ApplyTheme("Light");
+            else
+                ThemeManager.Instance.ApplyTheme("Dark");
+        }
+
+        private void OnMinimize(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void OnMaximize(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState == WindowState.Maximized
+                ? WindowState.Normal
+                : WindowState.Maximized;
+        }
+
+        private void OnClose(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
         protected override void OnShellInitialize()
         {
         }

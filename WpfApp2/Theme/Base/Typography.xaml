@@ -3,6 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <FontFamily x:Key="FontFamilyPrimary">Segoe UI</FontFamily>
+    <FontFamily x:Key="CustomFontFamily">Segoe UI</FontFamily>
 
     <sys:Double x:Key="TitleFontSize">20</sys:Double>
     <sys:Double x:Key="HeaderFontSize">16</sys:Double>

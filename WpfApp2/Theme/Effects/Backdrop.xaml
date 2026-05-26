@@ -1,0 +1,25 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Background Image Brush (set by code) -->
+    <ImageBrush x:Key="Brush.Background.Image"
+                Stretch="UniformToFill"
+                AlignmentX="Center"
+                AlignmentY="Center"/>
+
+    <!-- Solid Background Fallback -->
+    <SolidColorBrush x:Key="Brush.Background.SolidFallback" Color="#0E1720"/>
+
+    <!-- Gradient Background Fallback -->
+    <LinearGradientBrush x:Key="Brush.Background.GradientFallback" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#102A43" Offset="0"/>
+        <GradientStop Color="#0F3B3B" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- Blur Property Hooks -->
+    <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Key="Backdrop.BlurIntensity">0.0</sys:Double>
+    <sys:Boolean xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Key="Backdrop.BlurEnabled">False</sys:Boolean>
+    <sys:Boolean xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Key="Backdrop.TransparencyEnabled">True</sys:Boolean>
+
+</ResourceDictionary>

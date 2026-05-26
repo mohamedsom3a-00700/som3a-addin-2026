@@ -12,5 +12,6 @@ namespace Som3a_Addin_2026
         string GetStatus();
         string CloseWindow(string name);
         string RunDiagnostics();
+        string VerifyTheme();
     }
 }

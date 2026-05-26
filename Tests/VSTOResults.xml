@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTOResults>
-  <summary total="12" passed="12" failed="0" skipped="0" />
-  <test id="T037" name="AddInLoaded" status="pass" category="Setup" detail="Add-in Som3a Addin 2026 found in COMAddIns" timestamp="2026-05-26T09:44:15.4204941+03:00" />
-  <test id="T037" name="ComAutomation" status="pass" category="Setup" detail="COM automation interface connected" timestamp="2026-05-26T09:44:18.6844587+03:00" />
-  <test id="T054" name="MemoryBaseline" status="pass" category="Memory" detail="Working set: 416.3 MB at startup" timestamp="2026-05-26T09:44:19.2535846+03:00" />
-  <test id="T037-T046" name="Window_Som3a Add-in" status="pass" category="Window" detail="Opened in 285ms, mem delta: 43.3MB" timestamp="2026-05-26T09:44:20.1604406+03:00" />
-  <test id="T037-T046" name="Window_Comparison P6 Activity" status="pass" category="Window" detail="Opened in 107ms, mem delta: 2.60000000000002MB" timestamp="2026-05-26T09:44:21.3248582+03:00" />
-  <test id="T037" name="Window_Trades Codes" status="pass" category="Window" detail="Opened in 100ms, mem delta: 0MB" timestamp="2026-05-26T09:44:22.4916153+03:00" />
-  <test id="T037" name="Window_Daily Report" status="pass" category="Window" detail="Opened in 111ms, mem delta: -0.100000000000023MB" timestamp="2026-05-26T09:44:23.6527065+03:00" />
-  <test id="T042" name="ThemeSwitch_Dark" status="pass" category="Theme" detail="Theme switch in 1021ms, result: OK" timestamp="2026-05-26T09:44:25.2201019+03:00" />
-  <test id="T042" name="ThemeSwitch_Light" status="pass" category="Theme" detail="Theme switch in 1096ms, result: OK" timestamp="2026-05-26T09:44:26.3347264+03:00" />
-  <test id="T042" name="ThemeSwitch_Custom" status="pass" category="Theme" detail="Theme switch in 1031ms, result: OK" timestamp="2026-05-26T09:44:27.3798261+03:00" />
-  <test id="T048" name="RapidThemeSwitch_10x" status="pass" category="Theme" detail="10 rapid switches completed, memory: 485.5 MB" timestamp="2026-05-26T09:44:29.7274250+03:00" />
-  <test id="T054" name="MemoryStability" status="pass" category="Memory" detail="Memory growth: 16.6pct (baseline: 416.3MB, final: 485.5MB)" timestamp="2026-05-26T09:44:29.7462894+03:00" />
+  <summary total="12" passed="11" failed="0" skipped="1" />
+  <test id="T037" name="AddInLoaded" status="pass" category="Setup" detail="Add-in Som3a Addin 2026 found in COMAddIns" timestamp="2026-05-26T19:45:38.8418248+03:00" />
+  <test id="T037" name="ComAutomation" status="pass" category="Setup" detail="COM automation interface connected" timestamp="2026-05-26T19:45:44.5758213+03:00" />
+  <test id="T054" name="MemoryBaseline" status="pass" category="Memory" detail="Working set: 380.1 MB at startup" timestamp="2026-05-26T19:45:45.7222986+03:00" />
+  <test id="T037-T046" name="Window_Som3a Add-in" status="pass" category="Window" detail="Opened in 1008ms, mem delta: 93.4MB" timestamp="2026-05-26T19:45:47.5187990+03:00" />
+  <test id="T037-T046" name="Window_Comparison P6 Activity" status="pass" category="Window" detail="Opened in 32ms, mem delta: 9.70000000000005MB" timestamp="2026-05-26T19:45:48.6271061+03:00" />
+  <test id="T037" name="Window_Trades Codes" status="pass" category="Window" detail="Opened in 43ms, mem delta: 12.6MB" timestamp="2026-05-26T19:45:50.0004964+03:00" />
+  <test id="T037" name="Window_Daily Report" status="pass" category="Window" detail="Opened in 35ms, mem delta: 0.5MB" timestamp="2026-05-26T19:45:51.1117512+03:00" />
+  <test id="T042" name="ThemeSwitch_Dark" status="pass" category="Theme" detail="Theme switch in 1158ms, result: OK" timestamp="2026-05-26T19:45:52.8469925+03:00" />
+  <test id="T042" name="ThemeSwitch_Light" status="pass" category="Theme" detail="Theme switch in 1187ms, result: OK" timestamp="2026-05-26T19:45:54.0955925+03:00" />
+  <test id="T042" name="ThemeSwitch_Custom" status="pass" category="Theme" detail="Theme switch in 1129ms, result: OK" timestamp="2026-05-26T19:45:55.2576336+03:00" />
+  <test id="T048" name="RapidThemeSwitch_10x" status="pass" category="Theme" detail="10 rapid switches completed, memory: 505 MB" timestamp="2026-05-26T19:45:58.9763094+03:00" />
+  <test id="T054" name="MemoryStability" status="warn" category="Memory" detail="Memory growth: 32.9pct (baseline: 380.1MB, final: 505MB)" timestamp="2026-05-26T19:45:59.0196582+03:00" />
 </VSTOResults>

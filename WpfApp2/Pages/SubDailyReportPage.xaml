@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:conv="clr-namespace:Som3a_WPF_UI.Converters"
       Title="Daily Report"
-      Background="{DynamicResource Brush.Background.Primary}"
+      Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
 

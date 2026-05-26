@@ -3,6 +3,7 @@
 
     <Style TargetType="{x:Type TreeView}">
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Control.Stroke}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -48,6 +49,7 @@
 
     <Style TargetType="{x:Type TreeViewItem}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
         <Setter Property="Background" Value="Transparent"/>

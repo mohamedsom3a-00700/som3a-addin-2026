@@ -43,6 +43,28 @@
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="MaterialDesignColors, Version=3.1.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors\lib\net462\MaterialDesignColors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=5.1.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes\lib\net462\MaterialDesignThemes.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+
+    <Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.3912.50, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.WebView2.1.0.3912.50\lib\net462\Microsoft.Web.WebView2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Wpf, Version=1.0.3912.50, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.WebView2.1.0.3912.50\lib\net462\Microsoft.Web.WebView2.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.39.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.3912.50, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.WebView2.1.0.3912.50\lib\net462\Microsoft.Web.WebView2.Core.dll</HintPath>
     </Reference>
@@ -96,6 +118,7 @@
     <Compile Include="Controls\Shell\WorkspaceHost.cs" />
     <Compile Include="Converters\DifferenceTypeToColorConverter.cs" />
     <Compile Include="Converters\WindowConverters.cs" />
+    <Compile Include="Converters\MaterialIconConverter.cs" />
     <Compile Include="Float_path.xaml.cs">
       <DependentUpon>Float_path.xaml</DependentUpon>
     </Compile>
@@ -169,6 +192,8 @@
     <Compile Include="Services\SettingsModuleIntegration.cs" />
     <Compile Include="Services\ThemeManager.cs" />
     <Compile Include="Services\WindowRenderModeDetector.cs" />
+    <Compile Include="Services\DwmBlurService.cs" />
+    <Compile Include="Services\FontEnumerator.cs" />
     <Compile Include="Services\RenderModeService.cs" />
     <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Services\EventBus.cs" />
@@ -223,9 +248,14 @@
       <DependentUpon>ModuleLoadingOverlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ModernWindow.cs" />
+    <Compile Include="Controls\ColorWheel.cs" />
+    <Compile Include="Controls\FontPreview.cs" />
 
     <Compile Include="Views\AppearancePanel.xaml.cs">
       <DependentUpon>AppearancePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomThemeSettings.xaml.cs">
+      <DependentUpon>CustomThemeSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PerformancePanel.xaml.cs">
       <DependentUpon>PerformancePanel.xaml</DependentUpon>
@@ -249,6 +279,7 @@
     <Compile Include="ViewModels\FixPieColorsViewModel.cs" />
     <Compile Include="ViewModels\LinksManagerViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\CustomThemeViewModel.cs" />
     <Compile Include="ViewModels\SettingsSectionViewModel.cs" />
     <Compile Include="ViewModels\SettingControlViewModel.cs" />
     <Compile Include="ViewModels\WbsStyleSelectorViewModel.cs" />
@@ -505,6 +536,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Theme\Effects\Backdrop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Theme\Effects\Shadows.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -516,6 +551,10 @@
     <Page Include="Theme\Light\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\MaterialIntegration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\ModernWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -550,6 +589,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CustomThemeSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PerformancePanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -571,6 +614,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\Controls\SettingsPanelStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Controls\MaterialIcons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Controls\MaterialControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Som3a_WPF_UI.Services;
 
@@ -204,6 +205,27 @@ namespace Som3a_Addin_2026
             {
                 return "ERROR: " + ex.Message;
             }
+        }
+
+        public string VerifyTheme()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var bg = Application.Current?.FindResource("Brush.Background.Primary") as SolidColorBrush;
+                    var txt = Application.Current?.FindResource("Brush.Text.Primary") as SolidColorBrush;
+                    var surface = Application.Current?.FindResource("SurfaceBrush") as SolidColorBrush;
+
+                    string BgStr(Color c) => $"#{c.R:X2}{c.G:X2}{c.B:X2}";
+
+                    return $"BG={BgStr(bg?.Color ?? default)}|TXT={BgStr(txt?.Color ?? default)}|SF={BgStr(surface?.Color ?? default)}";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
         }
     }
 }

@@ -49,9 +49,13 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/Opacity.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Base/ComponentTokens.xaml"/>
 
+        <!-- Material Design Integration Bridge -->
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/MaterialIntegration.xaml"/>
+
         <!-- Effects Library -->
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Shadows.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Glow.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Backdrop.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Effects/Animations.xaml"/>
 
         <!-- Controls -->
@@ -76,6 +80,8 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/PasswordBoxStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/TreeViewStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/MaterialIcons.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/MaterialControls.xaml"/>
 
         <!-- Modern Window -->
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/WindowButtonStyles.xaml"/>
@@ -99,5 +105,6 @@
     <conv:WindowStateConverter x:Key="WindowStateConverter"/>
     <conv:WindowStateToBoolConverter x:Key="WindowStateToBoolConverter"/>
     <conv:InverseWindowStateConverter x:Key="InverseWindowStateConverter"/>
+    <conv:MaterialIconConverter x:Key="MaterialIconConverter"/>
 
 </ResourceDictionary>

@@ -4,6 +4,7 @@
     <!-- Default GroupBox — يُطبق تلقائياً على كل GroupBoxes -->
     <Style TargetType="{x:Type GroupBox}">
         <Setter Property="Foreground" Value="{DynamicResource TextMainBrush}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="FontWeight" Value="{DynamicResource FontWeightMedium}"/>

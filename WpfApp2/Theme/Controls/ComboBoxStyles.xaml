@@ -11,6 +11,9 @@
         <Setter Property="Foreground"
                 Value="{DynamicResource Brush.Text.Primary}"/>
 
+        <Setter Property="FontFamily"
+                Value="{DynamicResource CustomFontFamily}"/>
+
         <Setter Property="Background"
                 Value="{DynamicResource Brush.Control.Background}"/>
 

@@ -3,6 +3,7 @@
 
     <Style x:Key="ModernDataGrid" TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Control.Stroke}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="RowBackground" Value="Transparent"/>
@@ -66,6 +67,7 @@
 
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="{DynamicResource Brush.Background.Secondary}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Secondary}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Control.Stroke}"/>
         <Setter Property="BorderThickness" Value="0,0,0,1"/>
@@ -76,6 +78,7 @@
 
     <Style TargetType="{x:Type DataGridRow}">
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource Brush.DataGrid.HoverRow}"/>
@@ -88,6 +91,7 @@
 
     <Style TargetType="{x:Type DataGridCell}">
         <Setter Property="Padding" Value="{DynamicResource Component.DataGrid.CellPadding}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CustomFontFamily}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>

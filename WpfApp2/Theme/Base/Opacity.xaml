@@ -13,5 +13,7 @@
     <sys:Double x:Key="Opacity.Subtle">0.6</sys:Double>
     <sys:Double x:Key="Opacity.Ghost">0.4</sys:Double>
     <sys:Double x:Key="Opacity.Transparent">0.0</sys:Double>
+    <sys:Double x:Key="Opacity.Translucent">0.5</sys:Double>
+    <sys:Double x:Key="Opacity.Backdrop">0.85</sys:Double>
 
 </ResourceDictionary>

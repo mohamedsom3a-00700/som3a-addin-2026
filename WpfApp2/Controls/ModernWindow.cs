@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using Som3a_WPF_UI.Helpers;
 using Som3a_WPF_UI.Services;
 
@@ -314,6 +315,119 @@ namespace Som3a_WPF_UI.Controls
         public ICommand RestoreCommand => new RelayCommand(
             () => WindowState = WindowState.Normal,
             () => WindowState == WindowState.Maximized);
+
+        public ICommand ThemeToggleCommand => new RelayCommand(() =>
+        {
+            var current = ThemeManager.Instance.CurrentTheme;
+            if (current == "Dark")
+                ThemeManager.Instance.ApplyTheme("Light");
+            else
+                ThemeManager.Instance.ApplyTheme("Dark");
+        });
+
+        public void SetBackground(string imagePath)
+        {
+            SetBackground(imagePath, 0.0);
+        }
+
+        public void SetBackground(string imagePath, double blurIntensity)
+        {
+            if (string.IsNullOrEmpty(imagePath) || !System.IO.File.Exists(imagePath))
+            {
+                Background = TryFindResource("Brush.Background.SolidFallback") as Brush
+                    ?? new SolidColorBrush(Color.FromRgb(14, 23, 32));
+                return;
+            }
+
+            try
+            {
+                var ext = System.IO.Path.GetExtension(imagePath).ToLowerInvariant();
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".bmp")
+                    return;
+
+                var fileInfo = new System.IO.FileInfo(imagePath);
+                if (fileInfo.Length > 10 * 1024 * 1024)
+                    return;
+
+                var img = new System.Windows.Media.Imaging.BitmapImage();
+                img.BeginInit();
+                img.UriSource = new Uri(imagePath);
+                img.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                img.EndInit();
+                img.Freeze();
+
+                if (img.PixelWidth > 4096 || img.PixelHeight > 4096)
+                    return;
+
+                var clampedBlur = Math.Max(0.0, Math.Min(1.0, blurIntensity));
+                ImageSource imageSource = img;
+
+                if (clampedBlur > 0.0)
+                {
+                    imageSource = RenderBlurredBitmap(img, clampedBlur * 20.0);
+                }
+
+                var brush = new ImageBrush(imageSource)
+                {
+                    Stretch = System.Windows.Media.Stretch.Fill,
+                    AlignmentX = System.Windows.Media.AlignmentX.Center,
+                    AlignmentY = System.Windows.Media.AlignmentY.Center
+                };
+
+                Background = brush;
+
+                var helper = new System.Windows.Interop.WindowInteropHelper(this);
+                IntPtr hwnd = helper.Handle;
+                if (hwnd != IntPtr.Zero && hwnd != new IntPtr(-1))
+                {
+                    DwmBlurService.EnableBlur(hwnd, 0.3);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[ModernWindow] Failed to set background: {ex.Message}");
+                Background = TryFindResource("Brush.Background.SolidFallback") as Brush
+                    ?? new SolidColorBrush(Color.FromRgb(14, 23, 32));
+            }
+        }
+
+        private static ImageSource RenderBlurredBitmap(System.Windows.Media.Imaging.BitmapImage source, double radius)
+        {
+            var visual = new DrawingVisual();
+            using (var dc = visual.RenderOpen())
+            {
+                dc.DrawImage(source, new Rect(0, 0, source.PixelWidth, source.PixelHeight));
+            }
+
+            var tempRender = new RenderTargetBitmap(
+                source.PixelWidth, source.PixelHeight,
+                source.DpiX, source.DpiY,
+                PixelFormats.Pbgra32);
+            tempRender.Render(visual);
+
+            var blurImage = new System.Windows.Controls.Image
+            {
+                Source = tempRender,
+                Effect = new BlurEffect
+                {
+                    Radius = radius,
+                    KernelType = KernelType.Gaussian,
+                    RenderingBias = RenderingBias.Quality
+                }
+            };
+
+            blurImage.Measure(new System.Windows.Size(source.PixelWidth, source.PixelHeight));
+            blurImage.Arrange(new Rect(0, 0, source.PixelWidth, source.PixelHeight));
+
+            var result = new RenderTargetBitmap(
+                source.PixelWidth, source.PixelHeight,
+                source.DpiX, source.DpiY,
+                PixelFormats.Pbgra32);
+            result.Render(blurImage);
+            result.Freeze();
+
+            return result;
+        }
 
         public bool IsMaximized => WindowState == WindowState.Maximized;
 
