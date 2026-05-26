@@ -55,8 +55,9 @@ namespace Som3a_WPF_UI.Services
             WCA_ACCENT_POLICY = 19
         }
 
-        [DllImport("user32.dll")]
-        private static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
         private static bool? _isBlurSupported;
 
@@ -126,7 +127,11 @@ namespace Som3a_WPF_UI.Services
                         Data = accentPtr
                     };
 
-                    SetWindowCompositionAttribute(hwnd, ref data);
+                    if (!SetWindowCompositionAttribute(hwnd, ref data))
+                    {
+                        int lastError = Marshal.GetLastWin32Error();
+                        System.Diagnostics.Debug.WriteLine($"[DwmBlurService] SetWindowCompositionAttribute failed (hwnd={hwnd}, intensity={intensity:F2}, error={lastError})");
+                    }
                 }
                 finally
                 {

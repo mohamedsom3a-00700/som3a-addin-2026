@@ -15,7 +15,9 @@
 
     <!-- Slate family -->
     <Color x:Key="Primitive.Slate.900">#0E1720</Color>
+    <Color x:Key="Primitive.Slate.900.Translucent">#800E1720</Color>
     <Color x:Key="Primitive.Slate.800">#1C2B3A</Color>
+    <Color x:Key="Primitive.Slate.800.Translucent">#801C2B3A</Color>
     <Color x:Key="Primitive.Slate.700">#15202B</Color>
 
     <!-- White alpha family -->
@@ -123,9 +125,9 @@
 
     <!-- Background -->
     <SolidColorBrush x:Key="Brush.Background.Primary" Color="{StaticResource Primitive.Slate.900}"/>
-    <SolidColorBrush x:Key="Brush.Background.Primary.Translucent" Color="#800E1720"/>
+    <SolidColorBrush x:Key="Brush.Background.Primary.Translucent" Color="{StaticResource Primitive.Slate.900.Translucent}"/>
     <SolidColorBrush x:Key="Brush.Background.Secondary" Color="{StaticResource Primitive.Slate.800}"/>
-    <SolidColorBrush x:Key="Brush.Background.Secondary.Translucent" Color="#801C2B3A"/>
+    <SolidColorBrush x:Key="Brush.Background.Secondary.Translucent" Color="{StaticResource Primitive.Slate.800.Translucent}"/>
     <SolidColorBrush x:Key="Brush.Background.Card" Color="{StaticResource Primitive.Slate.700}"/>
     <SolidColorBrush x:Key="Brush.Background.CardSubtle" Color="{StaticResource Color.Background.CardSubtle}"/>
     <LinearGradientBrush x:Key="Brush.Background.Root" StartPoint="0,0" EndPoint="1,1">

@@ -30,7 +30,9 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="1"
                             CornerRadius="12"
-                            Padding="8,4">
+                            Padding="8,4"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>

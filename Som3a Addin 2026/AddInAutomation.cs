@@ -213,13 +213,24 @@ namespace Som3a_Addin_2026
             {
                 try
                 {
-                    var bg = Application.Current?.FindResource("Brush.Background.Primary") as SolidColorBrush;
-                    var txt = Application.Current?.FindResource("Brush.Text.Primary") as SolidColorBrush;
-                    var surface = Application.Current?.FindResource("SurfaceBrush") as SolidColorBrush;
+                    string ResolveBrush(string key)
+                    {
+                        try
+                        {
+                            var resource = Application.Current?.FindResource(key);
+                            if (resource is SolidColorBrush scb)
+                                return BgStr(scb.Color);
+                            return resource != null ? "UNSUPPORTED" : "MISSING";
+                        }
+                        catch
+                        {
+                            return "MISSING";
+                        }
+                    }
 
-                    string BgStr(Color c) => $"#{c.R:X2}{c.G:X2}{c.B:X2}";
+                    string BgStr(Color c) => $"#{c.A:X2}{c.R:X2}{c.G:X2}{c.B:X2}";
 
-                    return $"BG={BgStr(bg?.Color ?? default)}|TXT={BgStr(txt?.Color ?? default)}|SF={BgStr(surface?.Color ?? default)}";
+                    return $"BG={ResolveBrush("Brush.Background.Primary")}|TXT={ResolveBrush("Brush.Text.Primary")}|SF={ResolveBrush("SurfaceBrush")}";
                 }
                 catch (Exception ex)
                 {

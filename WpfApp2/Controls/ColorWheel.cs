@@ -11,6 +11,7 @@ namespace Som3a_WPF_UI.Controls
     {
         private WriteableBitmap _bitmap;
         private bool _isDragging;
+        private Point? _selectedPoint;
 
         public static readonly DependencyProperty SelectedColorProperty =
             DependencyProperty.Register(
@@ -84,7 +85,6 @@ namespace Som3a_WPF_UI.Controls
                     double distance = Math.Sqrt(dx * dx + dy * dy);
 
                     int idx = (y * size + x) * 4;
-                    pixels[idx + 3] = 255;
 
                     if (distance <= radius)
                     {
@@ -95,12 +95,14 @@ namespace Som3a_WPF_UI.Controls
                         pixels[idx + 2] = rgb.R;
                         pixels[idx + 1] = rgb.G;
                         pixels[idx + 0] = rgb.B;
+                        pixels[idx + 3] = 255;
                     }
                     else
                     {
                         pixels[idx + 2] = 0;
                         pixels[idx + 1] = 0;
                         pixels[idx + 0] = 0;
+                        pixels[idx + 3] = 0;
                     }
                 }
             }
@@ -117,11 +119,12 @@ namespace Som3a_WPF_UI.Controls
 
             double cx = ActualWidth / 2;
             double cy = ActualHeight / 2;
+            Point markerPos = _selectedPoint.HasValue ? _selectedPoint.Value : new Point(cx, cy);
 
             dc.DrawEllipse(
                 new SolidColorBrush(SelectedColor),
                 new Pen(Brushes.White, 2),
-                new Point(cx, cy), 5, 5);
+                markerPos, 5, 5);
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -162,6 +165,7 @@ namespace Som3a_WPF_UI.Controls
                 double hue = Math.Atan2(dy, dx) * 180.0 / Math.PI + 180.0;
                 double saturation = Math.Min(1.0, distance / radius);
                 SelectedColor = HsvToRgb(hue / 360.0, saturation, 1.0);
+                _selectedPoint = point;
             }
         }
 

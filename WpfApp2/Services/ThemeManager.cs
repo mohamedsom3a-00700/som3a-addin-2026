@@ -226,6 +226,26 @@ namespace Som3a_WPF_UI.Services
                 try { dicts.Remove(existingTheme); } catch { }
             }
 
+            // Swap MaterialDesign theme to match current theme
+            var materialThemeUri = theme == AppTheme.Light
+                ? new Uri("pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml")
+                : new Uri("pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml");
+            var existingMaterial = dicts.FirstOrDefault(d =>
+                d.Source?.ToString().Contains("MaterialDesignTheme.") == true);
+            if (existingMaterial != null)
+            {
+                try
+                {
+                    var idx = dicts.IndexOf(existingMaterial);
+                    dicts[idx] = new ResourceDictionary { Source = materialThemeUri };
+                }
+                catch { }
+            }
+            else
+            {
+                try { dicts.Add(new ResourceDictionary { Source = materialThemeUri }); } catch { }
+            }
+
             IsFallbackActive = false;
 
             try
@@ -404,11 +424,12 @@ namespace Som3a_WPF_UI.Services
             }
         }
 
-        public void ApplyBackground(string imagePath, double blurIntensity)
+        public void ApplyBackground(string imagePath, double blurIntensity, bool? blurEnabled = null)
         {
             _backgroundImagePath = imagePath ?? "";
             _backgroundBlurIntensity = Math.Max(0.0, Math.Min(1.0, blurIntensity));
-            _backgroundBlurEnabled = blurIntensity > 0;
+            if (blurEnabled.HasValue)
+                _backgroundBlurEnabled = blurEnabled.Value;
 
             try
             {
@@ -632,8 +653,7 @@ namespace Som3a_WPF_UI.Services
 
             foreach (var key in requiredTokenKeys)
             {
-                var resource = Application.Current.Resources[key];
-                if (resource == null)
+                if (!Application.Current.Resources.Contains(key))
                 {
                     _logger?.Log("WARN", "Validation", $"Missing required token key: {key}", "ThemeManager");
                     System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing required token key: {key}");
@@ -653,8 +673,7 @@ namespace Som3a_WPF_UI.Services
 
             foreach (var key in brushKeys)
             {
-                var resource = Application.Current.Resources[key];
-                if (resource == null)
+                if (!Application.Current.Resources.Contains(key))
                 {
                     _logger?.Log("WARN", "Validation", $"Missing brush token: {key}", "ThemeManager");
                     System.Diagnostics.Debug.WriteLine($"[ThemeManager] WARNING: Missing brush token: {key}");

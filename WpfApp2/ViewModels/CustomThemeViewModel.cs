@@ -7,6 +7,7 @@ namespace Som3a_WPF_UI.ViewModels
 {
     public class CustomThemeViewModel : ViewModelBase
     {
+        private readonly IServiceContainer _container;
         private string _backgroundType = "Solid";
         private string _imagePath = "";
         private double _blurIntensity = 0.0;
@@ -15,8 +16,9 @@ namespace Som3a_WPF_UI.ViewModels
         private FontFamilyInfo _selectedFont;
         private string _imageValidationError = "";
 
-        public CustomThemeViewModel()
+        public CustomThemeViewModel(IServiceContainer container)
         {
+            _container = container;
             AvailableFonts = new ObservableCollection<FontFamilyInfo>();
             SelectImageCommand = new RelayCommand(ExecuteSelectImage);
             ClearImageCommand = new RelayCommand(ExecuteClearImage);
@@ -64,7 +66,8 @@ namespace Som3a_WPF_UI.ViewModels
                 if (SetProperty(ref _blurIntensity, Math.Max(0.0, Math.Min(1.0, value))))
                 {
                     OnPropertyChanged(nameof(BlurIntensityPercent));
-                    ThemeManager.Instance.ApplyBackground(ImagePath, _blurIntensity);
+                    if (BlurEnabled)
+                        _container.Resolve<ThemeManager>().ApplyBackground(ImagePath, _blurIntensity);
                 }
             }
         }
@@ -82,7 +85,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 if (SetProperty(ref _blurEnabled, value))
                 {
-                    ThemeManager.Instance.ApplyBackground(ImagePath, _blurEnabled ? _blurIntensity : 0.0);
+                    _container.Resolve<ThemeManager>().ApplyBackground(ImagePath, _blurEnabled ? _blurIntensity : 0.0);
                 }
             }
         }
@@ -94,7 +97,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 if (SetProperty(ref _selectedFontFamily, value))
                 {
-                    ThemeManager.Instance.ApplyFont(value);
+                    _container.Resolve<ThemeManager>().ApplyFont(value);
                 }
             }
         }
@@ -125,6 +128,7 @@ namespace Som3a_WPF_UI.ViewModels
 
         private void ExecuteSelectImage()
         {
+            var themeManager = _container.Resolve<ThemeManager>();
             var dlg = new Microsoft.Win32.OpenFileDialog
             {
                 Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp|All Files|*.*",
@@ -157,7 +161,7 @@ namespace Som3a_WPF_UI.ViewModels
                     ImagePath = dlg.FileName;
                     ImageValidationError = "";
                     BackgroundType = "Image";
-                    ThemeManager.Instance.ApplyBackground(ImagePath, BlurEnabled ? BlurIntensity : 0.0);
+                    themeManager.ApplyBackground(ImagePath, BlurEnabled ? BlurIntensity : 0.0);
                 }
                 catch
                 {
@@ -168,18 +172,20 @@ namespace Som3a_WPF_UI.ViewModels
 
         private void ExecuteClearImage()
         {
+            var themeManager = _container.Resolve<ThemeManager>();
             ImagePath = "";
             ImageFileName = "";
             BackgroundType = "Solid";
             ImageValidationError = "";
-            ThemeManager.Instance.ApplyBackground("", 0.0);
+            themeManager.ApplyBackground("", 0.0);
         }
 
         private void ExecuteApplyFont()
         {
             if (SelectedFont != null)
             {
-                ThemeManager.Instance.ApplyFont(SelectedFont.FamilyName);
+                var themeManager = _container.Resolve<ThemeManager>();
+                themeManager.ApplyFont(SelectedFont.FamilyName);
             }
         }
 

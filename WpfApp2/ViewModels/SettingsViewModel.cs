@@ -88,9 +88,11 @@ namespace Som3a_WPF_UI.ViewModels
         }
 
         private System.Windows.Threading.DispatcherTimer _accentDebounceTimer;
+        private string _pendingAccentHex;
 
         private void ApplyAccentWithDebounce(string hex)
         {
+            _pendingAccentHex = hex;
             if (_accentDebounceTimer == null)
             {
                 _accentDebounceTimer = new System.Windows.Threading.DispatcherTimer
@@ -100,7 +102,7 @@ namespace Som3a_WPF_UI.ViewModels
                 _accentDebounceTimer.Tick += (s, e) =>
                 {
                     _accentDebounceTimer.Stop();
-                    _themeManager.ApplyTheme("Custom", hex);
+                    _themeManager.ApplyTheme("Custom", _pendingAccentHex);
                 };
             }
             _accentDebounceTimer.Stop();
@@ -151,7 +153,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 _blurIntensity = value / 100.0;
                 OnPropertyChanged(nameof(BlurIntensityPercent));
-                ThemeManager.Instance.ApplyBackground(_imagePath, _blurEnabled ? _blurIntensity : 0.0);
+                _themeManager.ApplyBackground(_imagePath, _blurEnabled ? _blurIntensity : 0.0);
             }
         }
 
@@ -163,7 +165,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 if (SetProperty(ref _blurEnabled, value))
                 {
-                    ThemeManager.Instance.ApplyBackground(_imagePath, value ? _blurIntensity : 0.0);
+                    _themeManager.ApplyBackground(_imagePath, value ? _blurIntensity : 0.0);
                 }
             }
         }
@@ -177,7 +179,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 if (SetProperty(ref _selectedFont, value) && value != null)
                 {
-                    ThemeManager.Instance.ApplyFont(value.FamilyName);
+                    _themeManager.ApplyFont(value.FamilyName);
                 }
             }
         }
@@ -204,7 +206,7 @@ namespace Som3a_WPF_UI.ViewModels
                 {
                     var color = (Color)ColorConverter.ConvertFromString(hexColor);
                     var brush = new SolidColorBrush(color);
-                    ThemeManager.Instance.ApplyBackground("", 0.0);
+                    _themeManager.ApplyBackground("", 0.0);
                     if (Application.Current?.Windows.Count > 0)
                     {
                         foreach (Window window in Application.Current.Windows)
@@ -227,7 +229,7 @@ namespace Som3a_WPF_UI.ViewModels
                 _imagePath = imagePath;
                 ImageFileName = System.IO.Path.GetFileName(imagePath);
                 ImageValidationError = "";
-                ThemeManager.Instance.ApplyBackground(imagePath, _blurEnabled ? _blurIntensity : 0.0);
+                _themeManager.ApplyBackground(imagePath, _blurEnabled ? _blurIntensity : 0.0);
                 Properties.Settings.Default.BackgroundImagePath = imagePath;
                 Properties.Settings.Default.Save();
             }
@@ -315,7 +317,7 @@ namespace Som3a_WPF_UI.ViewModels
             _imagePath = "";
             ImageFileName = "";
             ImageValidationError = "";
-            ThemeManager.Instance.ApplyBackground("", 0.0);
+            _themeManager.ApplyBackground("", 0.0);
         }
 
         private void SetCustomBaseTheme(string themeName)
@@ -327,7 +329,7 @@ namespace Som3a_WPF_UI.ViewModels
             _previewSettings.SelectedTheme = "Custom";
             _themeManager.ApplyTheme(themeName, _previewSettings.AccentColor);
             if (!string.IsNullOrEmpty(_imagePath))
-                ThemeManager.Instance.ApplyBackground(_imagePath, _blurEnabled ? _blurIntensity : 0.0);
+                _themeManager.ApplyBackground(_imagePath, _blurEnabled ? _blurIntensity : 0.0);
             RefreshPreviewBindings();
         }
 
@@ -372,7 +374,7 @@ namespace Som3a_WPF_UI.ViewModels
                     _imagePath = dlg.FileName;
                     ImageFileName = fileInfo.Name;
                     ImageValidationError = "";
-                    ThemeManager.Instance.ApplyBackground(_imagePath, BlurEnabled ? _blurIntensity : 0.0);
+                    _themeManager.ApplyBackground(_imagePath, BlurEnabled ? _blurIntensity : 0.0);
                 }
                 catch
                 {
@@ -386,7 +388,7 @@ namespace Som3a_WPF_UI.ViewModels
             _imagePath = "";
             ImageFileName = "";
             ImageValidationError = "";
-            ThemeManager.Instance.ApplyBackground("", 0.0);
+            _themeManager.ApplyBackground("", 0.0);
         }
 
         private void LoadFonts()
@@ -493,10 +495,10 @@ namespace Som3a_WPF_UI.ViewModels
 
         public DiagnosticsViewModel DiagnosticsVM { get; }
 
-        public SettingsViewModel(SettingsPersistenceService settingsService, DiagnosticsViewModel diagnosticsVm,
+        public SettingsViewModel(ThemeManager themeManager, SettingsPersistenceService settingsService, DiagnosticsViewModel diagnosticsVm,
             SettingsRegistry registry, SettingsValidator validator, IEventBus eventBus)
         {
-            _themeManager = ThemeManager.Instance;
+            _themeManager = themeManager;
             _settingsService = settingsService;
             _registry = registry;
             _validator = validator;

@@ -6,19 +6,18 @@ namespace Som3a_WPF_UI.Converters
 {
     public class MaterialIconConverter : IValueConverter
     {
+        private const int MaxIconNameLength = 30;
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value == null) return PackIconKind.HelpCircleOutline;
 
             var iconName = value.ToString();
-            if (!string.IsNullOrEmpty(iconName) && iconName.Length < 30)
+            if (!string.IsNullOrEmpty(iconName) && iconName.Length < MaxIconNameLength)
             {
-                try
-                {
-                    if (Enum.TryParse(iconName, true, out PackIconKind kind))
-                        return kind;
-                }
-                catch { }
+                if (Enum.TryParse(iconName, true, out PackIconKind kind))
+                    return kind;
+                System.Diagnostics.Debug.WriteLine($"[MaterialIconConverter] Unrecognized icon name: '{iconName}'");
             }
             return PackIconKind.HelpCircleOutline;
         }

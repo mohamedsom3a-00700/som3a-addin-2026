@@ -10,6 +10,7 @@ Start-Sleep -Seconds 10
 $xl = [System.Runtime.InteropServices.Marshal]::GetActiveObject("Excel.Application")
 
 $addin = $xl.COMAddIns | Where-Object { $_.ProgId -match "Som3a" }
+if (-not $addin) { Write-Host "Som3a add-in not found in COMAddIns!" -ForegroundColor Red; Stop-Process -Id $excel.Id -Force; exit }
 $auto = $addin.Object
 $auto.OpenWindow("Home")
 Start-Sleep -Seconds 1
@@ -33,6 +34,8 @@ foreach ($w in $uiRoot.FindAll($treeChildren, [System.Windows.Automation.Conditi
 $autoIdProp = [System.Windows.Automation.AutomationElement]::AutomationIdProperty
 
 # ===== Find Settings Sidebar List =====
+if (-not $shellWnd) { Write-Host "Shell window not found!" -ForegroundColor Red; if ($auto) { $auto.CloseWindow("Add in Setting") | Out-Null }; Stop-Process -Id $excel.Id -Force; exit }
+
 $cond = New-Object System.Windows.Automation.PropertyCondition($autoIdProp, "SidebarList")
 $sidebarList = $shellWnd.FindFirst($treeScope, $cond)
 
