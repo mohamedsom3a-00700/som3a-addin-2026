@@ -60,13 +60,14 @@ namespace Som3a_WPF_UI.Services
 
             foreach (var pageType in pageTypes)
             {
+                if (pageType == null) continue;
                 try
                 {
                     RegisterPluginPage(pageType);
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Failed to register plugin page '{pageType.FullName}': {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"Failed to register plugin page '{pageType?.FullName ?? "<null>"}': {ex.Message}");
                 }
             }
         }
@@ -74,7 +75,7 @@ namespace Som3a_WPF_UI.Services
         private void RegisterPluginPage(Type pageType)
         {
             var attr = pageType.GetCustomAttributesData()
-                .FirstOrDefault(a => a.AttributeType.Name == "NavigationItemAttribute");
+                .FirstOrDefault(a => a.AttributeType.FullName is "Som3a.Contracts.NavigationItemAttribute" or "Som3a.Plugin.SDK.Attributes.NavigationItemAttribute");
 
             var category = ReadAttrProperty(attr, "Category") ?? "Other";
             var label = ReadAttrProperty(attr, "Label") ?? pageType.Name;
@@ -128,8 +129,15 @@ namespace Som3a_WPF_UI.Services
                 if (namedArg.MemberName == propertyName)
                     return namedArg.TypedValue.Value?.ToString();
             }
-            if (attr.ConstructorArguments.Count > 0)
-                return attr.ConstructorArguments[0].Value?.ToString();
+            if (attr.ConstructorArguments.Count > 0 && attr.Constructor != null)
+            {
+                var parameters = attr.Constructor.GetParameters();
+                for (int i = 0; i < parameters.Length && i < attr.ConstructorArguments.Count; i++)
+                {
+                    if (string.Equals(parameters[i].Name, propertyName, StringComparison.OrdinalIgnoreCase))
+                        return attr.ConstructorArguments[i].Value?.ToString();
+                }
+            }
             return null;
         }
 

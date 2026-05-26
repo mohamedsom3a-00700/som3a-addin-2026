@@ -13,6 +13,7 @@ namespace Som3a.Bridge
 
             foreach (var type in pageTypes)
             {
+                if (type == null) continue;
                 foreach (var attr in type.GetCustomAttributes(false))
                 {
                     var attrType = attr.GetType();
