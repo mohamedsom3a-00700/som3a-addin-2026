@@ -716,114 +716,618 @@ Note: The master plan lives at repo root (`enterprise_planning_platform_plan.md`
 
 ---
 
-## Phase 25 — Diagnostics Expansion
+## Phase 25 — Full Platform Rebranding & Visual Identity System
 
-**Goal**: Extend the diagnostics platform with AI request logging, token usage tracking, plugin health monitoring, export diagnostics, and theme diagnostics.
+**Goal**: Transform the entire platform identity from Som3a Addin 2026 into Planova Platform while introducing a complete enterprise branding and visual identity system.
 
-**Branch**: `feature/phase-25-diagnostics-expansion`
+**Branch**: `feature/phase-25-platform-rebranding`
 
-**Prerequisites**: Phase 14 (Platform Foundation), Phase 18 (AI Core), Phase 23 (Dashboard)
+**Prerequisites**: Phase 14 (Platform Foundation), Phase 15 (Shell Refactor), Phase 17 (Theme Expansion), Phase 24 (Localization & RTL)
 
-### P25-T001: AI Diagnostics
-- AI request/response logging (sanitized — no API keys)
-- Token usage per request/session/project
-- Provider latency tracking
-- Error rate per provider
-- Cost estimation from token usage
+### 25.1 Objectives
 
-### P25-T002: Plugin Health Monitoring
-- Plugin load success/failure tracking
-- Plugin memory usage
-- Plugin error rate
-- Plugin version tracking
-- Plugin dependency graph validation
+#### Core Rebranding
+- Rename solution
+- Rename projects
+- Rename assemblies
+- Rename namespaces
+- Rename package identities
+- Rename output binaries
 
-### P25-T003: Export Diagnostics
-- Export operation logging
-- Export duration tracking
-- Export error capture
-- Sheet/row counts per export
-- Pre-export validation results
+### 25.2 Visual Identity System
 
-### P25-T004: Theme Diagnostics
-- Missing token detection across all dictionaries
-- Inline color/effect sweep across entire solution
-- Contrast ratio validation for all themes
-- Animation budget violation detection
-- Resource dictionary integrity check
+#### Required Deliverables
 
-**Acceptance Criteria**:
-- [ ] AI request logs with sanitized content
-- [ ] Token usage dashboard with cost estimates
-- [ ] Plugin health status reflects real-time state
-- [ ] Export diagnostics log all operations
-- [ ] Theme diagnostics catch missing tokens and inline values
-- [ ] Build passes
+##### Brand Assets Folder
+
+```
+Assets/
+ ├── Branding/
+ │   ├── Logos/
+ │   │   ├── SVG/
+ │   │   ├── PNG/
+ │   │   ├── ICO/
+ │   │   ├── PDF/
+ │   │   ├── Transparent/
+ │   │   ├── Dark/
+ │   │   └── Light/
+ │   │
+ │   ├── Ribbon/
+ │   ├── Icons/
+ │   ├── Splash/
+ │   ├── Wallpapers/
+ │   ├── Fonts/
+ │   └── Social/
+```
+
+### 25.3 Logo Asset Requirements
+
+#### Export Formats
+
+##### SVG
+
+Used for:
+- UI scaling
+- Website
+- Documentation
+- Future web platform
+
+##### PNG Sizes
+- 64x64
+- 128x128
+- 256x256
+- 512x512
+- 1024x1024
+
+##### ICO
+
+Used for:
+- EXE icon
+- Installer icon
+- Shortcut icon
+
+##### Transparent PNG
+
+Used inside:
+- Shell
+- Splash screen
+- Ribbon
+- Dashboard
+
+### 25.4 Official Brand Colors
+
+#### Dark Theme Palette
+
+| Token          | Color   |
+| -------------- | ------- |
+| Background     | #0E1720 |
+| Surface        | #13202B |
+| Border         | #243647 |
+| Accent Blue    | #2D9CFF |
+| Accent Cyan    | #00D1FF |
+| Accent Orange  | #FF8A3D |
+| Text Primary   | #FFFFFF |
+| Text Secondary | #B7C5D3 |
+
+### 25.5 Light Theme Palette
+
+| Token          | Color   |
+| -------------- | ------- |
+| Background     | #F5F7FA |
+| Surface        | #FFFFFF |
+| Border         | #D6E2EE |
+| Accent Blue    | #2D9CFF |
+| Accent Cyan    | #00B8E6 |
+| Accent Orange  | #FF8A3D |
+| Text Primary   | #102030 |
+| Text Secondary | #5B7186 |
+
+### 25.6 Theme Refactoring
+
+#### Required Changes
+
+##### Dark Theme
+- Replace old slate tokens
+- Add neon cyan highlights
+- Improve glass effects
+- Add blueprint-inspired overlays
+
+##### Light Theme
+- Convert to engineering-white style
+- Soft surfaces
+- Professional contrast
+- Blueprint grid accents
+
+##### Custom Theme
+
+Add support for:
+- Background images
+- Blur intensity
+- Accent override
+- Font selection
+- Font preview thumbnails
+
+### 25.7 Shell Branding Updates
+
+#### Sidebar
+- Add Planova logo
+- Add mini animated icon
+- Add branding footer
+
+#### Home Page
+- Product branding section
+- Version information
+- Release notes card
+
+#### Splash Screen
+
+Animated startup:
+- Blueprint lines
+- Building formation
+- Logo reveal
+- Glow animation
+
+### 25.8 Ribbon Rebranding
+
+#### Requirements
+- New Planova ribbon icons
+- Unified icon language
+- Gradient engineering style
+- Dark/light compatible icons
+
+### 25.9 Typography System
+
+#### English Fonts
+- Inter
+- Segoe UI Variable
+
+#### Arabic Fonts
+- Cairo
+- IBM Plex Sans Arabic
+- Tajawal
+
+#### Features
+- Dynamic font switching
+- RTL support
+- Typography presets
+
+### 25.10 Namespace Migration Strategy
+
+#### Important Rule
+
+Namespace migration occurs ONLY after:
+- Feature stabilization
+- Plugin stabilization
+- Architecture freeze
+
+to avoid:
+- Broken references
+- Merge conflicts
+- Build instability
+
+### 25.11 Final Project Structure
+
+```
+Planova.Platform
+Planova.Domain
+Planova.Contracts
+Planova.AI
+Planova.Exporting
+Planova.Localization
+Planova.Diagnostics
+Planova.Plugin.SDK
+Planova.Infrastructure
+```
+
+### 25.12 Branding Validation Checklist
+
+#### Technical
+- Assembly names
+- Project names
+- Resource keys
+- Config files
+- Installer metadata
+- EXE metadata
+
+#### UI
+- Logos
+- Theme colors
+- Ribbon icons
+- Splash assets
+- Typography
+
+#### Documentation
+- README
+- Specs
+- Architecture docs
+- GitHub branding
+- Release documentation
 
 ---
 
-## Phase 26 — Enterprise Stabilization
+### 25.13 Master Branding Reference System
 
-**Goal**: Final performance optimization, comprehensive regression testing, accessibility audit completion, and release preparation. This is the production readiness gate.
+**Goal**: Create a centralized visual reference system that becomes the authoritative design source for:
+- UI
+- Themes
+- Icons
+- Splash screens
+- Ribbon assets
+- Branding consistency
+- Future AI-generated assets
 
-**Branch**: `feature/phase-26-enterprise-stabilization`
+### 25.14 Master Brand Asset
+
+#### Official Reference File
+```
+planova-master-brand-reference.png
+```
+
+#### Storage Location
+```
+Assets/Branding/Master/
+```
+
+### 25.15 Branding Asset Architecture
+
+#### Required Folder Structure
+
+```
+Assets/
+ └── Branding/
+      │
+      ├── Master/
+      │    └── planova-master-brand-reference.png
+      │
+      ├── References/
+      │    ├── UI Inspirations/
+      │    ├── Splash Inspirations/
+      │    ├── Ribbon Inspirations/
+      │    └── Theme Inspirations/
+      │
+      ├── Logos/
+      │    ├── SVG/
+      │    ├── PNG/
+      │    ├── ICO/
+      │    ├── Transparent/
+      │    ├── Dark/
+      │    ├── Light/
+      │    └── Monochrome/
+      │
+      ├── Ribbon/
+      │
+      ├── Splash/
+      │
+      ├── Wallpapers/
+      │
+      ├── Icons/
+      │
+      ├── Theme/
+      │
+      └── Fonts/
+```
+
+### 25.16 Master Brand Responsibilities
+
+The selected logo becomes the official visual authority for:
+
+#### Branding Direction
+- Engineering aesthetic
+- Construction-tech identity
+- AI planning style
+- Professional enterprise appearance
+
+#### Color Direction
+- Primary blue
+- Cyan glow
+- Accent orange
+- Dark engineering surfaces
+- Blueprint overlays
+
+#### UI Language
+- Thin lines
+- Glass effects
+- Glow accents
+- Grid overlays
+- Blueprint-inspired visuals
+
+### 25.17 Asset Extraction Pipeline
+
+The system should later generate from the master asset:
+
+#### Logo Variants
+- Horizontal logo
+- Vertical logo
+- Symbol only
+- Monochrome dark
+- Monochrome light
+- Transparent version
+
+#### App Assets
+- EXE icon
+- MSI installer icon
+- Ribbon icons
+- Sidebar icon
+- Splash screen logo
+
+#### Theme Assets
+- Wallpapers
+- Blueprint overlays
+- Background textures
+- Glow patterns
+
+### 25.18 Official Design Tokens Extraction
+
+#### Colors extracted from master branding
+```
+PrimaryBlue
+PrimaryCyan
+AccentOrange
+DarkSurface
+BlueprintGlow
+GlassBorder
+EngineeringWhite
+```
+
+These tokens become:
+- Global theme tokens
+- Shell colors
+- Ribbon colors
+- Dashboard accents
+- Plugin UI accents
+
+### 25.19 Branding-Driven Theme Refactor — Dark
+
+#### Visual Style
+- Futuristic engineering workspace
+- Neon cyan highlights
+- Blueprint overlays
+- Deep dark surfaces
+- Soft reflections
+
+### 25.20 Branding-Driven Theme Refactor — Light
+
+#### Visual Style
+- Professional engineering white
+- Soft gray surfaces
+- Blueprint-inspired accents
+- High readability
+- Technical UI feel
+
+### 25.21 Branding-Driven UI Components
+
+#### Components affected by branding
+
+##### Shell
+- Sidebar
+- Navigation cards
+- Home dashboard
+- Workspace background
+
+##### Ribbon
+- Tool icons
+- Accent highlights
+- Hover states
+
+##### Plugins
+- Cards
+- Headers
+- Export visuals
+
+##### Splash Screen
+- Startup animation
+- Glow effects
+- Animated logo reveal
+
+### 25.22 Future AI Design Integration
+
+The branding folder also becomes:
+
+#### AI Visual Context Source
+
+Used by:
+- OpenCode
+- Claude
+- DeepSeek
+- Future design automation
+
+to maintain:
+- Visual consistency
+- Unified iconography
+- Unified UI language
+
+### 25.23 Branding Workflow Rule
+
+#### Important Rule
+
+No UI redesign should happen without referencing:
+```
+Assets/Branding/Master/planova-master-brand-reference.png
+```
+
+This file becomes the **Official Visual Source of Truth**.
+
+### 25.24 Final Branding Goal
+
+Transform the platform visually into **Planova Platform** with:
+- Enterprise construction-tech identity
+- AI planning aesthetics
+- Unified engineering workspace appearance
+- Modern Fluent/Material hybrid visuals
+- Professional scheduling platform branding
+
+---
+
+## Phase 26 — Release Candidate & Production Packaging
+
+**Goal**: Prepare Planova Platform for production release, enterprise deployment, installer packaging, and final validation.
+
+**Branch**: `feature/phase-26-release-candidate`
 
 **Prerequisites**: All Phases 14–25
 
-### P26-T001: Performance Optimization
-- Memory profiling and leak detection
-- Rendering path optimization
-- Virtualization tuning (DataGrid, ListView, TreeView with 10,000+ rows)
-- Animation budget compliance (all <=200ms)
-- Startup time optimization (<3s cold start)
-- Resource dictionary merging optimization
-- Freezable optimization across all themes
+### 26.1 Release Pipeline
 
-### P26-T002: Regression Testing
-- Full Excel VSTO host test pass — all features across all 14+ pages
-- Theme switching regression (10+ rapid switches, all windows)
-- DPI regression at 100%, 125%, 150%, 200%
-- Safe mode activation/deactivation regression
-- Multi-monitor mixed-DPI regression
-- Language switching regression (English <-> Arabic)
+```
+Validation
+ → Optimization
+ → Packaging
+ → Installer
+ → Final QA
+ → Release Candidate
+```
 
-### P26-T003: Final Accessibility Audit
-- WCAG 2.1 AA compliance verification
-- Full keyboard navigation audit
-- Screen reader compatibility (AutomationProperties)
-- Focus visual audit (Glow.Focus on all interactive elements)
-- High contrast mode validation
+### 26.2 Final Validation
 
-### P26-T004: Security Audit
-- API key encryption verification
-- No secrets in source code
-- No secrets in logs or diagnostics
-- Secure storage configuration
+#### Required Validation Areas
 
-### P26-T005: Documentation
+##### UI Validation
+- Theme switching
+- Shell navigation
+- RTL
+- Accessibility
+
+##### Plugin Validation
+- Loading
+- Isolation
+- Stability
+
+##### AI Validation
+- Prompt outputs
+- Retry handling
+- Structured JSON parsing
+
+##### Excel Validation
+- Export speed
+- Large workbook support
+- Interop cleanup
+
+### 26.3 Performance Optimization
+
+#### Required Optimizations
+- Virtualized UI
+- Batch Excel writes
+- Lazy loading
+- Background processing
+- Memory cleanup
+
+### 26.4 Production Packaging
+
+#### Deliverables
+
+##### Installer
+- MSI installer
+- Desktop shortcut
+- Start menu integration
+
+##### Executables
+- Signed binaries
+- Production icons
+- Metadata branding
+
+##### Configurations
+- Production appsettings
+- AI provider configs
+- Logging configs
+
+### 26.5 Documentation Export
+
+#### Required Documents
 - User guide
-- Architecture reference
-- Plugin development guide
-- API key configuration guide
-- Release notes
+- Admin guide
+- Plugin SDK guide
+- Architecture guide
+- AI provider setup
+- Troubleshooting guide
 
-### P26-T006: Release Preparation
-- Version bump to 2.0.0
-- Changelog generation
-- Installer/package preparation
-- Rollback plan documented
+### 26.6 Diagnostics Release Mode
+
+#### Production Diagnostics
+- Crash recovery
+- Safe logging
+- Export diagnostics
+- Plugin diagnostics
+
+### 26.7 Release Candidate Checklist
+
+#### Technical
+- Clean build
+- No warnings
+- Stable plugins
+- Stable exports
+
+#### UI
+- Final branding
+- Final themes
+- Responsive layouts
+
+#### AI
+- Provider fallback working
+- Retry system stable
+- Token tracking stable
+
+#### Documentation
+- Complete
+- Versioned
+- Exported
+
+### 26.8 Final Deliverables
+
+#### Platform Output
+- Planova Platform Installer
+- Enterprise Workspace Shell
+- AI Planning Plugins
+- Dynamic WBS Engine
+- BOQ Activity Generator
+- Relationship Generator
+- Duration Estimator
+- Enterprise Export Engine
+
+### 26.9 Final Product Identity
+
+#### Official Product Name
+
+**Planova Platform**
+
+#### Official Subtitle
+
+**AI Planning Platform**
+
+#### Brand Direction
+- Enterprise
+- Construction Technology
+- AI-Assisted Planning
+- Modern Engineering Workspace
+
+#### Final Result
+
+The platform evolves from:
+- Traditional Excel Add-in
+
+into:
+- Enterprise AI Planning Workspace
+
+with:
+- Plugin-driven architecture
+- AI orchestration
+- Dynamic planning engines
+- Modern Fluent/Material UI
+- Professional engineering branding
 
 **Acceptance Criteria**:
-- [ ] All performance targets met
-- [ ] Zero regression test failures
-- [ ] WCAG 2.1 AA compliance achieved
-- [ ] Security audit clean
-- [ ] Documentation complete
-- [ ] Release artifacts prepared
-- [ ] Build passes with zero warnings
+- [ ] All branding assets created and validated
+- [ ] Theme colors updated to new brand palette
+- [ ] Shell rebranded with Planova identity
+- [ ] Ribbon icons updated
+- [ ] Typography system implemented
+- [ ] Namespace migration scoped for post-stabilization
+- [ ] Installer created and tested
+- [ ] Release candidate built and validated
+- [ ] Documentation exported
+- [ ] Build passes with zero errors
+- [ ] Excel VSTO host test passes
 - [ ] GitHub PR created and approved
 - [ ] CodeRabbit review clean
-- [ ] Final enterprise architecture review passed
 
 ---
 
@@ -841,8 +1345,8 @@ feature/phase-21-relationship-generator
 feature/phase-22-duration-estimator
 feature/phase-23-dashboard-home
 feature/phase-24-localization-rtl
-feature/phase-25-diagnostics-expansion
-feature/phase-26-enterprise-stabilization
+feature/phase-25-platform-rebranding
+feature/phase-26-release-candidate
 ```
 
 Plugin branches follow pattern:
@@ -877,7 +1381,7 @@ Each phase MUST stop after completion for:
 | Unit Tests | Domain logic, AI parsers, validation engines | All |
 | Integration Tests | Plugin loading, Excel export, shell navigation | 14, 15, 19-22 |
 | UI Tests | Theme switching, RTL, accessibility | 17, 23, 24 |
-| Performance Tests | Excel export speed, AI execution, memory usage | 25, 26 |
+| Performance Tests | Excel export speed, AI execution, memory usage | 26 |
 | Regression Tests | Full feature suite across all themes/DPIs | 26 |
 
 ---

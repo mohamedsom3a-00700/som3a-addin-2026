@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using System.Windows.Media.Animation;
 
 namespace Som3a_WPF_UI.Controls.Shell
@@ -137,7 +138,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
             var focused = FocusManager.GetFocusedElement(this) as DependencyObject;
-            var expander = focused != null ? FindVisualParent<Expander>(focused) : null;
+            var expander = focused is Visual || focused is Visual3D ? FindVisualParent<Expander>(focused) : null;
 
             if (e.Key == Key.Left || e.Key == Key.Right)
             {

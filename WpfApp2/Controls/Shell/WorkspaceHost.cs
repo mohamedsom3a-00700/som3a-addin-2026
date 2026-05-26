@@ -65,6 +65,8 @@ namespace Som3a_WPF_UI.Controls.Shell
             {
                 _frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
                 _frame.LoadCompleted += OnFrameLoadCompleted;
+                _frame.NavigationFailed += OnFrameNavigationFailed;
+                _frame.NavigationStopped += OnFrameNavigationStopped;
             }
         }
 
@@ -169,6 +171,20 @@ namespace Som3a_WPF_UI.Controls.Shell
             if (_frame != null)
                 _frame.Visibility = Visibility.Visible;
             _retryAction?.Invoke();
+        }
+
+        private void OnFrameNavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            if (_loadingIndicator != null)
+                _loadingIndicator.Visibility = Visibility.Collapsed;
+            Interlocked.Exchange(ref _isNavigating, 0);
+        }
+
+        private void OnFrameNavigationStopped(object sender, NavEventArgs e)
+        {
+            if (_loadingIndicator != null)
+                _loadingIndicator.Visibility = Visibility.Collapsed;
+            Interlocked.Exchange(ref _isNavigating, 0);
         }
 
         protected virtual void OnNavigationCompleted(NavigationEventArgs e)

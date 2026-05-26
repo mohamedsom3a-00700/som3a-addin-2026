@@ -89,8 +89,6 @@ namespace Som3a_Addin_2026
                         return "WINDOW_NOT_FOUND";
                 }
                 nav.NavigateTo(route);
-                if (!_openWindows.ContainsKey(name) && Application.Current?.MainWindow != null)
-                    _openWindows[name] = Application.Current.MainWindow;
                 return "OK";
             }
             catch (Exception ex)

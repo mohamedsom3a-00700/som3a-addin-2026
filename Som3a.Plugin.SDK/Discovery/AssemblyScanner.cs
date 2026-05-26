@@ -63,7 +63,11 @@ namespace Som3a.Plugin.SDK.Discovery
                     results.AddRange(assemblyTypes.Where(t =>
                     {
                         try { return t?.GetCustomAttribute<NavigationItemAttribute>() != null; }
-                        catch { return false; }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"AssemblyScanner: Error checking type '{t?.FullName ?? "<null>"}' in assembly '{t?.Assembly?.FullName ?? "<unknown>"}': {ex.Message}");
+                            return false;
+                        }
                     }));
                 }
             }
