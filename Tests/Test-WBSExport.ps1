@@ -6,7 +6,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
 
-function Write-Log { param([string]$Msg, [string]$Level = "INFO") Write-Host "[$(Get-Date -Format 'HH:mm:ss')] [$Level] $Msg" }
+function Write-TestLog { param([string]$Msg, [string]$Level = "INFO") Write-Host "[$(Get-Date -Format 'HH:mm:ss')] [$Level] $Msg" }
 
 function Kill-Excel {
     $procs = Get-Process -Name "EXCEL" -ErrorAction SilentlyContinue
@@ -18,7 +18,7 @@ function Launch-Excel {
     $path = "${env:ProgramFiles}\Microsoft Office\root\Office16\EXCEL.EXE"
     if (!(Test-Path $path)) { $path = "${env:ProgramFiles(x86)}\Microsoft Office\root\Office16\EXCEL.EXE" }
     if (!(Test-Path $path)) { throw "Excel not found at either path" }
-    Write-Log "  Starting Excel from: $path"
+    Write-TestLog "  Starting Excel from: $path"
     $proc = Start-Process -FilePath $path -PassThru
     Start-Sleep -Seconds 8
     $excel = $null
@@ -34,11 +34,11 @@ function Launch-Excel {
 function Get-AddIn {
     param($ExcelApp)
     $addins = $ExcelApp.COMAddIns
-    Write-Log "  COMAddIns count: $($addins.Count)"
+    Write-TestLog "  COMAddIns count: $($addins.Count)"
     foreach ($a in $addins) { 
         $desc = try { $a.Description } catch { "??" }
         $prog = try { $a.ProgId } catch { "??" }
-        Write-Log "    AddIn: ProgId=$prog Description=$desc Connect=$($a.Connect)"
+        Write-TestLog "    AddIn: ProgId=$prog Description=$desc Connect=$($a.Connect)"
         if ($desc -like "*Som3a*" -or $prog -like "*Som3a*") { return $a }
     }
     return $null
@@ -49,49 +49,49 @@ $fail = 0
 
 try {
     # 1. Launch Excel
-    Write-Log "Launching Excel..."
+    Write-TestLog "Launching Excel..."
     Kill-Excel
     $ctx = Launch-Excel
     $excelApp = $ctx.App
     $excelApp.Workbooks.Add() | Out-Null
-    Write-Log "Excel ready (PID: $($ctx.Process.Id))"
+    Write-TestLog "Excel ready (PID: $($ctx.Process.Id))"
 
     # 2. Verify add-in loaded
     $addin = Get-AddIn -ExcelApp $excelApp
     if (-not $addin) {
-        Write-Log "  COMAddIns enumeration:"
+        Write-TestLog "  COMAddIns enumeration:"
         foreach ($a in $excelApp.COMAddIns) {
-            Write-Log "    ProgId=$($a.ProgId) Description=$($a.Description) Guid=$($a.Guid) Connect=$($a.Connect)"
+            Write-TestLog "    ProgId=$($a.ProgId) Description=$($a.Description) Guid=$($a.Guid) Connect=$($a.Connect)"
         }
         throw "Add-in not found"
     }
-    Write-Log "  Found AddIn: ProgId=$($addin.ProgId) Connect=$($addin.Connect)"
+    Write-TestLog "  Found AddIn: ProgId=$($addin.ProgId) Connect=$($addin.Connect)"
     $auto = $addin.Object
     if (-not $auto) {
-        Write-Log "  [WARN] COMAddIn.Object is null, trying direct ProgId creation..."
+        Write-TestLog "  [WARN] COMAddIn.Object is null, trying direct ProgId creation..."
         try { $auto = [System.Runtime.InteropServices.Marshal]::GetActiveObject("Som3a_Addin_2026.AddInAutomation") } catch {}
         if (-not $auto) { throw "Cannot get automation object" }
     }
     $status = $auto.GetStatus()
-    Write-Log "Add-in: $status"
+    Write-TestLog "Add-in: $status"
 
     # 3. Navigate to WBS Template Browser
-    Write-Log "Navigating to WBS Template Browser..."
+    Write-TestLog "Navigating to WBS Template Browser..."
     $result = $auto.OpenWindow("WBS Template Browser")
     if ($result -ne "OK") { throw "Navigation failed: $result" }
-    Write-Log "  [PASS] Navigation: $result"
+    Write-TestLog "  [PASS] Navigation: $result"
     $pass++
     Start-Sleep -Seconds 1
 
     # 4. Use COM automation to export the template directly
-    Write-Log "  Calling ExportWBSTemplate via COM..."
+    Write-TestLog "  Calling ExportWBSTemplate via COM..."
     $result = $auto.ExportWBSTemplate("Default Construction WBS")
     if ($result -like "OK*") {
-        Write-Log "  [PASS] $result"
+        Write-TestLog "  [PASS] $result"
         $pass++
         Start-Sleep -Seconds 3
     } else {
-        Write-Log "  [FAIL] Export via COM failed: $result"
+        Write-TestLog "  [FAIL] Export via COM failed: $result"
         $fail++
     }
 
@@ -99,7 +99,7 @@ try {
     try {
         $workbookCount = $excelApp.Workbooks.Count
         if ($workbookCount -ge 2) {
-            Write-Log "  [PASS] New workbook created (Total: $workbookCount workbooks)"
+            Write-TestLog "  [PASS] New workbook created (Total: $workbookCount workbooks)"
             $pass++
 
             # 8. Check the exported data in the last workbook
@@ -111,7 +111,7 @@ try {
             if (-not $header1) { $header1 = "" }
             $header1 = $header1.Trim()
             if ($header1 -eq "Code") {
-                Write-Log "  [PASS] Sheet has correct headers: '$header1'"
+                Write-TestLog "  [PASS] Sheet has correct headers: '$header1'"
                 $pass++
 
                 # Check data rows exist
@@ -121,50 +121,50 @@ try {
                 if (-not $row2val) { $row2val = "" }
                 $row2val = $row2val.Trim()
                 if ($row2val -ne "") {
-                    Write-Log "  [PASS] Data found in row 2: '$row2val'"
+                    Write-TestLog "  [PASS] Data found in row 2: '$row2val'"
                     $pass++
                 } else {
-                    Write-Log "  [FAIL] No data in row 2"
+                    Write-TestLog "  [FAIL] No data in row 2"
                     $fail++
                 }
             } else {
-                Write-Log "  [FAIL] Header mismatch: '$header1'"
+                Write-TestLog "  [FAIL] Header mismatch: '$header1'"
                 $fail++
             }
 
             # Cleanup created workbook
             if (-not $NoCleanup) { $wb.Close($false) }
         } else {
-            Write-Log "  [FAIL] No new workbook created (Count: $workbookCount)"
+            Write-TestLog "  [FAIL] No new workbook created (Count: $workbookCount)"
             $fail++
         }
     } catch {
-        Write-Log "  [FAIL] Workbook verification error: $_"
+        Write-TestLog "  [FAIL] Workbook verification error: $_"
         $fail++
     }
 
     # 9. Test import from Excel to WBS template
     try {
-        Write-Log "  Calling ImportWBSTemplateFromExcel via COM..."
+        Write-TestLog "  Calling ImportWBSTemplateFromExcel via COM..."
         $importResult = $auto.ImportWBSTemplateFromExcel("Custom")
         if ($importResult -like "OK*") {
-            Write-Log "  [PASS] $importResult"
+            Write-TestLog "  [PASS] $importResult"
             $pass++
         } else {
-            Write-Log "  [FAIL] Import via COM failed: $importResult"
+            Write-TestLog "  [FAIL] Import via COM failed: $importResult"
             $fail++
         }
     } catch {
-        Write-Log "  [FAIL] Import error: $_"
+        Write-TestLog "  [FAIL] Import error: $_"
         $fail++
     }
 
     # Summary
-    Write-Log "`n===== RESULTS ====="
-    Write-Log "Passed: $pass | Failed: $fail"
+    Write-TestLog "`n===== RESULTS ====="
+    Write-TestLog "Passed: $pass | Failed: $fail"
 
 } catch {
-    Write-Log "FATAL: $_" -Level "ERROR"
+    Write-TestLog "FATAL: $_" -Level "ERROR"
 } finally {
     if (-not $NoCleanup) {
         try { $excelApp.DisplayAlerts = $false; $excelApp.Quit() } catch {}

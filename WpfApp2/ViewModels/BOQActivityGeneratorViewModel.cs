@@ -28,6 +28,7 @@ namespace Som3a_WPF_UI.ViewModels
         private IActivityValidationService? _validationService;
         private CancellationTokenSource? _validationCts;
         private Excel.Application? _xlApp;
+        private bool _confirmOverwrite;
 
         public ObservableCollection<BOQItem> BoqItems { get; } = new();
         public ObservableCollection<GeneratedActivity> Activities { get; } = new();
@@ -47,7 +48,12 @@ namespace Som3a_WPF_UI.ViewModels
         public bool CanLoadBoq => !IsBusy;
         public bool CanGenerate => HasConsented && !IsBusy;
         public bool CanExport => Activities.Count > 0 && !IsBusy;
-        public bool IncludeDependencies { get; set; } = true;
+        private bool _includeDependencies = true;
+        public bool IncludeDependencies
+        {
+            get => _includeDependencies;
+            set => SetProperty(ref _includeDependencies, value);
+        }
 
         public bool IsBusy
         {
@@ -102,6 +108,7 @@ namespace Som3a_WPF_UI.ViewModels
             ExportCommand = new RelayCommand(async () => await ExportAsync(), () => Activities.Count > 0 && !IsBusy);
             ConsentCommand = new RelayCommand(SetConsent);
             MergeDuplicatesCommand = new RelayCommand(MergeDuplicates, () => Activities.Count > 0 && !IsBusy);
+            RemoveDuplicateCommand = new RelayCommand(param => RemoveDuplicate(param as GeneratedActivity), _ => Activities.Count > 0 && !IsBusy);
             RemoveActivityCommand = new RelayCommand(param => RemoveActivity(param as GeneratedActivity), _ => Activities.Count > 0 && !IsBusy);
             AcceptAllDependenciesCommand = new RelayCommand(AcceptAllDependencies, () => Dependencies.Count > 0 && !IsBusy);
         }
@@ -189,7 +196,10 @@ namespace Som3a_WPF_UI.ViewModels
                     _validationService.ValidateSingle(activity, all, _currentContext);
                     RefreshActivitiesView();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ScheduleValidation] Validation failed for activity '{activity?.Name}': {ex.Message}");
+                }
             }, ct, TaskContinuationOptions.NotOnCanceled, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -455,7 +465,7 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        public bool ConfirmOverwrite { get; set; }
+        public bool ConfirmOverwrite { get => _confirmOverwrite; set => SetProperty(ref _confirmOverwrite, value); }
 
         private async Task ExportAsync()
         {

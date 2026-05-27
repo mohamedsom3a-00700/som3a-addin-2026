@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.IO.Pipes;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Som3a.AI.Providers;
@@ -93,16 +94,16 @@ static async Task HandleClientAsync(NamedPipeServerStream pipe, ConcurrentDictio
         else if (!string.IsNullOrEmpty(bridgeRequest.ApiKey))
         {
             var model = !string.IsNullOrEmpty(bridgeRequest.Model) ? bridgeRequest.Model : "gpt-4o-mini";
-            var key = $"cloud|{bridgeRequest.ApiKey.GetHashCode()}|{model}";
+            var key = $"cloud|{StableKeyHash(bridgeRequest.ApiKey)}|{model}";
             provider = providerCache.GetOrAdd(key, _ => new OpenAIProvider(bridgeRequest.ApiKey, model));
         }
         else
         {
-            var key = Environment.GetEnvironmentVariable("OPENROUTER_API_KEY");
-            if (!string.IsNullOrEmpty(key))
+            var envKey = Environment.GetEnvironmentVariable("OPENROUTER_API_KEY");
+            if (!string.IsNullOrEmpty(envKey))
             {
-                var orKey = $"openrouter|{key.GetHashCode()}";
-                provider = providerCache.GetOrAdd(orKey, _ => new OpenAIProvider(key, "meta-llama/llama-3.2-3b-instruct",
+                var orKey = $"openrouter|{StableKeyHash(envKey)}";
+                provider = providerCache.GetOrAdd(orKey, _ => new OpenAIProvider(envKey, "meta-llama/llama-3.2-3b-instruct",
                     "https://openrouter.ai/api/v1/",
                     new Dictionary<string, string> { { "X-Title", "Som3a Addin 2026" } }));
             }
@@ -172,4 +173,11 @@ static async Task SendResponseAsync(NamedPipeServerStream pipe, AIBridgeResponse
     await pipe.WriteAsync(lenBytes, 0, 4);
     await pipe.WriteAsync(bytes, 0, bytes.Length);
     await pipe.FlushAsync();
+}
+
+static string StableKeyHash(string input)
+{
+    if (string.IsNullOrEmpty(input)) return "empty";
+    var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(input));
+    return Convert.ToHexString(bytes).ToLowerInvariant();
 }

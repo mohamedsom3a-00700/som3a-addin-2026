@@ -61,9 +61,13 @@ public class WBSExcelImportService
             {
                 var context = BuildAIContext(headers, rows);
                 var wbs = _aiService.GenerateWBSFromExcelAsync(context).GetAwaiter().GetResult();
-                        _codeGen.RenumberSubtree(wbs);
+                    _codeGen.RenumberSubtree(wbs);
                 if (_validator != null)
-                    _validator.ValidateTree(wbs);
+                {
+                    var result = _validator.ValidateTree(wbs);
+                    if (!result.IsValid)
+                        throw new InvalidOperationException($"WBS validation failed: {string.Join("; ", result.Errors)}");
+                }
                 return wbs;
             }
             catch
@@ -75,8 +79,9 @@ public class WBSExcelImportService
         // Rule-based fallback: group by section/activity columns
         var wbs2 = BuildRuleBasedWbs(headers, rows);
         _codeGen.RenumberSubtree(wbs2);
-        if (_validator != null)
-            _validator.ValidateTree(wbs2);
+        var result2 = _validator.ValidateTree(wbs2);
+        if (!result2.IsValid)
+            throw new InvalidOperationException($"WBS validation failed: {string.Join("; ", result2.Errors)}");
         return wbs2;
     }
 

@@ -72,7 +72,10 @@ public class WBSTemplateService : IWBSTemplateService
     {
         var template = _systemTemplates.FirstOrDefault(t => t.Id == templateId);
         if (template != null)
+        {
+            ValidateTemplate(template);
             return Task.FromResult(template);
+        }
 
         var customPath = Path.Combine(_storagePath, $"{templateId}.json");
         if (File.Exists(customPath))
@@ -80,10 +83,25 @@ public class WBSTemplateService : IWBSTemplateService
             var json = File.ReadAllText(customPath);
             template = JsonConvert.DeserializeObject<WBSTemplate>(json);
             if (template != null)
+            {
+                ValidateTemplate(template);
                 return Task.FromResult(template);
+            }
         }
 
         throw new KeyNotFoundException($"Template '{templateId}' not found.");
+    }
+
+    private static void ValidateTemplate(WBSTemplate template)
+    {
+        if (string.IsNullOrWhiteSpace(template.Name))
+            throw new InvalidDataException("Template validation failed: Name is required.");
+        if (string.IsNullOrWhiteSpace(template.Category))
+            throw new InvalidDataException("Template validation failed: Category is required.");
+        if (template.RootNode == null)
+            throw new InvalidDataException("Template validation failed: RootNode is required.");
+        if (template.Version <= 0)
+            throw new InvalidDataException("Template validation failed: Version must be positive.");
     }
 
     public Task<WBSTemplate> CreateCustomTemplateAsync(string name, string category, WBSNode rootNode, string userId)

@@ -40,7 +40,7 @@ catch {
 }
 finally {
     if ($null -ne $excel) {
-        try { $excel.Quit() } catch {}
-        try { [Runtime.InteropServices.Marshal]::ReleaseComObject($excel) } catch {}
+        try { $excel.Quit() } catch { Write-Warning "Excel.Quit failed: $_" }
+        try { [Runtime.InteropServices.Marshal]::ReleaseComObject($excel) } catch { Write-Warning "ReleaseComObject failed: $_" }
     }
 }
