@@ -73,6 +73,14 @@ namespace Som3a_Addin_2026
 
             try
             {
+                var wbsMode = Som3a_WPF_UI.Properties.Settings.Default.WBSCodeMode;
+                Som3a_WPF_UI.Services.WBS.WBSCodeGenerator.DefaultMode =
+                    wbsMode == "Alpha" ? Som3a_WPF_UI.Services.WBS.WBSCodeMode.Alpha : Som3a_WPF_UI.Services.WBS.WBSCodeMode.Numeric;
+            }
+            catch { }
+
+            try
+            {
                 var sidebarRegistration = Som3a_WPF_UI.App.Container.Resolve<ISidebarRegistrationProvider>();
                 sidebarRegistration.RegisterStaticPages();
 

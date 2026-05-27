@@ -1,0 +1,108 @@
+<UserControl x:Class="Som3a_WPF_UI.Views.WbsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  SnapsToDevicePixels="True"
+                  UseLayoutRounding="True">
+        <StackPanel SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+
+            <!-- WBS Code Mode -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="WBS Code Mode"
+                               Style="{DynamicResource SettingLabelStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
+
+                    <ComboBox Grid.Column="1"
+                              Width="200"
+                              HorizontalAlignment="Left"
+                              SelectedValue="{Binding CurrentSettings.WBSCodeMode, Mode=TwoWay}"
+                              SelectedValuePath="Content"
+                              Style="{DynamicResource SettingsComboBoxStyle}"
+                              SnapsToDevicePixels="True"
+                              UseLayoutRounding="True">
+                        <ComboBoxItem Content="Numeric"/>
+                        <ComboBoxItem Content="Alpha"/>
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+            <!-- Min Alpha Length -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Min Alpha Length"
+                               Style="{DynamicResource SettingLabelStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
+
+                    <ComboBox Grid.Column="1"
+                              Width="200"
+                              HorizontalAlignment="Left"
+                              SelectedValue="{Binding CurrentSettings.WBSMinAlphaLength, Mode=TwoWay}"
+                              SelectedValuePath="Tag"
+                              Style="{DynamicResource SettingsComboBoxStyle}"
+                              SnapsToDevicePixels="True"
+                              UseLayoutRounding="True">
+                        <ComboBoxItem Content="3" Tag="3"/>
+                        <ComboBoxItem Content="4" Tag="4"/>
+                        <ComboBoxItem Content="5" Tag="5"/>
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+            <!-- WBS Export Style -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <Grid SnapsToDevicePixels="True"
+                      UseLayoutRounding="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Export Color Style"
+                               Style="{DynamicResource SettingLabelStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
+
+                    <ComboBox Grid.Column="1"
+                              Width="200"
+                              HorizontalAlignment="Left"
+                              SelectedValue="{Binding CurrentSettings.WBSExportStyle, Mode=TwoWay}"
+                              SelectedValuePath="Content"
+                              Style="{DynamicResource SettingsComboBoxStyle}"
+                              SnapsToDevicePixels="True"
+                              UseLayoutRounding="True">
+                        <ComboBoxItem Content="Default"/>
+                        <ComboBoxItem Content="Blue Gradient"/>
+                        <ComboBoxItem Content="Primavera"/>
+                        <ComboBoxItem Content="Dark Mode"/>
+                        <ComboBoxItem Content="Soft Pastel"/>
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,11 +1,14 @@
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Som3a.Domain.WBS;
-using WpfApp2.Services.WBS;
+using Som3a_WPF_UI.Services.WBS;
 
-namespace WpfApp2.ViewModels.WBS;
+namespace Som3a_WPF_UI.ViewModels.WBS;
 
 public class WBSTemplateBrowserViewModel : INotifyPropertyChanged
 {
@@ -13,6 +16,9 @@ public class WBSTemplateBrowserViewModel : INotifyPropertyChanged
     private WBSTemplateSummary? _selectedTemplate;
     private string? _activeCategory;
     private string? _projectContext;
+    private WBSTemplate? _selectedTemplateDetail;
+    private WBSNode? _previewRoot;
+    private readonly IWBSCodeGenerator _codeGen;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -28,7 +34,88 @@ public class WBSTemplateBrowserViewModel : INotifyPropertyChanged
     public WBSTemplateSummary? SelectedTemplate
     {
         get => _selectedTemplate;
-        set { _selectedTemplate = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanPreview)); }
+        set
+        {
+            _selectedTemplate = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(CanPreview));
+            _ = LoadTemplatePreviewAsync();
+        }
+    }
+
+    public WBSNode? PreviewRoot
+    {
+        get => _previewRoot;
+        set { _previewRoot = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasPreview)); }
+    }
+
+    public bool HasPreview => PreviewRoot != null;
+    public bool CanPreview => SelectedTemplate != null;
+
+    public ICommand SelectTemplateCommand { get; }
+    public ICommand LoadTemplatesCommand { get; }
+    public ICommand GetRecommendationsCommand { get; }
+    public ICommand ExportTemplateToExcelCommand { get; }
+    public ICommand ImportTemplateFromExcelCommand { get; }
+
+    public WBSTemplateBrowserViewModel(IWBSTemplateService templateService, IWBSCodeGenerator? codeGen = null)
+    {
+        _templateService = templateService;
+        _codeGen = codeGen ?? new WBSCodeGenerator();
+        SyncSelectedStyle();
+        SelectTemplateCommand = new RelayCommand(() => { }, () => CanPreview);
+        LoadTemplatesCommand = new RelayCommand(async _ => await LoadTemplatesAsync());
+        GetRecommendationsCommand = new RelayCommand(async _ => await GetRecommendationsAsync());
+        ExportTemplateToExcelCommand = new RelayCommand(async _ => await ExportTemplateToExcelAsync());
+        ImportTemplateFromExcelCommand = new RelayCommand(async _ => await ImportTemplateFromExcelAsync());
+    }
+
+    private static void SyncSelectedStyle()
+    {
+        var styleName = Properties.Settings.Default.WBSExportStyle;
+        Som3a.Shared.Core.UserSettings.SelectedStyle = styleName switch
+        {
+            "Blue Gradient" => 2,
+            "Primavera" => 3,
+            "Dark Mode" => 4,
+            "Soft Pastel" => 5,
+            _ => 1
+        };
+    }
+
+    public async Task LoadTemplatesAsync()
+    {
+        var category = ActiveCategory == "All" ? null : ActiveCategory;
+        var templates = await _templateService.ListTemplatesAsync(category);
+        Templates.Clear();
+        foreach (var t in templates) Templates.Add(t);
+    }
+
+    private async Task GetRecommendationsAsync()
+    {
+        if (string.IsNullOrWhiteSpace(ProjectContext)) return;
+        var recommended = _templateService.GetRecommendedTemplates(ProjectContext);
+        var ids = recommended.Select(r => r.Id).ToHashSet();
+        var all = await _templateService.ListTemplatesAsync(null);
+        Templates.Clear();
+        foreach (var t in all.OrderByDescending(t => ids.Contains(t.Id)))
+            Templates.Add(t);
+    }
+
+    private async Task LoadTemplatePreviewAsync()
+    {
+        if (_selectedTemplate == null) { PreviewRoot = null; return; }
+        try
+        {
+            _selectedTemplateDetail = await _templateService.GetTemplateAsync(_selectedTemplate.Id);
+            PreviewRoot = _selectedTemplateDetail.RootNode;
+            if (PreviewRoot != null)
+                _codeGen.RenumberSubtree(PreviewRoot, _selectedTemplateDetail.Name);
+        }
+        catch
+        {
+            PreviewRoot = null;
+        }
     }
 
     public string? ProjectContext
@@ -37,91 +124,54 @@ public class WBSTemplateBrowserViewModel : INotifyPropertyChanged
         set { _projectContext = value; OnPropertyChanged(); }
     }
 
-    public bool CanPreview => SelectedTemplate != null;
-    public ICommand LoadTemplatesCommand { get; }
-    public ICommand FilterByCategoryCommand { get; }
-    public ICommand GetRecommendationsCommand { get; }
-
-    public WBSTemplateBrowserViewModel(IWBSTemplateService templateService)
+    private async Task ExportTemplateToExcelAsync()
     {
-        _templateService = templateService;
-        LoadTemplatesCommand = new RelayCommandAsync(_ => LoadTemplatesAsync());
-        FilterByCategoryCommand = new RelayCommand<string>(category => ActiveCategory = category);
-        GetRecommendationsCommand = new RelayCommandAsync(_ => GetRecommendationsAsync());
+        if (_selectedTemplate == null) return;
+        try
+        {
+            var excelApp = Marshal.GetActiveObject("Excel.Application");
+            await _templateService.ExportTemplateToExcelAsync(_selectedTemplate.Id, excelApp);
+            System.Windows.MessageBox.Show($"Template '{_selectedTemplate.Name}' exported to new Excel sheet.",
+                "WBS Templates", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Export failed: {ex.Message}",
+                "WBS Templates", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+        }
     }
 
-    public async Task LoadTemplatesAsync()
+    private async Task ImportTemplateFromExcelAsync()
     {
-        var category = ActiveCategory == "All" ? null : ActiveCategory;
-        var templates = await _templateService.ListTemplatesAsync(category);
+        try
+        {
+            var templateName = string.Empty;
+            var category = ActiveCategory == "All" || string.IsNullOrEmpty(ActiveCategory) ? "Custom" : ActiveCategory;
 
-        Templates.Clear();
-        foreach (var t in templates)
-            Templates.Add(t);
-    }
+            try
+            {
+                var excelApp = Marshal.GetActiveObject("Excel.Application");
+                var imported = await _templateService.ImportTemplateFromExcelAsync(excelApp, null, category);
+                templateName = imported.Name;
+            }
+            catch (Exception inner)
+            {
+                System.Windows.MessageBox.Show($"Import failed: {inner.Message}",
+                    "WBS Templates", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                return;
+            }
 
-    private async Task GetRecommendationsAsync()
-    {
-        if (string.IsNullOrWhiteSpace(ProjectContext)) return;
-        var recommended = _templateService.GetRecommendedTemplates(ProjectContext);
-        var ids = recommended.Select(r => r.Id).ToHashSet();
-
-        var all = await _templateService.ListTemplatesAsync(null);
-        Templates.Clear();
-        foreach (var t in all.OrderByDescending(t => ids.Contains(t.Id)))
-            Templates.Add(t);
+            await LoadTemplatesAsync();
+            System.Windows.MessageBox.Show($"Template '{templateName}' imported to category '{category}'.",
+                "WBS Templates", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Import failed: {ex.Message}",
+                "WBS Templates", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+        }
     }
 
     protected void OnPropertyChanged([CallerMemberName] string? name = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-}
-
-internal class RelayCommand : ICommand
-{
-    private readonly Action _execute;
-    private readonly Func<bool>? _canExecute;
-    public event EventHandler? CanExecuteChanged;
-
-    public RelayCommand(Action execute, Func<bool>? canExecute = null)
-    { _execute = execute; _canExecute = canExecute; }
-
-    public bool CanExecute(object? _) => _canExecute?.Invoke() ?? true;
-    public void Execute(object? _) => _execute();
-}
-
-internal class RelayCommand<T> : ICommand
-{
-    private readonly Action<T?> _execute;
-    private readonly Func<T?, bool>? _canExecute;
-    public event EventHandler? CanExecuteChanged;
-
-    public RelayCommand(Action<T?> execute, Func<T?, bool>? canExecute = null)
-    { _execute = execute; _canExecute = canExecute; }
-
-    public bool CanExecute(object? p) => _canExecute?.Invoke((T?)p) ?? true;
-    public void Execute(object? p) => _execute((T?)p);
-}
-
-internal class RelayCommandAsync : ICommand
-{
-    private readonly Func<object?, Task> _execute;
-    private readonly Func<object?, bool>? _canExecute;
-    private bool _isExecuting;
-    public event EventHandler? CanExecuteChanged;
-
-    public RelayCommandAsync(Func<object?, Task> execute, Func<object?, bool>? canExecute = null)
-    { _execute = execute; _canExecute = canExecute; }
-
-    public bool CanExecute(object? p) => !_isExecuting && (_canExecute?.Invoke(p) ?? true);
-
-    public async void Execute(object? p)
-    {
-        if (_isExecuting) return;
-        _isExecuting = true;
-        RaiseCanExecuteChanged();
-        try { await _execute(p); }
-        finally { _isExecuting = false; RaiseCanExecuteChanged(); }
-    }
-
-    public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 }

@@ -46,5 +46,14 @@
     <Setting Name="SelectedFontFamily" Type="System.String" Scope="User">
       <Value Profile="(Default)">Segoe UI</Value>
     </Setting>
+    <Setting Name="WBSCodeMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Numeric</Value>
+    </Setting>
+    <Setting Name="WBSMinAlphaLength" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="WBSExportStyle" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Default</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

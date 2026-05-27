@@ -457,11 +457,15 @@
                                         Width="120" Height="72" Cursor="Hand"
                                         Focusable="True"
                                         SnapsToDevicePixels="True" UseLayoutRounding="True">
-                                    <Image Source="{Binding Thumbnail}"
-                                           Stretch="UniformToFill"
-                                           Width="120" Height="72"
-                                           SnapsToDevicePixels="True"
-                                           UseLayoutRounding="True"/>
+                                    <Border CornerRadius="8" ClipToBounds="True"
+                                            Width="120" Height="72"
+                                            SnapsToDevicePixels="True" UseLayoutRounding="True">
+                                        <Image Source="{Binding Thumbnail}"
+                                               Stretch="UniformToFill"
+                                               Width="120" Height="72"
+                                               SnapsToDevicePixels="True"
+                                               UseLayoutRounding="True"/>
+                                    </Border>
                                 </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

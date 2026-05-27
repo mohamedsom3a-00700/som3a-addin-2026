@@ -25,17 +25,7 @@ namespace Som3a.Domain.WBS
         public List<WBSNode> Children { get; set; } = new();
         public string FullPath
         {
-            get
-            {
-                var parts = new Stack<string>();
-                var current = this;
-                while (current != null)
-                {
-                    parts.Push(current.Name);
-                    current = current.Parent;
-                }
-                return string.Join("/", parts);
-            }
+            get { return Code; }
         }
         public List<Activity> Activities { get; set; } = new();
 

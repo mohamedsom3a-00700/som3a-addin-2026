@@ -92,27 +92,33 @@
         </Grid>
 
         <!-- Workspace -->
-        <Grid Grid.Row="2"
-              Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Border Grid.Row="2"
+                Grid.Column="1"
+                Margin="0,8,8,8"
+                CornerRadius="12"
+                Effect="{DynamicResource Shadow.Large}"
+                Background="{DynamicResource Brush.Background.Card}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <shell:WorkspaceHost x:Name="Workspace"
-                                 Grid.Row="0"
-                                 WelcomePageType="{Binding WelcomePageType}"/>
+                <shell:WorkspaceHost x:Name="Workspace"
+                                     Grid.Row="0"
+                                     WelcomePageType="{Binding WelcomePageType}"/>
 
-            <!-- Status Bar -->
-            <StatusBar Grid.Row="1"
-                       Style="{DynamicResource Style.StatusBar}">
-                <StatusBarItem>
-                    <TextBlock x:Name="StatusText"
-                               Text="{Binding StatusMessage}"
-                               Foreground="{DynamicResource Brush.Text.Secondary}"/>
-                </StatusBarItem>
-            </StatusBar>
-        </Grid>
+                <!-- Status Bar -->
+                <StatusBar Grid.Row="1"
+                           Style="{DynamicResource Style.StatusBar}">
+                    <StatusBarItem>
+                        <TextBlock x:Name="StatusText"
+                                   Text="{Binding StatusMessage}"
+                                   Foreground="{DynamicResource Brush.Text.Secondary}"/>
+                    </StatusBarItem>
+                </StatusBar>
+            </Grid>
+        </Border>
 
         <!-- Command Palette (overlays everything) -->
         <shell:CommandPalette x:Name="Palette"

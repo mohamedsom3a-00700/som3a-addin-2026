@@ -91,6 +91,17 @@ namespace Som3a_WPF_UI.Services
 
                 if (Settings.Default["SafeModeEnabled"] is bool sm)
                     settings.SafeModeEnabled = sm;
+
+                var wbsCodeMode = Settings.Default["WBSCodeMode"] as string;
+                if (!string.IsNullOrEmpty(wbsCodeMode))
+                    settings.WBSCodeMode = wbsCodeMode;
+
+                if (Settings.Default["WBSMinAlphaLength"] is int alen)
+                    settings.WBSMinAlphaLength = alen;
+
+                var wbsStyle = Settings.Default["WBSExportStyle"] as string;
+                if (!string.IsNullOrEmpty(wbsStyle))
+                    settings.WBSExportStyle = wbsStyle;
             }
             catch
             {
@@ -112,6 +123,9 @@ namespace Som3a_WPF_UI.Services
                 Settings.Default["FocusIndicatorEnabled"] = settings.FocusIndicatorEnabled;
                 Settings.Default["RenderMode"] = settings.RenderMode;
                 Settings.Default["SafeModeEnabled"] = settings.SafeModeEnabled;
+                Settings.Default["WBSCodeMode"] = settings.WBSCodeMode;
+                Settings.Default["WBSMinAlphaLength"] = settings.WBSMinAlphaLength;
+                Settings.Default["WBSExportStyle"] = settings.WBSExportStyle;
                 Settings.Default.Save();
             }
             catch (Exception ex)
