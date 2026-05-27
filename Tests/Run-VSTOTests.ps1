@@ -324,6 +324,10 @@ $windowTests = @(
     @{ ButtonLabel = "Fix Pie Chart Colors"; WindowTitle = "Fix Pie Chart Colors"; TaskId = "T037"; Description = "Fixpiecolors" }
     @{ ButtonLabel = "Comparsion by Xer"; WindowTitle = "Primavera Compare"; TaskId = "T040"; Description = "PrimaveraCompareWindow" }
     @{ ButtonLabel = "Add in Setting"; WindowTitle = "Settings"; TaskId = "T037"; Description = "SettingsWindow" }
+    # WBS sidebar pages (navigate inside shell, no separate window)
+    @{ ButtonLabel = "WBS Template Browser"; WindowTitle = ""; TaskId = "T037"; Description = "WBSTemplateBrowserPage" }
+    @{ ButtonLabel = "WBS Generator"; WindowTitle = ""; TaskId = "T037"; Description = "WBSGeneratorPage" }
+    @{ ButtonLabel = "WBS Editor"; WindowTitle = ""; TaskId = "T037"; Description = "WBSEditorPage" }
 )
 
 if ($Quick) {
@@ -400,26 +404,30 @@ try {
         $btnLabel = $test.ButtonLabel
         $winTitle = $test.WindowTitle
         $taskId = $test.TaskId
+        $isSidebarPage = [string]::IsNullOrEmpty($winTitle)
 
-        Write-Log "Testing window: $winTitle"
+        $label = if ($isSidebarPage) { $btnLabel } else { $winTitle }
+        Write-Log "Testing $label"
         $memoryBefore = Get-MemoryMB
         $sw = [System.Diagnostics.Stopwatch]::StartNew()
 
-        $windowFound = $false
+        $navSuccess = $false
         if ($auto) {
             $result = $auto.OpenWindow($btnLabel)
-            if ($result -eq "OK") { $windowFound = $true }
+            $navSuccess = $result -eq "OK"
             Write-Log "  COM OpenWindow($btnLabel): $result"
         }
 
-        if (-not $windowFound) {
+        if (-not $navSuccess -and -not $isSidebarPage) {
             $null = Test-RibbonButton -ExcelApp $excelApp -ButtonLabel $btnLabel
             Start-Sleep -Seconds 3
             $window = Get-WindowByTitle -Title $winTitle -TimeoutSeconds 5 -ProcessId $excelProc.Id
             $windowFound = $null -ne $window
+        } elseif (-not $navSuccess -and $isSidebarPage) {
+            Write-Log "  Sidebar page requires COM automation" -Level "WARN"
         }
 
-        if (-not $windowFound) {
+        if (-not $navSuccess -and -not $isSidebarPage) {
             $window = Get-WindowByTitle -Title $winTitle -TimeoutSeconds 3 -ProcessId $excelProc.Id
             $windowFound = $null -ne $window
         }
@@ -427,26 +435,30 @@ try {
         $sw.Stop()
         $openTimeMs = $sw.ElapsedMilliseconds
 
-        if ($windowFound) {
-            Write-Log "  [FOUND] Window '$winTitle' (${openTimeMs}ms)"
-            Take-Screenshot -Label "Window_$($winTitle -replace '[^a-zA-Z0-9]','_')"
+        if ($navSuccess) {
+            Write-Log "  [NAVIGATED] '$label' (${openTimeMs}ms)"
+            Take-Screenshot -Label "Window_$($label -replace '[^a-zA-Z0-9]','_')"
 
-            if ($auto) { $auto.CloseWindow($btnLabel) | Out-Null }
+            if ($auto -and -not $isSidebarPage) { $auto.CloseWindow($btnLabel) | Out-Null }
             Start-Sleep -Milliseconds 500
 
             $memoryAfter = Get-MemoryMB
             $memDelta = if ($memoryBefore -and $memoryAfter) { $memoryAfter - $memoryBefore } else { "N/A" }
 
-            Add-Result -Doc $resultsDoc -TaskId $taskId -Name "Window_$winTitle" -Status "pass" `
-                -Detail "Opened in ${openTimeMs}ms, mem delta: ${memDelta}MB" -Category "Window"
+            Add-Result -Doc $resultsDoc -TaskId $taskId -Name "Window_$label" -Status "pass" `
+                -Detail "Navigated in ${openTimeMs}ms, mem delta: ${memDelta}MB" -Category "Window"
             $windowResults += [PSCustomObject]@{
-                Name = $winTitle; Status = "PASS"; OpenTimeMs = $openTimeMs; MemDeltaMB = $memDelta
+                Name = $label; Status = "PASS"; OpenTimeMs = $openTimeMs; MemDeltaMB = $memDelta
             }
             $openAttempts++
-        } else {
+        } elseif (-not $isSidebarPage) {
             Write-Log "  [NOT FOUND] Window '$winTitle'" -Level "WARN"
-            Add-Result -Doc $resultsDoc -TaskId $taskId -Name "Window_$winTitle" -Status "skip" `
+            Add-Result -Doc $resultsDoc -TaskId $taskId -Name "Window_$label" -Status "skip" `
                 -Detail "Window not found" -Category "Window"
+        } else {
+            Write-Log "  [FAIL] Sidebar page '$label' navigation failed" -Level "WARN"
+            Add-Result -Doc $resultsDoc -TaskId $taskId -Name "Window_$label" -Status "fail" `
+                -Detail "Sidebar page navigation failed" -Category "Window"
         }
         Start-Sleep -Milliseconds 500
     }
@@ -498,7 +510,49 @@ try {
     Add-Result -Doc $resultsDoc -TaskId "T048" -Name "RapidThemeSwitch_10x" -Status $(if ($rapidSuccess) { "pass" } else { "warn" }) `
         -Detail "10 rapid switches completed, memory: $memAfterRapid MB" -Category "Theme"
 
-    # Step 10: Final memory check
+    # Step 10: WBS Settings Verification
+    Write-Log "===== WBS Settings Verification ====="
+    $wbsResults = @()
+    if ($auto) {
+        # Test 1: Set Alpha mode
+        Write-Log "  Setting WBSCodeMode to Alpha..."
+        $r1 = $auto.SetWBSCodeMode("Alpha")
+        Write-Log "    SetWBSCodeMode(Alpha): $r1"
+        $wbsOk = $r1 -eq "OK"
+
+        # Test 2: Set Blue Gradient export style
+        Write-Log "  Setting WBSExportStyle to Blue Gradient..."
+        $r2 = $auto.SetWBSExportStyle("Blue Gradient")
+        Write-Log "    SetWBSExportStyle(Blue Gradient): $r2"
+        $wbsOk = $wbsOk -and ($r2 -eq "OK")
+
+        # Test 3: Verify settings were applied
+        Write-Log "  Verifying settings..."
+        $r3 = $auto.GetWBSMode()
+        Write-Log "    GetWBSMode: $r3"
+        $wbsOk = $wbsOk -and ($r3 -like "*Mode:Alpha*") -and ($r3 -like "*ExportStyle:Blue Gradient*") -and ($r3 -like "*SelectedStyleId:2*")
+
+        # Test 4: Navigate to WBS Template Browser (should show alpha codes now)
+        Write-Log "  Navigating to WBS Template Browser..."
+        $r4 = $auto.OpenWindow("WBS Template Browser")
+        Write-Log "    OpenWindow(WBS Template Browser): $r4"
+        $wbsOk = $wbsOk -and ($r4 -eq "OK")
+        Start-Sleep -Seconds 1
+        Take-Screenshot -Label "WBS_Alpha_BlueGradient"
+
+        Add-Result -Doc $resultsDoc -TaskId "T037" -Name "WBSSettings_AlphaMode" -Status $(if ($wbsOk) { "pass" } else { "fail" }) `
+            -Detail "Alpha mode=$r1 | BlueGradient=$r2 | Verify=$r3 | Nav=$r4" -Category "WBS"
+        $wbsResults += [PSCustomObject]@{
+            Test = "WBS Settings (Alpha + Blue Gradient)"; Status = $(if ($wbsOk) { "PASS" } else { "FAIL" })
+            Detail = "SetWBSCodeMode=$r1 | SetStyle=$r2 | GetMode=$r3 | Nav=$r4"
+        }
+    } else {
+        Write-Log "  Skipped: COM automation not available" -Level "WARN"
+        Add-Result -Doc $resultsDoc -TaskId "T037" -Name "WBSSettings_AlphaMode" -Status "skip" `
+            -Detail "COM automation not available" -Category "WBS"
+    }
+
+    # Step 11: Final memory check
     $memFinal = Get-MemoryMB
     $memGrowth = if ($memBaseline -and $memFinal) { [math]::Round(($memFinal - $memBaseline) / $memBaseline * 100, 1) } else { "N/A" }
     $memGrowthStr = "$memGrowth pct growth"
@@ -538,6 +592,8 @@ Write-Log "`nWindow Test Results:"
 $windowResults | Format-Table -Property Name, Status, OpenTimeMs, MemDeltaMB -AutoSize
 Write-Log "`nTheme Test Results:"
 $themeResults | Format-Table -Property Theme, Status, TimeMs, MemDelta -AutoSize
+Write-Log "`nWBS Settings Test Results:"
+$wbsResults | Format-Table -Property Test, Status, Detail -AutoSize
 
 if ($overallPass) {
     Write-Log "`n[PASS] OVERALL: PASS" -Level "INFO"

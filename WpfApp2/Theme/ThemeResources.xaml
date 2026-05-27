@@ -110,6 +110,8 @@
     <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
     <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
     <conv:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
+    <conv:NullToBoolConverter x:Key="NullToBoolConverter"/>
+    <conv:WBSNodeLevelStyleSelector x:Key="WBSNodeLevelStyleSelector"/>
     <conv:WindowStateConverter x:Key="WindowStateConverter"/>
     <conv:WindowStateToBoolConverter x:Key="WindowStateToBoolConverter"/>
     <conv:InverseWindowStateConverter x:Key="InverseWindowStateConverter"/>

@@ -164,6 +164,15 @@
     <Compile Include="Pages\UnmergeFillDownPage.xaml.cs">
       <DependentUpon>UnmergeFillDownPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\WBS\WBSTemplateBrowserPage.xaml.cs">
+      <DependentUpon>WBSTemplateBrowserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WBS\WBSGeneratorPage.xaml.cs">
+      <DependentUpon>WBSGeneratorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WBS\WBSEditorPage.xaml.cs">
+      <DependentUpon>WBSEditorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\DiagnosticsService.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ExcelProjectAnalysisService.cs" />
@@ -233,6 +242,21 @@
     <Compile Include="Services\ModuleLoadOrchestrator.cs" />
     <Compile Include="Services\RibbonRegistrar.cs" />
     <Compile Include="Services\ModuleRibbonActionsAvailableEvent.cs" />
+    <Compile Include="Services\WBS\IWBSAIService.cs" />
+    <Compile Include="Services\WBS\IWBSCodeGenerator.cs" />
+    <Compile Include="Services\WBS\IWBSExportService.cs" />
+    <Compile Include="Services\WBS\IWBSTemplateService.cs" />
+    <Compile Include="Services\WBS\IWBSTreeValidator.cs" />
+    <Compile Include="Services\WBS\WBSAIService.cs" />
+    <Compile Include="Services\WBS\WBSCodeGenerator.cs" />
+    <Compile Include="Services\WBS\WBSExportService.cs" />
+    <Compile Include="Services\WBS\WBSRibbonModule.cs" />
+    <Compile Include="Services\WBS\WBSTemplateService.cs" />
+    <Compile Include="Services\WBS\WBSTreeValidator.cs" />
+    <Compile Include="Services\WBS\WBSDataTypes.cs" />
+    <Compile Include="Services\WBS\WBSColorService.cs" />
+    <Compile Include="Services\WBS\WBSExcelExportService.cs" />
+    <Compile Include="Services\WBS\WBSExcelImportService.cs" />
     <Compile Include="Controls\ModuleLoadingOverlay.xaml.cs">
       <DependentUpon>ModuleLoadingOverlay.xaml</DependentUpon>
     </Compile>
@@ -258,6 +282,9 @@
     <Compile Include="Views\ExcelPanel.xaml.cs">
       <DependentUpon>ExcelPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\WbsPanel.xaml.cs">
+      <DependentUpon>WbsPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PluginsPanel.xaml.cs">
       <DependentUpon>PluginsPanel.xaml</DependentUpon>
     </Compile>
@@ -271,6 +298,9 @@
     <Compile Include="ViewModels\CustomThemeViewModel.cs" />
     <Compile Include="ViewModels\SettingsSectionViewModel.cs" />
     <Compile Include="ViewModels\SettingControlViewModel.cs" />
+    <Compile Include="ViewModels\WBS\WBSEditorViewModel.cs" />
+    <Compile Include="ViewModels\WBS\WBSGeneratorViewModel.cs" />
+    <Compile Include="ViewModels\WBS\WBSTemplateBrowserViewModel.cs" />
     <Compile Include="ViewModels\WbsStyleSelectorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -380,7 +410,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-
+    <Page Include="Pages\WBS\WBSTemplateBrowserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WBS\WBSGeneratorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WBS\WBSEditorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\Base\Colors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -595,8 +636,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExcelPanel.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\WbsPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PluginsPanel.xaml">
       <SubType>Designer</SubType>

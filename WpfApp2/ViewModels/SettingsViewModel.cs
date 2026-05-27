@@ -608,6 +608,14 @@ namespace Som3a_WPF_UI.ViewModels
                 PanelType = typeof(Views.PluginsPanel),
                 Order = 6
             });
+            Categories.Add(new SettingsCategory
+            {
+                Id = "wbs",
+                DisplayName = "WBS Engine",
+                Icon = "Sitemap",
+                PanelType = typeof(Views.WbsPanel),
+                Order = 7
+            });
 
             if (Categories.Count > 0)
             {

@@ -13,5 +13,8 @@ namespace Som3a_WPF_UI.Models
         public bool FocusIndicatorEnabled { get; set; } = true;
         public string RenderMode { get; set; } = "Auto";
         public bool SafeModeEnabled { get; set; } = false;
+        public string WBSCodeMode { get; set; } = "Numeric";
+        public int WBSMinAlphaLength { get; set; } = 3;
+        public string WBSExportStyle { get; set; } = "Default";
     }
 }

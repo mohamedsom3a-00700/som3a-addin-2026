@@ -1,8 +1,11 @@
 using System;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using Som3a.Shared.Core;
+using Som3a_WPF_UI.Services.WBS;
 
 namespace Som3a_WPF_UI.Converters
 {
@@ -126,6 +129,42 @@ namespace Som3a_WPF_UI.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class NullToBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value != null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+    }
+
+    public class WBSNodeLevelStyleSelector : StyleSelector
+    {
+        public override Style SelectStyle(object item, DependencyObject container)
+        {
+            if (item is WBSNode node)
+            {
+                var levelStyles = WbsStyleFactory.GetStyle(Som3a.Shared.Core.UserSettings.SelectedStyle);
+                var levelIndex = node.Level + 1;
+                if (levelStyles.TryGetValue(levelIndex, out var levelStyle))
+                {
+                    var style = new Style(typeof(TreeViewItem));
+                    style.Setters.Add(new Setter(Control.BackgroundProperty,
+                        new SolidColorBrush(Color.FromArgb(levelStyle.Fill.A, levelStyle.Fill.R, levelStyle.Fill.G, levelStyle.Fill.B))));
+                    style.Setters.Add(new Setter(Control.ForegroundProperty,
+                        new SolidColorBrush(Color.FromArgb(levelStyle.Font.A, levelStyle.Font.R, levelStyle.Font.G, levelStyle.Font.B))));
+                    style.Setters.Add(new Setter(TreeViewItem.IsExpandedProperty, true));
+                    return style;
+                }
+            }
+            return base.SelectStyle(item, container);
         }
     }
 

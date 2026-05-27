@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
@@ -91,6 +92,17 @@ namespace Som3a_Addin_2026
                     case "Settings":
                     case "Add in Setting":
                         route = "settings.general";
+                        break;
+                    case "WBS Templates":
+                    case "WBS Template Browser":
+                        route = "planning.wbs.browser";
+                        break;
+                    case "WBS Generator":
+                    case "AI WBS Generation":
+                        route = "planning.wbs.generator";
+                        break;
+                    case "WBS Editor":
+                        route = "planning.wbs.editor";
                         break;
                     default:
                         return "WINDOW_NOT_FOUND";
@@ -237,6 +249,150 @@ namespace Som3a_Addin_2026
                     return "ERROR: " + ex.Message;
                 }
             });
+        }
+
+        public string ExportWBSTemplate(string templateName)
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var app = System.Runtime.InteropServices.Marshal.GetActiveObject("Excel.Application");
+                    var templateSvc = new Som3a_WPF_UI.Services.WBS.WBSTemplateService();
+                    var templates = templateSvc.ListTemplatesAsync(null).GetAwaiter().GetResult();
+                    var match = templates.FirstOrDefault(t =>
+                        t.Name.Equals(templateName, StringComparison.OrdinalIgnoreCase));
+                    if (match == null)
+                        return "TEMPLATE_NOT_FOUND: " + templateName;
+                    templateSvc.ExportTemplateToExcelAsync(match.Id, app).GetAwaiter().GetResult();
+                    return "OK|Exported:" + match.Name;
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string ImportWBSTemplateFromExcel(string category)
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var app = System.Runtime.InteropServices.Marshal.GetActiveObject("Excel.Application");
+                    var templateSvc = new Som3a_WPF_UI.Services.WBS.WBSTemplateService();
+                    var imported = templateSvc.ImportTemplateFromExcelAsync(app, null, category).GetAwaiter().GetResult();
+                    return "OK|Imported:" + imported.Name + "|Category:" + imported.Category;
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string SetWBSCodeMode(string mode)
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var parsed = mode == "Alpha"
+                        ? Som3a_WPF_UI.Services.WBS.WBSCodeMode.Alpha
+                        : Som3a_WPF_UI.Services.WBS.WBSCodeMode.Numeric;
+                    Som3a_WPF_UI.Services.WBS.WBSCodeGenerator.DefaultMode = parsed;
+                    Som3a_WPF_UI.Properties.Settings.Default.WBSCodeMode = mode;
+                    Som3a_WPF_UI.Properties.Settings.Default.Save();
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string SetWBSExportStyle(string style)
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    Som3a_WPF_UI.Properties.Settings.Default.WBSExportStyle = style;
+                    Som3a_WPF_UI.Properties.Settings.Default.Save();
+                    var styleId = style switch
+                    {
+                        "Blue Gradient" => 2,
+                        "Primavera" => 3,
+                        "Dark Mode" => 4,
+                        "Soft Pastel" => 5,
+                        _ => 1
+                    };
+                    Som3a.Shared.Core.UserSettings.SelectedStyle = styleId;
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string GetWBSMode()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var mode = Som3a_WPF_UI.Services.WBS.WBSCodeGenerator.DefaultMode.ToString();
+                    var styleName = Som3a_WPF_UI.Properties.Settings.Default.WBSExportStyle;
+                    var selectedStyle = Som3a.Shared.Core.UserSettings.SelectedStyle;
+                    return $"OK|Mode:{mode}|ExportStyle:{styleName}|SelectedStyleId:{selectedStyle}";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string GetTemplatePreviewData(string templateName)
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var svc = new Som3a_WPF_UI.Services.WBS.WBSTemplateService();
+                    var templates = svc.ListTemplatesAsync(null).GetAwaiter().GetResult();
+                    var match = templates.FirstOrDefault(t =>
+                        t.Name.Equals(templateName, System.StringComparison.OrdinalIgnoreCase));
+                    if (match == null)
+                        return "TEMPLATE_NOT_FOUND:" + templateName;
+                    var template = svc.GetTemplateAsync(match.Id).GetAwaiter().GetResult();
+                    if (template?.RootNode == null)
+                        return "NO_ROOT_NODE";
+                    var gen = new Som3a_WPF_UI.Services.WBS.WBSCodeGenerator
+                    {
+                        Mode = Som3a_WPF_UI.Services.WBS.WBSCodeMode.Alpha
+                    };
+                    gen.RenumberSubtree(template.RootNode, template.Name);
+                    var lines = new System.Collections.Generic.List<string>();
+                    DumpNode(template.RootNode, "", lines);
+                    return "OK\n" + string.Join("\n", lines);
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        private static void DumpNode(Som3a_WPF_UI.Services.WBS.WBSNode node, string indent, System.Collections.Generic.List<string> lines)
+        {
+            lines.Add($"{indent}{node.Code} - {node.Name} (Level {node.Level}, FullPath: {node.FullPath})");
+            foreach (var child in node.Children)
+                DumpNode(child, indent + "  ", lines);
         }
     }
 }

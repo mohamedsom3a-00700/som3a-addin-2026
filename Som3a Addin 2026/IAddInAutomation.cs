@@ -13,5 +13,11 @@ namespace Som3a_Addin_2026
         string CloseWindow(string name);
         string RunDiagnostics();
         string VerifyTheme();
+        string ExportWBSTemplate(string templateName);
+        string ImportWBSTemplateFromExcel(string category);
+        string SetWBSCodeMode(string mode);
+        string SetWBSExportStyle(string style);
+        string GetWBSMode();
+        string GetTemplatePreviewData(string templateName);
     }
 }
