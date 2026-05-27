@@ -5,7 +5,10 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Som3a_WPF_UI.Controls.Shell;
+using Som3a_WPF_UI.Pages;
 using Som3a_WPF_UI.Services;
+using Som3a_WPF_UI.ViewModels;
 
 namespace Som3a_Addin_2026
 {
@@ -104,10 +107,28 @@ namespace Som3a_Addin_2026
                     case "WBS Editor":
                         route = "planning.wbs.editor";
                         break;
+                    case "BOQ Activity Generator":
+                        route = "planning.boq.activity";
+                        break;
                     default:
                         return "WINDOW_NOT_FOUND";
                 }
                 nav.NavigateTo(route);
+                // Wait for navigation to complete (ShellWindow may defer on first-run)
+                var deadline = DateTime.UtcNow.AddSeconds(10);
+                while (DateTime.UtcNow < deadline)
+                {
+                    var shell = nav.ShellWindow;
+                    if (shell != null && shell.CurrentPage != null)
+                        break;
+                    var disp = Application.Current?.Dispatcher;
+                    if (disp != null)
+                    {
+                        // Pump dispatcher at Loaded priority to let Loaded events process
+                        disp.Invoke(new Action(() => { }), System.Windows.Threading.DispatcherPriority.Background);
+                    }
+                    System.Threading.Thread.Sleep(50);
+                }
                 _openWindows[name] = new RouteInfo { Route = route };
                 return "OK";
             }
@@ -298,9 +319,8 @@ namespace Som3a_Addin_2026
             {
                 try
                 {
-                    var parsed = mode == "Alpha"
-                        ? Som3a_WPF_UI.Services.WBS.WBSCodeMode.Alpha
-                        : Som3a_WPF_UI.Services.WBS.WBSCodeMode.Numeric;
+                    if (!System.Enum.TryParse<Som3a_WPF_UI.Services.WBS.WBSCodeMode>(mode, ignoreCase: true, out var parsed))
+                        parsed = Som3a_WPF_UI.Services.WBS.WBSCodeMode.Numeric;
                     Som3a_WPF_UI.Services.WBS.WBSCodeGenerator.DefaultMode = parsed;
                     Som3a_WPF_UI.Properties.Settings.Default.WBSCodeMode = mode;
                     Som3a_WPF_UI.Properties.Settings.Default.Save();
@@ -393,6 +413,165 @@ namespace Som3a_Addin_2026
             lines.Add($"{indent}{node.Code} - {node.Name} (Level {node.Level}, FullPath: {node.FullPath})");
             foreach (var child in node.Children)
                 DumpNode(child, indent + "  ", lines);
+        }
+
+        private static void PumpDispatcherWhile(System.Func<bool> condition, int timeoutMs = 15000)
+        {
+            var deadline = DateTime.UtcNow.AddMilliseconds(timeoutMs);
+            while (DateTime.UtcNow < deadline && condition())
+            {
+                var frame = new System.Windows.Threading.DispatcherFrame();
+                System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(
+                    System.Windows.Threading.DispatcherPriority.Background,
+                    new Action(() => frame.Continue = false));
+                System.Windows.Threading.Dispatcher.PushFrame(frame);
+            }
+        }
+
+        // ---- BOQ Automation ----
+
+        private BOQActivityGeneratorViewModel FindBoqViewModel(int timeoutMs = 10000)
+        {
+            var deadline = DateTime.UtcNow.AddMilliseconds(timeoutMs);
+            while (DateTime.UtcNow < deadline)
+            {
+                var nav = NavigationService.Instance;
+                var shell = nav?.ShellWindow;
+                if (shell == null)
+                {
+                    shell = Application.Current?.Windows
+                        .OfType<ShellWindow>()
+                        .FirstOrDefault();
+                }
+                if (shell?.CurrentPage is BOQActivityGeneratorPage page)
+                {
+                    var vm = page.DataContext as BOQActivityGeneratorViewModel;
+                    if (vm != null) return vm;
+                }
+                System.Threading.Thread.Sleep(200);
+            }
+            return null;
+        }
+
+        public string BoqLoad()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var vm = FindBoqViewModel();
+                    if (vm == null) return "ERROR: BOQ page not open";
+                    if (vm.LoadBoqCommand.CanExecute(null))
+                        vm.LoadBoqCommand.Execute(null);
+                    PumpDispatcherWhile(() => vm.IsBusy);
+                    return $"OK|BoqItems:{vm.BoqItems?.Count ?? 0}|HasBoqLoaded:{vm.HasBoqLoaded}";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string BoqConsent()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var vm = FindBoqViewModel();
+                    if (vm == null) return "ERROR: BOQ page not open";
+                    vm.ConsentCommand.Execute(true);
+                    return vm.HasConsented ? "OK|Consented:true" : "OK|Consented:false";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string BoqGenerate()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var vm = FindBoqViewModel();
+                    if (vm == null) return "ERROR: BOQ page not open";
+                    if (!vm.HasConsented) return "ERROR: Not consented";
+                    if (vm.GenerateCommand.CanExecute(null))
+                        vm.GenerateCommand.Execute(null);
+                    PumpDispatcherWhile(() => vm.IsBusy, 120000);
+                    return $"OK|Activities:{vm.Activities?.Count ?? 0}";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string BoqGetStatus()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var vm = FindBoqViewModel();
+                    if (vm == null) return "ERROR: BOQ page not open";
+                    return $"OK|HasBoqLoaded:{vm.HasBoqLoaded}|HasConsented:{vm.HasConsented}|" +
+                           $"IsBusy:{vm.IsBusy}|BoqItems:{vm.BoqItems?.Count ?? 0}|" +
+                           $"Activities:{vm.Activities?.Count ?? 0}|CanGenerate:{vm.CanGenerate}|" +
+                           $"Status:'{vm.GenerationStatus}'|StatusText:'{vm.StatusText}'";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string BoqDebug()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var app = Application.Current;
+                    var parts = new List<string>();
+                    parts.Add($"AppCurr:{app != null}");
+                    if (app != null)
+                    {
+                        var wCount = app.Windows.Count;
+                        parts.Add($"WinCount:{wCount}");
+                        for (int i = 0; i < wCount; i++)
+                        {
+                            var w = app.Windows[i];
+                            parts.Add($"Win{i}:{w?.GetType().Name ?? "null"}/visible:{w?.IsVisible ?? false}");
+                            if (w is ShellWindow sw)
+                            {
+                                parts.Add($"  SW_CP:{sw.CurrentPage?.GetType().Name ?? "null"}");
+                            }
+                        }
+                    }
+                    var nav = NavigationService.Instance;
+                    parts.Add($"NavInst:{nav != null}");
+                    if (nav != null)
+                    {
+                        parts.Add($"NavSW:{nav.ShellWindow != null}");
+                        if (nav.ShellWindow != null)
+                        {
+                            parts.Add($"NavSW_CP:{nav.ShellWindow.CurrentPage?.GetType().Name ?? "null"}");
+                        }
+                    }
+                    return string.Join("|", parts);
+                }
+                catch (Exception ex)
+                {
+                    return "DEBUG_ERROR: " + ex.Message;
+                }
+            });
         }
     }
 }

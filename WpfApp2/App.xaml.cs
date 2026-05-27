@@ -28,7 +28,7 @@ namespace Som3a_WPF_UI
             var sidebarRegistration = Container.Resolve<ISidebarRegistrationProvider>();
             sidebarRegistration.RegisterStaticPages();
 
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
             {
                 try
                 {
@@ -49,6 +49,8 @@ namespace Som3a_WPF_UI
                     var pluginTypes = orchestrator.GetAllPluginPageTypes();
                     if (pluginTypes.Count > 0)
                         sidebarRegistration.RegisterPluginPages(pluginTypes);
+
+                    await CompositionRoot.RunStartupTasksAsync(Container);
                 }
                 catch (Exception ex)
                 {

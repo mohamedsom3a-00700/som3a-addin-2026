@@ -98,6 +98,9 @@ namespace Som3a_WPF_UI.Controls.Shell
             Closed += OnClosed;
         }
 
+        /// <summary>Gets the currently displayed page, if any.</summary>
+        public Page CurrentPage => Workspace?.CurrentPage;
+
         private void OnClosed(object sender, EventArgs e)
         {
             NavigationService.Instance.NavigationChanged -= _navigationChangedHandler;

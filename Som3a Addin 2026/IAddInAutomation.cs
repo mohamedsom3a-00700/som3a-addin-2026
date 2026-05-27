@@ -19,5 +19,10 @@ namespace Som3a_Addin_2026
         string SetWBSExportStyle(string style);
         string GetWBSMode();
         string GetTemplatePreviewData(string templateName);
+        string BoqLoad();
+        string BoqConsent();
+        string BoqGenerate();
+        string BoqGetStatus();
+        string BoqDebug();
     }
 }

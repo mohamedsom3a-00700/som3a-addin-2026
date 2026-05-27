@@ -141,12 +141,14 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         public void ShowWelcome()
         {
-            if (WelcomePageType != null)
+            // Navigate directly via _frame to avoid setting _isNavigating,
+            // so subsequent Navigate() calls (e.g. from PerformNavigation) are not blocked.
+            if (_frame != null && WelcomePageType != null)
             {
                 var welcomePage = Activator.CreateInstance(WelcomePageType) as Page;
                 if (welcomePage != null)
                 {
-                    Navigate(welcomePage);
+                    _frame.Navigate(welcomePage);
                     return;
                 }
             }

@@ -444,5 +444,15 @@
     <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.3912.50\build\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.3912.50\build\Microsoft.Web.WebView2.targets'))" />
     <Error Condition="!Exists('..\packages\CommunityToolkit.Mvvm.8.4.2\build\CommunityToolkit.Mvvm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CommunityToolkit.Mvvm.8.4.2\build\CommunityToolkit.Mvvm.targets'))" />
   </Target>
+  <Target Name="CopyAIHost" AfterTargets="AfterBuild">
+    <PropertyGroup>
+      <AIHostSource>..\Som3a.AI.Host\bin\$(Configuration)\net8.0</AIHostSource>
+      <AIHostTarget>$(OutDir)AIHost</AIHostTarget>
+    </PropertyGroup>
+    <ItemGroup>
+      <AIHostFiles Include="$(AIHostSource)\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(AIHostFiles)" DestinationFolder="$(AIHostTarget)" SkipUnchangedFiles="true" />
+  </Target>
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.4.2\build\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.4.2\build\CommunityToolkit.Mvvm.targets')" />
 </Project>

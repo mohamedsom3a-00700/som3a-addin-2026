@@ -239,6 +239,30 @@ namespace Som3a_WPF_UI.Services
                     : $"Unknown render mode '{settings.RenderMode}'. Defaulting to 'Auto'.");
                 settings.RenderMode = "Auto";
             }
+
+            var validWbsModes = new[] { "Alpha", "Numeric" };
+            if (string.IsNullOrEmpty(settings.WBSCodeMode) || !validWbsModes.Contains(settings.WBSCodeMode))
+            {
+                warnings.Add(string.IsNullOrEmpty(settings.WBSCodeMode)
+                    ? "WBS code mode not specified. Defaulting to 'Alpha'."
+                    : $"Unknown WBS code mode '{settings.WBSCodeMode}'. Defaulting to 'Alpha'.");
+                settings.WBSCodeMode = "Alpha";
+            }
+
+            var validWbsStyles = new[] { "Classic", "Blue Gradient", "Primavera", "Dark Mode", "Soft Pastel" };
+            if (string.IsNullOrEmpty(settings.WBSExportStyle) || !validWbsStyles.Contains(settings.WBSExportStyle))
+            {
+                warnings.Add(string.IsNullOrEmpty(settings.WBSExportStyle)
+                    ? "WBS export style not specified. Defaulting to 'Classic'."
+                    : $"Unknown WBS export style '{settings.WBSExportStyle}'. Defaulting to 'Classic'.");
+                settings.WBSExportStyle = "Classic";
+            }
+
+            if (settings.WBSMinAlphaLength < 3 || settings.WBSMinAlphaLength > 10)
+            {
+                warnings.Add($"WBS min alpha length {settings.WBSMinAlphaLength} out of range (3-10). Defaulting to 3.");
+                settings.WBSMinAlphaLength = 3;
+            }
         }
 
         public async Task<PluginSettingsDocument?> LoadPluginSettingsAsync(string pluginId)

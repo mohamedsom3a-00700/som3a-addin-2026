@@ -300,6 +300,8 @@ namespace Som3a_WPF_UI.Services
             }
         }
 
+        public ShellWindow ShellWindow => _shellWindow;
+
         public void SetShellWindow(ShellWindow window)
         {
             _shellWindow = window;

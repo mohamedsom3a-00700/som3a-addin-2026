@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -478,6 +479,125 @@ namespace Som3a_WPF_UI.ViewModels
         public bool BackgroundSolid => _previewSettings.BackgroundStyle == "Solid";
         public bool BackgroundGradient => _previewSettings.BackgroundStyle == "Gradient";
 
+        // AI
+        public bool IsAIEnabled
+        {
+            get => _previewSettings.IsAIEnabled;
+            set
+            {
+                if (_previewSettings.IsAIEnabled != value)
+                {
+                    _previewSettings.IsAIEnabled = value;
+                    AISettings.IsAIEnabled = value;
+                    IsDirty = true;
+                    OnPropertyChanged(nameof(IsAIEnabled));
+                }
+            }
+        }
+
+        public string AIProviderType
+        {
+            get => _previewSettings.AIProviderType;
+            set
+            {
+                if (_previewSettings.AIProviderType != value)
+                {
+                    _previewSettings.AIProviderType = value;
+                    AISettings.ProviderType = value == "Ollama" ? Services.AIProviderType.Ollama : Services.AIProviderType.Cloud;
+                    IsDirty = true;
+                    OnPropertyChanged(nameof(AIProviderType));
+                    OnPropertyChanged(nameof(IsCloudSelected));
+                    OnPropertyChanged(nameof(IsOllamaSelected));
+                }
+            }
+        }
+
+        public bool IsCloudSelected => AIProviderType == "Cloud";
+        public bool IsOllamaSelected => AIProviderType == "Ollama";
+
+        public string AICloudApiKey
+        {
+            get => _previewSettings.AICloudApiKey;
+            set
+            {
+                if (_previewSettings.AICloudApiKey != value)
+                {
+                    _previewSettings.AICloudApiKey = value;
+                    AISettings.CloudApiKey = value;
+                    IsDirty = true;
+                    OnPropertyChanged(nameof(AICloudApiKey));
+                }
+            }
+        }
+
+        public string AICloudMainModel
+        {
+            get => _previewSettings.AICloudMainModel;
+            set
+            {
+                if (_previewSettings.AICloudMainModel != value)
+                {
+                    _previewSettings.AICloudMainModel = value;
+                    AISettings.CloudMainModel = value;
+                    IsDirty = true;
+                    OnPropertyChanged(nameof(AICloudMainModel));
+                }
+            }
+        }
+
+        public string AICloudSubModel
+        {
+            get => _previewSettings.AICloudSubModel;
+            set
+            {
+                if (_previewSettings.AICloudSubModel != value)
+                {
+                    _previewSettings.AICloudSubModel = value;
+                    AISettings.CloudSubModel = value;
+                    IsDirty = true;
+                    OnPropertyChanged(nameof(AICloudSubModel));
+                }
+            }
+        }
+
+        public string AIOllamaEndpoint
+        {
+            get => _previewSettings.AIOllamaEndpoint;
+            set
+            {
+                if (_previewSettings.AIOllamaEndpoint != value)
+                {
+                    _previewSettings.AIOllamaEndpoint = value;
+                    AISettings.OllamaEndpoint = value;
+                    IsDirty = true;
+                    OnPropertyChanged(nameof(AIOllamaEndpoint));
+                }
+            }
+        }
+
+        public string AIOllamaModel
+        {
+            get => _previewSettings.AIOllamaModel;
+            set
+            {
+                if (_previewSettings.AIOllamaModel != value)
+                {
+                    _previewSettings.AIOllamaModel = value;
+                    AISettings.OllamaModel = value;
+                    IsDirty = true;
+                    OnPropertyChanged(nameof(AIOllamaModel));
+                }
+            }
+        }
+
+        public ObservableCollection<string> AvailableModels { get; } = new()
+        {
+            "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo",
+            "claude-3-opus", "claude-3-sonnet", "claude-3-haiku", "claude-2.1",
+            "deepseek-chat", "deepseek-coder",
+            "gemini-pro", "gemini-1.5-pro", "gemini-1.5-flash"
+        };
+
         // Commands
         public ICommand ThemeCardCommand { get; }
         public ICommand AccentSwatchCommand { get; }
@@ -490,6 +610,9 @@ namespace Som3a_WPF_UI.ViewModels
         public ICommand BackgroundStyleCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
+        public ICommand ToggleAICommand { get; }
+        public ICommand ToggleAIProviderCommand { get; }
+        public ICommand RefreshModelsCommand { get; }
 
         public Action<bool?>? CloseWindow { get; set; }
 
@@ -531,6 +654,18 @@ namespace Som3a_WPF_UI.ViewModels
             SetWallpaperImageCommand = new RelayCommand(param => ExecuteSetWallpaperImage(param));
             ClearWallpaperCommand = new RelayCommand(_ => ExecuteClearWallpaper(""));
             CustomBaseThemeCommand = new RelayCommand(param => SetCustomBaseTheme(param as string));
+            ToggleAICommand = new RelayCommand(OnToggleAI);
+            ToggleAIProviderCommand = new RelayCommand(param => OnToggleAIProvider(param as string));
+            RefreshModelsCommand = new RelayCommand(async _ => await RefreshModelsAsync());
+
+            // Sync initial AI settings
+            AISettings.IsAIEnabled = _previewSettings.IsAIEnabled;
+            AISettings.ProviderType = _previewSettings.AIProviderType == "Ollama" ? Services.AIProviderType.Ollama : Services.AIProviderType.Cloud;
+            AISettings.CloudApiKey = _previewSettings.AICloudApiKey;
+            AISettings.CloudMainModel = _previewSettings.AICloudMainModel;
+            AISettings.CloudSubModel = _previewSettings.AICloudSubModel;
+            AISettings.OllamaEndpoint = _previewSettings.AIOllamaEndpoint;
+            AISettings.OllamaModel = _previewSettings.AIOllamaModel;
 
             _themeManager.ThemeChanged += OnThemeChanged;
             LoadFonts();
@@ -616,6 +751,14 @@ namespace Som3a_WPF_UI.ViewModels
                 PanelType = typeof(Views.WbsPanel),
                 Order = 7
             });
+            Categories.Add(new SettingsCategory
+            {
+                Id = "ai",
+                DisplayName = "AI",
+                Icon = "Robot",
+                PanelType = typeof(Views.AIPanel),
+                Order = 8
+            });
 
             if (Categories.Count > 0)
             {
@@ -689,6 +832,57 @@ namespace Som3a_WPF_UI.ViewModels
             _previewSettings.BackgroundStyle = style;
             IsDirty = true;
             RefreshPreviewBindings();
+        }
+
+        private void OnToggleAI()
+        {
+            IsAIEnabled = !IsAIEnabled;
+        }
+
+        private void OnToggleAIProvider(string? providerType)
+        {
+            if (!string.IsNullOrEmpty(providerType))
+                AIProviderType = providerType;
+        }
+
+        private async Task RefreshModelsAsync()
+        {
+            var apiKey = AICloudApiKey;
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                System.Windows.MessageBox.Show("Enter an API key first, then refresh models.", "API Key Required", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                return;
+            }
+            try
+            {
+                using var client = new System.Net.Http.HttpClient();
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+                var response = await client.GetAsync("https://api.openai.com/v1/models");
+                if (!response.IsSuccessStatusCode)
+                {
+                    System.Windows.MessageBox.Show($"Failed to fetch models. HTTP {(int)response.StatusCode}. Check your API key.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    return;
+                }
+                var json = await response.Content.ReadAsStringAsync();
+                var root = Newtonsoft.Json.Linq.JObject.Parse(json);
+                var models = root["data"]?
+                    .Select(m => (string?)m["id"])
+                    .Where(id => id != null && !id.Contains("realtime") && !id.Contains("instruct"))
+                    .OrderBy(id => id)
+                    .ToList();
+
+                if (models.Count > 0)
+                {
+                    AvailableModels.Clear();
+                    foreach (var m in models)
+                        AvailableModels.Add(m!);
+                    System.Windows.MessageBox.Show($"Loaded {models.Count} models from OpenAI.", "Models Updated", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Error fetching models: {ex.Message}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
         }
 
         private void OnApplyTheme()
@@ -900,7 +1094,14 @@ namespace Som3a_WPF_UI.ViewModels
                 HighContrastEnabled = source.HighContrastEnabled,
                 FocusIndicatorEnabled = source.FocusIndicatorEnabled,
                 RenderMode = source.RenderMode,
-                SafeModeEnabled = source.SafeModeEnabled
+                SafeModeEnabled = source.SafeModeEnabled,
+                IsAIEnabled = source.IsAIEnabled,
+                AIProviderType = source.AIProviderType,
+                AICloudApiKey = source.AICloudApiKey,
+                AICloudMainModel = source.AICloudMainModel,
+                AICloudSubModel = source.AICloudSubModel,
+                AIOllamaEndpoint = source.AIOllamaEndpoint,
+                AIOllamaModel = source.AIOllamaModel
             };
         }
 

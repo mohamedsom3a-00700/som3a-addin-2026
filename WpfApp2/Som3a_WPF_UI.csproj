@@ -173,7 +173,21 @@
     <Compile Include="Pages\WBS\WBSEditorPage.xaml.cs">
       <DependentUpon>WBSEditorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BOQActivityGeneratorPage.xaml.cs">
+      <DependentUpon>BOQActivityGeneratorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\DiagnosticsService.cs" />
+    <Compile Include="Services\IBOQContextBuilder.cs" />
+    <Compile Include="Services\IActivityGenerationService.cs" />
+    <Compile Include="Services\IActivityValidationService.cs" />
+    <Compile Include="Services\IActivitySequencingService.cs" />
+    <Compile Include="Services\IActivityExportService.cs" />
+    <Compile Include="Services\BOQContextBuilder.cs" />
+    <Compile Include="Services\ActivityGenerationService.cs" />
+    <Compile Include="Services\ActivityValidationService.cs" />
+    <Compile Include="Services\ActivitySequencingService.cs" />
+    <Compile Include="Services\ActivityExportService.cs" />
+    <Compile Include="Services\AISettings.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ExcelProjectAnalysisService.cs" />
     <Compile Include="Services\LoggingService.cs" />
@@ -211,6 +225,12 @@
     <Compile Include="ViewModels\ProjectAnalysisViewModel.cs" />
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="Models\UserSettings.cs" />
+    <Compile Include="Models\BOQContext.cs" />
+    <Compile Include="Models\GeneratedActivity.cs" />
+    <Compile Include="Models\ActivityValidationResult.cs" />
+    <Compile Include="Models\ActivitySequenceOrder.cs" />
+    <Compile Include="Models\ActivityNamingRule.cs" />
+    <Compile Include="Models\ActivityGroupingRule.cs" />
     <Compile Include="Models\SettingsExport.cs" />
     <Compile Include="Models\DiagnosticsModels.cs" />
     <Compile Include="Models\SettingsCategory.cs" />
@@ -273,6 +293,9 @@
     <Compile Include="Views\PerformancePanel.xaml.cs">
       <DependentUpon>PerformancePanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AIPanel.xaml.cs">
+      <DependentUpon>AIPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AccessibilityPanel.xaml.cs">
       <DependentUpon>AccessibilityPanel.xaml</DependentUpon>
     </Compile>
@@ -293,7 +316,10 @@
       <DependentUpon>SettingsSectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\FixPieColorsViewModel.cs" />
+    <Compile Include="ViewModels\BOQActivityGeneratorViewModel.cs" />
     <Compile Include="ViewModels\LinksManagerViewModel.cs" />
+    <Compile Include="Modules\BOQActivityGeneratorModule.cs" />
+    <Compile Include="Models\ActivityExportConfig.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\CustomThemeViewModel.cs" />
     <Compile Include="ViewModels\SettingsSectionViewModel.cs" />
@@ -419,6 +445,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\WBS\WBSEditorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\BOQActivityGeneratorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -624,6 +654,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PerformancePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AIPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

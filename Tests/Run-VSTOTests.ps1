@@ -324,6 +324,8 @@ $windowTests = @(
     @{ ButtonLabel = "Fix Pie Chart Colors"; WindowTitle = "Fix Pie Chart Colors"; TaskId = "T037"; Description = "Fixpiecolors" }
     @{ ButtonLabel = "Comparsion by Xer"; WindowTitle = "Primavera Compare"; TaskId = "T040"; Description = "PrimaveraCompareWindow" }
     @{ ButtonLabel = "Add in Setting"; WindowTitle = "Settings"; TaskId = "T037"; Description = "SettingsWindow" }
+    # BOQ Activity Generator sidebar page (inside shell, no separate window)
+    @{ ButtonLabel = "BOQ Activity Generator"; WindowTitle = ""; TaskId = "T017"; Description = "BOQActivityGeneratorPage" }
     # WBS sidebar pages (navigate inside shell, no separate window)
     @{ ButtonLabel = "WBS Template Browser"; WindowTitle = ""; TaskId = "T037"; Description = "WBSTemplateBrowserPage" }
     @{ ButtonLabel = "WBS Generator"; WindowTitle = ""; TaskId = "T037"; Description = "WBSGeneratorPage" }
@@ -430,6 +432,7 @@ try {
         if (-not $navSuccess -and -not $isSidebarPage) {
             $window = Get-WindowByTitle -Title $winTitle -TimeoutSeconds 3 -ProcessId $excelProc.Id
             $windowFound = $null -ne $window
+            if ($windowFound) { $navSuccess = $true }
         }
 
         $sw.Stop()

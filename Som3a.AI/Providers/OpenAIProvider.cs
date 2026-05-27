@@ -14,13 +14,18 @@ namespace Som3a.AI.Providers
         public override string ProviderName => "OpenAI";
         public override bool IsAvailable => !string.IsNullOrEmpty(_apiKey);
 
-        public OpenAIProvider(string apiKey, string model = "gpt-4", string? baseUrl = null)
+        public OpenAIProvider(string apiKey, string model = "gpt-4", string? baseUrl = null, Dictionary<string, string>? additionalHeaders = null)
         {
             _apiKey = apiKey;
             _model = model;
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri(baseUrl ?? "https://api.openai.com/v1/");
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+            if (additionalHeaders != null)
+            {
+                foreach (var h in additionalHeaders)
+                    _httpClient.DefaultRequestHeaders.Add(h.Key, h.Value);
+            }
         }
 
         public override async Task<AIResponse> ExecutePromptAsync(AIRequest request, CancellationToken ct = default)

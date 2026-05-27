@@ -1,0 +1,169 @@
+<UserControl x:Class="Som3a_WPF_UI.Views.AIPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
+    <UserControl.Resources>
+        <ResourceDictionary/>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  SnapsToDevicePixels="True"
+                  UseLayoutRounding="True">
+        <StackPanel SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+
+            <!-- AI Enable/Disable -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                    <TextBlock Text="AI Features"
+                               Style="{DynamicResource SectionHeaderStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
+                    <CheckBox Content="Enable AI generation"
+                              IsChecked="{Binding IsAIEnabled, Mode=TwoWay}"
+                              Foreground="{DynamicResource TextMainBrush}"
+                              Margin="0,0,0,8"
+                              AutomationProperties.Name="Enable AI generation"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Provider Selection -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                    <TextBlock Text="AI Provider"
+                               Style="{DynamicResource SectionHeaderStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
+                    <StackPanel Margin="0,0,0,12"
+                                SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
+                        <RadioButton Content="Cloud AI (OpenAI, Claude, OpenRouter, etc.)"
+                                     GroupName="AIProvider"
+                                     IsChecked="{Binding IsCloudSelected, Mode=OneWay}"
+                                     Command="{Binding ToggleAIProviderCommand}"
+                                     CommandParameter="Cloud"
+                                     Foreground="{DynamicResource TextMainBrush}"
+                                     Margin="0,0,0,8"
+                                     AutomationProperties.Name="Cloud AI Provider"/>
+                        <RadioButton Content="Local AI (Ollama)"
+                                     GroupName="AIProvider"
+                                     IsChecked="{Binding IsOllamaSelected, Mode=OneWay}"
+                                     Command="{Binding ToggleAIProviderCommand}"
+                                     CommandParameter="Ollama"
+                                     Foreground="{DynamicResource TextMainBrush}"
+                                     Margin="0,0,0,8"
+                                     AutomationProperties.Name="Local AI Ollama Provider"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Cloud AI Settings -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True"
+                    Visibility="{Binding IsCloudSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                    <TextBlock Text="Cloud AI Configuration"
+                               Style="{DynamicResource SectionHeaderStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
+                    <StackPanel Margin="0,0,0,12"
+                                SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
+                        <TextBlock Text="API Key"
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   FontSize="13"
+                                   Margin="0,0,0,4"/>
+                        <PasswordBox x:Name="ApiKeyBox"
+                                     PasswordChar="*"
+                                     Width="400"
+                                     HorizontalAlignment="Left"
+                                     Height="32"
+                                     AutomationProperties.Name="AI API Key"
+                                     PasswordChanged="OnApiKeyChanged"/>
+
+                        <TextBlock Text="Main Model"
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   FontSize="13"
+                                   Margin="0,12,0,4"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0"
+                                      Text="{Binding AICloudMainModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ItemsSource="{Binding AvailableModels}"
+                                      IsEditable="True"
+                                      Width="400"
+                                      HorizontalAlignment="Left"
+                                      Height="32"
+                                      AutomationProperties.Name="AI Main Model"/>
+                            <Button Grid.Column="1" Content="⟳" Width="32" Height="32"
+                                    Command="{Binding RefreshModelsCommand}"
+                                    ToolTip="Fetch latest models from API"
+                                    Margin="4,0,0,0"/>
+                        </Grid>
+
+                        <TextBlock Text="Fallback Model"
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   FontSize="13"
+                                   Margin="0,12,0,4"/>
+                        <ComboBox Text="{Binding AICloudSubModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  ItemsSource="{Binding AvailableModels}"
+                                  IsEditable="True"
+                                  Width="400"
+                                  HorizontalAlignment="Left"
+                                  Height="32"
+                                  AutomationProperties.Name="AI Fallback Model"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Ollama Settings -->
+            <Border Style="{DynamicResource PanelSectionStyle}"
+                    SnapsToDevicePixels="True"
+                    UseLayoutRounding="True"
+                    Visibility="{Binding IsOllamaSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                    <TextBlock Text="Ollama Configuration"
+                               Style="{DynamicResource SectionHeaderStyle}"
+                               SnapsToDevicePixels="True"
+                               UseLayoutRounding="True"/>
+                    <StackPanel Margin="0,0,0,12"
+                                SnapsToDevicePixels="True"
+                                UseLayoutRounding="True">
+                        <TextBlock Text="Endpoint URL"
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   FontSize="13"
+                                   Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding AIOllamaEndpoint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="400"
+                                 HorizontalAlignment="Left"
+                                 Height="32"
+                                 AutomationProperties.Name="Ollama Endpoint URL"/>
+
+                        <TextBlock Text="Model"
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   FontSize="13"
+                                   Margin="0,12,0,4"/>
+                        <TextBox Text="{Binding AIOllamaModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="400"
+                                 HorizontalAlignment="Left"
+                                 Height="32"
+                                 AutomationProperties.Name="Ollama Model"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

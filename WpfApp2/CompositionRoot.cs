@@ -1,8 +1,10 @@
+using Som3a.Bridge;
 using Som3a.Shared.Core;
 using Som3a.Shared.Core.Primavera;
 using Som3a.Shared.Models;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Controls.Shell;
+using Som3a_WPF_UI.Modules;
 using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.ViewModels;
 using Som3a_WPF_UI.ViewModels.Primavera;
@@ -20,6 +22,7 @@ namespace Som3a_WPF_UI
             container.RegisterSingleton<IEventBus>(eventBus);
 
             var moduleRegistry = new ModuleRegistry(container, eventBus);
+            moduleRegistry.RegisterModule(new Modules.BOQActivityGeneratorModule());
             container.RegisterSingleton<Services.IModuleRegistry>(moduleRegistry);
 
             container.RegisterSingleton<ThemeManager>(ThemeManager.Instance);
@@ -59,6 +62,14 @@ namespace Som3a_WPF_UI
             container.RegisterTransient<IPrimaveraDataLoaderService, PrimaveraDataLoaderService>();
             container.RegisterTransient<IPrimaveraComparisonService, PrimaveraComparisonService>();
 
+            container.RegisterTransient<BOQActivityGeneratorViewModel, BOQActivityGeneratorViewModel>();
+
+            container.RegisterTransient<IBOQContextBuilder, Services.BOQContextBuilder>();
+            container.RegisterTransient<IActivityGenerationService, Services.ActivityGenerationService>();
+            container.RegisterTransient<IActivityValidationService, Services.ActivityValidationService>();
+            container.RegisterTransient<IActivitySequencingService, Services.ActivitySequencingService>();
+            container.RegisterTransient<IActivityExportService, Services.ActivityExportService>();
+
             container.RegisterTransient<ToastViewModel, ToastViewModel>();
             container.RegisterTransient<CommandPaletteViewModel, CommandPaletteViewModel>();
 
@@ -72,6 +83,10 @@ namespace Som3a_WPF_UI
             container.RegisterSingleton<PluginLoader, PluginLoader>();
             container.RegisterSingleton<IModuleDiagnosticsService, ModuleDiagnosticsService>();
             container.RegisterSingleton<ModuleLoadOrchestrator, ModuleLoadOrchestrator>();
+
+            // AI Bridge: registers singleton that manages host process lifecycle
+            var aiBridge = new AIBridgeClient();
+            container.RegisterSingleton<IAIBridge>(aiBridge);
         }
 
         public static void InitializeModules(Services.IModuleRegistry registry)
@@ -83,6 +98,14 @@ namespace Som3a_WPF_UI
         {
             var migrationService = container.Resolve<SettingsMigrationService>();
             await migrationService.MigrateAllUnmigratedAsync();
+
+            // Start AI host process in background (don't block startup)
+            var aiBridge = container.Resolve<IAIBridge>();
+            _ = Task.Run(async () =>
+            {
+                try { await aiBridge.StartHostAsync(); }
+                catch { /* AI host unavailable - services will report offline */ }
+            });
         }
     }
 }

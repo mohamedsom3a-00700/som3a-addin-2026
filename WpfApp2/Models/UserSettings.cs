@@ -16,5 +16,12 @@ namespace Som3a_WPF_UI.Models
         public string WBSCodeMode { get; set; } = "Numeric";
         public int WBSMinAlphaLength { get; set; } = 3;
         public string WBSExportStyle { get; set; } = "Default";
+        public bool IsAIEnabled { get; set; } = true;
+        public string AIProviderType { get; set; } = "Cloud";
+        public string AICloudApiKey { get; set; } = "";
+        public string AICloudMainModel { get; set; } = "gpt-4o-mini";
+        public string AICloudSubModel { get; set; } = "gpt-4o-mini";
+        public string AIOllamaEndpoint { get; set; } = "http://localhost:11434";
+        public string AIOllamaModel { get; set; } = "llama3";
     }
 }
