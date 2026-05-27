@@ -6,7 +6,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
 
-function Write-Log { param([string]$Msg) Write-Host "[$(Get-Date -Format 'HH:mm:ss')] $Msg" }
+function Write-Log { param([string]$Msg, [string]$Level = "INFO") Write-Host "[$(Get-Date -Format 'HH:mm:ss')] [$Level] $Msg" }
 
 function Kill-Excel {
     $procs = Get-Process -Name "EXCEL" -ErrorAction SilentlyContinue

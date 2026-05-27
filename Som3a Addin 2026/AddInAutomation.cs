@@ -448,7 +448,12 @@ namespace Som3a_Addin_2026
                     var vm = page.DataContext as BOQActivityGeneratorViewModel;
                     if (vm != null) return vm;
                 }
-                System.Threading.Thread.Sleep(200);
+                // Pump dispatcher instead of blocking the UI thread
+                var frame = new System.Windows.Threading.DispatcherFrame();
+                System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(
+                    System.Windows.Threading.DispatcherPriority.Background,
+                    new Action(() => frame.Continue = false));
+                System.Windows.Threading.Dispatcher.PushFrame(frame);
             }
             return null;
         }

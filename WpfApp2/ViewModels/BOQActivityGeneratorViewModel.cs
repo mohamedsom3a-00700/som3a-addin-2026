@@ -47,6 +47,7 @@ namespace Som3a_WPF_UI.ViewModels
         public bool CanLoadBoq => !IsBusy;
         public bool CanGenerate => HasConsented && !IsBusy;
         public bool CanExport => Activities.Count > 0 && !IsBusy;
+        public bool IncludeDependencies { get; set; } = true;
 
         public bool IsBusy
         {
@@ -468,7 +469,7 @@ namespace Som3a_WPF_UI.ViewModels
                 var config = new ActivityExportConfig
                 {
                     TargetSheetName = "Generated Activities",
-                    IncludeDependencies = true,
+                    IncludeDependencies = IncludeDependencies,
                     OverwriteExisting = false
                 };
 

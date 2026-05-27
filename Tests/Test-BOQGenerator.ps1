@@ -119,8 +119,8 @@ try {
     if ($genResult -like "OK*") {
         Write-Pass "BoqGenerate succeeded: $genResult"
         $passed++
-        $genResult -match "Activities:(\d+)" | Out-Null
-        $actCount = [int]$Matches[1]
+        $actCount = 0
+        if ($genResult -match "Activities:(\d+)") { $actCount = [int]$Matches[1] }
         if ($actCount -gt 0) {
             Write-Pass "Activities generated: $actCount"
             $passed++
@@ -144,6 +144,7 @@ try {
 }
 catch {
     Write-Fail "Fatal: $_"
+    exit 1
 }
 finally {
     if (-not $NoCleanup) {

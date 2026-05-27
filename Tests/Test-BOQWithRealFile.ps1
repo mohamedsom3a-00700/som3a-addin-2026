@@ -63,6 +63,7 @@ try {
 catch {
     Write-Host "[FAIL] $_" -ForegroundColor Red
     Write-Host "===== BOQ VSTO TEST FAILED ====="
+    exit 1
 }
 finally {
     if (-not $NoCleanup) {

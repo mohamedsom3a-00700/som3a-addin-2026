@@ -41,6 +41,7 @@ public static class ServiceRegistration
         registerInstance(typeof(IAIProvider), new GLMProvider(""));
         registerInstance(typeof(IAIProvider), new KimiProvider(""));
         registerInstance(typeof(IAIProvider), new CodexProvider(""));
+        registerInstance(typeof(IAIProvider), new OllamaProvider());
     }
 }
 

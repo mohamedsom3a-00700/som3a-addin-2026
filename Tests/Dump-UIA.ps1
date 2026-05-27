@@ -62,9 +62,12 @@ Start-Sleep 10
 $excel = [System.Runtime.InteropServices.Marshal]::GetActiveObject("Excel.Application")
 $excel.Visible = $true
 $addin = $excel.COMAddIns | Where-Object { $_.Description -like "*Som3a Addin 2026*" }
-$auto = $addin.Object
-$auto.OpenWindow("BOQ Activity Generator")
-Start-Sleep 5
+if (-not $addin) { Write-Host "[WARN] Add-in not found, skipping BOQ navigation" -ForegroundColor Yellow }
+else {
+    $auto = $addin.Object
+    if ($auto) { $auto.OpenWindow("BOQ Activity Generator"); Start-Sleep 5 }
+    else { Write-Host "[WARN] addin.Object is null" -ForegroundColor Yellow }
+}
 
 Write-Host "`n=== Excel child HWNDs ===" -ForegroundColor Cyan
 $excelProc = Get-Process -Id $proc.Id

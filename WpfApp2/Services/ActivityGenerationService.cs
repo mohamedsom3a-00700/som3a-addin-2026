@@ -135,8 +135,9 @@ Instructions:
                 var activities = JsonConvert.DeserializeObject<List<ParsedActivity>>(response);
                 return activities ?? new List<ParsedActivity>();
             }
-            catch
+            catch (JsonException ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[ParseActivitiesResponse] Failed to parse AI response: {ex.Message}. Response length: {response.Length}");
                 return new List<ParsedActivity>();
             }
         }
