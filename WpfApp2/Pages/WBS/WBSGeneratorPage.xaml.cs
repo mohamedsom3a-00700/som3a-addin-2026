@@ -18,7 +18,10 @@ public partial class WBSGeneratorPage : Page
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         if (_viewModel != null) return;
-        _viewModel = new WBSGeneratorViewModel(new WBSAIService(), new WBSCodeGenerator(), new WBSTreeValidator());
+        _viewModel = new WBSGeneratorViewModel(
+            App.Container.Resolve<IWBSAIService>(),
+            App.Container.Resolve<IWBSCodeGenerator>(),
+            App.Container.Resolve<IWBSTreeValidator>());
         DataContext = _viewModel;
     }
 }

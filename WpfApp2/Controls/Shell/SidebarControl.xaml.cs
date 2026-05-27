@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Media.Animation;
+using Newtonsoft.Json;
 
 namespace Som3a_WPF_UI.Controls.Shell
 {
@@ -15,6 +19,8 @@ namespace Som3a_WPF_UI.Controls.Shell
     {
         private bool _isHoverExpanded;
         private bool _isCollapsed;
+        private readonly Dictionary<string, bool> _groupStates = new();
+        private readonly string _stateFilePath;
 
         public static readonly DependencyProperty ItemsProperty =
             DependencyProperty.Register(
@@ -73,6 +79,10 @@ namespace Som3a_WPF_UI.Controls.Shell
         public SidebarControl()
         {
             InitializeComponent();
+            _stateFilePath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "Som3a", "sidebar-state.json");
+            LoadGroupStates();
         }
 
         public void ToggleCollapse()
@@ -147,10 +157,96 @@ namespace Som3a_WPF_UI.Controls.Shell
                     System.ComponentModel.ListSortDirection.Ascending));
 
             SidebarListBox.ItemsSource = view;
+            Dispatcher.BeginInvoke(new Action(RestoreExpanderStates), System.Windows.Threading.DispatcherPriority.Background);
         }
 
         private static void OnIsCollapsedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+        }
+
+        private void LoadGroupStates()
+        {
+            try
+            {
+                if (File.Exists(_stateFilePath))
+                {
+                    var json = File.ReadAllText(_stateFilePath);
+                    var loaded = JsonConvert.DeserializeObject<Dictionary<string, bool>>(json);
+                    if (loaded != null)
+                    {
+                        _groupStates.Clear();
+                        foreach (var kvp in loaded)
+                            _groupStates[kvp.Key] = kvp.Value;
+                        return;
+                    }
+                }
+            }
+            catch { }
+            _groupStates["Planning"] = false;
+            _groupStates["Analysis"] = false;
+            _groupStates["Excel"] = false;
+            _groupStates["AI"] = false;
+            _groupStates["Settings"] = false;
+        }
+
+        private void SaveGroupStates()
+        {
+            try
+            {
+                var dir = Path.GetDirectoryName(_stateFilePath);
+                if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+                var json = JsonConvert.SerializeObject(_groupStates, Formatting.Indented);
+                File.WriteAllText(_stateFilePath, json);
+            }
+            catch { }
+        }
+
+        private void RestoreExpanderStates()
+        {
+            var expanders = FindVisualChildren<Expander>(SidebarListBox);
+            foreach (var exp in expanders)
+            {
+                var header = exp.Header?.ToString();
+                if (header != null && _groupStates.TryGetValue(header, out var isExpanded))
+                {
+                    exp.IsExpanded = isExpanded;
+                }
+                exp.Expanded -= OnExpanderToggled;
+                exp.Collapsed -= OnExpanderToggled;
+                exp.Expanded += OnExpanderToggled;
+                exp.Collapsed += OnExpanderToggled;
+            }
+        }
+
+        private void OnExpanderToggled(object sender, RoutedEventArgs e)
+        {
+            if (sender is Expander exp && exp.Header?.ToString() is string header)
+            {
+                _groupStates[header] = exp.IsExpanded;
+                SaveGroupStates();
+            }
+        }
+
+        private static List<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+        {
+            var results = new List<T>();
+            if (parent == null) return results;
+            var queue = new Queue<DependencyObject>();
+            queue.Enqueue(parent);
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+                var count = VisualTreeHelper.GetChildrenCount(current);
+                for (int i = 0; i < count; i++)
+                {
+                    var child = VisualTreeHelper.GetChild(current, i);
+                    if (child is T typed)
+                        results.Add(typed);
+                    queue.Enqueue(child);
+                }
+            }
+            return results;
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)

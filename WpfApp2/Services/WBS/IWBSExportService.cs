@@ -1,6 +1,6 @@
-using Som3a.Domain.WBS;
+using System.Threading.Tasks;
 
-namespace WpfApp2.Services.WBS;
+namespace Som3a_WPF_UI.Services.WBS;
 
 public interface IWBSExportService
 {

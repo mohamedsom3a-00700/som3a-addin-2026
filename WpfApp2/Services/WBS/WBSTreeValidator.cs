@@ -1,6 +1,7 @@
-using Som3a.Domain.WBS;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace WpfApp2.Services.WBS;
+namespace Som3a_WPF_UI.Services.WBS;
 
 public class WBSTreeValidator : IWBSTreeValidator
 {
@@ -35,7 +36,7 @@ public class WBSTreeValidator : IWBSTreeValidator
         if (newParent != null && DetectsCycle(node, newParent))
             errors.Add("Cannot reparent: creates a cycle.");
 
-        if (newParent != null && GetLevel(newParent) >= _maxDepth)
+        if (newParent != null && GetLevel(newParent) + 1 + GetSubtreeHeight(node) > _maxDepth)
             errors.Add($"Maximum tree depth ({_maxDepth}) exceeded.");
 
         return errors.Count > 0 ? new ValidationResult(false, errors) : ValidationResult.Success();
@@ -73,15 +74,17 @@ public class WBSTreeValidator : IWBSTreeValidator
         return true;
     }
 
+    private static int GetSubtreeHeight(WBSNode node)
+    {
+        if (node.Children.Count == 0) return 1;
+        return 1 + node.Children.Max(child => GetSubtreeHeight(child));
+    }
+
     private static int GetLevel(WBSNode node)
     {
         var level = 0;
         var current = node.Parent;
-        while (current != null)
-        {
-            level++;
-            current = current.Parent;
-        }
+        while (current != null) { level++; current = current.Parent; }
         return level;
     }
 }

@@ -62,11 +62,11 @@
                                    Text="Generate construction activities from BOQ data using AI"
                                    Foreground="{DynamicResource TextSubBrush}"
                                    VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                        <Button x:Name="btnGenerate" Grid.Column="4" Height="34"
+                        <Button x:Name="btnGenerate" Grid.Column="3" Height="34"
                                 Content="Generate Activities"
                                 Style="{DynamicResource PrimaryButton}"
                                 Click="btnGenerate_Click"/>
-                        <Button x:Name="btnCancel" Grid.Column="6" Height="34"
+                        <Button x:Name="btnCancel" Grid.Column="5" Height="34"
                                 Content="Cancel"
                                 Style="{DynamicResource BaseButton}"
                                 Click="btnCancel_Click"

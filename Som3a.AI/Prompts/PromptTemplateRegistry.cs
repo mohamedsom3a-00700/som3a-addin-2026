@@ -94,8 +94,12 @@ public class PromptTemplateRegistry
         if (!_templates.TryGetValue(templateId, out var template))
             throw new KeyNotFoundException($"Prompt template '{templateId}' not found.");
 
-        template.LifecycleState = TemplateLifecycleState.Published;
-        template.UpdatedAt = DateTime.UtcNow;
+        lock (_diskLock)
+        {
+            template.LifecycleState = TemplateLifecycleState.Published;
+            template.UpdatedAt = DateTime.UtcNow;
+        }
+
         await SaveToDiskAsync(template);
         return Clone(template);
     }
@@ -105,9 +109,13 @@ public class PromptTemplateRegistry
         if (!_templates.TryGetValue(templateId, out var template))
             throw new KeyNotFoundException($"Prompt template '{templateId}' not found.");
 
-        template.LifecycleState = TemplateLifecycleState.Deprecated;
-        template.DeprecatedAt = DateTime.UtcNow;
-        template.UpdatedAt = DateTime.UtcNow;
+        lock (_diskLock)
+        {
+            template.LifecycleState = TemplateLifecycleState.Deprecated;
+            template.DeprecatedAt = DateTime.UtcNow;
+            template.UpdatedAt = DateTime.UtcNow;
+        }
+
         await SaveToDiskAsync(template);
         return Clone(template);
     }

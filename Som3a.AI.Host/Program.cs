@@ -1,14 +1,15 @@
+using System.Collections.Concurrent;
 using System.IO.Pipes;
 using System.Text;
 using System.Text.Json;
-using Microsoft.Extensions.DependencyInjection;
-using Som3a.AI.Configuration;
-using Som3a.AI.Orchestration;
 using Som3a.AI.Providers;
 using Som3a.Bridge;
 using Som3a.Contracts;
 
 var pipeName = args.Length > 0 ? args[0] : "Som3a.AI.Bridge";
+
+// Provider cache: reuse OpenAIProvider instances by config key to avoid HttpClient leaks
+var providerCache = new ConcurrentDictionary<string, IAIProvider>();
 
 Console.Error.WriteLine($"[AI.Host] Starting on pipe: {pipeName}");
 
@@ -22,7 +23,7 @@ while (true)
         await server.WaitForConnectionAsync();
         Console.Error.WriteLine("[AI.Host] Client connected.");
 
-        await HandleClientAsync(server);
+        await HandleClientAsync(server, providerCache);
     }
     catch (Exception ex)
     {
@@ -30,7 +31,7 @@ while (true)
     }
 }
 
-static async Task HandleClientAsync(NamedPipeServerStream pipe)
+static async Task HandleClientAsync(NamedPipeServerStream pipe, ConcurrentDictionary<string, IAIProvider> providerCache)
 {
     var lenBuf = new byte[4];
     await ReadExactAsync(pipe, lenBuf, 0, 4);
@@ -86,22 +87,24 @@ static async Task HandleClientAsync(NamedPipeServerStream pipe)
                 ? bridgeRequest.Endpoint.TrimEnd('/') + "/v1/"
                 : "http://localhost:11434/v1/";
             var model = !string.IsNullOrEmpty(bridgeRequest.Model) ? bridgeRequest.Model : "llama3";
-            provider = new OpenAIProvider("ollama", model, endpoint);
+            var key = $"ollama|{endpoint}|{model}";
+            provider = providerCache.GetOrAdd(key, _ => new OpenAIProvider("ollama", model, endpoint));
         }
         else if (!string.IsNullOrEmpty(bridgeRequest.ApiKey))
         {
             var model = !string.IsNullOrEmpty(bridgeRequest.Model) ? bridgeRequest.Model : "gpt-4o-mini";
-            provider = new OpenAIProvider(bridgeRequest.ApiKey, model);
+            var key = $"cloud|{bridgeRequest.ApiKey.GetHashCode()}|{model}";
+            provider = providerCache.GetOrAdd(key, _ => new OpenAIProvider(bridgeRequest.ApiKey, model));
         }
         else
         {
-            // Fall back to OpenRouter if no API key provided (free models)
             var key = Environment.GetEnvironmentVariable("OPENROUTER_API_KEY");
             if (!string.IsNullOrEmpty(key))
             {
-                provider = new OpenAIProvider(key, "meta-llama/llama-3.2-3b-instruct",
+                var orKey = $"openrouter|{key.GetHashCode()}";
+                provider = providerCache.GetOrAdd(orKey, _ => new OpenAIProvider(key, "meta-llama/llama-3.2-3b-instruct",
                     "https://openrouter.ai/api/v1/",
-                    new Dictionary<string, string> { { "X-Title", "Som3a Addin 2026" } });
+                    new Dictionary<string, string> { { "X-Title", "Som3a Addin 2026" } }));
             }
             else
             {

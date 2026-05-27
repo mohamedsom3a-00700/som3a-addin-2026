@@ -117,14 +117,29 @@ WPF pages/views at `WpfApp2/Pages/WBS/`, ViewModels at `WpfApp2/ViewModels/WBS/`
 
 ---
 
-## Phase 7: Polish & Cross-Cutting Concerns
+## Phase 7: WBS Excel Integration & AI-Powered Import
+
+**Purpose**: Extend WBS Engine with Excel import/export, tree preview, FullPath, and style colors
+
+- [ ] T032 [P] Implement WBSExcelImportService in WpfApp2/Services/WBS/WBSExcelImportService.cs — read Excel sheet sections/activities/quantities, build AI context, call OrchestrationEngine with "BOQ-to-WBS" prompt, parse via WBSParser
+- [ ] T033 [P] Update WBSAIService in WpfApp2/Services/WBS/WBSAIService.cs — add Excel-to-WBS AI pipeline following T032 pattern
+- [ ] T034 [P] Implement WBSExcelExportService in WpfApp2/Services/WBS/WBSExcelExportService.cs — write WBS tree directly to active Excel worksheet with indentation, codes, names, levels, FullPath
+- [ ] T035 [P] Update WBSTemplateService in WpfApp2/Services/WBS/WBSTemplateService.cs — add ImportTemplateFromExcel(path) and ExportTemplateToExcel(templateId, path) using dedicated sheet format (Code, Name, Level, ParentCode, FullPath columns)
+- [ ] T036 [P] Update WBSTemplateBrowserPage.xaml + ViewModel in WpfApp2/Pages/WBS/ and WpfApp2/ViewModels/WBS/ — add tree preview panel (collapsible tree showing Code+Name), template import/export buttons, FullPath display
+- [ ] T037 [P] Update WBSEditorPage.xaml in WpfApp2/Pages/WBS/WBSEditorPage.xaml — show FullPath in node details panel
+- [ ] T038 [P] Create WBSColorService in WpfApp2/Services/WBS/WBSColorService.cs — map style selector colors to WBS levels for node backgrounds, connectors, and Excel export
+- [ ] T039 Update WBSExportService in WpfApp2/Services/WBS/WBSExportService.cs — include FullPath column in all export formats; apply level-based colors in Excel export
+
+---
+
+## Phase 8: Polish & Cross-Cutting Concerns
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [x] T028 [P] Wire WBS services into CompositionRoot.RegisterServices() — register IWBSTemplateService, IWBSCodeGenerator, IWBSTreeValidator, IWBSExportService, IWBSAIService
-- [x] T029 [P] Register WBS pages in Shell navigation — add WBSTemplateBrowserPage, WBSGeneratorPage, WBSEditorPage, WBSExportPage routes
-- [x] T030 [P] Verify all WBS WPF pages use DynamicResource for themeable properties — no StaticResource or inline colors
-- [x] T031 Run build verification — ensure WpfApp2 builds without errors
+- [x] T028 [P] Wire WBS services into CompositionRoot
+- [x] T029 [P] Register WBS pages in Shell navigation
+- [x] T030 [P] Verify DynamicResource usage
+- [x] T031 Run build verification
 
 ---
 

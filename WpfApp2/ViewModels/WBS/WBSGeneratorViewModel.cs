@@ -1,7 +1,5 @@
 using System;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,7 +9,7 @@ using Som3a_WPF_UI.Services.WBS;
 
 namespace Som3a_WPF_UI.ViewModels.WBS;
 
-public class WBSGeneratorViewModel : INotifyPropertyChanged
+public class WBSGeneratorViewModel : ViewModelBase
 {
     private readonly IWBSAIService _aiService;
     private readonly IWBSCodeGenerator _codeGen;
@@ -22,8 +20,6 @@ public class WBSGeneratorViewModel : INotifyPropertyChanged
     private bool _isGenerating;
     private WBSNode? _generatedWbs;
     private string? _boqSummary;
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     public string ProjectDescription
     {
@@ -160,7 +156,4 @@ BOQ Items:
         StatusMessage = "Generation cancelled.";
         IsGenerating = false;
     }
-
-    protected void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

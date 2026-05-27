@@ -64,14 +64,17 @@ namespace Som3a.Bridge
             // Wait for host to be ready (connect with retries)
             for (int i = 0; i < 30; i++)
             {
+                NamedPipeClientStream? tmpClient = null;
                 try
                 {
-                    _pipeClient = new NamedPipeClientStream(".", _pipeName, PipeDirection.InOut);
-                    await _pipeClient.ConnectAsync(1000);
+                    tmpClient = new NamedPipeClientStream(".", _pipeName, PipeDirection.InOut);
+                    await tmpClient.ConnectAsync(1000);
+                    _pipeClient = tmpClient;
                     return;
                 }
                 catch
                 {
+                    tmpClient?.Dispose();
                     await Task.Delay(200);
                 }
             }

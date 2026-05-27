@@ -26,6 +26,10 @@ public abstract class BaseStructuredParser<TEntity>
         {
             return ParserResult<TEntity>.Failure($"Invalid JSON format: {ex.Message}");
         }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             return ParserResult<TEntity>.Failure($"Parsing failed: {ex.Message}");

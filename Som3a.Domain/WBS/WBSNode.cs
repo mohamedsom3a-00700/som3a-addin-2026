@@ -2,7 +2,8 @@ using Som3a.Domain.Activities;
 
 namespace Som3a.Domain.WBS
 {
-    public class WBSNode
+    [Serializable]
+    public class WBSNode : IEquatable<WBSNode>
     {
         public string Id { get; set; } = Guid.NewGuid().ToString("N");
         public string Code { get; set; } = string.Empty;
@@ -21,6 +22,7 @@ namespace Som3a.Domain.WBS
                 return level;
             }
         }
+        [field: NonSerialized]
         public WBSNode? Parent { get; set; }
         public List<WBSNode> Children { get; set; } = new();
         public string FullPath
@@ -28,6 +30,24 @@ namespace Som3a.Domain.WBS
             get { return Code; }
         }
         public List<Activity> Activities { get; set; } = new();
+
+        public bool Equals(WBSNode? other)
+        {
+            if (other is null) return false;
+            return Id == other.Id;
+        }
+
+        public override bool Equals(object? obj) => Equals(obj as WBSNode);
+
+        public override int GetHashCode() => Id?.GetHashCode() ?? 0;
+
+        public static bool operator ==(WBSNode? left, WBSNode? right)
+        {
+            if (left is null) return right is null;
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(WBSNode? left, WBSNode? right) => !(left == right);
 
         public void Validate()
         {

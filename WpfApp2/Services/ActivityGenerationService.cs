@@ -110,8 +110,8 @@ Instructions:
                 Temperature = 0.3f,
                 MaxTokens = 4096,
                 ProviderType = AISettings.ProviderType == Services.AIProviderType.Ollama ? "ollama" : "cloud",
-                ApiKey = AISettings.CloudApiKey,
-                Model = AISettings.CloudMainModel,
+                ApiKey = AISettings.ProviderType == Services.AIProviderType.Ollama ? null : AISettings.CloudApiKey,
+                Model = AISettings.ProviderType == Services.AIProviderType.Ollama ? AISettings.OllamaModel : AISettings.CloudMainModel,
                 Endpoint = AISettings.ProviderType == Services.AIProviderType.Ollama ? AISettings.OllamaEndpoint : null
             };
 

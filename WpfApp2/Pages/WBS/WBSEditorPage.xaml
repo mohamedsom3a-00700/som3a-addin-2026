@@ -1,7 +1,11 @@
-<Page x:Class="WpfApp2.Pages.WBS.WBSEditorPage"
+<Page x:Class="Som3a_WPF_UI.Pages.WBS.WBSEditorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Title="WBS Editor">
+      xmlns:wbs="clr-namespace:Som3a_WPF_UI.Services.WBS"
+      Title="WBS Editor"
+      Background="{DynamicResource Brush.Background.Primary.Translucent}"
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True">
 
     <Grid Margin="16">
         <Grid.RowDefinitions>
@@ -10,58 +14,75 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="WBS Tree Editor" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,12"/>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock Text="WBS Tree Editor" FontSize="20" FontWeight="SemiBold" Margin="0,0,12,12"/>
+            <Button Content="Export to Active Sheet" Command="{Binding ExportToExcelCommand}"
+                    IsEnabled="{Binding HasTree}" Padding="12,6" Margin="0,0,6,12"/>
+            <Button Content="Export JSON" Command="{Binding ExportToJsonCommand}"
+                    IsEnabled="{Binding HasTree}" Padding="12,6" Margin="0,0,6,12"/>
+            <Button Content="Export XML" Command="{Binding ExportToXmlCommand}"
+                    IsEnabled="{Binding HasTree}" Padding="12,6" Margin="0,0,0,12"/>
+        </StackPanel>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="12"/>
-                <ColumnDefinition Width="240"/>
+                <ColumnDefinition Width="280"/>
             </Grid.ColumnDefinitions>
 
-            <TreeView Grid.Column="0" ItemsSource="{Binding RootNode.Children}" 
-                      SelectedItemChanged="OnSelectionChanged">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <TextBlock Text="{Binding Code, StringFormat='{0} - '}"/>
+            <TreeView Grid.Column="0" ItemsSource="{Binding RootNode.Children}"
+                      SelectedItemChanged="OnSelectionChanged"
+                      ItemContainerStyleSelector="{StaticResource WBSNodeLevelStyleSelector}">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type wbs:WBSNode}" ItemsSource="{Binding Children}">
+                        <TextBlock>
+                            <Run Text="{Binding Code}" FontWeight="SemiBold"/>
+                            <Run Text=" - "/>
+                            <Run Text="{Binding Name}"/>
+                        </TextBlock>
                     </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
+                </TreeView.Resources>
             </TreeView>
 
             <StackPanel Grid.Column="2">
                 <TextBlock Text="Node Details" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                <TextBlock Text="{Binding SelectedNode.Code, StringFormat='Code: {0}'}" Margin="0,0,0,4"/>
-                <TextBox Text="{Binding SelectedNode.Name, UpdateSourceTrigger=PropertyChanged}" 
-                         Margin="0,0,0,8" IsEnabled="{Binding SelectedNode, Converter={StaticResource IsNotNull}}"/>
+                <TextBlock Text="{Binding SelectedNode.Code, StringFormat='Code: {0}'}" Margin="0,0,0,2"/>
+                <TextBlock Text="{Binding SelectedNode.Name, StringFormat='Name: {0}'}" Margin="0,0,0,2"/>
+                <TextBlock Text="{Binding SelectedNode.Level, StringFormat='Level: {0}'}" Margin="0,0,0,2"/>
+                <TextBlock Text="{Binding SelectedNode.FullPath, StringFormat='Path: {0}'}"
+                           TextWrapping="Wrap" Margin="0,0,0,8" Foreground="{DynamicResource Brush.Text.Secondary}"/>
 
-                <Button Content="Rename" Command="{Binding RenameNodeCommand}" 
-                        IsEnabled="{Binding SelectedNode, Converter={StaticResource IsNotNull}}"
+                <TextBox Text="{Binding SelectedNode.Name, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,0,0,8" IsEnabled="{Binding SelectedNode, Converter={StaticResource NullToBoolConverter}}"/>
+
+                <Button Content="Rename" Command="{Binding RenameNodeCommand}"
+                        IsEnabled="{Binding SelectedNode, Converter={StaticResource NullToBoolConverter}}"
                         Margin="0,0,0,12" Padding="8,4"/>
 
                 <Separator Margin="0,0,0,12"/>
 
                 <TextBlock Text="Add Child Node" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                <TextBox Text="{Binding NewNodeName, UpdateSourceTrigger=PropertyChanged}" 
-                         Margin="0,0,0,8"/>
-                <Button Content="Add Child" Command="{Binding AddChildCommand}" 
+                <TextBox Text="{Binding NewNodeName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                <Button Content="Add Child" Command="{Binding AddChildCommand}"
                         IsEnabled="{Binding CanAddChild}" Padding="8,4" Margin="0,0,0,12"/>
 
-                <Button Content="Remove Selected" Command="{Binding RemoveNodeCommand}" 
+                <Button Content="Remove Selected" Command="{Binding RemoveNodeCommand}"
                         IsEnabled="{Binding CanRemove}" Padding="8,4" Margin="0,0,0,12"/>
 
                 <Separator Margin="0,0,0,12"/>
 
-                <Button Content="Save as Template" Command="{Binding SaveAsTemplateCommand}" 
-                        IsEnabled="{Binding HasTree}" Padding="8,4" Margin="0,0,0,8"/>
-                <Button Content="Undo" Command="{Binding UndoCommand}" 
+                <Button Content="Save as Template" Command="{Binding SaveAsTemplateCommand}"
+                        IsEnabled="{Binding HasTree}" Padding="8,4" Margin="0,0,0,6"/>
+                <Button Content="Undo" Command="{Binding UndoCommand}"
                         IsEnabled="{Binding CanUndo}" Padding="8,4"/>
             </StackPanel>
         </Grid>
 
         <StackPanel Grid.Row="2" Margin="0,12,0,0">
-            <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
-                       Visibility="{Binding HasError, Converter={StaticResource BoolToVisibility}}"/>
-            <TextBlock Text="{Binding StatusMessage}" Foreground="Gray"/>
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="{DynamicResource Brush.Accent.Danger}"
+                       Visibility="{Binding HasError, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <TextBlock Text="{Binding StatusMessage}" Foreground="{DynamicResource Brush.Text.Secondary}"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -22,7 +22,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="GroupItem">
-                                        <Expander IsExpanded="True"
+                                        <Expander IsExpanded="False"
                                                   Header="{Binding Name}"
                                                   Style="{DynamicResource Style.Sidebar.CategoryExpander}">
                                             <ItemsPresenter/>

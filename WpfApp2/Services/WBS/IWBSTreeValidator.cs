@@ -1,6 +1,6 @@
-using Som3a.Domain.WBS;
+using System.Collections.Generic;
 
-namespace WpfApp2.Services.WBS;
+namespace Som3a_WPF_UI.Services.WBS;
 
 public interface IWBSTreeValidator
 {
@@ -9,8 +9,17 @@ public interface IWBSTreeValidator
     bool DetectsCycle(WBSNode node, WBSNode potentialParent);
 }
 
-public record ValidationResult(bool IsValid, List<string> Errors)
+public class ValidationResult
 {
-    public static ValidationResult Success() => new(true, new());
-    public static ValidationResult Failure(string error) => new(false, new() { error });
+    public bool IsValid { get; }
+    public List<string> Errors { get; }
+
+    public ValidationResult(bool isValid, List<string> errors)
+    {
+        IsValid = isValid;
+        Errors = errors;
+    }
+
+    public static ValidationResult Success() => new(true, new List<string>());
+    public static ValidationResult Failure(string error) => new(false, new List<string> { error });
 }

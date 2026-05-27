@@ -79,6 +79,8 @@ public class WBSTemplateService : IWBSTemplateService
         {
             var json = File.ReadAllText(customPath);
             template = JsonConvert.DeserializeObject<WBSTemplate>(json);
+            if (template != null)
+                return Task.FromResult(template);
         }
 
         throw new KeyNotFoundException($"Template '{templateId}' not found.");

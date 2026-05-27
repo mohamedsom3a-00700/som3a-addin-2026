@@ -39,6 +39,8 @@ catch {
     Write-Host "Error: $_" -ForegroundColor Red
 }
 finally {
-    $excel.Quit()
-    [Runtime.InteropServices.Marshal]::ReleaseComObject($excel)
+    if ($null -ne $excel) {
+        try { $excel.Quit() } catch {}
+        try { [Runtime.InteropServices.Marshal]::ReleaseComObject($excel) } catch {}
+    }
 }

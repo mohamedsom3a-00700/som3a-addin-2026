@@ -1,11 +1,13 @@
-using System.Collections.ObjectModel;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Som3a.Domain.WBS;
-using WpfApp2.Services.WBS;
+using Microsoft.Win32;
+using Som3a_WPF_UI.Services.WBS;
 
-namespace WpfApp2.ViewModels.WBS;
+namespace Som3a_WPF_UI.ViewModels.WBS;
 
 public class WBSEditorViewModel : INotifyPropertyChanged
 {
@@ -37,7 +39,7 @@ public class WBSEditorViewModel : INotifyPropertyChanged
     public string? NewNodeName
     {
         get => _newNodeName;
-        set { _newNodeName = value; OnPropertyChanged(); }
+        set { _newNodeName = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanAddChild)); }
     }
 
     public string? ErrorMessage
@@ -63,6 +65,9 @@ public class WBSEditorViewModel : INotifyPropertyChanged
     public ICommand RenameNodeCommand { get; }
     public ICommand SaveAsTemplateCommand { get; }
     public ICommand UndoCommand { get; }
+    public ICommand ExportToExcelCommand { get; }
+    public ICommand ExportToJsonCommand { get; }
+    public ICommand ExportToXmlCommand { get; }
 
     public WBSEditorViewModel(IWBSCodeGenerator codeGen, IWBSTreeValidator validator, IWBSTemplateService templateService)
     {
@@ -71,11 +76,14 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         _templateService = templateService;
         _currentUserId = Environment.UserName;
 
-        AddChildCommand = new RelayCommand(_ => AddChild(), () => CanAddChild);
-        RemoveNodeCommand = new RelayCommand(_ => RemoveNode(), () => CanRemove);
-        RenameNodeCommand = new RelayCommand<string>(newName => RenameNode(newName), _ => SelectedNode != null);
-        SaveAsTemplateCommand = new RelayCommandAsync(_ => SaveAsTemplateAsync());
-        UndoCommand = new RelayCommand(_ => Undo(), () => CanUndo);
+        AddChildCommand = new RelayCommand(() => AddChild(), () => CanAddChild);
+        RemoveNodeCommand = new RelayCommand(() => RemoveNode(), () => CanRemove);
+        RenameNodeCommand = new RelayCommand(() => RenameNode(SelectedNode?.Name), () => SelectedNode != null);
+        SaveAsTemplateCommand = new RelayCommand(async () => await SaveAsTemplateAsync(), () => HasTree);
+        UndoCommand = new RelayCommand(() => Undo(), () => CanUndo);
+        ExportToExcelCommand = new RelayCommand(() => ExportToActiveSheet(), () => HasTree);
+        ExportToJsonCommand = new RelayCommand(() => ExportToFile("json"), () => HasTree);
+        ExportToXmlCommand = new RelayCommand(() => ExportToFile("xml"), () => HasTree);
     }
 
     public void LoadTree(WBSNode root)
@@ -88,27 +96,13 @@ public class WBSEditorViewModel : INotifyPropertyChanged
     private void AddChild()
     {
         if (SelectedNode == null || string.IsNullOrWhiteSpace(NewNodeName)) return;
-
-        var child = new WBSNode
-        {
-            Name = NewNodeName,
-            Parent = SelectedNode,
-            Code = _codeGen.GetNextSiblingCode(SelectedNode)
-        };
-
+        var child = new WBSNode { Name = NewNodeName, Parent = SelectedNode, Code = _codeGen.GetNextSiblingCode(SelectedNode) };
         var validation = _validator.ValidateNode(child, SelectedNode);
-        if (!validation.IsValid)
-        {
-            ErrorMessage = string.Join("; ", validation.Errors);
-            return;
-        }
-
+        if (!validation.IsValid) { ErrorMessage = string.Join("; ", validation.Errors); return; }
         SnapshotBeforeChange(child, "Add");
         SelectedNode.Children.Add(child);
         _codeGen.RenumberSubtree(RootNode!);
-        NewNodeName = string.Empty;
-        ErrorMessage = null;
-        StatusMessage = "Node added.";
+        NewNodeName = string.Empty; ErrorMessage = null; StatusMessage = "Node added.";
         RefreshProperties();
     }
 
@@ -117,13 +111,10 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         if (SelectedNode == null || SelectedNode == RootNode) return;
         var parent = SelectedNode.Parent;
         if (parent == null) return;
-
         SnapshotBeforeChange(SelectedNode, "Remove");
         parent.Children.Remove(SelectedNode);
         _codeGen.RenumberSubtree(RootNode!);
-        SelectedNode = null;
-        ErrorMessage = null;
-        StatusMessage = "Node removed.";
+        SelectedNode = null; ErrorMessage = null; StatusMessage = "Node removed.";
         RefreshProperties();
     }
 
@@ -141,15 +132,10 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         if (RootNode == null) return;
         try
         {
-            var name = $"Custom - {RootNode.Name}";
-            var category = "Custom";
-            await _templateService.CreateCustomTemplateAsync(name, category, RootNode, _currentUserId ?? "unknown");
+            await _templateService.CreateCustomTemplateAsync($"Custom - {RootNode.Name}", "Custom", RootNode, _currentUserId ?? "unknown");
             StatusMessage = "Template saved.";
         }
-        catch (Exception ex)
-        {
-            ErrorMessage = $"Failed to save template: {ex.Message}";
-        }
+        catch (Exception ex) { ErrorMessage = $"Failed to save template: {ex.Message}"; }
     }
 
     private void Undo()
@@ -162,22 +148,60 @@ public class WBSEditorViewModel : INotifyPropertyChanged
 
     private void SnapshotBeforeChange(WBSNode node, string changeType)
     {
-        _undoStack.Push(new WBSChange
-        {
-            Id = Guid.NewGuid().ToString(),
-            Type = changeType,
-            NodeId = node.Id,
-            Timestamp = DateTime.UtcNow
-        });
+        _undoStack.Push(new WBSChange { Id = Guid.NewGuid().ToString(), Type = changeType, NodeId = node.Id, Timestamp = DateTime.UtcNow });
     }
 
     private void RefreshProperties()
     {
-        OnPropertyChanged(nameof(RootNode));
-        OnPropertyChanged(nameof(CanUndo));
-        OnPropertyChanged(nameof(HasTree));
-        OnPropertyChanged(nameof(CanAddChild));
-        OnPropertyChanged(nameof(CanRemove));
+        OnPropertyChanged(nameof(CanUndo)); OnPropertyChanged(nameof(HasTree));
+        OnPropertyChanged(nameof(CanAddChild)); OnPropertyChanged(nameof(CanRemove));
+    }
+
+    private void ExportToActiveSheet()
+    {
+        if (RootNode == null) return;
+        try
+        {
+            var service = new WBSExcelExportService();
+            StatusMessage = "Pass Excel app object to export to active sheet.";
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Export failed: {ex.Message}";
+        }
+    }
+
+    private void ExportToFile(string format)
+    {
+        if (RootNode == null) return;
+        try
+        {
+            var filter = format.ToLower() switch
+            {
+                "json" => "JSON files (*.json)|*.json",
+                "xml" => "XML files (*.xml)|*.xml",
+                _ => "All files (*.*)|*.*"
+            };
+            var ext = format.ToLower() == "json" ? ".json" : ".xml";
+            var dialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = filter,
+                FileName = $"WBS_{DateTime.Now:yyyyMMdd}{ext}"
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                var exportSvc = new WBSExportService();
+                if (format == "json")
+                    exportSvc.ExportToJsonAsync(RootNode, dialog.FileName).GetAwaiter().GetResult();
+                else
+                    exportSvc.ExportToXmlAsync(RootNode, dialog.FileName).GetAwaiter().GetResult();
+                StatusMessage = $"Exported to {dialog.FileName}";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Export failed: {ex.Message}";
+        }
     }
 
     protected void OnPropertyChanged([CallerMemberName] string? name = null)

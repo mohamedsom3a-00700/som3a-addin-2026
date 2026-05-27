@@ -262,6 +262,7 @@ Note: The master plan lives at repo root (`enterprise_planning_platform_plan.md`
 - [ ] AI abstraction with 6 provider stubs, orchestrator, context builder
 - [ ] Export engine with pipeline, Excel writer, format exporters
 - [ ] Build passes with zero errors
+- [ ] VSTO test suite passes — all phase-specific features load and function in Excel host
 - [ ] GitHub PR created and approved
 - [ ] CodeRabbit review clean
 - [ ] Manual architecture review passed
@@ -351,6 +352,7 @@ Note: The master plan lives at repo root (`enterprise_planning_platform_plan.md`
 - [ ] Import/export works per-plugin and full settings
 - [ ] API keys encrypted at rest
 - [ ] Build passes
+- [ ] VSTO test suite passes — dynamic settings registry renders correctly in Excel host
 - [ ] GitHub PR created and approved
 - [ ] CodeRabbit review clean
 
@@ -462,6 +464,7 @@ Note: The master plan lives at repo root (`enterprise_planning_platform_plan.md`
 - [ ] Token tracking and usage reports
 - [ ] Streaming responses work
 - [ ] Build passes
+- [ ] VSTO test suite passes — all 6 AI providers respond correctly inside Excel host without crashes
 - [ ] GitHub PR created and approved
 - [ ] CodeRabbit review clean
 
@@ -496,12 +499,63 @@ Note: The master plan lives at repo root (`enterprise_planning_platform_plan.md`
 - Full path generation
 - Export as structured data (JSON, XML)
 
+### P19-T004: Shell Sidebar Registration
+- Register WBS pages in Shell sidebar under "Planning" category
+- Pages: WBS Template Browser, WBS Generator, WBS Editor, WBS Export
+- Use NavigationService.RegisterPage with proper order and Material Design icons
+
+### P19-T005: Excel Ribbon Integration
+- Add WBS Engine ribbon menu with sub-items for each page
+- Use IRibbonRegistrar.AddMenu pattern from existing plugin infrastructure
+- Menu items: WBS Templates, AI WBS Generator, WBS Editor, WBS Export
+- Each menu item navigates to corresponding Shell page
+
 **Acceptance Criteria**:
-- [ ] 15+ WBS templates across 5 categories
-- [ ] AI generates valid WBS trees from project description
-- [ ] WBS exports correctly to Excel with proper indentation
-- [ ] Template editor functional
-- [ ] Build passes
+- [x] 15+ WBS templates across 5 categories
+- [x] AI generates valid WBS trees from project description
+- [x] WBS exports correctly to Excel with proper indentation
+- [x] Template editor with add/remove/rename/reorder/undo
+- [x] Shell sidebar registration — 4 WBS pages under "Planning" category
+- [x] Ribbon menu — "WBS Engine" with 4 launcher items
+- [x] Build passes (Som3a.Domain, Som3a.AI)
+- [ ] AI-powered Excel BOQ import generates valid WBS tree
+- [ ] Direct Excel export writes to active sheet correctly
+- [ ] Template Excel import/export round-trips reliably
+- [ ] Template tree preview shows full hierarchy
+- [ ] FullPath displayed consistently across all views
+- [ ] Style selector colors applied to nodes, connectors, and export
+- [ ] VSTO test suite passes — WBS templates, generator, editor, and export all function inside Excel host
+
+### P19-T006: AI-Powered Excel BOQ Import → WBS
+- Read Excel sheet with section/activity/quantity data
+- Build AI context payload and send to OrchestrationEngine via "BOQ-to-WBS" prompt
+- Parse AI output using WBSParser into WBSNode tree
+- User reviews and edits imported WBS before accepting
+
+### P19-T007: Direct Excel Export to Active Sheet
+- Export WBS tree directly to active Excel worksheet (not file-based)
+- Write with indentation, codes, names, levels, FullPath
+- Button on generator and editor pages
+
+### P19-T008: Template Excel Import/Export
+- Export WBS templates as dedicated Excel sheet with Code, Name, Level, ParentCode, FullPath columns
+- Import templates from Excel sheets back into template registry
+- Added to template browser page
+
+### P19-T009: WBS Template Tree Preview
+- Collapsible tree panel in template browser showing full hierarchy
+- Displays Code + Name for each selected template
+- Side panel updates on template selection
+
+### P19-T010: FullPath Display for Every Node
+- Show FullPath in editor details panel
+- Include FullPath in all export formats (Excel, JSON, XML)
+- Display FullPath in template tree preview
+
+### P19-T011: WBS Style Selector Colors
+- Level-based node background colors via existing style selector
+- Color-coded connector lines between parent/child nodes
+- Level-based row colors in Excel export
 
 ---
 
@@ -550,6 +604,7 @@ Note: The master plan lives at repo root (`enterprise_planning_platform_plan.md`
 - [ ] User can review and edit in grid
 - [ ] Exported Excel sheet correctly formatted
 - [ ] Build passes
+- [ ] VSTO test suite passes — BOQ activity generator plugin loads and exports correctly in Excel host
 
 ---
 
@@ -586,6 +641,7 @@ Note: The master plan lives at repo root (`enterprise_planning_platform_plan.md`
 - [ ] Validation reports identify open ends and dangling activities
 - [ ] Parallel execution groups identified
 - [ ] Build passes
+- [ ] VSTO test suite passes — relationship generator validates correctly in Excel host
 
 ---
 
@@ -628,6 +684,7 @@ Note: The master plan lives at repo root (`enterprise_planning_platform_plan.md`
 - [ ] Variance analysis with 3-point estimates
 - [ ] AI productivity suggestions validated
 - [ ] Build passes
+- [ ] VSTO test suite passes — duration estimator plugin exports and functions in Excel host
 
 ---
 
@@ -1648,9 +1705,10 @@ Each phase MUST stop after completion for:
 
 1. **Build**: `msbuild` passes with zero errors
 2. **Excel Host**: Manual VSTO host test
-3. **GitHub PR**: Architecture + style + performance review
-4. **CodeRabbit**: Code smells, performance, MVVM, memory, leaks, duplicates
-5. **Architecture Review**: Token usage, DynamicResource, no inline values, naming consistency
+3. **VSTO Test Suite**: `Tests/Run-VSTOTests.ps1` passes with zero failures — validates all phase-specific features load and function correctly inside Excel host
+4. **GitHub PR**: Architecture + style + performance review
+5. **CodeRabbit**: Code smells, performance, MVVM, memory, leaks, duplicates
+6. **Architecture Review**: Token usage, DynamicResource, no inline values, naming consistency
 
 ---
 
@@ -1663,6 +1721,7 @@ Each phase MUST stop after completion for:
 | UI Tests | Theme switching, RTL, accessibility | 17, 23, 24 |
 | Performance Tests | Excel export speed, AI execution, memory usage | 26 |
 | Regression Tests | Full feature suite across all themes/DPIs | 26 |
+| **VSTO Host Tests** | `Tests/Run-VSTOTests.ps1` — validates all phase features load & function inside Excel COM host | **Every phase** — mandatory gate |
 
 ---
 

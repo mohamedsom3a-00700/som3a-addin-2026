@@ -4,7 +4,7 @@
 
 | Field | Type | Description |
 |-------|------|-------------|
-| Id | string | Stable internal GUID — immutable across moves/renames |
+| Id | string (GUID) | Stable internal GUID — immutable across moves/renames |
 | Code | string | Mutable hierarchical code (1, 1.1, 1.1.1) — derived from tree position |
 | Name | string | Human-readable node name |
 | Level | int | Computed depth (0 = root, 1 = child of root, etc.) |

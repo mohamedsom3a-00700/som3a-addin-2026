@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using Microsoft.Office.Interop.Excel;
 
 namespace Som3a_WPF_UI.Services.WBS;
@@ -19,7 +20,7 @@ public class WBSExcelExportService
 
         var header = sheet.Range[sheet.Cells[1, 1], sheet.Cells[1, 5]];
         header.Font.Bold = true;
-        header.Interior.Color = System.Drawing.Color.LightGray;
+        header.Interior.Color = ColorTranslator.ToOle(Color.LightGray);
 
         int row = 2;
         WriteNodeToSheet(sheet, root, null, ref row);

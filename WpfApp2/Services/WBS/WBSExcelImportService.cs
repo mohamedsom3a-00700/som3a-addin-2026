@@ -61,7 +61,9 @@ public class WBSExcelImportService
             {
                 var context = BuildAIContext(headers, rows);
                 var wbs = _aiService.GenerateWBSFromExcelAsync(context).GetAwaiter().GetResult();
-                _codeGen.RenumberSubtree(wbs);
+                        _codeGen.RenumberSubtree(wbs);
+                if (_validator != null)
+                    _validator.ValidateTree(wbs);
                 return wbs;
             }
             catch
@@ -71,7 +73,11 @@ public class WBSExcelImportService
         }
 
         // Rule-based fallback: group by section/activity columns
-        return BuildRuleBasedWbs(headers, rows);
+        var wbs2 = BuildRuleBasedWbs(headers, rows);
+        _codeGen.RenumberSubtree(wbs2);
+        if (_validator != null)
+            _validator.ValidateTree(wbs2);
+        return wbs2;
     }
 
     private string BuildAIContext(List<string> headers, List<Dictionary<string, string>> rows)
@@ -152,7 +158,6 @@ public class WBSExcelImportService
             }
         }
 
-        _codeGen.RenumberSubtree(root);
         return root;
     }
 

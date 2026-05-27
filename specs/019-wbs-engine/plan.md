@@ -40,7 +40,7 @@ Per the [Project Constitution](../../.specify/memory/constitution.md), every imp
 - [x] **IX. Animation Governance** — UI transitions (tree expand/collapse) ≤200ms.
 - [x] **X. Excel Rendering Safety** — Excel export uses library-based file generation (ClosedXML/EPPlus), not VSTO interop during rendering.
 - [x] **XI. WindowChrome Enforcement** — WBS pages hosted in existing Shell workspace; no new standalone windows.
-- [x] **xII. Centralized Effects** — No inline effects in WBS pages; use centralized Effects/Shadows.xaml.
+- [x] **XII. Centralized Effects** — No inline effects in WBS pages; use centralized Effects/Shadows.xaml.
 - [x] **XV. Resource Loading Order** — Any new resource dictionaries follow prescribed loading order.
 
 ## Project Structure

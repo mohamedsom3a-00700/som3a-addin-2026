@@ -107,8 +107,21 @@ namespace Som3a_WPF_UI.Pages
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
         {
-            _vm.ConfirmOverwrite = true;
-            _vm.ExportCommand.Execute(null);
+            if (_vm.ConfirmOverwrite)
+            {
+                _vm.ExportCommand.Execute(null);
+                return;
+            }
+            var result = System.Windows.MessageBox.Show(
+                "An export may overwrite an existing sheet. Continue?",
+                "Confirm Export",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question);
+            if (result == System.Windows.MessageBoxResult.Yes)
+            {
+                _vm.ConfirmOverwrite = true;
+                _vm.ExportCommand.Execute(null);
+            }
         }
 
         private void btnConsent_Click(object sender, RoutedEventArgs e)

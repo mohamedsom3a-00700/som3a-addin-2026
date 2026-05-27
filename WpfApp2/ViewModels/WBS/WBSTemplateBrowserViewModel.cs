@@ -1,8 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -10,7 +8,7 @@ using Som3a_WPF_UI.Services.WBS;
 
 namespace Som3a_WPF_UI.ViewModels.WBS;
 
-public class WBSTemplateBrowserViewModel : INotifyPropertyChanged
+public class WBSTemplateBrowserViewModel : ViewModelBase
 {
     private readonly IWBSTemplateService _templateService;
     private WBSTemplateSummary? _selectedTemplate;
@@ -19,8 +17,6 @@ public class WBSTemplateBrowserViewModel : INotifyPropertyChanged
     private WBSTemplate? _selectedTemplateDetail;
     private WBSNode? _previewRoot;
     private readonly IWBSCodeGenerator _codeGen;
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     public ObservableCollection<WBSTemplateSummary> Templates { get; } = new();
     public ObservableCollection<string> Categories { get; } = new() { "All", "Building", "Infrastructure", "MEP", "Industrial", "Fitout" };
@@ -171,7 +167,4 @@ public class WBSTemplateBrowserViewModel : INotifyPropertyChanged
                 "WBS Templates", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
         }
     }
-
-    protected void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

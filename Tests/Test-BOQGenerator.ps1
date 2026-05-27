@@ -44,8 +44,7 @@ try {
     $auto = $addin.Object
 
     # 1. Verify workbook loaded
-    if ($excel.ActiveWorkbook.Name -like "*Book2*") { Write-Pass "Workbook: $($excel.ActiveWorkbook.Name)" } else { Write-Fail "Wrong workbook: $($excel.ActiveWorkbook.Name)" }
-    $passed++
+    if ($excel.ActiveWorkbook.Name -like "*Book2*") { Write-Pass "Workbook: $($excel.ActiveWorkbook.Name)"; $passed++ } else { Write-Fail "Wrong workbook: $($excel.ActiveWorkbook.Name)"; $failed++ }
 
     # 2. Navigate to BOQ Activity Generator
     $result = $auto.OpenWindow("BOQ Activity Generator")
@@ -69,8 +68,8 @@ try {
     if ($loadResult -like "OK*") {
         Write-Pass "BoqLoad succeeded: $loadResult"
         $passed++
-        $loadResult -match "BoqItems:(\d+)" | Out-Null
-        $boqCount = [int]$Matches[1]
+        $boqCount = 0
+        if ($loadResult -match "BoqItems:(\d+)") { $boqCount = [int]$Matches[1] }
         if ($boqCount -gt 0) {
             Write-Pass "BOQ items loaded: $boqCount (positive count)"
             $passed++

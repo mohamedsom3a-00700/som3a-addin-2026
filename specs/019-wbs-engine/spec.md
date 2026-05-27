@@ -12,7 +12,7 @@
 
 ### User Story 1 - Browse and Select WBS Templates (Priority: P1)
 
-A planning engineer opens the WBS workspace and browses pre-built WBS templates organized by project category (residential, commercial, industrial, infrastructure, MEP, industrial, fitout). Each template shows its name, category, level count, and a preview of the tree structure. The engineer selects a template as the starting point for their project. All template browsing works without AI connectivity.
+A planning engineer opens the WBS workspace and browses pre-built WBS templates organized by project category (Building, Infrastructure, MEP, Industrial, Fitout). Each template shows its name, category, level count, and a preview of the tree structure. The engineer selects a template as the starting point for their project. All template browsing works without AI connectivity.
 
 **Why this priority**: Templates are the foundation of WBS generation — without a template library, engineers must build WBS structures from scratch with no starting point.
 
@@ -20,7 +20,7 @@ A planning engineer opens the WBS workspace and browses pre-built WBS templates 
 
 **Acceptance Scenarios**:
 
-1. **Given** the engineer opens the WBS workspace, **When** they view available templates, **Then** templates are organized by category (residential, commercial, industrial, infrastructure, MEP, fitout) with at least 3 templates per category
+1. **Given** the engineer opens the WBS workspace, **When** they view available templates, **Then** templates are organized by category (Building, Infrastructure, MEP, Industrial, Fitout) with at least 3 templates per category
 2. **Given** the engineer selects a template, **When** it is opened, **Then** the full WBS tree is displayed with Code, Name, Level, and Parent for each node
 3. **Given** the engineer has an existing project context, **When** they browse templates, **Then** recommended templates are highlighted based on project type match
 

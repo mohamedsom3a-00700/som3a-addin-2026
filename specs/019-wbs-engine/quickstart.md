@@ -68,5 +68,5 @@ container.RegisterSingleton<IWBSAIService, WBSAIService>();
 ```powershell
 dotnet build WpfApp2/WpfApp2.csproj
 # Or use MSBuild:
-& "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
+& "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
 ```

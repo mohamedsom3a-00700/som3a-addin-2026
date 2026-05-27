@@ -3,52 +3,32 @@ Sync Impact Report
 ==================
 
 Version Change:
-1.1.0 -> 1.2.0
+1.2.0 -> 2.0.0-planned
 
-Status: Merge conflicts resolved. File is now clean.
+Status: Phases 14-19 implemented (v1.3.0). Phases 20-27 planned for Enterprise Planning Platform (v2.0.0).
 
 Modified Principles:
-- I. Library-First Modular Architecture (expanded)
-- III. DynamicResource Only -> III. DynamicResource-Only Theme Architecture (expanded)
-- IV. Runtime Theme Switching -> IV. Runtime Theme Mutation Governance (redefined)
-- VI. Performance & Efficiency -> XIII. Performance & Rendering Efficiency (redefined)
-
-Added Principles:
-- V. Primitive & Semantic Token Architecture
-- VI. Runtime Theme Synchronization
-- VII. Runtime Theme Persistence
-- VIII. Full Theme Editing Governance
-- IX. Animation Governance
-- X. Excel Rendering Safety
-- XI. WindowChrome Enforcement
-- XII. Centralized Effects Architecture
-- XIV. No Third-Party UI Frameworks
-- XV. Resource Loading Order Enforcement
-- XVI. Theme Safety & Recovery
+- (none — enterprise phases do not alter core constitutional principles)
 
 Added Governance Sections:
-- Enforcement
+- Amendment Record (visible changelog — v1.3.0)
+- Enterprise Planning Platform phases documented (v2.0.0-planned)
 
 Removed Sections:
-- Resource Loading Order (merged into Principle XV)
-- Theme System Architecture (superseded by individual principles)
-- Popup Architecture Rules (superseded by Excel Rendering Safety)
-- Window System (superseded by WindowChrome Enforcement)
-- UI Quality Standards (superseded by individual principles)
-- Theme Validation Checklist (to be moved to spec checklist)
-- VisualStateManager Strategy (to be moved to spec/plan guidance)
-- Incremental Migration Rules (to be moved to plan guidance)
-- Performance Budget Rules (superseded by Performance & Rendering Efficiency)
-- Design Authority Rules (superseded by Enforcement)
+- (none)
 
 Templates Requiring Updates:
-✅ .specify/templates/plan-template.md
-✅ .specify/templates/spec-template.md
-✅ .specify/templates/tasks-template.md
+- (none — enterprise plan documented in enterprise_planning_platform_plan.md)
 
 Follow-up TODOs:
-- Migrate remaining hardcoded gradients
-- Add automated resource validation tooling
+- Execute Phase 20: BOQ Activity Generator
+- Execute Phase 21: Relationship Generator
+- Execute Phase 22: Duration Estimator
+- Execute Phase 23: Dashboard & Home
+- Execute Phase 24: Localization & RTL
+- Execute Phase 25: Full Platform Rebranding
+- Execute Phase 26: Release Candidate
+- Execute Phase 27: Persistence & Database
 -->
 
 # Som3a Add-in 2026 Constitution
@@ -449,4 +429,14 @@ Non-compliant code MUST be refactored before merge approval.
 
 ---
 
-**Version**: 1.2.0 | **Ratified**: 2026-05-21 | **Last Amended**: 2026-05-21
+## Amendment Record
+
+| Version | Date | Summary |
+|---------|------|---------|
+| 1.0.0 | 2026-05-01 | Initial constitution — core principles I–VI, governance, amendment process |
+| 1.1.0 | 2026-05-10 | Theme expansion, MVVM cleanup, Popup/Window architecture rules added |
+| 1.2.0 | 2026-05-21 | Major redesign: DynamicResource-only, Primitive & Semantic tokens, Excel Rendering Safety, WindowChrome Enforcement, Centralized Effects, Theme Safety & Recovery. 10 principles consolidated, 10 removed |
+| 1.3.0 | 2026-05-27 | Platform Foundation (Phase 14): .NET 8.0 libraries (Contracts, Domain, AI, Exporting, Validation, Diagnostics, Infrastructure, Localization, Plugin.SDK), Bridge interop. Shell Refactor (Phase 15): categorized sidebar, dynamic plugin pages, keyboard nav, unsaved-changes dialog. Dynamic Settings Platform (Phase 16): type-safe settings, sidebar grouping. Theme Expansion (Phase 17): translucent backgrounds, blur effects, theme-switch fix. AI Core Infrastructure (Phase 18): provider abstraction, prompt orchestration, token tracking. WBS Engine (Phase 19): alpha codes, color style sync, shell polish, settings panel |
+| 2.0.0-planned | 2026-Q3 (planned) | **Enterprise Planning Platform** — Phases 20–27. BOQ Activity Generator (Phase 20): AI-powered activity generation from Excel BOQ data. Relationship Generator (Phase 21): predecessor/successor logic engine with loop detection. Duration Estimator (Phase 22): productivity analysis, variance estimation, AI recommendations. Dashboard & Home (Phase 23): landing page with widgets, diagnostics, quick actions. Localization & RTL (Phase 24): full English + Arabic with dynamic RTL switching. Full Platform Rebranding (Phase 25): Planova identity, brand assets, visual system overhaul. Release Candidate (Phase 26): production packaging, installer, final validation. Persistence & Database (Phase 27): SQLite infrastructure, repository pattern, migration engine |
+
+**Version**: 2.0.0-planned | **Ratified**: 2026-05-21 | **Last Amended**: 2026-05-27

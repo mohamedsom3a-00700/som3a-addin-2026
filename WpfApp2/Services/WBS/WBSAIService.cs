@@ -38,8 +38,8 @@ Output as a JSON array of WBSNode objects with properties: code, name, descripti
             Temperature = 0.3f,
             MaxTokens = 4096,
             ProviderType = AISettings.ProviderType == AIProviderType.Ollama ? "ollama" : "cloud",
-            ApiKey = AISettings.CloudApiKey,
-            Model = AISettings.CloudMainModel,
+            ApiKey = AISettings.ProviderType == AIProviderType.Ollama ? null : AISettings.CloudApiKey,
+            Model = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaModel : AISettings.CloudMainModel,
             Endpoint = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaEndpoint : null
         };
 
@@ -71,8 +71,8 @@ Output as a JSON array of WBSNode objects with properties: code, name, descripti
             Temperature = 0.3f,
             MaxTokens = 4096,
             ProviderType = AISettings.ProviderType == AIProviderType.Ollama ? "ollama" : "cloud",
-            ApiKey = AISettings.CloudApiKey,
-            Model = AISettings.CloudMainModel,
+            ApiKey = AISettings.ProviderType == AIProviderType.Ollama ? null : AISettings.CloudApiKey,
+            Model = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaModel : AISettings.CloudMainModel,
             Endpoint = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaEndpoint : null
         };
 
@@ -101,8 +101,8 @@ Output as a JSON array of WBSNode objects with properties: code, name, descripti
             Temperature = 0.3f,
             MaxTokens = 4096,
             ProviderType = AISettings.ProviderType == AIProviderType.Ollama ? "ollama" : "cloud",
-            ApiKey = AISettings.CloudApiKey,
-            Model = AISettings.CloudMainModel,
+            ApiKey = AISettings.ProviderType == AIProviderType.Ollama ? null : AISettings.CloudApiKey,
+            Model = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaModel : AISettings.CloudMainModel,
             Endpoint = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaEndpoint : null
         };
 

@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ABD7291F-8847-4C5D-B93F-FE1A76337A74}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Som3a_WPF_UI</RootNamespace>
+    <AssemblyName>Som3a_WPF_UI</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <LangVersion>14.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Contracts\ISidebarRegistrationProvider.cs" />
+    <Compile Include="Pages\ISupportsDirtyTracking.cs" />
+    <Compile Include="Services\SidebarRegistrationService.cs" />
+    <Compile Include="Controls\Shell\CommandPalette.xaml.cs">
+      <DependentUpon>CommandPalette.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Shell\NavigationDestination.cs" />
+    <Compile Include="Controls\Shell\NavigationEventArgs.cs" />
+    <Compile Include="Controls\Shell\NavigationPage.cs" />
+    <Compile Include="Controls\Shell\ShellState.cs" />
+    <Compile Include="Controls\Shell\ShellWindow.xaml.cs">
+      <DependentUpon>ShellWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Shell\SidebarControl.xaml.cs">
+      <DependentUpon>SidebarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Shell\WorkspaceHost.cs" />
+    <Compile Include="Converters\DifferenceTypeToColorConverter.cs" />
+    <Compile Include="Converters\WindowConverters.cs" />
+    <Compile Include="Converters\MaterialIconConverter.cs" />
+    <Compile Include="Float_path.xaml.cs">
+      <DependentUpon>Float_path.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\AsyncRelayCommand.cs" />
+    <Compile Include="Helpers\DpiHelper.cs" />
+    <Compile Include="Helpers\ExcelOwnerHelper.cs" />
+    <Compile Include="Helpers\NotifyBase.cs" />
+    <Compile Include="Helpers\WindowBehaviorHelper.cs" />
+    <Compile Include="Helpers\WindowChromeHelper.cs" />
+    <Compile Include="Helpers\WindowValidationHelper.cs" />
+    <Compile Include="Behaviors\DragMoveBehavior.cs" />
+    <Compile Include="Behaviors\EscapeCloseBehavior.cs" />
+    <Compile Include="ViewModels\XerEditorViewModel.cs" />
+    <Compile Include="Pages\PageBase.cs" />
+    <Compile Include="Pages\WelcomePage.xaml.cs">
+      <DependentUpon>WelcomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ProjectAnalysisPage.xaml.cs">
+      <DependentUpon>ProjectAnalysisPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FloatPathPage.xaml.cs">
+      <DependentUpon>FloatPathPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LinksManagerPage.xaml.cs">
+      <DependentUpon>LinksManagerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SubDailyReportPage.xaml.cs">
+      <DependentUpon>SubDailyReportPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AssignTradeCodesPage.xaml.cs">
+      <DependentUpon>AssignTradeCodesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PrimaveraComparePage.xaml.cs">
+      <DependentUpon>PrimaveraComparePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PrimaveraResultsPage.xaml.cs">
+      <DependentUpon>PrimaveraResultsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\XerEditorPage.xaml.cs">
+      <DependentUpon>XerEditorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FixPieColorsPage.xaml.cs">
+      <DependentUpon>FixPieColorsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\StyleSelectorPage.xaml.cs">
+      <DependentUpon>StyleSelectorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UnmergeFillDownPage.xaml.cs">
+      <DependentUpon>UnmergeFillDownPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WBS\WBSTemplateBrowserPage.xaml.cs">
+      <DependentUpon>WBSTemplateBrowserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WBS\WBSGeneratorPage.xaml.cs">
+      <DependentUpon>WBSGeneratorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WBS\WBSEditorPage.xaml.cs">
+      <DependentUpon>WBSEditorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BOQActivityGeneratorPage.xaml.cs">
+      <DependentUpon>BOQActivityGeneratorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\DiagnosticsService.cs" />
+    <Compile Include="Services\IBOQContextBuilder.cs" />
+    <Compile Include="Services\IActivityGenerationService.cs" />
+    <Compile Include="Services\IActivityValidationService.cs" />
+    <Compile Include="Services\IActivitySequencingService.cs" />
+    <Compile Include="Services\IActivityExportService.cs" />
+    <Compile Include="Services\BOQContextBuilder.cs" />
+    <Compile Include="Services\ActivityGenerationService.cs" />
+    <Compile Include="Services\ActivityValidationService.cs" />
+    <Compile Include="Services\ActivitySequencingService.cs" />
+    <Compile Include="Services\ActivityExportService.cs" />
+    <Compile Include="Services\AISettings.cs" />
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\ExcelProjectAnalysisService.cs" />
+    <Compile Include="Services\LoggingService.cs" />
+    <Compile Include="Services\ValidationEngine.cs" />
+    <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\ShellNavigationHelper.cs" />
+    <Compile Include="Theme\Controls\AnimationProperties.cs" />
+    <Compile Include="Services\ThemeSettings.cs" />
+    <Compile Include="Services\SettingsPersistenceService.cs" />
+    <Compile Include="Services\SettingsRegistry.cs" />
+    <Compile Include="Services\SettingsChangedEvent.cs" />
+    <Compile Include="Services\SettingsValidator.cs" />
+    <Compile Include="Services\SettingsMigrationService.cs" />
+    <Compile Include="Services\SettingsModuleIntegration.cs" />
+    <Compile Include="Services\ThemeManager.cs" />
+    <Compile Include="Services\WindowRenderModeDetector.cs" />
+    <Compile Include="Services\DwmBlurService.cs" />
+    <Compile Include="Services\FontEnumerator.cs" />
+    <Compile Include="Services\RenderModeService.cs" />
+    <Compile Include="Services\ServiceContainer.cs" />
+    <Compile Include="Services\EventBus.cs" />
+    <Compile Include="Services\ModuleRegistry.cs" />
+    <Compile Include="Services\ToastService.cs" />
+    <Compile Include="Controls\LoadingOverlay.xaml.cs">
+      <DependentUpon>LoadingOverlay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toast\ToastModel.cs" />
+    <Compile Include="Controls\Toast\ToastWindow.xaml.cs">
+      <DependentUpon>ToastWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIHost\WpfWindowManager.cs" />
+    <Compile Include="ViewModels\FloatPathViewModel.cs" />
+    <Compile Include="ViewModels\Primavera\PrimaveraCompareViewModel.cs" />
+    <Compile Include="ViewModels\Primavera\PrimaveraResultsViewModel.cs" />
+    <Compile Include="ViewModels\ProjectAnalysisViewModel.cs" />
+    <Compile Include="Models\RelayCommand.cs" />
+    <Compile Include="Models\UserSettings.cs" />
+    <Compile Include="Models\BOQContext.cs" />
+    <Compile Include="Models\GeneratedActivity.cs" />
+    <Compile Include="Models\ActivityValidationResult.cs" />
+    <Compile Include="Models\ActivitySequenceOrder.cs" />
+    <Compile Include="Models\ActivityNamingRule.cs" />
+    <Compile Include="Models\ActivityGroupingRule.cs" />
+    <Compile Include="Models\SettingsExport.cs" />
+    <Compile Include="Models\DiagnosticsModels.cs" />
+    <Compile Include="Models\SettingsCategory.cs" />
+    <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
+    <Compile Include="ViewModels\SubDailyReportViewModel.cs" />
+    <Compile Include="ViewModels\UnmergeFillDownViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\ToastViewModel.cs" />
+    <Compile Include="ViewModels\CommandPaletteViewModel.cs" />
+    <Compile Include="ViewModels\PluginDiagnosticsViewModel.cs" />
+    <Compile Include="Converters\SharedConverters.cs" />
+    <Compile Include="CompositionRoot.cs" />
+    <Compile Include="Contracts\ICommandRegistrar.cs" />
+    <Compile Include="Contracts\IModule.cs" />
+    <Compile Include="Contracts\IModuleInitializationContext.cs" />
+    <Compile Include="Contracts\IModuleRegistry.cs" />
+    <Compile Include="Contracts\INavigationRegistrar.cs" />
+    <Compile Include="Contracts\IPluginLoader.cs" />
+    <Compile Include="Contracts\IRibbonRegistrar.cs" />
+    <Compile Include="Contracts\ModuleInfo.cs" />
+    <Compile Include="Contracts\ModuleManifest.cs" />
+    <Compile Include="Services\CommandRegistrar.cs" />
+    <Compile Include="Services\ModuleInitializationContext.cs" />
+    <Compile Include="Services\NavigationRegistrar.cs" />
+    <Compile Include="Services\PluginRegistry.cs" />
+    <Compile Include="Services\PluginLoader.cs" />
+    <Compile Include="Services\ModuleDiagnosticsService.cs" />
+    <Compile Include="Services\LazyModuleCommand.cs" />
+    <Compile Include="Services\ModuleLoadOrchestrator.cs" />
+    <Compile Include="Services\RibbonRegistrar.cs" />
+    <Compile Include="Services\ModuleRibbonActionsAvailableEvent.cs" />
+    <Compile Include="Services\WBS\IWBSAIService.cs" />
+    <Compile Include="Services\WBS\IWBSCodeGenerator.cs" />
+    <Compile Include="Services\WBS\IWBSExportService.cs" />
+    <Compile Include="Services\WBS\IWBSTemplateService.cs" />
+    <Compile Include="Services\WBS\IWBSTreeValidator.cs" />
+    <Compile Include="Services\WBS\WBSAIService.cs" />
+    <Compile Include="Services\WBS\WBSCodeGenerator.cs" />
+    <Compile Include="Services\WBS\WBSExportService.cs" />
+    <Compile Include="Services\WBS\WBSRibbonModule.cs" />
+    <Compile Include="Services\WBS\WBSTemplateService.cs" />
+    <Compile Include="Services\WBS\WBSTreeValidator.cs" />
+    <Compile Include="Services\WBS\WBSDataTypes.cs" />
+    <Compile Include="Services\WBS\WBSColorService.cs" />
+    <Compile Include="Services\WBS\WBSExcelExportService.cs" />
+    <Compile Include="Services\WBS\WBSExcelImportService.cs" />
+    <Compile Include="Controls\ModuleLoadingOverlay.xaml.cs">
+      <DependentUpon>ModuleLoadingOverlay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ModernWindow.cs" />
+    <Compile Include="Controls\ColorWheel.cs" />
+    <Compile Include="Controls\FontPreview.cs" />
+    <Compile Include="Views\AppearancePanel.xaml.cs">
+      <DependentUpon>AppearancePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomThemeSettings.xaml.cs">
+      <DependentUpon>CustomThemeSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PerformancePanel.xaml.cs">
+      <DependentUpon>PerformancePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AIPanel.xaml.cs">
+      <DependentUpon>AIPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccessibilityPanel.xaml.cs">
+      <DependentUpon>AccessibilityPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DiagnosticsPanel.xaml.cs">
+      <DependentUpon>DiagnosticsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExcelPanel.xaml.cs">
+      <DependentUpon>ExcelPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WbsPanel.xaml.cs">
+      <DependentUpon>WbsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PluginsPanel.xaml.cs">
+      <DependentUpon>PluginsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingControlSelector.cs" />
+    <Compile Include="Views\SettingsSectionView.xaml.cs">
+      <DependentUpon>SettingsSectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\FixPieColorsViewModel.cs" />
+    <Compile Include="ViewModels\BOQActivityGeneratorViewModel.cs" />
+    <Compile Include="ViewModels\LinksManagerViewModel.cs" />
+    <Compile Include="Modules\BOQActivityGeneratorModule.cs" />
+    <Compile Include="Models\ActivityExportConfig.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\CustomThemeViewModel.cs" />
+    <Compile Include="ViewModels\SettingsSectionViewModel.cs" />
+    <Compile Include="ViewModels\SettingControlViewModel.cs" />
+    <Compile Include="ViewModels\WBS\WBSEditorViewModel.cs" />
+    <Compile Include="ViewModels\WBS\WBSGeneratorViewModel.cs" />
+    <Compile Include="ViewModels\WBS\WBSTemplateBrowserViewModel.cs" />
+    <Compile Include="ViewModels\WbsStyleSelectorViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Analyzers\README.md" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="scripts\Validate-Tokens.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Som3a.Shared\Som3a.Shared.csproj">
+      <Project>{5563203c-41d7-4ad2-943c-0c0d82f18b33}</Project>
+      <Name>Som3a.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Som3a.Bridge\Som3a.Bridge.csproj">
+      <Name>Som3a.Bridge</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Contracts\" />
+    <Folder Include="Modules\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <CopyModulesOnBuild>true</CopyModulesOnBuild>
+  </PropertyGroup>
+  <Target Name="CopyModulesToOutput" AfterTargets="Build" Condition="'$(CopyModulesOnBuild)' == 'true'">
+    <ItemGroup>
+      <_ModulesFiles Include="Modules\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_ModulesFiles)" DestinationFiles="@(_ModulesFiles-&gt;'$(OutDir)Modules\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Web.WebView2.1.0.3912.50\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.3912.50\build\Microsoft.Web.WebView2.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.3912.50\build\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.3912.50\build\Microsoft.Web.WebView2.targets'))" />
+  </Target>
+  <ItemGroup>
+    <ReferencePath Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\packages\MaterialDesignColors\lib\net462\MaterialDesignColors.dll" />
+    <ReferencePath Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\packages\MaterialDesignThemes\lib\net462\MaterialDesignThemes.Wpf.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Microsoft.CSharp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\Visual Studio Tools for Office\PIA\Office15\Microsoft.Office.Interop.Excel.dll">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </ReferencePath>
+    <ReferencePath Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\packages\Microsoft.Web.WebView2.1.0.3912.50\lib\net462\Microsoft.Web.WebView2.Core.dll" />
+    <ReferencePath Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\packages\Microsoft.Web.WebView2.1.0.3912.50\lib\net462\Microsoft.Web.WebView2.WinForms.dll" />
+    <ReferencePath Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\packages\Microsoft.Web.WebView2.1.0.3912.50\lib\net462\Microsoft.Web.WebView2.Wpf.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\mscorlib.dll" />
+    <ReferencePath Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\Som3a.Bridge\bin\Debug\netstandard2.0\Som3a.Bridge.dll" />
+    <ReferencePath Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\Som3a.Shared\bin\Debug\Som3a.Shared.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Net.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Security.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Windows.Forms.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xml.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\WindowsBase.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Facades\netstandard.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Controls\Shell\CommandPalette.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Controls\Shell\ShellWindow.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Controls\Shell\SidebarControl.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Float_path.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\WelcomePage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\SettingsPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\MainPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\ProjectAnalysisPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\FloatPathPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\LinksManagerPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\SubDailyReportPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\AssignTradeCodesPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\PrimaveraComparePage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\PrimaveraResultsPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\XerEditorPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\FixPieColorsPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\StyleSelectorPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\UnmergeFillDownPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\WBS\WBSTemplateBrowserPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\WBS\WBSGeneratorPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\WBS\WBSEditorPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Pages\BOQActivityGeneratorPage.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Controls\ModuleLoadingOverlay.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Controls\LoadingOverlay.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Controls\Toast\ToastWindow.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Views\AppearancePanel.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Views\CustomThemeSettings.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Views\PerformancePanel.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Views\AIPanel.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Views\AccessibilityPanel.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Views\DiagnosticsPanel.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Views\ExcelPanel.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Views\WbsPanel.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Views\PluginsPanel.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\Views\SettingsSectionView.g.cs" />
+    <Compile Include="C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\WpfApp2\obj\Debug\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+</Project>

@@ -42,9 +42,9 @@ public class WBSColorService
     public void ApplyLevelColorToExcelRow(Microsoft.Office.Interop.Excel.Range rowRange, int level)
     {
         var color = GetNodeColor(level);
-        rowRange.Interior.Color = color;
+        rowRange.Interior.Color = ColorTranslator.ToOle(color);
         // Use white text for dark backgrounds, black for light
         var brightness = (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) / 255.0;
-        rowRange.Font.Color = brightness < 0.5 ? Color.White : Color.Black;
+        rowRange.Font.Color = ColorTranslator.ToOle(brightness < 0.5 ? Color.White : Color.Black);
     }
 }
