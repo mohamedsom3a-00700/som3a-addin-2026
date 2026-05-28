@@ -70,6 +70,8 @@ namespace Som3a_WPF_UI.Services
 
             progress?.Report(new GenerationProgress("Fallback", 70, "AI unavailable. Using trade-sequence heuristics..."));
 
+            ct.ThrowIfCancellationRequested();
+
             var fallback = GenerateTradeSequenceRelationships(activities);
             if (fallback.Count > 0)
                 return fallback;
@@ -224,7 +226,7 @@ Output ONLY a JSON array. No markdown, no code fences. Each object: predecessorI
                     rel.IsUserModified = existing.IsUserModified;
                     if (existing.IsUserModified)
                     {
-                        rel.Lag = existing.Lag;
+                        rel.LagDays = existing.LagDays;
                         rel.Type = existing.Type;
                     }
                 }

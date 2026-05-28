@@ -537,7 +537,7 @@ namespace Som3a_WPF_UI.ViewModels
                 if (_previewSettings.AICloudApiKey != value)
                 {
                     _previewSettings.AICloudApiKey = value;
-                    AISettings.CloudApiKey = value;
+                    AISettings.CloudApiKey = value.Trim();
                     IsDirty = true;
                     OnPropertyChanged(nameof(AICloudApiKey));
                 }
@@ -957,12 +957,16 @@ namespace Som3a_WPF_UI.ViewModels
             var providers = AISettings.DetectedLocalProviders;
             if (providers.Count > 0)
             {
-                var first = providers[0];
+                var selected = SelectedLocalProvider;
+                var resolved = !string.IsNullOrEmpty(selected?.Id)
+                    ? providers.FirstOrDefault(p => p.Id == selected.Id)
+                    : null;
+                var provider = resolved ?? providers[0];
                 AIProviderType = "Ollama";
-                AIOllamaEndpoint = first.Endpoint;
-                AIOllamaModel = first.DefaultModel;
-                AIOllamaSubModel = first.FallbackModel;
-                AISettings.ApplyLocalProviderSelection(first);
+                AIOllamaEndpoint = provider.Endpoint;
+                AIOllamaModel = provider.DefaultModel;
+                AIOllamaSubModel = provider.FallbackModel;
+                AISettings.ApplyLocalProviderSelection(provider);
                 ShowApiKeyWarning = false;
             }
         }

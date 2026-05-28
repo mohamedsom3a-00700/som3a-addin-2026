@@ -24,6 +24,16 @@ namespace Som3a.Validation.Relationships
             var issues = new List<NetworkValidationIssue>();
 
             var depResult = _dependencyValidator.ValidateDependencies(relationships, activities);
+            if (depResult.Warnings.Count > 0)
+            {
+                foreach (var warning in depResult.Warnings)
+                {
+                    issues.Add(new NetworkValidationIssue(
+                        NetworkIssueType.LagOutOfRange,
+                        "Warning",
+                        warning));
+                }
+            }
             if (!depResult.IsSuccess)
                 issues.Add(new NetworkValidationIssue(
                     NetworkIssueType.InvalidReference,

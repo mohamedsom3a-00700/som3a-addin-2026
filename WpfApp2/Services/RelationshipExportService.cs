@@ -11,7 +11,7 @@ namespace Som3a_WPF_UI.Services
             IReadOnlyList<Relationship> relationships,
             CancellationToken ct = default)
         {
-            return Task.CompletedTask;
+            throw new NotImplementedException("ExportToExcelAsync is not yet implemented. Use the Export tab in the Relationship Generator page to export relationships to Excel.");
         }
     }
 }

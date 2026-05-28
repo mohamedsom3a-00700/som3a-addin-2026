@@ -95,10 +95,10 @@ namespace Som3a_WPF_UI.Services
             set { lock (_lock) { _ollamaSubModel = value ?? "llama3.2"; } }
         }
 
-        public static List<LocalProviderInfo> DetectedLocalProviders
+public static List<LocalProviderInfo> DetectedLocalProviders
         {
-            get { lock (_lock) { return _detectedLocalProviders; } }
-            set { lock (_lock) { _detectedLocalProviders = value ?? new List<LocalProviderInfo>(); } }
+            get { lock (_lock) { return new List<LocalProviderInfo>(_detectedLocalProviders); } }
+            set { lock (_lock) { _detectedLocalProviders = value != null ? new List<LocalProviderInfo>(value) : new List<LocalProviderInfo>(); } }
         }
 
         public static string SelectedLocalProviderId
@@ -112,15 +112,17 @@ namespace Som3a_WPF_UI.Services
             get { lock (_lock) { return _detectedLocalProviders.Count > 0; } }
         }
 
+        public static bool HasApiKey => !string.IsNullOrEmpty(CloudApiKey);
+
         public static (string providerType, string? apiKey, string model, string? endpoint) GetEffectiveProvider()
         {
-            if (!_isAIEnabled)
-                return ("none", null, string.Empty, null);
-
-            EnsureLocalProvidersDetected();
-
             lock (_lock)
             {
+                if (!_isAIEnabled)
+                    return ("none", null, string.Empty, null);
+
+                EnsureLocalProvidersDetected();
+
                 if (!string.IsNullOrEmpty(_cloudApiKey))
                     return ("cloud", _cloudApiKey, _cloudMainModel, null);
 
@@ -128,14 +130,12 @@ namespace Som3a_WPF_UI.Services
                     return ("ollama", null, _detectedLocalProviders[0].DefaultModel,
                         LocalProviderDetector.GetApiEndpoint(_detectedLocalProviders[0].Endpoint));
 
-                return ("none", null, null, null);
+                return ("none", null, string.Empty, null);
             }
         }
 
         private static void EnsureLocalProvidersDetected()
         {
-            // Static constructor already ran detection
-            // This is a no-op to maintain backward compatibility
         }
 
         public static void ApplyLocalProviderSelection(LocalProviderInfo provider)
@@ -149,7 +149,5 @@ namespace Som3a_WPF_UI.Services
                 _ollamaSubModel = provider.FallbackModel;
             }
         }
-
-        public static bool HasApiKey => !string.IsNullOrEmpty(_cloudApiKey);
     }
 }

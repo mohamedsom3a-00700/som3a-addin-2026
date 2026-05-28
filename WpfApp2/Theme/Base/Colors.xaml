@@ -269,6 +269,16 @@
     <!-- DEPRECATED: Use Brush.Fill.Status instead. Removal: Phase 6 -->
     <SolidColorBrush x:Key="FillStatusBrush" Color="{StaticResource Color.Fill.Status}"/>
 
+    <Color x:Key="Color.AcceptedRow.Background">#1A00AA00</Color>
+    <Color x:Key="Color.WarningBanner.Background">#33FFA500</Color>
+    <Color x:Key="Color.WarningBanner.Border">#FFFFA502</Color>
+
+    <!-- Accepted Row -->
+    <SolidColorBrush x:Key="AcceptedRowBackgroundBrush" Color="{StaticResource Color.AcceptedRow.Background}"/>
+    <!-- Warning Banner (No API Key) -->
+    <SolidColorBrush x:Key="WarningBannerBackground" Color="{StaticResource Color.WarningBanner.Background}"/>
+    <SolidColorBrush x:Key="WarningBorderBrush" Color="{StaticResource Color.WarningBanner.Border}"/>
+
     <Color x:Key="AccentColorLight">#6688FF</Color>
 
 </ResourceDictionary>

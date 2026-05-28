@@ -12,6 +12,7 @@ namespace Som3a_WPF_UI.Pages
 
         public void InitializeWithExcel(object excelApp)
         {
+            throw new NotSupportedException("Direct Excel integration is not supported. Use the Relationship Generator page instead.");
         }
     }
 }

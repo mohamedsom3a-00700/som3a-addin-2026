@@ -38,6 +38,12 @@ namespace Som3a_WPF_UI.Pages
                 case nameof(_vm.IsBusy):
                     BusyOverlay.Visibility = _vm.IsBusy ? Visibility.Visible : Visibility.Collapsed;
                     break;
+                case nameof(_vm.ValidationSummary):
+                    txtValidationSummary.Text = _vm.ValidationSummary ?? string.Empty;
+                    break;
+                case nameof(_vm.AnalysisSummary):
+                    txtAnalysis.Text = _vm.AnalysisSummary ?? string.Empty;
+                    break;
             }
         }
 
@@ -55,6 +61,7 @@ namespace Som3a_WPF_UI.Pages
         private void SyncFromViewModel()
         {
             RelationshipGrid.SetValue(FrameworkElement.DataContextProperty, _vm);
+            RelationshipGrid.LoadRelationships(_vm.Relationships);
             txtFooterStatus.Text = _vm.StatusText;
             txtGenerationStatus.Text = _vm.GenerationStatus;
             BusyOverlay.Visibility = _vm.IsBusy ? Visibility.Visible : Visibility.Collapsed;
