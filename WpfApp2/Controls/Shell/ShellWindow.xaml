@@ -24,7 +24,8 @@
         <Border Grid.Row="0" Grid.ColumnSpan="2"
                 Background="{DynamicResource SurfaceBrush}"
                 Padding="12,0"
-                WindowChrome.IsHitTestVisibleInChrome="True">
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

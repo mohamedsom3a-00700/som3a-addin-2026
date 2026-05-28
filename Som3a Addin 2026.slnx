@@ -3,6 +3,14 @@
     <Platform Name="Any CPU" />
     <Platform Name="ARM64" />
   </Configurations>
+  <Folder Name="/Plugins/" />
+  <Folder Name="/Plugins/DurationEstimator/" />
+  <Folder Name="/Plugins/DurationEstimator/src/">
+    <Project Path="Plugins/DurationEstimator/src/DurationEstimator.csproj" />
+  </Folder>
+  <Folder Name="/Plugins/DurationEstimator/tests/">
+    <Project Path="Plugins/DurationEstimator/tests/DurationEstimator.UnitTests.csproj" />
+  </Folder>
   <Project Path="Som3a Addin 2026/Som3a Addin 2026.csproj" Id="7fb273b7-14c8-4397-ae13-fab0cb8390e1">
     <Platform Solution="*|ARM64" Project="ARM64" />
   </Project>

@@ -26,5 +26,7 @@ namespace Som3a_Addin_2026
         string BoqGetStatus();
         string BoqGetProviderInfo();
         string BoqDebug();
+        string DeCalculateDuration(string activityId, decimal quantity, decimal rate, int crew, decimal hours);
+        string DeSearchBenchmarks(string category, string query);
     }
 }

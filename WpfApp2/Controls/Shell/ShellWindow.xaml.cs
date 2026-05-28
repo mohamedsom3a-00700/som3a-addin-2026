@@ -236,6 +236,12 @@ namespace Som3a_WPF_UI.Controls.Shell
             Close();
         }
 
+        private void TitleBar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 1)
+                DragMove();
+        }
+
         protected override void OnShellInitialize()
         {
         }

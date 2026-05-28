@@ -1,0 +1,227 @@
+<Page x:Class="Som3a_WPF_UI.Pages.DurationEstimatorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Title="Duration Estimator"
+      Background="{DynamicResource Brush.Background.Primary.Translucent}"
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="{DynamicResource TitleBarMargin}">
+            <TextBlock Text="Duration Estimator"
+                       Foreground="{DynamicResource TextMainBrush}"
+                       FontSize="14" FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="280"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- MAIN PANEL -->
+            <Border Grid.Column="0"
+                    Background="{DynamicResource CardBrush}"
+                    BorderBrush="{DynamicResource CardStrokeBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{DynamicResource LargeRadius}"
+                    Padding="16">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- INPUTS -->
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="14"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="14"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="14"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Qty:" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextMainBrush}" FontSize="13"/>
+                        <TextBox Grid.Column="2" Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="30" FontSize="13" VerticalContentAlignment="Center"/>
+
+                        <TextBlock Grid.Column="4" Text="Rate:" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextMainBrush}" FontSize="13"/>
+                        <TextBox Grid.Column="6" Text="{Binding ProductivityRate, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="30" FontSize="13" VerticalContentAlignment="Center"/>
+
+                        <TextBlock Grid.Column="8" Text="Crew:" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextMainBrush}" FontSize="13"/>
+                        <TextBox Grid.Column="10" Text="{Binding CrewSize, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="30" FontSize="13" VerticalContentAlignment="Center"/>
+
+                        <TextBlock Grid.Column="12" Text="Hrs/Day:" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextMainBrush}" FontSize="13"/>
+                        <TextBox Grid.Column="14" Text="{Binding HoursPerDay, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="30" FontSize="13" VerticalContentAlignment="Center"/>
+                    </Grid>
+
+                    <!-- BUTTONS + VARIANCE TOGGLE -->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Content="Calculate" Command="{Binding CalculateCommand}"
+                                Height="34" Width="90" Style="{DynamicResource BaseButton}"/>
+                        <Button Grid.Column="2" Content="Export Excel" Command="{Binding ExportExcelCommand}"
+                                Height="34" Width="100" Style="{DynamicResource BaseButton}"/>
+                        <Button Grid.Column="4" Content="Clear" Command="{Binding ClearCommand}"
+                                Height="34" Width="70" Style="{DynamicResource BaseButton}"/>
+                        <CheckBox Grid.Column="6" Content="3-Point"
+                                IsChecked="{Binding IsVarianceMode}"
+                                Height="34" VerticalAlignment="Center"
+                                Foreground="{DynamicResource TextMainBrush}"
+                                ToolTip="Enable 3-point variance estimation (PERT)"/>
+
+                        <TextBlock Grid.Column="8" Text="{Binding StatusText}"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                   FontSize="12" VerticalAlignment="Center" Margin="12,0,0,0"
+                                   TextTrimming="CharacterEllipsis"/>
+                    </Grid>
+
+                    <!-- VARIANCE INPUTS (visible when variance mode is on) -->
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,4,0,0"
+                                Visibility="{Binding IsVarianceMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="O:" VerticalAlignment="Center" FontSize="12"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBox Text="{Binding OptimisticRate, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="70" Height="26" FontSize="12" Margin="4,0,12,0"/>
+                        <TextBlock Text="P:" VerticalAlignment="Center" FontSize="12"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBox Text="{Binding PessimisticRate, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="70" Height="26" FontSize="12" Margin="4,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- RESULTS GRID -->
+                    <DataGrid Grid.Row="4"
+                              ItemsSource="{Binding Estimates}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              Background="Transparent"
+                              BorderBrush="{DynamicResource CardStrokeBrush}"
+                              BorderThickness="1"
+                              FontSize="12"
+                              RowHeaderWidth="0"
+                              EnableRowVirtualization="True"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling"
+                              SnapsToDevicePixels="True"
+                              UseLayoutRounding="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Activity" Binding="{Binding ActivityId}" Width="90"/>
+                            <DataGridTextColumn Header="Qty" Binding="{Binding Quantity, StringFormat=N2}" Width="80"/>
+                            <DataGridTextColumn Header="Rate" Binding="{Binding ProductivityRate, StringFormat=N1}" Width="70"/>
+                            <DataGridTextColumn Header="Days" Binding="{Binding DurationWorkingDays, StringFormat=N2}" Width="70"/>
+                            <DataGridTextColumn Header="O" Binding="{Binding OptimisticDuration, StringFormat=N2}" Width="60"/>
+                            <DataGridTextColumn Header="P" Binding="{Binding PessimisticDuration, StringFormat=N2}" Width="60"/>
+                            <DataGridTextColumn Header="E" Binding="{Binding ExpectedDuration, StringFormat=N2}" Width="70"/>
+                            <DataGridTextColumn Header="SD" Binding="{Binding StandardDeviation, StringFormat=N2}" Width="60"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+
+            <!-- SIDEBAR: BENCHMARK LIBRARY -->
+            <Border Grid.Column="2"
+                    Background="{DynamicResource CardBrush}"
+                    BorderBrush="{DynamicResource CardStrokeBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{DynamicResource LargeRadius}"
+                    Padding="12">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="6"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="6"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="6"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Benchmark Library"
+                               Foreground="{DynamicResource TextMainBrush}"
+                               FontSize="13" FontWeight="SemiBold"/>
+
+                    <ComboBox Grid.Row="2" ItemsSource="{Binding Categories}"
+                              SelectedItem="{Binding SelectedCategory}"
+                              Height="28" FontSize="12"/>
+
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="28" FontSize="12" VerticalContentAlignment="Center"/>
+                        <Button Grid.Column="2" Content="Search" Height="28" Width="60"
+                                Command="{Binding SearchBenchmarksCommand}"
+                                Style="{DynamicResource BaseButton}" FontSize="12"/>
+                    </Grid>
+
+                    <ListBox Grid.Row="6"
+                             ItemsSource="{Binding Benchmarks}"
+                             SelectedItem="{Binding SelectedBenchmark}"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             FontSize="11">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,2">
+                                    <TextBlock Text="{Binding ActivityDescription}" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextMainBrush}" FontSize="11"/>
+                                    <TextBlock FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}">
+                                        <Run Text="{Binding ProductivityValue, StringFormat='{}{0:N1}'}"/>
+                                        <Run Text=" "/>
+                                        <Run Text="{Binding UnitOfMeasure}"/>
+                                        <Run Text="/day, crew="/>
+                                        <Run Text="{Binding CrewSize}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Som3a.DurationEstimator</RootNamespace>
+    <AssemblyName>Som3a.DurationEstimator</AssemblyName>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Som3a.Domain\Som3a.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Som3a.Contracts\Som3a.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Som3a.Plugin.SDK\Som3a.Plugin.SDK.csproj" />
+    <ProjectReference Include="..\..\..\Som3a.AI\Som3a.AI.csproj" />
+    <ProjectReference Include="..\..\..\Som3a.Exporting\Som3a.Exporting.csproj" />
+    <ProjectReference Include="..\..\..\Som3a.Infrastructure\Som3a.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Som3a.Bridge\Som3a.Bridge.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Benchmarks\BenchmarkData.json" />
+  </ItemGroup>
+</Project>

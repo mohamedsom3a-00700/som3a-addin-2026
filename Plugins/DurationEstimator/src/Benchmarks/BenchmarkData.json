@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-05-28T00:00:00Z",
+  "categories": [
+    {
+      "id": "concrete",
+      "name": "Concrete",
+      "displayOrder": 1,
+      "rates": [
+        { "id": "conc-001", "activityDescription": "Formwork Installation", "productivityValue": 25, "unitOfMeasure": "m²", "crewSize": 4 },
+        { "id": "conc-002", "activityDescription": "Rebar Installation", "productivityValue": 0.8, "unitOfMeasure": "ton", "crewSize": 4 },
+        { "id": "conc-003", "activityDescription": "Concrete Pouring", "productivityValue": 30, "unitOfMeasure": "m³", "crewSize": 5 },
+        { "id": "conc-004", "activityDescription": "Concrete Finishing", "productivityValue": 40, "unitOfMeasure": "m²", "crewSize": 3 },
+        { "id": "conc-005", "activityDescription": "Curing Application", "productivityValue": 200, "unitOfMeasure": "m²", "crewSize": 2 },
+        { "id": "conc-006", "activityDescription": "Formwork Stripping", "productivityValue": 35, "unitOfMeasure": "m²", "crewSize": 3 },
+        { "id": "conc-007", "activityDescription": "Post-Tensioning", "productivityValue": 500, "unitOfMeasure": "m", "crewSize": 4 },
+        { "id": "conc-008", "activityDescription": "Concrete Testing (Slump/Compression)", "productivityValue": 12, "unitOfMeasure": "test", "crewSize": 1 },
+        { "id": "conc-009", "activityDescription": "Waterproofing Membrane Application", "productivityValue": 50, "unitOfMeasure": "m²", "crewSize": 3 },
+        { "id": "conc-010", "activityDescription": "Expansion Joint Installation", "productivityValue": 30, "unitOfMeasure": "m", "crewSize": 2 }
+      ]
+    },
+    {
+      "id": "steel",
+      "name": "Steel",
+      "displayOrder": 2,
+      "rates": [
+        { "id": "stl-001", "activityDescription": "Structural Steel Erection", "productivityValue": 5, "unitOfMeasure": "ton", "crewSize": 5 },
+        { "id": "stl-002", "activityDescription": "Steel Welding", "productivityValue": 15, "unitOfMeasure": "m", "crewSize": 2 },
+        { "id": "stl-003", "activityDescription": "Bolted Connection Installation", "productivityValue": 20, "unitOfMeasure": "connection", "crewSize": 2 },
+        { "id": "stl-004", "activityDescription": "Steel Deck Installation", "productivityValue": 80, "unitOfMeasure": "m²", "crewSize": 4 },
+        { "id": "stl-005", "activityDescription": "Steel Stair Fabrication", "productivityValue": 1, "unitOfMeasure": "flight", "crewSize": 3 },
+        { "id": "stl-006", "activityDescription": "Metal Roof Panel Installation", "productivityValue": 60, "unitOfMeasure": "m²", "crewSize": 4 },
+        { "id": "stl-007", "activityDescription": "Steel Column Installation", "productivityValue": 3, "unitOfMeasure": "piece", "crewSize": 4 },
+        { "id": "stl-008", "activityDescription": "Metal Stud Wall Framing", "productivityValue": 50, "unitOfMeasure": "m²", "crewSize": 3 }
+      ]
+    },
+    {
+      "id": "masonry",
+      "name": "Masonry",
+      "displayOrder": 3,
+      "rates": [
+        { "id": "mas-001", "activityDescription": "Concrete Block Laying", "productivityValue": 80, "unitOfMeasure": "block", "crewSize": 3 },
+        { "id": "mas-002", "activityDescription": "Brick Laying", "productivityValue": 400, "unitOfMeasure": "brick", "crewSize": 3 },
+        { "id": "mas-003", "activityDescription": "Stone Veneer Installation", "productivityValue": 10, "unitOfMeasure": "m²", "crewSize": 2 },
+        { "id": "mas-004", "activityDescription": "Mortar Mixing & Application", "productivityValue": 0.5, "unitOfMeasure": "m³", "crewSize": 2 },
+        { "id": "mas-005", "activityDescription": "Coping Stone Installation", "productivityValue": 15, "unitOfMeasure": "m", "crewSize": 2 },
+        { "id": "mas-006", "activityDescription": "Glass Block Installation", "productivityValue": 3, "unitOfMeasure": "m²", "crewSize": 2 },
+        { "id": "mas-007", "activityDescription": "Retaining Wall Block Installation", "productivityValue": 5, "unitOfMeasure": "m²", "crewSize": 3 }
+      ]
+    },
+    {
+      "id": "mep",
+      "name": "MEP (Mechanical, Electrical, Plumbing)",
+      "displayOrder": 4,
+      "rates": [
+        { "id": "mep-001", "activityDescription": "Conduit Installation", "productivityValue": 40, "unitOfMeasure": "m", "crewSize": 2 },
+        { "id": "mep-002", "activityDescription": "Wire Pulling", "productivityValue": 200, "unitOfMeasure": "m", "crewSize": 2 },
+        { "id": "mep-003", "activityDescription": "Electrical Outlet Installation", "productivityValue": 10, "unitOfMeasure": "outlet", "crewSize": 1 },
+        { "id": "mep-004", "activityDescription": "PVC Pipe Installation", "productivityValue": 30, "unitOfMeasure": "m", "crewSize": 2 },
+        { "id": "mep-005", "activityDescription": "Copper Pipe Installation", "productivityValue": 15, "unitOfMeasure": "m", "crewSize": 2 },
+        { "id": "mep-006", "activityDescription": "HVAC Duct Installation", "productivityValue": 20, "unitOfMeasure": "m²", "crewSize": 3 },
+        { "id": "mep-007", "activityDescription": "Plumbing Fixture Installation", "productivityValue": 3, "unitOfMeasure": "fixture", "crewSize": 2 },
+        { "id": "mep-008", "activityDescription": "Fire Sprinkler Head Installation", "productivityValue": 8, "unitOfMeasure": "head", "crewSize": 2 },
+        { "id": "mep-009", "activityDescription": "Cable Tray Installation", "productivityValue": 25, "unitOfMeasure": "m", "crewSize": 2 },
+        { "id": "mep-010", "activityDescription": "Lighting Fixture Installation", "productivityValue": 6, "unitOfMeasure": "fixture", "crewSize": 1 }
+      ]
+    },
+    {
+      "id": "finishes",
+      "name": "Finishes",
+      "displayOrder": 5,
+      "rates": [
+        { "id": "fin-001", "activityDescription": "Drywall Installation", "productivityValue": 50, "unitOfMeasure": "m²", "crewSize": 2 },
+        { "id": "fin-002", "activityDescription": "Taping & Mudding", "productivityValue": 30, "unitOfMeasure": "m²", "crewSize": 2 },
+        { "id": "fin-003", "activityDescription": "Painting (Roller/Brush)", "productivityValue": 100, "unitOfMeasure": "m²", "crewSize": 2 },
+        { "id": "fin-004", "activityDescription": "Ceramic Tile Installation", "productivityValue": 8, "unitOfMeasure": "m²", "crewSize": 2 },
+        { "id": "fin-005", "activityDescription": "Suspended Ceiling Installation", "productivityValue": 25, "unitOfMeasure": "m²", "crewSize": 3 },
+        { "id": "fin-006", "activityDescription": "Flooring (Vinyl/Laminate)", "productivityValue": 30, "unitOfMeasure": "m²", "crewSize": 2 },
+        { "id": "fin-007", "activityDescription": "Baseboard Installation", "productivityValue": 40, "unitOfMeasure": "m", "crewSize": 1 },
+        { "id": "fin-008", "activityDescription": "Wallpaper Installation", "productivityValue": 15, "unitOfMeasure": "m²", "crewSize": 1 },
+        { "id": "fin-009", "activityDescription": "Carpet Installation", "productivityValue": 35, "unitOfMeasure": "m²", "crewSize": 2 },
+        { "id": "fin-010", "activityDescription": "Corner Bead Installation", "productivityValue": 50, "unitOfMeasure": "m", "crewSize": 1 }
+      ]
+    },
+    {
+      "id": "earthwork",
+      "name": "Earthwork",
+      "displayOrder": 6,
+      "rates": [
+        { "id": "ert-001", "activityDescription": "Excavation (Heavy Equipment)", "productivityValue": 200, "unitOfMeasure": "m³", "crewSize": 3 },
+        { "id": "ert-002", "activityDescription": "Backfilling & Compaction", "productivityValue": 100, "unitOfMeasure": "m³", "crewSize": 3 },
+        { "id": "ert-003", "activityDescription": "Trenching", "productivityValue": 50, "unitOfMeasure": "m", "crewSize": 3 },
+        { "id": "ert-004", "activityDescription": "Grading & Leveling", "productivityValue": 500, "unitOfMeasure": "m²", "crewSize": 2 },
+        { "id": "ert-005", "activityDescription": "Soil Compaction Testing", "productivityValue": 8, "unitOfMeasure": "test", "crewSize": 1 },
+        { "id": "ert-006", "activityDescription": "Site Clearing & Grubbing", "productivityValue": 1000, "unitOfMeasure": "m²", "crewSize": 3 }
+      ]
+    }
+  ]
+}

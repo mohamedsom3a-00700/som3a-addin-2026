@@ -330,6 +330,8 @@ $windowTests = @(
     @{ ButtonLabel = "WBS Template Browser"; WindowTitle = ""; TaskId = "T037"; Description = "WBSTemplateBrowserPage" }
     @{ ButtonLabel = "WBS Generator"; WindowTitle = ""; TaskId = "T037"; Description = "WBSGeneratorPage" }
     @{ ButtonLabel = "WBS Editor"; WindowTitle = ""; TaskId = "T037"; Description = "WBSEditorPage" }
+    # Phase 22: Duration Estimator Plugin
+    @{ ButtonLabel = "Duration Estimator"; WindowTitle = ""; TaskId = "T013"; Description = "DurationEstimatorPage" }
 )
 
 if ($Quick) {
@@ -555,7 +557,52 @@ try {
             -Detail "COM automation not available" -Category "WBS"
     }
 
-    # Step 11: Final memory check
+    # Step 11: Duration Estimator Plugin Test (Phase 22)
+    Write-Log "===== Duration Estimator Plugin Test (T013-T015) ====="
+    $deResults = @()
+    if ($auto) {
+        Write-Log "  Navigating to Duration Estimator..."
+        $deNav = $auto.OpenWindow("Duration Estimator")
+        Write-Log "    OpenWindow(Duration Estimator): $deNav"
+        $deOk = $deNav -eq "OK"
+
+        if ($deOk) {
+            Start-Sleep -Seconds 1
+            Take-Screenshot -Label "DurationEstimator_Loaded"
+
+            Write-Log "  Testing calculation via COM..."
+            $deCalc = $auto.DeCalculateDuration("ACT-TEST", 100, 10, 2, 8)
+            Write-Log "    DeCalculateDuration: $deCalc"
+            $deOk = $deOk -and ($deCalc -ne $null -and $deCalc -notlike "ERROR*")
+
+            Write-Log "  Testing benchmark search via COM..."
+            $deBench = $auto.DeSearchBenchmarks("concrete", "")
+            Write-Log "    DeSearchBenchmarks(concrete): $deBench"
+            $deOk = $deOk -and ($deBench -ne $null -and $deBench -notlike "ERROR*")
+
+            $deResults += [PSCustomObject]@{
+                Test = "Duration Estimator Open"; Status = $(if ($deNav -eq "OK") { "PASS" } else { "FAIL" })
+                Detail = "OpenWindow=$deNav"
+            }
+            $deResults += [PSCustomObject]@{
+                Test = "Calculate Duration"; Status = $(if ($deCalc -ne $null -and $deCalc -notlike "ERROR*") { "PASS" } else { "FAIL" })
+                Detail = "Result=$deCalc"
+            }
+            $deResults += [PSCustomObject]@{
+                Test = "Search Benchmarks"; Status = $(if ($deBench -ne $null -and $deBench -notlike "ERROR*") { "PASS" } else { "FAIL" })
+                Detail = "Result=$deBench"
+            }
+        }
+
+        Add-Result -Doc $resultsDoc -TaskId "T013" -Name "DurationEstimator_Load" -Status $(if ($deOk) { "pass" } else { "fail" }) `
+            -Detail "Nav=$deNav | Calc=$deCalc | Bench=$deBench" -Category "DurationEstimator"
+    } else {
+        Write-Log "  Skipped: COM automation not available" -Level "WARN"
+        Add-Result -Doc $resultsDoc -TaskId "T013" -Name "DurationEstimator_Load" -Status "skip" `
+            -Detail "COM automation not available" -Category "DurationEstimator"
+    }
+
+    # Step 12: Final memory check
     $memFinal = Get-MemoryMB
     $memGrowth = if ($memBaseline -and $memFinal) { [math]::Round(($memFinal - $memBaseline) / $memBaseline * 100, 1) } else { "N/A" }
     $memGrowthStr = "$memGrowth pct growth"
@@ -597,6 +644,8 @@ Write-Log "`nTheme Test Results:"
 $themeResults | Format-Table -Property Theme, Status, TimeMs, MemDelta -AutoSize
 Write-Log "`nWBS Settings Test Results:"
 $wbsResults | Format-Table -Property Test, Status, Detail -AutoSize
+Write-Log "`nDuration Estimator Test Results:"
+$deResults | Format-Table -Property Test, Status, Detail -AutoSize
 
 if ($overallPass) {
     Write-Log "`n[PASS] OVERALL: PASS" -Level "INFO"

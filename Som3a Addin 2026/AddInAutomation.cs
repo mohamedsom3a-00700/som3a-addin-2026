@@ -107,9 +107,12 @@ namespace Som3a_Addin_2026
                     case "WBS Editor":
                         route = "planning.wbs.editor";
                         break;
-                    case "BOQ Activity Generator":
-                        route = "planning.boq.activity";
-                        break;
+                case "BOQ Activity Generator":
+                    route = "planning.boq.activity";
+                    break;
+                case "Duration Estimator":
+                    route = "planning.duration";
+                    break;
                     default:
                         return "WINDOW_NOT_FOUND";
                 }
@@ -626,6 +629,78 @@ namespace Som3a_Addin_2026
                 catch (Exception ex)
                 {
                     return "DEBUG_ERROR: " + ex.Message;
+                }
+            });
+        }
+        // ---- Duration Estimator Automation (Phase 22) ----
+
+        private DurationEstimatorPageViewModel FindDeViewModel(int timeoutMs = 10000)
+        {
+            var deadline = DateTime.UtcNow.AddMilliseconds(timeoutMs);
+            while (DateTime.UtcNow < deadline)
+            {
+                var nav = NavigationService.Instance;
+                var shell = nav?.ShellWindow;
+                if (shell == null)
+                {
+                    shell = Application.Current?.Windows
+                        .OfType<ShellWindow>()
+                        .FirstOrDefault();
+                }
+                if (shell?.CurrentPage is DurationEstimatorPage page)
+                {
+                    var vm = page.DataContext as DurationEstimatorPageViewModel;
+                    if (vm != null) return vm;
+                }
+                var frame = new System.Windows.Threading.DispatcherFrame();
+                System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(
+                    System.Windows.Threading.DispatcherPriority.Background,
+                    new Action(() => frame.Continue = false));
+                System.Windows.Threading.Dispatcher.PushFrame(frame);
+            }
+            return null;
+        }
+
+        public string DeCalculateDuration(string activityId, decimal quantity, decimal rate, int crew, decimal hours)
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var vm = FindDeViewModel();
+                    if (vm == null) return "ERROR: Duration Estimator page not open";
+                    vm.Quantity = quantity;
+                    vm.ProductivityRate = rate;
+                    vm.CrewSize = crew;
+                    vm.HoursPerDay = hours;
+                    if (vm.CalculateCommand.CanExecute(null))
+                        vm.CalculateCommand.Execute(null);
+                    return $"OK|Estimates:{vm.EstimateCount}";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string DeSearchBenchmarks(string category, string query)
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var vm = FindDeViewModel();
+                    if (vm == null) return "ERROR: Duration Estimator page not open";
+                    vm.SelectedCategory = category ?? "All";
+                    vm.SearchQuery = query ?? "";
+                    if (vm.SearchBenchmarksCommand.CanExecute(null))
+                        vm.SearchBenchmarksCommand.Execute(null);
+                    return $"OK|Benchmarks:{vm.BenchmarkCount}";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
                 }
             });
         }

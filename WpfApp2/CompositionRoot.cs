@@ -77,6 +77,8 @@ namespace Som3a_WPF_UI
             container.RegisterTransient<IRelationshipAnalysisService, Services.RelationshipAnalysisService>();
             container.RegisterTransient<IRelationshipExportService, Services.RelationshipExportService>();
             container.RegisterTransient<RelationshipGeneratorViewModel, RelationshipGeneratorViewModel>();
+            container.RegisterTransient<DurationEstimatorPageViewModel, DurationEstimatorPageViewModel>();
+            container.RegisterSingleton<IDurationEstimatorBridge, DurationCalculationService>();
 
             container.RegisterTransient<ToastViewModel, ToastViewModel>();
             container.RegisterTransient<CommandPaletteViewModel, CommandPaletteViewModel>();

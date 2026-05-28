@@ -179,6 +179,9 @@
     <Compile Include="Pages\RelationshipGeneratorPage.xaml.cs">
       <DependentUpon>RelationshipGeneratorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\DurationEstimatorPage.xaml.cs">
+      <DependentUpon>DurationEstimatorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\DiagnosticsService.cs" />
     <Compile Include="Services\IBOQContextBuilder.cs" />
     <Compile Include="Services\IActivityGenerationService.cs" />
@@ -198,6 +201,7 @@
     <Compile Include="Services\RelationshipValidationService.cs" />
     <Compile Include="Services\RelationshipAnalysisService.cs" />
     <Compile Include="Services\RelationshipExportService.cs" />
+    <Compile Include="Services\DurationCalculationService.cs" />
     <Compile Include="Services\AISettings.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ExcelProjectAnalysisService.cs" />
@@ -338,6 +342,7 @@
     <Compile Include="ViewModels\FixPieColorsViewModel.cs" />
     <Compile Include="ViewModels\BOQActivityGeneratorViewModel.cs" />
     <Compile Include="ViewModels\RelationshipGeneratorViewModel.cs" />
+    <Compile Include="ViewModels\DurationEstimatorPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modules\BOQActivityGeneratorModule.cs" />
@@ -476,6 +481,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\RelationshipGeneratorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DurationEstimatorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

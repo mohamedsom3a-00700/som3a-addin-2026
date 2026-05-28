@@ -33,6 +33,7 @@ namespace Som3a_WPF_UI.Services
             _navigationService.RegisterPage("Planning", typeof(Pages.WBS.WBSEditorPage), "planning.wbs.editor", "WBS Editor", "PencilRuler", 70);
             _navigationService.RegisterPage("Planning", typeof(Pages.BOQActivityGeneratorPage), "planning.boq.activity", "BOQ Activity Generator", "Creation", 80);
             _navigationService.RegisterPage("Planning", typeof(Pages.RelationshipGeneratorPage), "planning.relationship", "Relationship Generator", "Connection", 90);
+            _navigationService.RegisterPage("Planning", typeof(Pages.DurationEstimatorPage), "planning.duration", "Duration Estimator", "Timer", 100);
             _navigationService.RegisterPage("Analysis", typeof(Pages.FloatPathPage), "analysis.floatpath", "Float Path", "Routes", 10);
             _navigationService.RegisterPage("Excel", typeof(Pages.LinksManagerPage), "excel.links", "Links Manager", "LinkVariant", 10);
             _navigationService.RegisterPage("Excel", typeof(Pages.SubDailyReportPage), "excel.subdaily", "Sub-Daily Report", "FileTable", 20);

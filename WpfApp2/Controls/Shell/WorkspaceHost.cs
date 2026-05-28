@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Som3a_WPF_UI.Pages;
@@ -115,6 +116,16 @@ namespace Som3a_WPF_UI.Controls.Shell
             if (_loadingIndicator != null)
                 _loadingIndicator.Visibility = Visibility.Collapsed;
             Interlocked.Exchange(ref _isNavigating, 0);
+
+            if (_currentPage != null)
+            {
+                _currentPage.Loaded += (s, args) =>
+                {
+                    _currentPage.Focus();
+                    _currentPage.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+                };
+            }
+
             OnNavigationCompleted(new NavigationEventArgs { Success = true });
         }
 
