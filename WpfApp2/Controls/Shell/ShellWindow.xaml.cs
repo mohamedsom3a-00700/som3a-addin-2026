@@ -76,7 +76,7 @@ namespace Som3a_WPF_UI.Controls.Shell
             _viewModel = App.Container.Resolve<ShellViewModel>();
             DataContext = _viewModel;
 
-            _viewModel.WelcomePageType = typeof(WelcomePage);
+            _viewModel.WelcomePageType = typeof(HomePage);
             _viewModel.NavigateToPageCommand = new RelayCommand(p => OnNavigateCommand(p as string));
 
             NavigationService.Instance.SetShellWindow(this);

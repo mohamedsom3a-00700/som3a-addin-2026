@@ -88,6 +88,7 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/PasswordBoxStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/TreeViewStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Controls/WidgetCardStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/MaterialIcons.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/MaterialControls.xaml"/>
 

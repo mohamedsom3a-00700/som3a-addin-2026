@@ -122,6 +122,32 @@
     <Compile Include="Behaviors\EscapeCloseBehavior.cs" />
     <Compile Include="ViewModels\XerEditorViewModel.cs" />
     <Compile Include="Pages\PageBase.cs" />
+    <Compile Include="Pages\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\DiagnosticsPage.xaml.cs">
+      <DependentUpon>DiagnosticsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\Dashboard\WidgetViewModel.cs" />
+    <Compile Include="ViewModels\Dashboard\VersionWidgetViewModel.cs" />
+    <Compile Include="ViewModels\Dashboard\UpdatesWidgetViewModel.cs" />
+    <Compile Include="ViewModels\Dashboard\RecentToolsWidgetViewModel.cs" />
+    <Compile Include="ViewModels\Dashboard\RecentProjectsWidgetViewModel.cs" />
+    <Compile Include="ViewModels\Dashboard\DiagnosticsSummaryWidgetViewModel.cs" />
+    <Compile Include="ViewModels\Dashboard\AIProviderStatusWidgetViewModel.cs" />
+    <Compile Include="ViewModels\Dashboard\PerformanceSummaryWidgetViewModel.cs" />
+    <Compile Include="ViewModels\Dashboard\QuickActionsWidgetViewModel.cs" />
+    <Compile Include="ViewModels\Dashboard\PluginStatusWidgetViewModel.cs" />
+    <Compile Include="Services\IRecentItemsService.cs" />
+    <Compile Include="Services\IPerformanceMonitor.cs" />
+    <Compile Include="Services\IChangelogService.cs" />
+    <Compile Include="Services\RecentItemsService.cs" />
+    <Compile Include="Services\PerformanceMonitor.cs" />
+    <Compile Include="Services\ChangelogService.cs" />
+    <Compile Include="Controls\WidgetCard.cs" />
+    <Compile Include="Models\RecentItem.cs" />
+    <Compile Include="Models\WidgetDefinition.cs" />
     <Compile Include="Pages\WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
@@ -485,6 +511,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\DurationEstimatorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DiagnosticsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\WidgetCardStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

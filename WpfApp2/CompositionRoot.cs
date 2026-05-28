@@ -83,6 +83,10 @@ namespace Som3a_WPF_UI
             container.RegisterTransient<ToastViewModel, ToastViewModel>();
             container.RegisterTransient<CommandPaletteViewModel, CommandPaletteViewModel>();
 
+            container.RegisterSingleton<IRecentItemsService, RecentItemsService>();
+            container.RegisterSingleton<IPerformanceMonitor, PerformanceMonitor>();
+            container.RegisterSingleton<IChangelogService, ChangelogService>();
+
             container.RegisterSingleton<ILoggingService, LoggingService>();
             container.RegisterSingleton<IDiagnosticsService, DiagnosticsService>();
             container.RegisterSingleton<IValidationEngine, ValidationEngine>();
