@@ -16,11 +16,15 @@ namespace Som3a.AI.Providers
 
         public OpenAIProvider(string apiKey, string model = "gpt-4", string? baseUrl = null, Dictionary<string, string>? additionalHeaders = null)
         {
-            _apiKey = apiKey;
+            _apiKey = apiKey ?? "";
             _model = model;
             _httpClient = new HttpClient();
+            _httpClient.Timeout = TimeSpan.FromMinutes(10);
             _httpClient.BaseAddress = new Uri(baseUrl ?? "https://api.openai.com/v1/");
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+            if (!string.IsNullOrEmpty(_apiKey) && !string.Equals(_apiKey, "ollama", StringComparison.OrdinalIgnoreCase))
+            {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
+            }
             if (additionalHeaders != null)
             {
                 foreach (var h in additionalHeaders)

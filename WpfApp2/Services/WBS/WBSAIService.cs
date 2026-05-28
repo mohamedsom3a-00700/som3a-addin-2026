@@ -31,16 +31,17 @@ public class WBSAIService : IWBSAIService
 
 Output as a JSON array of WBSNode objects with properties: code, name, description, children (recursive).";
 
+        var (providerType, apiKey, model, endpoint) = AISettings.GetEffectiveProvider();
         var request = new AIBridgeRequest
         {
             SystemPrompt = systemPrompt,
             UserPrompt = userPrompt,
             Temperature = 0.3f,
             MaxTokens = 4096,
-            ProviderType = AISettings.ProviderType == AIProviderType.Ollama ? "ollama" : "cloud",
-            ApiKey = AISettings.ProviderType == AIProviderType.Ollama ? null : AISettings.CloudApiKey,
-            Model = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaModel : AISettings.CloudMainModel,
-            Endpoint = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaEndpoint : null
+            ProviderType = providerType,
+            ApiKey = apiKey,
+            Model = model,
+            Endpoint = endpoint
         };
 
         var response = await _aiBridge.ExecutePromptAsync(request, ct);
@@ -64,16 +65,17 @@ Current WBS:
 
 Output as a JSON array of WBSNode objects with properties: code, name, description, children (recursive).";
 
+        var (providerType, apiKey, model, endpoint) = AISettings.GetEffectiveProvider();
         var request = new AIBridgeRequest
         {
             SystemPrompt = systemPrompt,
             UserPrompt = userPrompt,
             Temperature = 0.3f,
             MaxTokens = 4096,
-            ProviderType = AISettings.ProviderType == AIProviderType.Ollama ? "ollama" : "cloud",
-            ApiKey = AISettings.ProviderType == AIProviderType.Ollama ? null : AISettings.CloudApiKey,
-            Model = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaModel : AISettings.CloudMainModel,
-            Endpoint = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaEndpoint : null
+            ProviderType = providerType,
+            ApiKey = apiKey,
+            Model = model,
+            Endpoint = endpoint
         };
 
         var response = await _aiBridge.ExecutePromptAsync(request, ct);
@@ -94,16 +96,17 @@ Output as a JSON array of WBSNode objects with properties: code, name, descripti
 
 Output as a JSON array of WBSNode objects with properties: code, name, description, children (recursive).";
 
+        var (providerType, apiKey, model, endpoint) = AISettings.GetEffectiveProvider();
         var request = new AIBridgeRequest
         {
             SystemPrompt = systemPrompt,
             UserPrompt = userPrompt,
             Temperature = 0.3f,
             MaxTokens = 4096,
-            ProviderType = AISettings.ProviderType == AIProviderType.Ollama ? "ollama" : "cloud",
-            ApiKey = AISettings.ProviderType == AIProviderType.Ollama ? null : AISettings.CloudApiKey,
-            Model = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaModel : AISettings.CloudMainModel,
-            Endpoint = AISettings.ProviderType == AIProviderType.Ollama ? AISettings.OllamaEndpoint : null
+            ProviderType = providerType,
+            ApiKey = apiKey,
+            Model = model,
+            Endpoint = endpoint
         };
 
         var response = await _aiBridge.ExecutePromptAsync(request, ct);

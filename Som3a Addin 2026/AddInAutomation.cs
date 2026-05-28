@@ -428,6 +428,25 @@ namespace Som3a_Addin_2026
             }
         }
 
+        public string BoqConfigureOllama(string model = "deepseek-coder", string endpoint = "http://localhost:11434")
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    Som3a_WPF_UI.Services.AISettings.IsAIEnabled = true;
+                    Som3a_WPF_UI.Services.AISettings.ProviderType = Som3a_WPF_UI.Services.AIProviderType.Ollama;
+                    Som3a_WPF_UI.Services.AISettings.OllamaModel = model;
+                    Som3a_WPF_UI.Services.AISettings.OllamaEndpoint = endpoint;
+                    return $"OK|Ollama:{model}@{endpoint}";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
         // ---- BOQ Automation ----
 
         private BOQActivityGeneratorViewModel FindBoqViewModel(int timeoutMs = 10000)
@@ -529,6 +548,38 @@ namespace Som3a_Addin_2026
                            $"IsBusy:{vm.IsBusy}|BoqItems:{vm.BoqItems?.Count ?? 0}|" +
                            $"Activities:{vm.Activities?.Count ?? 0}|CanGenerate:{vm.CanGenerate}|" +
                            $"Status:'{vm.GenerationStatus}'|StatusText:'{vm.StatusText}'";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string BoqGetProviderInfo()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var detected = LocalProviderDetector.Detect();
+                    var hasLocal = detected.Count > 0;
+                    var hasApiKey = !string.IsNullOrEmpty(AISettings.CloudApiKey);
+                    var providerType = AISettings.ProviderType.ToString();
+                    var isEnabled = AISettings.IsAIEnabled;
+                    var ollamaModel = AISettings.OllamaModel;
+                    var ollamaEndpoint = AISettings.OllamaEndpoint;
+                    var cloudModel = AISettings.CloudMainModel;
+
+                    var localInfo = hasLocal
+                        ? string.Join(";", detected.Select(d => $"{d.Id}@{d.Endpoint}"))
+                        : "None";
+
+                    return $"OK|IsEnabled:{isEnabled}|ProviderType:{providerType}|" +
+                           $"HasLocalAI:{hasLocal}|HasCloudKey:{hasApiKey}|" +
+                           $"LocalProviders:{localInfo}|" +
+                           $"OllamaModel:{ollamaModel}|OllamaEndpoint:{ollamaEndpoint}|" +
+                           $"CloudModel:{cloudModel}";
                 }
                 catch (Exception ex)
                 {

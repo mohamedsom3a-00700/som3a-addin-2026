@@ -91,7 +91,7 @@ static async Task HandleClientAsync(NamedPipeServerStream pipe, ConcurrentDictio
             var key = $"ollama|{endpoint}|{model}";
             provider = providerCache.GetOrAdd(key, _ => new OpenAIProvider("ollama", model, endpoint));
         }
-        else if (!string.IsNullOrEmpty(bridgeRequest.ApiKey))
+        else if (string.Equals(bridgeRequest.ProviderType, "cloud", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(bridgeRequest.ApiKey))
         {
             var model = !string.IsNullOrEmpty(bridgeRequest.Model) ? bridgeRequest.Model : "gpt-4o-mini";
             var key = $"cloud|{StableKeyHash(bridgeRequest.ApiKey)}|{model}";
@@ -99,33 +99,28 @@ static async Task HandleClientAsync(NamedPipeServerStream pipe, ConcurrentDictio
         }
         else
         {
-            var envKey = Environment.GetEnvironmentVariable("OPENROUTER_API_KEY");
-            if (!string.IsNullOrEmpty(envKey))
+            var elapsed = DateTime.UtcNow - startTime;
+            await SendResponseAsync(pipe, new AIBridgeResponse
             {
-                var orKey = $"openrouter|{StableKeyHash(envKey)}";
-                provider = providerCache.GetOrAdd(orKey, _ => new OpenAIProvider(envKey, "meta-llama/llama-3.2-3b-instruct",
-                    "https://openrouter.ai/api/v1/",
-                    new Dictionary<string, string> { { "X-Title", "Som3a Addin 2026" } }));
-            }
-            else
-            {
-                var elapsed = DateTime.UtcNow - startTime;
-                await SendResponseAsync(pipe, new AIBridgeResponse
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "No API key configured. Set your API key in Settings > AI or set the OPENROUTER_API_KEY environment variable.",
-                    DurationMs = elapsed.TotalMilliseconds
-                });
-                return;
-            }
+                IsSuccess = false,
+                ErrorMessage = "No AI provider configured. Please set your API key in Settings > AI.",
+                DurationMs = elapsed.TotalMilliseconds
+            });
+            return;
         }
 
         var response = await provider.ExecutePromptAsync(aiRequest);
         var totalMs = (DateTime.UtcNow - startTime).TotalMilliseconds;
 
+        var content = response.Content;
+        if (!string.IsNullOrEmpty(content))
+        {
+            content = System.Text.RegularExpressions.Regex.Replace(content, @"```(?:json)?\s*([\s\S]*?)```", "$1", System.Text.RegularExpressions.RegexOptions.Multiline).Trim();
+        }
+
         await SendResponseAsync(pipe, new AIBridgeResponse
         {
-            Content = response.Content,
+            Content = content,
             ParsedJson = response.ParsedJson,
             IsSuccess = response.IsSuccess,
             ErrorMessage = response.ErrorMessage,

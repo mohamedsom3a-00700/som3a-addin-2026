@@ -176,6 +176,9 @@
     <Compile Include="Pages\BOQActivityGeneratorPage.xaml.cs">
       <DependentUpon>BOQActivityGeneratorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\RelationshipGeneratorPage.xaml.cs">
+      <DependentUpon>RelationshipGeneratorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\DiagnosticsService.cs" />
     <Compile Include="Services\IBOQContextBuilder.cs" />
     <Compile Include="Services\IActivityGenerationService.cs" />
@@ -187,6 +190,14 @@
     <Compile Include="Services\ActivityValidationService.cs" />
     <Compile Include="Services\ActivitySequencingService.cs" />
     <Compile Include="Services\ActivityExportService.cs" />
+    <Compile Include="Services\IRelationshipGenerationService.cs" />
+    <Compile Include="Services\IRelationshipValidationService.cs" />
+    <Compile Include="Services\IRelationshipAnalysisService.cs" />
+    <Compile Include="Services\IRelationshipExportService.cs" />
+    <Compile Include="Services\RelationshipGenerationService.cs" />
+    <Compile Include="Services\RelationshipValidationService.cs" />
+    <Compile Include="Services\RelationshipAnalysisService.cs" />
+    <Compile Include="Services\RelationshipExportService.cs" />
     <Compile Include="Services\AISettings.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\ExcelProjectAnalysisService.cs" />
@@ -214,6 +225,9 @@
     <Compile Include="Controls\LoadingOverlay.xaml.cs">
       <DependentUpon>LoadingOverlay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\RelationshipEditorGrid.xaml.cs">
+      <DependentUpon>RelationshipEditorGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Toast\ToastModel.cs" />
     <Compile Include="Controls\Toast\ToastWindow.xaml.cs">
       <DependentUpon>ToastWindow.xaml</DependentUpon>
@@ -234,6 +248,12 @@
     <Compile Include="Models\SettingsExport.cs" />
     <Compile Include="Models\DiagnosticsModels.cs" />
     <Compile Include="Models\SettingsCategory.cs" />
+    <Compile Include="Models\Relationship.cs" />
+    <Compile Include="Models\RelationshipNetwork.cs" />
+    <Compile Include="Models\ValidationReport.cs" />
+    <Compile Include="Models\AnalysisModels.cs" />
+    <Compile Include="Models\LocalProviderInfo.cs" />
+    <Compile Include="Services\LocalProviderDetector.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="ViewModels\SubDailyReportViewModel.cs" />
     <Compile Include="ViewModels\UnmergeFillDownViewModel.cs" />
@@ -317,8 +337,11 @@
     </Compile>
     <Compile Include="ViewModels\FixPieColorsViewModel.cs" />
     <Compile Include="ViewModels\BOQActivityGeneratorViewModel.cs" />
-    <Compile Include="ViewModels\LinksManagerViewModel.cs" />
+    <Compile Include="ViewModels\RelationshipGeneratorViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Modules\BOQActivityGeneratorModule.cs" />
+    <Compile Include="Modules\RelationshipGeneratorModule.cs" />
     <Compile Include="Models\ActivityExportConfig.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\CustomThemeViewModel.cs" />
@@ -449,6 +472,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\BOQActivityGeneratorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\RelationshipGeneratorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -637,6 +664,11 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\LoadingOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\RelationshipEditorGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

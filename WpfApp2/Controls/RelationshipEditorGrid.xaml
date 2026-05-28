@@ -1,0 +1,87 @@
+<UserControl x:Class="Som3a_WPF_UI.Controls.RelationshipEditorGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Background="{DynamicResource CardBrush}"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button x:Name="btnAddRow" Height="30"
+                    Content="+ Add Relationship"
+                    Style="{DynamicResource BaseButton}"
+                    Click="btnAddRow_Click"
+                    Margin="0,0,8,0"/>
+            <Button x:Name="btnRemoveSelected" Height="30"
+                    Content="Remove Selected"
+                    Style="{DynamicResource BaseButton}"
+                    Click="btnRemoveSelected_Click"/>
+        </StackPanel>
+
+        <DataGrid x:Name="dgRelationships" Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  EnableRowVirtualization="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  Background="{DynamicResource CardBrush}"
+                  Foreground="{DynamicResource TextMainBrush}"
+                  BorderBrush="{DynamicResource CardStrokeBrush}"
+                  RowBackground="{DynamicResource CardBrush}"
+                  AlternatingRowBackground="{DynamicResource Brush.Background.Secondary}"
+                  SelectionUnit="FullRow"
+                  SelectionMode="Extended">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsAccepted}" Value="True">
+                            <Setter Property="Background" Value="#1A00AA00"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Predecessor" Width="120"
+                                    Binding="{Binding PredecessorId, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Successor" Width="120"
+                                    Binding="{Binding SuccessorId, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTemplateColumn Header="Type" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox SelectedItem="{Binding Type, UpdateSourceTrigger=PropertyChanged}"
+                                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=TypeValues}"
+                                      BorderThickness="0"
+                                      Background="{DynamicResource CardBrush}"
+                                      Foreground="{DynamicResource TextMainBrush}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Lag (days)" Width="80"
+                                    Binding="{Binding LagDays, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Rationale" Width="*"
+                                    Binding="{Binding Rationale}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Confidence" Width="80"
+                                    Binding="{Binding Confidence}" IsReadOnly="True"/>
+                <DataGridCheckBoxColumn Header="Accepted" Width="70"
+                                        Binding="{Binding IsAccepted, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border Grid.Row="3" Margin="0,4,0,0"
+                Background="{DynamicResource Brush.Fill.Info}"
+                CornerRadius="{DynamicResource MediumRadius}"
+                Padding="8,4">
+            <TextBlock x:Name="txtSummary"
+                       Foreground="{DynamicResource TextSubBrush}"
+                       Text="No relationships defined."/>
+        </Border>
+    </Grid>
+</UserControl>

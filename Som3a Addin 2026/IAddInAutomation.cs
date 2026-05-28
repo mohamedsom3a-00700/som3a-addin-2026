@@ -19,10 +19,12 @@ namespace Som3a_Addin_2026
         string SetWBSExportStyle(string style);
         string GetWBSMode();
         string GetTemplatePreviewData(string templateName);
+        string BoqConfigureOllama(string model = "deepseek-coder", string endpoint = "http://localhost:11434");
         string BoqLoad();
         string BoqConsent();
         string BoqGenerate();
         string BoqGetStatus();
+        string BoqGetProviderInfo();
         string BoqDebug();
     }
 }

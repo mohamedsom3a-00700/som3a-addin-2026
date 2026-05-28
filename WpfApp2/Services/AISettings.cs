@@ -1,3 +1,7 @@
+using Som3a_WPF_UI.Models;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Som3a_WPF_UI.Services
 {
     public enum AIProviderType
@@ -14,8 +18,34 @@ namespace Som3a_WPF_UI.Services
         private static string _cloudMainModel = "gpt-4o-mini";
         private static string _cloudSubModel = "gpt-4o-mini";
         private static string _ollamaEndpoint = "http://localhost:11434";
-        private static string _ollamaModel = "llama3";
+        private static string _ollamaModel = "deepseek-coder";
+        private static string _ollamaSubModel = "llama3.2";
+        private static List<LocalProviderInfo> _detectedLocalProviders = new();
+        private static string _selectedLocalProviderId = "ollama";
         private static readonly object _lock = new();
+
+        static AISettings()
+        {
+            // Run detection immediately when the class is first loaded
+            // This ensures GetEffectiveProvider() has provider info ready
+            try
+            {
+                var detected = LocalProviderDetector.Detect();
+                if (detected.Count > 0)
+                {
+                    _detectedLocalProviders = detected;
+                    var preferred = detected.FirstOrDefault(p => p.Id == _selectedLocalProviderId) ?? detected[0];
+                    _selectedLocalProviderId = preferred.Id;
+                    _ollamaEndpoint = preferred.Endpoint;
+                    _ollamaModel = preferred.DefaultModel;
+                    _ollamaSubModel = preferred.FallbackModel;
+                }
+            }
+            catch
+            {
+                // Detection failed — no local providers available
+            }
+        }
 
         public static bool IsAIEnabled
         {
@@ -56,7 +86,70 @@ namespace Som3a_WPF_UI.Services
         public static string OllamaModel
         {
             get { lock (_lock) { return _ollamaModel; } }
-            set { lock (_lock) { _ollamaModel = value ?? "llama3"; } }
+            set { lock (_lock) { _ollamaModel = value ?? "deepseek-coder"; } }
         }
+
+        public static string OllamaSubModel
+        {
+            get { lock (_lock) { return _ollamaSubModel; } }
+            set { lock (_lock) { _ollamaSubModel = value ?? "llama3.2"; } }
+        }
+
+        public static List<LocalProviderInfo> DetectedLocalProviders
+        {
+            get { lock (_lock) { return _detectedLocalProviders; } }
+            set { lock (_lock) { _detectedLocalProviders = value ?? new List<LocalProviderInfo>(); } }
+        }
+
+        public static string SelectedLocalProviderId
+        {
+            get { lock (_lock) { return _selectedLocalProviderId; } }
+            set { lock (_lock) { _selectedLocalProviderId = value ?? "ollama"; } }
+        }
+
+        public static bool IsLocalProviderDetected
+        {
+            get { lock (_lock) { return _detectedLocalProviders.Count > 0; } }
+        }
+
+        public static (string providerType, string? apiKey, string model, string? endpoint) GetEffectiveProvider()
+        {
+            if (!_isAIEnabled)
+                return ("none", null, string.Empty, null);
+
+            EnsureLocalProvidersDetected();
+
+            lock (_lock)
+            {
+                if (!string.IsNullOrEmpty(_cloudApiKey))
+                    return ("cloud", _cloudApiKey, _cloudMainModel, null);
+
+                if (_detectedLocalProviders.Count > 0)
+                    return ("ollama", null, _detectedLocalProviders[0].DefaultModel,
+                        LocalProviderDetector.GetApiEndpoint(_detectedLocalProviders[0].Endpoint));
+
+                return ("none", null, null, null);
+            }
+        }
+
+        private static void EnsureLocalProvidersDetected()
+        {
+            // Static constructor already ran detection
+            // This is a no-op to maintain backward compatibility
+        }
+
+        public static void ApplyLocalProviderSelection(LocalProviderInfo provider)
+        {
+            if (provider == null) return;
+            lock (_lock)
+            {
+                _selectedLocalProviderId = provider.Id;
+                _ollamaEndpoint = provider.Endpoint;
+                _ollamaModel = provider.DefaultModel;
+                _ollamaSubModel = provider.FallbackModel;
+            }
+        }
+
+        public static bool HasApiKey => !string.IsNullOrEmpty(_cloudApiKey);
     }
 }
