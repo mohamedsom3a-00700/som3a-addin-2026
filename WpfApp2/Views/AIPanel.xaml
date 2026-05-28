@@ -30,40 +30,81 @@
                 </StackPanel>
             </Border>
 
-            <!-- Provider Selection -->
+            <!-- Local Provider Detection Status -->
             <Border Style="{DynamicResource PanelSectionStyle}"
                     SnapsToDevicePixels="True"
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="AI Provider"
+                    <TextBlock Text="Local AI Detection"
                                Style="{DynamicResource SectionHeaderStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
                     <StackPanel Margin="0,0,0,12"
                                 SnapsToDevicePixels="True"
                                 UseLayoutRounding="True">
-                        <RadioButton Content="Cloud AI (OpenAI, Claude, OpenRouter, etc.)"
-                                     GroupName="AIProvider"
-                                     IsChecked="{Binding IsCloudSelected, Mode=OneWay}"
-                                     Command="{Binding ToggleAIProviderCommand}"
-                                     CommandParameter="Cloud"
-                                     Foreground="{DynamicResource TextMainBrush}"
-                                     Margin="0,0,0,8"
-                                     AutomationProperties.Name="Cloud AI Provider"/>
-                        <RadioButton Content="Local AI (Ollama)"
-                                     GroupName="AIProvider"
-                                     IsChecked="{Binding IsOllamaSelected, Mode=OneWay}"
-                                     Command="{Binding ToggleAIProviderCommand}"
-                                     CommandParameter="Ollama"
-                                     Foreground="{DynamicResource TextMainBrush}"
-                                     Margin="0,0,0,8"
-                                     AutomationProperties.Name="Local AI Ollama Provider"/>
+                        <!-- Scanning indicator -->
+                        <StackPanel Orientation="Horizontal"
+                                    Visibility="{Binding IsDetectionScanning, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Margin="0,0,0,4">
+                            <TextBlock Text="Scanning for local AI providers..."
+                                       Foreground="{DynamicResource TextMainBrush}"
+                                       FontSize="13"/>
+                        </StackPanel>
+
+                        <!-- Detection status -->
+                        <TextBlock Text="{Binding DetectionStatusText}"
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   FontSize="13"
+                                   Margin="0,0,0,4"
+                                   Visibility="{Binding IsDetectionScanning, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
+
+                        <!-- Local provider selector (when multiple detected) -->
+                        <StackPanel Visibility="{Binding ShowLocalProviderSelector, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Margin="0,8,0,0">
+                            <TextBlock Text="Select Local Provider:"
+                                       Foreground="{DynamicResource TextMainBrush}"
+                                       FontSize="13"
+                                       Margin="0,0,0,4"/>
+                            <ComboBox ItemsSource="{Binding DetectedLocalProviders}"
+                                      SelectedItem="{Binding SelectedLocalProvider, Mode=TwoWay}"
+                                      DisplayMemberPath="DisplayName"
+                                      Width="400"
+                                      HorizontalAlignment="Left"
+                                      Height="32"/>
+                        </StackPanel>
+
+                        <!-- No API key warning -->
+                        <Border Background="#33FFA500"
+                                BorderBrush="#FFA500"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                Padding="8,6"
+                                Margin="0,8,0,0"
+                                Visibility="{Binding ShowApiKeyWarning, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel>
+                                <TextBlock Text="No Cloud API Key Configured"
+                                           FontWeight="Bold"
+                                           Foreground="{DynamicResource TextMainBrush}"
+                                           FontSize="13"
+                                           Margin="0,0,0,4"/>
+                                <TextBlock Text="Using local AI provider automatically."
+                                           Foreground="{DynamicResource TextMainBrush}"
+                                           FontSize="12"
+                                           TextWrapping="Wrap"
+                                           Margin="0,0,0,8"/>
+                                <Button Content="Use Local AI"
+                                        Command="{Binding SwitchToLocalAICommand}"
+                                        Width="200"
+                                        Height="32"
+                                        HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
                 </StackPanel>
             </Border>
 
-            <!-- Cloud AI Settings -->
+            <!-- Cloud AI Settings (visible when Cloud is effective provider) -->
             <Border Style="{DynamicResource PanelSectionStyle}"
                     SnapsToDevicePixels="True"
                     UseLayoutRounding="True"
@@ -88,6 +129,10 @@
                                      Height="32"
                                      AutomationProperties.Name="AI API Key"
                                      PasswordChanged="OnApiKeyChanged"/>
+                        <TextBlock Text="(Cloud API key is required. If empty, local AI will be used.)"
+                                   Foreground="{DynamicResource TextSubtleBrush}"
+                                   FontSize="11"
+                                   Margin="0,4,0,0"/>
 
                         <TextBlock Text="Main Model"
                                    Foreground="{DynamicResource TextMainBrush}"
@@ -127,14 +172,14 @@
                 </StackPanel>
             </Border>
 
-            <!-- Ollama Settings -->
+            <!-- Local AI Settings (visible when Local is effective) -->
             <Border Style="{DynamicResource PanelSectionStyle}"
                     SnapsToDevicePixels="True"
                     UseLayoutRounding="True"
                     Visibility="{Binding IsOllamaSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="Ollama Configuration"
+                    <TextBlock Text="Local AI Configuration"
                                Style="{DynamicResource SectionHeaderStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
@@ -149,17 +194,32 @@
                                  Width="400"
                                  HorizontalAlignment="Left"
                                  Height="32"
-                                 AutomationProperties.Name="Ollama Endpoint URL"/>
+                                 IsReadOnly="True"
+                                 AutomationProperties.Name="Local AI Endpoint URL"/>
 
                         <TextBlock Text="Model"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    FontSize="13"
                                    Margin="0,12,0,4"/>
-                        <TextBox Text="{Binding AIOllamaModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Width="400"
-                                 HorizontalAlignment="Left"
-                                 Height="32"
-                                 AutomationProperties.Name="Ollama Model"/>
+                        <ComboBox Text="{Binding AIOllamaModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  ItemsSource="{Binding AvailableLocalModels}"
+                                  IsEditable="True"
+                                  Width="400"
+                                  HorizontalAlignment="Left"
+                                  Height="32"
+                                  AutomationProperties.Name="Local AI Model"/>
+
+                        <TextBlock Text="Fallback Model"
+                                   Foreground="{DynamicResource TextMainBrush}"
+                                   FontSize="13"
+                                   Margin="0,12,0,4"/>
+                        <ComboBox Text="{Binding AIOllamaSubModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  ItemsSource="{Binding AvailableLocalModels}"
+                                  IsEditable="True"
+                                  Width="400"
+                                  HorizontalAlignment="Left"
+                                  Height="32"
+                                  AutomationProperties.Name="Local AI Fallback Model"/>
                     </StackPanel>
                 </StackPanel>
             </Border>

@@ -22,6 +22,7 @@ namespace Som3a_WPF_UI.Models
         public string AICloudMainModel { get; set; } = "gpt-4o-mini";
         public string AICloudSubModel { get; set; } = "gpt-4o-mini";
         public string AIOllamaEndpoint { get; set; } = "http://localhost:11434";
-        public string AIOllamaModel { get; set; } = "llama3";
+        public string AIOllamaModel { get; set; } = "deepseek-coder";
+        public string AIOllamaSubModel { get; set; } = "llama3.2";
     }
 }

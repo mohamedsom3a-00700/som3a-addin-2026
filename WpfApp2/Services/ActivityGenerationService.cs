@@ -103,16 +103,17 @@ Instructions:
 
         private async Task<string> CallAIProviderAsync(string systemPrompt, string userPrompt, CancellationToken ct)
         {
+            var (providerType, apiKey, model, endpoint) = AISettings.GetEffectiveProvider();
             var request = new AIBridgeRequest
             {
-                SystemPrompt = systemPrompt + " Output your response as a JSON array of objects with properties: name, description, boqReferences (array of strings), quantity (number), unit, tradeCategory, wbsPath. Return ONLY valid JSON, no markdown.",
+                SystemPrompt = systemPrompt + " Output a JSON array starting with [ and ending with ]. Each object has: name (string), description (string), boqReferences (array of strings), quantity (number), unit (string), tradeCategory (string), wbsPath (string). Return ONLY the JSON array, no markdown, no code fences.",
                 UserPrompt = userPrompt,
                 Temperature = 0.3f,
                 MaxTokens = 4096,
-                ProviderType = AISettings.ProviderType == Services.AIProviderType.Ollama ? "ollama" : "cloud",
-                ApiKey = AISettings.ProviderType == Services.AIProviderType.Ollama ? null : AISettings.CloudApiKey,
-                Model = AISettings.ProviderType == Services.AIProviderType.Ollama ? AISettings.OllamaModel : AISettings.CloudMainModel,
-                Endpoint = AISettings.ProviderType == Services.AIProviderType.Ollama ? AISettings.OllamaEndpoint : null
+                ProviderType = providerType,
+                ApiKey = apiKey,
+                Model = model,
+                Endpoint = endpoint
             };
 
             var response = await _aiBridge.ExecutePromptAsync(request, ct);
@@ -133,13 +134,22 @@ Instructions:
             try
             {
                 var activities = JsonConvert.DeserializeObject<List<ParsedActivity>>(response);
-                return activities ?? new List<ParsedActivity>();
+                if (activities != null) return activities;
             }
-            catch (JsonException ex)
+            catch (JsonException)
             {
-                System.Diagnostics.Debug.WriteLine($"[ParseActivitiesResponse] Failed to parse AI response: {ex.Message}. Response length: {response.Length}");
-                return new List<ParsedActivity>();
             }
+
+            try
+            {
+                var single = JsonConvert.DeserializeObject<ParsedActivity>(response);
+                if (single != null) return new List<ParsedActivity> { single };
+            }
+            catch (JsonException)
+            {
+            }
+
+            return new List<ParsedActivity>();
         }
 
         private static List<GeneratedActivity> MapToGeneratedActivities(

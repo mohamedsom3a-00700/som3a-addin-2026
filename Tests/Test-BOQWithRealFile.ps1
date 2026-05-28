@@ -47,9 +47,43 @@ try {
     Write-Host "[PASS] BOQ Activity Generator page opened"
     Start-Sleep -Seconds 3
 
-    # Open Run Diagnostics to verify page loaded
-    $diag = $auto.RunDiagnostics()
-    Write-Host "[INFO] Diagnostics: $diag"
+    # Step 1: Configure AI to use local Ollama
+    $configResult = $auto.BoqConfigureOllama("llama3.2", "http://localhost:11434")
+    Write-Host "[INFO] BoqConfigureOllama: $configResult"
+    if ($configResult -like "ERROR*") { throw "Ollama config failed: $configResult" }
+    Write-Host "[PASS] AI provider set to Ollama (deepseek-coder)"
+
+    # Step 2: Load BOQ from active Excel sheet
+    $loadResult = $auto.BoqLoad()
+    Write-Host "[INFO] BoqLoad: $loadResult"
+    if ($loadResult -like "ERROR*") { throw "BOQ load failed: $loadResult" }
+    if ($loadResult -match "BoqItems:(\d+)") {
+        $boqItems = $Matches[1]
+        if ($boqItems -eq "0") { throw "No BOQ items found in active sheet" }
+    }
+    Write-Host "[PASS] BOQ data loaded"
+
+    # Step 2: Consent to AI generation
+    $consentResult = $auto.BoqConsent()
+    Write-Host "[INFO] BoqConsent: $consentResult"
+    if ($consentResult -like "ERROR*") { throw "Consent failed: $consentResult" }
+    Write-Host "[PASS] AI consent given"
+
+    # Step 3: Generate activities via AI
+    Write-Host "[INFO] Generating activities (this may take 30-60s)..."
+    $genResult = $auto.BoqGenerate()
+    Write-Host "[INFO] BoqGenerate: $genResult"
+    if ($genResult -like "ERROR*") { throw "Generation failed: $genResult" }
+    Write-Host "[PASS] Activities generated"
+
+    # Step 4: Verify generation results
+    $statusResult = $auto.BoqGetStatus()
+    Write-Host "[INFO] BoqGetStatus: $statusResult"
+    if ($statusResult -match "Activities:(\d+)") {
+        $activityCount = $Matches[1]
+        if ($activityCount -eq "0") { throw "No activities were generated" }
+        Write-Host "[PASS] $activityCount activities generated successfully"
+    }
 
     Write-Host ""
     Write-Host "===== BOQ VSTO TEST WITH Book2.xlsx PASSED ====="

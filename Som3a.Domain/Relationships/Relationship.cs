@@ -17,6 +17,13 @@ namespace Som3a.Domain.Relationships
         Error
     }
 
+    public enum RelationshipConfidence
+    {
+        High,
+        Medium,
+        Low
+    }
+
     public class Relationship
     {
         public string Id { get; set; } = Guid.NewGuid().ToString("N");
@@ -26,6 +33,11 @@ namespace Som3a.Domain.Relationships
         public TimeSpan Lag { get; set; }
         public ValidationStatus ValidationStatus { get; set; } = ValidationStatus.Valid;
         public string? ValidationMessage { get; set; }
+        public string? Rationale { get; set; }
+        public RelationshipConfidence Confidence { get; set; } = RelationshipConfidence.Medium;
+        public bool IsAccepted { get; set; }
+        public bool IsUserModified { get; set; }
+        public DateTime? GeneratedAt { get; set; }
 
         public void Validate()
         {

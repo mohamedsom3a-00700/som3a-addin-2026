@@ -8,6 +8,7 @@ using Som3a_WPF_UI.Modules;
 using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.ViewModels;
 using Som3a_WPF_UI.ViewModels.Primavera;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Som3a_WPF_UI
@@ -23,6 +24,7 @@ namespace Som3a_WPF_UI
 
             var moduleRegistry = new ModuleRegistry(container, eventBus);
             moduleRegistry.RegisterModule(new Modules.BOQActivityGeneratorModule());
+            moduleRegistry.RegisterModule(new Modules.RelationshipGeneratorModule());
             container.RegisterSingleton<Services.IModuleRegistry>(moduleRegistry);
 
             container.RegisterSingleton<ThemeManager>(ThemeManager.Instance);
@@ -70,6 +72,12 @@ namespace Som3a_WPF_UI
             container.RegisterTransient<IActivitySequencingService, Services.ActivitySequencingService>();
             container.RegisterTransient<IActivityExportService, Services.ActivityExportService>();
 
+            container.RegisterTransient<IRelationshipGenerationService, Services.RelationshipGenerationService>();
+            container.RegisterTransient<IRelationshipValidationService, Services.RelationshipValidationService>();
+            container.RegisterTransient<IRelationshipAnalysisService, Services.RelationshipAnalysisService>();
+            container.RegisterTransient<IRelationshipExportService, Services.RelationshipExportService>();
+            container.RegisterTransient<RelationshipGeneratorViewModel, RelationshipGeneratorViewModel>();
+
             container.RegisterTransient<ToastViewModel, ToastViewModel>();
             container.RegisterTransient<CommandPaletteViewModel, CommandPaletteViewModel>();
 
@@ -105,6 +113,38 @@ namespace Som3a_WPF_UI
             {
                 try { await aiBridge.StartHostAsync(); }
                 catch { /* AI host unavailable - services will report offline */ }
+            });
+
+            // Auto-detect running local AI providers (Ollama, LM Studio, etc.)
+            // This runs in background and populates AISettings.DetectedLocalProviders
+            // so GetEffectiveProvider() can auto-fallback when no API key is configured.
+            _ = Task.Run(() =>
+            {
+                try
+                {
+                    var detected = LocalProviderDetector.Detect();
+                    if (detected.Count > 0)
+                    {
+                        AISettings.DetectedLocalProviders = detected;
+
+                        // If user has a saved local provider preference, select it
+                        var savedId = AISettings.SelectedLocalProviderId;
+                        var preferred = detected.FirstOrDefault(p => p.Id == savedId) ?? detected[0];
+                        AISettings.SelectedLocalProviderId = preferred.Id;
+
+                        // Auto-fallback: if Cloud selected but no API key, switch to local
+                        if (AISettings.ProviderType == AIProviderType.Cloud && string.IsNullOrEmpty(AISettings.CloudApiKey))
+                        {
+                            AISettings.ProviderType = AIProviderType.Ollama;
+                            AISettings.OllamaEndpoint = preferred.Endpoint;
+                            AISettings.OllamaModel = preferred.DefaultModel;
+                        }
+                    }
+                }
+                catch
+                {
+                    // Detection failed - services will report no local providers available
+                }
             });
         }
     }

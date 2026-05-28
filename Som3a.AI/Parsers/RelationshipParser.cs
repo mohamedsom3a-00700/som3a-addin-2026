@@ -6,6 +6,15 @@ namespace Som3a.AI.Parsers;
 
 public class RelationshipParser : BaseStructuredParser<List<Relationship>>
 {
+    private readonly Dictionary<string, Activity>? _activityLookup;
+
+    public RelationshipParser() { }
+
+    public RelationshipParser(IReadOnlyList<Activity> activities)
+    {
+        _activityLookup = activities?.ToDictionary(a => a.ActivityId) ?? new();
+    }
+
     public override string ParserType => "relationship-list";
     public override JsonDocument ExpectedSchema { get; } = JsonDocument.Parse(@"
     {
@@ -21,7 +30,9 @@ public class RelationshipParser : BaseStructuredParser<List<Relationship>>
                         ""predecessorId"": { ""type"": ""string"" },
                         ""successorId"": { ""type"": ""string"" },
                         ""type"": { ""type"": ""string"", ""enum"": [""FS"", ""SS"", ""FF"", ""SF""] },
-                        ""lagDays"": { ""type"": ""number"" }
+                        ""lagDays"": { ""type"": ""number"" },
+                        ""rationale"": { ""type"": ""string"" },
+                        ""confidence"": { ""type"": ""string"", ""enum"": [""High"", ""Medium"", ""Low""] }
                     }
                 }
             }
@@ -44,8 +55,24 @@ public class RelationshipParser : BaseStructuredParser<List<Relationship>>
                 _ => RelationshipType.FS
             };
 
-            var predecessor = new Activity { ActivityId = item.GetProperty("predecessorId").GetString() ?? string.Empty };
-            var successor = new Activity { ActivityId = item.GetProperty("successorId").GetString() ?? string.Empty };
+            var predecessorId = item.GetProperty("predecessorId").GetString() ?? string.Empty;
+            var successorId = item.GetProperty("successorId").GetString() ?? string.Empty;
+
+            var predecessor = _activityLookup?.GetValueOrDefault(predecessorId)
+                ?? new Activity { ActivityId = predecessorId, Name = predecessorId };
+            var successor = _activityLookup?.GetValueOrDefault(successorId)
+                ?? new Activity { ActivityId = successorId, Name = successorId };
+
+            var confidenceStr = item.TryGetProperty("confidence", out var confidenceEl)
+                ? confidenceEl.GetString()
+                : "Medium";
+
+            var confidence = confidenceStr switch
+            {
+                "High" => RelationshipConfidence.High,
+                "Low" => RelationshipConfidence.Low,
+                _ => RelationshipConfidence.Medium
+            };
 
             var rel = new Relationship
             {
@@ -54,7 +81,12 @@ public class RelationshipParser : BaseStructuredParser<List<Relationship>>
                 Type = type,
                 Lag = item.TryGetProperty("lagDays", out var lag)
                     ? TimeSpan.FromDays(lag.GetDouble())
-                    : TimeSpan.Zero
+                    : TimeSpan.Zero,
+                Rationale = item.TryGetProperty("rationale", out var rationale)
+                    ? rationale.GetString()
+                    : null,
+                Confidence = confidence,
+                GeneratedAt = DateTime.UtcNow
             };
 
             relationships.Add(rel);

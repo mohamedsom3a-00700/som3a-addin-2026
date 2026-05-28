@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Collections.Generic;
 
 namespace Som3a_WPF_UI.ViewModels
 {
@@ -508,12 +509,25 @@ namespace Som3a_WPF_UI.ViewModels
                     OnPropertyChanged(nameof(AIProviderType));
                     OnPropertyChanged(nameof(IsCloudSelected));
                     OnPropertyChanged(nameof(IsOllamaSelected));
+                    OnPropertyChanged(nameof(HasCloudApiKey));
+
+                    if (value == "Cloud" && string.IsNullOrEmpty(AISettings.CloudApiKey))
+                    {
+                        // Cloud selected but no key — if local available, warn to switch
+                        if (AISettings.IsLocalProviderDetected)
+                            ShowApiKeyWarning = true;
+                    }
+                    else
+                    {
+                        ShowApiKeyWarning = false;
+                    }
                 }
             }
         }
 
         public bool IsCloudSelected => AIProviderType == "Cloud";
         public bool IsOllamaSelected => AIProviderType == "Ollama";
+        public bool HasCloudApiKey => AISettings.HasApiKey;
 
         public string AICloudApiKey
         {
@@ -590,6 +604,93 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
+        // Local provider detection
+        private bool _isDetectionScanning;
+        public bool IsDetectionScanning
+        {
+            get => _isDetectionScanning;
+            set => SetProperty(ref _isDetectionScanning, value);
+        }
+
+        private string _detectionStatusText = "";
+        public string DetectionStatusText
+        {
+            get => _detectionStatusText;
+            set => SetProperty(ref _detectionStatusText, value);
+        }
+
+        private int _detectedProviderCount;
+        public int DetectedProviderCount
+        {
+            get => _detectedProviderCount;
+            set
+            {
+                if (SetProperty(ref _detectedProviderCount, value))
+                {
+                    OnPropertyChanged(nameof(HasDetectedProviders));
+                    OnPropertyChanged(nameof(HasMultipleLocalProviders));
+                    OnPropertyChanged(nameof(ShowLocalProviderSelector));
+                }
+            }
+        }
+
+        public bool HasDetectedProviders => DetectedProviderCount > 0;
+        public bool HasMultipleLocalProviders => DetectedProviderCount > 1;
+        public bool ShowLocalProviderSelector => HasMultipleLocalProviders;
+
+        public ObservableCollection<LocalProviderInfo> DetectedLocalProviders { get; } = new();
+
+        private LocalProviderInfo? _selectedLocalProvider;
+        public LocalProviderInfo? SelectedLocalProvider
+        {
+            get => _selectedLocalProvider;
+            set
+            {
+                if (SetProperty(ref _selectedLocalProvider, value) && value != null)
+                {
+                    AIOllamaEndpoint = value.Endpoint;
+                    AIOllamaModel = value.DefaultModel;
+                    AISettings.ApplyLocalProviderSelection(value);
+                    PopulateLocalModels(value);
+                }
+            }
+        }
+
+        private void PopulateLocalModels(LocalProviderInfo provider)
+        {
+            AvailableLocalModels.Clear();
+            foreach (var m in provider.AvailableModels)
+                AvailableLocalModels.Add(m);
+            if (AvailableLocalModels.Count > 0)
+            {
+                AIOllamaSubModel = provider.FallbackModel;
+            }
+        }
+
+        private bool _showApiKeyWarning;
+        public bool ShowApiKeyWarning
+        {
+            get => _showApiKeyWarning;
+            set => SetProperty(ref _showApiKeyWarning, value);
+        }
+
+        public string AIOllamaSubModel
+        {
+            get => _previewSettings.AIOllamaSubModel;
+            set
+            {
+                if (_previewSettings.AIOllamaSubModel != value)
+                {
+                    _previewSettings.AIOllamaSubModel = value;
+                    AISettings.OllamaSubModel = value;
+                    IsDirty = true;
+                    OnPropertyChanged(nameof(AIOllamaSubModel));
+                }
+            }
+        }
+
+        public ObservableCollection<string> AvailableLocalModels { get; } = new();
+
         public ObservableCollection<string> AvailableModels { get; } = new()
         {
             "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo",
@@ -613,6 +714,7 @@ namespace Som3a_WPF_UI.ViewModels
         public ICommand ToggleAICommand { get; }
         public ICommand ToggleAIProviderCommand { get; }
         public ICommand RefreshModelsCommand { get; }
+        public ICommand SwitchToLocalAICommand { get; }
 
         public Action<bool?>? CloseWindow { get; set; }
 
@@ -657,6 +759,7 @@ namespace Som3a_WPF_UI.ViewModels
             ToggleAICommand = new RelayCommand(OnToggleAI);
             ToggleAIProviderCommand = new RelayCommand(param => OnToggleAIProvider(param as string));
             RefreshModelsCommand = new RelayCommand(async _ => await RefreshModelsAsync());
+            SwitchToLocalAICommand = new RelayCommand(_ => OnSwitchToLocalAI());
 
             // Sync initial AI settings
             AISettings.IsAIEnabled = _previewSettings.IsAIEnabled;
@@ -666,6 +769,10 @@ namespace Som3a_WPF_UI.ViewModels
             AISettings.CloudSubModel = _previewSettings.AICloudSubModel;
             AISettings.OllamaEndpoint = _previewSettings.AIOllamaEndpoint;
             AISettings.OllamaModel = _previewSettings.AIOllamaModel;
+            AISettings.OllamaSubModel = _previewSettings.AIOllamaSubModel;
+
+            // Start local provider detection
+            _ = DetectLocalProvidersAsync();
 
             _themeManager.ThemeChanged += OnThemeChanged;
             LoadFonts();
@@ -843,6 +950,79 @@ namespace Som3a_WPF_UI.ViewModels
         {
             if (!string.IsNullOrEmpty(providerType))
                 AIProviderType = providerType;
+        }
+
+        private void OnSwitchToLocalAI()
+        {
+            var providers = AISettings.DetectedLocalProviders;
+            if (providers.Count > 0)
+            {
+                var first = providers[0];
+                AIProviderType = "Ollama";
+                AIOllamaEndpoint = first.Endpoint;
+                AIOllamaModel = first.DefaultModel;
+                AIOllamaSubModel = first.FallbackModel;
+                AISettings.ApplyLocalProviderSelection(first);
+                ShowApiKeyWarning = false;
+            }
+        }
+
+        private async Task DetectLocalProvidersAsync()
+        {
+            IsDetectionScanning = true;
+            DetectionStatusText = "Scanning for local AI providers...";
+
+            try
+            {
+                var detected = await Task.Run(() => LocalProviderDetector.Detect());
+                AISettings.DetectedLocalProviders = detected;
+                DetectedProviderCount = detected.Count;
+
+                DetectedLocalProviders.Clear();
+                foreach (var p in detected)
+                    DetectedLocalProviders.Add(p);
+
+                if (detected.Count == 0)
+                {
+                    DetectionStatusText = "No local AI providers detected.";
+                }
+                else
+                {
+                    DetectionStatusText = detected.Count == 1
+                        ? $"Detected: {detected[0].DisplayName}"
+                        : $"Detected {detected.Count} local providers. Select one below.";
+
+                    var savedId = AISettings.SelectedLocalProviderId;
+                    var preferred = detected.FirstOrDefault(p => p.Id == savedId) ?? detected[0];
+                    AISettings.ApplyLocalProviderSelection(preferred);
+
+                    // Populate local model combos
+                    PopulateLocalModels(preferred);
+                    SelectedLocalProvider = preferred;
+
+                    // Flow: if Cloud has no API key, auto-use local AI
+                    if (string.IsNullOrEmpty(AISettings.CloudApiKey))
+                    {
+                        if (detected.Count == 1)
+                        {
+                            OnSwitchToLocalAI();
+                        }
+                        else
+                        {
+                            ShowApiKeyWarning = true;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                DetectionStatusText = "Failed to detect local providers.";
+                DetectedProviderCount = 0;
+            }
+            finally
+            {
+                IsDetectionScanning = false;
+            }
         }
 
         private async Task RefreshModelsAsync()
@@ -1101,7 +1281,8 @@ namespace Som3a_WPF_UI.ViewModels
                 AICloudMainModel = source.AICloudMainModel,
                 AICloudSubModel = source.AICloudSubModel,
                 AIOllamaEndpoint = source.AIOllamaEndpoint,
-                AIOllamaModel = source.AIOllamaModel
+                AIOllamaModel = source.AIOllamaModel,
+                AIOllamaSubModel = source.AIOllamaSubModel
             };
         }
 
