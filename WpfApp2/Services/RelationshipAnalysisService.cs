@@ -13,20 +13,23 @@ namespace Som3a_WPF_UI.Services
             RelationshipNetwork network,
             CancellationToken ct = default)
         {
+            ct.ThrowIfCancellationRequested();
             await Task.Yield();
 
-            var adjacency = BuildAdjacencyList(network);
-            var components = GetWeaklyConnectedComponents(network.Activities, adjacency);
+            var adjacency = BuildAdjacencyList(network, ct);
+            var components = GetWeaklyConnectedComponents(network.Activities, adjacency, ct);
 
             var groups = new List<ParallelExecutionGroup>();
             int groupIndex = 0;
 
             foreach (var component in components)
             {
-                var levels = GetTopologicalLevels(component, adjacency);
+                ct.ThrowIfCancellationRequested();
+                var levels = GetTopologicalLevels(component, adjacency, ct);
 
                 foreach (var level in levels)
                 {
+                    ct.ThrowIfCancellationRequested();
                     groupIndex++;
                     groups.Add(new ParallelExecutionGroup
                     {
@@ -47,10 +50,11 @@ namespace Som3a_WPF_UI.Services
             RelationshipNetwork network,
             CancellationToken ct = default)
         {
+            ct.ThrowIfCancellationRequested();
             await Task.Yield();
 
-            var adjacency = BuildAdjacencyList(network);
-            var topologicalOrder = TopologicalSort(network.Activities, adjacency);
+            var adjacency = BuildAdjacencyList(network, ct);
+            var topologicalOrder = TopologicalSort(network.Activities, adjacency, ct);
 
             if (topologicalOrder == null)
             {
@@ -75,6 +79,7 @@ namespace Som3a_WPF_UI.Services
 
             foreach (var u in topologicalOrder)
             {
+                ct.ThrowIfCancellationRequested();
                 if (!adjacency.TryGetValue(u, out var neighbors)) continue;
                 foreach (var v in neighbors)
                 {
@@ -117,17 +122,20 @@ namespace Som3a_WPF_UI.Services
             RelationshipNetwork network,
             CancellationToken ct = default)
         {
+            ct.ThrowIfCancellationRequested();
             await Task.Yield();
 
             var conflicts = new List<ResourceConflict>();
-            var adjacency = BuildAdjacencyList(network);
-            var components = GetWeaklyConnectedComponents(network.Activities, adjacency);
+            var adjacency = BuildAdjacencyList(network, ct);
+            var components = GetWeaklyConnectedComponents(network.Activities, adjacency, ct);
 
             foreach (var component in components)
             {
-                var levels = GetTopologicalLevels(component, adjacency);
+                ct.ThrowIfCancellationRequested();
+                var levels = GetTopologicalLevels(component, adjacency, ct);
                 foreach (var level in levels)
                 {
+                    ct.ThrowIfCancellationRequested();
                     if (level.Count < 2) continue;
 
                     var activityById = network.Activities.ToDictionary(a => a.ActivityId);
@@ -160,14 +168,16 @@ namespace Som3a_WPF_UI.Services
             return conflicts;
         }
 
-        private static Dictionary<string, List<string>> BuildAdjacencyList(RelationshipNetwork network)
+        private static Dictionary<string, List<string>> BuildAdjacencyList(RelationshipNetwork network, CancellationToken ct = default)
         {
+            ct.ThrowIfCancellationRequested();
             var adj = new Dictionary<string, List<string>>();
             foreach (var a in network.Activities)
                 adj[a.ActivityId] = new List<string>();
 
             foreach (var rel in network.Relationships)
             {
+                ct.ThrowIfCancellationRequested();
                 if (!adj.ContainsKey(rel.PredecessorId))
                     adj[rel.PredecessorId] = new List<string>();
                 adj[rel.PredecessorId].Add(rel.SuccessorId);
@@ -178,7 +188,8 @@ namespace Som3a_WPF_UI.Services
 
         private static List<List<string>> GetWeaklyConnectedComponents(
             IReadOnlyList<ActivityItem> activities,
-            Dictionary<string, List<string>> adjacency)
+            Dictionary<string, List<string>> adjacency,
+            CancellationToken ct = default)
         {
             var visited = new HashSet<string>();
             var components = new List<List<string>>();
@@ -186,6 +197,7 @@ namespace Som3a_WPF_UI.Services
             var reverseAdj = new Dictionary<string, List<string>>();
             foreach (var kvp in adjacency)
             {
+                ct.ThrowIfCancellationRequested();
                 foreach (var neighbor in kvp.Value)
                 {
                     if (!reverseAdj.ContainsKey(neighbor))
@@ -196,6 +208,7 @@ namespace Som3a_WPF_UI.Services
 
             foreach (var activity in activities)
             {
+                ct.ThrowIfCancellationRequested();
                 if (visited.Contains(activity.ActivityId)) continue;
 
                 var component = new List<string>();
@@ -232,7 +245,8 @@ namespace Som3a_WPF_UI.Services
 
         private static List<List<string>> GetTopologicalLevels(
             List<string> component,
-            Dictionary<string, List<string>> adjacency)
+            Dictionary<string, List<string>> adjacency,
+            CancellationToken ct = default)
         {
             var inDegree = new Dictionary<string, int>();
             foreach (var node in component)
@@ -240,6 +254,7 @@ namespace Som3a_WPF_UI.Services
 
             foreach (var node in component)
             {
+                ct.ThrowIfCancellationRequested();
                 if (!adjacency.TryGetValue(node, out var neighbors)) continue;
                 foreach (var neighbor in neighbors)
                 {
@@ -254,6 +269,7 @@ namespace Som3a_WPF_UI.Services
 
             while (queue.Count > 0)
             {
+                ct.ThrowIfCancellationRequested();
                 var level = new List<string>();
                 var count = queue.Count;
                 for (int i = 0; i < count; i++)
@@ -265,6 +281,7 @@ namespace Som3a_WPF_UI.Services
                     if (!adjacency.TryGetValue(node, out var neighbors)) continue;
                     foreach (var neighbor in neighbors)
                     {
+                        if (!inDegree.ContainsKey(neighbor)) continue;
                         inDegree[neighbor]--;
                         if (inDegree[neighbor] == 0)
                             queue.Enqueue(neighbor);
@@ -279,7 +296,8 @@ namespace Som3a_WPF_UI.Services
 
         private static List<string>? TopologicalSort(
             IReadOnlyList<ActivityItem> activities,
-            Dictionary<string, List<string>> adjacency)
+            Dictionary<string, List<string>> adjacency,
+            CancellationToken ct = default)
         {
             var inDegree = new Dictionary<string, int>();
             foreach (var a in activities)
@@ -287,10 +305,11 @@ namespace Som3a_WPF_UI.Services
 
             foreach (var kvp in adjacency)
             {
+                ct.ThrowIfCancellationRequested();
                 foreach (var neighbor in kvp.Value)
                 {
-                    if (inDegree.ContainsKey(neighbor))
-                        inDegree[neighbor]++;
+                    if (!inDegree.ContainsKey(neighbor)) continue;
+                    inDegree[neighbor]++;
                 }
             }
 
@@ -299,12 +318,14 @@ namespace Som3a_WPF_UI.Services
 
             while (queue.Count > 0)
             {
+                ct.ThrowIfCancellationRequested();
                 var node = queue.Dequeue();
                 result.Add(node);
 
                 if (!adjacency.TryGetValue(node, out var neighbors)) continue;
                 foreach (var neighbor in neighbors)
                 {
+                    if (!inDegree.ContainsKey(neighbor)) continue;
                     inDegree[neighbor]--;
                     if (inDegree[neighbor] == 0)
                         queue.Enqueue(neighbor);

@@ -18,31 +18,39 @@ public class RelationshipParser : BaseStructuredParser<List<Relationship>>
     public override string ParserType => "relationship-list";
     public override JsonDocument ExpectedSchema { get; } = JsonDocument.Parse(@"
     {
-        ""type"": ""object"",
-        ""required"": [""relationships""],
-        ""properties"": {
-            ""relationships"": {
-                ""type"": ""array"",
-                ""items"": {
-                    ""type"": ""object"",
-                    ""required"": [""predecessorId"", ""successorId"", ""type""],
-                    ""properties"": {
-                        ""predecessorId"": { ""type"": ""string"" },
-                        ""successorId"": { ""type"": ""string"" },
-                        ""type"": { ""type"": ""string"", ""enum"": [""FS"", ""SS"", ""FF"", ""SF""] },
-                        ""lagDays"": { ""type"": ""number"" },
-                        ""rationale"": { ""type"": ""string"" },
-                        ""confidence"": { ""type"": ""string"", ""enum"": [""High"", ""Medium"", ""Low""] }
-                    }
-                }
+        ""type"": ""array"",
+        ""items"": {
+            ""type"": ""object"",
+            ""required"": [""predecessorId"", ""successorId"", ""type""],
+            ""properties"": {
+                ""predecessorId"": { ""type"": ""string"" },
+                ""successorId"": { ""type"": ""string"" },
+                ""type"": { ""type"": ""string"", ""enum"": [""FS"", ""SS"", ""FF"", ""SF""] },
+                ""lagDays"": { ""type"": ""number"" },
+                ""rationale"": { ""type"": ""string"" },
+                ""confidence"": { ""type"": ""string"", ""enum"": [""High"", ""Medium"", ""Low""] }
             }
         }
     }");
 
-    protected override Task<List<Relationship>> ParseEntityAsync(JsonElement element, CancellationToken ct)
+    protected override async Task<List<Relationship>> ParseEntityAsync(JsonElement element, CancellationToken ct)
     {
         var relationships = new List<Relationship>();
-        var items = element.GetProperty("relationships").EnumerateArray();
+        var seen = new HashSet<string>();
+        IEnumerable<JsonElement> items;
+
+        if (element.ValueKind == JsonValueKind.Array)
+        {
+            items = element.EnumerateArray();
+        }
+        else if (element.ValueKind == JsonValueKind.Object && element.TryGetProperty("relationships", out var rels) && rels.ValueKind == JsonValueKind.Array)
+        {
+            items = rels.EnumerateArray();
+        }
+        else
+        {
+            return relationships;
+        }
 
         foreach (var item in items)
         {
@@ -57,6 +65,10 @@ public class RelationshipParser : BaseStructuredParser<List<Relationship>>
 
             var predecessorId = item.GetProperty("predecessorId").GetString() ?? string.Empty;
             var successorId = item.GetProperty("successorId").GetString() ?? string.Empty;
+
+            var key = $"{predecessorId}|{successorId}|{type}";
+            if (!seen.Add(key))
+                continue;
 
             var predecessor = _activityLookup?.GetValueOrDefault(predecessorId)
                 ?? new Activity { ActivityId = predecessorId, Name = predecessorId };
@@ -92,6 +104,6 @@ public class RelationshipParser : BaseStructuredParser<List<Relationship>>
             relationships.Add(rel);
         }
 
-        return Task.FromResult(relationships);
+        return relationships;
     }
 }

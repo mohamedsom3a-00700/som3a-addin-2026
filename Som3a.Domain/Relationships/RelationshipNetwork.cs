@@ -51,12 +51,24 @@ namespace Som3a.Domain.Relationships
 
             foreach (var rel in Relationships)
             {
-                var predId = rel.Predecessor.ActivityId;
-                var succId = rel.Successor.ActivityId;
+                var predId = rel.Predecessor?.ActivityId ?? string.Empty;
+                var succId = rel.Successor?.ActivityId ?? string.Empty;
 
-                if (_adjacencyList.ContainsKey(predId))
+                if (string.IsNullOrEmpty(predId) || string.IsNullOrEmpty(succId))
+                    continue;
+
+                if (!_adjacencyList.ContainsKey(predId))
+                    _adjacencyList[predId] = new List<string>();
+                if (!_reverseAdjacencyList.ContainsKey(predId))
+                    _reverseAdjacencyList[predId] = new List<string>();
+                if (!_adjacencyList.ContainsKey(succId))
+                    _adjacencyList[succId] = new List<string>();
+                if (!_reverseAdjacencyList.ContainsKey(succId))
+                    _reverseAdjacencyList[succId] = new List<string>();
+
+                if (!_adjacencyList[predId].Contains(succId))
                     _adjacencyList[predId].Add(succId);
-                if (_reverseAdjacencyList.ContainsKey(succId))
+                if (!_reverseAdjacencyList[succId].Contains(predId))
                     _reverseAdjacencyList[succId].Add(predId);
 
                 _allNodes.Add(predId);

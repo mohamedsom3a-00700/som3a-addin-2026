@@ -75,8 +75,8 @@
                         </StackPanel>
 
                         <!-- No API key warning -->
-                        <Border Background="#33FFA500"
-                                BorderBrush="#FFA500"
+                        <Border Background="{DynamicResource WarningBannerBackground}"
+                                BorderBrush="{DynamicResource WarningBorderBrush}"
                                 BorderThickness="1"
                                 CornerRadius="4"
                                 Padding="8,6"

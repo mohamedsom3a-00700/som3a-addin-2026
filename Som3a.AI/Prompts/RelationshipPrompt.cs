@@ -33,7 +33,8 @@ Instructions:
    - Resource flow: Activities sharing the same crew or equipment should be sequenced
    - Cross-trade: Rough-in work precedes finishes (e.g., MEP rough-in before drywall)
 
-3. Output format: JSON array of relationship objects
+3. Output format: JSON array of relationship objects — NO wrapper object, NO markdown fences. Raw array only.
+   Example: [{"predecessorId":"A-001","successorId":"A-002","type":"FS","lagDays":0,"rationale":"Excavation precedes foundation","confidence":"High"}]
 
 4. At minimum, connect activities that are clearly sequenced by trade.
    Activities in different independent work streams may have no cross-relationships.",

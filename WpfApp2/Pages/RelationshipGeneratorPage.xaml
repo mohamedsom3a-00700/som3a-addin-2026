@@ -109,7 +109,7 @@
                                      Foreground="{DynamicResource TextMainBrush}"
                                      Background="{DynamicResource CardBrush}">
                                 <Grid>
-                                    <TextBlock Text="Parallel execution and critical path analysis will appear here."
+                                    <TextBlock x:Name="txtAnalysis" Text="Parallel execution and critical path analysis will appear here."
                                                Foreground="{DynamicResource TextSubBrush}"
                                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                                TextWrapping="Wrap"/>

@@ -43,7 +43,7 @@
                     <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsAccepted}" Value="True">
-                            <Setter Property="Background" Value="#1A00AA00"/>
+                            <Setter Property="Background" Value="{DynamicResource AcceptedRowBackgroundBrush}"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
