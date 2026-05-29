@@ -2,7 +2,8 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="clr-namespace:Som3a_WPF_UI.Converters"
-      Title="Project Analysis"
+      xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.Title]}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -31,7 +32,7 @@
               x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
 
-            <TextBlock Text="Project Analysis"
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.Heading]}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14"
                        FontWeight="SemiBold"
@@ -64,7 +65,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0"
-                           Text="Activities"
+                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.ActivitiesSheet]}"
                            VerticalAlignment="Center"
                            Foreground="{DynamicResource TextMainBrush}"/>
 
@@ -75,7 +76,7 @@
                           Margin="0,7,0,8"/>
 
                 <TextBlock Grid.Row="0" Grid.Column="3"
-                           Text="Relationships"
+                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.RelationshipsSheet]}"
                            VerticalAlignment="Center"
                            Foreground="{DynamicResource TextMainBrush}"/>
 
@@ -86,7 +87,7 @@
                           Margin="0,7,0,8"/>
 
                 <TextBlock Grid.Row="0" Grid.Column="6"
-                           Text="Resources"
+                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.ResourcesSheet]}"
                            VerticalAlignment="Center"
                            Foreground="{DynamicResource TextMainBrush}"/>
 
@@ -97,7 +98,7 @@
                           Margin="0,7,0,8"/>
 
                 <TextBlock Grid.Row="1" Grid.Column="0"
-                           Text="Finish date"
+                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.FinishDate]}"
                            VerticalAlignment="Center"
                            Foreground="{DynamicResource TextMainBrush}"/>
 
@@ -106,19 +107,19 @@
                          Margin="0,7,0,8"/>
 
                 <Button Grid.Row="1" Grid.Column="3"
-                        Content="Check Sheets"
+                        Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.CheckSheets]}"
                         Style="{DynamicResource BaseButton}"
                         Command="{Binding ValidateCommand}"
                         Margin="0,7,0,8"/>
 
                 <Button Grid.Row="1" Grid.Column="4"
-                        Content="Run Analysis"
+                        Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.RunAnalysis]}"
                         Style="{DynamicResource PrimaryButton}"
                         Command="{Binding RunCommand}"
                         Margin="0,7,0,8"/>
 
                 <Button Grid.Row="1" Grid.Column="7"
-                        Content="Clear Summary"
+                        Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.ClearSummary]}"
                         Style="{DynamicResource BaseButton}"
                         Command="{Binding ClearSummaryCommand}"
                         Margin="0,7,0,8"/>
@@ -146,7 +147,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0"
-                               Text="Check Sheets Results"
+                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.CheckResults]}"
                                FontSize="16"
                                FontWeight="SemiBold"
                                Foreground="{DynamicResource TextMainBrush}"/>
@@ -155,13 +156,13 @@
                               ItemContainerStyle="{DynamicResource AccentListViewItem}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Sheet/Section" Width="150"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisGrid.SheetSection]}" Width="150"
                                                 DisplayMemberBinding="{Binding Section}"/>
-                                <GridViewColumn Header="Required Column" Width="190"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisGrid.RequiredColumn]}" Width="190"
                                                 DisplayMemberBinding="{Binding RequiredColumn}"/>
-                                <GridViewColumn Header="Found" Width="70"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisGrid.Found]}" Width="70"
                                                 DisplayMemberBinding="{Binding HeaderFound}"/>
-                                <GridViewColumn Header="Location" Width="110"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisGrid.Location]}" Width="110"
                                                 DisplayMemberBinding="{Binding Location}"/>
                             </GridView>
                         </ListView.View>
@@ -185,7 +186,7 @@
                         <RowDefinition Height="10"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Summary"
+                    <TextBlock Grid.Row="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.Summary]}"
                                FontSize="16" FontWeight="SemiBold"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <ListView Grid.Row="2"
@@ -193,18 +194,18 @@
                               ItemContainerStyle="{DynamicResource AccentListViewItem}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Type" Width="130"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisSummaryGrid.Type]}" Width="130"
                                                 DisplayMemberBinding="{Binding Type}"/>
-                                <GridViewColumn Header="Count" Width="70"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisSummaryGrid.Count]}" Width="70"
                                                 DisplayMemberBinding="{Binding Count}"/>
-                                <GridViewColumn Header="Sheet" Width="140"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisSummaryGrid.Sheet]}" Width="140"
                                                 DisplayMemberBinding="{Binding SheetName}"/>
-                                <GridViewColumn Header="Details" Width="430"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisSummaryGrid.Details]}" Width="430"
                                                 DisplayMemberBinding="{Binding Details}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <TextBlock Grid.Row="4" Text="Log"
+                    <TextBlock Grid.Row="4" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.Log]}"
                                FontSize="16" FontWeight="SemiBold"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <ListView Grid.Row="6"
@@ -212,11 +213,11 @@
                               ItemContainerStyle="{DynamicResource AccentListViewItem}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Time" Width="90"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisLogGrid.Time]}" Width="90"
                                                 DisplayMemberBinding="{Binding Time}"/>
-                                <GridViewColumn Header="Level" Width="80"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisLogGrid.Level]}" Width="80"
                                                 DisplayMemberBinding="{Binding Level}"/>
-                                <GridViewColumn Header="Message" Width="600"
+                                <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisLogGrid.Message]}" Width="600"
                                                 DisplayMemberBinding="{Binding Message}"/>
                             </GridView>
                         </ListView.View>
@@ -272,10 +273,10 @@
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Run"
+            <Button Grid.Column="0" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.Run]}"
                     Style="{DynamicResource PrimaryButton}"
                     Command="{Binding RunCommand}"/>
-            <Button Grid.Column="2" Content="Close"
+            <Button Grid.Column="2" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProjectAnalysisPage.Close]}"
                     Style="{DynamicResource BaseButton}"
                     Command="{Binding CloseCommand}"/>
         </Grid>

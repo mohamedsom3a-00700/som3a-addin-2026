@@ -20,7 +20,10 @@ public class CalendarEngine : ICalendarEngine
         var remaining = (int)Math.Ceiling(workingDays);
         var current = startDate;
 
-        while (remaining > 1)
+        if (IsWorkingDay(current))
+            remaining--;
+
+        while (remaining > 0)
         {
             current = current.AddDays(1);
             if (IsWorkingDay(current))

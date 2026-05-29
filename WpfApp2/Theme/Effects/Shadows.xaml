@@ -54,6 +54,10 @@
         BlurRadius="8" ShadowDepth="2" Direction="270"
         Color="#000000" Opacity="0.2"/>
 
+    <DropShadowEffect x:Key="Shadow.Large.Safe"
+        BlurRadius="12" ShadowDepth="3" Direction="270"
+        Color="#000000" Opacity="0.2"/>
+
     <DropShadowEffect x:Key="Shadow.Card.Safe"
         BlurRadius="10" ShadowDepth="3" Direction="270"
         Color="#000000" Opacity="0.2"/>
@@ -101,5 +105,9 @@
     <DropShadowEffect x:Key="Elevation.Window.Safe"
         BlurRadius="16" ShadowDepth="4" Direction="270"
         Color="#000000" Opacity="0.25"/>
+
+    <DropShadowEffect x:Key="Elevation.Large.Safe"
+        BlurRadius="12" ShadowDepth="3" Direction="270"
+        Color="#000000" Opacity="0.2"/>
 
 </ResourceDictionary>

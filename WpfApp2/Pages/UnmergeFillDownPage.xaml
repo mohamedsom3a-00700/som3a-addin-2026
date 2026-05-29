@@ -3,8 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
       mc:Ignorable="d"
-      Title="Unmerge Fill Down"
+      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UnmergeFillDownPage.Title]}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -18,7 +19,7 @@
         <!-- TITLE BAR -->
         <Grid Grid.Row="0" x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
-            <TextBlock Text="Unmerge Fill Down"
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UnmergeFillDownPage.Heading]}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14" FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -55,19 +56,19 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Active Sheet"
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UnmergeFillDownPage.ActiveSheet]}"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,0"
                              Text="{Binding ActiveSheetName}" IsReadOnly="True"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Header Row"
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UnmergeFillDownPage.HeaderRow]}"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,0"
                              Text="{Binding HeaderRow}"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Column Letter"
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UnmergeFillDownPage.ColumnLetter]}"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <ComboBox Grid.Row="2" Grid.Column="1" Margin="8,0,0,0"
@@ -131,11 +132,11 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Height="36" Content="Run"
+                <Button Grid.Column="0" Height="36" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UnmergeFillDownPage.Run]}"
                         Style="{DynamicResource PrimaryButton}"
                         Command="{Binding RunCommand}"
                         IsEnabled="{Binding CanRun}"/>
-                <Button Grid.Column="2" Height="36" Content="Close"
+                <Button Grid.Column="2" Height="36" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UnmergeFillDownPage.Close]}"
                         Style="{DynamicResource BaseButton}"
                         Command="{Binding CloseCommand}"/>
             </Grid>

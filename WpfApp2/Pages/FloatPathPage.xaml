@@ -3,7 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:models="clr-namespace:Som3a.Shared.Models;assembly=Som3a.Shared"
       xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
-      Title="Float Path Analyzer"
+      xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.Title]}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -20,7 +21,7 @@
               x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
 
-            <TextBlock Text="Float Path Analyzer"
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.Heading]}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14"
                        FontWeight="SemiBold"
@@ -49,7 +50,7 @@
                                 BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                 BorderThickness="1" Margin="0,0,0,14">
                             <StackPanel>
-                                <TextBlock Text="Project" FontSize="13"
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.Project]}" FontSize="13"
                                            Foreground="{DynamicResource TextSubBrush}"/>
                                 <TextBlock Text="{Binding ProjectName}" FontSize="20"
                                            FontWeight="Bold"
@@ -58,12 +59,12 @@
                             </StackPanel>
                         </Border>
 
-                        <TextBlock Text="Load Primavera XER" FontWeight="SemiBold"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.LoadXer]}" FontWeight="SemiBold"
                                    FontSize="15"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    Margin="0,0,0,10"/>
 
-                        <Button Content="Browse XER File"
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.BrowseXer]}"
                                 Command="{Binding LoadXerCommand}"
                                 Style="{DynamicResource PrimaryButton}"
                                 Height="42" Margin="0,0,0,16"/>
@@ -74,7 +75,7 @@
                                 CornerRadius="{DynamicResource CardRadius}"
                                 Padding="12">
                             <StackPanel>
-                                <TextBlock Text="Select Activity"
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.SelectActivity]}"
                                            Foreground="{DynamicResource TextMainBrush}"
                                            Margin="0,0,0,6"/>
                                 <ComboBox ItemsSource="{Binding Activities}"
@@ -83,32 +84,32 @@
                                           Margin="0,0,0,12"
                                           Style="{DynamicResource RoundComboBox}"/>
 
-                                <TextBlock Text="Number of Paths"
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.NumberOfPaths]}"
                                            Foreground="{DynamicResource TextMainBrush}"
                                            Margin="0,0,0,6"/>
                                 <TextBox Text="{Binding PathCount}"
                                          Style="{DynamicResource ReadOnlyTextBox}"
                                          Margin="0,0,0,12"/>
 
-                                <TextBlock Text="Max Path Depth"
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.MaxPathDepth]}"
                                            Foreground="{DynamicResource TextMainBrush}"
                                            Margin="0,0,0,6"/>
                                 <TextBox Text="{Binding MaxDepth}"
                                          Style="{DynamicResource ReadOnlyTextBox}"
                                          Margin="0,0,0,12"/>
 
-                                <CheckBox Content="Highlight Critical Path"
+                                <CheckBox Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.HighlightCritical]}"
                                           IsChecked="{Binding HighlightCritical}"
                                           Margin="0,0,0,16"/>
 
-                                <Button Content="Run Float Path"
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.RunFloatPath]}"
                                         Command="{Binding RunCommand}"
                                         Style="{DynamicResource PrimaryButton}"
                                         Height="42"/>
                             </StackPanel>
                         </Border>
 
-                        <TextBlock Text="View Mode" FontWeight="SemiBold"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.ViewMode]}" FontWeight="SemiBold"
                                    FontSize="15"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    Margin="0,20,0,8"/>
@@ -125,7 +126,7 @@
                             <Grid>
                                 <ProgressBar Height="20"
                                              IsIndeterminate="{Binding IsLoading}"/>
-                                <TextBlock Text="Processing..."
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.Processing]}"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Foreground="{DynamicResource TextMainBrush}"

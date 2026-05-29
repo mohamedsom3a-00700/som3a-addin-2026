@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:shell="clr-namespace:Som3a_WPF_UI.Controls.Shell"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
     <Grid MouseEnter="OnGridMouseEnter"
@@ -55,7 +56,7 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsEnabled}" Value="False">
                                         <Setter Property="Opacity" Value="0.5"/>
-                                        <Setter Property="ToolTip" Value="Page unavailable"/>
+                                        <Setter Property="ToolTip" Value="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SidebarControl.PageUnavailable]}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

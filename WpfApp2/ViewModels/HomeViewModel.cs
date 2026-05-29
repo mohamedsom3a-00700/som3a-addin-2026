@@ -11,6 +11,7 @@ namespace Som3a_WPF_UI.ViewModels
     public sealed class HomeViewModel : ViewModelBase
     {
         private readonly IServiceContainer _container;
+        private readonly INavigationService _navigationService;
         private bool _isLoading;
 
         public ObservableCollection<WidgetViewModel> Widgets { get; } = new ObservableCollection<WidgetViewModel>();
@@ -22,15 +23,39 @@ namespace Som3a_WPF_UI.ViewModels
         }
 
         public ICommand NavigateToDiagnosticsCommand { get; }
+        public ICommand WidgetClickCommand { get; }
 
         public HomeViewModel(IServiceContainer container, INavigationService navigationService)
         {
             _container = container ?? throw new ArgumentNullException(nameof(container));
+            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
 
             NavigateToDiagnosticsCommand = new RelayCommand(() =>
             {
                 try { navigationService.NavigateTo("diagnostics"); }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"NavigateToDiagnostics failed: {ex.Message}"); }
+            });
+
+            WidgetClickCommand = new RelayCommand(param =>
+            {
+                var title = param as string;
+                if (string.IsNullOrEmpty(title)) return;
+                var navKey = title switch
+                {
+                    "Current Version" => "diagnostics",
+                    "Latest Updates" => "settings.general",
+                    "Recent Tools" => "home",
+                    "Recent Projects" => "home",
+                    "Diagnostics Summary" => "diagnostics",
+                    "AI Providers" => "settings.general",
+                    "Performance Summary" => "diagnostics",
+                    "Quick Actions" => "welcome",
+                    "Plugin Status" => "diagnostics",
+                    _ => null
+                };
+                if (navKey == null) return;
+                try { navigationService.NavigateTo(navKey); }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"WidgetClick failed: {ex.Message}"); }
             });
         }
 

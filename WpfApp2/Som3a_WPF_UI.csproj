@@ -382,6 +382,16 @@
     <Compile Include="ViewModels\WBS\WBSGeneratorViewModel.cs" />
     <Compile Include="ViewModels\WBS\WBSTemplateBrowserViewModel.cs" />
     <Compile Include="ViewModels\WbsStyleSelectorViewModel.cs" />
+    <Compile Include="ViewModels\Settings\LanguagePageViewModel.cs" />
+    <Compile Include="Pages\Settings\LanguagePage.xaml.cs">
+      <DependentUpon>LanguagePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\LocalizationBridgeService.cs" />
+    <Compile Include="Services\CultureAwareFormattingService.cs" />
+    <Compile Include="Services\ArabicFontManager.cs" />
+    <Compile Include="Services\TranslationSource.cs" />
+    <Compile Include="Controls\Shell\ShellRTLManager.cs" />
+    <Compile Include="Converters\CultureAwareFormattingConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -400,6 +410,10 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings.resx" />
+    <EmbeddedResource Include="Resources\StringsArabic.resx">
+      <LogicalName>Som3a_WPF_UI.Resources.StringsArabic.resources</LogicalName>
     </EmbeddedResource>
     <None Include="Analyzers\README.md" />
     <None Include="packages.config" />
@@ -519,6 +533,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\DiagnosticsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\LanguagePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -695,6 +713,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\ShellStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Fonts\ArabicFonts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Fonts\FontFallback.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

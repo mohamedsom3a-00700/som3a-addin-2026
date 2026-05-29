@@ -81,6 +81,7 @@ public class DurationEstimatorService : IDurationEstimatorService
 
     public void SetCalendar(CalendarConfig calendar)
     {
+        calendar.Validate();
         _calendar = calendar;
         _logger.LogInformation("Calendar configuration updated: {WorkingDays} days, {Hours}h/day, {Holidays} holidays",
             string.Join(",", calendar.WorkingDays), calendar.HoursPerDay, calendar.Holidays.Count);

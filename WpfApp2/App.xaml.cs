@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Services;
+using Som3a_WPF_UI.Controls.Shell;
 
 namespace Som3a_WPF_UI
 {
@@ -27,6 +28,10 @@ namespace Som3a_WPF_UI
 
             var sidebarRegistration = Container.Resolve<ISidebarRegistrationProvider>();
             sidebarRegistration.RegisterStaticPages();
+
+            LocalizationBridgeService.Instance.LoadLanguagePreference();
+
+            LocalizationBridgeService.Instance.LanguageChanged += OnLanguageChanged;
 
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
             {
@@ -57,6 +62,29 @@ namespace Som3a_WPF_UI
                     System.Diagnostics.Trace.TraceError($"Deferred initialization failed: {ex}");
                 }
             }));
+        }
+
+        private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
+        {
+            var isRTL = e.IsRTL;
+
+            ShellRTLManager.Instance.ApplyLayout(isRTL);
+
+            CultureAwareFormattingService.Instance.RefreshCulture(e.NewLanguageCode);
+
+            if (isRTL)
+            {
+                ArabicFontManager.Instance.SetArabicFont("Cairo");
+            }
+            else
+            {
+                ArabicFontManager.Instance.ResetFont();
+            }
+
+            foreach (var d in NavigationService.Instance.Destinations)
+                d.RefreshLabel();
+
+            TranslationSource.Instance.Refresh();
         }
 
         private static Assembly? OnAssemblyResolve(object sender, ResolveEventArgs args)

@@ -4,8 +4,9 @@
       xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
       mc:Ignorable="d"
-      Title="Relationship Generator"
+      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.Title]}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -18,7 +19,7 @@
 
         <!-- TITLE BAR -->
         <Grid Grid.Row="0" Margin="{DynamicResource TitleBarMargin}">
-            <TextBlock Text="Relationship Generator"
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.Heading]}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14" FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -58,19 +59,19 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Button x:Name="btnGenerate" Grid.Column="0" Height="34"
-                                Content="Generate Relationships"
+                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.GenerateRelationships]}"
                                 Style="{DynamicResource PrimaryButton}"
                                 Click="btnGenerate_Click"/>
                         <Button x:Name="btnAcceptAll" Grid.Column="3" Height="34"
-                                Content="Accept All"
+                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.AcceptAll]}"
                                 Style="{DynamicResource BaseButton}"
                                 Click="btnAcceptAll_Click"/>
                         <Button x:Name="btnRejectAll" Grid.Column="5" Height="34"
-                                Content="Reject All"
+                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.RejectAll]}"
                                 Style="{DynamicResource BaseButton}"
                                 Click="btnRejectAll_Click"/>
                         <Button x:Name="btnCancel" Grid.Column="7" Height="34"
-                                Content="Cancel"
+                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.Cancel]}"
                                 Style="{DynamicResource BaseButton}"
                                 Click="btnCancel_Click"
                                 Visibility="Collapsed"/>
@@ -79,7 +80,7 @@
                     <Grid Grid.Row="2">
                         <TabControl Background="Transparent"
                                     BorderThickness="0">
-                            <TabItem Header="Relationships"
+                            <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorTab.Relationships]}"
                                      Foreground="{DynamicResource TextMainBrush}"
                                      Background="{DynamicResource CardBrush}">
                                 <Grid>
@@ -90,32 +91,32 @@
                                     </Grid.RowDefinitions>
                                     <TextBlock x:Name="txtGenerationStatus" Grid.Row="0"
                                                Foreground="{DynamicResource TextSubBrush}"
-                                               Text="Click 'Generate Relationships' to start."/>
+                                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.GenerateHint]}"/>
                                     <controls:RelationshipEditorGrid x:Name="RelationshipGrid" Grid.Row="2"/>
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="Validation"
+                            <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorTab.Validation]}"
                                      Foreground="{DynamicResource TextMainBrush}"
                                      Background="{DynamicResource CardBrush}">
                                 <Grid>
                                     <TextBlock x:Name="txtValidationSummary"
                                                Foreground="{DynamicResource TextSubBrush}"
-                                               Text="Validation results will appear here after generation."
+                                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.ValidationHint]}"
                                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                                TextWrapping="Wrap"/>
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="Analysis"
+                            <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorTab.Analysis]}"
                                      Foreground="{DynamicResource TextMainBrush}"
                                      Background="{DynamicResource CardBrush}">
                                 <Grid>
-                                    <TextBlock x:Name="txtAnalysis" Text="Parallel execution and critical path analysis will appear here."
+                                    <TextBlock x:Name="txtAnalysis" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.AnalysisHint]}"
                                                Foreground="{DynamicResource TextSubBrush}"
                                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                                TextWrapping="Wrap"/>
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="Export"
+                            <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorTab.Export]}"
                                      Foreground="{DynamicResource TextMainBrush}"
                                      Background="{DynamicResource CardBrush}">
                                 <Grid>
@@ -126,7 +127,7 @@
                                     </Grid.RowDefinitions>
                                     <StackPanel Grid.Row="0" Orientation="Horizontal">
                                         <Button x:Name="btnExport" Height="34"
-                                                Content="Export to Excel"
+                                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.ExportToExcel]}"
                                                 Style="{DynamicResource PrimaryButton}"
                                                 Click="btnExport_Click"
                                                 Margin="0,0,8,0"/>
@@ -137,7 +138,7 @@
                                             Padding="10">
                                         <TextBlock x:Name="txtExportStatus"
                                                    Foreground="{DynamicResource TextSubBrush}"
-                                                   Text="Export will add relationship columns to the active activity sheet."/>
+                                                   Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.ExportHint]}"/>
                                     </Border>
                                 </Grid>
                             </TabItem>
@@ -156,7 +157,7 @@
                         CornerRadius="{DynamicResource CardRadius}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1" Padding="12,0">
-                    <TextBlock x:Name="txtFooterStatus" Text="Ready"
+                    <TextBlock x:Name="txtFooterStatus" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.Ready]}"
                                Foreground="{DynamicResource TextSubBrush}"
                                VerticalAlignment="Center"/>
                 </Border>
@@ -176,7 +177,7 @@
                                      IsIndeterminate="True"/>
                         <TextBlock x:Name="txtBusy" Margin="12,0,0,0"
                                    Foreground="{DynamicResource TextMainBrush}"
-                                   VerticalAlignment="Center" Text="Working..."/>
+                                   VerticalAlignment="Center" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipGeneratorPage.Working]}"/>
                     </StackPanel>
                 </Border>
             </Grid>

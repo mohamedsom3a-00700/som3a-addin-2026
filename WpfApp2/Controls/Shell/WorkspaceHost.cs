@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Som3a_WPF_UI.Pages;
+using Som3a_WPF_UI.Services;
 using NavEventArgs = System.Windows.Navigation.NavigationEventArgs;
 
 namespace Som3a_WPF_UI.Controls.Shell
@@ -53,6 +54,16 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         public WorkspaceHost()
         {
+            LocalizationBridgeService.Instance.LanguageChanged += OnLanguageChanged;
+        }
+
+        private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
+        {
+            var direction = e.IsRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+            if (_frame != null)
+                _frame.FlowDirection = direction;
+            if (_currentPage != null)
+                _currentPage.FlowDirection = direction;
         }
 
         public override void OnApplyTemplate()
@@ -68,6 +79,9 @@ namespace Som3a_WPF_UI.Controls.Shell
                 _frame.LoadCompleted += OnFrameLoadCompleted;
                 _frame.NavigationFailed += OnFrameNavigationFailed;
                 _frame.NavigationStopped += OnFrameNavigationStopped;
+                _frame.FlowDirection = LocalizationBridgeService.Instance.IsRTL
+                    ? FlowDirection.RightToLeft
+                    : FlowDirection.LeftToRight;
             }
         }
 
@@ -81,6 +95,15 @@ namespace Som3a_WPF_UI.Controls.Shell
             try
             {
                 _currentPage = page;
+                page.FlowDirection = LocalizationBridgeService.Instance.IsRTL
+                    ? FlowDirection.RightToLeft
+                    : FlowDirection.LeftToRight;
+                if (_frame != null)
+                {
+                    _frame.FlowDirection = LocalizationBridgeService.Instance.IsRTL
+                        ? FlowDirection.RightToLeft
+                        : FlowDirection.LeftToRight;
+                }
                 if (_errorOverlay != null)
                     _errorOverlay.Visibility = Visibility.Collapsed;
                 if (_frame != null)
@@ -159,6 +182,9 @@ namespace Som3a_WPF_UI.Controls.Shell
                 var welcomePage = Activator.CreateInstance(WelcomePageType) as Page;
                 if (welcomePage != null)
                 {
+                    var isRTL = LocalizationBridgeService.Instance.IsRTL;
+                    welcomePage.FlowDirection = isRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+                    _frame.FlowDirection = isRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
                     _frame.Navigate(welcomePage);
                     return;
                 }

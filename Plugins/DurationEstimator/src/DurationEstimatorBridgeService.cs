@@ -109,8 +109,7 @@ public class DurationEstimatorBridgeService : IDurationEstimatorBridge
             }
             else
             {
-                var lib = _benchmarkLibrary as ProductivityBenchmarkLibrary;
-                results = lib?.GetAllActive() ?? _benchmarkLibrary.GetByTradeCategory("concrete");
+                results = _benchmarkLibrary.GetAllActive();
             }
 
             var dtos = results.Select(r => new BenchmarkDto

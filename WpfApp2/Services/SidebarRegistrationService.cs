@@ -41,8 +41,9 @@ namespace Som3a_WPF_UI.Services
             _navigationService.RegisterPage("Excel", typeof(Pages.FixPieColorsPage), "excel.piecolors", "Fix Pie Colors", "Palette", 40);
             _navigationService.RegisterPage("Excel", typeof(Pages.StyleSelectorPage), "excel.styles", "Style Selector", "FormatPaint", 50);
             _navigationService.RegisterPage("Excel", typeof(Pages.UnmergeFillDownPage), "excel.unmerge", "Unmerge Fill Down", "TableMergeCells", 60);
-            _navigationService.RegisterPage("Home", typeof(Pages.HomePage), "home", "Home", "Home", 0);
+            _navigationService.RegisterPage("Dashboard", typeof(Pages.HomePage), "home", "Dashboard", "Home", 0);
             _navigationService.RegisterPage("Settings", typeof(Pages.SettingsPage), "settings.general", "Settings", "Cog", 10);
+            _navigationService.RegisterPage("Settings", typeof(Pages.Settings.LanguagePage), "settings.language", "Language", "Translate", 15);
             _navigationService.RegisterPage("Settings", typeof(Pages.DiagnosticsPage), "diagnostics", "Diagnostics", "MonitorDashboard", 99);
             _navigationService.RegisterPage("Other", typeof(Pages.WelcomePage), "welcome", "Home", null, 0);
             _navigationService.RegisterPage("Other", typeof(Pages.MainPage), "main", "Comparison P6", null, 10);
@@ -130,7 +131,7 @@ namespace Som3a_WPF_UI.Services
 
         private static bool IsValidCategory(string category)
         {
-            var valid = new HashSet<string> { "Home", "Planning", "Analysis", "Excel", "Settings", "Other" };
+            var valid = new HashSet<string> { "Home", "Dashboard", "Planning", "Analysis", "Excel", "Settings", "Other" };
             return valid.Contains(category);
         }
     }

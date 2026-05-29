@@ -1,6 +1,7 @@
 <UserControl x:Class="Som3a_WPF_UI.Views.DiagnosticsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
     <Grid SnapsToDevicePixels="True"
@@ -24,7 +25,7 @@
                              Foreground="{DynamicResource Brush.Accent.Primary}"
                              SnapsToDevicePixels="True"
                              UseLayoutRounding="True"/>
-                <TextBlock Text="Capturing diagnostics..."
+                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.Capturing]}"
                            FontSize="14"
                            Foreground="{DynamicResource Brush.Text.Secondary}"
                            HorizontalAlignment="Center"
@@ -44,7 +45,7 @@
                         VerticalAlignment="Center"
                         SnapsToDevicePixels="True"
                         UseLayoutRounding="True">
-                <TextBlock Text="⚠ Diagnostics Unavailable"
+                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.Unavailable]}"
                            FontSize="14"
                            Foreground="{DynamicResource Brush.Accent.Danger}"
                            HorizontalAlignment="Center"
@@ -58,7 +59,7 @@
                            Margin="0,8,0,0"
                            SnapsToDevicePixels="True"
                            UseLayoutRounding="True"/>
-                <Button Content="Retry"
+                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.Retry]}"
                         Style="{DynamicResource ActionButtonStyle}"
                         Command="{Binding DiagnosticsVM.RefreshCommand}"
                         HorizontalAlignment="Center"
@@ -84,7 +85,7 @@
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="Diagnostics"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.Heading]}"
                                Style="{DynamicResource SectionHeaderStyle}"/>
                     <TextBlock Text="{Binding DiagnosticsVM.StatusMessage}"
                                FontSize="12"
@@ -93,11 +94,11 @@
                                TextWrapping="Wrap"/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                        <Button Content="Refresh"
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.Refresh]}"
                                 Style="{DynamicResource ActionButtonStyle}"
                                 Margin="0,0,10,0"
                                 Command="{Binding DiagnosticsVM.RefreshCommand}"/>
-                        <Button Content="Run Validation"
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.RunValidation]}"
                                 Style="{DynamicResource ActionButtonStyle}"
                                 Command="{Binding DiagnosticsVM.RunValidationCommand}"/>
                     </StackPanel>
@@ -120,7 +121,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Render Mode"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.RenderMode]}"
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.RenderMode}"
@@ -128,7 +129,7 @@
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="1"
-                               Text="Render Source"
+                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.RenderSource]}"
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Row="1" Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.RenderModeSource}"
@@ -137,7 +138,7 @@
                                TextWrapping="Wrap"/>
 
                     <TextBlock Grid.Row="2"
-                               Text="GPU Available"
+                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.GpuAvailable]}"
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Row="2" Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.GpuAvailable}"
@@ -157,7 +158,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="GPU Name"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.GpuName]}"
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.GpuName}"
@@ -183,7 +184,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Active Theme"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.ActiveTheme]}"
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.ActiveTheme}"
@@ -191,16 +192,16 @@
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="1"
-                               Text="Accent Color"
-                               Style="{DynamicResource SettingLabelStyle}"/>
+                                Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.AccentColor]}"
+                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Row="1" Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.AccentColor}"
                                Foreground="{DynamicResource Brush.Text.Primary}"
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="2"
-                               Text="Fallback Mode"
-                               Style="{DynamicResource SettingLabelStyle}"/>
+                                Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.FallbackMode]}"
+                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Row="2" Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.IsFallbackMode}"
                                Foreground="{DynamicResource Brush.Text.Primary}"
@@ -223,7 +224,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Working Set (MB)"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.WorkingSet]}"
                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.MemoryWorkingSetMB, StringFormat={}{0:F1}, TargetNullValue=N/A}"
@@ -231,8 +232,8 @@
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="1"
-                               Text="Managed Heap (MB)"
-                               Style="{DynamicResource SettingLabelStyle}"/>
+                                Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.ManagedHeap]}"
+                                Style="{DynamicResource SettingLabelStyle}"/>
                     <TextBlock Grid.Row="1" Grid.Column="1"
                                Text="{Binding DiagnosticsVM.CurrentSnapshot.MemoryManagedMB, StringFormat={}{0:F1}, TargetNullValue=N/A}"
                                Foreground="{DynamicResource Brush.Text.Primary}"
@@ -246,7 +247,7 @@
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="Popup Health"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.PopupHealth]}"
                                Style="{DynamicResource SectionHeaderStyle}"/>
                     <ItemsControl ItemsSource="{Binding DiagnosticsVM.CurrentSnapshot.PopupStatus}"
                                   SnapsToDevicePixels="True"
@@ -269,7 +270,7 @@
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="Plugin Modules"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.PluginModules]}"
                                Style="{DynamicResource SectionHeaderStyle}"/>
 
                     <ItemsControl ItemsSource="{Binding DiagnosticsVM.ModuleSnapshots}"
@@ -344,7 +345,7 @@
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="Validation Results"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.ValidationResults]}"
                                Style="{DynamicResource SectionHeaderStyle}"/>
 
                     <DataGrid ItemsSource="{Binding DiagnosticsVM.ValidationResults}"
@@ -356,12 +357,12 @@
                               SnapsToDevicePixels="True"
                               UseLayoutRounding="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="70"/>
-                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100"/>
-                            <DataGridTextColumn Header="Dictionary" Binding="{Binding DictionaryName}" Width="120"/>
-                            <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="120"/>
-                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
-                            <DataGridTextColumn Header="Fix" Binding="{Binding SuggestedFix}" Width="150"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsValidationGrid.Severity]}" Binding="{Binding Severity}" Width="70"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsValidationGrid.Category]}" Binding="{Binding Category}" Width="100"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsValidationGrid.Dictionary]}" Binding="{Binding DictionaryName}" Width="120"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsValidationGrid.Location]}" Binding="{Binding Location}" Width="120"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsValidationGrid.Description]}" Binding="{Binding Description}" Width="*"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsValidationGrid.Fix]}" Binding="{Binding SuggestedFix}" Width="150"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
@@ -380,11 +381,11 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Application Logs"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.ApplicationLogs]}"
                                    Style="{DynamicResource SectionHeaderStyle}"/>
 
                         <ToggleButton Grid.Column="1"
-                                      Content="View Logs"
+                                      Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.ViewLogs]}"
                                       IsChecked="{Binding DiagnosticsVM.IsLogViewVisible}"
                                       Style="{DynamicResource ActionButtonStyle}"
                                       Margin="0,0,0,8"/>
@@ -409,10 +410,10 @@
                             </Style>
                         </DataGrid.Style>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Time" Binding="{Binding Timestamp, StringFormat={}{0:HH:mm:ss}}" Width="70"/>
-                            <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="70"/>
-                            <DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="100"/>
-                            <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="*"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsLogGrid.Time]}" Binding="{Binding Timestamp, StringFormat={}{0:HH:mm:ss}}" Width="70"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsLogGrid.Severity]}" Binding="{Binding Severity}" Width="70"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsLogGrid.Source]}" Binding="{Binding Source}" Width="100"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsLogGrid.Message]}" Binding="{Binding Message}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
@@ -424,19 +425,19 @@
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="Settings Export / Import"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.SettingsExportImport]}"
                                Style="{DynamicResource SectionHeaderStyle}"/>
-                    <TextBlock Text="Export your current settings to a JSON file for backup or transfer to another machine."
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.SettingsExportHint]}"
                                FontSize="12"
                                Foreground="{DynamicResource Brush.Text.Secondary}"
                                Margin="0,0,0,16"
                                TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="Export Settings"
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.ExportSettings]}"
                                 Style="{DynamicResource ActionButtonStyle}"
                                 Margin="0,0,12,0"
                                 Command="{Binding ExportSettingsCommand}"/>
-                        <Button Content="Import Settings"
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPanel.ImportSettings]}"
                                 Style="{DynamicResource ActionButtonStyle}"
                                 Command="{Binding ImportSettingsCommand}"/>
                     </StackPanel>

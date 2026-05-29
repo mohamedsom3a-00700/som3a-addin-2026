@@ -49,8 +49,9 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
             {
                 _navigationService.NavigateTo(toolId);
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"NavigateToTool failed for '{toolId}': {ex.Message}");
             }
         }
 
@@ -63,8 +64,9 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
                     _recentItemsService.AddRecentTool(e.NewKey, e.NewKey);
                     App.Current?.Dispatcher?.Invoke(async () => await RefreshAsync());
                 }
-                catch
+                catch (Exception ex)
                 {
+                    System.Diagnostics.Debug.WriteLine($"OnNavigationChanged failed for '{e.NewKey}': {ex.Message}");
                 }
             }
         }

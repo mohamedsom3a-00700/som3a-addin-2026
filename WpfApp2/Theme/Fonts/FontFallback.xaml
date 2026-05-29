@@ -1,0 +1,18 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <FontFamily x:Key="Font.FallbackChain.Arabic">
+        <FontFamily.FamilyNames>
+            <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Cairo</sys:String>
+            <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Segoe UI</sys:String>
+            <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Arial</sys:String>
+        </FontFamily.FamilyNames>
+    </FontFamily>
+
+    <FontFamily x:Key="Font.FallbackChain.Latin">
+        <FontFamily.FamilyNames>
+            <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Segoe UI</sys:String>
+            <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Arial</sys:String>
+        </FontFamily.FamilyNames>
+    </FontFamily>
+</ResourceDictionary>

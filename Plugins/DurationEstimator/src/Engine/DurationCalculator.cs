@@ -37,6 +37,10 @@ public class DurationCalculator : IDurationCalculator
         DateTime? startDate = null,
         IEnumerable<ProductivityModifier>? modifiers = null)
     {
+        var validation = InputValidation.ValidateCrewSize(crewSize);
+        if (!validation.IsValid)
+            throw new ArgumentOutOfRangeException(nameof(crewSize), validation.ErrorMessage);
+
         decimal effectiveRate = productivityRate;
         if (modifiers != null && modifiers.Any())
         {

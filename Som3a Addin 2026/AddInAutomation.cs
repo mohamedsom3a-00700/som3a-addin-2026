@@ -53,7 +53,7 @@ namespace Som3a_Addin_2026
                 {
                     case "Home":
                     case "Som3a Add-in":
-                        route = "welcome";
+                        route = "home";
                         break;
                     case "Trades Codes":
                         route = "excel.tradecodes";
@@ -113,6 +113,10 @@ namespace Som3a_Addin_2026
                 case "Duration Estimator":
                     route = "planning.duration";
                     break;
+                case "Language":
+                case "Language Settings":
+                    route = "settings.language";
+                    break;
                     default:
                         return "WINDOW_NOT_FOUND";
                 }
@@ -137,7 +141,21 @@ namespace Som3a_Addin_2026
             }
             catch (Exception ex)
             {
-                return "ERROR: " + ex.Message;
+                var diag = "";
+                try {
+                    var dicts = System.Windows.Application.Current?.Resources?.MergedDictionaries;
+                    if (dicts != null) {
+                        diag = $" | MergedDicts={dicts.Count}";
+                        foreach (var d in dicts) {
+                            var src = d.Source?.ToString() ?? "null";
+                            diag += $" | Src=[{src.Substring(0, Math.Min(80, src.Length))}]";
+                        }
+                    }
+                    var initErr = Som3a_WPF_UI.Services.ThemeManager.InitializationError;
+                    if (!string.IsNullOrEmpty(initErr))
+                        diag += $" | InitErr=[{initErr}]";
+                } catch {}
+                return "ERROR: " + ex.Message + diag;
             }
             });
         }
@@ -227,6 +245,62 @@ namespace Som3a_Addin_2026
             {
                 return "ERROR: " + ex.Message;
             }
+            });
+        }
+
+        // Phase 24 — Localization & RTL
+        public string SwitchLanguage(string cultureCode)
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var bridge = LocalizationBridgeService.Instance;
+                    var result = bridge.SetLanguage(cultureCode);
+                    if (result)
+                    {
+                        bridge.SaveLanguagePreference();
+                        return "OK";
+                    }
+                    return "ERROR: Language switch failed for code '" + cultureCode + "'";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string GetCurrentLanguage()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var code = LocalizationBridgeService.Instance.CurrentLanguageCode;
+                    var isRTL = LocalizationBridgeService.Instance.IsRTL;
+                    return $"CODE:{code}|RTL:{isRTL}";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string IsRTLMode()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var val = LocalizationBridgeService.Instance.IsRTL;
+                    return val ? "TRUE" : "FALSE";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
             });
         }
 
@@ -697,6 +771,105 @@ namespace Som3a_Addin_2026
                     if (vm.SearchBenchmarksCommand.CanExecute(null))
                         vm.SearchBenchmarksCommand.Execute(null);
                     return $"OK|Benchmarks:{vm.BenchmarkCount}";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        // ---- Dashboard & Home Automation (Phase 23) ----
+
+        private HomeViewModel FindHomeViewModel(int timeoutMs = 10000)
+        {
+            var deadline = DateTime.UtcNow.AddMilliseconds(timeoutMs);
+            while (DateTime.UtcNow < deadline)
+            {
+                var nav = NavigationService.Instance;
+                var shell = nav?.ShellWindow;
+                if (shell == null)
+                {
+                    shell = Application.Current?.Windows
+                        .OfType<ShellWindow>()
+                        .FirstOrDefault();
+                }
+                if (shell?.CurrentPage is HomePage page)
+                {
+                    var vm = page.DataContext as HomeViewModel;
+                    if (vm != null) return vm;
+                }
+                var frame = new System.Windows.Threading.DispatcherFrame();
+                System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(
+                    System.Windows.Threading.DispatcherPriority.Background,
+                    new Action(() => frame.Continue = false));
+                System.Windows.Threading.Dispatcher.PushFrame(frame);
+            }
+            return null;
+        }
+
+        public string GetHomePageStatus()
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var vm = FindHomeViewModel();
+                    if (vm == null) return "ERROR: Home page not open";
+                    PumpDispatcherWhile(() => vm.IsLoading, 15000);
+                    var lines = new List<string>();
+                    lines.Add($"WidgetCount:{vm.Widgets.Count}");
+                    lines.Add($"IsLoading:{vm.IsLoading}");
+                    int loaded = 0, errored = 0;
+                    foreach (var w in vm.Widgets)
+                    {
+                        if (w.IsLoaded) loaded++;
+                        if (!string.IsNullOrEmpty(w.ErrorMessage)) errored++;
+                    }
+                    lines.Add($"Loaded:{loaded}");
+                    lines.Add($"Errored:{errored}");
+                    return "OK|" + string.Join("|", lines);
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string GetWidgetStatus(string widgetName)
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var vm = FindHomeViewModel();
+                    if (vm == null) return "ERROR: Home page not open";
+                    var widget = vm.Widgets.FirstOrDefault(w =>
+                        w.Title.StartsWith(widgetName, StringComparison.OrdinalIgnoreCase));
+                    if (widget == null) return "WIDGET_NOT_FOUND: " + widgetName;
+                    return $"OK|Title:{widget.Title}|Icon:{widget.Icon}|IsLoading:{widget.IsLoading}|IsLoaded:{widget.IsLoaded}|Error:{widget.ErrorMessage ?? "(none)"}";
+                }
+                catch (Exception ex)
+                {
+                    return "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public string WidgetClick(string widgetTitle)
+        {
+            return InvokeOnUI(() =>
+            {
+                try
+                {
+                    var vm = FindHomeViewModel();
+                    if (vm == null) return "ERROR: Home page not open";
+                    var widget = vm.Widgets.FirstOrDefault(w =>
+                        w.Title.StartsWith(widgetTitle, StringComparison.OrdinalIgnoreCase));
+                    if (widget == null) return "WIDGET_NOT_FOUND: " + widgetTitle;
+                    vm.WidgetClickCommand.Execute(widget.Title);
+                    return "OK";
                 }
                 catch (Exception ex)
                 {

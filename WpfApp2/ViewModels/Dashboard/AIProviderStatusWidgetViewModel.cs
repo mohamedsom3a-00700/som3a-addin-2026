@@ -51,6 +51,8 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
 
             if (!IsHostRunning)
                 ErrorMessage = "No AI providers configured";
+            else
+                ErrorMessage = null;
 
             _refreshTimer.Start();
             return Task.CompletedTask;

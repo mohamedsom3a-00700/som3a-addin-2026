@@ -1,6 +1,7 @@
 <UserControl x:Class="Som3a_WPF_UI.Views.AIPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
     <UserControl.Resources>
@@ -18,11 +19,11 @@
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="AI Features"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.AiFeatures]}"
                                Style="{DynamicResource SectionHeaderStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
-                    <CheckBox Content="Enable AI generation"
+                    <CheckBox Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.EnableAiGeneration]}"
                               IsChecked="{Binding IsAIEnabled, Mode=TwoWay}"
                               Foreground="{DynamicResource TextMainBrush}"
                               Margin="0,0,0,8"
@@ -36,7 +37,7 @@
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="Local AI Detection"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.LocalAiDetection]}"
                                Style="{DynamicResource SectionHeaderStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
@@ -47,7 +48,7 @@
                         <StackPanel Orientation="Horizontal"
                                     Visibility="{Binding IsDetectionScanning, Converter={StaticResource BoolToVisibilityConverter}}"
                                     Margin="0,0,0,4">
-                            <TextBlock Text="Scanning for local AI providers..."
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.ScanningForProviders]}"
                                        Foreground="{DynamicResource TextMainBrush}"
                                        FontSize="13"/>
                         </StackPanel>
@@ -62,7 +63,7 @@
                         <!-- Local provider selector (when multiple detected) -->
                         <StackPanel Visibility="{Binding ShowLocalProviderSelector, Converter={StaticResource BoolToVisibilityConverter}}"
                                     Margin="0,8,0,0">
-                            <TextBlock Text="Select Local Provider:"
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.SelectLocalProvider]}"
                                        Foreground="{DynamicResource TextMainBrush}"
                                        FontSize="13"
                                        Margin="0,0,0,4"/>
@@ -83,18 +84,18 @@
                                 Margin="0,8,0,0"
                                 Visibility="{Binding ShowApiKeyWarning, Converter={StaticResource BoolToVisibilityConverter}}">
                             <StackPanel>
-                                <TextBlock Text="No Cloud API Key Configured"
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.NoApiKey]}"
                                            FontWeight="Bold"
                                            Foreground="{DynamicResource TextMainBrush}"
                                            FontSize="13"
                                            Margin="0,0,0,4"/>
-                                <TextBlock Text="Using local AI provider automatically."
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.UsingLocalAutomatically]}"
                                            Foreground="{DynamicResource TextMainBrush}"
                                            FontSize="12"
                                            TextWrapping="Wrap"
                                            Margin="0,0,0,8"/>
-                                <Button Content="Use Local AI"
-                                        Command="{Binding SwitchToLocalAICommand}"
+<Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.UseLocalAi]}"
+                                         Command="{Binding SwitchToLocalAICommand}"
                                         Width="200"
                                         Height="32"
                                         HorizontalAlignment="Left"/>
@@ -111,14 +112,14 @@
                     Visibility="{Binding IsCloudSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="Cloud AI Configuration"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.CloudAiConfig]}"
                                Style="{DynamicResource SectionHeaderStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
                     <StackPanel Margin="0,0,0,12"
                                 SnapsToDevicePixels="True"
                                 UseLayoutRounding="True">
-                        <TextBlock Text="API Key"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.ApiKey]}"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    FontSize="13"
                                    Margin="0,0,0,4"/>
@@ -129,12 +130,12 @@
                                      Height="32"
                                      AutomationProperties.Name="AI API Key"
                                      PasswordChanged="OnApiKeyChanged"/>
-                        <TextBlock Text="(Cloud API key is required. If empty, local AI will be used.)"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.ApiKeyHint]}"
                                    Foreground="{DynamicResource TextSubtleBrush}"
                                    FontSize="11"
                                    Margin="0,4,0,0"/>
 
-                        <TextBlock Text="Main Model"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.MainModel]}"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    FontSize="13"
                                    Margin="0,12,0,4"/>
@@ -153,11 +154,11 @@
                                       AutomationProperties.Name="AI Main Model"/>
                             <Button Grid.Column="1" Content="⟳" Width="32" Height="32"
                                     Command="{Binding RefreshModelsCommand}"
-                                    ToolTip="Fetch latest models from API"
+                                    ToolTip="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.RefreshModelsTooltip]}"
                                     Margin="4,0,0,0"/>
                         </Grid>
 
-                        <TextBlock Text="Fallback Model"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.FallbackModel]}"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    FontSize="13"
                                    Margin="0,12,0,4"/>
@@ -179,14 +180,14 @@
                     Visibility="{Binding IsOllamaSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="Local AI Configuration"
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.LocalAiConfig]}"
                                Style="{DynamicResource SectionHeaderStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
                     <StackPanel Margin="0,0,0,12"
                                 SnapsToDevicePixels="True"
                                 UseLayoutRounding="True">
-                        <TextBlock Text="Endpoint URL"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.EndpointUrl]}"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    FontSize="13"
                                    Margin="0,0,0,4"/>
@@ -197,7 +198,7 @@
                                  IsReadOnly="True"
                                  AutomationProperties.Name="Local AI Endpoint URL"/>
 
-                        <TextBlock Text="Model"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.LocalModel]}"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    FontSize="13"
                                    Margin="0,12,0,4"/>
@@ -209,7 +210,7 @@
                                   Height="32"
                                   AutomationProperties.Name="Local AI Model"/>
 
-                        <TextBlock Text="Fallback Model"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AIPanel.LocalFallbackModel]}"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    FontSize="13"
                                    Margin="0,12,0,4"/>

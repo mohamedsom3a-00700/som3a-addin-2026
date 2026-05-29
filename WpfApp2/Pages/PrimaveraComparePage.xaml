@@ -1,7 +1,8 @@
 <Page x:Class="Som3a_WPF_UI.Pages.PrimaveraComparePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Title="Primavera Compare"
+      xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraComparePage.Title]}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -16,7 +17,7 @@
         <Grid Grid.Row="0"
               x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
-            <TextBlock Text="Primavera Compare"
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraComparePage.Heading]}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14" FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -50,11 +51,11 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="Database Type"
+                    <TextBlock Grid.Column="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraComparePage.DatabaseType]}"
                                Margin="0,0,0,6"
                                Foreground="{DynamicResource TextSubBrush}"
                                FontWeight="SemiBold"/>
-                    <TextBlock Grid.Column="1" Text="Connection String"
+                    <TextBlock Grid.Column="1" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraComparePage.ConnectionString]}"
                                Foreground="{DynamicResource TextSubBrush}"
                                Margin="14,0,0,6" FontWeight="SemiBold"/>
 
@@ -62,8 +63,8 @@
                               Style="{DynamicResource RoundComboBox}"
                               SelectedValuePath="Content"
                               SelectedValue="{Binding SelectedDatabaseType}">
-                        <ComboBoxItem Content="SQLite"/>
-                        <ComboBoxItem Content="Oracle"/>
+                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraComparePage.Sqlite]}"/>
+                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraComparePage.Oracle]}"/>
                     </ComboBox>
 
                     <TextBox Grid.Row="1" Grid.Column="1" Height="38"
@@ -72,11 +73,11 @@
 
                     <Button Grid.Row="1" Grid.Column="2" Height="38"
                             Margin="14,0,0,0" Style="{DynamicResource BaseButton}"
-                            Content="Browse" Click="BrowseButton_Click"/>
+                            Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraComparePage.Browse]}" Click="BrowseButton_Click"/>
 
                     <Button Grid.Row="1" Grid.Column="3" Height="38"
                             Margin="10,0,0,0" Style="{DynamicResource PrimaryButton}"
-                            Content="Connect"
+                            Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraComparePage.Connect]}"
                             Command="{Binding ConnectCommand}"/>
                 </Grid>
             </Border>
@@ -92,7 +93,7 @@
                          Text="{Binding SearchText}"/>
                 <Button Grid.Column="1" Height="38"
                         Margin="14,0,0,0" Style="{DynamicResource PrimaryButton}"
-                        Content="Compare" Command="{Binding CompareCommand}"/>
+                        Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraComparePage.Compare]}" Command="{Binding CompareCommand}"/>
             </Grid>
 
             <!-- GRID -->
@@ -109,12 +110,12 @@
                           SelectionUnit="FullRow"
                           SelectionChanged="ProjectsGrid_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Project ID" Binding="{Binding ProjectId}" Width="110"/>
-                        <DataGridTextColumn Header="Project Code" Binding="{Binding ProjectCode}" Width="180"/>
-                        <DataGridTextColumn Header="Project Name" Binding="{Binding ProjectName}" Width="*"/>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="140"/>
-                        <DataGridTextColumn Header="Planned Start" Binding="{Binding PlannedStartDate, StringFormat=d}" Width="130"/>
-                        <DataGridTextColumn Header="Planned Finish" Binding="{Binding PlannedFinishDate, StringFormat=d}" Width="130"/>
+                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraCompareGrid.ProjectId]}" Binding="{Binding ProjectId}" Width="110"/>
+                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraCompareGrid.ProjectCode]}" Binding="{Binding ProjectCode}" Width="180"/>
+                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraCompareGrid.ProjectName]}" Binding="{Binding ProjectName}" Width="*"/>
+                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraCompareGrid.Status]}" Binding="{Binding Status}" Width="140"/>
+                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraCompareGrid.PlannedStart]}" Binding="{Binding PlannedStartDate, StringFormat=d}" Width="130"/>
+                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraCompareGrid.PlannedFinish]}" Binding="{Binding PlannedFinishDate, StringFormat=d}" Width="130"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Border>

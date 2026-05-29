@@ -22,6 +22,26 @@ namespace Som3a_WPF_UI.Services
         {
             try
             {
+                if (request.ProductivityRate <= 0 || request.CrewSize <= 0 || request.HoursPerDay <= 0)
+                {
+                    return Task.FromResult(new DurationCalculationResponse
+                    {
+                        ActivityId = request.ActivityId,
+                        IsSuccess = false,
+                        ErrorMessage = "ProductivityRate, CrewSize, and HoursPerDay must be > 0."
+                    });
+                }
+
+                if (request.Quantity < 0)
+                {
+                    return Task.FromResult(new DurationCalculationResponse
+                    {
+                        ActivityId = request.ActivityId,
+                        IsSuccess = false,
+                        ErrorMessage = "Quantity must be >= 0."
+                    });
+                }
+
                 var dailyOutput = request.ProductivityRate * request.CrewSize * request.HoursPerDay;
                 var duration = request.Quantity / dailyOutput;
 

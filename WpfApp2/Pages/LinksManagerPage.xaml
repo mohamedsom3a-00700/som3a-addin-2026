@@ -1,7 +1,8 @@
 <Page x:Class="Som3a_WPF_UI.Pages.LinksManagerPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Title="Links Manager"
+      xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.Title]}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -18,7 +19,7 @@
               x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
 
-            <TextBlock Text="Links Manager"
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.Heading]}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14"
                        FontWeight="SemiBold"
@@ -58,7 +59,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0"
-                               Text="Workbook" VerticalAlignment="Center"
+                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.Workbook]}" VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <ComboBox Grid.Row="0" Grid.Column="1" Height="34"
                               ItemsSource="{Binding Workbooks}"
@@ -66,14 +67,14 @@
                               DisplayMemberPath="Name"
                               Style="{DynamicResource RoundComboBox}"/>
                     <Button Grid.Row="0" Grid.Column="3" Height="34"
-                            Content="Refresh" Style="{DynamicResource BaseButton}"
+                            Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.Refresh]}" Style="{DynamicResource BaseButton}"
                             Command="{Binding RefreshWorkbooksCommand}"/>
                     <Button Grid.Row="0" Grid.Column="4" Height="34"
-                            Content="Load Types" Style="{DynamicResource BaseButton}"
+                            Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.LoadTypes]}" Style="{DynamicResource BaseButton}"
                             Command="{Binding LoadTypesCommand}"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="0"
-                               Text="Type" VerticalAlignment="Center"
+                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.Type]}" VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <ComboBox Grid.Row="1" Grid.Column="1" Height="34"
                               ItemsSource="{Binding LinkTypes}"
@@ -81,13 +82,13 @@
                               DisplayMemberPath="DisplayName"
                               Style="{DynamicResource RoundComboBox}"/>
                     <TextBlock Grid.Row="1" Grid.Column="3"
-                               Text="Search" VerticalAlignment="Center"
+                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.Search]}" VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <TextBox Grid.Row="1" Grid.Column="4" Height="34"
                              Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                              Style="{DynamicResource ReadOnlyTextBox}"/>
                     <Button Grid.Row="1" Grid.Column="6" Height="34"
-                            Content="Reload" Style="{DynamicResource PrimaryButton}"
+                            Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.Reload]}" Style="{DynamicResource PrimaryButton}"
                             Command="{Binding ReloadLinksCommand}"/>
                 </Grid>
             </Border>
@@ -111,7 +112,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="Types" FontSize="16"
+                        <TextBlock Grid.Row="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.Types]}" FontSize="16"
                                    FontWeight="SemiBold" Margin="0,0,0,10"
                                    Foreground="{DynamicResource TextMainBrush}"/>
                         <ListView Grid.Row="1" ItemsSource="{Binding LinkTypes}"
@@ -120,7 +121,7 @@
                                   Background="Transparent" BorderThickness="0">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Type" Width="250"
+                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerTypeGrid.Type]}" Width="250"
                                                     DisplayMemberBinding="{Binding DisplayName}"/>
                                 </GridView>
                             </ListView.View>
@@ -148,10 +149,10 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Content="All" Padding="14,6"
+                            <Button Grid.Column="0" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.All]}" Padding="14,6"
                                     Style="{DynamicResource BaseButton}"
                                     Command="{Binding SelectAllLinksCommand}"/>
-                            <Button Grid.Column="2" Content="None" Padding="14,6"
+                            <Button Grid.Column="2" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.None]}" Padding="14,6"
                                     Style="{DynamicResource BaseButton}"
                                     Command="{Binding UnselectAllLinksCommand}"/>
                             <TextBlock Grid.Column="4" Text="{Binding SelectedCountText}"
@@ -164,22 +165,22 @@
                                   Background="Transparent" BorderThickness="0">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Sel." Width="50">
+                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerGrid.Select]}" Width="50">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Link Source" Width="200"
+                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerGrid.LinkSource]}" Width="200"
                                                     DisplayMemberBinding="{Binding LinkSource}"/>
-                                    <GridViewColumn Header="Sheet/Object" Width="160"
+                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerGrid.SheetObject]}" Width="160"
                                                     DisplayMemberBinding="{Binding SheetOrObject}"/>
-                                    <GridViewColumn Header="Cell/Detail" Width="160"
+                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerGrid.CellDetail]}" Width="160"
                                                     DisplayMemberBinding="{Binding CellOrDetail}"/>
-                                    <GridViewColumn Header="Type" Width="120"
+                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerGrid.Type]}" Width="120"
                                                     DisplayMemberBinding="{Binding Type}"/>
-                                    <GridViewColumn Header="Status" Width="120"
+                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerGrid.Status]}" Width="120"
                                                     DisplayMemberBinding="{Binding Status}"/>
                                 </GridView>
                             </ListView.View>
@@ -231,11 +232,11 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Height="34" Content="Break"
+                <Button Grid.Column="0" Height="34" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.Break]}"
                         Style="{DynamicResource PrimaryButton}"
                         Command="{Binding BreakSelectedCommand}"
                         IsEnabled="{Binding CanBreak}"/>
-                <Button Grid.Column="2" Height="34" Content="Close"
+                <Button Grid.Column="2" Height="34" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LinksManagerPage.Close]}"
                         Style="{DynamicResource GhostButton}"
                         Command="{Binding CloseCommand}"/>
             </Grid>

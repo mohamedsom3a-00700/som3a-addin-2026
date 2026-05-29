@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
+             xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -23,14 +24,14 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="16">
             <!-- Background Image Section -->
-            <TextBlock Text="Background" Style="{StaticResource SectionHeader}"/>
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomThemeSettings.Background]}" Style="{StaticResource SectionHeader}"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,4">
-                <Button x:Name="SelectImageBtn" Content="Choose Image..."
+                <Button x:Name="SelectImageBtn" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomThemeSettings.ChooseImage]}"
                         Style="{DynamicResource PrimaryButton}"
                         Width="120"
                         Command="{Binding SelectImageCommand}"/>
-                <Button x:Name="ClearImageBtn" Content="Clear"
+                <Button x:Name="ClearImageBtn" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomThemeSettings.ClearImage]}"
                         Style="{DynamicResource SecondaryButton}"
                         Width="80"
                         Margin="8,0,0,0"
@@ -48,9 +49,9 @@
                        Visibility="{Binding ImageValidationError, Converter={StaticResource StringToVisibilityConverter}}"/>
 
             <!-- Blur Controls -->
-            <TextBlock Text="Blur" Style="{StaticResource FieldLabel}" Margin="0,16,0,2"/>
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomThemeSettings.Blur]}" Style="{StaticResource FieldLabel}" Margin="0,16,0,2"/>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Intensity:" VerticalAlignment="Center"
+                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomThemeSettings.Intensity]}" VerticalAlignment="Center"
                            Foreground="{DynamicResource Brush.Text.Secondary}" Width="60"/>
                 <Slider x:Name="BlurSlider"
                         Minimum="0" Maximum="100"
@@ -63,13 +64,13 @@
                            VerticalAlignment="Center" Margin="8,0"/>
             </StackPanel>
 
-            <CheckBox Content="Enable Blur"
+            <CheckBox Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomThemeSettings.EnableBlur]}"
                       IsChecked="{Binding BlurEnabled}"
                       Margin="0,8"
                       Foreground="{DynamicResource Brush.Text.Primary}"/>
 
             <!-- Font Selection -->
-            <TextBlock Text="Font" Style="{StaticResource SectionHeader}"/>
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomThemeSettings.Font]}" Style="{StaticResource SectionHeader}"/>
 
             <ListBox x:Name="FontList"
                      ItemsSource="{Binding AvailableFonts}"
@@ -83,7 +84,7 @@
                             <TextBlock Text="{Binding FamilyName}"
                                        VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brush.Text.Primary}"/>
-                            <TextBlock Text=" [AR]"
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomThemeSettings.ArabicIndicator]}"
                                        VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brush.Accent.Success}"
                                        Visibility="{Binding IsArabicCompatible, Converter={StaticResource BoolToVisibilityConverter}}"

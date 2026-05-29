@@ -10,6 +10,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
     {
         private readonly IDiagnosticsService _diagnosticsService;
         private readonly DispatcherTimer _refreshTimer;
+        private readonly EventHandler _refreshTickHandler;
         private string _renderMode;
         private string _activeTheme;
         private double? _memoryUsageMB;
@@ -46,7 +47,8 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
             Icon = "\U000F0209";
 
             _refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
-            _refreshTimer.Tick += async (s, e) => await RefreshAsync();
+            _refreshTickHandler = async (s, e) => await RefreshAsync();
+            _refreshTimer.Tick += _refreshTickHandler;
 
             ThemeManager.Instance.ThemeChanged += OnThemeChanged;
         }
@@ -76,7 +78,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
         public override void Cleanup()
         {
             _refreshTimer.Stop();
-            _refreshTimer.Tick -= async (s, e) => await RefreshAsync();
+            _refreshTimer.Tick -= _refreshTickHandler;
             ThemeManager.Instance.ThemeChanged -= OnThemeChanged;
             base.Cleanup();
         }

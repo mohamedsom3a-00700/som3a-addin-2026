@@ -3,8 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
       mc:Ignorable="d"
-      Title="Duration Estimator"
+      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.Title]}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -16,7 +17,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="{DynamicResource TitleBarMargin}">
-            <TextBlock Text="Duration Estimator"
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.Heading]}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14" FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -66,22 +67,22 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" Text="Qty:" VerticalAlignment="Center"
+                        <TextBlock Grid.Column="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.Qty]}" VerticalAlignment="Center"
                                    Foreground="{DynamicResource TextMainBrush}" FontSize="13"/>
                         <TextBox Grid.Column="2" Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                                  Height="30" FontSize="13" VerticalContentAlignment="Center"/>
 
-                        <TextBlock Grid.Column="4" Text="Rate:" VerticalAlignment="Center"
+                        <TextBlock Grid.Column="4" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.Rate]}" VerticalAlignment="Center"
                                    Foreground="{DynamicResource TextMainBrush}" FontSize="13"/>
                         <TextBox Grid.Column="6" Text="{Binding ProductivityRate, UpdateSourceTrigger=PropertyChanged}"
                                  Height="30" FontSize="13" VerticalContentAlignment="Center"/>
 
-                        <TextBlock Grid.Column="8" Text="Crew:" VerticalAlignment="Center"
+                        <TextBlock Grid.Column="8" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.Crew]}" VerticalAlignment="Center"
                                    Foreground="{DynamicResource TextMainBrush}" FontSize="13"/>
                         <TextBox Grid.Column="10" Text="{Binding CrewSize, UpdateSourceTrigger=PropertyChanged}"
                                  Height="30" FontSize="13" VerticalContentAlignment="Center"/>
 
-                        <TextBlock Grid.Column="12" Text="Hrs/Day:" VerticalAlignment="Center"
+                        <TextBlock Grid.Column="12" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.HoursPerDay]}" VerticalAlignment="Center"
                                    Foreground="{DynamicResource TextMainBrush}" FontSize="13"/>
                         <TextBox Grid.Column="14" Text="{Binding HoursPerDay, UpdateSourceTrigger=PropertyChanged}"
                                  Height="30" FontSize="13" VerticalContentAlignment="Center"/>
@@ -100,17 +101,17 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Content="Calculate" Command="{Binding CalculateCommand}"
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.Calculate]}" Command="{Binding CalculateCommand}"
                                 Height="34" Width="90" Style="{DynamicResource BaseButton}"/>
-                        <Button Grid.Column="2" Content="Export Excel" Command="{Binding ExportExcelCommand}"
+                        <Button Grid.Column="2" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.ExportExcel]}" Command="{Binding ExportExcelCommand}"
                                 Height="34" Width="100" Style="{DynamicResource BaseButton}"/>
-                        <Button Grid.Column="4" Content="Clear" Command="{Binding ClearCommand}"
+                        <Button Grid.Column="4" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.Clear]}" Command="{Binding ClearCommand}"
                                 Height="34" Width="70" Style="{DynamicResource BaseButton}"/>
-                        <CheckBox Grid.Column="6" Content="3-Point"
+                        <CheckBox Grid.Column="6" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.ThreePoint]}"
                                 IsChecked="{Binding IsVarianceMode}"
                                 Height="34" VerticalAlignment="Center"
                                 Foreground="{DynamicResource TextMainBrush}"
-                                ToolTip="Enable 3-point variance estimation (PERT)"/>
+                                ToolTip="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.ThreePointTooltip]}"/>
 
                         <TextBlock Grid.Column="8" Text="{Binding StatusText}"
                                    Foreground="{DynamicResource TextSecondaryBrush}"
@@ -121,11 +122,11 @@
                     <!-- VARIANCE INPUTS (visible when variance mode is on) -->
                     <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,4,0,0"
                                 Visibility="{Binding IsVarianceMode, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Text="O:" VerticalAlignment="Center" FontSize="12"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.Optimistic]}" VerticalAlignment="Center" FontSize="12"
                                    Foreground="{DynamicResource TextSecondaryBrush}"/>
                         <TextBox Text="{Binding OptimisticRate, UpdateSourceTrigger=PropertyChanged}"
                                  Width="70" Height="26" FontSize="12" Margin="4,0,12,0"/>
-                        <TextBlock Text="P:" VerticalAlignment="Center" FontSize="12"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.Pessimistic]}" VerticalAlignment="Center" FontSize="12"
                                    Foreground="{DynamicResource TextSecondaryBrush}"/>
                         <TextBox Text="{Binding PessimisticRate, UpdateSourceTrigger=PropertyChanged}"
                                  Width="70" Height="26" FontSize="12" Margin="4,0,0,0"/>
@@ -146,14 +147,14 @@
                               SnapsToDevicePixels="True"
                               UseLayoutRounding="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Activity" Binding="{Binding ActivityId}" Width="90"/>
-                            <DataGridTextColumn Header="Qty" Binding="{Binding Quantity, StringFormat=N2}" Width="80"/>
-                            <DataGridTextColumn Header="Rate" Binding="{Binding ProductivityRate, StringFormat=N1}" Width="70"/>
-                            <DataGridTextColumn Header="Days" Binding="{Binding DurationWorkingDays, StringFormat=N2}" Width="70"/>
-                            <DataGridTextColumn Header="O" Binding="{Binding OptimisticDuration, StringFormat=N2}" Width="60"/>
-                            <DataGridTextColumn Header="P" Binding="{Binding PessimisticDuration, StringFormat=N2}" Width="60"/>
-                            <DataGridTextColumn Header="E" Binding="{Binding ExpectedDuration, StringFormat=N2}" Width="70"/>
-                            <DataGridTextColumn Header="SD" Binding="{Binding StandardDeviation, StringFormat=N2}" Width="60"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorGrid.Activity]}" Binding="{Binding ActivityId}" Width="90"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorGrid.Qty]}" Binding="{Binding Quantity, StringFormat=N2}" Width="80"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorGrid.Rate]}" Binding="{Binding ProductivityRate, StringFormat=N1}" Width="70"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorGrid.Days]}" Binding="{Binding DurationWorkingDays, StringFormat=N2}" Width="70"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorGrid.Optimistic]}" Binding="{Binding OptimisticDuration, StringFormat=N2}" Width="60"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorGrid.Pessimistic]}" Binding="{Binding PessimisticDuration, StringFormat=N2}" Width="60"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorGrid.Expected]}" Binding="{Binding ExpectedDuration, StringFormat=N2}" Width="70"/>
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorGrid.StdDev]}" Binding="{Binding StandardDeviation, StringFormat=N2}" Width="60"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -177,7 +178,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Text="Benchmark Library"
+                    <TextBlock Grid.Row="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.BenchmarkLibrary]}"
                                Foreground="{DynamicResource TextMainBrush}"
                                FontSize="13" FontWeight="SemiBold"/>
 
@@ -193,7 +194,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                                  Height="28" FontSize="12" VerticalContentAlignment="Center"/>
-                        <Button Grid.Column="2" Content="Search" Height="28" Width="60"
+                        <Button Grid.Column="2" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.Search]}" Height="28" Width="60"
                                 Command="{Binding SearchBenchmarksCommand}"
                                 Style="{DynamicResource BaseButton}" FontSize="12"/>
                     </Grid>

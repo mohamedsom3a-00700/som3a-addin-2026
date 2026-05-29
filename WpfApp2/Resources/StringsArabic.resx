@@ -1,0 +1,1798 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppTitle" xml:space="preserve">
+    <value>Ù…Ù†ØµØ© Ø³Ù…Ø¹Ø© Ù„Ù„ØªØ®Ø·ÙŠØ· Ø§Ù„Ù…Ø¤Ø³Ø³ÙŠ</value>
+  </data>
+  <data name="Shell.Title" xml:space="preserve">
+    <value>Ø¥Ø¶Ø§ÙØ© Ø³Ù…Ø¹Ø©</value>
+  </data>
+  <data name="Shell.Status.Ready" xml:space="preserve">
+    <value>Ø¬Ø§Ù‡Ø²</value>
+  </data>
+  <data name="Shell.Status.Navigating" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„ Ø¥Ù„Ù‰ {0}...</value>
+  </data>
+  <data name="Shell.Status.Error" xml:space="preserve">
+    <value>Ø®Ø·Ø£: {0}</value>
+  </data>
+  <data name="Shell.Sidebar.Toggle" xml:space="preserve">
+    <value>ØªØ¨Ø¯ÙŠÙ„ Ø§Ù„Ø´Ø±ÙŠØ· Ø§Ù„Ø¬Ø§Ù†Ø¨ÙŠ</value>
+  </data>
+  <data name="Shell.SkipToContent" xml:space="preserve">
+    <value>ØªØ®Ø·ÙŠ Ø¥Ù„Ù‰ Ø§Ù„Ù…Ø­ØªÙˆÙ‰</value>
+  </data>
+  <data name="Shell.Theme.Toggle" xml:space="preserve">
+    <value>ØªØ¨Ø¯ÙŠÙ„ Ø§Ù„Ø³Ù…Ø©</value>
+  </data>
+  <data name="Shell.Minimize" xml:space="preserve">
+    <value>ØªØµØºÙŠØ±</value>
+  </data>
+  <data name="Shell.Maximize" xml:space="preserve">
+    <value>ØªÙƒØ¨ÙŠØ±</value>
+  </data>
+  <data name="Shell.Close" xml:space="preserve">
+    <value>Ø¥ØºÙ„Ø§Ù‚</value>
+  </data>
+  <data name="Shell.CommandPalette.Placeholder" xml:space="preserve">
+    <value>Ø§Ø¨Ø­Ø« Ø¹Ù† Ø§Ù„ØµÙØ­Ø§Øª ÙˆØ§Ù„Ø£ÙˆØ§Ù…Ø±...</value>
+  </data>
+  <data name="Settings.Title" xml:space="preserve">
+    <value>Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª</value>
+  </data>
+  <data name="Settings.General" xml:space="preserve">
+    <value>Ø¹Ø§Ù…</value>
+  </data>
+  <data name="Settings.Appearance" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø¸Ù‡Ø±</value>
+  </data>
+  <data name="Settings.Language" xml:space="preserve">
+    <value>Ø§Ù„Ù„ØºØ©</value>
+  </data>
+  <data name="Settings.Language.Label" xml:space="preserve">
+    <value>Ù„ØºØ© Ø§Ù„ØªØ·Ø¨ÙŠÙ‚</value>
+  </data>
+  <data name="Settings.Language.Description" xml:space="preserve">
+    <value>Ø§Ø®ØªØ± Ù„ØºØ© Ø¹Ø±Ø¶ ÙˆØ§Ø¬Ù‡Ø© Ø§Ù„ØªØ·Ø¨ÙŠÙ‚</value>
+  </data>
+  <data name="Settings.Font" xml:space="preserve">
+    <value>Ø§Ù„Ø®Ø·</value>
+  </data>
+  <data name="Settings.Font.Arabic.Label" xml:space="preserve">
+    <value>Ø§Ù„Ø®Ø· Ø§Ù„Ø¹Ø±Ø¨ÙŠ</value>
+  </data>
+  <data name="Settings.Font.Arabic.Description" xml:space="preserve">
+    <value>Ø§Ø®ØªØ± Ø®Ø·Ø§Ù‹ Ù„Ø¹Ø±Ø¶ Ø§Ù„Ù†ØµÙˆØµ Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©</value>
+  </data>
+  <data name="Settings.Export" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ±</value>
+  </data>
+  <data name="Settings.Import" xml:space="preserve">
+    <value>Ø§Ø³ØªÙŠØ±Ø§Ø¯</value>
+  </data>
+  <data name="Settings.Save" xml:space="preserve">
+    <value>Ø­ÙØ¸</value>
+  </data>
+  <data name="Settings.Cancel" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡</value>
+  </data>
+  <data name="Settings.Footer" xml:space="preserve">
+    <value>Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø¥Ø¶Ø§ÙØ© Ø³Ù…Ø¹Ø©</value>
+  </data>
+  <data name="Settings.Unsaved.Title" xml:space="preserve">
+    <value>ØªØºÙŠÙŠØ±Ø§Øª ØºÙŠØ± Ù…Ø­ÙÙˆØ¸Ø©</value>
+  </data>
+  <data name="Settings.Unsaved.Message" xml:space="preserve">
+    <value>Ù„Ø¯ÙŠÙƒ ØªØºÙŠÙŠØ±Ø§Øª ØºÙŠØ± Ù…Ø­ÙÙˆØ¸Ø©. Ù‡Ù„ ØªØ±ÙŠØ¯ Ø§Ù„Ø­ÙØ¸ Ù‚Ø¨Ù„ Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„ØŸ</value>
+  </data>
+  <data name="Dashboard.Title" xml:space="preserve">
+    <value>Ù„ÙˆØ­Ø© Ø§Ù„Ù…Ø¹Ù„ÙˆÙ…Ø§Øª</value>
+  </data>
+  <data name="Dashboard.Welcome" xml:space="preserve">
+    <value>Ù…Ø±Ø­Ø¨Ø§Ù‹ Ø¨Ùƒ ÙÙŠ Ù…Ù†ØµØ© Ø³Ù…Ø¹Ø© Ù„Ù„ØªØ®Ø·ÙŠØ· Ø§Ù„Ù…Ø¤Ø³Ø³ÙŠ</value>
+  </data>
+  <data name="Dashboard.QuickActions" xml:space="preserve">
+    <value>Ø¥Ø¬Ø±Ø§Ø¡Ø§Øª Ø³Ø±ÙŠØ¹Ø©</value>
+  </data>
+  <data name="Dashboard.RecentProjects" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ Ø§Ù„Ø£Ø®ÙŠØ±Ø©</value>
+  </data>
+  <data name="Dashboard.Diagnostics" xml:space="preserve">
+    <value>Ø§Ù„ØªØ´Ø®ÙŠØµØ§Øª</value>
+  </data>
+  <data name="Error.General" xml:space="preserve">
+    <value>Ø­Ø¯Ø« Ø®Ø·Ø£: {0}</value>
+  </data>
+  <data name="Error.PluginLoad" xml:space="preserve">
+    <value>ÙØ´Ù„ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø¥Ø¶Ø§ÙØ©: {0}</value>
+  </data>
+  <data name="Error.AIProvider" xml:space="preserve">
+    <value>Ø®Ø·Ø£ ÙÙŠ Ù…Ø²ÙˆØ¯ Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ: {0}</value>
+  </data>
+  <data name="Error.Validation" xml:space="preserve">
+    <value>Ø®Ø·Ø£ ÙÙŠ Ø§Ù„ØªØ­Ù‚Ù‚: {0}</value>
+  </data>
+  <data name="Error.Navigation" xml:space="preserve">
+    <value>Ø®Ø·Ø£ ÙÙŠ Ø§Ù„ØªÙ†Ù‚Ù„: {0}</value>
+  </data>
+  <data name="Error.ExportFailed" xml:space="preserve">
+    <value>ÙØ´Ù„ Ø§Ù„ØªØµØ¯ÙŠØ±: {0}</value>
+  </data>
+  <data name="Error.ImportFailed" xml:space="preserve">
+    <value>ÙØ´Ù„ Ø§Ù„Ø§Ø³ØªÙŠØ±Ø§Ø¯: {0}</value>
+  </data>
+  <data name="Plugin.LoadError" xml:space="preserve">
+    <value>ÙØ´Ù„ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø¥Ø¶Ø§ÙØ©: {0}</value>
+  </data>
+  <data name="Plugin.PageUnavailable" xml:space="preserve">
+    <value>Ø§Ù„ØµÙØ­Ø© ØºÙŠØ± Ù…ØªØ§Ø­Ø©</value>
+  </data>
+  <data name="Plugin.FallbackText" xml:space="preserve">
+    <value>Ù„Ø§ ØªÙˆØ¬Ø¯ ØªØ±Ø¬Ù…Ø© Ù…ØªØ§Ø­Ø©</value>
+  </data>
+  <data name="Export.Complete" xml:space="preserve">
+    <value>Ø§ÙƒØªÙ…Ù„ Ø§Ù„ØªØµØ¯ÙŠØ±: {0} ØµÙ</value>
+  </data>
+  <data name="Export.InProgress" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„ØªØµØ¯ÙŠØ±...</value>
+  </data>
+  <data name="Navigation.Home" xml:space="preserve">
+    <value>Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©</value>
+  </data>
+  <data name="Navigation.Back" xml:space="preserve">
+    <value>Ø±Ø¬ÙˆØ¹</value>
+  </data>
+  <data name="Navigation.Forward" xml:space="preserve">
+    <value>ØªÙ‚Ø¯ÙŠÙ…</value>
+  </data>
+  <data name="Common.Yes" xml:space="preserve">
+    <value>Ù†Ø¹Ù…</value>
+  </data>
+  <data name="Common.No" xml:space="preserve">
+    <value>Ù„Ø§</value>
+  </data>
+  <data name="Common.Cancel" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡</value>
+  </data>
+  <data name="Common.Ok" xml:space="preserve">
+    <value>Ù…ÙˆØ§ÙÙ‚</value>
+  </data>
+  <data name="Common.Close" xml:space="preserve">
+    <value>Ø¥ØºÙ„Ø§Ù‚</value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>Ø­ÙØ¸</value>
+  </data>
+  <data name="Common.Delete" xml:space="preserve">
+    <value>Ø­Ø°Ù</value>
+  </data>
+  <data name="Common.Search" xml:space="preserve">
+    <value>Ø¨Ø­Ø«</value>
+  </data>
+  <data name="Common.Loading" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„ØªØ­Ù…ÙŠÙ„...</value>
+  </data>
+  <data name="Common.NoResults" xml:space="preserve">
+    <value>Ù„Ø§ ØªÙˆØ¬Ø¯ Ù†ØªØ§Ø¦Ø¬</value>
+  </data>
+  <data name="DiagnosticsPage.Title" xml:space="preserve">
+    <value>Ø§Ù„ØªØ´Ø®ÙŠØµØ§Øª</value>
+  </data>
+  <data name="DiagnosticsPage.Heading" xml:space="preserve">
+    <value>Ø§Ù„ØªØ´Ø®ÙŠØµØ§Øª</value>
+  </data>
+  <data name="DiagnosticsPage.Refresh" xml:space="preserve">
+    <value>ØªØ­Ø¯ÙŠØ«</value>
+  </data>
+  <data name="DiagnosticsPage.RenderModeCard" xml:space="preserve">
+    <value>ÙˆØ¶Ø¹ Ø§Ù„Ø¹Ø±Ø¶</value>
+  </data>
+  <data name="DiagnosticsPage.ThemeCard" xml:space="preserve">
+    <value>Ø§Ù„Ø³Ù…Ø©</value>
+  </data>
+  <data name="DiagnosticsPage.ActiveLabel" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ø´Ø·: </value>
+  </data>
+  <data name="DiagnosticsPage.AccentLabel" xml:space="preserve">
+    <value>Ø§Ù„ØªÙ…ÙŠÙŠØ²: </value>
+  </data>
+  <data name="DiagnosticsPage.MemoryCard" xml:space="preserve">
+    <value>Ø§Ù„Ø°Ø§ÙƒØ±Ø©</value>
+  </data>
+  <data name="DiagnosticsPage.WorkingSetLabel" xml:space="preserve">
+    <value>Ù…Ø¬Ù…ÙˆØ¹Ø© Ø§Ù„Ø¹Ù…Ù„: </value>
+  </data>
+  <data name="DiagnosticsPage.ManagedLabel" xml:space="preserve">
+    <value>Ø§Ù„Ù…ÙØ¯Ø§Ø±Ø©: </value>
+  </data>
+  <data name="DiagnosticsPage.GpuCard" xml:space="preserve">
+    <value>ÙˆØ­Ø¯Ø© Ù…Ø¹Ø§Ù„Ø¬Ø© Ø§Ù„Ø±Ø³ÙˆÙ…Ø§Øª</value>
+  </data>
+  <data name="DiagnosticsPage.PopupCard" xml:space="preserve">
+    <value>ØªØ´Ø®ÙŠØµ Ø§Ù„Ù‚ÙˆØ§Ø¦Ù… Ø§Ù„Ù…Ù†Ø¨Ø«Ù‚Ø©</value>
+  </data>
+  <data name="DiagnosticsPage.ValidationCard" xml:space="preserve">
+    <value>Ù†ØªØ§Ø¦Ø¬ Ø§Ù„ØªØ­Ù‚Ù‚</value>
+  </data>
+  <data name="DiagnosticsPage.RunValidation" xml:space="preserve">
+    <value>ØªØ´ØºÙŠÙ„ Ø§Ù„ØªØ­Ù‚Ù‚</value>
+  </data>
+  <data name="WelcomePage.Title" xml:space="preserve">
+    <value>Ø§Ù„ØªØ±Ø­ÙŠØ¨</value>
+  </data>
+  <data name="WelcomePage.WelcomeMessage" xml:space="preserve">
+    <value>Ù…Ø±Ø­Ø¨Ø§Ù‹ Ø¨Ùƒ ÙÙŠ Ø¥Ø¶Ø§ÙØ© Ø³ÙˆÙ…Ø©</value>
+  </data>
+  <data name="WelcomePage.Instruction" xml:space="preserve">
+    <value>Ø§Ø®ØªØ± Ù…ÙŠØ²Ø© Ù…Ù† Ø§Ù„Ø´Ø±ÙŠØ· Ø§Ù„Ø¬Ø§Ù†Ø¨ÙŠ Ù„Ù„Ø¨Ø¯Ø¡.</value>
+  </data>
+  <data name="HomePage.Title" xml:space="preserve">
+    <value>Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©</value>
+  </data>
+  <data name="DurationEstimatorPage.Title" xml:space="preserve">
+    <value>Ù…Ù‚Ø¯Ø± Ø§Ù„Ù…Ø¯Ø©</value>
+  </data>
+  <data name="DurationEstimatorPage.Heading" xml:space="preserve">
+    <value>Ù…Ù‚Ø¯Ø± Ø§Ù„Ù…Ø¯Ø©</value>
+  </data>
+  <data name="DurationEstimatorPage.Qty" xml:space="preserve">
+    <value>Ø§Ù„ÙƒÙ…ÙŠØ©:</value>
+  </data>
+  <data name="DurationEstimatorPage.Rate" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø¹Ø¯Ù„:</value>
+  </data>
+  <data name="DurationEstimatorPage.Crew" xml:space="preserve">
+    <value>Ø§Ù„Ø·Ø§Ù‚Ù…:</value>
+  </data>
+  <data name="DurationEstimatorPage.HoursPerDay" xml:space="preserve">
+    <value>Ø³/ÙŠÙˆÙ…:</value>
+  </data>
+  <data name="DurationEstimatorPage.Calculate" xml:space="preserve">
+    <value>Ø­Ø³Ø§Ø¨</value>
+  </data>
+  <data name="DurationEstimatorPage.ExportExcel" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± Ø¥ÙƒØ³Ù„</value>
+  </data>
+  <data name="DurationEstimatorPage.Clear" xml:space="preserve">
+    <value>Ù…Ø³Ø­</value>
+  </data>
+  <data name="DurationEstimatorPage.ThreePoint" xml:space="preserve">
+    <value>3 Ù†Ù‚Ø§Ø·</value>
+  </data>
+  <data name="DurationEstimatorPage.ThreePointTooltip" xml:space="preserve">
+    <value>ØªÙØ¹ÙŠÙ„ ØªÙ‚Ø¯ÙŠØ± Ø§Ù„ØªØ¨Ø§ÙŠÙ† Ø«Ù„Ø§Ø«ÙŠ Ø§Ù„Ù†Ù‚Ø§Ø· (PERT)</value>
+  </data>
+  <data name="DurationEstimatorPage.Optimistic" xml:space="preserve">
+    <value>Ø£:</value>
+  </data>
+  <data name="DurationEstimatorPage.Pessimistic" xml:space="preserve">
+    <value>Ù…:</value>
+  </data>
+  <data name="DurationEstimatorGrid.Activity" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ø´Ø§Ø·</value>
+  </data>
+  <data name="DurationEstimatorGrid.Qty" xml:space="preserve">
+    <value>Ø§Ù„ÙƒÙ…ÙŠØ©</value>
+  </data>
+  <data name="DurationEstimatorGrid.Rate" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø¹Ø¯Ù„</value>
+  </data>
+  <data name="DurationEstimatorGrid.Days" xml:space="preserve">
+    <value>Ø§Ù„Ø£ÙŠØ§Ù…</value>
+  </data>
+  <data name="DurationEstimatorGrid.Optimistic" xml:space="preserve">
+    <value>Ø£</value>
+  </data>
+  <data name="DurationEstimatorGrid.Pessimistic" xml:space="preserve">
+    <value>Ù…</value>
+  </data>
+  <data name="DurationEstimatorGrid.Expected" xml:space="preserve">
+    <value>Ù…</value>
+  </data>
+  <data name="DurationEstimatorGrid.StdDev" xml:space="preserve">
+    <value>Ø§Ù†Ø­Ø±Ø§Ù Ù…Ø¹ÙŠØ§Ø±ÙŠ</value>
+  </data>
+  <data name="DurationEstimatorPage.BenchmarkLibrary" xml:space="preserve">
+    <value>Ù…ÙƒØªØ¨Ø© Ø§Ù„Ù…Ù‚Ø§Ø±Ù†Ø§Øª</value>
+  </data>
+  <data name="DurationEstimatorPage.Search" xml:space="preserve">
+    <value>Ø¨Ø­Ø«</value>
+  </data>
+  <data name="RelationshipGeneratorPage.Title" xml:space="preserve">
+    <value>Ù…ÙˆÙ„Ø¯ Ø§Ù„Ø¹Ù„Ø§Ù‚Ø§Øª</value>
+  </data>
+  <data name="RelationshipGeneratorPage.Heading" xml:space="preserve">
+    <value>Ù…ÙˆÙ„Ø¯ Ø§Ù„Ø¹Ù„Ø§Ù‚Ø§Øª</value>
+  </data>
+  <data name="RelationshipGeneratorPage.GenerateRelationships" xml:space="preserve">
+    <value>ØªÙˆÙ„ÙŠØ¯ Ø§Ù„Ø¹Ù„Ø§Ù‚Ø§Øª</value>
+  </data>
+  <data name="RelationshipGeneratorPage.AcceptAll" xml:space="preserve">
+    <value>Ù‚Ø¨ÙˆÙ„ Ø§Ù„ÙƒÙ„</value>
+  </data>
+  <data name="RelationshipGeneratorPage.RejectAll" xml:space="preserve">
+    <value>Ø±ÙØ¶ Ø§Ù„ÙƒÙ„</value>
+  </data>
+  <data name="RelationshipGeneratorPage.Cancel" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡</value>
+  </data>
+  <data name="RelationshipGeneratorTab.Relationships" xml:space="preserve">
+    <value>Ø§Ù„Ø¹Ù„Ø§Ù‚Ø§Øª</value>
+  </data>
+  <data name="RelationshipGeneratorPage.GenerateHint" xml:space="preserve">
+    <value>Ø§Ù†Ù‚Ø± Ø¹Ù„Ù‰ 'ØªÙˆÙ„ÙŠØ¯ Ø§Ù„Ø¹Ù„Ø§Ù‚Ø§Øª' Ù„Ù„Ø¨Ø¯Ø¡.</value>
+  </data>
+  <data name="RelationshipGeneratorTab.Validation" xml:space="preserve">
+    <value>Ø§Ù„ØªØ­Ù‚Ù‚</value>
+  </data>
+  <data name="RelationshipGeneratorPage.ValidationHint" xml:space="preserve">
+    <value>Ø³ØªØ¸Ù‡Ø± Ù†ØªØ§Ø¦Ø¬ Ø§Ù„ØªØ­Ù‚Ù‚ Ù‡Ù†Ø§ Ø¨Ø¹Ø¯ Ø§Ù„ØªÙˆÙ„ÙŠØ¯.</value>
+  </data>
+  <data name="RelationshipGeneratorTab.Analysis" xml:space="preserve">
+    <value>Ø§Ù„ØªØ­Ù„ÙŠÙ„</value>
+  </data>
+  <data name="RelationshipGeneratorPage.AnalysisHint" xml:space="preserve">
+    <value>Ø³ÙŠØ¸Ù‡Ø± ØªØ­Ù„ÙŠÙ„ Ø§Ù„Ù…Ø³Ø§Ø± Ø§Ù„Ø­Ø±Ø¬ ÙˆØ§Ù„ØªÙ†ÙÙŠØ° Ø§Ù„Ù…ØªÙˆØ§Ø²ÙŠ Ù‡Ù†Ø§.</value>
+  </data>
+  <data name="RelationshipGeneratorTab.Export" xml:space="preserve">
+    <value>Ø§Ù„ØªØµØ¯ÙŠØ±</value>
+  </data>
+  <data name="RelationshipGeneratorPage.ExportToExcel" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± Ø¥Ù„Ù‰ Ø¥ÙƒØ³Ù„</value>
+  </data>
+  <data name="RelationshipGeneratorPage.ExportHint" xml:space="preserve">
+    <value>Ø³ÙŠØ¶ÙŠÙ Ø§Ù„ØªØµØ¯ÙŠØ± Ø£Ø¹Ù…Ø¯Ø© Ø§Ù„Ø¹Ù„Ø§Ù‚Ø§Øª Ø¥Ù„Ù‰ ÙˆØ±Ù‚Ø© Ø§Ù„Ù†Ø´Ø§Ø· Ø§Ù„Ù†Ø´Ø·Ø©.</value>
+  </data>
+  <data name="RelationshipGeneratorPage.Ready" xml:space="preserve">
+    <value>Ø¬Ø§Ù‡Ø²</value>
+  </data>
+  <data name="RelationshipGeneratorPage.Working" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„Ø¹Ù…Ù„...</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.Title" xml:space="preserve">
+    <value>Ù…ÙˆÙ„Ø¯ Ø£Ù†Ø´Ø·Ø© Ø¨Ù†ÙˆØ¯ Ø§Ù„ÙƒÙ…ÙŠØ§Øª</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.Heading" xml:space="preserve">
+    <value>Ù…ÙˆÙ„Ø¯ Ø£Ù†Ø´Ø·Ø© Ø¨Ù†ÙˆØ¯ Ø§Ù„ÙƒÙ…ÙŠØ§Øª</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.LoadBoq" xml:space="preserve">
+    <value>ØªØ­Ù…ÙŠÙ„ Ø¨Ù†ÙˆØ¯ Ø§Ù„ÙƒÙ…ÙŠØ§Øª</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.AiSubtitle" xml:space="preserve">
+    <value>ØªÙˆÙ„ÙŠØ¯ Ø£Ù†Ø´Ø·Ø© Ø¨Ù†Ø§Ø¡ Ù…Ù† Ø¨ÙŠØ§Ù†Ø§Øª Ø¨Ù†ÙˆØ¯ Ø§Ù„ÙƒÙ…ÙŠØ§Øª Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.GenerateActivities" xml:space="preserve">
+    <value>ØªÙˆÙ„ÙŠØ¯ Ø§Ù„Ø£Ù†Ø´Ø·Ø©</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.Cancel" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡</value>
+  </data>
+  <data name="BOQActivityGeneratorTab.BoqPreview" xml:space="preserve">
+    <value>Ù…Ø¹Ø§ÙŠÙ†Ø© Ø¨Ù†ÙˆØ¯ Ø§Ù„ÙƒÙ…ÙŠØ§Øª</value>
+  </data>
+  <data name="BOQActivityGrid.ItemNumber" xml:space="preserve">
+    <value>Ø±Ù‚Ù… Ø§Ù„Ø¨Ù†Ø¯</value>
+  </data>
+  <data name="BOQActivityGrid.Description" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØµÙ</value>
+  </data>
+  <data name="BOQActivityGrid.Quantity" xml:space="preserve">
+    <value>Ø§Ù„ÙƒÙ…ÙŠØ©</value>
+  </data>
+  <data name="BOQActivityGrid.Unit" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ­Ø¯Ø©</value>
+  </data>
+  <data name="BOQActivityGrid.Classification" xml:space="preserve">
+    <value>Ø§Ù„ØªØµÙ†ÙŠÙ</value>
+  </data>
+  <data name="BOQActivityGeneratorTab.GeneratedActivities" xml:space="preserve">
+    <value>Ø§Ù„Ø£Ù†Ø´Ø·Ø© Ø§Ù„Ù…ÙÙˆÙ„ÙŽÙ‘Ø¯Ø©</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.GenerateHint" xml:space="preserve">
+    <value>Ø§Ù†Ù‚Ø± Ø¹Ù„Ù‰ 'ØªÙˆÙ„ÙŠØ¯ Ø§Ù„Ø£Ù†Ø´Ø·Ø©' Ù„Ù„Ø¨Ø¯Ø¡.</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.EmptyState" xml:space="preserve">
+    <value>Ù„Ù… ÙŠØªÙ… ØªÙˆÙ„ÙŠØ¯ Ø£Ù†Ø´Ø·Ø© Ø¨Ø¹Ø¯. Ø§Ù†Ù‚Ø± Ø¹Ù„Ù‰ 'ØªÙˆÙ„ÙŠØ¯ Ø§Ù„Ø£Ù†Ø´Ø·Ø©' Ø£Ø¹Ù„Ø§Ù‡ Ù„Ù„Ø¨Ø¯Ø¡.</value>
+  </data>
+  <data name="BOQActivityGeneratorGrid.ErrorTooltip" xml:space="preserve">
+    <value>ÙŠØ­ØªÙˆÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù†Ø´Ø§Ø· Ø¹Ù„Ù‰ Ø£Ø®Ø·Ø§Ø¡ ØªØ­Ù‚Ù‚.</value>
+  </data>
+  <data name="BOQActivityGeneratorGrid.WarningTooltip" xml:space="preserve">
+    <value>ÙŠØ­ØªÙˆÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù†Ø´Ø§Ø· Ø¹Ù„Ù‰ ØªØ­Ø°ÙŠØ±Ø§Øª.</value>
+  </data>
+  <data name="BOQActivityGeneratorGrid.PassedTooltip" xml:space="preserve">
+    <value>ØªÙ… Ø§Ø¬ØªÙŠØ§Ø² Ø§Ù„ØªØ­Ù‚Ù‚.</value>
+  </data>
+  <data name="BOQActivityGrid.ActivityId" xml:space="preserve">
+    <value>Ù…Ø¹Ø±Ù Ø§Ù„Ù†Ø´Ø§Ø·</value>
+  </data>
+  <data name="BOQActivityGrid.Name" xml:space="preserve">
+    <value>Ø§Ù„Ø§Ø³Ù…</value>
+  </data>
+  <data name="BOQActivityGrid.BoqReference" xml:space="preserve">
+    <value>Ù…Ø±Ø¬Ø¹ Ø¨Ù†ÙˆØ¯ Ø§Ù„ÙƒÙ…ÙŠØ§Øª</value>
+  </data>
+  <data name="BOQActivityGrid.Validation" xml:space="preserve">
+    <value>Ø§Ù„ØªØ­Ù‚Ù‚</value>
+  </data>
+  <data name="BOQActivityGeneratorTab.Sequencing" xml:space="preserve">
+    <value>Ø§Ù„ØªØ³Ù„Ø³Ù„</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.SequenceActivities" xml:space="preserve">
+    <value>ØªØ³Ù„Ø³Ù„ Ø§Ù„Ø£Ù†Ø´Ø·Ø©</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.SuggestDependencies" xml:space="preserve">
+    <value>Ø§Ù‚ØªØ±Ø§Ø­ Ø§Ù„ØªØ¨Ø¹ÙŠØ§Øª</value>
+  </data>
+  <data name="BOQSequencingGrid.Order" xml:space="preserve">
+    <value>Ø§Ù„ØªØ±ØªÙŠØ¨</value>
+  </data>
+  <data name="BOQSequencingGrid.ActivityId" xml:space="preserve">
+    <value>Ù…Ø¹Ø±Ù Ø§Ù„Ù†Ø´Ø§Ø·</value>
+  </data>
+  <data name="BOQSequencingGrid.Name" xml:space="preserve">
+    <value>Ø§Ù„Ø§Ø³Ù…</value>
+  </data>
+  <data name="BOQSequencingGrid.WbsPath" xml:space="preserve">
+    <value>Ù…Ø³Ø§Ø± Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…</value>
+  </data>
+  <data name="BOQSequencingGrid.ParallelGroup" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø¬Ù…ÙˆØ¹Ø© Ø§Ù„Ù…ØªÙˆØ§Ø²ÙŠØ©</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.SuggestedDependencies" xml:space="preserve">
+    <value>Ø§Ù„ØªØ¨Ø¹ÙŠØ§Øª Ø§Ù„Ù…Ù‚ØªØ±Ø­Ø©</value>
+  </data>
+  <data name="BOQDependenciesGrid.Predecessor" xml:space="preserve">
+    <value>Ø§Ù„Ø³Ø§Ø¨Ù‚</value>
+  </data>
+  <data name="BOQDependenciesGrid.Successor" xml:space="preserve">
+    <value>Ø§Ù„Ù„Ø§Ø­Ù‚</value>
+  </data>
+  <data name="BOQDependenciesGrid.Type" xml:space="preserve">
+    <value>Ø§Ù„Ù†ÙˆØ¹</value>
+  </data>
+  <data name="BOQDependenciesGrid.Confidence" xml:space="preserve">
+    <value>Ø§Ù„Ø«Ù‚Ø©</value>
+  </data>
+  <data name="BOQDependenciesGrid.Rationale" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø¨Ø±Ø±</value>
+  </data>
+  <data name="BOQDependenciesGrid.Accepted" xml:space="preserve">
+    <value>Ù…Ù‚Ø¨ÙˆÙ„</value>
+  </data>
+  <data name="BOQActivityGeneratorTab.Export" xml:space="preserve">
+    <value>Ø§Ù„ØªØµØ¯ÙŠØ±</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.ExportToExcel" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± Ø¥Ù„Ù‰ Ø¥ÙƒØ³Ù„</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.IncludeDependencies" xml:space="preserve">
+    <value>ØªØ¶Ù…ÙŠÙ† Ø§Ù„ØªØ¨Ø¹ÙŠØ§Øª</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.ExportHint" xml:space="preserve">
+    <value>Ø³ÙŠÙÙ†Ø´Ø¦ Ø§Ù„ØªØµØ¯ÙŠØ± ÙˆØ±Ù‚Ø© 'Ø§Ù„Ø£Ù†Ø´Ø·Ø© Ø§Ù„Ù…ÙÙˆÙ„ÙŽÙ‘Ø¯Ø©' ÙÙŠ Ø§Ù„Ù…ØµÙ†Ù Ø§Ù„Ù†Ø´Ø·.</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.Ready" xml:space="preserve">
+    <value>Ø¬Ø§Ù‡Ø²</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.Working" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„Ø¹Ù…Ù„...</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.PrivacyTitle" xml:space="preserve">
+    <value>Ù…ÙˆØ§ÙÙ‚Ø© Ø®ØµÙˆØµÙŠØ© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.PrivacyBody" xml:space="preserve">
+    <value>ØªØ³ØªØ®Ø¯Ù… Ù‡Ø°Ù‡ Ø§Ù„Ù…ÙŠØ²Ø© Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ù„ØªÙˆÙ„ÙŠØ¯ Ø£Ù†Ø´Ø·Ø© Ø¨Ù†Ø§Ø¡ Ù…Ù† Ø¨ÙŠØ§Ù†Ø§Øª Ø¨Ù†ÙˆØ¯ Ø§Ù„ÙƒÙ…ÙŠØ§Øª Ø§Ù„Ø®Ø§ØµØ© Ø¨Ùƒ. Ø³ÙŠØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø¨ÙŠØ§Ù†Ø§Øª Ø¨Ù†ÙˆØ¯ Ø§Ù„ÙƒÙ…ÙŠØ§Øª Ø¥Ù„Ù‰ Ù…Ø²ÙˆØ¯ Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ù„Ù„Ù…Ø¹Ø§Ù„Ø¬Ø©. Ù„Ø§ ÙŠØªÙ… ØªØ®Ø²ÙŠÙ† Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø£Ùˆ Ø§Ø³ØªØ®Ø¯Ø§Ù…Ù‡Ø§ Ù„Ø£ØºØ±Ø§Ø¶ Ø§Ù„ØªØ¯Ø±ÙŠØ¨. Ù‡Ù„ ØªÙˆØ§ÙÙ‚ Ø¹Ù„Ù‰ Ø¥Ø±Ø³Ø§Ù„ Ø¨ÙŠØ§Ù†Ø§Øª Ø¨Ù†ÙˆØ¯ Ø§Ù„ÙƒÙ…ÙŠØ§Øª Ù„ØªÙˆÙ„ÙŠØ¯ Ø§Ù„Ø£Ù†Ø´Ø·Ø© Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠØŸ</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.Consent" xml:space="preserve">
+    <value>Ø£ÙˆØ§ÙÙ‚</value>
+  </data>
+  <data name="BOQActivityGeneratorPage.Decline" xml:space="preserve">
+    <value>Ø£Ø±ÙØ¶</value>
+  </data>
+  <data name="WBSEditorPage.Title" xml:space="preserve">
+    <value>Ù…Ø­Ø±Ø± Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…</value>
+  </data>
+  <data name="WBSEditorPage.Heading" xml:space="preserve">
+    <value>Ù…Ø­Ø±Ø± Ø´Ø¬Ø±Ø© Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…</value>
+  </data>
+  <data name="WBSEditorPage.ExportToSheet" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± Ø¥Ù„Ù‰ Ø§Ù„ÙˆØ±Ù‚Ø© Ø§Ù„Ù†Ø´Ø·Ø©</value>
+  </data>
+  <data name="WBSEditorPage.ExportJson" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± JSON</value>
+  </data>
+  <data name="WBSEditorPage.ExportXml" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± XML</value>
+  </data>
+  <data name="WBSEditorPage.NodeDetails" xml:space="preserve">
+    <value>ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ø¹Ù‚Ø¯Ø©</value>
+  </data>
+  <data name="WBSEditorPage.CodeFormat" xml:space="preserve">
+    <value>Ø§Ù„Ø±Ù…Ø²: {0}</value>
+  </data>
+  <data name="WBSEditorPage.NameFormat" xml:space="preserve">
+    <value>Ø§Ù„Ø§Ø³Ù…: {0}</value>
+  </data>
+  <data name="WBSEditorPage.LevelFormat" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø³ØªÙˆÙ‰: {0}</value>
+  </data>
+  <data name="WBSEditorPage.PathFormat" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø³Ø§Ø±: {0}</value>
+  </data>
+  <data name="WBSEditorPage.Rename" xml:space="preserve">
+    <value>Ø¥Ø¹Ø§Ø¯Ø© ØªØ³Ù…ÙŠØ©</value>
+  </data>
+  <data name="WBSEditorPage.AddChildNode" xml:space="preserve">
+    <value>Ø¥Ø¶Ø§ÙØ© Ø¹Ù‚Ø¯Ø© ÙØ±Ø¹ÙŠØ©</value>
+  </data>
+  <data name="WBSEditorPage.AddChild" xml:space="preserve">
+    <value>Ø¥Ø¶Ø§ÙØ© ÙØ±Ø¹ÙŠ</value>
+  </data>
+  <data name="WBSEditorPage.RemoveSelected" xml:space="preserve">
+    <value>Ø¥Ø²Ø§Ù„Ø© Ø§Ù„Ù…Ø­Ø¯Ø¯</value>
+  </data>
+  <data name="WBSEditorPage.SaveAsTemplate" xml:space="preserve">
+    <value>Ø­ÙØ¸ ÙƒÙ‚Ø§Ù„Ø¨</value>
+  </data>
+  <data name="WBSEditorPage.Undo" xml:space="preserve">
+    <value>ØªØ±Ø§Ø¬Ø¹</value>
+  </data>
+  <data name="WBSGeneratorPage.Title" xml:space="preserve">
+    <value>ØªÙˆÙ„ÙŠØ¯ Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ… Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="WBSGeneratorPage.Heading" xml:space="preserve">
+    <value>ØªÙˆÙ„ÙŠØ¯ Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ… Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="WBSGeneratorPage.ProjectDescription" xml:space="preserve">
+    <value>ÙˆØµÙ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</value>
+  </data>
+  <data name="WBSGeneratorPage.DescriptionHint" xml:space="preserve">
+    <value>ØµÙ Ù†ÙˆØ¹ Ù…Ø´Ø±ÙˆØ¹Ùƒ ÙˆÙ†Ø·Ø§Ù‚Ù‡ ÙˆØ§Ù„ØªØ³Ù„ÙŠÙ…Ø§Øª Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©.</value>
+  </data>
+  <data name="WBSGeneratorPage.WbsPreview" xml:space="preserve">
+    <value>Ù…Ø¹Ø§ÙŠÙ†Ø© Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ… Ø§Ù„Ù…ÙÙˆÙ„ÙŽÙ‘Ø¯</value>
+  </data>
+  <data name="WBSGeneratorPage.LoadBoq" xml:space="preserve">
+    <value>ØªØ­Ù…ÙŠÙ„ Ø¨Ù†ÙˆØ¯ Ø§Ù„ÙƒÙ…ÙŠØ§Øª</value>
+  </data>
+  <data name="WBSGeneratorPage.GenerateWbs" xml:space="preserve">
+    <value>ØªÙˆÙ„ÙŠØ¯ Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…</value>
+  </data>
+  <data name="WBSGeneratorPage.Regenerate" xml:space="preserve">
+    <value>Ø¥Ø¹Ø§Ø¯Ø© Ø§Ù„ØªÙˆÙ„ÙŠØ¯</value>
+  </data>
+  <data name="WBSGeneratorPage.Accept" xml:space="preserve">
+    <value>Ù‚Ø¨ÙˆÙ„</value>
+  </data>
+  <data name="WBSTemplateBrowserPage.Title" xml:space="preserve">
+    <value>Ù‚ÙˆØ§Ù„Ø¨ Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…</value>
+  </data>
+  <data name="WBSTemplateBrowserPage.Heading" xml:space="preserve">
+    <value>Ù‚ÙˆØ§Ù„Ø¨ Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…</value>
+  </data>
+  <data name="WBSTemplateBrowserPage.GetRecommendations" xml:space="preserve">
+    <value>Ø§Ù„Ø­ØµÙˆÙ„ Ø¹Ù„Ù‰ ØªÙˆØµÙŠØ§Øª</value>
+  </data>
+  <data name="WBSTemplateBrowserPage.CategoryFormat" xml:space="preserve">
+    <value>Ø§Ù„ØªØµÙ†ÙŠÙ: {0}</value>
+  </data>
+  <data name="WBSTemplateBrowserPage.ImportFromExcel" xml:space="preserve">
+    <value>Ø§Ø³ØªÙŠØ±Ø§Ø¯ Ù…Ù† Ø¥ÙƒØ³Ù„</value>
+  </data>
+  <data name="WBSTemplateBrowserPage.ExportToExcel" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± Ø¥Ù„Ù‰ Ø¥ÙƒØ³Ù„</value>
+  </data>
+  <data name="WBSTemplateBrowserPage.SelectTemplate" xml:space="preserve">
+    <value>Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù‚Ø§Ù„Ø¨</value>
+  </data>
+  <data name="StyleSelectorPage.Title" xml:space="preserve">
+    <value>Ø£Ù†Ù…Ø§Ø· Ø£Ù„ÙˆØ§Ù† Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…</value>
+  </data>
+  <data name="StyleSelectorPage.Heading" xml:space="preserve">
+    <value>Ø£Ù†Ù…Ø§Ø· Ø£Ù„ÙˆØ§Ù† Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…</value>
+  </data>
+  <data name="StyleSelectorPage.ChooseStyle" xml:space="preserve">
+    <value>Ø§Ø®ØªØ± Ù†Ù…Ø· Ø§Ù„ØªÙ„ÙˆÙŠÙ†</value>
+  </data>
+  <data name="StyleSelectorGrid.Level" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø³ØªÙˆÙ‰</value>
+  </data>
+  <data name="StyleSelectorGrid.Hex" xml:space="preserve">
+    <value>HEX</value>
+  </data>
+  <data name="StyleSelectorGrid.Color" xml:space="preserve">
+    <value>Ø§Ù„Ù„ÙˆÙ†</value>
+  </data>
+  <data name="StyleSelectorPage.Save" xml:space="preserve">
+    <value>Ø­ÙØ¸</value>
+  </data>
+  <data name="StyleSelectorPage.Cancel" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡</value>
+  </data>
+  <data name="ProjectAnalysisPage.Title" xml:space="preserve">
+    <value>ØªØ­Ù„ÙŠÙ„ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</value>
+  </data>
+  <data name="ProjectAnalysisPage.Heading" xml:space="preserve">
+    <value>ØªØ­Ù„ÙŠÙ„ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</value>
+  </data>
+  <data name="ProjectAnalysisPage.ActivitiesSheet" xml:space="preserve">
+    <value>Ø§Ù„Ø£Ù†Ø´Ø·Ø©</value>
+  </data>
+  <data name="ProjectAnalysisPage.RelationshipsSheet" xml:space="preserve">
+    <value>Ø§Ù„Ø¹Ù„Ø§Ù‚Ø§Øª</value>
+  </data>
+  <data name="ProjectAnalysisPage.ResourcesSheet" xml:space="preserve">
+    <value>Ø§Ù„Ù…ÙˆØ§Ø±Ø¯</value>
+  </data>
+  <data name="ProjectAnalysisPage.FinishDate" xml:space="preserve">
+    <value>ØªØ§Ø±ÙŠØ® Ø§Ù„Ø§Ù†ØªÙ‡Ø§Ø¡</value>
+  </data>
+  <data name="ProjectAnalysisPage.CheckSheets" xml:space="preserve">
+    <value>ÙØ­Øµ Ø§Ù„Ø£ÙˆØ±Ø§Ù‚</value>
+  </data>
+  <data name="ProjectAnalysisPage.RunAnalysis" xml:space="preserve">
+    <value>ØªØ´ØºÙŠÙ„ Ø§Ù„ØªØ­Ù„ÙŠÙ„</value>
+  </data>
+  <data name="ProjectAnalysisPage.ClearSummary" xml:space="preserve">
+    <value>Ù…Ø³Ø­ Ø§Ù„Ù…Ù„Ø®Øµ</value>
+  </data>
+  <data name="ProjectAnalysisPage.CheckResults" xml:space="preserve">
+    <value>Ù†ØªØ§Ø¦Ø¬ ÙØ­Øµ Ø§Ù„Ø£ÙˆØ±Ø§Ù‚</value>
+  </data>
+  <data name="ProjectAnalysisGrid.SheetSection" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ±Ù‚Ø©/Ø§Ù„Ù‚Ø³Ù…</value>
+  </data>
+  <data name="ProjectAnalysisGrid.RequiredColumn" xml:space="preserve">
+    <value>Ø§Ù„Ø¹Ù…ÙˆØ¯ Ø§Ù„Ù…Ø·Ù„ÙˆØ¨</value>
+  </data>
+  <data name="ProjectAnalysisGrid.Found" xml:space="preserve">
+    <value>ØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ±</value>
+  </data>
+  <data name="ProjectAnalysisGrid.Location" xml:space="preserve">
+    <value>Ø§Ù„Ù…ÙˆÙ‚Ø¹</value>
+  </data>
+  <data name="ProjectAnalysisPage.Summary" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ù„Ø®Øµ</value>
+  </data>
+  <data name="ProjectAnalysisSummaryGrid.Type" xml:space="preserve">
+    <value>Ø§Ù„Ù†ÙˆØ¹</value>
+  </data>
+  <data name="ProjectAnalysisSummaryGrid.Count" xml:space="preserve">
+    <value>Ø§Ù„Ø¹Ø¯Ø¯</value>
+  </data>
+  <data name="ProjectAnalysisSummaryGrid.Sheet" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ±Ù‚Ø©</value>
+  </data>
+  <data name="ProjectAnalysisSummaryGrid.Details" xml:space="preserve">
+    <value>Ø§Ù„ØªÙØ§ØµÙŠÙ„</value>
+  </data>
+  <data name="ProjectAnalysisPage.Log" xml:space="preserve">
+    <value>Ø§Ù„Ø³Ø¬Ù„</value>
+  </data>
+  <data name="ProjectAnalysisLogGrid.Time" xml:space="preserve">
+    <value>Ø§Ù„ÙˆÙ‚Øª</value>
+  </data>
+  <data name="ProjectAnalysisLogGrid.Level" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø³ØªÙˆÙ‰</value>
+  </data>
+  <data name="ProjectAnalysisLogGrid.Message" xml:space="preserve">
+    <value>Ø§Ù„Ø±Ø³Ø§Ù„Ø©</value>
+  </data>
+  <data name="ProjectAnalysisPage.Run" xml:space="preserve">
+    <value>ØªØ´ØºÙŠÙ„</value>
+  </data>
+  <data name="ProjectAnalysisPage.Close" xml:space="preserve">
+    <value>Ø¥ØºÙ„Ø§Ù‚</value>
+  </data>
+  <data name="FloatPathPage.Title" xml:space="preserve">
+    <value>Ù…Ø­Ù„Ù„ Ø§Ù„Ù…Ø³Ø§Ø± Ø§Ù„Ø¹Ø§Ø¦Ù…</value>
+  </data>
+  <data name="FloatPathPage.Heading" xml:space="preserve">
+    <value>Ù…Ø­Ù„Ù„ Ø§Ù„Ù…Ø³Ø§Ø± Ø§Ù„Ø¹Ø§Ø¦Ù…</value>
+  </data>
+  <data name="FloatPathPage.Project" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</value>
+  </data>
+  <data name="FloatPathPage.LoadXer" xml:space="preserve">
+    <value>ØªØ­Ù…ÙŠÙ„ Ø¨Ø±ÙŠÙ…Ø§ÙÙŠØ±Ø§ XER</value>
+  </data>
+  <data name="FloatPathPage.BrowseXer" xml:space="preserve">
+    <value>Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ù…Ù„Ù XER</value>
+  </data>
+  <data name="FloatPathPage.SelectActivity" xml:space="preserve">
+    <value>Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù†Ø´Ø§Ø·</value>
+  </data>
+  <data name="FloatPathPage.NumberOfPaths" xml:space="preserve">
+    <value>Ø¹Ø¯Ø¯ Ø§Ù„Ù…Ø³Ø§Ø±Ø§Øª</value>
+  </data>
+  <data name="FloatPathPage.MaxPathDepth" xml:space="preserve">
+    <value>Ø£Ù‚ØµÙ‰ Ø¹Ù…Ù‚ Ù„Ù„Ù…Ø³Ø§Ø±</value>
+  </data>
+  <data name="FloatPathPage.HighlightCritical" xml:space="preserve">
+    <value>ØªÙ…ÙŠÙŠØ² Ø§Ù„Ù…Ø³Ø§Ø± Ø§Ù„Ø­Ø±Ø¬</value>
+  </data>
+  <data name="FloatPathPage.RunFloatPath" xml:space="preserve">
+    <value>ØªØ´ØºÙŠÙ„ Ø§Ù„Ù…Ø³Ø§Ø± Ø§Ù„Ø¹Ø§Ø¦Ù…</value>
+  </data>
+  <data name="FloatPathPage.ViewMode" xml:space="preserve">
+    <value>ÙˆØ¶Ø¹ Ø§Ù„Ø¹Ø±Ø¶</value>
+  </data>
+  <data name="FloatPathPage.Processing" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„Ù…Ø¹Ø§Ù„Ø¬Ø©...</value>
+  </data>
+  <data name="LinksManagerPage.Title" xml:space="preserve">
+    <value>Ù…Ø¯ÙŠØ± Ø§Ù„Ø±ÙˆØ§Ø¨Ø·</value>
+  </data>
+  <data name="LinksManagerPage.Heading" xml:space="preserve">
+    <value>Ù…Ø¯ÙŠØ± Ø§Ù„Ø±ÙˆØ§Ø¨Ø·</value>
+  </data>
+  <data name="LinksManagerPage.Workbook" xml:space="preserve">
+    <value>Ø§Ù„Ù…ØµÙ†Ù</value>
+  </data>
+  <data name="LinksManagerPage.Refresh" xml:space="preserve">
+    <value>ØªØ­Ø¯ÙŠØ«</value>
+  </data>
+  <data name="LinksManagerPage.LoadTypes" xml:space="preserve">
+    <value>ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø£Ù†ÙˆØ§Ø¹</value>
+  </data>
+  <data name="LinksManagerPage.Type" xml:space="preserve">
+    <value>Ø§Ù„Ù†ÙˆØ¹</value>
+  </data>
+  <data name="LinksManagerPage.Search" xml:space="preserve">
+    <value>Ø¨Ø­Ø«</value>
+  </data>
+  <data name="LinksManagerPage.Reload" xml:space="preserve">
+    <value>Ø¥Ø¹Ø§Ø¯Ø© ØªØ­Ù…ÙŠÙ„</value>
+  </data>
+  <data name="LinksManagerPage.Types" xml:space="preserve">
+    <value>Ø§Ù„Ø£Ù†ÙˆØ§Ø¹</value>
+  </data>
+  <data name="LinksManagerTypeGrid.Type" xml:space="preserve">
+    <value>Ø§Ù„Ù†ÙˆØ¹</value>
+  </data>
+  <data name="LinksManagerPage.All" xml:space="preserve">
+    <value>Ø§Ù„ÙƒÙ„</value>
+  </data>
+  <data name="LinksManagerPage.None" xml:space="preserve">
+    <value>Ù„Ø§ Ø´ÙŠØ¡</value>
+  </data>
+  <data name="LinksManagerGrid.Select" xml:space="preserve">
+    <value>Ø§Ø®ØªÙŠØ§Ø±</value>
+  </data>
+  <data name="LinksManagerGrid.LinkSource" xml:space="preserve">
+    <value>Ù…ØµØ¯Ø± Ø§Ù„Ø±Ø§Ø¨Ø·</value>
+  </data>
+  <data name="LinksManagerGrid.SheetObject" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ±Ù‚Ø©/Ø§Ù„ÙƒØ§Ø¦Ù†</value>
+  </data>
+  <data name="LinksManagerGrid.CellDetail" xml:space="preserve">
+    <value>Ø§Ù„Ø®Ù„ÙŠØ©/Ø§Ù„ØªÙØ§ØµÙŠÙ„</value>
+  </data>
+  <data name="LinksManagerGrid.Type" xml:space="preserve">
+    <value>Ø§Ù„Ù†ÙˆØ¹</value>
+  </data>
+  <data name="LinksManagerGrid.Status" xml:space="preserve">
+    <value>Ø§Ù„Ø­Ø§Ù„Ø©</value>
+  </data>
+  <data name="LinksManagerPage.Break" xml:space="preserve">
+    <value>ÙƒØ³Ø±</value>
+  </data>
+  <data name="LinksManagerPage.Close" xml:space="preserve">
+    <value>Ø¥ØºÙ„Ø§Ù‚</value>
+  </data>
+  <data name="SubDailyReportPage.Title" xml:space="preserve">
+    <value>Ø§Ù„ØªÙ‚Ø±ÙŠØ± Ø§Ù„ÙŠÙˆÙ…ÙŠ</value>
+  </data>
+  <data name="SubDailyReportPage.Heading" xml:space="preserve">
+    <value>ØªØ­Ù„ÙŠÙ„ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</value>
+  </data>
+  <data name="SubDailyReportPage.PreviousFile" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ù„Ù Ø§Ù„Ø³Ø§Ø¨Ù‚</value>
+  </data>
+  <data name="SubDailyReportPage.Refresh" xml:space="preserve">
+    <value>ØªØ­Ø¯ÙŠØ«</value>
+  </data>
+  <data name="SubDailyReportPage.PreviousSheet" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ±Ù‚Ø© Ø§Ù„Ø³Ø§Ø¨Ù‚Ø©</value>
+  </data>
+  <data name="SubDailyReportPage.TodaySheet" xml:space="preserve">
+    <value>ÙˆØ±Ù‚Ø© Ø§Ù„ÙŠÙˆÙ…</value>
+  </data>
+  <data name="SubDailyReportPage.NameColStartRow" xml:space="preserve">
+    <value>Ø§Ø³Ù… Ø§Ù„Ø¹Ù…ÙˆØ¯ / ØµÙ Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©</value>
+  </data>
+  <data name="SubDailyReportPage.CountColStartRow" xml:space="preserve">
+    <value>Ø¹Ù…ÙˆØ¯ Ø§Ù„Ø¹Ø¯Ø¯ / ØµÙ Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©</value>
+  </data>
+  <data name="SubDailyReportPage.Subcontractors" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ù‚Ø§ÙˆÙ„ÙˆÙ† Ù…Ù† Ø§Ù„Ø¨Ø§Ø·Ù†</value>
+  </data>
+  <data name="SubDailyReportPage.All" xml:space="preserve">
+    <value>Ø§Ù„ÙƒÙ„</value>
+  </data>
+  <data name="SubDailyReportPage.None" xml:space="preserve">
+    <value>Ù„Ø§ Ø´ÙŠØ¡</value>
+  </data>
+  <data name="SubDailyReportSubGrid.Include" xml:space="preserve">
+    <value>ØªØ¶Ù…ÙŠÙ†</value>
+  </data>
+  <data name="SubDailyReportSubGrid.Name" xml:space="preserve">
+    <value>Ø§Ù„Ø§Ø³Ù…</value>
+  </data>
+  <data name="SubDailyReportSubGrid.Row" xml:space="preserve">
+    <value>Ø§Ù„ØµÙ</value>
+  </data>
+  <data name="SubDailyReportPage.Preview" xml:space="preserve">
+    <value>Ù…Ø¹Ø§ÙŠÙ†Ø©</value>
+  </data>
+  <data name="SubDailyReportPreviewGrid.Name" xml:space="preserve">
+    <value>Ø§Ù„Ø§Ø³Ù…</value>
+  </data>
+  <data name="SubDailyReportPreviewGrid.Previous" xml:space="preserve">
+    <value>Ø§Ù„Ø³Ø§Ø¨Ù‚</value>
+  </data>
+  <data name="SubDailyReportPreviewGrid.Today" xml:space="preserve">
+    <value>Ø§Ù„ÙŠÙˆÙ…</value>
+  </data>
+  <data name="SubDailyReportPreviewGrid.Variance" xml:space="preserve">
+    <value>Ø§Ù„ÙØ±Ù‚</value>
+  </data>
+  <data name="SubDailyReportPreviewGrid.Total" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø¬Ù…ÙˆØ¹</value>
+  </data>
+  <data name="SubDailyReportPage.PreviewButton" xml:space="preserve">
+    <value>Ù…Ø¹Ø§ÙŠÙ†Ø©</value>
+  </data>
+  <data name="SubDailyReportPage.Apply" xml:space="preserve">
+    <value>ØªØ·Ø¨ÙŠÙ‚</value>
+  </data>
+  <data name="SubDailyReportPage.Cancel" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡</value>
+  </data>
+  <data name="AssignTradeCodesPage.Title" xml:space="preserve">
+    <value>Ø±Ù…ÙˆØ² Ø§Ù„Ù…Ù‡Ù†</value>
+  </data>
+  <data name="AssignTradeCodesPage.Heading" xml:space="preserve">
+    <value>Ø±Ù…ÙˆØ² Ø§Ù„Ù…Ù‡Ù†</value>
+  </data>
+  <data name="AssignTradeCodesPage.MainSheet" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ±Ù‚Ø© Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©</value>
+  </data>
+  <data name="AssignTradeCodesPage.ReferenceSheet" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ±Ù‚Ø© Ø§Ù„Ù…Ø±Ø¬Ø¹ÙŠØ©</value>
+  </data>
+  <data name="AssignTradeCodesPage.CodeColumn" xml:space="preserve">
+    <value>Ø¹Ù…ÙˆØ¯ Ø§Ù„Ø±Ù…Ø² (ØªÙ„Ù‚Ø§Ø¦ÙŠ)</value>
+  </data>
+  <data name="AssignTradeCodesPage.ActivityIdColumn" xml:space="preserve">
+    <value>Ø¹Ù…ÙˆØ¯ Ù…Ø¹Ø±Ù Ø§Ù„Ù†Ø´Ø§Ø· (ØªÙ„Ù‚Ø§Ø¦ÙŠ)</value>
+  </data>
+  <data name="AssignTradeCodesPage.StatusColumn" xml:space="preserve">
+    <value>Ø¹Ù…ÙˆØ¯ Ø§Ù„Ø­Ø§Ù„Ø© (ØªÙ„Ù‚Ø§Ø¦ÙŠ)</value>
+  </data>
+  <data name="AssignTradeCodesPage.ReferenceMap" xml:space="preserve">
+    <value>Ø§Ù„Ø®Ø±ÙŠØ·Ø© Ø§Ù„Ù…Ø±Ø¬Ø¹ÙŠØ©</value>
+  </data>
+  <data name="AssignTradeCodesPage.ReferenceMapHint" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø±Ø¬Ø¹: Ø§Ù„Ù†Ø´Ø§Ø· ÙÙŠ Ø§Ù„Ø¹Ù…ÙˆØ¯ CØŒ Ø±Ù…Ø² Ø§Ù„Ù…Ù‡Ù†Ø© ÙÙŠ Ø§Ù„Ø¹Ù…ÙˆØ¯ A</value>
+  </data>
+  <data name="AssignTradeCodesGrid.Row" xml:space="preserve">
+    <value>Ø§Ù„ØµÙ</value>
+  </data>
+  <data name="AssignTradeCodesGrid.Activity" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ø´Ø§Ø·</value>
+  </data>
+  <data name="AssignTradeCodesGrid.TradeCode" xml:space="preserve">
+    <value>Ø±Ù…Ø² Ø§Ù„Ù…Ù‡Ù†Ø©</value>
+  </data>
+  <data name="AssignTradeCodesGrid.Status" xml:space="preserve">
+    <value>Ø§Ù„Ø­Ø§Ù„Ø©</value>
+  </data>
+  <data name="AssignTradeCodesPage.Run" xml:space="preserve">
+    <value>ØªØ´ØºÙŠÙ„</value>
+  </data>
+  <data name="AssignTradeCodesPage.Stop" xml:space="preserve">
+    <value>Ø¥ÙŠÙ‚Ø§Ù</value>
+  </data>
+  <data name="AssignTradeCodesPage.Cancel" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡</value>
+  </data>
+  <data name="PrimaveraComparePage.Title" xml:space="preserve">
+    <value>Ù…Ù‚Ø§Ø±Ù†Ø© Ø¨Ø±ÙŠÙ…Ø§ÙÙŠØ±Ø§</value>
+  </data>
+  <data name="PrimaveraComparePage.Heading" xml:space="preserve">
+    <value>Ù…Ù‚Ø§Ø±Ù†Ø© Ø¨Ø±ÙŠÙ…Ø§ÙÙŠØ±Ø§</value>
+  </data>
+  <data name="PrimaveraComparePage.DatabaseType" xml:space="preserve">
+    <value>Ù†ÙˆØ¹ Ù‚Ø§Ø¹Ø¯Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª</value>
+  </data>
+  <data name="PrimaveraComparePage.ConnectionString" xml:space="preserve">
+    <value>Ø³Ù„Ø³Ù„Ø© Ø§Ù„Ø§ØªØµØ§Ù„</value>
+  </data>
+  <data name="PrimaveraComparePage.Sqlite" xml:space="preserve">
+    <value>SQLite</value>
+  </data>
+  <data name="PrimaveraComparePage.Oracle" xml:space="preserve">
+    <value>Oracle</value>
+  </data>
+  <data name="PrimaveraComparePage.Browse" xml:space="preserve">
+    <value>Ø§Ø³ØªØ¹Ø±Ø§Ø¶</value>
+  </data>
+  <data name="PrimaveraComparePage.Connect" xml:space="preserve">
+    <value>Ø§ØªØµØ§Ù„</value>
+  </data>
+  <data name="PrimaveraComparePage.Compare" xml:space="preserve">
+    <value>Ù…Ù‚Ø§Ø±Ù†Ø©</value>
+  </data>
+  <data name="PrimaveraCompareGrid.ProjectId" xml:space="preserve">
+    <value>Ù…Ø¹Ø±Ù Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</value>
+  </data>
+  <data name="PrimaveraCompareGrid.ProjectCode" xml:space="preserve">
+    <value>Ø±Ù…Ø² Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</value>
+  </data>
+  <data name="PrimaveraCompareGrid.ProjectName" xml:space="preserve">
+    <value>Ø§Ø³Ù… Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</value>
+  </data>
+  <data name="PrimaveraCompareGrid.Status" xml:space="preserve">
+    <value>Ø§Ù„Ø­Ø§Ù„Ø©</value>
+  </data>
+  <data name="PrimaveraCompareGrid.PlannedStart" xml:space="preserve">
+    <value>Ø§Ù„Ø¨Ø¯Ø§ÙŠØ© Ø§Ù„Ù…Ø®Ø·Ø· Ù„Ù‡Ø§</value>
+  </data>
+  <data name="PrimaveraCompareGrid.PlannedFinish" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ù‡Ø§ÙŠØ© Ø§Ù„Ù…Ø®Ø·Ø· Ù„Ù‡Ø§</value>
+  </data>
+  <data name="PrimaveraResultsPage.Title" xml:space="preserve">
+    <value>Ù†ØªØ§Ø¦Ø¬ Ù…Ù‚Ø§Ø±Ù†Ø© Ø¨Ø±ÙŠÙ…Ø§ÙÙŠØ±Ø§</value>
+  </data>
+  <data name="PrimaveraResultsPage.Heading" xml:space="preserve">
+    <value>Ù†ØªØ§Ø¦Ø¬ Ù…Ù‚Ø§Ø±Ù†Ø© Ø¨Ø±ÙŠÙ…Ø§ÙÙŠØ±Ø§</value>
+  </data>
+  <data name="PrimaveraResultsTab.Activities" xml:space="preserve">
+    <value>Ø§Ù„Ø£Ù†Ø´Ø·Ø©</value>
+  </data>
+  <data name="PrimaveraResultsTab.Relationships" xml:space="preserve">
+    <value>Ø§Ù„Ø¹Ù„Ø§Ù‚Ø§Øª</value>
+  </data>
+  <data name="PrimaveraResultsTab.Resources" xml:space="preserve">
+    <value>Ø§Ù„Ù…ÙˆØ§Ø±Ø¯</value>
+  </data>
+  <data name="XerEditorPage.Title" xml:space="preserve">
+    <value>Ù…Ø­Ø±Ø± XER</value>
+  </data>
+  <data name="XerEditorPage.Heading" xml:space="preserve">
+    <value>Ù…Ø­Ø±Ø± XER</value>
+  </data>
+  <data name="XerEditorPage.SidebarTitle" xml:space="preserve">
+    <value>Ù…Ø­Ø±Ø± XER</value>
+  </data>
+  <data name="XerEditorPage.LoadXer" xml:space="preserve">
+    <value>ØªØ­Ù…ÙŠÙ„ XER</value>
+  </data>
+  <data name="XerEditorPage.ExportToExcel" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± Ø¥Ù„Ù‰ Ø¥ÙƒØ³Ù„</value>
+  </data>
+  <data name="XerEditorPage.ImportFromExcel" xml:space="preserve">
+    <value>Ø§Ø³ØªÙŠØ±Ø§Ø¯ Ù…Ù† Ø¥ÙƒØ³Ù„</value>
+  </data>
+  <data name="XerEditorPage.ExportXer" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± XER</value>
+  </data>
+  <data name="XerEditorPage.LoadedTables" xml:space="preserve">
+    <value>Ø§Ù„Ø¬Ø¯Ø§ÙˆÙ„ Ø§Ù„Ù…Ø­Ù…Ù„Ø©</value>
+  </data>
+  <data name="XerEditorGrid.Code" xml:space="preserve">
+    <value>Ø§Ù„Ø±Ù…Ø²</value>
+  </data>
+  <data name="XerEditorGrid.TableName" xml:space="preserve">
+    <value>Ø§Ø³Ù… Ø§Ù„Ø¬Ø¯ÙˆÙ„</value>
+  </data>
+  <data name="XerEditorGrid.Records" xml:space="preserve">
+    <value>Ø§Ù„Ø³Ø¬Ù„Ø§Øª</value>
+  </data>
+  <data name="XerEditorGrid.Status" xml:space="preserve">
+    <value>Ø§Ù„Ø­Ø§Ù„Ø©</value>
+  </data>
+  <data name="UnmergeFillDownPage.Title" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡ Ø§Ù„Ø¯Ù…Ø¬ ÙˆØ§Ù„ØªØ¹Ø¨Ø¦Ø©</value>
+  </data>
+  <data name="UnmergeFillDownPage.Heading" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡ Ø§Ù„Ø¯Ù…Ø¬ ÙˆØ§Ù„ØªØ¹Ø¨Ø¦Ø©</value>
+  </data>
+  <data name="UnmergeFillDownPage.ActiveSheet" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ±Ù‚Ø© Ø§Ù„Ù†Ø´Ø·Ø©</value>
+  </data>
+  <data name="UnmergeFillDownPage.HeaderRow" xml:space="preserve">
+    <value>ØµÙ Ø§Ù„Ø±Ø£Ø³</value>
+  </data>
+  <data name="UnmergeFillDownPage.ColumnLetter" xml:space="preserve">
+    <value>Ø­Ø±Ù Ø§Ù„Ø¹Ù…ÙˆØ¯</value>
+  </data>
+  <data name="UnmergeFillDownPage.Run" xml:space="preserve">
+    <value>ØªØ´ØºÙŠÙ„</value>
+  </data>
+  <data name="UnmergeFillDownPage.Close" xml:space="preserve">
+    <value>Ø¥ØºÙ„Ø§Ù‚</value>
+  </data>
+  <data name="FixPieColorsPage.Title" xml:space="preserve">
+    <value>Ø¥ØµÙ„Ø§Ø­ Ø£Ù„ÙˆØ§Ù† Ø§Ù„Ù…Ø®Ø·Ø· Ø§Ù„Ø¯Ø§Ø¦Ø±ÙŠ</value>
+  </data>
+  <data name="FixPieColorsPage.Heading" xml:space="preserve">
+    <value>Ø¥ØµÙ„Ø§Ø­ Ø£Ù„ÙˆØ§Ù† Ø§Ù„Ù…Ø®Ø·Ø· Ø§Ù„Ø¯Ø§Ø¦Ø±ÙŠ</value>
+  </data>
+  <data name="FixPieColorsPage.SelectSheet" xml:space="preserve">
+    <value>Ø§Ø®ØªØ± Ø§Ù„ÙˆØ±Ù‚Ø© Ù„Ù„Ù…Ø®Ø·Ø· Ø§Ù„Ø¯Ø§Ø¦Ø±ÙŠ</value>
+  </data>
+  <data name="FixPieColorsPage.CategoryRange" xml:space="preserve">
+    <value>Ù†Ø·Ø§Ù‚ Ø§Ù„ÙØ¦Ø§Øª (Ø§Ù„ØªØ³Ù…ÙŠØ§Øª)</value>
+  </data>
+  <data name="FixPieColorsPage.Pick" xml:space="preserve">
+    <value>Ø§Ø®ØªÙŠØ§Ø±</value>
+  </data>
+  <data name="FixPieColorsPage.ColorTableRange" xml:space="preserve">
+    <value>Ù†Ø·Ø§Ù‚ Ø¬Ø¯ÙˆÙ„ Ø§Ù„Ø£Ù„ÙˆØ§Ù† (Ø§Ù„ØªØ³Ù…ÙŠØ© + Ø§Ù„Ù„ÙˆÙ†)</value>
+  </data>
+  <data name="FixPieColorsPage.PickColorTable" xml:space="preserve">
+    <value>Ø§Ø®ØªÙŠØ§Ø±</value>
+  </data>
+  <data name="FixPieColorsPage.Instruction" xml:space="preserve">
+    <value>Ø§Ø®ØªØ± Ù†Ø·Ø§Ù‚Ø§Øª Ø§Ù„Ù…Ø®Ø·Ø· Ø«Ù… Ø§Ù†Ù‚Ø± Ø¹Ù„Ù‰ ØªØ´ØºÙŠÙ„.</value>
+  </data>
+  <data name="FixPieColorsPage.Ready" xml:space="preserve">
+    <value>Ø¬Ø§Ù‡Ø²</value>
+  </data>
+  <data name="FixPieColorsPage.Run" xml:space="preserve">
+    <value>ØªØ´ØºÙŠÙ„</value>
+  </data>
+  <data name="FixPieColorsPage.Working" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„Ø¹Ù…Ù„...</value>
+  </data>
+  <data name="SettingsPage.Title" xml:space="preserve">
+    <value>Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª</value>
+  </data>
+  <data name="SettingsPage.Heading" xml:space="preserve">
+    <value>Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª</value>
+  </data>
+  <data name="SettingsPage.Categories" xml:space="preserve">
+    <value>Ø§Ù„ØªØµÙ†ÙŠÙØ§Øª</value>
+  </data>
+  <data name="SettingsPage.CategoriesAutomation" xml:space="preserve">
+    <value>ØªØµÙ†ÙŠÙØ§Øª Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª</value>
+  </data>
+  <data name="SettingsPage.PanelContentAutomation" xml:space="preserve">
+    <value>Ù…Ø­ØªÙˆÙ‰ Ù„ÙˆØ­Ø© Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª</value>
+  </data>
+  <data name="SettingsPage.FooterText" xml:space="preserve">
+    <value>Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø¥Ø¶Ø§ÙØ© Ø³ÙˆÙ…Ø©</value>
+  </data>
+  <data name="SettingsPage.Export" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ±</value>
+  </data>
+  <data name="SettingsPage.Import" xml:space="preserve">
+    <value>Ø§Ø³ØªÙŠØ±Ø§Ø¯</value>
+  </data>
+  <data name="SettingsPage.Save" xml:space="preserve">
+    <value>Ø­ÙØ¸</value>
+  </data>
+  <data name="SettingsPage.Cancel" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡</value>
+  </data>
+  <data name="MainPage.Title" xml:space="preserve">
+    <value>Ù…Ù‚Ø§Ø±Ù†Ø© Ù†Ø´Ø§Ø· P6</value>
+  </data>
+  <data name="MainPage.Heading" xml:space="preserve">
+    <value>Ù…Ù‚Ø§Ø±Ù†Ø© Ù†Ø´Ø§Ø· P6</value>
+  </data>
+  <data name="MainPage.LastUpdateSheet" xml:space="preserve">
+    <value>ÙˆØ±Ù‚Ø© Ø§Ù„ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø£Ø®ÙŠØ±</value>
+  </data>
+  <data name="MainPage.NewUpdateSheet" xml:space="preserve">
+    <value>ÙˆØ±Ù‚Ø© Ø§Ù„ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø¬Ø¯ÙŠØ¯</value>
+  </data>
+  <data name="MainPage.ActivityIdColumn" xml:space="preserve">
+    <value>Ø¹Ù…ÙˆØ¯ Ù…Ø¹Ø±Ù Ø§Ù„Ù†Ø´Ø§Ø· (Ø­Ø±Ù)</value>
+  </data>
+  <data name="MainPage.ActivityPctColumn" xml:space="preserve">
+    <value>Ø¹Ù…ÙˆØ¯ Ù†Ø³Ø¨Ø© Ø§Ù„Ù†Ø´Ø§Ø· (Ø­Ø±Ù)</value>
+  </data>
+  <data name="MainPage.WbsColumn" xml:space="preserve">
+    <value>Ø¹Ù…ÙˆØ¯ Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ… (Ø­Ø±Ù Ø§Ù„ÙˆØ±Ù‚Ø© Ø§Ù„Ù‚Ø¯ÙŠÙ…Ø©)</value>
+  </data>
+  <data name="MainPage.TopHeadersRow" xml:space="preserve">
+    <value>ØµÙ Ø§Ù„Ø±Ø¤ÙˆØ³ Ø§Ù„Ø¹Ù„ÙˆÙŠØ© (ØµÙ Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©)</value>
+  </data>
+  <data name="MainPageGrid.TaskId" xml:space="preserve">
+    <value>Ù…Ø¹Ø±Ù Ø§Ù„Ù…Ù‡Ù…Ø©</value>
+  </data>
+  <data name="MainPageGrid.Old" xml:space="preserve">
+    <value>Ù‚Ø¯ÙŠÙ…</value>
+  </data>
+  <data name="MainPageGrid.New" xml:space="preserve">
+    <value>Ø¬Ø¯ÙŠØ¯</value>
+  </data>
+  <data name="MainPageGrid.Change" xml:space="preserve">
+    <value>Ø§Ù„ØªØºÙŠÙŠØ±</value>
+  </data>
+  <data name="MainPageGrid.Status" xml:space="preserve">
+    <value>Ø§Ù„Ø­Ø§Ù„Ø©</value>
+  </data>
+  <data name="MainPageGrid.Wbs" xml:space="preserve">
+    <value>Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…</value>
+  </data>
+  <data name="MainPage.Preview" xml:space="preserve">
+    <value>Ù…Ø¹Ø§ÙŠÙ†Ø©</value>
+  </data>
+  <data name="MainPage.ExportLog" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± Ø§Ù„Ø³Ø¬Ù„</value>
+  </data>
+  <data name="MainPage.Update" xml:space="preserve">
+    <value>ØªØ­Ø¯ÙŠØ«</value>
+  </data>
+  <data name="MainPage.Cancel" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡</value>
+  </data>
+  <data name="AIPanel.AiFeatures" xml:space="preserve">
+    <value>Ù…ÙŠØ²Ø§Øª Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="AIPanel.EnableAiGeneration" xml:space="preserve">
+    <value>ØªÙØ¹ÙŠÙ„ Ø§Ù„ØªÙˆÙ„ÙŠØ¯ Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="AIPanel.EnableAiGenerationAutomation" xml:space="preserve">
+    <value>ØªÙØ¹ÙŠÙ„ Ø§Ù„ØªÙˆÙ„ÙŠØ¯ Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="AIPanel.LocalAiDetection" xml:space="preserve">
+    <value>ÙƒØ´Ù Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø§Ù„Ù…Ø­Ù„ÙŠ</value>
+  </data>
+  <data name="AIPanel.ScanningForProviders" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„Ø¨Ø­Ø« Ø¹Ù† Ù…Ø²ÙˆØ¯ÙŠ Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø§Ù„Ù…Ø­Ù„ÙŠÙŠÙ†...</value>
+  </data>
+  <data name="AIPanel.SelectLocalProvider" xml:space="preserve">
+    <value>Ø§Ø®ØªØ± Ø§Ù„Ù…Ø²ÙˆØ¯ Ø§Ù„Ù…Ø­Ù„ÙŠ:</value>
+  </data>
+  <data name="AIPanel.NoApiKey" xml:space="preserve">
+    <value>Ù„Ù… ÙŠØªÙ… ØªÙƒÙˆÙŠÙ† Ù…ÙØªØ§Ø­ API Ø³Ø­Ø§Ø¨ÙŠ</value>
+  </data>
+  <data name="AIPanel.UsingLocalAutomatically" xml:space="preserve">
+    <value>Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù…Ø²ÙˆØ¯ Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø§Ù„Ù…Ø­Ù„ÙŠ ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹.</value>
+  </data>
+  <data name="AIPanel.UseLocalAi" xml:space="preserve">
+    <value>Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø§Ù„Ù…Ø­Ù„ÙŠ</value>
+  </data>
+  <data name="AIPanel.CloudAiConfig" xml:space="preserve">
+    <value>Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø§Ù„Ø³Ø­Ø§Ø¨ÙŠ</value>
+  </data>
+  <data name="AIPanel.ApiKey" xml:space="preserve">
+    <value>Ù…ÙØªØ§Ø­ API</value>
+  </data>
+  <data name="AIPanel.ApiKeyAutomation" xml:space="preserve">
+    <value>Ù…ÙØªØ§Ø­ API Ù„Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="AIPanel.ApiKeyHint" xml:space="preserve">
+    <value>(Ù…Ø·Ù„ÙˆØ¨ Ù…ÙØªØ§Ø­ API Ø³Ø­Ø§Ø¨ÙŠ. Ø¥Ø°Ø§ ÙƒØ§Ù† ÙØ§Ø±ØºØ§Ù‹ØŒ Ø³ÙŠØªÙ… Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø§Ù„Ù…Ø­Ù„ÙŠ.)</value>
+  </data>
+  <data name="AIPanel.MainModel" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠ</value>
+  </data>
+  <data name="AIPanel.MainModelAutomation" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠ Ù„Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="AIPanel.RefreshModelsTooltip" xml:space="preserve">
+    <value>Ø¬Ù„Ø¨ Ø£Ø­Ø¯Ø« Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ù…Ù† API</value>
+  </data>
+  <data name="AIPanel.FallbackModel" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø§Ø­ØªÙŠØ§Ø·ÙŠ</value>
+  </data>
+  <data name="AIPanel.FallbackModelAutomation" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø§Ø­ØªÙŠØ§Ø·ÙŠ Ù„Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="AIPanel.LocalAiConfig" xml:space="preserve">
+    <value>Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø§Ù„Ù…Ø­Ù„ÙŠ</value>
+  </data>
+  <data name="AIPanel.EndpointUrl" xml:space="preserve">
+    <value>Ø¹Ù†ÙˆØ§Ù† Ù†Ù‚Ø·Ø© Ø§Ù„Ù†Ù‡Ø§ÙŠØ©</value>
+  </data>
+  <data name="AIPanel.EndpointUrlAutomation" xml:space="preserve">
+    <value>Ø¹Ù†ÙˆØ§Ù† Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø§Ù„Ù…Ø­Ù„ÙŠ</value>
+  </data>
+  <data name="AIPanel.LocalModel" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ù…ÙˆØ°Ø¬</value>
+  </data>
+  <data name="AIPanel.LocalModelAutomation" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ù…Ø­Ù„ÙŠ Ù„Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="AIPanel.LocalFallbackModel" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø§Ø­ØªÙŠØ§Ø·ÙŠ</value>
+  </data>
+  <data name="AIPanel.LocalFallbackModelAutomation" xml:space="preserve">
+    <value>Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø§Ø­ØªÙŠØ§Ø·ÙŠ Ø§Ù„Ù…Ø­Ù„ÙŠ Ù„Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ</value>
+  </data>
+  <data name="AppearancePanel.Theme" xml:space="preserve">
+    <value>Ø§Ù„Ø³Ù…Ø©</value>
+  </data>
+  <data name="AppearancePanel.DarkThemeCardAutomation" xml:space="preserve">
+    <value>Ø¨Ø·Ø§Ù‚Ø© Ø§Ù„Ø³Ù…Ø© Ø§Ù„Ø¯Ø§ÙƒÙ†Ø©</value>
+  </data>
+  <data name="AppearancePanel.DarkThemeLabel" xml:space="preserve">
+    <value>Ø¯Ø§ÙƒÙ†</value>
+  </data>
+  <data name="AppearancePanel.DarkThemeDescription" xml:space="preserve">
+    <value>Ø³Ù…Ø© Ø¯Ø§ÙƒÙ†Ø© ÙƒØ§Ù…Ù„Ø©</value>
+  </data>
+  <data name="AppearancePanel.LightThemeCardAutomation" xml:space="preserve">
+    <value>Ø¨Ø·Ø§Ù‚Ø© Ø§Ù„Ø³Ù…Ø© Ø§Ù„ÙØ§ØªØ­Ø©</value>
+  </data>
+  <data name="AppearancePanel.LightThemeLabel" xml:space="preserve">
+    <value>ÙØ§ØªØ­</value>
+  </data>
+  <data name="AppearancePanel.LightThemeDescription" xml:space="preserve">
+    <value>Ø³Ù…Ø© ÙØ§ØªØ­Ø© Ù†Ø¸ÙŠÙØ©</value>
+  </data>
+  <data name="AppearancePanel.CustomThemeCardAutomation" xml:space="preserve">
+    <value>Ø¨Ø·Ø§Ù‚Ø© Ø§Ù„Ø³Ù…Ø© Ø§Ù„Ù…Ø®ØµØµØ©</value>
+  </data>
+  <data name="AppearancePanel.CustomThemeLabel" xml:space="preserve">
+    <value>Ù…Ø®ØµØµ</value>
+  </data>
+  <data name="AppearancePanel.CustomThemeDescription" xml:space="preserve">
+    <value>Ù„ÙˆÙ† Ø§Ù„ØªÙ…ÙŠÙŠØ² Ø§Ù„Ø®Ø§Øµ Ø¨Ùƒ</value>
+  </data>
+  <data name="AppearancePanel.AccentColor" xml:space="preserve">
+    <value>Ù„ÙˆÙ† Ø§Ù„ØªÙ…ÙŠÙŠØ²</value>
+  </data>
+  <data name="AppearancePanel.ColorWheel" xml:space="preserve">
+    <value>Ø¹Ø¬Ù„Ø© Ø§Ù„Ø£Ù„ÙˆØ§Ù†</value>
+  </data>
+  <data name="AppearancePanel.HexColor" xml:space="preserve">
+    <value>Ø§Ù„Ù„ÙˆÙ† Ø§Ù„Ø³Ø¯Ø§Ø³ÙŠ Ø§Ù„Ø¹Ø´Ø±ÙŠ</value>
+  </data>
+  <data name="AppearancePanel.PreviewLabel" xml:space="preserve">
+    <value>Ù…Ø¹Ø§ÙŠÙ†Ø©</value>
+  </data>
+  <data name="AppearancePanel.Variants" xml:space="preserve">
+    <value>Ø§Ù„Ù…ØªØºÙŠØ±Ø§Øª</value>
+  </data>
+  <data name="AppearancePanel.BackgroundImage" xml:space="preserve">
+    <value>ØµÙˆØ±Ø© Ø§Ù„Ø®Ù„ÙÙŠØ©</value>
+  </data>
+  <data name="AppearancePanel.ChooseImage" xml:space="preserve">
+    <value>Ø§Ø®ØªÙŠØ§Ø± ØµÙˆØ±Ø©...</value>
+  </data>
+  <data name="AppearancePanel.ClearImage" xml:space="preserve">
+    <value>Ù…Ø³Ø­</value>
+  </data>
+  <data name="AppearancePanel.BaseTheme" xml:space="preserve">
+    <value>Ø§Ù„Ø³Ù…Ø© Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ©</value>
+  </data>
+  <data name="AppearancePanel.BaseThemeDark" xml:space="preserve">
+    <value>Ø¯Ø§ÙƒÙ†</value>
+  </data>
+  <data name="AppearancePanel.BaseThemeLight" xml:space="preserve">
+    <value>ÙØ§ØªØ­</value>
+  </data>
+  <data name="AppearancePanel.Wallpapers" xml:space="preserve">
+    <value>Ø§Ù„Ø®Ù„ÙÙŠØ§Øª</value>
+  </data>
+  <data name="AppearancePanel.BlurIntensity" xml:space="preserve">
+    <value>Ø´Ø¯Ø© Ø§Ù„ØªÙ…ÙˆÙŠÙ‡</value>
+  </data>
+  <data name="AppearancePanel.EnableBlur" xml:space="preserve">
+    <value>ØªÙØ¹ÙŠÙ„ Ø§Ù„ØªÙ…ÙˆÙŠÙ‡</value>
+  </data>
+  <data name="AppearancePanel.FontFamily" xml:space="preserve">
+    <value>Ø¹Ø§Ø¦Ù„Ø© Ø§Ù„Ø®Ø·</value>
+  </data>
+  <data name="AppearancePanel.BackgroundStyle" xml:space="preserve">
+    <value>Ù†Ù…Ø· Ø§Ù„Ø®Ù„ÙÙŠØ©</value>
+  </data>
+  <data name="AppearancePanel.SolidStyle" xml:space="preserve">
+    <value>Ø«Ø§Ø¨Øª</value>
+  </data>
+  <data name="AppearancePanel.SolidStyleAutomation" xml:space="preserve">
+    <value>Ù†Ù…Ø· Ø®Ù„ÙÙŠØ© Ø«Ø§Ø¨Øª</value>
+  </data>
+  <data name="AppearancePanel.GradientStyle" xml:space="preserve">
+    <value>Ù…ØªØ¯Ø±Ø¬</value>
+  </data>
+  <data name="AppearancePanel.GradientStyleAutomation" xml:space="preserve">
+    <value>Ù†Ù…Ø· Ø®Ù„ÙÙŠØ© Ù…ØªØ¯Ø±Ø¬</value>
+  </data>
+  <data name="AppearancePanel.PreviewSection" xml:space="preserve">
+    <value>Ù…Ø¹Ø§ÙŠÙ†Ø©</value>
+  </data>
+  <data name="AppearancePanel.ThemePreview" xml:space="preserve">
+    <value>Ù…Ø¹Ø§ÙŠÙ†Ø© Ø§Ù„Ø³Ù…Ø©</value>
+  </data>
+  <data name="AppearancePanel.SampleHeading" xml:space="preserve">
+    <value>Ø¹Ù†ÙˆØ§Ù† Ù†Ù…ÙˆØ°Ø¬ÙŠ</value>
+  </data>
+  <data name="AppearancePanel.SampleBody" xml:space="preserve">
+    <value>Ù†Øµ Ù†Ù…ÙˆØ°Ø¬ÙŠ Ù„Ù„Ø¬Ø³Ù… Ù„Ø£ØºØ±Ø§Ø¶ Ø§Ù„Ù…Ø¹Ø§ÙŠÙ†Ø©</value>
+  </data>
+  <data name="AppearancePanel.Apply" xml:space="preserve">
+    <value>ØªØ·Ø¨ÙŠÙ‚</value>
+  </data>
+  <data name="AppearancePanel.Cancel" xml:space="preserve">
+    <value>Ø¥Ù„ØºØ§Ø¡</value>
+  </data>
+  <data name="WbsPanel.CodeMode" xml:space="preserve">
+    <value>Ù†Ù…Ø· Ø±Ù…Ø² Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªÙ†Ø¸ÙŠÙ…</value>
+  </data>
+  <data name="WbsPanel.Numeric" xml:space="preserve">
+    <value>Ø±Ù‚Ù…ÙŠ</value>
+  </data>
+  <data name="WbsPanel.Alpha" xml:space="preserve">
+    <value>Ø£Ø¨Ø¬Ø¯ÙŠ</value>
+  </data>
+  <data name="WbsPanel.MinAlphaLength" xml:space="preserve">
+    <value>Ø§Ù„Ø­Ø¯ Ø§Ù„Ø£Ø¯Ù†Ù‰ Ù„Ø·ÙˆÙ„ Ø§Ù„Ø£Ø­Ø±Ù Ø§Ù„Ø£Ø¨Ø¬Ø¯ÙŠØ©</value>
+  </data>
+  <data name="WbsPanel.ExportColorStyle" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± Ù†Ù…Ø· Ø§Ù„Ø£Ù„ÙˆØ§Ù†</value>
+  </data>
+  <data name="WbsPanel.DefaultStyle" xml:space="preserve">
+    <value>Ø§ÙØªØ±Ø§Ø¶ÙŠ</value>
+  </data>
+  <data name="WbsPanel.BlueGradientStyle" xml:space="preserve">
+    <value>ØªØ¯Ø±Ø¬ Ø£Ø²Ø±Ù‚</value>
+  </data>
+  <data name="WbsPanel.PrimaveraStyle" xml:space="preserve">
+    <value>Ø¨Ø±ÙŠÙ…Ø§ÙÙŠØ±Ø§</value>
+  </data>
+  <data name="WbsPanel.DarkModeStyle" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ¶Ø¹ Ø§Ù„Ø¯Ø§ÙƒÙ†</value>
+  </data>
+  <data name="WbsPanel.SoftPastelStyle" xml:space="preserve">
+    <value>Ø¨Ø§Ø³ØªÙŠÙ„ Ù†Ø§Ø¹Ù…</value>
+  </data>
+  <data name="CustomThemeSettings.Background" xml:space="preserve">
+    <value>Ø§Ù„Ø®Ù„ÙÙŠØ©</value>
+  </data>
+  <data name="CustomThemeSettings.ChooseImage" xml:space="preserve">
+    <value>Ø§Ø®ØªÙŠØ§Ø± ØµÙˆØ±Ø©...</value>
+  </data>
+  <data name="CustomThemeSettings.ClearImage" xml:space="preserve">
+    <value>Ù…Ø³Ø­</value>
+  </data>
+  <data name="CustomThemeSettings.Blur" xml:space="preserve">
+    <value>Ø§Ù„ØªÙ…ÙˆÙŠÙ‡</value>
+  </data>
+  <data name="CustomThemeSettings.Intensity" xml:space="preserve">
+    <value>Ø§Ù„Ø´Ø¯Ø©:</value>
+  </data>
+  <data name="CustomThemeSettings.EnableBlur" xml:space="preserve">
+    <value>ØªÙØ¹ÙŠÙ„ Ø§Ù„ØªÙ…ÙˆÙŠÙ‡</value>
+  </data>
+  <data name="CustomThemeSettings.Font" xml:space="preserve">
+    <value>Ø§Ù„Ø®Ø·</value>
+  </data>
+  <data name="CustomThemeSettings.ArabicIndicator" xml:space="preserve">
+    <value>[AR]</value>
+  </data>
+  <data name="SettingControlTemplates.Browse" xml:space="preserve">
+    <value>Ø§Ø³ØªØ¹Ø±Ø§Ø¶...</value>
+  </data>
+  <data name="SettingControlTemplates.BrowseAutomation" xml:space="preserve">
+    <value>Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ù„Ù…Ø³Ø§Ø± Ø§Ù„Ù…Ù„Ù</value>
+  </data>
+  <data name="DiagnosticsPanel.Capturing" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„ØªÙ‚Ø§Ø· Ø§Ù„ØªØ´Ø®ÙŠØµØ§Øª...</value>
+  </data>
+  <data name="DiagnosticsPanel.Unavailable" xml:space="preserve">
+    <value>Ø§Ù„ØªØ´Ø®ÙŠØµØ§Øª ØºÙŠØ± Ù…ØªØ§Ø­Ø©</value>
+  </data>
+  <data name="DiagnosticsPanel.Retry" xml:space="preserve">
+    <value>Ø¥Ø¹Ø§Ø¯Ø© Ø§Ù„Ù…Ø­Ø§ÙˆÙ„Ø©</value>
+  </data>
+  <data name="DiagnosticsPanel.Heading" xml:space="preserve">
+    <value>Ø§Ù„ØªØ´Ø®ÙŠØµØ§Øª</value>
+  </data>
+  <data name="DiagnosticsPanel.Refresh" xml:space="preserve">
+    <value>ØªØ­Ø¯ÙŠØ«</value>
+  </data>
+  <data name="DiagnosticsPanel.RunValidation" xml:space="preserve">
+    <value>ØªØ´ØºÙŠÙ„ Ø§Ù„ØªØ­Ù‚Ù‚</value>
+  </data>
+  <data name="DiagnosticsPanel.RenderMode" xml:space="preserve">
+    <value>ÙˆØ¶Ø¹ Ø§Ù„Ø¹Ø±Ø¶</value>
+  </data>
+  <data name="DiagnosticsPanel.RenderSource" xml:space="preserve">
+    <value>Ù…ØµØ¯Ø± Ø§Ù„Ø¹Ø±Ø¶</value>
+  </data>
+  <data name="DiagnosticsPanel.GpuAvailable" xml:space="preserve">
+    <value>ÙˆØ­Ø¯Ø© Ù…Ø¹Ø§Ù„Ø¬Ø© Ø§Ù„Ø±Ø³ÙˆÙ…Ø§Øª Ù…ØªØ§Ø­Ø©</value>
+  </data>
+  <data name="DiagnosticsPanel.GpuName" xml:space="preserve">
+    <value>Ø§Ø³Ù… ÙˆØ­Ø¯Ø© Ù…Ø¹Ø§Ù„Ø¬Ø© Ø§Ù„Ø±Ø³ÙˆÙ…Ø§Øª</value>
+  </data>
+  <data name="DiagnosticsPanel.ActiveTheme" xml:space="preserve">
+    <value>Ø§Ù„Ø³Ù…Ø© Ø§Ù„Ù†Ø´Ø·Ø©</value>
+  </data>
+  <data name="DiagnosticsPanel.AccentColor" xml:space="preserve">
+    <value>Ù„ÙˆÙ† Ø§Ù„ØªÙ…ÙŠÙŠØ²</value>
+  </data>
+  <data name="DiagnosticsPanel.FallbackMode" xml:space="preserve">
+    <value>ÙˆØ¶Ø¹ Ø§Ù„Ø§Ø­ØªÙŠØ§Ø·</value>
+  </data>
+  <data name="DiagnosticsPanel.WorkingSet" xml:space="preserve">
+    <value>Ù…Ø¬Ù…ÙˆØ¹Ø© Ø§Ù„Ø¹Ù…Ù„ (Ù…ÙŠØ¬Ø§Ø¨Ø§ÙŠØª)</value>
+  </data>
+  <data name="DiagnosticsPanel.ManagedHeap" xml:space="preserve">
+    <value>Ø§Ù„ÙƒÙˆÙ…Ø© Ø§Ù„Ù…ÙØ¯Ø§Ø±Ø© (Ù…ÙŠØ¬Ø§Ø¨Ø§ÙŠØª)</value>
+  </data>
+  <data name="DiagnosticsPanel.PopupHealth" xml:space="preserve">
+    <value>ØµØ­Ø© Ø§Ù„Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ù…Ù†Ø¨Ø«Ù‚Ø©</value>
+  </data>
+  <data name="DiagnosticsPanel.PluginModules" xml:space="preserve">
+    <value>ÙˆØ­Ø¯Ø§Øª Ø§Ù„Ø¥Ø¶Ø§ÙØ§Øª</value>
+  </data>
+  <data name="DiagnosticsPanel.ValidationResults" xml:space="preserve">
+    <value>Ù†ØªØ§Ø¦Ø¬ Ø§Ù„ØªØ­Ù‚Ù‚</value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Severity" xml:space="preserve">
+    <value>Ø§Ù„Ø®Ø·ÙˆØ±Ø©</value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Category" xml:space="preserve">
+    <value>Ø§Ù„ØªØµÙ†ÙŠÙ</value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Dictionary" xml:space="preserve">
+    <value>Ø§Ù„Ù‚Ø§Ù…ÙˆØ³</value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Location" xml:space="preserve">
+    <value>Ø§Ù„Ù…ÙˆÙ‚Ø¹</value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Description" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØµÙ</value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Fix" xml:space="preserve">
+    <value>Ø¥ØµÙ„Ø§Ø­</value>
+  </data>
+  <data name="DiagnosticsPanel.ApplicationLogs" xml:space="preserve">
+    <value>Ø³Ø¬Ù„Ø§Øª Ø§Ù„ØªØ·Ø¨ÙŠÙ‚</value>
+  </data>
+  <data name="DiagnosticsPanel.ViewLogs" xml:space="preserve">
+    <value>Ø¹Ø±Ø¶ Ø§Ù„Ø³Ø¬Ù„Ø§Øª</value>
+  </data>
+  <data name="DiagnosticsLogGrid.Time" xml:space="preserve">
+    <value>Ø§Ù„ÙˆÙ‚Øª</value>
+  </data>
+  <data name="DiagnosticsLogGrid.Severity" xml:space="preserve">
+    <value>Ø§Ù„Ø®Ø·ÙˆØ±Ø©</value>
+  </data>
+  <data name="DiagnosticsLogGrid.Source" xml:space="preserve">
+    <value>Ø§Ù„Ù…ØµØ¯Ø±</value>
+  </data>
+  <data name="DiagnosticsLogGrid.Message" xml:space="preserve">
+    <value>Ø§Ù„Ø±Ø³Ø§Ù„Ø©</value>
+  </data>
+  <data name="DiagnosticsPanel.SettingsExportImport" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± / Ø§Ø³ØªÙŠØ±Ø§Ø¯ Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª</value>
+  </data>
+  <data name="DiagnosticsPanel.SettingsExportHint" xml:space="preserve">
+    <value>Ù‚Ù… Ø¨ØªØµØ¯ÙŠØ± Ø¥Ø¹Ø¯Ø§Ø¯Ø§ØªÙƒ Ø§Ù„Ø­Ø§Ù„ÙŠØ© Ø¥Ù„Ù‰ Ù…Ù„Ù JSON Ù„Ù„Ù†Ø³Ø® Ø§Ù„Ø§Ø­ØªÙŠØ§Ø·ÙŠ Ø£Ùˆ Ø§Ù„Ù†Ù‚Ù„ Ø¥Ù„Ù‰ Ø¬Ù‡Ø§Ø² Ø¢Ø®Ø±.</value>
+  </data>
+  <data name="DiagnosticsPanel.ExportSettings" xml:space="preserve">
+    <value>ØªØµØ¯ÙŠØ± Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª</value>
+  </data>
+  <data name="DiagnosticsPanel.ImportSettings" xml:space="preserve">
+    <value>Ø§Ø³ØªÙŠØ±Ø§Ø¯ Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª</value>
+  </data>
+  <data name="PerformancePanel.AnimationSpeed" xml:space="preserve">
+    <value>Ø³Ø±Ø¹Ø© Ø§Ù„Ø­Ø±ÙƒØ©</value>
+  </data>
+  <data name="PerformancePanel.AnimationOff" xml:space="preserve">
+    <value>Ø¥ÙŠÙ‚Ø§Ù</value>
+  </data>
+  <data name="PerformancePanel.AnimationOffAutomation" xml:space="preserve">
+    <value>Ø³Ø±Ø¹Ø© Ø§Ù„Ø­Ø±ÙƒØ© Ù…ØªÙˆÙ‚ÙØ©</value>
+  </data>
+  <data name="PerformancePanel.AnimationReduced" xml:space="preserve">
+    <value>Ù…Ø®ÙØ¶Ø©</value>
+  </data>
+  <data name="PerformancePanel.AnimationReducedAutomation" xml:space="preserve">
+    <value>Ø³Ø±Ø¹Ø© Ø§Ù„Ø­Ø±ÙƒØ© Ù…Ø®ÙØ¶Ø©</value>
+  </data>
+  <data name="PerformancePanel.AnimationFull" xml:space="preserve">
+    <value>ÙƒØ§Ù…Ù„Ø©</value>
+  </data>
+  <data name="PerformancePanel.AnimationFullAutomation" xml:space="preserve">
+    <value>Ø³Ø±Ø¹Ø© Ø§Ù„Ø­Ø±ÙƒØ© ÙƒØ§Ù…Ù„Ø©</value>
+  </data>
+  <data name="PerformancePanel.UiDensity" xml:space="preserve">
+    <value>ÙƒØ«Ø§ÙØ© Ø§Ù„ÙˆØ§Ø¬Ù‡Ø©</value>
+  </data>
+  <data name="PerformancePanel.DensityCompact" xml:space="preserve">
+    <value>Ù…Ø¶ØºÙˆØ·</value>
+  </data>
+  <data name="PerformancePanel.DensityCompactAutomation" xml:space="preserve">
+    <value>ÙƒØ«Ø§ÙØ© ÙˆØ§Ø¬Ù‡Ø© Ù…Ø¶ØºÙˆØ·Ø©</value>
+  </data>
+  <data name="PerformancePanel.DensityNormal" xml:space="preserve">
+    <value>Ø¹Ø§Ø¯ÙŠ</value>
+  </data>
+  <data name="PerformancePanel.DensityNormalAutomation" xml:space="preserve">
+    <value>ÙƒØ«Ø§ÙØ© ÙˆØ§Ø¬Ù‡Ø© Ø¹Ø§Ø¯ÙŠØ©</value>
+  </data>
+  <data name="PerformancePanel.DensitySpacious" xml:space="preserve">
+    <value>ÙØ³ÙŠØ­</value>
+  </data>
+  <data name="PerformancePanel.DensitySpaciousAutomation" xml:space="preserve">
+    <value>ÙƒØ«Ø§ÙØ© ÙˆØ§Ø¬Ù‡Ø© ÙØ³ÙŠØ­Ø©</value>
+  </data>
+  <data name="PluginsPanel.InstalledPlugins" xml:space="preserve">
+    <value>Ø§Ù„Ø¥Ø¶Ø§ÙØ§Øª Ø§Ù„Ù…Ø«Ø¨ØªØ©</value>
+  </data>
+  <data name="PluginsPanel.Refresh" xml:space="preserve">
+    <value>ØªØ­Ø¯ÙŠØ«</value>
+  </data>
+  <data name="PluginsGrid.Module" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ­Ø¯Ø©</value>
+  </data>
+  <data name="PluginsGrid.Version" xml:space="preserve">
+    <value>Ø§Ù„Ø¥ØµØ¯Ø§Ø±</value>
+  </data>
+  <data name="PluginsGrid.State" xml:space="preserve">
+    <value>Ø§Ù„Ø­Ø§Ù„Ø©</value>
+  </data>
+  <data name="PluginsGrid.Capabilities" xml:space="preserve">
+    <value>Ø§Ù„Ù‚Ø¯Ø±Ø§Øª</value>
+  </data>
+  <data name="PluginsGrid.Memory" xml:space="preserve">
+    <value>Ø§Ù„Ø°Ø§ÙƒØ±Ø©</value>
+  </data>
+  <data name="PluginsGrid.LoadTime" xml:space="preserve">
+    <value>ÙˆÙ‚Øª Ø§Ù„ØªØ­Ù…ÙŠÙ„</value>
+  </data>
+  <data name="PluginsGrid.LastError" xml:space="preserve">
+    <value>Ø¢Ø®Ø± Ø®Ø·Ø£</value>
+  </data>
+  <data name="ExcelPanel.RenderMode" xml:space="preserve">
+    <value>ÙˆØ¶Ø¹ Ø§Ù„Ø¹Ø±Ø¶</value>
+  </data>
+  <data name="ExcelPanel.RenderModeAuto" xml:space="preserve">
+    <value>ØªÙ„Ù‚Ø§Ø¦ÙŠ</value>
+  </data>
+  <data name="ExcelPanel.RenderModeSafe" xml:space="preserve">
+    <value>Ø¢Ù…Ù†</value>
+  </data>
+  <data name="ExcelPanel.RenderModeFull" xml:space="preserve">
+    <value>ÙƒØ§Ù…Ù„</value>
+  </data>
+  <data name="ExcelPanel.SafeMode" xml:space="preserve">
+    <value>Ø§Ù„ÙˆØ¶Ø¹ Ø§Ù„Ø¢Ù…Ù†</value>
+  </data>
+  <data name="ExcelPanel.SafeModeDescription" xml:space="preserve">
+    <value>ÙØ±Ø¶ ÙˆØ¶Ø¹ Ø§Ù„Ø¹Ø±Ø¶ Ø§Ù„Ø¢Ù…Ù† Ù„ØªÙˆØ§ÙÙ‚ Ø¥ÙƒØ³Ù„</value>
+  </data>
+  <data name="ExcelPanel.SafeModeToggleAutomation" xml:space="preserve">
+    <value>ØªØ¨Ø¯ÙŠÙ„ Ø§Ù„ÙˆØ¶Ø¹ Ø§Ù„Ø¢Ù…Ù†</value>
+  </data>
+  <data name="ExcelPanel.DpiInformation" xml:space="preserve">
+    <value>Ù…Ø¹Ù„ÙˆÙ…Ø§Øª DPI</value>
+  </data>
+  <data name="ExcelPanel.DpiDescription" xml:space="preserve">
+    <value>ÙŠØªÙ… Ø§Ù„ØªØ¹Ø§Ù…Ù„ Ù…Ø¹ ØªØ­Ø¬ÙŠÙ… DPI ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹ Ø¨ÙˆØ§Ø³Ø·Ø© Ø£Ù†Ø¨ÙˆØ¨ Ø¹Ø±Ø¶ Windows. Ø§Ø¶Ø¨Ø· ÙˆØ¶Ø¹ Ø§Ù„Ø¹Ø±Ø¶ Ø¥Ø°Ø§ ÙˆØ§Ø¬Ù‡Øª Ù…Ø´Ø§ÙƒÙ„ ÙÙŠ Ø§Ù„Ø¹Ø±Ø¶.</value>
+  </data>
+  <data name="AccessibilityPanel.HighContrast" xml:space="preserve">
+    <value>ÙˆØ¶Ø¹ Ø§Ù„ØªØ¨Ø§ÙŠÙ† Ø§Ù„Ø¹Ø§Ù„ÙŠ</value>
+  </data>
+  <data name="AccessibilityPanel.HighContrastDescription" xml:space="preserve">
+    <value>Ø²ÙŠØ§Ø¯Ø© Ø§Ù„ØªØ¨Ø§ÙŠÙ† Ù„Ø±Ø¤ÙŠØ© Ø£ÙØ¶Ù„</value>
+  </data>
+  <data name="AccessibilityPanel.HighContrastToggleAutomation" xml:space="preserve">
+    <value>ØªØ¨Ø¯ÙŠÙ„ Ø§Ù„ØªØ¨Ø§ÙŠÙ† Ø§Ù„Ø¹Ø§Ù„ÙŠ</value>
+  </data>
+  <data name="AccessibilityPanel.FocusIndicator" xml:space="preserve">
+    <value>Ù…Ø¤Ø´Ø± Ø§Ù„ØªØ±ÙƒÙŠØ²</value>
+  </data>
+  <data name="AccessibilityPanel.FocusIndicatorDescription" xml:space="preserve">
+    <value>Ø¥Ø¸Ù‡Ø§Ø± ØªÙˆÙ‡Ø¬ Ø§Ù„ØªØ±ÙƒÙŠØ² Ø­ÙˆÙ„ Ø§Ù„Ø¹Ù†Ø§ØµØ± Ø§Ù„Ù…Ø­Ø¯Ø¯Ø©</value>
+  </data>
+  <data name="AccessibilityPanel.FocusIndicatorToggleAutomation" xml:space="preserve">
+    <value>ØªØ¨Ø¯ÙŠÙ„ Ù…Ø¤Ø´Ø± Ø§Ù„ØªØ±ÙƒÙŠØ²</value>
+  </data>
+  <data name="SidebarControl.PageUnavailable" xml:space="preserve">
+    <value>Ø§Ù„ØµÙØ­Ø© ØºÙŠØ± Ù…ØªØ§Ø­Ø©</value>
+  </data>
+  <data name="WidgetCard.Loading" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„ØªØ­Ù…ÙŠÙ„...</value>
+  </data>
+  <data name="RelationshipEditorGrid.AddRelationship" xml:space="preserve">
+    <value>+ Ø¥Ø¶Ø§ÙØ© Ø¹Ù„Ø§Ù‚Ø©</value>
+  </data>
+  <data name="RelationshipEditorGrid.RemoveSelected" xml:space="preserve">
+    <value>Ø¥Ø²Ø§Ù„Ø© Ø§Ù„Ù…Ø­Ø¯Ø¯</value>
+  </data>
+  <data name="RelationshipEditorGrid.Predecessor" xml:space="preserve">
+    <value>Ø§Ù„Ø³Ø§Ø¨Ù‚</value>
+  </data>
+  <data name="RelationshipEditorGrid.Successor" xml:space="preserve">
+    <value>Ø§Ù„Ù„Ø§Ø­Ù‚</value>
+  </data>
+  <data name="RelationshipEditorGrid.Type" xml:space="preserve">
+    <value>Ø§Ù„Ù†ÙˆØ¹</value>
+  </data>
+  <data name="RelationshipEditorGrid.LagDays" xml:space="preserve">
+    <value>Ø§Ù„ØªØ£Ø®ÙŠØ± (Ø£ÙŠØ§Ù…)</value>
+  </data>
+  <data name="RelationshipEditorGrid.Rationale" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø¨Ø±Ø±</value>
+  </data>
+  <data name="RelationshipEditorGrid.Confidence" xml:space="preserve">
+    <value>Ø§Ù„Ø«Ù‚Ø©</value>
+  </data>
+  <data name="RelationshipEditorGrid.Accepted" xml:space="preserve">
+    <value>Ù…Ù‚Ø¨ÙˆÙ„</value>
+  </data>
+  <data name="RelationshipEditorGrid.EmptyState" xml:space="preserve">
+    <value>Ù„Ø§ ØªÙˆØ¬Ø¯ Ø¹Ù„Ø§Ù‚Ø§Øª Ù…Ø­Ø¯Ø¯Ø©.</value>
+  </data>
+  <data name="ModuleLoadingOverlay.LoadingModule" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù ØªØ­Ù…ÙŠÙ„ Ø§Ù„ÙˆØ­Ø¯Ø©...</value>
+  </data>
+  <data name="LoadingOverlay.Loading" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„ØªØ­Ù…ÙŠÙ„...</value>
+  </data>
+  <data name="FloatPathWindow.Title" xml:space="preserve">
+    <value>Ù…Ø­Ù„Ù„ Ø§Ù„Ù…Ø³Ø§Ø± Ø§Ù„Ø¹Ø§Ø¦Ù…</value>
+  </data>
+  <data name="FloatPathWindow.Heading" xml:space="preserve">
+    <value>Ù…Ø­Ù„Ù„ Ø§Ù„Ù…Ø³Ø§Ø± Ø§Ù„Ø¹Ø§Ø¦Ù…</value>
+  </data>
+  <data name="FloatPathWindow.Project" xml:space="preserve">
+    <value>Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</value>
+  </data>
+  <data name="FloatPathWindow.LoadXer" xml:space="preserve">
+    <value>ØªØ­Ù…ÙŠÙ„ Ø¨Ø±ÙŠÙ…Ø§ÙÙŠØ±Ø§ XER</value>
+  </data>
+  <data name="FloatPathWindow.BrowseXer" xml:space="preserve">
+    <value>Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ù…Ù„Ù XER</value>
+  </data>
+  <data name="FloatPathWindow.SelectActivity" xml:space="preserve">
+    <value>Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù†Ø´Ø§Ø·</value>
+  </data>
+  <data name="FloatPathWindow.NumberOfPaths" xml:space="preserve">
+    <value>Ø¹Ø¯Ø¯ Ø§Ù„Ù…Ø³Ø§Ø±Ø§Øª</value>
+  </data>
+  <data name="FloatPathWindow.MaxPathDepth" xml:space="preserve">
+    <value>Ø£Ù‚ØµÙ‰ Ø¹Ù…Ù‚ Ù„Ù„Ù…Ø³Ø§Ø±</value>
+  </data>
+  <data name="FloatPathWindow.HighlightCritical" xml:space="preserve">
+    <value>ØªÙ…ÙŠÙŠØ² Ø§Ù„Ù…Ø³Ø§Ø± Ø§Ù„Ø­Ø±Ø¬</value>
+  </data>
+  <data name="FloatPathWindow.RunFloatPath" xml:space="preserve">
+    <value>ØªØ´ØºÙŠÙ„ Ø§Ù„Ù…Ø³Ø§Ø± Ø§Ù„Ø¹Ø§Ø¦Ù…</value>
+  </data>
+  <data name="FloatPathWindow.ViewMode" xml:space="preserve">
+    <value>ÙˆØ¶Ø¹ Ø§Ù„Ø¹Ø±Ø¶</value>
+  </data>
+  <data name="FloatPathWindow.Processing" xml:space="preserve">
+    <value>Ø¬Ø§Ø±Ù Ø§Ù„Ù…Ø¹Ø§Ù„Ø¬Ø©...</value>
+  </data>
+  <data name="Sidebar.planning.xereditor" xml:space="preserve">
+    <value>محرر XER</value>
+  </data>
+  <data name="Sidebar.planning.analysis" xml:space="preserve">
+    <value>تحليل المشروع</value>
+  </data>
+  <data name="Sidebar.main" xml:space="preserve">
+    <value>مقارنة P6</value>
+  </data>
+  <data name="Sidebar.settings.general" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="Sidebar.planning.wbs.generator" xml:space="preserve">
+    <value>مولد WBS</value>
+  </data>
+  <data name="Sidebar.planning.relationship" xml:space="preserve">
+    <value>مولد العلاقات</value>
+  </data>
+  <data name="Sidebar.excel.styles" xml:space="preserve">
+    <value>محدد الأنماط</value>
+  </data>
+  <data name="Sidebar.analysis.floatpath" xml:space="preserve">
+    <value>المسار الحرج</value>
+  </data>
+  <data name="Sidebar.excel.links" xml:space="preserve">
+    <value>مدير الروابط</value>
+  </data>
+  <data name="Sidebar.welcome" xml:space="preserve">
+    <value>الرئيسية</value>
+  </data>
+  <data name="Sidebar.diagnostics" xml:space="preserve">
+    <value>التشخيصات</value>
+  </data>
+  <data name="Sidebar.excel.tradecodes" xml:space="preserve">
+    <value>تعيين رموز المهن</value>
+  </data>
+  <data name="Sidebar.excel.piecolors" xml:space="preserve">
+    <value>إصلاح ألوان المخطط</value>
+  </data>
+  <data name="Sidebar.excel.unmerge" xml:space="preserve">
+    <value>دمج وإلغاء دمج</value>
+  </data>
+  <data name="Sidebar.planning.duration" xml:space="preserve">
+    <value>تقدير المدة</value>
+  </data>
+  <data name="Sidebar.planning.wbs.editor" xml:space="preserve">
+    <value>محرر WBS</value>
+  </data>
+  <data name="Sidebar.planning.primavera.compare" xml:space="preserve">
+    <value>مقارنة بريمافيرا</value>
+  </data>
+  <data name="Sidebar.planning.primavera.results" xml:space="preserve">
+    <value>نتائج بريمافيرا</value>
+  </data>
+  <data name="Sidebar.settings.language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="Sidebar.excel.subdaily" xml:space="preserve">
+    <value>تقرير يومي فرعي</value>
+  </data>
+  <data name="Sidebar.planning.boq.activity" xml:space="preserve">
+    <value>مولد أنشطة BOQ</value>
+  </data>
+  <data name="Sidebar.home" xml:space="preserve">
+    <value>لوحة التحكم</value>
+  </data>
+  <data name="Sidebar.planning.wbs.browser" xml:space="preserve">
+    <value>قوالب WBS</value>
+  </data>
+</root>

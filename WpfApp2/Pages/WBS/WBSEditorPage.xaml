@@ -2,7 +2,8 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:wbs="clr-namespace:Som3a_WPF_UI.Services.WBS"
-      Title="WBS Editor"
+      xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.Title]}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -15,12 +16,12 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock Text="WBS Tree Editor" FontSize="20" FontWeight="SemiBold" Margin="0,0,12,12"/>
-            <Button Content="Export to Active Sheet" Command="{Binding ExportToExcelCommand}"
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.Heading]}" FontSize="20" FontWeight="SemiBold" Margin="0,0,12,12"/>
+            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.ExportToSheet]}" Command="{Binding ExportToExcelCommand}"
                     IsEnabled="{Binding HasTree}" Padding="12,6" Margin="0,0,6,12"/>
-            <Button Content="Export JSON" Command="{Binding ExportToJsonCommand}"
+            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.ExportJson]}" Command="{Binding ExportToJsonCommand}"
                     IsEnabled="{Binding HasTree}" Padding="12,6" Margin="0,0,6,12"/>
-            <Button Content="Export XML" Command="{Binding ExportToXmlCommand}"
+            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.ExportXml]}" Command="{Binding ExportToXmlCommand}"
                     IsEnabled="{Binding HasTree}" Padding="12,6" Margin="0,0,0,12"/>
         </StackPanel>
 
@@ -46,35 +47,46 @@
             </TreeView>
 
             <StackPanel Grid.Column="2">
-                <TextBlock Text="Node Details" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                <TextBlock Text="{Binding SelectedNode.Code, StringFormat='Code: {0}'}" Margin="0,0,0,2"/>
-                <TextBlock Text="{Binding SelectedNode.Name, StringFormat='Name: {0}'}" Margin="0,0,0,2"/>
-                <TextBlock Text="{Binding SelectedNode.Level, StringFormat='Level: {0}'}" Margin="0,0,0,2"/>
-                <TextBlock Text="{Binding SelectedNode.FullPath, StringFormat='Path: {0}'}"
-                           TextWrapping="Wrap" Margin="0,0,0,8" Foreground="{DynamicResource Brush.Text.Secondary}"/>
+                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.NodeDetails]}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                <TextBlock Margin="0,0,0,2">
+                    <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.CodeFormat]}"/>
+                    <Run Text="{Binding SelectedNode.Code}"/>
+                </TextBlock>
+                <TextBlock Margin="0,0,0,2">
+                    <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.NameFormat]}"/>
+                    <Run Text="{Binding SelectedNode.Name}"/>
+                </TextBlock>
+                <TextBlock Margin="0,0,0,2">
+                    <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.LevelFormat]}"/>
+                    <Run Text="{Binding SelectedNode.Level}"/>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,8" Foreground="{DynamicResource Brush.Text.Secondary}">
+                    <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.PathFormat]}"/>
+                    <Run Text="{Binding SelectedNode.FullPath}"/>
+                </TextBlock>
 
                 <TextBox Text="{Binding SelectedNode.Name, UpdateSourceTrigger=PropertyChanged}"
                          Margin="0,0,0,8" IsEnabled="{Binding SelectedNode, Converter={StaticResource NullToBoolConverter}}"/>
 
-                <Button Content="Rename" Command="{Binding RenameNodeCommand}"
+                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.Rename]}" Command="{Binding RenameNodeCommand}"
                         IsEnabled="{Binding SelectedNode, Converter={StaticResource NullToBoolConverter}}"
                         Margin="0,0,0,12" Padding="8,4"/>
 
                 <Separator Margin="0,0,0,12"/>
 
-                <TextBlock Text="Add Child Node" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.AddChildNode]}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
                 <TextBox Text="{Binding NewNodeName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
-                <Button Content="Add Child" Command="{Binding AddChildCommand}"
+                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.AddChild]}" Command="{Binding AddChildCommand}"
                         IsEnabled="{Binding CanAddChild}" Padding="8,4" Margin="0,0,0,12"/>
 
-                <Button Content="Remove Selected" Command="{Binding RemoveNodeCommand}"
+                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.RemoveSelected]}" Command="{Binding RemoveNodeCommand}"
                         IsEnabled="{Binding CanRemove}" Padding="8,4" Margin="0,0,0,12"/>
 
                 <Separator Margin="0,0,0,12"/>
 
-                <Button Content="Save as Template" Command="{Binding SaveAsTemplateCommand}"
+                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.SaveAsTemplate]}" Command="{Binding SaveAsTemplateCommand}"
                         IsEnabled="{Binding HasTree}" Padding="8,4" Margin="0,0,0,6"/>
-                <Button Content="Undo" Command="{Binding UndoCommand}"
+                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WBSEditorPage.Undo]}" Command="{Binding UndoCommand}"
                         IsEnabled="{Binding CanUndo}" Padding="8,4"/>
             </StackPanel>
         </Grid>

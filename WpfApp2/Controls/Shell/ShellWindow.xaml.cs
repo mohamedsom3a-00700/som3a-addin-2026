@@ -96,6 +96,15 @@ namespace Som3a_WPF_UI.Controls.Shell
 
             Loaded += OnShellLoaded;
             Closed += OnClosed;
+
+            ShellRTLManager.Instance.RegisterFlowElement(RootGrid, "ShellRootGrid");
+            ShellRTLManager.Instance.RegisterFlowElement(Sidebar, "ShellSidebar");
+            ShellRTLManager.Instance.RegisterFlowElement(Workspace, "ShellWorkspace");
+
+            if (Services.LocalizationBridgeService.Instance.IsRTL)
+            {
+                ShellRTLManager.Instance.ApplyLayout(true);
+            }
         }
 
         /// <summary>Gets the currently displayed page, if any.</summary>
@@ -219,6 +228,15 @@ namespace Som3a_WPF_UI.Controls.Shell
                 ThemeManager.Instance.ApplyTheme("Dark");
         }
 
+        private void OnLanguageToggle(object sender, RoutedEventArgs e)
+        {
+            var bridge = Services.LocalizationBridgeService.Instance;
+            var currentCode = bridge.CurrentLanguageCode;
+            var newCode = currentCode == "en-US" ? "ar-SA" : "en-US";
+            bridge.SetLanguage(newCode);
+            bridge.SaveLanguagePreference();
+        }
+
         private void OnMinimize(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
@@ -234,6 +252,11 @@ namespace Som3a_WPF_UI.Controls.Shell
         private void OnClose(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void OnHomeClick(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Instance.NavigateTo("home");
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

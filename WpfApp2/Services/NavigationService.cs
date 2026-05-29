@@ -41,7 +41,7 @@ namespace Som3a_WPF_UI.Services
 
         private static readonly Dictionary<string, int> CategoryOrder = new Dictionary<string, int>
         {
-            { "Home", 0 },
+            { "Dashboard", 0 },
             { "Planning", 1 },
             { "Analysis", 2 },
             { "Excel", 3 },
@@ -105,6 +105,7 @@ namespace Som3a_WPF_UI.Services
             var destination = new NavigationDestination
             {
                 Key = key,
+                ResourceKey = $"Sidebar.{key}",
                 Label = displayName,
                 Icon = icon,
                 Order = order,

@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Som3a_WPF_UI.Controls
 {
@@ -20,6 +21,14 @@ namespace Som3a_WPF_UI.Controls
 
         public static readonly DependencyProperty ErrorMessageProperty =
             DependencyProperty.Register(nameof(ErrorMessage), typeof(string), typeof(WidgetCard),
+                new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(WidgetCard),
+                new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(WidgetCard),
                 new PropertyMetadata(null));
 
         public string Title
@@ -44,6 +53,18 @@ namespace Som3a_WPF_UI.Controls
         {
             get => (string)GetValue(ErrorMessageProperty);
             set => SetValue(ErrorMessageProperty, value);
+        }
+
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
+        public object CommandParameter
+        {
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
         }
 
         static WidgetCard()

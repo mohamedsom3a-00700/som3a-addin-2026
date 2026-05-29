@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.Controls.Shell
 {
@@ -15,6 +16,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         private string _itemId;
         private bool _isEnabled = true;
         private int _priority;
+        private string _resourceKey;
 
         public string Key
         {
@@ -24,8 +26,27 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         public string Label
         {
-            get => _label;
+            get
+            {
+                if (_resourceKey != null)
+                {
+                    var translated = LocalizationBridgeService.Instance.GetString(_resourceKey);
+                    if (!string.IsNullOrEmpty(translated) && translated != _resourceKey)
+                        return translated;
+                }
+                return _label;
+            }
             set { _label = value; OnPropertyChanged(); }
+        }
+
+        public string ResourceKey
+        {
+            get => _resourceKey;
+            set
+            {
+                _resourceKey = value;
+                OnPropertyChanged(nameof(Label));
+            }
         }
 
         public string Icon
@@ -74,6 +95,11 @@ namespace Som3a_WPF_UI.Controls.Shell
         {
             get => _priority;
             set { _priority = value; OnPropertyChanged(); }
+        }
+
+        public void RefreshLabel()
+        {
+            OnPropertyChanged(nameof(Label));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

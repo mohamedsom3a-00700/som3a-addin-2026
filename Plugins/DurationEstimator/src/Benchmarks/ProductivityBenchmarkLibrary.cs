@@ -10,6 +10,7 @@ public class ProductivityBenchmarkLibrary : IBenchmarkLibrary
     public ProductivityBenchmarkLibrary()
     {
         ImportBuiltIn();
+        LoadCustom();
     }
 
     public ProductivityRate GetById(string id)
@@ -49,6 +50,12 @@ public class ProductivityBenchmarkLibrary : IBenchmarkLibrary
         var existing = _rates.FirstOrDefault(r => r.Id == rate.Id);
         if (existing == null)
             throw new KeyNotFoundException($"Productivity rate '{rate.Id}' not found.");
+
+        if (existing.IsBuiltIn)
+        {
+            rate.IsBuiltIn = true;
+            rate.IsActive = existing.IsActive;
+        }
 
         rate.Version = existing.Version + 1;
         _rates.Remove(existing);
@@ -108,12 +115,44 @@ public class ProductivityBenchmarkLibrary : IBenchmarkLibrary
                 }
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"ImportBuiltIn failed: {ex.Message}");
+        }
     }
 
     public IEnumerable<ProductivityRate> GetAllActive()
     {
         return _rates.Where(r => r.IsActive).OrderBy(r => r.TradeCategoryId).ThenBy(r => r.ActivityDescription);
+    }
+
+    private void LoadCustom()
+    {
+        try
+        {
+            var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Som3a", "DurationEstimator");
+            var path = Path.Combine(dir, "benchmarks.json");
+            if (!File.Exists(path)) return;
+
+            var json = File.ReadAllText(path);
+            var custom = JsonSerializer.Deserialize<List<ProductivityRate>>(json, JsonOptions);
+            if (custom != null)
+            {
+                foreach (var rate in custom)
+                {
+                    if (!_rates.Any(r => r.Id == rate.Id))
+                    {
+                        rate.IsBuiltIn = false;
+                        rate.IsActive = true;
+                        _rates.Add(rate);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"LoadCustom failed: {ex.Message}");
+        }
     }
 
     private void SaveCustom()
@@ -127,6 +166,9 @@ public class ProductivityBenchmarkLibrary : IBenchmarkLibrary
             var json = JsonSerializer.Serialize(custom, JsonOptions);
             File.WriteAllText(path, json);
         }
-        catch { }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"SaveCustom failed: {ex.Message}");
+        }
     }
 }

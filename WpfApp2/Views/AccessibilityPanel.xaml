@@ -1,6 +1,7 @@
 <UserControl x:Class="Som3a_WPF_UI.Views.AccessibilityPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -21,13 +22,13 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel SnapsToDevicePixels="True"
                                 UseLayoutRounding="True">
-                        <TextBlock Text="High Contrast Mode"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AccessibilityPanel.HighContrast]}"
                                    FontSize="14"
                                    FontWeight="SemiBold"
                                    Foreground="{DynamicResource Brush.Text.Primary}"
                                    SnapsToDevicePixels="True"
                                    UseLayoutRounding="True"/>
-                        <TextBlock Text="Increase contrast for better visibility"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AccessibilityPanel.HighContrastDescription]}"
                                    FontSize="12"
                                    Foreground="{DynamicResource Brush.Text.Secondary}"
                                    Margin="0,4,0,0"
@@ -57,13 +58,13 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel SnapsToDevicePixels="True"
                                 UseLayoutRounding="True">
-                        <TextBlock Text="Focus Indicator"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AccessibilityPanel.FocusIndicator]}"
                                    FontSize="14"
                                    FontWeight="SemiBold"
                                    Foreground="{DynamicResource Brush.Text.Primary}"
                                    SnapsToDevicePixels="True"
                                    UseLayoutRounding="True"/>
-                        <TextBlock Text="Show focus glow around selected elements"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AccessibilityPanel.FocusIndicatorDescription]}"
                                    FontSize="12"
                                    Foreground="{DynamicResource Brush.Text.Secondary}"
                                    Margin="0,4,0,0"

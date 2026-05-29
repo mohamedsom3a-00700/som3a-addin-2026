@@ -89,6 +89,7 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/TreeViewStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Controls/WidgetCardStyles.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/DashboardWidgetDataTemplates.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/MaterialIcons.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/MaterialControls.xaml"/>
 
@@ -96,6 +97,10 @@
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Controls/WindowButtonStyles.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ModernWindow.xaml"/>
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/WindowAnimations.xaml"/>
+
+        <!-- Font Resources -->
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Fonts/ArabicFonts.xaml"/>
+        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Fonts/FontFallback.xaml"/>
 
         <!-- Shell Styles -->
         <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ShellStyles.xaml"/>
@@ -112,6 +117,7 @@
     <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
     <conv:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
     <conv:NullToBoolConverter x:Key="NullToBoolConverter"/>
+    <conv:IntGreaterThanZeroConverter x:Key="IntGreaterThanZeroConverter"/>
     <conv:WBSNodeLevelStyleSelector x:Key="WBSNodeLevelStyleSelector"/>
     <conv:WindowStateConverter x:Key="WindowStateConverter"/>
     <conv:WindowStateToBoolConverter x:Key="WindowStateToBoolConverter"/>

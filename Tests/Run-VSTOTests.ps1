@@ -332,6 +332,8 @@ $windowTests = @(
     @{ ButtonLabel = "WBS Editor"; WindowTitle = ""; TaskId = "T037"; Description = "WBSEditorPage" }
     # Phase 22: Duration Estimator Plugin
     @{ ButtonLabel = "Duration Estimator"; WindowTitle = ""; TaskId = "T013"; Description = "DurationEstimatorPage" }
+    # Phase 24: Localization & RTL
+    @{ ButtonLabel = "Language Settings"; WindowTitle = ""; TaskId = "T012"; Description = "LanguagePage" }
 )
 
 if ($Quick) {
@@ -602,7 +604,231 @@ try {
             -Detail "COM automation not available" -Category "DurationEstimator"
     }
 
-    # Step 12: Final memory check
+    # Step 12: Dashboard & Home Page Test (Phase 23)
+    Write-Log "===== Dashboard & Home Page Test (Phase 23) ====="
+    $dashboardResults = @()
+    if ($auto) {
+        Write-Log "  Navigating to Home..."
+        $homeNav = $auto.OpenWindow("Home")
+        Write-Log "    OpenWindow(Home): $homeNav"
+        $dashboardOk = $homeNav -eq "OK"
+        Start-Sleep -Seconds 2
+
+        if ($dashboardOk) {
+            Take-Screenshot -Label "Dashboard_HomePage"
+
+            Write-Log "  Querying home page status..."
+            $homeStatus = $auto.GetHomePageStatus()
+            Write-Log "    GetHomePageStatus: $homeStatus"
+            $dashboardOk = $dashboardOk -and ($homeStatus -like "OK|*")
+            $homeStatusDetail = $homeStatus -replace "OK\|", ""
+
+            Write-Log "  Querying Recent Tools widget..."
+            $recentWidget = $auto.GetWidgetStatus("Recent Tools")
+            Write-Log "    GetWidgetStatus(Recent Tools): $recentWidget"
+            $dashboardOk = $dashboardOk -and ($recentWidget -like "OK|*")
+
+            Write-Log "  Querying AI Provider Status widget..."
+            $aiWidget = $auto.GetWidgetStatus("AI Providers")
+            Write-Log "    GetWidgetStatus(AI Providers): $aiWidget"
+
+            Write-Log "  Querying Performance widget..."
+            $perfWidget = $auto.GetWidgetStatus("Performance")
+            Write-Log "    GetWidgetStatus(Performance): $perfWidget"
+
+            Write-Log "  Querying Diagnostics widget..."
+            $diagWidget = $auto.GetWidgetStatus("Diagnostics")
+            Write-Log "    GetWidgetStatus(Diagnostics): $diagWidget"
+
+            Write-Log "  Testing Home icon navigation (re-navigate to home)..."
+            $reNav = $auto.OpenWindow("Home")
+            Write-Log "    Re-navigate Home: $reNav"
+            $dashboardOk = $dashboardOk -and ($reNav -eq "OK")
+
+            $dashboardResults += [PSCustomObject]@{
+                Test = "Dashboard Home Page Load"; Status = $(if ($homeNav -eq "OK") { "PASS" } else { "FAIL" })
+                Detail = "OpenWindow=$homeNav | Status=$homeStatusDetail"
+            }
+            $dashboardResults += [PSCustomObject]@{
+                Test = "Recent Tools Widget"; Status = $(if ($recentWidget -like "OK|*") { "PASS" } else { "FAIL" })
+                Detail = "Status=$recentWidget"
+            }
+            $dashboardResults += [PSCustomObject]@{
+                Test = "AI Provider Status Widget"; Status = $(if ($aiWidget -like "OK|*") { "PASS" } else { "FAIL" })
+                Detail = "Status=$aiWidget"
+            }
+            $dashboardResults += [PSCustomObject]@{
+                Test = "Performance Widget"; Status = $(if ($perfWidget -like "OK|*") { "PASS" } else { "FAIL" })
+                Detail = "Status=$perfWidget"
+            }
+            $dashboardResults += [PSCustomObject]@{
+                Test = "Diagnostics Widget"; Status = $(if ($diagWidget -like "OK|*") { "PASS" } else { "FAIL" })
+                Detail = "Status=$diagWidget"
+            }
+            $dashboardResults += [PSCustomObject]@{
+                Test = "Home Icon Navigation"; Status = $(if ($reNav -eq "OK") { "PASS" } else { "FAIL" })
+                Detail = "Re-navigate to Home=$reNav"
+            }
+        }
+
+        Add-Result -Doc $resultsDoc -TaskId "T023" -Name "Dashboard_HomePage" -Status $(if ($dashboardOk) { "pass" } else { "fail" }) `
+            -Detail "HomeNav=$homeNav | Status=$homeStatusDetail" -Category "Dashboard"
+        Add-Result -Doc $resultsDoc -TaskId "T023" -Name "Widget_RecentTools" -Status $(if ($recentWidget -like "OK|*") { "pass" } else { "fail" }) `
+            -Detail "$recentWidget" -Category "Dashboard"
+        Add-Result -Doc $resultsDoc -TaskId "T023" -Name "Widget_AIProvider" -Status $(if ($aiWidget -like "OK|*") { "pass" } else { "fail" }) `
+            -Detail "$aiWidget" -Category "Dashboard"
+        Add-Result -Doc $resultsDoc -TaskId "T023" -Name "Widget_Performance" -Status $(if ($perfWidget -like "OK|*") { "pass" } else { "fail" }) `
+            -Detail "$perfWidget" -Category "Dashboard"
+        Add-Result -Doc $resultsDoc -TaskId "T023" -Name "Widget_Diagnostics" -Status $(if ($diagWidget -like "OK|*") { "pass" } else { "fail" }) `
+            -Detail "$diagWidget" -Category "Dashboard"
+        Add-Result -Doc $resultsDoc -TaskId "T023" -Name "HomeIconNavigation" -Status $(if ($reNav -eq "OK") { "pass" } else { "fail" }) `
+            -Detail "Re-navigate to Home=$reNav" -Category "Dashboard"
+    } else {
+        Write-Log "  Skipped: COM automation not available" -Level "WARN"
+        Add-Result -Doc $resultsDoc -TaskId "T023" -Name "Dashboard_HomePage" -Status "skip" `
+            -Detail "COM automation not available" -Category "Dashboard"
+    }
+
+    # Step 13: Widget Click Tests (Phase 23)
+    Write-Log "===== Widget Click Tests (Phase 23) ====="
+    $widgetClickResults = @()
+    if ($auto) {
+        $widgetClickTests = @(
+            @{ Title = "Current Version"; ExpectedNav = "diagnostics" }
+            @{ Title = "Latest Updates"; ExpectedNav = "updates" }
+            @{ Title = "Recent Tools" }
+            @{ Title = "AI Providers" }
+            @{ Title = "Performance" }
+        )
+
+        foreach ($wct in $widgetClickTests) {
+            $wTitle = $wct.Title
+            # Re-navigate to Home before each click since previous widget click navigates away
+            $auto.OpenWindow("Home") | Out-Null
+            Start-Sleep -Milliseconds 200
+            Write-Log "  Clicking widget: '$wTitle'..."
+            $wcResult = $auto.WidgetClick($wTitle)
+            Write-Log "    WidgetClick($wTitle): $wcResult"
+            $wcOk = $wcResult -eq "OK"
+            Start-Sleep -Milliseconds 500
+
+            if ($wcOk) {
+                Write-Log "    [NAVIGATED] Widget '$wTitle' clicked successfully"
+            } else {
+                Write-Log "    [FAIL] Widget '$wTitle' click failed: $wcResult" -Level "WARN"
+            }
+            $widgetClickResults += [PSCustomObject]@{
+                Test = "WidgetClick_$($wTitle -replace ' ','')"; Status = $(if ($wcOk) { "PASS" } else { "FAIL" })
+                Detail = "WidgetClick($wTitle)=$wcResult"
+            }
+            Add-Result -Doc $resultsDoc -TaskId "T023" -Name "WidgetClick_$($wTitle -replace ' ','')" -Status $(if ($wcOk) { "pass" } else { "fail" }) `
+                -Detail "WidgetClick($wTitle)=$wcResult" -Category "Dashboard"
+        }
+
+        # Navigate back to Home after widget clicks
+        Write-Log "  Returning to Home after widget clicks..."
+        $auto.OpenWindow("Home") | Out-Null
+        Start-Sleep -Seconds 1
+    } else {
+        Write-Log "  Skipped: COM automation not available" -Level "WARN"
+        Add-Result -Doc $resultsDoc -TaskId "T023" -Name "WidgetClick_Suite" -Status "skip" `
+            -Detail "COM automation not available" -Category "Dashboard"
+    }
+
+    # Step 14: Localization & RTL Tests (Phase 24)
+    Write-Log "===== Localization & RTL Tests (Phase 24) ====="
+    $locResults = @()
+    if ($auto) {
+        # Navigate to Home first
+        $auto.OpenWindow("Home") | Out-Null
+        Start-Sleep -Seconds 1
+
+        # Test 1: Switch to Arabic
+        Write-Log "  Switching language to Arabic (ar-SA)..."
+        $loc1 = $auto.SwitchLanguage("ar-SA")
+        Write-Log "    SwitchLanguage(ar-SA): $loc1"
+        $locOk = $loc1 -eq "OK"
+        Start-Sleep -Milliseconds 1500
+        Take-Screenshot -Label "L10N_Arabic"
+
+        # Test 2: Verify RTL mode is active
+        Write-Log "  Verifying RTL mode..."
+        $loc2 = $auto.IsRTLMode()
+        Write-Log "    IsRTLMode: $loc2"
+        $locOk = $locOk -and ($loc2 -eq "TRUE")
+        Take-Screenshot -Label "L10N_RTL_Active"
+
+        # Test 3: Verify current language is Arabic
+        Write-Log "  Verifying current language..."
+        $loc3 = $auto.GetCurrentLanguage()
+        Write-Log "    GetCurrentLanguage: $loc3"
+        $locOk = $locOk -and ($loc3 -like "CODE:ar-SA*")
+
+        # Test 4: Navigate to Language settings page
+        Write-Log "  Navigating to Language settings..."
+        $loc4 = $auto.OpenWindow("Language Settings")
+        Write-Log "    OpenWindow(Language): $loc4"
+        $locOk = $locOk -and ($loc4 -eq "OK")
+        Start-Sleep -Seconds 1
+        Take-Screenshot -Label "L10N_LanguagePage_Arabic"
+
+        # Test 5: Switch back to English
+        Write-Log "  Switching language back to English (en-US)..."
+        $loc5 = $auto.SwitchLanguage("en-US")
+        Write-Log "    SwitchLanguage(en-US): $loc5"
+        $locOk = $locOk -and ($loc5 -eq "OK")
+        Start-Sleep -Milliseconds 1500
+        Take-Screenshot -Label "L10N_English"
+
+        # Test 6: Verify RTL is now off
+        Write-Log "  Verifying RTL is disabled..."
+        $loc6 = $auto.IsRTLMode()
+        Write-Log "    IsRTLMode: $loc6"
+        $locOk = $locOk -and ($loc6 -eq "FALSE")
+
+        # Test 7: Rapid language toggle (stress test)
+        Write-Log "  Rapid language toggle (10x)..."
+        $rapidLocOk = $true
+        for ($i = 0; $i -lt 10; $i++) {
+            $c = if ($i % 2 -eq 0) { "ar-SA" } else { "en-US" }
+            $r = $auto.SwitchLanguage($c)
+            if ($r -ne "OK") { $rapidLocOk = $false; Write-Log "    Rapid toggle $i ($c): $r" -Level "WARN" }
+            Start-Sleep -Milliseconds 300
+        }
+        # End on English
+        $auto.SwitchLanguage("en-US") | Out-Null
+        Start-Sleep -Milliseconds 500
+        Take-Screenshot -Label "L10N_AfterRapidToggle"
+
+        Add-Result -Doc $resultsDoc -TaskId "T017" -Name "L10N_SwitchToArabic" -Status $(if ($loc1 -eq "OK") { "pass" } else { "fail" }) `
+            -Detail "SwitchLanguage(ar-SA)=$loc1" -Category "Localization"
+        Add-Result -Doc $resultsDoc -TaskId "T020" -Name "L10N_RTLVerification" -Status $(if ($loc2 -eq "TRUE") { "pass" } else { "fail" }) `
+            -Detail "IsRTLMode=$loc2" -Category "Localization"
+        Add-Result -Doc $resultsDoc -TaskId "T017" -Name "L10N_GetCurrentLanguage" -Status $(if ($loc3 -like "CODE:ar-SA*") { "pass" } else { "fail" }) `
+            -Detail "GetCurrentLanguage=$loc3" -Category "Localization"
+        Add-Result -Doc $resultsDoc -TaskId "T012" -Name "L10N_LanguagePageNav" -Status $(if ($loc4 -eq "OK") { "pass" } else { "fail" }) `
+            -Detail "OpenWindow(Language)=$loc4" -Category "Localization"
+        Add-Result -Doc $resultsDoc -TaskId "T017" -Name "L10N_SwitchToEnglish" -Status $(if ($loc5 -eq "OK") { "pass" } else { "fail" }) `
+            -Detail "SwitchLanguage(en-US)=$loc5" -Category "Localization"
+        Add-Result -Doc $resultsDoc -TaskId "T020" -Name "L10N_RTLDisabled" -Status $(if ($loc6 -eq "FALSE") { "pass" } else { "fail" }) `
+            -Detail "IsRTLMode=$loc6" -Category "Localization"
+        Add-Result -Doc $resultsDoc -TaskId "T048" -Name "L10N_RapidToggle_10x" -Status $(if ($rapidLocOk) { "pass" } else { "warn" }) `
+            -Detail "10 rapid language toggles $(if ($rapidLocOk) { 'completed' } else { 'had failures' })" -Category "Localization"
+
+        $locResults += [PSCustomObject]@{ Test = "Switch to Arabic (ar-SA)"; Status = $(if ($loc1 -eq "OK") { "PASS" } else { "FAIL" }); Detail = "Result=$loc1" }
+        $locResults += [PSCustomObject]@{ Test = "RTL Mode Active"; Status = $(if ($loc2 -eq "TRUE") { "PASS" } else { "FAIL" }); Detail = "IsRTLMode=$loc2" }
+        $locResults += [PSCustomObject]@{ Test = "Current Language (ar-SA)"; Status = $(if ($loc3 -like "CODE:ar-SA*") { "PASS" } else { "FAIL" }); Detail = "GetCurrentLanguage=$loc3" }
+        $locResults += [PSCustomObject]@{ Test = "Language Page Navigation"; Status = $(if ($loc4 -eq "OK") { "PASS" } else { "FAIL" }); Detail = "OpenWindow(Language)=$loc4" }
+        $locResults += [PSCustomObject]@{ Test = "Switch to English (en-US)"; Status = $(if ($loc5 -eq "OK") { "PASS" } else { "FAIL" }); Detail = "Result=$loc5" }
+        $locResults += [PSCustomObject]@{ Test = "RTL Mode Disabled"; Status = $(if ($loc6 -eq "FALSE") { "PASS" } else { "FAIL" }); Detail = "IsRTLMode=$loc6" }
+        $locResults += [PSCustomObject]@{ Test = "Rapid Toggle 10x"; Status = $(if ($rapidLocOk) { "PASS" } else { "WARN" }); Detail = "Completed=$(if ($rapidLocOk) {'Yes'} else {'Had failures'})" }
+    } else {
+        Write-Log "  Skipped: COM automation not available" -Level "WARN"
+        Add-Result -Doc $resultsDoc -TaskId "T017" -Name "Localization_Suite" -Status "skip" `
+            -Detail "COM automation not available" -Category "Localization"
+    }
+
+    # Step 15: Final memory check
     $memFinal = Get-MemoryMB
     $memGrowth = if ($memBaseline -and $memFinal) { [math]::Round(($memFinal - $memBaseline) / $memBaseline * 100, 1) } else { "N/A" }
     $memGrowthStr = "$memGrowth pct growth"
@@ -646,6 +872,16 @@ Write-Log "`nWBS Settings Test Results:"
 $wbsResults | Format-Table -Property Test, Status, Detail -AutoSize
 Write-Log "`nDuration Estimator Test Results:"
 $deResults | Format-Table -Property Test, Status, Detail -AutoSize
+Write-Log "`nDashboard & Home Test Results (Phase 23):"
+$dashboardResults | Format-Table -Property Test, Status, Detail -AutoSize
+Write-Log "`nWidget Click Test Results (Phase 23):"
+$widgetClickResults | Format-Table -Property Test, Status, Detail -AutoSize
+Write-Log "`nLocalization & RTL Test Results (Phase 24):"
+$locResults | Format-Table -Property Test, Status, Detail -AutoSize
+
+$locOverall = if ($locResults.Count -eq 0) { $true } else { ($locResults | Where-Object { $_.Status -eq "FAIL" }).Count -eq 0 }
+if ($locOverall) { Write-Log "[PASS] Phase 24: All localization/rtl tests passed" }
+else { Write-Log "[FAIL] Phase 24: Some localization/rtl tests failed" -Level "WARN" }
 
 if ($overallPass) {
     Write-Log "`n[PASS] OVERALL: PASS" -Level "INFO"

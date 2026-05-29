@@ -28,5 +28,15 @@ namespace Som3a_Addin_2026
         string BoqDebug();
         string DeCalculateDuration(string activityId, decimal quantity, decimal rate, int crew, decimal hours);
         string DeSearchBenchmarks(string category, string query);
+
+        // Phase 23 — Dashboard & Home
+        string GetHomePageStatus();
+        string GetWidgetStatus(string widgetName);
+        string WidgetClick(string widgetTitle);
+
+        // Phase 24 — Localization & RTL
+        string SwitchLanguage(string cultureCode);
+        string GetCurrentLanguage();
+        string IsRTLMode();
     }
 }

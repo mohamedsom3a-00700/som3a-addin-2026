@@ -92,6 +92,8 @@ namespace Som3a_WPF_UI
             container.RegisterSingleton<IValidationEngine, ValidationEngine>();
             container.RegisterSingleton<DiagnosticsViewModel, DiagnosticsViewModel>();
 
+            container.RegisterTransient<ViewModels.Settings.LanguagePageViewModel, ViewModels.Settings.LanguagePageViewModel>();
+
             container.RegisterSingleton<ISidebarRegistrationProvider, SidebarRegistrationService>();
             container.RegisterSingleton<Som3a_WPF_UI.Contracts.IModuleRegistry, PluginRegistry>();
             container.RegisterSingleton<PluginLoader, PluginLoader>();

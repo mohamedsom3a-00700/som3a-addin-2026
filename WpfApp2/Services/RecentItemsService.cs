@@ -26,12 +26,30 @@ namespace Som3a_WPF_UI.Services
 
         public IReadOnlyList<RecentItem> GetRecentTools()
         {
-            return _store.RecentTools?.AsReadOnly() ?? new List<RecentItem>().AsReadOnly();
+            _semaphore.Wait();
+            try
+            {
+                var copy = _store.RecentTools?.ToList() ?? new List<RecentItem>();
+                return copy.AsReadOnly();
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         public IReadOnlyList<RecentItem> GetRecentProjects()
         {
-            return _store.RecentProjects?.AsReadOnly() ?? new List<RecentItem>().AsReadOnly();
+            _semaphore.Wait();
+            try
+            {
+                var copy = _store.RecentProjects?.ToList() ?? new List<RecentItem>();
+                return copy.AsReadOnly();
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         public void AddRecentTool(string toolId, string displayName)

@@ -1,30 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTOResults>
-  <summary total="26" passed="25" failed="0" skipped="1" />
-  <test id="T037" name="AddInLoaded" status="pass" category="Setup" detail="Add-in Som3a Addin 2026 found in COMAddIns" timestamp="2026-05-27T21:50:11.8317233+03:00" />
-  <test id="T037" name="ComAutomation" status="pass" category="Setup" detail="COM automation interface connected" timestamp="2026-05-27T21:50:15.4118183+03:00" />
-  <test id="T054" name="MemoryBaseline" status="pass" category="Memory" detail="Working set: 379.2 MB at startup" timestamp="2026-05-27T21:50:16.3702333+03:00" />
-  <test id="T037-T046" name="Window_Som3a Add-in" status="pass" category="Window" detail="Navigated in 994ms, mem delta: 101.8MB" timestamp="2026-05-27T21:50:18.4947427+03:00" />
-  <test id="T037-T046" name="Window_Comparison P6 Activity" status="pass" category="Window" detail="Navigated in 25ms, mem delta: 8.5MB" timestamp="2026-05-27T21:50:19.8130839+03:00" />
-  <test id="T037" name="Window_Trades Codes" status="pass" category="Window" detail="Navigated in 32ms, mem delta: 5.09999999999991MB" timestamp="2026-05-27T21:50:21.1047766+03:00" />
-  <test id="T037" name="Window_Daily Report" status="pass" category="Window" detail="Navigated in 28ms, mem delta: 0.300000000000068MB" timestamp="2026-05-27T21:50:22.3989001+03:00" />
-  <test id="T037" name="Window_Links Manager" status="pass" category="Window" detail="Navigated in 25ms, mem delta: 0MB" timestamp="2026-05-27T21:50:23.6896513+03:00" />
-  <test id="T037" name="Window_Project Analysis" status="pass" category="Window" detail="Navigated in 36ms, mem delta: 0.299999999999955MB" timestamp="2026-05-27T21:50:25.0075963+03:00" />
-  <test id="T037" name="Window_XER Editor" status="pass" category="Window" detail="Navigated in 14ms, mem delta: 3.39999999999998MB" timestamp="2026-05-27T21:50:26.3177919+03:00" />
-  <test id="T037" name="Window_WBS Color Styles" status="pass" category="Window" detail="Navigated in 16ms, mem delta: 1.20000000000005MB" timestamp="2026-05-27T21:50:27.5751160+03:00" />
-  <test id="T037" name="Window_Unmerge Fill Down" status="pass" category="Window" detail="Navigated in 18ms, mem delta: 0.100000000000023MB" timestamp="2026-05-27T21:50:28.8460755+03:00" />
-  <test id="T037" name="Window_Float Path Analyzer" status="pass" category="Window" detail="Navigated in 42ms, mem delta: 4.10000000000002MB" timestamp="2026-05-27T21:50:30.1320603+03:00" />
-  <test id="T037" name="Window_Fix Pie Chart Colors" status="pass" category="Window" detail="Navigated in 43ms, mem delta: 1.10000000000002MB" timestamp="2026-05-27T21:50:31.5117126+03:00" />
-  <test id="T040" name="Window_Primavera Compare" status="pass" category="Window" detail="Navigated in 27ms, mem delta: 3.60000000000002MB" timestamp="2026-05-27T21:50:32.7760117+03:00" />
-  <test id="T037" name="Window_Settings" status="pass" category="Window" detail="Navigated in 4190ms, mem delta: -1.19999999999993MB" timestamp="2026-05-27T21:50:39.7930003+03:00" />
-  <test id="T017" name="Window_BOQ Activity Generator" status="pass" category="Window" detail="Navigated in 38ms, mem delta: 4.79999999999995MB" timestamp="2026-05-27T21:50:41.0259717+03:00" />
-  <test id="T037" name="Window_WBS Template Browser" status="pass" category="Window" detail="Navigated in 19ms, mem delta: 0.300000000000068MB" timestamp="2026-05-27T21:50:42.2395725+03:00" />
-  <test id="T037" name="Window_WBS Generator" status="pass" category="Window" detail="Navigated in 40ms, mem delta: 0.100000000000023MB" timestamp="2026-05-27T21:50:43.5026091+03:00" />
-  <test id="T037" name="Window_WBS Editor" status="pass" category="Window" detail="Navigated in 16ms, mem delta: 0.0999999999999091MB" timestamp="2026-05-27T21:50:44.7276815+03:00" />
-  <test id="T042" name="ThemeSwitch_Dark" status="pass" category="Theme" detail="Theme switch in 1160ms, result: OK" timestamp="2026-05-27T21:50:46.4228114+03:00" />
-  <test id="T042" name="ThemeSwitch_Light" status="pass" category="Theme" detail="Theme switch in 1496ms, result: OK" timestamp="2026-05-27T21:50:47.9509977+03:00" />
-  <test id="T042" name="ThemeSwitch_Custom" status="pass" category="Theme" detail="Theme switch in 1262ms, result: OK" timestamp="2026-05-27T21:50:49.2511026+03:00" />
-  <test id="T048" name="RapidThemeSwitch_10x" status="pass" category="Theme" detail="10 rapid switches completed, memory: 571.5 MB" timestamp="2026-05-27T21:50:52.0883783+03:00" />
-  <test id="T037" name="WBSSettings_AlphaMode" status="pass" category="WBS" detail="Alpha mode=OK | BlueGradient=OK | Verify=OK|Mode:Alpha|ExportStyle:Blue Gradient|SelectedStyleId:2 | Nav=OK" timestamp="2026-05-27T21:50:53.4935599+03:00" />
-  <test id="T054" name="MemoryStability" status="warn" category="Memory" detail="Memory growth: 51.6pct (baseline: 379.2MB, final: 574.9MB)" timestamp="2026-05-27T21:50:53.5440756+03:00" />
+  <summary total="47" passed="46" failed="0" skipped="1" />
+  <test id="T037" name="AddInLoaded" status="pass" category="Setup" detail="Add-in Som3a Addin 2026 found in COMAddIns" timestamp="2026-05-29T22:22:50.0920518+03:00" />
+  <test id="T037" name="ComAutomation" status="pass" category="Setup" detail="COM automation interface connected" timestamp="2026-05-29T22:22:53.1412755+03:00" />
+  <test id="T054" name="MemoryBaseline" status="pass" category="Memory" detail="Working set: 372.5 MB at startup" timestamp="2026-05-29T22:22:53.5867782+03:00" />
+  <test id="T037-T046" name="Window_Som3a Add-in" status="pass" category="Window" detail="Navigated in 503ms, mem delta: 73.4MB" timestamp="2026-05-29T22:22:54.9131868+03:00" />
+  <test id="T037-T046" name="Window_Comparison P6 Activity" status="pass" category="Window" detail="Navigated in 53ms, mem delta: 19.4MB" timestamp="2026-05-29T22:22:56.1344450+03:00" />
+  <test id="T037" name="Window_Trades Codes" status="pass" category="Window" detail="Navigated in 12ms, mem delta: 7.5MB" timestamp="2026-05-29T22:22:57.2658044+03:00" />
+  <test id="T037" name="Window_Daily Report" status="pass" category="Window" detail="Navigated in 14ms, mem delta: 0.799999999999955MB" timestamp="2026-05-29T22:22:58.4214537+03:00" />
+  <test id="T037" name="Window_Links Manager" status="pass" category="Window" detail="Navigated in 18ms, mem delta: 0.200000000000045MB" timestamp="2026-05-29T22:22:59.5808174+03:00" />
+  <test id="T037" name="Window_Project Analysis" status="pass" category="Window" detail="Navigated in 32ms, mem delta: 0.100000000000023MB" timestamp="2026-05-29T22:23:00.7632865+03:00" />
+  <test id="T037" name="Window_XER Editor" status="pass" category="Window" detail="Navigated in 8ms, mem delta: 0.200000000000045MB" timestamp="2026-05-29T22:23:01.9020323+03:00" />
+  <test id="T037" name="Window_WBS Color Styles" status="pass" category="Window" detail="Navigated in 10ms, mem delta: 2.89999999999998MB" timestamp="2026-05-29T22:23:03.0446116+03:00" />
+  <test id="T037" name="Window_Unmerge Fill Down" status="pass" category="Window" detail="Navigated in 8ms, mem delta: 1MB" timestamp="2026-05-29T22:23:04.1856725+03:00" />
+  <test id="T037" name="Window_Float Path Analyzer" status="pass" category="Window" detail="Navigated in 20ms, mem delta: 6.39999999999998MB" timestamp="2026-05-29T22:23:05.3401639+03:00" />
+  <test id="T037" name="Window_Fix Pie Chart Colors" status="pass" category="Window" detail="Navigated in 12ms, mem delta: 0.800000000000068MB" timestamp="2026-05-29T22:23:06.4835871+03:00" />
+  <test id="T040" name="Window_Primavera Compare" status="pass" category="Window" detail="Navigated in 19ms, mem delta: 4.60000000000002MB" timestamp="2026-05-29T22:23:07.6380810+03:00" />
+  <test id="T037" name="Window_Settings" status="pass" category="Window" detail="Navigated in 5879ms, mem delta: 17MB" timestamp="2026-05-29T22:23:14.7157632+03:00" />
+  <test id="T017" name="Window_BOQ Activity Generator" status="pass" category="Window" detail="Navigated in 23ms, mem delta: 4.89999999999998MB" timestamp="2026-05-29T22:23:15.8552849+03:00" />
+  <test id="T037" name="Window_WBS Template Browser" status="pass" category="Window" detail="Navigated in 8ms, mem delta: 0.200000000000045MB" timestamp="2026-05-29T22:23:17.0063232+03:00" />
+  <test id="T037" name="Window_WBS Generator" status="pass" category="Window" detail="Navigated in 7ms, mem delta: 0.199999999999932MB" timestamp="2026-05-29T22:23:18.1411740+03:00" />
+  <test id="T037" name="Window_WBS Editor" status="pass" category="Window" detail="Navigated in 10ms, mem delta: 0MB" timestamp="2026-05-29T22:23:19.2919397+03:00" />
+  <test id="T013" name="Window_Duration Estimator" status="pass" category="Window" detail="Navigated in 20ms, mem delta: 0.100000000000023MB" timestamp="2026-05-29T22:23:20.4334650+03:00" />
+  <test id="T012" name="Window_Language Settings" status="pass" category="Window" detail="Navigated in 15ms, mem delta: 11.4MB" timestamp="2026-05-29T22:23:21.6089784+03:00" />
+  <test id="T042" name="ThemeSwitch_Dark" status="pass" category="Theme" detail="Theme switch in 1096ms, result: OK" timestamp="2026-05-29T22:23:23.2388114+03:00" />
+  <test id="T042" name="ThemeSwitch_Light" status="pass" category="Theme" detail="Theme switch in 1183ms, result: OK" timestamp="2026-05-29T22:23:24.4379665+03:00" />
+  <test id="T042" name="ThemeSwitch_Custom" status="pass" category="Theme" detail="Theme switch in 1145ms, result: OK" timestamp="2026-05-29T22:23:25.6032436+03:00" />
+  <test id="T048" name="RapidThemeSwitch_10x" status="pass" category="Theme" detail="10 rapid switches completed, memory: 644.5 MB" timestamp="2026-05-29T22:23:28.4820600+03:00" />
+  <test id="T037" name="WBSSettings_AlphaMode" status="pass" category="WBS" detail="Alpha mode=OK | BlueGradient=OK | Verify=OK|Mode:Alpha|ExportStyle:Blue Gradient|SelectedStyleId:2 | Nav=OK" timestamp="2026-05-29T22:23:29.6285369+03:00" />
+  <test id="T013" name="DurationEstimator_Load" status="pass" category="DurationEstimator" detail="Nav=OK | Calc=OK|Estimates:1 | Bench=OK|Benchmarks:5" timestamp="2026-05-29T22:23:30.7806439+03:00" />
+  <test id="T023" name="Dashboard_HomePage" status="pass" category="Dashboard" detail="HomeNav=OK | Status=WidgetCount:9|IsLoading:False|Loaded:9|Errored:2" timestamp="2026-05-29T22:23:32.9125163+03:00" />
+  <test id="T023" name="Widget_RecentTools" status="pass" category="Dashboard" detail="OK|Title:Recent Tools|Icon:󰉋|IsLoading:False|IsLoaded:True|Error:(none)" timestamp="2026-05-29T22:23:32.9125163+03:00" />
+  <test id="T023" name="Widget_AIProvider" status="pass" category="Dashboard" detail="OK|Title:AI Providers|Icon:󰁨|IsLoading:False|IsLoaded:True|Error:No AI providers configured" timestamp="2026-05-29T22:23:32.9135168+03:00" />
+  <test id="T023" name="Widget_Performance" status="pass" category="Dashboard" detail="OK|Title:Performance|Icon:󰔠|IsLoading:False|IsLoaded:True|Error:(none)" timestamp="2026-05-29T22:23:32.9135168+03:00" />
+  <test id="T023" name="Widget_Diagnostics" status="pass" category="Dashboard" detail="OK|Title:Diagnostics|Icon:󰈉|IsLoading:False|IsLoaded:True|Error:(none)" timestamp="2026-05-29T22:23:32.9155195+03:00" />
+  <test id="T023" name="HomeIconNavigation" status="pass" category="Dashboard" detail="Re-navigate to Home=OK" timestamp="2026-05-29T22:23:32.9155195+03:00" />
+  <test id="T023" name="WidgetClick_CurrentVersion" status="pass" category="Dashboard" detail="WidgetClick(Current Version)=OK" timestamp="2026-05-29T22:23:33.6732225+03:00" />
+  <test id="T023" name="WidgetClick_LatestUpdates" status="pass" category="Dashboard" detail="WidgetClick(Latest Updates)=OK" timestamp="2026-05-29T22:23:35.8089291+03:00" />
+  <test id="T023" name="WidgetClick_RecentTools" status="pass" category="Dashboard" detail="WidgetClick(Recent Tools)=OK" timestamp="2026-05-29T22:23:36.5422195+03:00" />
+  <test id="T023" name="WidgetClick_AIProviders" status="pass" category="Dashboard" detail="WidgetClick(AI Providers)=OK" timestamp="2026-05-29T22:23:37.4481025+03:00" />
+  <test id="T023" name="WidgetClick_Performance" status="pass" category="Dashboard" detail="WidgetClick(Performance)=OK" timestamp="2026-05-29T22:23:38.1804670+03:00" />
+  <test id="T017" name="L10N_SwitchToArabic" status="pass" category="Localization" detail="SwitchLanguage(ar-SA)=OK" timestamp="2026-05-29T22:23:48.3584988+03:00" />
+  <test id="T020" name="L10N_RTLVerification" status="pass" category="Localization" detail="IsRTLMode=TRUE" timestamp="2026-05-29T22:23:48.3584988+03:00" />
+  <test id="T017" name="L10N_GetCurrentLanguage" status="pass" category="Localization" detail="GetCurrentLanguage=CODE:ar-SA|RTL:True" timestamp="2026-05-29T22:23:48.3594996+03:00" />
+  <test id="T012" name="L10N_LanguagePageNav" status="pass" category="Localization" detail="OpenWindow(Language)=OK" timestamp="2026-05-29T22:23:48.3605003+03:00" />
+  <test id="T017" name="L10N_SwitchToEnglish" status="pass" category="Localization" detail="SwitchLanguage(en-US)=OK" timestamp="2026-05-29T22:23:48.3640195+03:00" />
+  <test id="T020" name="L10N_RTLDisabled" status="pass" category="Localization" detail="IsRTLMode=FALSE" timestamp="2026-05-29T22:23:48.3650197+03:00" />
+  <test id="T048" name="L10N_RapidToggle_10x" status="pass" category="Localization" detail="10 rapid language toggles completed" timestamp="2026-05-29T22:23:48.3660207+03:00" />
+  <test id="T054" name="MemoryStability" status="warn" category="Memory" detail="Memory growth: 58.8pct (baseline: 372.5MB, final: 591.5MB)" timestamp="2026-05-29T22:23:48.3835338+03:00" />
 </VSTOResults>

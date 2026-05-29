@@ -34,8 +34,13 @@ namespace Som3a_WPF_UI.Services
 
     public sealed class ThemeManager
     {
+        /// <summary>Captures the last InitializeApplicationResources error for diagnostics.</summary>
+        public static string InitializationError { get; private set; }
+
         public static void InitializeApplicationResources()
         {
+            InitializationError = null;
+
             if (Application.Current == null)
             {
                 new Application
@@ -53,17 +58,24 @@ namespace Som3a_WPF_UI.Services
             {
                 try
                 {
-                    var themeDict = new ResourceDictionary
-                    {
-                        Source = new Uri(
-                            "/Som3a_WPF_UI;component/Theme/ThemeResources.xaml",
-                            UriKind.Relative)
-                    };
-                    Application.Current.Resources.MergedDictionaries.Add(themeDict);
+                    var uri = new Uri("/Som3a_WPF_UI;component/Theme/ThemeResources.xaml", UriKind.Relative);
+                    var dict = new ResourceDictionary { Source = uri };
+                    Application.Current.Resources.MergedDictionaries.Add(dict);
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] Failed to load ThemeResources: {ex.Message}");
+                    InitializationError = $"[ThemeResources.xaml] {ex.GetType().Name}: {ex.Message} | Inner: {ex.InnerException?.GetType().Name}: {ex.InnerException?.Message}";
+                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] Failed to load ThemeResources: {InitializationError}");
+
+                    // Fallback: try loading individual resource dictionaries
+                    try
+                    {
+                        LoadIndividualThemeResources();
+                    }
+                    catch (Exception fallbackEx)
+                    {
+                        InitializationError += $" | Fallback failed: {fallbackEx.Message}";
+                    }
                 }
             }
 
@@ -76,18 +88,101 @@ namespace Som3a_WPF_UI.Services
             {
                 try
                 {
-                    var darkDict = new ResourceDictionary
-                    {
-                        Source = new Uri(
-                            "/Som3a_WPF_UI;component/Theme/Dark/DarkTheme.xaml",
-                            UriKind.Relative)
-                    };
-                    Application.Current.Resources.MergedDictionaries.Add(darkDict);
+                    var uri = new Uri("/Som3a_WPF_UI;component/Theme/Dark/DarkTheme.xaml", UriKind.Relative);
+                    var dict = new ResourceDictionary { Source = uri };
+                    Application.Current.Resources.MergedDictionaries.Add(dict);
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine($"[ThemeManager] Failed to load DarkTheme: {ex.Message}");
                 }
+            }
+        }
+
+        private static void LoadIndividualThemeResources()
+        {
+            var uris = new[]
+            {
+                "/Som3a_WPF_UI;component/Theme/Base/Colors.xaml",
+                "/Som3a_WPF_UI;component/Theme/Base/Typography.xaml",
+                "/Som3a_WPF_UI;component/Theme/Base/Spacing.xaml",
+                "/Som3a_WPF_UI;component/Theme/Base/Radius.xaml",
+                "/Som3a_WPF_UI;component/Theme/Base/Elevation.xaml",
+                "/Som3a_WPF_UI;component/Theme/Base/Motion.xaml",
+                "/Som3a_WPF_UI;component/Theme/Base/ZIndex.xaml",
+                "/Som3a_WPF_UI;component/Theme/Base/Opacity.xaml",
+                "/Som3a_WPF_UI;component/Theme/Base/ComponentTokens.xaml",
+                "/Som3a_WPF_UI;component/Theme/MaterialIntegration.xaml",
+                "/Som3a_WPF_UI;component/Theme/Effects/Shadows.xaml",
+                "/Som3a_WPF_UI;component/Theme/Effects/Glow.xaml",
+                "/Som3a_WPF_UI;component/Theme/Effects/Backdrop.xaml",
+                "/Som3a_WPF_UI;component/Theme/Effects/Animations.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/ButtonStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/AccentSwatchStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/ThemeCardStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/TextBoxStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/ComboBoxStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/DataGridStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/ListViewStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/ScrollBarStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/CheckBoxStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/RadioButtonStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/ToggleButtonStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/ScrollViewerStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/WindowStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/GroupBoxStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/LabelStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/ListViewItemStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/ComboBoxItemStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/ProgressBarStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/PasswordBoxStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/TreeViewStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml",
+                "/Som3a_WPF_UI;component/Controls/WidgetCardStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/DashboardWidgetDataTemplates.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/MaterialIcons.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/MaterialControls.xaml",
+                "/Som3a_WPF_UI;component/Theme/Controls/WindowButtonStyles.xaml",
+                "/Som3a_WPF_UI;component/Theme/ModernWindow.xaml",
+                "/Som3a_WPF_UI;component/Theme/WindowAnimations.xaml",
+                "/Som3a_WPF_UI;component/Theme/ShellStyles.xaml",
+            };
+
+            foreach (var relativeUri in uris)
+            {
+                try
+                {
+                    var dict = new ResourceDictionary { Source = new Uri(relativeUri, UriKind.Relative) };
+                    Application.Current.Resources.MergedDictionaries.Add(dict);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ThemeManager] Fallback: failed {relativeUri}: {ex.Message}");
+                }
+            }
+
+            // Add converters directly to application resources
+            try
+            {
+                Application.Current.Resources["ProgressWidthConverter"] = new Converters.ProgressWidthConverter();
+                Application.Current.Resources["PercentToScaleConverter"] = new Converters.PercentToScaleConverter();
+                Application.Current.Resources["BoolToVisibilityConverter"] = new Converters.BoolToVisibilityConverter();
+                Application.Current.Resources["InverseBoolToVisibilityConverter"] = new Converters.InverseBoolToVisibilityConverter();
+                Application.Current.Resources["NullToVisibilityConverter"] = new Converters.NullToVisibilityConverter();
+                Application.Current.Resources["InverseBoolConverter"] = new Converters.InverseBoolConverter();
+                Application.Current.Resources["StringToVisibilityConverter"] = new Converters.StringToVisibilityConverter();
+                Application.Current.Resources["CountToVisibilityConverter"] = new Converters.CountToVisibilityConverter();
+                Application.Current.Resources["NullToBoolConverter"] = new Converters.NullToBoolConverter();
+                Application.Current.Resources["IntGreaterThanZeroConverter"] = new Converters.IntGreaterThanZeroConverter();
+                Application.Current.Resources["WBSNodeLevelStyleSelector"] = new Converters.WBSNodeLevelStyleSelector();
+                Application.Current.Resources["WindowStateConverter"] = new Converters.WindowStateConverter();
+                Application.Current.Resources["WindowStateToBoolConverter"] = new Converters.WindowStateToBoolConverter();
+                Application.Current.Resources["InverseWindowStateConverter"] = new Converters.InverseWindowStateConverter();
+                Application.Current.Resources["MaterialIconConverter"] = new Converters.MaterialIconConverter();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[ThemeManager] Fallback converters failed: {ex.Message}");
             }
         }
 

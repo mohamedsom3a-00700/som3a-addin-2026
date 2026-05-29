@@ -38,13 +38,22 @@ public class TradeCategoryRegistry : ITradeCategoryRegistry
 
     private readonly List<TradeCategory> _categories = new(BuiltInCategories);
 
-    public IEnumerable<TradeCategory> GetAll() => _categories.OrderBy(c => c.DisplayOrder);
+    public IEnumerable<TradeCategory> GetAll() =>
+        _categories.OrderBy(c => c.DisplayOrder).Select(c => Clone(c));
 
     public TradeCategory GetById(string id)
     {
         var category = _categories.FirstOrDefault(c => c.Id == id);
         if (category == null)
             throw new KeyNotFoundException($"Trade category '{id}' not found.");
-        return category;
+        return Clone(category);
     }
+
+    private static TradeCategory Clone(TradeCategory c) => new()
+    {
+        Id = c.Id,
+        Name = c.Name,
+        DisplayOrder = c.DisplayOrder,
+        IsBuiltIn = c.IsBuiltIn
+    };
 }

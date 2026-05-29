@@ -5,7 +5,8 @@
                         xmlns:models="clr-namespace:Som3a.Shared.Models;assembly=Som3a.Shared"
                         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
                         xmlns:local="clr-namespace:Som3a_WPF_UI"
-                        Title="Float Path Analyzer"
+                        xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+                        Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.Title]}"
                         WindowState="Maximized"
                         MinWidth="1200"
                         MinHeight="700"
@@ -68,7 +69,7 @@
 
                 <!-- TITLE -->
 
-                <TextBlock Text="Float Path Analyzer"
+                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.Heading]}"
                            Foreground="{DynamicResource TextMainBrush}"
                            FontSize="14"
                            FontWeight="SemiBold"
@@ -138,7 +139,7 @@
 
                                 <StackPanel>
 
-                                    <TextBlock Text="Project"
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.Project]}"
                                                FontSize="13"
                                                Foreground="{DynamicResource TextSubBrush}"/>
 
@@ -154,13 +155,13 @@
 
                             <!-- LOAD -->
 
-                            <TextBlock Text="Load Primavera XER"
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.LoadXer]}"
                                        FontWeight="SemiBold"
                                        FontSize="15"
                                        Foreground="{DynamicResource TextMainBrush}"
                                        Margin="0,0,0,10"/>
 
-                            <Button Content="Browse XER File"
+                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.BrowseXer]}"
                                     Command="{Binding LoadXerCommand}"
                                     Style="{DynamicResource PrimaryButton}"
                                     Height="42"
@@ -178,7 +179,7 @@
 
                                     <!-- ACTIVITY -->
 
-                                    <TextBlock Text="Select Activity"
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.SelectActivity]}"
                                                Foreground="{DynamicResource TextMainBrush}"
                                                Margin="0,0,0,6"/>
 
@@ -190,7 +191,7 @@
 
                                     <!-- PATH COUNT -->
 
-                                    <TextBlock Text="Number of Paths"
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.NumberOfPaths]}"
                                                Foreground="{DynamicResource TextMainBrush}"
                                                Margin="0,0,0,6"/>
 
@@ -200,7 +201,7 @@
 
                                     <!-- MAX DEPTH -->
 
-                                    <TextBlock Text="Max Path Depth"
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.MaxPathDepth]}"
                                                Foreground="{DynamicResource TextMainBrush}"
                                                Margin="0,0,0,6"/>
 
@@ -210,13 +211,13 @@
 
                                     <!-- CHECK -->
 
-                                    <CheckBox Content="Highlight Critical Path"
+                                    <CheckBox Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.HighlightCritical]}"
                                               IsChecked="{Binding HighlightCritical}"
                                               Margin="0,0,0,16"/>
 
                                     <!-- RUN -->
 
-                                    <Button Content="Run Float Path"
+                                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.RunFloatPath]}"
                                             Command="{Binding RunCommand}"
                                             Style="{DynamicResource PrimaryButton}"
                                             Height="42"/>
@@ -227,7 +228,7 @@
 
                             <!-- VIEW MODE -->
 
-                            <TextBlock Text="View Mode"
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.ViewMode]}"
                                        FontWeight="SemiBold"
                                        FontSize="15"
                                        Foreground="{DynamicResource TextMainBrush}"
@@ -251,7 +252,7 @@
                                     <ProgressBar Height="20"
                                                  IsIndeterminate="{Binding IsLoading}"/>
 
-                                    <TextBlock Text="Processing..."
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathWindow.Processing]}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                Foreground="{DynamicResource TextMainBrush}"

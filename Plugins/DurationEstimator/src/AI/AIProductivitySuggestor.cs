@@ -92,7 +92,10 @@ public class AIProductivitySuggestor : IAIProductivitySuggestor
                     };
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"AIProductivitySuggestor failed for '{activityDescription}' ({tradeCategory}): {ex.Message}");
+            }
         }
 
         return null;

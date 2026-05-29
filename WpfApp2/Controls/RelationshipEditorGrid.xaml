@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
              mc:Ignorable="d"
              Background="{DynamicResource CardBrush}"
              SnapsToDevicePixels="True"
@@ -17,12 +18,12 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button x:Name="btnAddRow" Height="30"
-                    Content="+ Add Relationship"
+                    Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipEditorGrid.AddRelationship]}"
                     Style="{DynamicResource BaseButton}"
                     Click="btnAddRow_Click"
                     Margin="0,0,8,0"/>
             <Button x:Name="btnRemoveSelected" Height="30"
-                    Content="Remove Selected"
+                    Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipEditorGrid.RemoveSelected]}"
                     Style="{DynamicResource BaseButton}"
                     Click="btnRemoveSelected_Click"/>
         </StackPanel>
@@ -49,11 +50,11 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Predecessor" Width="120"
+                <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipEditorGrid.Predecessor]}" Width="120"
                                     Binding="{Binding PredecessorId, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Successor" Width="120"
+                <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipEditorGrid.Successor]}" Width="120"
                                     Binding="{Binding SuccessorId, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTemplateColumn Header="Type" Width="80">
+                <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipEditorGrid.Type]}" Width="80">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox SelectedItem="{Binding Type, UpdateSourceTrigger=PropertyChanged}"
@@ -64,13 +65,13 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Lag (days)" Width="80"
+                <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipEditorGrid.LagDays]}" Width="80"
                                     Binding="{Binding LagDays, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Rationale" Width="*"
+                <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipEditorGrid.Rationale]}" Width="*"
                                     Binding="{Binding Rationale}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Confidence" Width="80"
+                <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipEditorGrid.Confidence]}" Width="80"
                                     Binding="{Binding Confidence}" IsReadOnly="True"/>
-                <DataGridCheckBoxColumn Header="Accepted" Width="70"
+                <DataGridCheckBoxColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipEditorGrid.Accepted]}" Width="70"
                                         Binding="{Binding IsAccepted, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -81,7 +82,7 @@
                 Padding="8,4">
             <TextBlock x:Name="txtSummary"
                        Foreground="{DynamicResource TextSubBrush}"
-                       Text="No relationships defined."/>
+                       Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[RelationshipEditorGrid.EmptyState]}"/>
         </Border>
     </Grid>
 </UserControl>

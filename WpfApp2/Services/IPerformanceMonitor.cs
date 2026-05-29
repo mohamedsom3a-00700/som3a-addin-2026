@@ -8,6 +8,7 @@ namespace Som3a_WPF_UI.Services
         double LastNavigationTimeMs { get; }
         string LastNavigationTarget { get; }
         void RecordAppStart();
+        void CalculateStartupTime();
         void BeginNavigation(string targetKey);
         void EndNavigation();
         event EventHandler<PerformanceMetricsEventArgs> NavigationCompleted;

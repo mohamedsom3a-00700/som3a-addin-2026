@@ -36,8 +36,6 @@ namespace Som3a_WPF_UI.Controls
             InitializeWindow();
           // SetupAnimations();
             SetupCommands();
-
-            ThemeManager.Instance.LoadThemeFromSettings();
         }
 
         private void InitializeWindow()
@@ -111,9 +109,11 @@ namespace Som3a_WPF_UI.Controls
                 { "Shadow.Window", "Shadow.Window.Safe" },
                 { "Shadow.Card", "Shadow.Card.Safe" },
                 { "Shadow.Popup", "Shadow.Popup.Safe" },
+                { "Shadow.Large", "Shadow.Large.Safe" },
                 { "Elevation.Window", "Elevation.Window.Safe" },
                 { "Elevation.Card", "Elevation.Card.Safe" },
-                { "Elevation.Popup", "Elevation.Popup.Safe" }
+                { "Elevation.Popup", "Elevation.Popup.Safe" },
+                { "Elevation.Large", "Elevation.Large.Safe" }
             };
 
             foreach (var kvp in safeOverrides)
@@ -332,10 +332,14 @@ namespace Som3a_WPF_UI.Controls
 
         public void SetBackground(string imagePath, double blurIntensity)
         {
+            var helper = new System.Windows.Interop.WindowInteropHelper(this);
+            var hwnd = helper.Handle;
+
             if (string.IsNullOrEmpty(imagePath) || !System.IO.File.Exists(imagePath))
             {
                 Background = TryFindResource("Brush.Background.SolidFallback") as Brush
                     ?? new SolidColorBrush(Color.FromRgb(14, 23, 32));
+                DisableDwmBlur(hwnd);
                 return;
             }
 
@@ -343,11 +347,17 @@ namespace Som3a_WPF_UI.Controls
             {
                 var ext = System.IO.Path.GetExtension(imagePath).ToLowerInvariant();
                 if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".bmp")
+                {
+                    DisableDwmBlur(hwnd);
                     return;
+                }
 
                 var fileInfo = new System.IO.FileInfo(imagePath);
                 if (fileInfo.Length > 10 * 1024 * 1024)
+                {
+                    DisableDwmBlur(hwnd);
                     return;
+                }
 
                 var img = new System.Windows.Media.Imaging.BitmapImage();
                 img.BeginInit();
@@ -357,7 +367,10 @@ namespace Som3a_WPF_UI.Controls
                 img.Freeze();
 
                 if (img.PixelWidth > 4096 || img.PixelHeight > 4096)
+                {
+                    DisableDwmBlur(hwnd);
                     return;
+                }
 
                 var clampedBlur = Math.Max(0.0, Math.Min(1.0, blurIntensity));
                 ImageSource imageSource = img;
@@ -376,8 +389,6 @@ namespace Som3a_WPF_UI.Controls
 
                 Background = brush;
 
-                var helper = new System.Windows.Interop.WindowInteropHelper(this);
-                IntPtr hwnd = helper.Handle;
                 if (hwnd != IntPtr.Zero && hwnd != new IntPtr(-1))
                 {
                     DwmBlurService.EnableBlur(hwnd, 0.3);
@@ -388,6 +399,15 @@ namespace Som3a_WPF_UI.Controls
                 System.Diagnostics.Debug.WriteLine($"[ModernWindow] Failed to set background: {ex.Message}");
                 Background = TryFindResource("Brush.Background.SolidFallback") as Brush
                     ?? new SolidColorBrush(Color.FromRgb(14, 23, 32));
+                DisableDwmBlur(hwnd);
+            }
+        }
+
+        private void DisableDwmBlur(IntPtr hwnd)
+        {
+            if (hwnd != IntPtr.Zero && hwnd != new IntPtr(-1))
+            {
+                DwmBlurService.DisableBlur(hwnd);
             }
         }
 

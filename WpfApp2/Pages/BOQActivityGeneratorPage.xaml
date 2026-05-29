@@ -3,8 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
       mc:Ignorable="d"
-      Title="BOQ Activity Generator"
+      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.Title]}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -17,7 +18,7 @@
 
         <!-- TITLE BAR -->
         <Grid Grid.Row="0" Margin="{DynamicResource TitleBarMargin}">
-            <TextBlock Text="BOQ Activity Generator"
+            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.Heading]}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14" FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -55,19 +56,19 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Button x:Name="btnLoadBoq" Grid.Column="0" Height="34"
-                                Content="Load BOQ"
+                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.LoadBoq]}"
                                 Style="{DynamicResource BaseButton}"
                                 Click="btnLoadBoq_Click"/>
                         <TextBlock Grid.Column="2"
-                                   Text="Generate construction activities from BOQ data using AI"
+                                   Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.AiSubtitle]}"
                                    Foreground="{DynamicResource TextSubBrush}"
                                    VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                         <Button x:Name="btnGenerate" Grid.Column="3" Height="34"
-                                Content="Generate Activities"
+                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.GenerateActivities]}"
                                 Style="{DynamicResource PrimaryButton}"
                                 Click="btnGenerate_Click"/>
                         <Button x:Name="btnCancel" Grid.Column="5" Height="34"
-                                Content="Cancel"
+                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.Cancel]}"
                                 Style="{DynamicResource BaseButton}"
                                 Click="btnCancel_Click"
                                 Visibility="Collapsed"/>
@@ -76,7 +77,7 @@
                     <Grid Grid.Row="2">
                         <TabControl Background="Transparent"
                                     BorderThickness="0">
-                            <TabItem Header="BOQ Preview"
+                            <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorTab.BoqPreview]}"
                                      Foreground="{DynamicResource TextMainBrush}"
                                      Background="{DynamicResource CardBrush}">
                                 <DataGrid x:Name="dgBoqPreview"
@@ -90,15 +91,15 @@
                                           RowBackground="{DynamicResource CardBrush}"
                                           AlternatingRowBackground="{DynamicResource Brush.Background.Secondary}">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Item #" Binding="{Binding ItemNumber}" Width="80"/>
-                                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
-                                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="100"/>
-                                        <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="80"/>
-                                        <DataGridTextColumn Header="Classification" Binding="{Binding Classification}" Width="120"/>
+                                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.ItemNumber]}" Binding="{Binding ItemNumber}" Width="80"/>
+                                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.Description]}" Binding="{Binding Description}" Width="*"/>
+                                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.Quantity]}" Binding="{Binding Quantity}" Width="100"/>
+                                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.Unit]}" Binding="{Binding Unit}" Width="80"/>
+                                        <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.Classification]}" Binding="{Binding Classification}" Width="120"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </TabItem>
-                            <TabItem Header="Generated Activities"
+                            <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorTab.GeneratedActivities]}"
                                      Foreground="{DynamicResource TextMainBrush}"
                                      Background="{DynamicResource CardBrush}">
                                 <Grid>
@@ -109,11 +110,11 @@
                                     </Grid.RowDefinitions>
                                     <TextBlock x:Name="txtGenerationStatus" Grid.Row="0"
                                                Foreground="{DynamicResource TextSubBrush}"
-                                               Text="Click 'Generate Activities' to start."
+                                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.GenerateHint]}"
                                                Visibility="Visible"/>
                                     <TextBlock x:Name="txtEmptyState" Grid.Row="1"
                                            Foreground="{DynamicResource TextSubBrush}"
-                                           Text="No activities generated yet. Click 'Generate Activities' above to start."
+                                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.EmptyState]}"
                                            Visibility="Visible"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"
                                            TextWrapping="Wrap"/>
@@ -133,32 +134,32 @@
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding ValidationStatus}" Value="HasErrors">
                                                         <Setter Property="Background" Value="#1AFF0000"/>
-                                                        <Setter Property="ToolTip" Value="This activity has validation errors."/>
+                                                        <Setter Property="ToolTip" Value="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorGrid.ErrorTooltip]}"/>
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding ValidationStatus}" Value="HasWarnings">
                                                         <Setter Property="Background" Value="#1AFFA500"/>
-                                                        <Setter Property="ToolTip" Value="This activity has warnings."/>
+                                                        <Setter Property="ToolTip" Value="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorGrid.WarningTooltip]}"/>
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding ValidationStatus}" Value="Passed">
                                                         <Setter Property="Background" Value="#1A00AA00"/>
-                                                        <Setter Property="ToolTip" Value="Validation passed."/>
+                                                        <Setter Property="ToolTip" Value="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorGrid.PassedTooltip]}"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </DataGrid.RowStyle>
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Activity ID" Binding="{Binding ActivityId}" IsReadOnly="True" Width="90"/>
-                                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="200"/>
-                                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="250"/>
-                                            <DataGridTextColumn Header="BOQ Reference" Binding="{Binding BoqReferencesDisplay}" IsReadOnly="True" Width="120"/>
-                                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="100"/>
-                                            <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="80"/>
-                                            <DataGridTextColumn Header="Validation" Binding="{Binding ValidationStatus}" IsReadOnly="True" Width="100"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.ActivityId]}" Binding="{Binding ActivityId}" IsReadOnly="True" Width="90"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.Name]}" Binding="{Binding Name}" Width="200"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.Description]}" Binding="{Binding Description}" Width="250"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.BoqReference]}" Binding="{Binding BoqReferencesDisplay}" IsReadOnly="True" Width="120"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.Quantity]}" Binding="{Binding Quantity}" Width="100"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.Unit]}" Binding="{Binding Unit}" Width="80"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGrid.Validation]}" Binding="{Binding ValidationStatus}" IsReadOnly="True" Width="100"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="Sequencing"
+                            <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorTab.Sequencing]}"
                                       Foreground="{DynamicResource TextMainBrush}"
                                       Background="{DynamicResource CardBrush}">
                                 <Grid>
@@ -170,12 +171,12 @@
                                     </Grid.RowDefinitions>
                                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
                                         <Button x:Name="btnSequence" Height="30"
-                                                Content="Sequence Activities"
+                                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.SequenceActivities]}"
                                                 Style="{DynamicResource PrimaryButton}"
                                                 Click="btnSequence_Click"
                                                 Margin="0,0,8,0"/>
                                         <Button x:Name="btnSuggestDeps" Height="30"
-                                                Content="Suggest Dependencies"
+                                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.SuggestDependencies]}"
                                                 Style="{DynamicResource BaseButton}"
                                                 Click="btnSuggestDeps_Click"/>
                                     </StackPanel>
@@ -189,14 +190,14 @@
                                               RowBackground="{DynamicResource CardBrush}"
                                               AlternatingRowBackground="{DynamicResource Brush.Background.Secondary}">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Order" Binding="{Binding SortOrder}" IsReadOnly="True" Width="60"/>
-                                            <DataGridTextColumn Header="Activity ID" Binding="{Binding ActivityId}" IsReadOnly="True" Width="90"/>
-                                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
-                                            <DataGridTextColumn Header="WBS Path" Binding="{Binding WbsPath}" Width="150"/>
-                                            <DataGridTextColumn Header="Parallel Group" Binding="{Binding ParallelGroup}" Width="120"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQSequencingGrid.Order]}" Binding="{Binding SortOrder}" IsReadOnly="True" Width="60"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQSequencingGrid.ActivityId]}" Binding="{Binding ActivityId}" IsReadOnly="True" Width="90"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQSequencingGrid.Name]}" Binding="{Binding Name}" Width="*"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQSequencingGrid.WbsPath]}" Binding="{Binding WbsPath}" Width="150"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQSequencingGrid.ParallelGroup]}" Binding="{Binding ParallelGroup}" Width="120"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
-                                    <TextBlock Grid.Row="2" Text="Suggested Dependencies"
+                                    <TextBlock Grid.Row="2" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.SuggestedDependencies]}"
                                                Foreground="{DynamicResource TextMainBrush}"
                                                FontWeight="SemiBold" Margin="0,8,0,4"/>
                                     <DataGrid x:Name="dgDependencies" Grid.Row="3"
@@ -209,17 +210,17 @@
                                               RowBackground="{DynamicResource CardBrush}"
                                               AlternatingRowBackground="{DynamicResource Brush.Background.Secondary}">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Predecessor" Binding="{Binding PredecessorId}" IsReadOnly="True" Width="100"/>
-                                            <DataGridTextColumn Header="Successor" Binding="{Binding SuccessorId}" IsReadOnly="True" Width="100"/>
-                                            <DataGridTextColumn Header="Type" Binding="{Binding Type}" IsReadOnly="True" Width="100"/>
-                                            <DataGridTextColumn Header="Confidence" Binding="{Binding Confidence}" IsReadOnly="True" Width="80"/>
-                                            <DataGridTextColumn Header="Rationale" Binding="{Binding Rationale}" IsReadOnly="True" Width="*"/>
-                                            <DataGridCheckBoxColumn Header="Accepted" Binding="{Binding IsAccepted}" Width="80"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQDependenciesGrid.Predecessor]}" Binding="{Binding PredecessorId}" IsReadOnly="True" Width="100"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQDependenciesGrid.Successor]}" Binding="{Binding SuccessorId}" IsReadOnly="True" Width="100"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQDependenciesGrid.Type]}" Binding="{Binding Type}" IsReadOnly="True" Width="100"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQDependenciesGrid.Confidence]}" Binding="{Binding Confidence}" IsReadOnly="True" Width="80"/>
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQDependenciesGrid.Rationale]}" Binding="{Binding Rationale}" IsReadOnly="True" Width="*"/>
+                                            <DataGridCheckBoxColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQDependenciesGrid.Accepted]}" Binding="{Binding IsAccepted}" Width="80"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="Export"
+                            <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorTab.Export]}"
                                      Foreground="{DynamicResource TextMainBrush}"
                                      Background="{DynamicResource CardBrush}">
                                 <Grid>
@@ -230,12 +231,12 @@
                                     </Grid.RowDefinitions>
                                     <StackPanel Grid.Row="0" Orientation="Horizontal">
                                         <Button x:Name="btnExport" Height="34"
-                                                Content="Export to Excel"
+                                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.ExportToExcel]}"
                                                 Style="{DynamicResource PrimaryButton}"
                                                 Click="btnExport_Click"
                                                 Margin="0,0,8,0"/>
                                         <CheckBox x:Name="chkIncludeDependencies"
-                                                  Content="Include Dependencies"
+                                                  Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.IncludeDependencies]}"
                                                   Foreground="{DynamicResource TextMainBrush}"
                                                   VerticalAlignment="Center"/>
                                     </StackPanel>
@@ -245,7 +246,7 @@
                                             Padding="10">
                                         <TextBlock x:Name="txtExportStatus"
                                                    Foreground="{DynamicResource TextSubBrush}"
-                                                   Text="Export will create a 'Generated Activities' sheet in the active workbook."/>
+                                                   Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.ExportHint]}"/>
                                     </Border>
                                 </Grid>
                             </TabItem>
@@ -266,7 +267,7 @@
                         CornerRadius="{DynamicResource CardRadius}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1" Padding="12,0">
-                    <TextBlock x:Name="txtStatus" Text="Ready"
+                    <TextBlock x:Name="txtStatus" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.Ready]}"
                                Foreground="{DynamicResource TextSubBrush}"
                                VerticalAlignment="Center"/>
                 </Border>
@@ -286,7 +287,7 @@
                                      IsIndeterminate="True"/>
                         <TextBlock x:Name="txtBusy" Margin="12,0,0,0"
                                    Foreground="{DynamicResource TextMainBrush}"
-                                   VerticalAlignment="Center" Text="Working..."/>
+                                   VerticalAlignment="Center" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.Working]}"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -302,27 +303,22 @@
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         MaxWidth="480">
                     <StackPanel>
-                        <TextBlock Text="Data Privacy Consent"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.PrivacyTitle]}"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    FontSize="16" FontWeight="SemiBold"
                                    Margin="0,0,0,12"/>
-                        <TextBlock TextWrapping="Wrap"
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.PrivacyBody]}"
+                                   TextWrapping="Wrap"
                                    Foreground="{DynamicResource TextSubBrush}"
-                                   Margin="0,0,0,16">
-                        This feature uses AI to generate construction activities from your BOQ data.
-                        The BOQ data will be sent to an AI provider for processing.
-                        No data is stored or used for training purposes.
-                        <LineBreak/><LineBreak/>
-                        Do you consent to sending BOQ data for AI-powered activity generation?
-                        </TextBlock>
+                                   Margin="0,0,0,16"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <Button x:Name="btnConsent" Height="34"
-                                    Content="I Consent"
+                                    Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.Consent]}"
                                     Style="{DynamicResource PrimaryButton}"
                                     Click="btnConsent_Click"
                                     Margin="0,0,8,0"/>
                             <Button x:Name="btnDecline" Height="34"
-                                    Content="Decline"
+                                    Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[BOQActivityGeneratorPage.Decline]}"
                                     Style="{DynamicResource BaseButton}"
                                     Click="btnDecline_Click"/>
                         </StackPanel>

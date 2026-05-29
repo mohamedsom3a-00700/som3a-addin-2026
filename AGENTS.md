@@ -1,14 +1,14 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/001-relationship-generator-plugin/plan.md
+at: specs/024-localization-rtl/plan.md
 
 Also refer to the master implementation plans:
 - implementation_plan.md — Full execution plan for Phases 0-11
 - enterprise_planning_platform_plan.md — Enterprise Planning Platform Phases 14-26
 
 Current phase plan:
-- specs/001-relationship-generator-plugin/plan.md — Phase 21: Relationship Generator Plugin
+- specs/024-localization-rtl/plan.md — Phase 24: Localization & RTL
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes

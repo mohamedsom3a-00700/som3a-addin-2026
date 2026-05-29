@@ -24,7 +24,7 @@ All Technical Context items were immediately resolvable from the existing enterp
 
 ### Decision 2: Duration Formula Implementation
 
-**Decision**: Implement the standard construction productivity formula: `Duration (working days) = Quantity / (Productivity Rate × Crew Size × Hours Per Day)`.
+**Decision**: Implement the standard construction productivity formula: `Duration (working days) = Quantity / (Productivity Rate × Crew Size × Hours Per Day)`, where Productivity Rate is expressed in **quantity per worker-hour**.
 
 **Rationale**: This is the industry-standard formula used by construction planning software (Primavera P6, MS Project). It separates each input factor independently, allowing users to adjust crew size and hours without modifying productivity rates.
 

@@ -1,10 +1,12 @@
+using System;
+using System.Threading;
 using System.Threading.Tasks;
-using Som3a_WPF_UI.ViewModels;
 
 namespace Som3a_WPF_UI.ViewModels.Dashboard
 {
     public abstract class WidgetViewModel : ViewModelBase
     {
+        private readonly SemaphoreSlim _loadLock = new SemaphoreSlim(1, 1);
         private string _title;
         private string _icon;
         private bool _isLoading;
@@ -44,39 +46,34 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
         public async Task LoadDataAsync()
         {
             if (IsLoaded) return;
-            IsLoading = true;
-            ErrorMessage = null;
-            try
-            {
-                await LoadAsync();
-                IsLoaded = true;
-            }
-            catch (System.Exception ex)
-            {
-                ErrorMessage = ex.Message;
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+            await RunLoadAsync();
         }
 
         public async Task RefreshAsync()
         {
-            IsLoading = true;
-            ErrorMessage = null;
+            await RunLoadAsync();
+        }
+
+        private async Task RunLoadAsync()
+        {
+            if (!await _loadLock.WaitAsync(0))
+                return;
+
             try
             {
+                IsLoading = true;
+                ErrorMessage = null;
                 await LoadAsync();
                 IsLoaded = true;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
             }
             finally
             {
                 IsLoading = false;
+                _loadLock.Release();
             }
         }
 

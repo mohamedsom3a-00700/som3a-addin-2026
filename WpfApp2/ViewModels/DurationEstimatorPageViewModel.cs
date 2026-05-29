@@ -31,7 +31,13 @@ namespace Som3a_WPF_UI.ViewModels
         {
             _bridge = bridge;
             CalculateCommand = new RelayCommand(async o => await CalculateAsync(), o => CanCalculate);
-            SearchBenchmarksCommand = new RelayCommand(async o => await SearchBenchmarksAsync());
+            SearchBenchmarksCommand = new RelayCommand(async o =>
+        {
+            _searchCts?.Cancel();
+            _searchCts?.Dispose();
+            _searchCts = new CancellationTokenSource();
+            await SearchBenchmarksAsync(_searchCts.Token);
+        });
             ApplyBenchmarkCommand = new RelayCommand(ApplyBenchmark);
             ExportExcelCommand = new RelayCommand(async o => await ExportToExcelAsync(), o => CanExport);
             ClearCommand = new RelayCommand(o => ClearEstimates());
@@ -55,7 +61,14 @@ namespace Som3a_WPF_UI.ViewModels
         public bool IsBusy
         {
             get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value); }
+            set
+            {
+                if (SetProperty(ref _isBusy, value))
+                {
+                    ((RelayCommand)CalculateCommand).RaiseCanExecuteChanged();
+                    ((RelayCommand)ExportExcelCommand).RaiseCanExecuteChanged();
+                }
+            }
         }
 
         public string StatusText
@@ -112,6 +125,8 @@ namespace Som3a_WPF_UI.ViewModels
             set { SetProperty(ref _searchQuery, value ?? ""); }
         }
 
+        private CancellationTokenSource _searchCts;
+
         public string SelectedCategory
         {
             get { return _selectedCategory; }
@@ -119,7 +134,11 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 if (SetProperty(ref _selectedCategory, value))
                 {
-                    var t = SearchBenchmarksAsync();
+                    _searchCts?.Cancel();
+                    _searchCts?.Dispose();
+                    _searchCts = new CancellationTokenSource();
+                    var token = _searchCts.Token;
+                    _ = SearchBenchmarksAsync(token);
                 }
             }
         }
@@ -169,11 +188,12 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private async Task SearchBenchmarksAsync()
+        private async Task SearchBenchmarksAsync(CancellationToken ct = default)
         {
             IsBusy = true;
             try
             {
+                ct.ThrowIfCancellationRequested();
                 Benchmarks.Clear();
                 var request = new BenchmarkSearchRequest();
                 request.SearchQuery = SearchQuery;
@@ -255,10 +275,13 @@ namespace Som3a_WPF_UI.ViewModels
                         var optResp = await _bridge.CalculateAsync(optReq);
                         var pesResp = await _bridge.CalculateAsync(pesReq);
 
-                        item.OptimisticDuration = optResp.DurationWorkingDays;
-                        item.PessimisticDuration = pesResp.DurationWorkingDays;
-                        item.ExpectedDuration = (item.OptimisticDuration + 4m * item.DurationWorkingDays + item.PessimisticDuration) / 6m;
-                        item.StandardDeviation = (item.PessimisticDuration - item.OptimisticDuration) / 6m;
+                        if (optResp.IsSuccess && pesResp.IsSuccess)
+                        {
+                            item.OptimisticDuration = optResp.DurationWorkingDays;
+                            item.PessimisticDuration = pesResp.DurationWorkingDays;
+                            item.ExpectedDuration = (item.OptimisticDuration + 4m * item.DurationWorkingDays + item.PessimisticDuration) / 6m;
+                            item.StandardDeviation = (item.PessimisticDuration - item.OptimisticDuration) / 6m;
+                        }
                     }
 
                     Estimates.Add(item);

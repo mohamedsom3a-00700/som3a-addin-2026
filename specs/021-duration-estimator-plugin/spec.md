@@ -64,7 +64,7 @@ A planning engineer configures a project calendar (working days, holidays, worki
 
 **Acceptance Scenarios**:
 
-1. **Given** a project calendar with Saturday-Sunday as non-working days, **When** a 10-working-day duration is calculated starting Monday, **Then** the resulting end date is 14 calendar days later (skipping 2 weekends).
+1. **Given** a project calendar with Saturday-Sunday as non-working days, **When** a 10-working-day duration is calculated starting Monday (inclusive, Monday = day 1), **Then** the end date is Friday of the following week, 12 calendar days later (skipping 2 weekends).
 2. **Given** a calendar with a public holiday, **When** a duration spans that holiday, **Then** the holiday is excluded from working day count and the end date shifts accordingly.
 3. **Given** the user modifies working hours per day on the calendar, **When** duration is recalculated, **Then** the result updates to reflect the new hours.
 

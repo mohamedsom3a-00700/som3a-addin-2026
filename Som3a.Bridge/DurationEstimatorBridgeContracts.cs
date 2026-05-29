@@ -63,7 +63,16 @@ namespace Som3a.Bridge
         public string FilePath { get; set; } = string.Empty;
 
         public override string Serialize() => JsonSerializer.Serialize(this, DefaultOptions);
-        public override void Deserialize(string json) { }
+        public override void Deserialize(string json)
+        {
+            var other = JsonSerializer.Deserialize<DurationExportRequest>(json, DefaultOptions);
+            if (other != null)
+            {
+                Id = other.Id;
+                Estimates = other.Estimates ?? new List<DurationCalculationResponse>();
+                FilePath = other.FilePath;
+            }
+        }
 
         private static readonly JsonSerializerOptions DefaultOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
     }
@@ -82,7 +91,16 @@ namespace Som3a.Bridge
         public string? SearchQuery { get; set; }
 
         public override string Serialize() => JsonSerializer.Serialize(this, DefaultOptions);
-        public override void Deserialize(string json) { }
+        public override void Deserialize(string json)
+        {
+            var other = JsonSerializer.Deserialize<BenchmarkSearchRequest>(json, DefaultOptions);
+            if (other != null)
+            {
+                Id = other.Id;
+                TradeCategoryId = other.TradeCategoryId;
+                SearchQuery = other.SearchQuery;
+            }
+        }
 
         private static readonly JsonSerializerOptions DefaultOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
     }
