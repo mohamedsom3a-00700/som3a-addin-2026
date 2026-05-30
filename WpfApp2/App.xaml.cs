@@ -2,8 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using Som3a.Bridge;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.Controls.Shell;
@@ -17,12 +19,21 @@ namespace Som3a_WPF_UI
         public static IServiceContainer Container { get; } = new ServiceContainer();
 
         private SplashWindow _splashWindow;
+        private PipeClientService _pipeClient;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
 
             base.OnStartup(e);
+
+            var isStandalone = e.Args.Contains("-standalone") || e.Args.Contains("--pipe");
+
+            if (isStandalone)
+            {
+                RunStandalone(e);
+                return;
+            }
 
             CompositionRoot.RegisterServices(Container);
 
@@ -69,6 +80,70 @@ namespace Som3a_WPF_UI
                     System.Diagnostics.Trace.TraceError($"Deferred initialization failed: {ex}");
                 }
             }));
+        }
+
+        private void RunStandalone(StartupEventArgs e)
+        {
+            _pipeClient = new PipeClientService();
+
+            int retryCount = 0;
+            int maxRetries = PipeConstants.HandshakeMaxRetries;
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
+            {
+                while (retryCount < maxRetries)
+                {
+                    var connected = await _pipeClient.ConnectAsync(PipeConstants.HandshakeTimeoutMs);
+                    if (!connected)
+                    {
+                        retryCount++;
+                        System.Diagnostics.Trace.WriteLine($"[Standalone] Connection attempt {retryCount}/{maxRetries} failed. Retrying in {PipeConstants.HandshakeRetryMs}ms...");
+                        await Task.Delay(PipeConstants.HandshakeRetryMs);
+                        continue;
+                    }
+
+                    var handshakeOk = await _pipeClient.PerformHandshakeAsync();
+                    if (handshakeOk)
+                    {
+                        System.Diagnostics.Trace.WriteLine("[Standalone] Handshake succeeded. Showing ShellWindow.");
+                        ShowStandaloneShellWindow();
+                        return;
+                    }
+
+                    retryCount++;
+                    System.Diagnostics.Trace.WriteLine($"[Standalone] Handshake attempt {retryCount}/{maxRetries} failed.");
+                    await Task.Delay(PipeConstants.HandshakeRetryMs);
+                }
+
+                System.Diagnostics.Trace.WriteLine("[Standalone] All handshake attempts failed. Showing error.");
+                MessageBox.Show(
+                    "Could not connect to Excel. Please ensure Excel is running with the Som3a add-in loaded.\n\nThe application will now exit.",
+                    "Connection Failed",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                Current.Shutdown();
+            }));
+        }
+
+        private void ShowStandaloneShellWindow()
+        {
+            var watchdog = new CrashWatchdogService(_pipeClient);
+            watchdog.Start();
+            watchdog.ShutdownTriggered += (_, _) =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    System.Diagnostics.Trace.WriteLine("[App] Watchdog triggered shutdown. Exiting.");
+                    Current.Shutdown();
+                });
+            };
+
+            var shell = new ShellWindow();
+            if (_pipeClient.ExcelHwnd != 0)
+                shell.SetOwner(new IntPtr(_pipeClient.ExcelHwnd));
+            shell.Title = "Planova Platform";
+            MainWindow = shell;
+            shell.Show();
         }
 
         private void ShowSplashWindow()

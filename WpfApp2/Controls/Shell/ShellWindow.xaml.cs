@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using Som3a_WPF_UI.Helpers;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Pages;
@@ -268,6 +269,15 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         protected override void OnShellInitialize()
         {
+        }
+
+        public void SetOwner(IntPtr excelHwnd)
+        {
+            if (excelHwnd != IntPtr.Zero)
+            {
+                var helper = new WindowInteropHelper(this);
+                helper.Owner = excelHwnd;
+            }
         }
     }
 }
