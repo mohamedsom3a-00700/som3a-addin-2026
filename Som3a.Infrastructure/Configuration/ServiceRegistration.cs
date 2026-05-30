@@ -19,7 +19,7 @@ public static class ServiceRegistration
             var factory = sp.GetRequiredService<DatabaseFactory>();
             return new UnitOfWorkFactory(factory);
         });
-        services.AddTransient<IUnitOfWork>(sp =>
+        services.AddScoped<IUnitOfWork>(sp =>
         {
             var factory = sp.GetRequiredService<DatabaseFactory>();
             return factory.CreateUnitOfWork();

@@ -106,11 +106,11 @@ public class AIRepository : IAIRepository
                 INSERT INTO AIRuntimeRecord (Id, ProviderName, SessionId, TokenInputTotal, TokenOutputTotal,
                     OperationCount, EstimatedCost, StartedAt, UpdatedAt)
                 VALUES (@id, @provider, @session, @tokenIn, @tokenOut, @ops, @cost, @started, @updated)
-                ON CONFLICT(Id) DO UPDATE SET
-                    TokenInputTotal = @tokenIn,
-                    TokenOutputTotal = @tokenOut,
-                    OperationCount = @ops,
-                    EstimatedCost = @cost,
+                ON CONFLICT(SessionId, ProviderName) DO UPDATE SET
+                    TokenInputTotal = TokenInputTotal + @tokenIn,
+                    TokenOutputTotal = TokenOutputTotal + @tokenOut,
+                    OperationCount = OperationCount + @ops,
+                    EstimatedCost = EstimatedCost + @cost,
                     UpdatedAt = @updated";
             command.Parameters.AddWithValue("@id", record.Id.ToString());
             command.Parameters.AddWithValue("@provider", record.ProviderName);

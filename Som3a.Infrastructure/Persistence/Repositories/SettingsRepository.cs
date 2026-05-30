@@ -162,7 +162,7 @@ public class SettingsRepository : ISettingsRepository
                 Category = reader.GetString(1),
                 Name = reader.GetString(2),
                 Value = reader.GetString(3),
-                PluginId = reader.IsDBNull(4) ? null : reader.GetString(4),
+                PluginId = reader.GetString(4),
                 UpdatedAt = DateTime.Parse(reader.GetString(5), null, System.Globalization.DateTimeStyles.RoundtripKind),
                 CreatedAt = DateTime.Parse(reader.GetString(6), null, System.Globalization.DateTimeStyles.RoundtripKind)
             });

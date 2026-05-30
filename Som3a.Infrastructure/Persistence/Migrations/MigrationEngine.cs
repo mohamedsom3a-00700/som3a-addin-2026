@@ -60,7 +60,7 @@ public class MigrationEngine
     {
         var assembly = Assembly.GetExecutingAssembly();
         var resourceNames = assembly.GetManifestResourceNames()
-            .Where(n => n.EndsWith(".sql") && n.Contains(".Migrations."))
+            .Where(n => n.EndsWith(".sql", StringComparison.Ordinal) && n.Contains(".Migrations.", StringComparison.Ordinal))
             .OrderBy(n => n)
             .ToList();
 

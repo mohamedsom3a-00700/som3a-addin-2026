@@ -39,6 +39,8 @@ public class UnitOfWork : IUnitOfWork
             _connectionManager.ReleaseWriteGate();
             throw;
         }
+
+        _connectionManager.ReleaseWriteGate();
     }
 
     public async Task CommitAsync(CancellationToken ct = default)
@@ -46,35 +48,19 @@ public class UnitOfWork : IUnitOfWork
         if (_transaction is null)
             throw new InvalidOperationException("No active transaction to commit.");
 
-        try
-        {
-            await _transaction.CommitAsync(ct);
-        }
-        finally
-        {
-            _transaction.Dispose();
-            _transaction = null;
-            _connectionManager.ReleaseWriteGate();
-        }
+        await _transaction.CommitAsync(ct);
+        _transaction.Dispose();
+        _transaction = null;
     }
 
-    public Task RollbackAsync(CancellationToken ct = default)
+    public async Task RollbackAsync(CancellationToken ct = default)
     {
         if (_transaction is not null)
         {
-            try
-            {
-                _transaction.Rollback();
-                _transaction.Dispose();
-            }
-            finally
-            {
-                _transaction = null;
-                _connectionManager.ReleaseWriteGate();
-            }
+            await _transaction.RollbackAsync(ct);
+            _transaction.Dispose();
+            _transaction = null;
         }
-
-        return Task.CompletedTask;
     }
 
     public bool IsInTransaction => _transaction is not null;
@@ -103,7 +89,7 @@ public class UnitOfWork : IUnitOfWork
         {
             _transaction.Rollback();
             _transaction.Dispose();
-            _connectionManager.ReleaseWriteGate();
+            _transaction = null;
         }
     }
 }

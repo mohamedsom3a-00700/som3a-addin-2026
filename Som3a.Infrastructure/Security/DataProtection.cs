@@ -4,6 +4,8 @@ namespace Som3a.Infrastructure.Security;
 
 public static class DataProtection
 {
+    private const string FormatMarker = "DPv1:";
+
     public static string Encrypt(string plainText)
     {
         if (string.IsNullOrEmpty(plainText))
@@ -11,7 +13,7 @@ public static class DataProtection
 
         var plainBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
         var encryptedBytes = ProtectedData.Protect(plainBytes, null, DataProtectionScope.CurrentUser);
-        return Convert.ToBase64String(encryptedBytes);
+        return FormatMarker + Convert.ToBase64String(encryptedBytes);
     }
 
     public static string Decrypt(string encryptedText)
@@ -19,7 +21,11 @@ public static class DataProtection
         if (string.IsNullOrEmpty(encryptedText))
             return encryptedText;
 
-        var encryptedBytes = Convert.FromBase64String(encryptedText);
+        if (!encryptedText.StartsWith(FormatMarker, StringComparison.Ordinal))
+            return encryptedText;
+
+        var payload = encryptedText[FormatMarker.Length..];
+        var encryptedBytes = Convert.FromBase64String(payload);
         var plainBytes = ProtectedData.Unprotect(encryptedBytes, null, DataProtectionScope.CurrentUser);
         return System.Text.Encoding.UTF8.GetString(plainBytes);
     }
@@ -29,14 +35,6 @@ public static class DataProtection
         if (string.IsNullOrEmpty(text))
             return false;
 
-        try
-        {
-            var bytes = Convert.FromBase64String(text);
-            return bytes.Length > 0;
-        }
-        catch
-        {
-            return false;
-        }
+        return text.StartsWith(FormatMarker, StringComparison.Ordinal);
     }
 }

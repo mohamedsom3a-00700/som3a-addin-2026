@@ -1,9 +1,9 @@
 # Som3a Addin 2026 - Complete Solution Guide
 
-**Status**: Production Ready / Validation Phase
-**Framework**: .NET Framework 4.8 + WPF
-**Last Updated**: May 25, 2026
-**Build Status**: Successfully Compiles (3 projects + 1 test project + 1 sample module)
+**Status**: Production Ready / Planning & Implementation Phases 0-27
+**Framework**: .NET Framework 4.8 (WPF/VSTO) + .NET 8.0 (Enterprise Planning Platform libraries)
+**Last Updated**: May 30, 2026
+**Build Status**: Successfully Compiles (3 projects + 1 test project + 1 sample module; Enterprise Planning Platform Phases 14-27 in planning)
 **Solution Root**: `C:\Users\mohamedabdelsamea\source\repos\Som3a Addin 2026\`
 
 ---
@@ -61,19 +61,29 @@ The Som3a Addin 2026 is a comprehensive Excel VSTO Add-in for Primavera P6 proje
 - Plugin/module system with lazy loading
 - Diagnostics & logging platform
 - Validation engine (token integrity, hardcoded color detection)
+- Persistence Infrastructure (Phase 27 — SQLite-based repository pattern with Unit of Work)
+  - AI execution history tracking with token usage, provider filtering, and date-range queries
+  - Plugin state management with version history, health tracking, and enable/disable persistence
+  - Diagnostics logging with severity-based filtering, crash reports, and export history
+  - Template management for WBS, activities, relationships, and productivity benchmarks
+  - Automatic database migrations with version tracking and rollback on failure
+  - DPAPI encryption for sensitive data (API keys, credentials)
+  - Data retention with per-category cleanup policies (AI: 1yr, diagnostics: 90d, crash reports: 2yr)
+  - Backup and restore with integrity verification and SHA-256 checksums
+- Enterprise Planning Platform roadmap (Phases 14-27) — AI-powered construction planning
 
 ### Technology Stack
 ```
 Language:        C# (LangVersion 14.0, nullable enabled)
-Framework:       .NET Framework 4.8
+Framework:       .NET Framework 4.8 (WPF/VSTO) + .NET 8.0 (Domain/AI/Contracts/Infrastructure)
 UI Framework:    WPF (Windows Presentation Foundation)
 MVVM Toolkit:    CommunityToolkit.Mvvm 8.4.2
-Database:        SQL Server (Oracle.ManagedDataAccess ready)
+Database:        SQL Server / Oracle (Primavera P6 DB), SQLite (platform database)
 Build System:    MSBuild / Visual Studio Community 2026 (18.5.1)
-Testing:         MSTest (Tests/ project)
+Testing:         MSTest (WPF tests), xUnit (.NET 8.0 library tests)
 NuGet Packages:  Oracle.ManagedDataAccess, System.Data.SqlClient,
                  Newtonsoft.Json 13.0.4, Microsoft.Web.WebView2 1.0.3912.50,
-                 CommunityToolkit.Mvvm 8.4.2
+                 CommunityToolkit.Mvvm 8.4.2, Microsoft.Data.Sqlite 8.0+
 ```
 
 ---
@@ -426,23 +436,53 @@ Som3a Addin 2026/
 │       ├── LOCALIZATION_READINESS.md      # Phase 10: i18n architecture
 │       └── ENTERPRISE_POLISH_CHECKLIST.md # Phase 10: master checklist
 │
-├── specs/                                 # Feature specifications (13 features)
-│   ├── feature-planning-guide.md
-│   ├── guide-files-path-and-wbs.md
-│   ├── 001-fluent-theme-engine/           # Theme engine + effects + control standardization
-│   ├── 001-github-governance-workflow/    # Git workflow + review gates
-│   ├── 001-diagnostics-stability-platform/ # Diagnostics + logging + validation
-│   ├── 001-settings-personalization-ux/   # Settings UI + panels
-│   ├── 002-themes-manager/                # ThemeManager fixes + hardcoded color elimination
-│   ├── 004-design-system-core/            # Token architecture + primitive/semantic/component
-│   ├── 005-rendering-infrastructure/      # Excel-safe rendering + DPI
-│   ├── 006-phase-3-spec/                  # Phase 3 integration spec
-│   ├── 007-control-standardization/       # Control template audit + refactor
-│   ├── 008-navigation-shell-platform/     # Shell + sidebar + navigation service
-│   ├── 009-mvvm-architecture-cleanup/     # DI container + event bus + module registry
-│   ├── 011-legacy-window-migration/       # Window → Page migration (Phase 11)
-│   ├── 012-plugin-feature-platform/       # Plugin loader + module system
-│   └── 013-enterprise-polish/             # Performance, accessibility, DPI, stability (Phase 10)
+├── specs/                                 # Feature specifications (28 directories + 2 standalone files)
+│   ├── feature-planning-guide.md          # ChatGPT feature planning guide (466 lines)
+│   ├── guide-files-path-and-wbs.md        # Complete file reference + WBS for AI context (1626 lines)
+│   ├── future-plan-fluent-ui-migration.md # Post-Phase 26 Fluent UI & Modern Platform Migration (377 lines)
+│   │
+│   ├── 001-fluent-theme-engine/           # [Phase 3] Fluent Runtime Theme Engine (Dark/Light/Custom)
+│   ├── 001-github-governance-workflow/    # [Phase 0] Git workflow + review gates + governance
+│   ├── 001-diagnostics-stability-platform/ # [Phase 8] Diagnostics panel + validation + logging
+│   ├── 001-relationship-generator-plugin/ # [Phase 21] AI relationship generation (FS/SS/FF/SF)
+│   ├── 001-settings-personalization-ux/   # [Phase 7] Settings UI with 6 categorized panels
+│   ├── 002-themes-manager/                # [Phase 3] ThemeManager bug fixes + hardcoded color elim.
+│   ├── 004-design-system-core/            # [Phase 1] Primitive/Semantic/Component token architecture
+│   ├── 005-rendering-infrastructure/      # [Phase 2] Excel-safe rendering + DPI + ModernWindow
+│   ├── 006-phase-3-spec/                  # [Phase 3] Theme Engine 2.0 integration spec
+│   ├── 007-control-standardization/       # [Phase 4] Control template audit + popup fix + 22 styles
+│   ├── 008-navigation-shell-platform/     # [Phase 5] ShellWindow + Sidebar + NavigationService
+│   ├── 009-mvvm-architecture-cleanup/     # [Phase 6] DI container + EventBus + ModuleRegistry
+│   ├── 011-legacy-window-migration/       # [Phase 11] Window → Page migration (14 windows)
+│   ├── 012-plugin-feature-platform/       # [Phase 9] Plugin loader + module system + sample
+│   ├── 013-enterprise-polish/             # [Phase 10] 7 workstreams: perf/accessibility/DPI/stability
+│   ├── 014-platform-foundation/           # [Phase 14] .NET 8.0 Domain/Contracts/AI/Export/PluginSDK
+│   ├── 015-shell-refactor/               # [Phase 15] Categorized sidebar + dynamic nav + legacy cleanup
+│   ├── 016-dynamic-settings-platform/    # [Phase 16] Plugin registry settings + ISettingsModule
+│   ├── 017-theme-expansion/              # [Phase 17] Material Design + background blur + fonts
+│   ├── 018-ai-core-infrastructure/       # [Phase 18] 6 AI providers + orchestration + prompt gov.
+│   ├── 019-wbs-engine/                   # [Phase 19] AI-powered WBS generation + templates
+│   ├── 020-boq-activity-generator/       # [Phase 20] AI BOQ → Activity generation
+│   ├── 021-duration-estimator-plugin/    # [Phase 22] Duration estimation from quantities/rates
+│   ├── 023-dashboard-home/               # [Phase 23] Home dashboard with 9 live widgets
+│   ├── 024-localization-rtl/             # [Phase 24] Arabic + English RTL localization
+│   ├── 025-platform-rebranding/          # [Phase 25] Som3a → Planova visual identity rebranding
+│   ├── 026-release-candidate-packaging/  # [Phase 26] MSI installer + validation + code signing
+│   └── 027-persistence-infrastructure/   # [Phase 27] SQLite persistence + repositories + migrations
+│       ├── plan.md                        # Implementation plan (108 lines)
+│       ├── spec.md                        # Feature specification (181 lines, 5 user stories)
+│       ├── research.md                    # Technology research (90 lines, 11 decisions)
+│       ├── data-model.md                  # Entity data model (251 lines, 10 entities)
+│       ├── quickstart.md                  # Quickstart guide (133 lines)
+│       ├── tasks.md                       # Task breakdown (269 lines, 45 tasks)
+│       ├── checklists/                    # Requirements checklists
+│       └── contracts/                     # 6 contract interface definitions
+│           ├── ISettingsRepository.cs.md
+│           ├── IAIRepository.cs.md
+│           ├── IPluginRepository.cs.md
+│           ├── ILogRepository.cs.md
+│           ├── ITemplateRepository.cs.md
+│           └── IUnitOfWork.cs.md
 │
 ├── .opencode/                             # OpenCode AI agent configuration
 │   ├── commands/                          # Speckit commands (14 .md files)
@@ -486,10 +526,10 @@ WpfApp2:                150+ files (UI + ViewModels + Services + Theme + Pages +
 Tests:                    5 files (3 test classes + scripts)
 WpfApp2.Modules.Sample:   3 files
 Legacy projects:         10 files
-Specs/Docs:              70+ files
-Config/Workflow:         40+ files
+Specs/Docs:              170+ files (28 spec directories + architecture docs + plans)
+Config/Workflow:         50+ files (.opencode, .specify, .github)
 ────────────────────────────────────
-Total:                  340+ files
+Total:                  450+ files
 ```
 
 ---
@@ -514,6 +554,9 @@ Total:                  340+ files
 | **Settings** | Window/Page | SettingsWindow (Appearance, Accessibility, Performance, Excel, Plugins, Diagnostics panels) |
 | **Plugin Diagnostics** | View | PluginDiagnosticsViewModel, DiagnosticsPanel |
 | **Toast Notifications** | Service + Control | ToastService, ToastWindow |
+
+| **Enterprise Planning Platform** (Planned - Phases 14-26) | Multiple .NET 8.0 Libraries | Som3a.Domain, Som3a.Contracts, Som3a.AI, Som3a.Exporting, Som3a.Localization, Som3a.Validation, Som3a.Diagnostics, Som3a.Infrastructure, Som3a.Plugin.SDK, Som3a.Bridge |
+| **Persistence Infrastructure** (Planned - Phase 27) | Library + Service | Som3a.Infrastructure/Persistence/ — SQLite, repositories, migrations, backup, DPAPI |
 
 ### Theme System (Fluent Design Tokens)
 - **Dark Theme**: Default dark (#0E1720 background, Slate palette)
@@ -896,6 +939,206 @@ var connectionString =
 
 ---
 
+### Phase 14: Platform Foundation 📋 PLANNING
+**Branch**: `feature/phase-14-platform-foundation`
+
+**Target**: 7 new .NET 8.0 class libraries + .NET Standard 2.0 bridge
+**Libraries**: Som3a.Domain, Som3a.Contracts, Som3a.Plugin.SDK, Som3a.AI, Som3a.Exporting, Som3a.Localization, Som3a.Validation, Som3a.Diagnostics, Som3a.Infrastructure, Som3a.Bridge
+
+- Domain entities: BOQDocument, Activity, WBSNode, Relationship, Calendar, Resource, Constraint
+- Contracts: IPlugin, IAIProvider, IExportEngine, ISettingsModule, IPromptProvider, IDiagnosticsProvider
+- Plugin SDK: attributes, discovery, validation, hosting
+- AI Abstraction Layer: IAIProvider interface + OpenAI/Anthropic SDK adapters
+- Export pipeline: Excel, CSV, JSON, XML, Primavera XER formats
+- Validation framework: entity validation rules, cross-field validation
+- Diagnostics: structured logging interfaces, performance counters
+- Infrastructure: DPAPI security helpers, configuration management
+- Bridge (.NET Standard 2.0): InteropContracts, DiagnosticsChannel for VSTO communication
+
+### Phase 15: Shell Refactor 📋 PLANNING
+**Branch**: `015-shell-refactor`
+
+**Dependencies**: Phase 14 Platform Foundation, Phase 5 Navigation Shell, Phase 6 MVVM
+
+- Refactor Shell sidebar from flat list into categorized navigation groups (Planning, Analysis, Excel, AI, Settings)
+- Dynamic `[NavigationItem]` attribute discovery from Plugin SDK
+- Sidebar collapse/expand with auto-hide icon strip
+- Full keyboard navigation with arrow keys + skip link
+- Unsaved-changes warning before navigation away
+- Register all 13 Pages in categorized groups
+- Remove 12 legacy standalone Window classes (preserving originals until each validates)
+
+### Phase 16: Dynamic Settings Platform 📋 PLANNING
+**Branch**: `feature/phase-16-dynamic-settings-platform`
+
+**Dependencies**: Phase 14 Contracts/SDK, Phase 6 ServiceContainer/EventBus, Phase 7 Settings UX, Phase 27 Persistence
+
+- Replace static SettingsPage with dynamic registry-based settings system
+- ISettingsModule: plugins self-register settings sections, validation rules, UI controls
+- Dynamic UI building from plugin declarations
+- Hot-reload settings via EventBus
+- DPAPI-encrypted API key storage
+- Per-plugin JSON persistence at AppData/Som3a/Plugins/
+- Import/export settings as JSON bundles
+- SettingsValidator + SettingsMigrationService for versioned settings migration
+
+### Phase 17: Theme Expansion 📋 PLANNING
+**Branch**: `017-theme-expansion`
+
+**Dependencies**: Phase 3 Theme Engine, Phase 10 RenderModeService, MaterialDesignThemes
+
+- Material Design icon/control integration (PackIcon, DialogHost, Slider, Toggle, Chip)
+- Shell workspace background image with DWM blur effect
+- Dynamic font family switching (English + Arabic font stacks)
+- Unified window control buttons for all windows
+- Expanded accent picker: color wheel + hex input + variant generation
+- WCAG 2.1 AA contrast compliance validation
+- Background image max 10MB/4096px, dark+light themes both conformant
+
+### Phase 18: AI Core Infrastructure 📋 PLANNING
+**Branch**: `018-ai-core-infrastructure`
+
+**Dependencies**: Phase 14 Som3a.AI + Som3a.Domain + Som3a.Contracts, Phase 16 Dynamic Settings
+
+- 6 AI provider adapters: OpenAI, Claude (Anthropic), DeepSeek, GLM, Kimi, Codex
+- AIOrchestrator: provider routing, streaming response, automatic failover (<=10s)
+- Prompt governance: Draft→Published→Deprecated lifecycle with versioning
+- Structured output parsers: ActivityParser, WBSParser, RelationshipParser, DurationParser, ValidationParser
+- Token tracking and usage monitoring per provider/session
+- Provider health checks with Connected/Failed/NotConfigured status
+- Rate limiting and concurrent request management
+
+### Phase 19: WBS Engine 📋 PLANNING
+**Branch**: `019-wbs-engine`
+
+**Dependencies**: Phase 14 Domain WBSNode, Phase 18 AI Orchestration, Phase 27 Persistence
+
+- AI-powered WBS generation from project description or template
+- 15+ WBS templates across 5 categories (Building, Infrastructure, MEP, Industrial, Fitout)
+- Manual tree editor with auto-code generation based on WBS hierarchy
+- Drag-and-drop node reordering with validation
+- Multi-format export: Excel (ClosedXML), JSON, XML
+- Up to 10 levels deep, 200 nodes max per tree
+- Template library stored via Phase 27 persistence
+
+### Phase 20: BOQ Activity Generator 📋 PLANNING
+**Branch**: `020-boq-activity-generator`
+
+**Dependencies**: Phase 19 WBS Engine, Phase 18 AI, Phase 14 Domain BOQ, Phase 5 Shell/Navigation
+
+- Parse Excel BOQ data (quantities, descriptions, units)
+- Build AI context from BOQ items → generate structured activities
+- Verb-noun naming convention for generated activities (e.g., "Cast Concrete Foundation")
+- Group similar items, preserve user edits on regeneration
+- Activity grid: editable, sortable, filterable
+- Data privacy consent for AI processing (configurable in AI settings)
+- Export generated activities to Excel sheet
+
+### Phase 21: Relationship Generator Plugin 📋 PLANNING
+**Branch**: `021-relationship-generator-plugin`
+
+**Dependencies**: Phase 19 WBS Engine, Phase 18 AI, Phase 14 Domain Relationships
+
+- Generate predecessor/successor relationships between activities using AI
+- Support all 4 relationship types: FS (Finish-to-Start), SS (Start-to-Start), FF (Finish-to-Finish), SF (Start-to-Finish)
+- Cross-trade dependency detection: plumbing→electrical→finishing sequence logic
+- Topological validation: cycle detection, open ends, dangling links, redundant relationships
+- Critical path calculation via Phase 1 PathFinder + GraphService
+- Target: 80%+ of activities linked, cross-trade dependencies correct
+
+### Phase 22: Duration Estimator Plugin 📋 PLANNING
+**Branch**: `022-duration-estimator-plugin`
+
+**Dependencies**: Phase 14 Domain, Phase 18 AI, Phase 20 BOQ Activities, Phase 27 Persistence
+
+- Calculate activity durations from quantities ÷ (productivity × crew × hours/day)
+- Built-in productivity benchmark library by trade category (concrete, steel, finishing, MEP)
+- Calendar-aware scheduling: work days, holidays, shift patterns
+- Three-point variance: optimistic, most likely, pessimistic durations
+- AI-powered productivity suggestions with anomaly detection
+- Supports up to 10,000 activities
+- Export to Excel + Primavera-compatible format
+
+### Phase 23: Dashboard Home 📋 PLANNING
+**Branch**: `023-dashboard-home`
+
+**Dependencies**: Phase 5 Shell, Phase 14 Contracts, Phase 27 Persistence, Phase 18 AI
+
+- Replace placeholder WelcomePage with live HomePage dashboard
+- 9 fixed widgets: AI provider status, DB connection, theme info, license status, Excel connection, memory usage, last sync, recent activity, quick actions
+- Dedicated DiagnosticsPage with real-time system metrics
+- Widget data sourced from Phase 27 diagnostics repository
+- No user customization (fixed layout), performance-focused
+
+### Phase 24: Localization & RTL 📋 PLANNING
+**Branch**: `025-localization-rtl`
+
+**Dependencies**: Phase 14 Som3a.Localization, Phase 17 Theme Expansion (Arabic fonts), Phase 5 Shell
+
+- Full English ↔ Arabic RTL switching without restart
+- Arabic typography presets: Segoe UI Arabic, traditional Arabic, modern Kufi
+- Culture-aware formatting: date, number, currency formatting per locale
+- Shell/Settings/Dashboard/error messages 100% translated
+- FlowDirection mirroring for all Shell pages
+- Plugin UI may use English fallback if translations unavailable
+- Excel ribbon remains LTR (VSTO limitation)
+
+### Phase 25: Platform Rebranding 📋 PLANNING
+**Branch**: `026-platform-rebranding`
+
+**Dependencies**: All theme/phases, Phase 17 Material Design, Phase 24 Localization
+
+- Transform Som3a visual identity into Planova Platform
+- New brand color palettes: Dark Engineering + Light Engineering-White
+- Animated splash screen (exempt from 200ms rule, target <=3s)
+- Shell sidebar logo/branding with app name
+- Ribbon iconography updated to Planova design system
+- English + Arabic typography system with font stack fallback chain
+- Brand asset folder: Assets/Branding/ (Logos, Ribbon, Splash, Wallpapers, Icons, Theme, Fonts, Master)
+- WCAG 2.1 AA contrast validation for new brand colors
+
+### Phase 26: Release Candidate Packaging 📋 PLANNING
+**Branch**: `feature/phase-26-release-candidate`
+
+**Dependencies**: All prior phases, WiX Toolset v4, signtool.exe
+
+- Production release pipeline: validation→optimization→packaging→installer→QA
+- Final validation suites: UI regression, plugin isolation, AI provider, Excel host
+- Performance optimization: DataGrid virtualization, COM cleanup, lazy module loading
+- MSI installer via WiX Toolset v4 with code signing
+- Documentation export: CHM help file + PDF user guide
+- Crash diagnostics: last-run telemetry bundled in installer
+- Release candidate artifact with semver metadata
+
+### Phase 27: Persistence & Platform Database Infrastructure 📋 SPEC COMPLETE
+**Branch**: `027-persistence-infrastructure`
+
+**Status**: Spec & implementation plan finalized (8 documents, 45 tasks); source code pending
+**Target Project**: `Som3a.Infrastructure/` (.NET 8.0 Class Library)
+
+**Architecture**:
+```
+Application Layer → Repository Interfaces (ISettingsRepository, IAIRepository, IPluginRepository, ILogRepository, ITemplateRepository)
+                → Unit of Work (atomic transactions)
+                → Database Infrastructure (DatabaseFactory, ConnectionManager, MigrationEngine, BackupService)
+                → SQLite (platform.db, WAL mode, DPAPI, GUID PKs, async ops)
+```
+
+**5 User Stories**:
+| Priority | Story | Key Entities |
+|----------|-------|-------------|
+| P1 🎯 | Settings Persistence | SettingsRecord (Category+Name+PluginId unique) |
+| P1 🎯 | AI Execution History | AIExecutionRecord, AIRuntimeRecord |
+| P2 | Plugin State Management | PluginRecord, PluginVersionRecord |
+| P2 | Diagnostics & Crash Recovery | DiagnosticsLog, CrashReport, ExportHistoryRecord |
+| P3 | Template Management | TemplateRecord, BackupManifest |
+
+**Key Technical Decisions**: Microsoft.Data.Sqlite, WAL mode, DPAPI, GUID PKs, VACUUM INTO backup, SemaphoreSlim write gate, in-memory SQLite for tests
+
+**8 Implementation Sub-Phases**: Setup → Foundational → US1 (Settings MVP) → US2 (AI History) → US3 (Plugins) → US4 (Diagnostics) → US5 (Templates) → Polish (Backup, Encryption, Retention, Tests)
+
+---
+
 ## 7. Core Components
 
 ### DI Container (ServiceContainer)
@@ -1229,26 +1472,63 @@ Select deployed .vsto file → OK
 
 ## 14. Future Roadmap
 
-### Short Term (Current — Phase 10-11)
+### Immediate (Current — Phases 10-11 Validation)
 - [x] Close 15 Phase 3 validation tasks
 - [x] All 6 enterprise polish audit reports
 - [x] ToastWindow migration to ModernWindow
 - [x] Hardcoded value elimination
 - [x] All 14 windows migrate to Pages
-- [ ] Final production validation
+- [ ] Complete Phase 10 enterprise polish validation
+- [ ] Complete Phase 11 window-to-page migration
 
-### Medium Term (3-6 Months)
-- [ ] Oracle database full support
-- [ ] Advanced filtering & sorting
-- [ ] Report generation engine
-- [ ] Performance optimization for large datasets
+### Phase 14: Platform Foundation (Next Priority)
+- [ ] Create 7 new .NET 8.0 class libraries (Domain, Contracts, Plugin.SDK, AI, Exporting, Localization, Validation, Diagnostics, Infrastructure)
+- [ ] Create .NET Standard 2.0 Bridge for VSTO interop
+- [ ] Domain entities: BOQDocument, Activity, WBSNode, Relationship, Calendar, Resource, Constraint
+- [ ] Plugin SDK: attributes, discovery, validation, hosting infrastructure
+- [ ] AI abstraction layer with provider contracts
+- [ ] Build all 7 libraries with zero errors
 
-### Long Term (6-12 Months)
-- [ ] REST API for remote access
-- [ ] Web-based UI companion
-- [ ] Real-time synchronization
-- [ ] Machine learning insights
-- [ ] Multi-language localization
+### Phase 15-16: Shell Refactor & Dynamic Settings
+- [ ] Categorized sidebar groups with `[NavigationItem]` discovery
+- [ ] Sidebar collapse/expand with auto-hide icon strip
+- [ ] Dynamic registry-based settings system with ISettingsModule
+- [ ] Per-plugin settings persistence + DPAPI encryption
+
+### Phase 17-18: Theme Expansion & AI Infrastructure
+- [ ] Material Design icon/control integration (PackIcon, DialogHost, Slider)
+- [ ] Shell workspace background image with DWM blur
+- [ ] Dynamic font family switching (English + Arabic)
+- [ ] 6 AI provider adapters (OpenAI, Claude, DeepSeek, GLM, Kimi, Codex)
+- [ ] Prompt governance: Draft→Published→Deprecated lifecycle
+- [ ] Structured output parsers for domain entities
+
+### Phase 19-22: Planning Engine Suite
+- [ ] AI-powered WBS generation with 15+ templates across 5 categories
+- [ ] BOQ → Activity generation with verb-noun naming
+- [ ] Relationship generator (FS/SS/FF/SF) with cycle detection
+- [ ] Duration estimation from quantities + productivity benchmarks
+- [ ] Critical path calculation + topological validation
+
+### Phase 23-25: Dashboard, Localization & Rebranding
+- [ ] HomePage dashboard with 9 live widgets replacing WelcomePage
+- [ ] Full English ↔ Arabic RTL switching without restart
+- [ ] 100% translation of Shell/Settings/Dashboard/error messages
+- [ ] Planova brand identity: new color palettes, animated splash, logo/branding
+
+### Phase 26-27: Release & Persistence
+- [ ] Production release pipeline with MSI installer and code signing
+- [ ] Documentation export: CHM + PDF user guide
+- [ ] Phase 27 ✅ Spec Complete — SQLite persistence with repository pattern, Unit of Work, migrations, backup/recovery, DPAPI encryption, data retention
+- [ ] Final pre-release validation suite
+
+### Post-Phase 26: Fluent UI & Modern Platform Migration
+- [ ] Upgrade WpfApp2 from .NET Framework 4.8 to .NET 8.0 as out-of-process WPF host
+- [ ] Fluent UI + WPF-UI + CommunityToolkit.Mvvm + Fluent 2 icons
+- [ ] Named pipe Bridge communication with VSTO add-in
+- [ ] Sidebar toggle, titlebar branding, drag-and-drop sidebar reordering
+- [ ] Resources dictionary (auto-collect from BOQ → database)
+- [ ] Full VSTO test after every migration phase
 
 ---
 
@@ -1260,8 +1540,14 @@ Select deployed .vsto file → OK
 
 ### Master Implementation Plan
 - `implementation_plan.md` (1948 lines) — Phases 0-11 with full task breakdown
+- `enterprise_planning_platform_plan.md` (1760 lines) — Enterprise Planning Platform Phases 14-27
+- `specs/027-persistence-infrastructure/plan.md` (108 lines) — Phase 27 Persistence Infrastructure plan
+- `specs/future-plan-fluent-ui-migration.md` (377 lines) — Post-Phase 26 Fluent UI & Modern Platform Migration
 - Status: Implementation complete across Phases 0-9 (one branch per phase via develop merges)
-- Phase 10 (Enterprise Polish) + Phase 11 (Legacy Window Migration): Validation tasks in progress
+- Phase 10 (Enterprise Polish): Validation tasks in progress
+- Phase 11 (Legacy Window Migration): Validation tasks in progress
+- Phases 14-26 (Enterprise Planning Platform): Specs & plans finalized, implementation pending
+- Phase 27 (Persistence Infrastructure): Spec & implementation plan finalized
 
 ### CodeRabbit Review Gates
 Every phase requires:
@@ -1333,11 +1619,18 @@ feature/phase-NN-short-description
 Examples:
   feature/phase-00-governance-foundation
   feature/phase-11-legacy-migration
+  027-persistence-infrastructure          # Phase 27 (ongoing feature branch)
 ```
+
+### F. Enterprise Planning Platform Reference
+- `enterprise_planning_platform_plan.md` (1760 lines) — Master plan for Phases 14-27
+- `specs/027-persistence-infrastructure/` — Phase 27 Persistence Infrastructure spec
+- Planned .NET 8.0 projects: Som3a.Domain, Som3a.Contracts, Som3a.AI, Som3a.Exporting, Som3a.Localization, Som3a.Validation, Som3a.Diagnostics, Som3a.Infrastructure, Som3a.Plugin.SDK
 
 ---
 
-**Document Version**: 3.0
-**Last Updated**: May 25, 2026
+**Document Version**: 4.0
+**Last Updated**: May 30, 2026
 **Author**: Development Team
-**Status**: Complete — All Phases 0-11 Documented
+**Status**: Comprehensive — All 28 Phases (0-27) + Post-Phase 26 Migration Plan Documented
+**Next Milestone**: Complete Phase 10-11 validation → Begin Phase 14 Platform Foundation

@@ -77,8 +77,9 @@ public class DiagnosticsRepository : ILogRepository
 
         if (!string.IsNullOrEmpty(minSeverity))
         {
-            conditions.Add("Severity IN (@sev0, @sev1, @sev2)");
             var severityLevels = GetSeverityLevels(minSeverity);
+            var sevParams = string.Join(", ", severityLevels.Select((_, i) => $"@sev{i}"));
+            conditions.Add($"Severity IN ({sevParams})");
             for (int i = 0; i < severityLevels.Count; i++)
                 command.Parameters.AddWithValue($"@sev{i}", severityLevels[i]);
         }

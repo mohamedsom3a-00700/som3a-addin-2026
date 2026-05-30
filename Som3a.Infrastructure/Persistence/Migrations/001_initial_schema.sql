@@ -41,10 +41,9 @@ CREATE TABLE IF NOT EXISTS AIRuntimeRecord (
     OperationCount  INTEGER NOT NULL DEFAULT 0,
     EstimatedCost   REAL    NOT NULL DEFAULT 0.0,
     StartedAt       TEXT    NOT NULL,
-    UpdatedAt       TEXT    NOT NULL
+    UpdatedAt       TEXT    NOT NULL,
+    UNIQUE(SessionId, ProviderName)
 );
-
-CREATE INDEX IF NOT EXISTS IX_AIRuntimeRecord_Session ON AIRuntimeRecord(SessionId, ProviderName);
 
 CREATE TABLE IF NOT EXISTS PluginRecord (
     Id              TEXT    NOT NULL PRIMARY KEY,

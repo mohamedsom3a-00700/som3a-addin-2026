@@ -2,8 +2,8 @@
 
 **Purpose**: This document is a complete reference of every file path in the project, organized in multiple ways (by project, by function, by feature), plus a comprehensive Work Breakdown Structure (WBS). Give this to ChatGPT as system context so it can understand the full codebase.
 
-**Last Updated**: May 25, 2026
-**Solution Status**: Phases 0-9 complete, Phases 10-11 in validation
+**Last Updated**: May 30, 2026
+**Solution Status**: Phases 0-9 complete, Phases 10-11 in validation, Phases 14-27 in planning (specs finalized), Post-Phase 26 Fluent UI Migration planned
 
 ---
 
@@ -17,6 +17,7 @@ README.md                                      # Project overview (80 lines)
 AGENTS.md                                      # AI agent context instructions (~170 lines)
 COMPLETE_SOLUTION_GUIDE.md                     # Full solution guide (~1700 lines)
 implementation_plan.md                         # Enterprise UI Transformation Master Plan (1948 lines)
+enterprise_planning_platform_plan.md           # Enterprise Planning Platform Phases 14-27 (1760 lines)
 extraction_1779466152081.md                    # Data extraction notes
 .gitattributes                                 # Git LFS/attributes config
 .gitignore                                     # Git ignore rules
@@ -450,62 +451,153 @@ WpfApp1/                                      # Old legacy .NET 4.7.2 WPF App
 
 ```text
 specs/
-├── feature-planning-guide.md                  # ChatGPT feature planning guide
-├── guide-files-path-and-wbs.md                # THIS FILE — comprehensive file reference + WBS
-├── 001-fluent-theme-engine/                   # Theme engine + effects + control standardization
-│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
-│   ├── checklists/requirements.md
-│   └── contracts/theme-api.md
-├── 001-github-governance-workflow/            # Git workflow + review gates
+├── feature-planning-guide.md                          # ChatGPT feature planning guide (466 lines)
+├── guide-files-path-and-wbs.md                        # THIS FILE — comprehensive file reference + WBS (1626 lines)
+├── future-plan-fluent-ui-migration.md                 # Post-Phase 26 Fluent UI migration plan (377 lines)
+│
+├── [PHASE 0] 001-github-governance-workflow/          # Git workflow + review gates + governance
 │   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
 │   ├── checklists/requirements.md
 │   └── contracts/ (merge-gate-contract.md, review-checklist-contract.md)
-├── 001-diagnostics-stability-platform/        # Diagnostics + logging + validation
-│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
-│   ├── checklists/requirements.md
-│   └── contracts/service-interfaces.md
-├── 001-settings-personalization-ux/           # Settings UI + panels
-│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
-│   └── contracts/settings-persistence.md
-├── 002-themes-manager/                        # ThemeManager fixes + hardcoded color elimination
-│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
-│   └── checklists/requirements.md
-├── 004-design-system-core/                    # Token architecture + primitive/semantic/component
+│
+├── [PHASE 1] 004-design-system-core/                  # Primitive/Semantic/Component token architecture
 │   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
 │   ├── checklists/requirements.md
 │   └── contracts/token-api.md
-├── 005-rendering-infrastructure/              # Excel-safe rendering + DPI
+│
+├── [PHASE 2] 005-rendering-infrastructure/            # Excel-safe rendering + DPI + ModernWindow
 │   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
 │   ├── checklists/requirements.md
 │   └── contracts/render-service.md
-├── 006-phase-3-spec/                          # Phase 3 integration spec
+│
+├── [PHASE 3] 001-fluent-theme-engine/                 # Fluent Runtime Theme Engine (Dark/Light/Custom)
 │   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
 │   ├── checklists/requirements.md
 │   └── contracts/theme-api.md
-├── 007-control-standardization/               # Control template audit + refactor
+├── [PHASE 3] 002-themes-manager/                      # ThemeManager fixes + hardcoded color elimination
 │   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
 │   └── checklists/requirements.md
-├── 008-navigation-shell-platform/             # Shell + sidebar + navigation service
+├── [PHASE 3] 006-phase-3-spec/                        # Theme Engine 2.0 integration spec
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/theme-api.md
+│
+├── [PHASE 4] 007-control-standardization/             # Control template audit + 22 control styles + popup fix
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   └── checklists/requirements.md
+│
+├── [PHASE 5] 008-navigation-shell-platform/           # ShellWindow + Sidebar + NavigationService
 │   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
 │   ├── checklists/requirements.md
 │   └── contracts/ (INavigationService.md, IPageHost.md, ISidebarModel.md)
-├── 009-mvvm-architecture-cleanup/             # DI container + event bus + module registry
+│
+├── [PHASE 6] 009-mvvm-architecture-cleanup/           # DI container + EventBus + ModuleRegistry
 │   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
 │   ├── checklists/requirements.md
 │   └── contracts/ (IEventBus.md, IModule.md, IServiceContainer.md)
-├── 011-legacy-window-migration/               # Window → Page migration (Phase 11)
-│   ├── data-model.md / MIGRATION_PATTERNS.md / plan.md / quickstart.md
-│   ├── research.md / spec.md / tasks.md
-│   └── checklists/requirements.md
-├── 012-plugin-feature-platform/               # Plugin loader + module system
+│
+├── [PHASE 7] 001-settings-personalization-ux/         # Settings UI with 6 categorized panels
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   └── contracts/settings-persistence.md
+│
+├── [PHASE 8] 001-diagnostics-stability-platform/      # Diagnostics panel + validation + logging
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/service-interfaces.md
+│
+├── [PHASE 9] 012-plugin-feature-platform/             # Plugin loader + module system + sample
 │   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
 │   ├── checklists/requirements.md
 │   └── contracts/ (ICommandRegistrar.cs, IModule.cs, IModuleInitializationContext.cs,
 │                    IModuleRegistry.cs, INavigationRegistrar.cs, IPluginLoader.cs,
 │                    IRibbonRegistrar.cs, ModuleInfo.cs, ModuleManifest.cs)
-└── 013-enterprise-polish/                     # Performance, accessibility, DPI, stability (Phase 10)
-    ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
-    └── checklists/requirements.md
+│
+├── [PHASE 10] 013-enterprise-polish/                  # 7 workstreams: perf/accessibility/DPI/stability
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   └── checklists/requirements.md
+│
+├── [PHASE 11] 011-legacy-window-migration/            # Window → Page migration (14 windows)
+│   ├── data-model.md / MIGRATION_PATTERNS.md / plan.md / quickstart.md
+│   ├── research.md / spec.md / tasks.md
+│   └── checklists/requirements.md
+│
+├── [PHASE 14] 014-platform-foundation/                # .NET 8.0 Domain/Contracts/AI/Export/PluginSDK
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/ (IPlugin.cs, IAIProvider.cs, IExportEngine.cs, ISettingsModule.cs, IPromptProvider.cs, IDiagnosticsProvider.cs)
+│
+├── [PHASE 15] 015-shell-refactor/                     # Categorized sidebar + dynamic nav + legacy cleanup
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/ (INavigationItem.cs, ISidebarCategory.cs, ICategoryProvider.cs)
+│
+├── [PHASE 16] 016-dynamic-settings-platform/          # Plugin registry settings + ISettingsModule
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/ (ISettingsModule.cs, ISettingsSection.cs, IValidationRule.cs)
+│
+├── [PHASE 17] 017-theme-expansion/                    # Material Design + background blur + fonts
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   └── checklists/requirements.md
+│
+├── [PHASE 18] 018-ai-core-infrastructure/             # 6 AI providers + orchestration + prompt governance
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/ (IAIProviderAdapter.cs, IPromptTemplate.cs, IOutputParser.cs)
+│
+├── [PHASE 19] 019-wbs-engine/                         # AI-powered WBS generation + templates
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/ (IWBSGenerator.cs, IWBSTemplateProvider.cs)
+│
+├── [PHASE 20] 020-boq-activity-generator/            # AI BOQ → Activity generation
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/ (IBOQParser.cs, IActivityGenerator.cs)
+│
+├── [PHASE 21] 001-relationship-generator-plugin/      # AI relationship generation (FS/SS/FF/SF)
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/ (IRelationshipGenerator.cs, IRelationshipValidator.cs)
+│
+├── [PHASE 22] 021-duration-estimator-plugin/          # Duration estimation from quantities + rates
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/ (IDurationEstimator.cs, IProductivityProvider.cs)
+│
+├── [PHASE 23] 023-dashboard-home/                     # Home dashboard with 9 live widgets
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   └── checklists/requirements.md
+│
+├── [PHASE 24] 024-localization-rtl/                   # Arabic + English RTL localization
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/ (ILocalizationProvider.cs, ITranslationProvider.cs)
+│
+├── [PHASE 25] 025-platform-rebranding/                # Som3a → Planova visual identity rebranding
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   ├── checklists/requirements.md
+│   └── contracts/ (IBrandingProvider.cs, IThemeVariantProvider.cs)
+│
+├── [PHASE 26] 026-release-candidate-packaging/        # MSI installer + validation + code signing
+│   ├── data-model.md / plan.md / quickstart.md / research.md / spec.md / tasks.md
+│   └── checklists/requirements.md
+│
+└── [PHASE 27] 027-persistence-infrastructure/        # SQLite persistence + repository pattern + migrations + backup
+    ├── plan.md                                        # Implementation plan (108 lines)
+    ├── spec.md                                        # Feature specification (181 lines, 5 user stories)
+    ├── research.md                                    # Technology research (90 lines, 11 decisions)
+    ├── data-model.md                                  # Entity data model (251 lines, 10 entities)
+    ├── quickstart.md                                  # Quickstart guide (133 lines)
+    ├── tasks.md                                       # Task breakdown (269 lines, 45 tasks)
+    ├── checklists/                                    # Requirements checklists
+    └── contracts/                                     # 6 contract interface definitions
+        ├── ISettingsRepository.cs.md
+        ├── IAIRepository.cs.md
+        ├── IPluginRepository.cs.md
+        ├── ILogRepository.cs.md
+        ├── ITemplateRepository.cs.md
+        └── IUnitOfWork.cs.md
 
 Docs/
 ├── fix.md / PROJECT_GUIDE.md / QUICK_REFERENCE.md
@@ -1136,8 +1228,18 @@ Som3a.Shared/Models/
 1.1  Som3a Addin 2026 (VSTO Host)        # Excel add-in project
 1.2  Som3a.Shared (Business Logic)       # Shared services & models
 1.3  WpfApp2 (WPF UI)                    # Main WPF UI + Theme + Shell + Services
-1.4  Tests (Unit Testing)                # MSTest test project
+1.4  Tests (Unit Testing)                # MSTest unit tests
 1.5  WpfApp2.Modules.Sample (Plugin)     # Sample plugin module
+1.6  Som3a.Infrastructure (Planned)      # .NET 8.0 Persistence library (Phase 27)
+1.7  Som3a.Domain (Planned)              # .NET 8.0 Domain entities (Phase 14)
+1.8  Som3a.Contracts (Planned)           # .NET 8.0 Contract interfaces (Phase 14)
+1.9  Som3a.AI (Planned)                  # .NET 8.0 AI abstraction (Phase 14/18)
+1.10 Som3a.Plugin.SDK (Planned)          # .NET 8.0 Plugin framework (Phase 14)
+1.11 Som3a.Exporting (Planned)           # .NET 8.0 Export engine (Phase 14)
+1.12 Som3a.Localization (Planned)        # .NET 8.0 Localization (Phase 14/24)
+1.13 Som3a.Validation (Planned)          # .NET 8.0 Validation (Phase 14)
+1.14 Som3a.Diagnostics (Planned)         # .NET 8.0 Diagnostics (Phase 14)
+1.15 Som3a.Bridge (Planned)              # .NET Standard 2.0 Bridge (Phase 14)
 ```
 
 ### WBS Level 3: Feature Domains
@@ -1174,7 +1276,110 @@ Som3a.Shared/Models/
      1.4.3  ViewModel Tests              # ViewModelBaseTests
 
 1.5  Plugin Sample
-     1.5.1  Sample Module                # SampleModule.cs + module.json
+      1.5.1  Sample Module                # SampleModule.cs + module.json
+
+1.6  Persistence Infrastructure (Phase 27 — Planned)
+      1.6.1  SQLite Infrastructure        # DatabaseContext, DatabaseFactory, ConnectionManager, SQLiteConfiguration
+      1.6.2  Migration Engine             # MigrationEngine, 001_initial_schema.sql, version tracking, rollback
+      1.6.3  Unit of Work                 # IUnitOfWork, UnitOfWork (BEGIN IMMEDIATE, atomic commit/rollback)
+      1.6.4  Settings Repository          # ISettingsRepository, SettingsRepository (category+name+pluginId upsert)
+      1.6.5  AI Repository                # IAIRepository, AIRepository (provider/date/status filtering, pagination)
+      1.6.6  Plugin Repository            # IPluginRepository, PluginRepository (version history, health tracking)
+      1.6.7  Diagnostics Repository       # ILogRepository, DiagnosticsRepository (severity filtering, batch writes)
+      1.6.8  Template Repository          # ITemplateRepository, TemplateRepository (type+name+category search)
+      1.6.9  Backup & Restore             # BackupService (VACUUM INTO), RestoreService, BackupManifest
+      1.6.10 Security                     # DataProtection (DPAPI encrypt/decrypt)
+      1.6.11 Data Retention               # DataRetentionConfiguration, DataRetentionService (chunked cleanup)
+      1.6.12 Validation & Health          # EntityValidator, DatabaseHealthCheck (PRAGMA integrity_check)
+      1.6.13 Composition Root             # ServiceRegistration in Som3a.Infrastructure
+      1.6.14 Tests                        # xUnit project: repository contracts, migration, backup integration
+
+1.7  Platform Foundation (Phase 14 — Planned)
+      1.7.1  Domain Library               # BOQ, Activities, WBS, Relationships, Calendars, Resources, Constraints
+      1.7.2  Contracts Library            # IPlugin, IAIProvider, IExportEngine, ISettingsModule, IPromptProvider
+      1.7.3  Plugin SDK                   # Attributes, Discovery, Validation, Hosting infrastructure
+      1.7.4  AI Abstraction Layer         # IAIProvider + OpenAI/Anthropic SDK adapters
+      1.7.5  Export Engine                # Pipeline: Excel, CSV, JSON, XML, Primavera XER
+      1.7.6  Localization Library         # i18n interfaces + resource management
+      1.7.7  Validation Library           # Entity validation + cross-field rules
+      1.7.8  Diagnostics Library          # Structured logging + performance counters
+      1.7.9  Bridge (.NET Standard 2.0)   # InteropContracts, DiagnosticsChannel
+
+1.8  Shell Refactor (Phase 15 — Planned)
+      1.8.1  Categorized Sidebar          # Planning, Analysis, Excel, AI, Settings groups
+      1.8.2  Dynamic Navigation           # [NavigationItem] attribute discovery
+      1.8.3  Sidebar Collapse             # Auto-hide icon strip + expand/collapse
+      1.8.4  Keyboard Navigation          # Arrow keys + skip link
+      1.8.5  Unsaved Changes Warning      # CanNavigateAway guard
+      1.8.6  Legacy Window Removal        # Remove 12 legacy standalone Window classes
+
+1.9  Dynamic Settings Platform (Phase 16 — Planned)
+      1.9.1  Settings Registry            # ISettingsModule registration
+      1.9.2  Dynamic UI Builder           # Auto-render settings controls from declarations
+      1.9.3  Hot-Reload via EventBus      # SettingsChangedEvent propagation
+      1.9.4  DPAPI Encryption             # Encrypted API key storage
+      1.9.5  Per-Plugin JSON Files        # AppData/Som3a/Plugins/ persistence
+      1.9.6  Import/Export                # JSON bundle import/export
+
+1.10 Theme Expansion (Phase 17 — Planned)
+      1.10.1 Material Design Icons        # PackIcon integration
+      1.10.2 Background Blur              # DWM blur on Shell workspace
+      1.10.3 Font Switching               # English + Arabic font stacks
+      1.10.4 Accent Color Picker          # Color wheel + hex + variant generation
+      1.10.5 WCAG Validation              # Contrast compliance checks
+
+1.11 AI Core Infrastructure (Phase 18 — Planned)
+      1.11.1 Provider Adapters            # OpenAI, Claude, DeepSeek, GLM, Kimi, Codex
+      1.11.2 Orchestration Engine         # Routing, streaming, failover
+      1.11.3 Prompt Governance            # Draft→Published→Deprecated lifecycle
+      1.11.4 Output Parsers               # Activity, WBS, Relationship, Duration, Validation
+      1.11.5 Token Tracking               # Usage monitoring per provider/session
+
+1.12 WBS Engine (Phase 19 — Planned)
+      1.12.1 AI WBS Generation            # From project description or template
+      1.12.2 Template Library             # 15+ templates across 5 categories
+      1.12.3 Tree Editor                  # Manual edit + auto-code generation
+      1.12.4 Multi-Format Export          # Excel, JSON, XML
+
+1.13 BOQ Activity Generator (Phase 20 — Planned)
+      1.13.1 BOQ Parsing                  # From Excel worksheets
+      1.13.2 AI Context Building          # BOQ items → structured activities
+      1.13.3 Activity Grid                # Editable, sortable, filterable grid
+      1.13.4 Excel Export                 # Generated activities to Excel
+
+1.14 Relationship Generator (Phase 21 — Planned)
+      1.14.1 AI Relationship Logic        # FS/SS/FF/SF generation
+      1.14.2 Cross-Trade Detection        # Trade sequence + space constraints
+      1.14.3 Topological Validation       # Cycle detection + dangling links
+      1.14.4 Critical Path                # PathFinder + GraphService integration
+
+1.15 Duration Estimator (Phase 22 — Planned)
+      1.15.1 Productivity Benchmarks      # Built-in library by trade category
+      1.15.2 Calendar-Aware Scheduling    # Work days, holidays, shifts
+      1.15.3 Three-Point Variance         # Optimistic, likely, pessimistic
+      1.15.4 AI Suggestions               # Anomaly detection + rate recommendations
+
+1.16 Dashboard Home (Phase 23 — Planned)
+      1.16.1 Live Widgets                 # 9 fixed widgets (AI, DB, theme, memory, etc.)
+      1.16.2 Diagnostics Page             # Real-time system metrics
+      1.16.3 WelcomePage Replacement      # HomePage as default landing page
+
+1.17 Localization & RTL (Phase 24 — Planned)
+      1.17.1 Arabic Translation           # 100% Shell/Settings/Dashboard coverage
+      1.17.2 RTL Mirroring                # FlowDirection switching without restart
+      1.17.3 Culture-Aware Formatting     # Date, number, currency per locale
+
+1.18 Platform Rebranding (Phase 25 — Planned)
+      1.18.1 New Brand Colors             # Dark Engineering + Light Engineering-White
+      1.18.2 Animated Splash              # ≤3s branded startup screen
+      1.18.3 Shell Branding               # Logo + app name in sidebar
+      1.18.4 Ribbon Icons                 # Updated Planova design system
+
+1.19 Release Candidate Packaging (Phase 26 — Planned)
+      1.19.1 Release Pipeline             # Validation → optimization → packaging → installer → QA
+      1.19.2 MSI Installer                # WiX Toolset v4 + code signing
+      1.19.3 Documentation                # CHM help file + PDF user guide
+      1.19.4 Final Validation             # UI, plugin, AI, Excel regression suites
 ```
 
 ### WBS Level 4: Detailed Work Packages
@@ -1329,20 +1534,44 @@ Som3a.Shared/Models/
        1.3.8.6  ExcelProjectAnalysisService
 
 1.3.9  Infrastructure
-       1.3.9.1  ViewModel base             # ViewModelBase.cs, NotifyBase.cs
-       1.3.9.2  Relay commands             # RelayCommand.cs, AsyncRelayCommand.cs
-       1.3.9.3  Value converters           # SharedConverters.cs, WindowConverters.cs, DifferenceTypeToColorConverter.cs
-       1.3.9.4  Window helpers             # WindowBehaviorHelper.cs, WindowValidationHelper.cs, WindowChromeHelper.cs
-       1.3.9.5  DPI helper                 # DpiHelper.cs
-       1.3.9.6  ViewModels                 # 17 ViewModels across VMs directory
-       1.3.9.7  Settings panels            # 6 settings panel files (Appearance, Accessibility, Performance, Excel, Diagnostics, Plugins)
-```
+        1.3.9.1  ViewModel base             # ViewModelBase.cs, NotifyBase.cs
+        1.3.9.2  Relay commands             # RelayCommand.cs, AsyncRelayCommand.cs
+        1.3.9.3  Value converters           # SharedConverters.cs, WindowConverters.cs, DifferenceTypeToColorConverter.cs
+        1.3.9.4  Window helpers             # WindowBehaviorHelper.cs, WindowValidationHelper.cs, WindowChromeHelper.cs
+        1.3.9.5  DPI helper                 # DpiHelper.cs
+        1.3.9.6  ViewModels                 # 17 ViewModels across VMs directory
+        1.3.9.7  Settings panels            # 6 settings panel files (Appearance, Accessibility, Performance, Excel, Diagnostics, Plugins)
+
+1.6  Persistence Infrastructure
+        1.6.1.1  SQLiteConfiguration        # Data directory, filename, connection string builder
+        1.6.1.2  ConnectionManager          # Reader/writer split, SemaphoreSlim(1,1) write gate
+        1.6.1.3  DatabaseContext            # PRAGMA setup (WAL, synchronous=NORMAL, busy_timeout=5000, foreign_keys=ON)
+        1.6.1.4  DatabaseFactory            # Singleton factory, initialization orchestration
+        1.6.2.1  MigrationEngine            # PRAGMA user_version tracking, numbered SQL scripts, rollback
+        1.6.2.2  001_initial_schema.sql     # All 10 entity tables with GUID PKs, indexes, constraints
+        1.6.3.1  UnitOfWork                 # BEGIN IMMEDIATE, CommitAsync, RollbackAsync, repository accessors
+        1.6.4.1  Settings repository        # Upsert (INSERT OR REPLACE), category+name+pluginId unique
+        1.6.5.1  AI repository              # Date/provider/status filtering, pagination, runtime aggregation
+        1.6.6.1  Plugin repository          # Version history FK chain, health tracking, enable/disable
+        1.6.7.1  Diagnostics repository     # Severity filtering, batched writes, export history queries
+        1.6.8.1  Template repository        # Type+name+category unique, partial match search, version increment
+        1.6.9.1  BackupService              # VACUUM INTO, SHA-256 checksum, PRAGMA integrity_check
+        1.6.9.2  RestoreService             # Close connections, replace file, re-run migrations
+        1.6.10.1 DataProtection             # DPAPI (ProtectedData) encrypt/decrypt for sensitive columns
+        1.6.11.1 DataRetentionService       # Chunked batch deletes (500 rows), per-category config
+        1.6.12.1 EntityValidator            # GUID non-empty, string max length, enum validation
+        1.6.12.2 DatabaseHealthCheck        # PRAGMA integrity_check on startup, recovery from backup
+        1.6.13.1 ServiceRegistration        # DI registration of DatabaseFactory, repositories, services
+        1.6.14.1 Repository contract tests  # SettingsRepository, AIRepository via in-memory SQLite
+        1.6.14.2 Migration integration test # Apply all migrations, verify schema version, rollback
+        1.6.14.3 Backup integration test    # Backup checksum, restore, data integrity verification
+        ```
 
 ### WBS Format: Numeric Code Key
 
 ```text
 WBS Format:  X.Y.Z.W
-  X = Project (1=VSTO Host, 2=Shared, 3=WPF UI, 4=Tests, 5=Plugin Sample)
+  X = Project (1=VSTO Host, 2=Shared, 3=WPF UI, 4=Tests, 5=Plugin Sample, 6=Infrastructure)
   Y = Feature Domain (1-9)
   Z = Work Package (1-14)
   W = Task (optional, 1-12)
@@ -1379,7 +1608,21 @@ Examples:
 | 1.3.9 | Infrastructure | 3 | ✅ Complete | 5d |
 | 1.4 | Tests | 6 | ✅ Complete | 3d |
 | 1.5 | Plugin Sample | 9 | ✅ Complete | 1d |
-| | **Total Estimated** | | | **~96 days** |
+| 1.6 | Persistence Infrastructure | 27 | 📋 Spec Complete | 15d |
+| 1.7 | Platform Foundation (7 libs) | 14 | 📋 Planned | 20d |
+| 1.8 | Shell Refactor | 15 | 📋 Planned | 10d |
+| 1.9 | Dynamic Settings Platform | 16 | 📋 Planned | 10d |
+| 1.10 | Theme Expansion | 17 | 📋 Planned | 8d |
+| 1.11 | AI Core Infrastructure | 18 | 📋 Planned | 15d |
+| 1.12 | WBS Engine | 19 | 📋 Planned | 12d |
+| 1.13 | BOQ Activity Generator | 20 | 📋 Planned | 10d |
+| 1.14 | Relationship Generator | 21 | 📋 Planned | 8d |
+| 1.15 | Duration Estimator | 22 | 📋 Planned | 10d |
+| 1.16 | Dashboard Home | 23 | 📋 Planned | 8d |
+| 1.17 | Localization & RTL | 24 | 📋 Planned | 10d |
+| 1.18 | Platform Rebranding | 25 | 📋 Planned | 8d |
+| 1.19 | Release Candidate Packaging | 26 | 📋 Planned | 10d |
+| | **Total Estimated** | | | **~244 days** |
 
 ---
 
@@ -1391,22 +1634,32 @@ Copy this entire block when you need ChatGPT to work with the codebase:
 ## Project Context
 
 You are working on **Som3a Addin 2026**, a professional Excel VSTO Add-in built with:
-- **C# (LangVersion 14.0) / .NET Framework 4.8**
+- **C# (LangVersion 14.0) / .NET Framework 4.8** (WPF/VSTO) + **.NET 8.0** (Domain/AI/Contracts/Infrastructure)
 - **WPF** for UI (ModernWindow, WindowChrome, ResourceDictionaries)
 - **VSTO** for Excel integration (Ribbon1.cs, ThisAddIn.cs)
 - **CommunityToolkit.Mvvm 8.4.2** for MVVM
 - **Oracle/SQL Server** for Primavera P6 database access
+- **SQLite (Microsoft.Data.Sqlite 8.0+)** for platform persistence (Phase 27)
 
-### Solution Structure (3 main projects + 1 test + 1 sample)
+### Solution Structure (3 main projects + 1 test + 1 sample + planned .NET 8.0 libraries)
 1. **Som3a Addin 2026/** — Excel host (Ribbon, Bridge, Dialog Hosting)
 2. **Som3a.Shared/** — Business logic (Primavera, XER, Excel, WBS, Graph)
 3. **WpfApp2/** — WPF UI (all windows, Pages, ViewModels, Theme, Shell, Services)
 4. **Tests/** — Unit tests (MSTest)
 5. **WpfApp2.Modules.Sample/** — Sample plugin module
+6. **Som3a.Infrastructure/** (Planned) — .NET 8.0 persistence library for Phase 27: SQLite, repositories, migrations, backup/restore, DPAPI encryption
 
 ### Architecture Layers
 ```
 VSTO → WPF Shell → ViewModels → Business Logic (Shared) → DI Infrastructure → Data Access
+```
+
+### Persistence Layer (Phase 27)
+```
+Application Layer → Repository Interfaces (ISettingsRepository, IAIRepository, IPluginRepository, ILogRepository, ITemplateRepository)
+                → Unit of Work (atomic transactions)
+                → Database Infrastructure (DatabaseFactory, ConnectionManager, MigrationEngine, BackupService)
+                → SQLite (platform.db, WAL mode, DPAPI, GUID PKs)
 ```
 
 ### Key Architecture Rules
@@ -1419,12 +1672,20 @@ VSTO → WPF Shell → ViewModels → Business Logic (Shared) → DI Infrastruct
 7. **Theme tokens**: Primitive.* > Brush.* > Component.* > Control Templates
 8. **Never**: inline colors, inline shadows, inline margins, duplicate styles, business logic in code-behind
 9. **Excel-safe rendering**: AllowsTransparency=False for popups, FallbackSafe mode detection
+10. **Async persistence**: All DB operations async with cancellation tokens (Phase 27)
+11. **GUID PKs** for all persistence entities (Phase 27 — future sync readiness)
+12. **DPAPI encryption** for sensitive data at rest (Phase 27)
 
-### Build Command
+### Build Commands
 ```powershell
+# WPF .NET Framework 4.8 project
 msbuild WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
-# Full solution:
+
+# Full solution
 msbuild "Som3a Addin 2026.slnx" /p:Configuration=Debug
+
+# .NET 8.0 libraries (planned)
+dotnet build Som3a.Infrastructure/Som3a.Infrastructure.csproj
 ```
 
 ### Theme Resource Loading Order (ThemeResources.xaml)
@@ -1434,8 +1695,21 @@ msbuild "Som3a Addin 2026.slnx" /p:Configuration=Debug
 14. WindowAnimations.xaml → 15. Theme Overrides (Dark/Light/Custom — swapped at runtime)
 16. Runtime Overrides (generated brushes, accent variants)
 
+### Persistence Architecture (Phase 27)
+```
+Storage: AppData/Som3a/platform.db
+Engine:  SQLite (Microsoft.Data.Sqlite 8.0+)
+Journal: WAL (Write-Ahead Logging)
+Keys:    GUID for all entities
+Encrypt: DPAPI (ProtectedData) for sensitive columns
+Backup:  VACUUM INTO + SHA-256 integrity check
+Migrate: PRAGMA user_version + numbered SQL scripts + rollback
+Retain:  AI=1yr, Diagnostics=90d, Crash=2yr, Export=1yr (configurable)
+Test:    In-memory SQLite (:memory:) for unit tests, file-based for integration
+```
+
 ### Full File Tree Reference
-See specs/guide-files-path-and-wbs.md for complete file inventory (340+ files).
+See specs/guide-files-path-and-wbs.md for complete file inventory (410+ files).
 ````
 
 ---
@@ -1454,10 +1728,10 @@ See specs/guide-files-path-and-wbs.md for complete file inventory (340+ files).
 | Som3a_WPF_UI (.NET 10.0) | 2 | 1 | 2 | 5 |
 | Som3a_WPF_UId (legacy) | 3 | 1 | 1 | 5 |
 | WpfApp1 (legacy) | 3 | 1 | 6 | 10 |
-| Specs/Docs | 0 | 0 | 85+ | 85+ |
+| Specs/Docs | 0 | 0 | 170+ (28 spec dirs + architecture + plans) | 170+ |
 | Config/Workflow (.opencode, .specify, .github) | 0 | 0 | 50+ | 50+ |
 | packages/ | 0 | 0 | 9 packages | 9 |
-| **Total** | **~166** | **~58** | **~175** | **~400** |
+| **Total** | **~166** | **~58** | **~261** | **~485** |
 
 ### 6.2. Project Dependencies
 
@@ -1480,6 +1754,10 @@ WpfApp2.Modules.Sample (Plugin)
 
 Som3a.Shared (Business Logic)
   └── NuGet: Oracle MDA, WebView2, Newtonsoft.Json (no project references)
+
+Som3a.Infrastructure (Phase 27 — .NET 8.0 Persistence) [PLANNED]
+  └── NuGet: Microsoft.Data.Sqlite 8.0+, System.Text.Json (built-in)
+  └── Depends on: No project references (standalone library)
 ```
 
 ### 6.3. Theme Control Styles (22 files)
@@ -1526,6 +1804,20 @@ Controls/
 | 9 | Plugin Platform | `feature/phase-09-*` | ✅ Complete | PluginLoader + ModuleOrchestrator + Sample |
 | 10 | Enterprise Polish | `013-enterprise-polish` | 🔄 Validation | 6 audit reports + 37 tasks (7 workstreams) |
 | 11 | Legacy Window Migration | `011-legacy-window-migration` | 🔄 Migration | 14 Pages + MIGRATION_PATTERNS.md |
+| 14 | Platform Foundation | `feature/phase-14-*` | 📋 Planned | 7 .NET 8.0 class libraries + Bridge |
+| 15 | Shell Refactor | `015-shell-refactor` | 📋 Planned | Categorized sidebar + dynamic nav + legacy window cleanup |
+| 16 | Dynamic Settings Platform | `feature/phase-16-*` | 📋 Planned | ISettingsModule + registry + DPAPI encryption |
+| 17 | Theme Expansion | `017-theme-expansion` | 📋 Planned | Material Design + background blur + font switching |
+| 18 | AI Core Infrastructure | `018-ai-core-infrastructure` | 📋 Planned | 6 AI providers + orchestration + prompt governance |
+| 19 | WBS Engine | `019-wbs-engine` | 📋 Planned | AI WBS generation + 15+ templates + tree editor |
+| 20 | BOQ Activity Generator | `020-boq-activity-generator` | 📋 Planned | AI BOQ→Activity generation |
+| 21 | Relationship Generator | `021-relationship-generator-plugin` | 📋 Planned | AI relationship generation (FS/SS/FF/SF) |
+| 22 | Duration Estimator | `022-duration-estimator-plugin` | 📋 Planned | Duration calc from quantities + productivity benchmarks |
+| 23 | Dashboard Home | `023-dashboard-home` | 📋 Planned | 9 live widgets replacing WelcomePage |
+| 24 | Localization & RTL | `025-localization-rtl` | 📋 Planned | Arabic + English RTL without restart |
+| 25 | Platform Rebranding | `026-platform-rebranding` | 📋 Planned | Som3a→Planova brand + splash + iconography |
+| 26 | Release Candidate | `feature/phase-26-*` | 📋 Planned | MSI installer + code signing + validation |
+| 27 | Persistence Infrastructure | `027-persistence-infrastructure` | 📋 Spec Complete | SQLite — 45 tasks, 10 entities, 5 repos, migrations, backup/restore, DPAPI |
 
 ---
 

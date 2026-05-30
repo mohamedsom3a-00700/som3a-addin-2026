@@ -20,13 +20,20 @@ public class DatabaseHealthCheck
         if (!File.Exists(_databasePath))
             return false;
 
-        await using var connection = new SqliteConnection(_connectionString);
-        await connection.OpenAsync(ct);
+        try
+        {
+            await using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync(ct);
 
-        await using var command = connection.CreateCommand();
-        command.CommandText = "PRAGMA integrity_check;";
-        var result = await command.ExecuteScalarAsync(ct);
-        return result?.ToString() == "ok";
+            await using var command = connection.CreateCommand();
+            command.CommandText = "PRAGMA integrity_check;";
+            var result = await command.ExecuteScalarAsync(ct);
+            return result?.ToString() == "ok";
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public async Task<HealthCheckResult> CheckHealthAsync(CancellationToken ct = default)
@@ -69,23 +76,31 @@ public class DatabaseHealthCheck
 
         foreach (var backup in backupFiles)
         {
-            await using var connection = new SqliteConnection($"Data Source={backup};");
-            await connection.OpenAsync(ct);
-
-            await using var command = connection.CreateCommand();
-            command.CommandText = "PRAGMA integrity_check;";
-            var result = await command.ExecuteScalarAsync(ct);
-
-            if (result?.ToString() == "ok")
+            try
             {
-                var tempPath = _databasePath + ".restoring";
-                File.Copy(backup, tempPath, overwrite: true);
+                await using var connection = new SqliteConnection($"Data Source={backup};");
+                await connection.OpenAsync(ct);
 
-                if (File.Exists(_databasePath))
-                    File.Delete(_databasePath);
+                await using var command = connection.CreateCommand();
+                command.CommandText = "PRAGMA integrity_check;";
+                var result = await command.ExecuteScalarAsync(ct);
 
-                File.Move(tempPath, _databasePath);
-                return true;
+                if (result?.ToString() == "ok")
+                {
+                    var tempPath = _databasePath + ".restoring";
+                    File.Copy(backup, tempPath, overwrite: true);
+
+                    if (File.Exists(_databasePath))
+                        File.Replace(tempPath, _databasePath, null);
+                    else
+                        File.Move(tempPath, _databasePath);
+
+                    return true;
+                }
+            }
+            catch
+            {
+                // Isolated per-backup — continue to next backup
             }
         }
 

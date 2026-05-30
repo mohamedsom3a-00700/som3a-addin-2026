@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using Microsoft.Data.Sqlite;
 
 namespace Som3a.Infrastructure.Persistence.SQLite;
@@ -9,8 +8,6 @@ public class ConnectionManager : IDisposable
     private readonly SemaphoreSlim _writeGate = new(1, 1);
     private SqliteConnection? _writeConnection;
     private bool _disposed;
-
-    private static readonly ConcurrentBag<SqliteConnection> _readConnections = new();
 
     public ConnectionManager(SQLiteConfiguration configuration)
     {
@@ -33,7 +30,6 @@ public class ConnectionManager : IDisposable
         var connection = new SqliteConnection(_configuration.ConnectionString);
         await connection.OpenAsync(ct);
         await ApplyPragmasAsync(connection, ct);
-        _readConnections.Add(connection);
         return connection;
     }
 
@@ -80,13 +76,6 @@ public class ConnectionManager : IDisposable
 
         _writeConnection?.Close();
         _writeConnection?.Dispose();
-
-        foreach (var conn in _readConnections)
-        {
-            try { conn.Close(); conn.Dispose(); } catch { }
-        }
-
-        _readConnections.Clear();
         _writeGate.Dispose();
     }
 }
