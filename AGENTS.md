@@ -1,14 +1,14 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/024-localization-rtl/plan.md
+at: specs/026-release-candidate-packaging/plan.md
 
 Also refer to the master implementation plans:
 - implementation_plan.md — Full execution plan for Phases 0-11
 - enterprise_planning_platform_plan.md — Enterprise Planning Platform Phases 14-26
 
 Current phase plan:
-- specs/024-localization-rtl/plan.md — Phase 24: Localization & RTL
+- specs/026-release-candidate-packaging/plan.md — Phase 26: Release Candidate & Production Packaging
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes

@@ -17,14 +17,19 @@ Write-Host "AI Validation Suite" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 
 Write-Host "`n[1/3] Provider Prompt Outputs..." -ForegroundColor Cyan
-Write-Result "Som3a.AI project exists" (Test-Path "..\Som3a.AI") ""
-Write-Result "AI provider abstraction exists" $true "Structural check — provider endpoint config required at runtime"
+$aiRoot = Join-Path $BuildRoot "..\Som3a.AI"
+$aiExists = Test-Path $aiRoot
+Write-Result "Som3a.AI project exists" $aiExists ""
+$abstractionExists = $aiExists -and (Test-Path (Join-Path $aiRoot "Orchestration\AIOrchestrator.cs"))
+Write-Result "AI provider abstraction exists" $abstractionExists ""
 
 Write-Host "`n[2/3] Retry Handling..." -ForegroundColor Cyan
-Write-Result "Retry mechanism present" $true "Structural check — runtime test required"
+$retryExists = $aiExists -and ((Test-Path (Join-Path $aiRoot "RetryHandler.cs")) -or (Test-Path (Join-Path $aiRoot "Orchestration\RetryHandler.cs")))
+Write-Result "Retry mechanism present" $retryExists ""
 
 Write-Host "`n[3/3] Structured JSON Parsing..." -ForegroundColor Cyan
-Write-Result "JSON parsing infrastructure exists" $true "Structural check — runtime test required"
+$jsonExists = $aiExists -and (Test-Path (Join-Path $aiRoot "Parsing"))
+Write-Result "JSON parsing infrastructure exists" $jsonExists ""
 
 Write-Host "`n========================================" -ForegroundColor Cyan
 $total = $script:results.passed + $script:results.failed

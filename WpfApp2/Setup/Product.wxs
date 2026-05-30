@@ -14,8 +14,10 @@
 
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="LocalAppDataFolder">
-                <Directory Id="INSTALLFOLDER" Name="Som3a\Planova">
-                    <!-- Application binaries will be installed here -->
+                <Directory Id="Som3aDir" Name="Som3a">
+                    <Directory Id="INSTALLFOLDER" Name="Planova">
+                        <!-- Application binaries will be installed here -->
+                    </Directory>
                 </Directory>
             </Directory>
             <Directory Id="ProgramMenuFolder">

@@ -32,12 +32,14 @@ public class DurationEstimatorPlugin : IPlugin
     private IBenchmarkLibrary? _benchmarkLibrary;
     private ICalendarEngine? _calendarEngine;
     private SubscriptionToken? _activitySubscription;
+    private IEventBus? _eventBus;
 
     public void Initialize(IPluginContext context)
     {
         _productivityEngine = context.ServiceContainer.Resolve<IProductivityEngine>();
         _benchmarkLibrary = context.ServiceContainer.Resolve<IBenchmarkLibrary>();
         _calendarEngine = context.ServiceContainer.Resolve<ICalendarEngine>();
+        _eventBus = context.EventBus;
 
         _activitySubscription = context.EventBus.Subscribe<ActivityGeneratedEvent>(OnActivityGenerated);
     }
@@ -101,6 +103,7 @@ public class DurationEstimatorPlugin : IPlugin
     {
         if (_activitySubscription != null)
         {
+            _eventBus?.Unsubscribe(_activitySubscription);
             _activitySubscription = null;
         }
     }

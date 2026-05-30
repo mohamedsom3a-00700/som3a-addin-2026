@@ -17,24 +17,60 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                       Style="{DynamicResource MaterialDesignScrollViewer}">
-            <ItemsControl ItemsSource="{Binding Widgets}" Margin="16">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="3" Rows="3"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <controls:WidgetCard Title="{Binding Title}"
-                                             Icon="{Binding Icon}"
-                                             IsLoading="{Binding IsLoading}"
-                                             ErrorMessage="{Binding ErrorMessage}"
-                                             Content="{Binding}"
-                                             Command="{Binding DataContext.WidgetClickCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                             CommandParameter="{Binding Title}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <StackPanel Margin="16">
+                <!-- Planova Branding Section -->
+                <Border Margin="0,0,0,16" Padding="20" CornerRadius="8"
+                        Background="{DynamicResource Brush.Background.Card}"
+                        BorderBrush="{DynamicResource Brush.Border.Default}" BorderThickness="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="48" Height="48" CornerRadius="8"
+                                VerticalAlignment="Center" Margin="0,0,16,0"
+                                Background="Transparent">
+                            <Image Source="{DynamicResource Logo.ImageSource}" Width="48" Height="48"
+                                   Stretch="Uniform" VerticalAlignment="Center"
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Planova Platform" FontSize="18" FontWeight="Bold"
+                                       Foreground="{DynamicResource Brush.Text.Primary}"/>
+                            <TextBlock Text="Planning. Simplified."
+                                       FontSize="13"
+                                       Foreground="{DynamicResource Brush.Text.Secondary}"/>
+                        </StackPanel>
+                        <Border Grid.Column="2" Padding="10,6" CornerRadius="4"
+                                Background="{DynamicResource Brush.Background.Primary}"
+                                BorderBrush="{DynamicResource Brush.Border.Default}"
+                                BorderThickness="1" VerticalAlignment="Center">
+                            <TextBlock Text="v2026.1" FontSize="12" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource Brush.Text.Secondary}"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <ItemsControl ItemsSource="{Binding Widgets}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3" Rows="3"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <controls:WidgetCard Title="{Binding Title}"
+                                                 Icon="{Binding Icon}"
+                                                 IsLoading="{Binding IsLoading}"
+                                                 ErrorMessage="{Binding ErrorMessage}"
+                                                 Content="{Binding}"
+                                                 Command="{Binding DataContext.WidgetClickCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                                 CommandParameter="{Binding Title}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </local:PageBase>

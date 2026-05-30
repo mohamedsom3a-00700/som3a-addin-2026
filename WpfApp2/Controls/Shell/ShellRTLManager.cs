@@ -73,10 +73,10 @@ namespace Som3a_WPF_UI.Controls.Shell
                 var sidebarCol = rootGrid.ColumnDefinitions[0];
                 var contentCol = rootGrid.ColumnDefinitions[1];
 
-                if (isRTL)
+                if (isRTL && rootGrid.Children.Count > 0 && rootGrid.Children[0] is FrameworkElement child)
                 {
                     sidebarCol.Width = rootGrid.ColumnDefinitions[0].Width;
-                    Grid.SetColumn(rootGrid.Children[0] as FrameworkElement, 0);
+                    Grid.SetColumn(child, 0);
                 }
             }
         }

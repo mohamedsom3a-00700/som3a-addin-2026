@@ -33,9 +33,37 @@ namespace Som3a_WPF_UI.Controls
 
         public ModernWindow()
         {
+            Title = "Planova Platform";
             InitializeWindow();
-          // SetupAnimations();
             SetupCommands();
+            SetDefaultIcon();
+            ThemeManager.Instance.ThemeChanged += OnThemeChanged;
+        }
+
+        private void SetDefaultIcon()
+        {
+            try
+            {
+                Icon = new System.Windows.Media.Imaging.BitmapImage(
+                    new Uri("pack://application:,,,/Som3a_WPF_UI;component/Assets/Branding/Logos/ICO/Logo-Dark.ico"));
+            }
+            catch
+            {
+            }
+        }
+
+        private void OnThemeChanged(object sender, ThemeChangedEventArgs e)
+        {
+            SetTitleIconFromTheme();
+        }
+
+        private void SetTitleIconFromTheme()
+        {
+            var logoSource = TryFindResource("Logo.ImageSource") as ImageSource;
+            if (logoSource != null)
+            {
+                TitleIcon = logoSource;
+            }
         }
 
         private void InitializeWindow()
@@ -131,6 +159,7 @@ namespace Som3a_WPF_UI.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            SetTitleIconFromTheme();
             if (!_useSafeMode && !IsReducedMotionEnabled)
             {
                 var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(200))
@@ -348,6 +377,8 @@ namespace Som3a_WPF_UI.Controls
                 var ext = System.IO.Path.GetExtension(imagePath).ToLowerInvariant();
                 if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".bmp")
                 {
+                    Background = TryFindResource("Brush.Background.SolidFallback") as Brush
+                        ?? new SolidColorBrush(Color.FromRgb(14, 23, 32));
                     DisableDwmBlur(hwnd);
                     return;
                 }
@@ -355,6 +386,8 @@ namespace Som3a_WPF_UI.Controls
                 var fileInfo = new System.IO.FileInfo(imagePath);
                 if (fileInfo.Length > 10 * 1024 * 1024)
                 {
+                    Background = TryFindResource("Brush.Background.SolidFallback") as Brush
+                        ?? new SolidColorBrush(Color.FromRgb(14, 23, 32));
                     DisableDwmBlur(hwnd);
                     return;
                 }
@@ -368,6 +401,8 @@ namespace Som3a_WPF_UI.Controls
 
                 if (img.PixelWidth > 4096 || img.PixelHeight > 4096)
                 {
+                    Background = TryFindResource("Brush.Background.SolidFallback") as Brush
+                        ?? new SolidColorBrush(Color.FromRgb(14, 23, 32));
                     DisableDwmBlur(hwnd);
                     return;
                 }

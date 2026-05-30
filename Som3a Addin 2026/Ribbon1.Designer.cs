@@ -134,7 +134,7 @@ namespace Som3a_Addin_2026
             this.tab1.Groups.Add(this.group8);
             this.tab1.Groups.Add(this.group9);
             this.tab1.Groups.Add(this.group4);
-            this.tab1.Label = "Som3a Planning Tools";
+            this.tab1.Label = "Planova Planning Tools";
             this.tab1.Name = "tab1";
             // 
             // groupNav
@@ -247,7 +247,7 @@ namespace Som3a_Addin_2026
             // tab2
             // 
             this.tab2.Groups.Add(this.group11);
-            this.tab2.Label = "Som3a Helper Tools";
+            this.tab2.Label = "Planova Helper Tools";
             this.tab2.Name = "tab2";
             // 
             // group11

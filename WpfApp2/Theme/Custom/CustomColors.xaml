@@ -7,26 +7,31 @@
          Accent: Swappable via Brush.Accent.Primary
          ============================================ -->
 
-    <!-- Background (Dark base) -->
+    <!-- Background (Dark Brand Palette base for custom) -->
     <SolidColorBrush x:Key="Brush.Background.Primary" Color="#0E1720"/>
     <SolidColorBrush x:Key="Brush.Background.Primary.Translucent" Color="#800E1720"/>
-    <SolidColorBrush x:Key="Brush.Background.Secondary" Color="#1C2B3A"/>
-    <SolidColorBrush x:Key="Brush.Background.Secondary.Translucent" Color="#801C2B3A"/>
-    <SolidColorBrush x:Key="Brush.Background.Card" Color="#15202B"/>
+    <SolidColorBrush x:Key="Brush.Background.Secondary" Color="#13202B"/>
+    <SolidColorBrush x:Key="Brush.Background.Secondary.Translucent" Color="#8013202B"/>
+    <SolidColorBrush x:Key="Brush.Background.Card" Color="#13202B"/>
     <SolidColorBrush x:Key="Brush.Background.CardSubtle" Color="#10FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Window.Background" Color="#0E1720"/>
+    <SolidColorBrush x:Key="Brush.Surface.Default" Color="#13202B"/>
+    <SolidColorBrush x:Key="Brush.Border.Default" Color="#243647"/>
     <LinearGradientBrush x:Key="Brush.Background.Root" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="#FF102A43" Offset="0"/>
         <GradientStop Color="#FF0F3B3B" Offset="1"/>
     </LinearGradientBrush>
 
-    <!-- Text (Dark base) -->
-    <SolidColorBrush x:Key="Brush.Text.Primary" Color="#F2FFFFFF"/>
-    <SolidColorBrush x:Key="Brush.Text.Secondary" Color="#BFFFFFFF"/>
+    <!-- Text (Dark Brand Palette base for custom) -->
+    <SolidColorBrush x:Key="Brush.Text.Primary" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Text.Secondary" Color="#B7C5D3"/>
     <SolidColorBrush x:Key="Brush.Text.Disabled" Color="#66FFFFFF"/>
     <SolidColorBrush x:Key="Brush.Text.OnAccent" Color="White"/>
 
     <!-- Accent (swappable via Brush.Accent.Primary) -->
     <SolidColorBrush x:Key="Brush.Accent.Primary" Color="{DynamicResource AccentColorValue}"/>
+    <SolidColorBrush x:Key="Brush.Accent.Cyan" Color="#00D1FF"/>
+    <SolidColorBrush x:Key="Brush.Accent.Orange" Color="#FF8A3D"/>
     <SolidColorBrush x:Key="Brush.Accent.Success" Color="#2ED573"/>
     <SolidColorBrush x:Key="Brush.Accent.Warning" Color="#FFA502"/>
     <SolidColorBrush x:Key="Brush.Accent.Danger" Color="#FF4757"/>
@@ -35,6 +40,10 @@
         <GradientStop Color="{DynamicResource AccentColorValue}" Offset="0"/>
         <GradientStop Color="{DynamicResource AccentColorLight}" Offset="1"/>
     </LinearGradientBrush>
+
+    <!-- Brand Effect Tokens (Custom - Dark base) -->
+    <SolidColorBrush x:Key="Brush.Glow.Default" Color="#00D1FF"/>
+    <SolidColorBrush x:Key="Brush.Effect.GlassBorder" Color="#2A3F52"/>
 
     <!-- Stroke -->
     <SolidColorBrush x:Key="Brush.Stroke.Card" Color="#33FFFFFF"/>
@@ -102,10 +111,10 @@
          ============================================ -->
     <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource AccentColorValue}"/>
     <SolidColorBrush x:Key="BackgroundBrush" Color="#0E1720"/>
-    <SolidColorBrush x:Key="CardBrush" Color="#15202B"/>
-    <SolidColorBrush x:Key="SurfaceBrush" Color="#1C2B3A"/>
-    <SolidColorBrush x:Key="TextMainBrush" Color="#F2FFFFFF"/>
-    <SolidColorBrush x:Key="TextSubBrush" Color="#BFFFFFFF"/>
+    <SolidColorBrush x:Key="CardBrush" Color="#13202B"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#13202B"/>
+    <SolidColorBrush x:Key="TextMainBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="TextSubBrush" Color="#B7C5D3"/>
     <SolidColorBrush x:Key="TextDisabledBrush" Color="#66FFFFFF"/>
     <SolidColorBrush x:Key="SuccessBrush" Color="#2ED573"/>
     <SolidColorBrush x:Key="WarningBrush" Color="#FFA502"/>
@@ -132,8 +141,25 @@
     <SolidColorBrush x:Key="Swatch.Red" Color="#EF4444"/>
     <SolidColorBrush x:Key="Swatch.Cyan" Color="#06B6D4"/>
 
+    <!-- ============================================
+         CUSTOM THEME EXTENSIONS
+         Background image, blur, font selection
+         Set dynamically by ThemeManager at runtime
+         ============================================ -->
+
+    <!-- Background Image (set by ThemeManager.ApplyBackgroundImage) -->
+    <ImageSource x:Key="Custom.BackgroundImage">pack://application:,,,/Som3a_WPF_UI;component/Assets/Branding/Wallpapers/default-background.png</ImageSource>
+
+    <!-- Blur Intensity (set by ThemeManager.ApplyBlurIntensity) -->
+    <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Key="Custom.BlurIntensity">10</sys:Double>
+
+    <!-- Font Selection (set by ThemeManager.ApplyFontPreset) -->
+    <FontFamily x:Key="Custom.FontFamily">Segoe UI</FontFamily>
+
+    <!-- Background image visibility toggle -->
+    <sys:Boolean xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Key="Custom.ShowBackgroundImage">False</sys:Boolean>
+
     <!-- Accent color brush (dynamically set by ThemeManager) -->
-    <SolidColorBrush x:Key="AccentColorBrush" Color="{DynamicResource AccentColorValue}"/>
 
     <!-- Accent color value (Color type for glow effects) -->
     <Color x:Key="AccentColorValue">#3A86FF</Color>

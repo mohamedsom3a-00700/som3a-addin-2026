@@ -22,11 +22,11 @@ Write-Result "Light theme resources exist" (Test-Path (Join-Path $BuildRoot "The
 Write-Result "ThemeResources.xaml exists" (Test-Path (Join-Path $BuildRoot "Theme\ThemeResources.xaml")) ""
 
 Write-Host "`n[2/4] Shell Navigation..." -ForegroundColor Cyan
-Write-Result "WorkspaceHost.cs exists" (Test-Path (Join-Path $BuildRoot "Services\WorkspaceHost.cs")) ""
+Write-Result "WorkspaceHost.cs exists" (Test-Path (Join-Path $BuildRoot "Controls\Shell\WorkspaceHost.cs")) ""
 Write-Result "Shell navigation loads without errors" $true "Structural check only — runtime test required"
 
 Write-Host "`n[3/4] RTL Layout..." -ForegroundColor Cyan
-Write-Result "Localization services exist" (Test-Path (Join-Path $BuildRoot "Services\LocalizationService.cs") -or (Test-Path "..\Som3a.Localization")) "" ""
+Write-Result "Localization services exist" (Test-Path (Join-Path $BuildRoot "Services\LocalizationService.cs") -or (Test-Path (Join-Path $BuildRoot "..\Som3a.Localization"))) "" ""
 
 Write-Host "`n[4/4] Accessibility Compliance..." -ForegroundColor Cyan
 Write-Result "Focus visual styles exist" (Test-Path (Join-Path $BuildRoot "Theme\Effects\FocusVisual.xaml")) ""

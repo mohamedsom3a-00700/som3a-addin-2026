@@ -5,6 +5,18 @@
     <FontFamily x:Key="FontFamilyPrimary">Segoe UI</FontFamily>
     <FontFamily x:Key="CustomFontFamily">Segoe UI</FontFamily>
 
+    <!-- ============================================
+         BRAND FONT FAMILY PRESETS (Planova Platform)
+         ============================================ -->
+    <FontFamily x:Key="FontFamily.Inter">Inter, Segoe UI, Arial, System UI</FontFamily>
+    <FontFamily x:Key="FontFamily.SegoeUIVariable">Segoe UI Variable, Segoe UI, Arial, System UI</FontFamily>
+    <FontFamily x:Key="FontFamily.Cairo">Cairo, Arial, System UI</FontFamily>
+    <FontFamily x:Key="FontFamily.IBMPlexSansArabic">IBM Plex Sans Arabic, Arial, System UI</FontFamily>
+    <FontFamily x:Key="FontFamily.Tajawal">Tajawal, Arial, System UI</FontFamily>
+
+    <!-- Active font preset (swapped by ThemeManager.ApplyFontPreset) -->
+    <FontFamily x:Key="FontFamily.Active">Segoe UI</FontFamily>
+
     <sys:Double x:Key="TitleFontSize">20</sys:Double>
     <sys:Double x:Key="HeaderFontSize">16</sys:Double>
     <sys:Double x:Key="SubHeaderFontSize">14</sys:Double>

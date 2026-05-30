@@ -9,7 +9,25 @@
     <Grid MouseEnter="OnGridMouseEnter"
           MouseLeave="OnGridMouseLeave"
           PreviewKeyDown="OnPreviewKeyDown">
-         <ListBox x:Name="SidebarListBox"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Planova Logo at top of sidebar -->
+        <Border Grid.Row="0" Padding="12,12,12,8" Background="Transparent">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Source="{DynamicResource Logo.ImageSource}" Width="28" Height="28"
+                       Stretch="Uniform" VerticalAlignment="Center"
+                       RenderOptions.BitmapScalingMode="HighQuality"/>
+                <TextBlock Text="PLANOVA" FontSize="14" FontWeight="Bold"
+                           Foreground="{DynamicResource Brush.Text.Primary}"
+                           VerticalAlignment="Center" Margin="8,0,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <ListBox Grid.Row="1" x:Name="SidebarListBox"
                   SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=SelectedItem, Mode=TwoWay}"
                   ItemContainerStyle="{DynamicResource Style.Sidebar.Item}"
                    VirtualizingPanel.IsVirtualizing="False"
@@ -88,5 +106,16 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <!-- Branding Footer at bottom of sidebar -->
+        <Border Grid.Row="2" Padding="12,8,12,12" Background="Transparent"
+                BorderBrush="{DynamicResource Brush.Border.Default}" BorderThickness="0,1,0,0">
+            <StackPanel>
+                <TextBlock Text="Planova Platform" FontSize="11" FontWeight="SemiBold"
+                           Foreground="{DynamicResource Brush.Text.Secondary}"/>
+                <TextBlock Text="v2026.1" FontSize="10"
+                           Foreground="{DynamicResource Brush.Text.Disabled}"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

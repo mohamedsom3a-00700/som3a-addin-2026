@@ -214,7 +214,7 @@
                                         <Run Text="{Binding ProductivityValue, StringFormat='{}{0:N1}'}"/>
                                         <Run Text=" "/>
                                         <Run Text="{Binding UnitOfMeasure}"/>
-                                        <Run Text="/day, crew="/>
+                                        <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DurationEstimatorPage.PerDayCrew]}"/>
                                         <Run Text="{Binding CrewSize}"/>
                                     </TextBlock>
                                 </StackPanel>

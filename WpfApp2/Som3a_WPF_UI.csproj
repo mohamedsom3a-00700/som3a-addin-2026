@@ -365,6 +365,9 @@
     <Compile Include="Views\SettingsSectionView.xaml.cs">
       <DependentUpon>SettingsSectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\FixPieColorsViewModel.cs" />
     <Compile Include="ViewModels\BOQActivityGeneratorViewModel.cs" />
     <Compile Include="ViewModels\RelationshipGeneratorViewModel.cs" />
@@ -786,6 +789,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SplashWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\Controls\SettingsPanelStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -821,6 +828,15 @@
     <Folder Include="Commands\" />
     <Folder Include="Contracts\" />
     <Folder Include="Modules\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Branding\Logos\ICO\Logo-Dark.ico" />
+    <Resource Include="Assets\Branding\Logos\ICO\Logo-Light.ico" />
+    <Resource Include="Assets\Branding\Logos\Dark\Logo-Dark.png" />
+    <Resource Include="Assets\Branding\Logos\Light\Logo-Light.png" />
+    <Resource Include="Assets\Branding\Logos\PNG\Logo-Dark.png" />
+    <Resource Include="Assets\Branding\Logos\PNG\Logo-Light.png" />
+    <Resource Include="Assets\Branding\Logos\PNG\logo-Monochrome.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

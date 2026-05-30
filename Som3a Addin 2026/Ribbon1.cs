@@ -441,7 +441,7 @@ namespace Som3a_Addin_2026
 
                 if (app.ActiveWorkbook == null)
                 {
-                    MessageBox.Show("No active workbook.", "Som3a Tools");
+                    MessageBox.Show("No active workbook.", "Planova");
                     return;
                 }
 
@@ -462,12 +462,12 @@ namespace Som3a_Addin_2026
                 });
 
                 app.StatusBar = false;
-                MessageBox.Show("Safe Clone created successfully.", "Som3a Tools");
+                MessageBox.Show("Safe Clone created successfully.", "Planova");
             }
             catch (Exception ex)
             {
                 try { Globals.ThisAddIn.Application.StatusBar = false; } catch { }
-                System.Windows.MessageBox.Show(ex.Message, "Som3a Tools - Error");
+                System.Windows.MessageBox.Show(ex.Message, "Planova - Error");
             }
         }
 
@@ -540,7 +540,7 @@ namespace Som3a_Addin_2026
             {
                 CloseAllToolWindows();
 
-                const string addinName = "Som3a Addin 2026"; // بالظبط زي اللي في الديالوج
+                const string addinName = "Planova Addin 2026"; // بالظبط زي اللي في الديالوج
 
                 Office.COMAddIn target = null;
 
@@ -556,7 +556,7 @@ namespace Som3a_Addin_2026
 
                 if (target == null)
                 {
-                    MessageBox.Show("Som3a Add-in not found in COMAddIns.", "Reload Add-in");
+                    MessageBox.Show("Planova Add-in not found in COMAddIns.", "Reload Add-in");
                     return;
                 }
 
@@ -570,7 +570,7 @@ namespace Som3a_Addin_2026
                 System.Windows.Forms.Application.DoEvents();
                 System.Threading.Thread.Sleep(300);
 
-                MessageBox.Show("Som3a Add-in reloaded successfully.", "Reload Add-in");
+                MessageBox.Show("Planova Add-in reloaded successfully.", "Reload Add-in");
             }
             catch (Exception ex)
             {

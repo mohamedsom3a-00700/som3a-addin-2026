@@ -25,13 +25,22 @@
             DotNetFramework48Installed >= 528040
         </bal:Condition>
 
+        <!-- .NET 8 Runtime (x64) detection -->
+        <util:RegistrySearch
+            Id="DotNetRuntime8"
+            Variable="DotNetRuntime8Installed"
+            Root="HKLM"
+            Key="SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedfx\Microsoft.NETCore.App\8.0.0"
+            Value="Version"
+            Result="value"/>
+
         <!-- Chain: all packages must install in sequence -->
         <Chain>
             <!-- .NET 8 Runtime (x64) - prerequisite -->
             <ExePackage
                 Id="DotNetRuntime8"
                 Name="dotnet-runtime-8.0.x64.exe"
-                DownloadUrl="https://dotnet.microsoft.com/en-us/download/dotnet/8.0"
+                DownloadUrl="https://download.visualstudio.microsoft.com/download/pr/8.0.0/dotnet-runtime-8.0.0-win-x64.exe"
                 DetectCondition="DotNetRuntime8Installed"
                 Compressed="no"
                 PerMachine="yes"

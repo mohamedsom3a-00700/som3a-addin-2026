@@ -274,6 +274,9 @@
   <data name="DiagnosticsPage.RunValidation" xml:space="preserve">
     <value>ØªØ´ØºÙŠÙ„ Ø§Ù„ØªØ­Ù‚Ù‚</value>
   </data>
+  <data name="DiagnosticsPage.MemoryUnit" xml:space="preserve">
+    <value>Ù….Ø¨</value>
+  </data>
   <data name="WelcomePage.Title" xml:space="preserve">
     <value>Ø§Ù„ØªØ±Ø­ÙŠØ¨</value>
   </data>
@@ -354,6 +357,9 @@
   </data>
   <data name="DurationEstimatorPage.Search" xml:space="preserve">
     <value>Ø¨Ø­Ø«</value>
+  </data>
+  <data name="DurationEstimatorPage.PerDayCrew" xml:space="preserve">
+    <value>/ÙŠÙˆÙ…ØŒ Ø·Ø§Ù‚Ù…=</value>
   </data>
   <data name="RelationshipGeneratorPage.Title" xml:space="preserve">
     <value>Ù…ÙˆÙ„Ø¯ Ø§Ù„Ø¹Ù„Ø§Ù‚Ø§Øª</value>

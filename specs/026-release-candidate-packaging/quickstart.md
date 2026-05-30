@@ -46,11 +46,11 @@ dotnet build Som3a.AI\Som3a.AI.csproj -c Release
 ### 4. Sign Executables
 
 ```powershell
-# Sign add-in assemblies
-signtool sign /fd SHA256 /a /f cert.pfx /p password /tr http://timestamp.digicert.com /td SHA256 WpfApp2\bin\Release\*.dll
+# Sign add-in assemblies (set $env:CERT_PASSWORD or pass via -CertPassword)
+signtool sign /fd SHA256 /a /f cert.pfx /p $env:CERT_PASSWORD /tr https://timestamp.digicert.com /td SHA256 WpfApp2\bin\Release\*.dll
 
 # Sign VSTO manifests
-mage -Sign WpfApp2\bin\Release\Som3a_WPF_UI.dll.manifest -CertFile cert.pfx -Password password
+mage -Sign WpfApp2\bin\Release\Som3a_WPF_UI.dll.manifest -CertFile cert.pfx -Password $env:CERT_PASSWORD
 mage -Update WpfApp2\bin\Release\Som3a_WPF_UI.vsto -AppManifest Som3a_WPF_UI.dll.manifest -CertFile cert.pfx
 ```
 

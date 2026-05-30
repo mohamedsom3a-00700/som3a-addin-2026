@@ -1,6 +1,6 @@
 # Feature Specification: Localization & RTL
 
-**Feature Branch**: `025-localization-rtl`
+**Feature Branch**: `feature/phase-24-localization-rtl`
 
 **Created**: 2026-05-29
 
@@ -14,6 +14,10 @@
 
 - Q: Should RTL layout apply to Excel ribbon/VSTO interop controls or only the WPF Shell workspace? → A: Shell-only RTL — RTL applies to WPF Shell workspace only; Excel ribbon and VSTO interop controls remain LTR.
 - Q: What is the translation completeness bar for shipping — must all UI be 100% translated or is English fallback acceptable? → A: Core Shell UI (Shell, Settings, Dashboard, error messages) must be 100% translated; plugin UI may use English fallback.
+- Q: How should the system handle fonts when the configured Arabic font is not installed on the user's machine? → A: Rely on Windows system font fallback (Segoe UI Arabic on Win10+); bundle Cairo only if Segoe shaping proves insufficient for construction planning characters.
+- Q: How should the system behave when the user switches language while a modal dialog is open? → A: Defer the language switch until all modal dialogs are dismissed.
+- Q: How should the system handle mixed-language content (Arabic labels with English data values, or vice versa)? → A: UI chrome and labels follow the selected language; data values (BOQ items, quantities, activity names, codes) remain in their original language.
+- Q: Which numeral system should the Arabic locale use for displayed numbers? → A: Western Arabic digits (0-9) for all numeric data values; only group/decimal separators, date formats, and currency follow Arabic locale conventions. This matches engineering software standards in the Gulf region.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -51,7 +55,7 @@ After switching to Arabic, the engineer sees the entire workspace layout mirrore
 
 ### User Story 3 - Use Culture-Aware Number and Date Formatting (Priority: P2)
 
-An engineer enters quantity values and dates in Arabic mode — numbers display with Arabic-Indic digit separators (١٢٣٬٤٥٦٫٧٨), dates display in Arabic format (dd/mm/yyyy with Arabic month names), and currencies use Arabic locale conventions. When switching back to English, all formatting reverts to English conventions.
+An engineer enters quantity values and dates in Arabic mode — numbers display with Western Arabic digits (0-9) and Arabic locale separators (123,456.78), dates display in Arabic format (dd/mm/yyyy with Arabic month names), and currencies use Arabic locale conventions. When switching back to English, all formatting reverts to English conventions.
 
 **Why this priority**: Construction planning engineers work extensively with quantities, dates, and costs. Incorrect or inconsistent number formatting undermines trust in the data and creates confusion in bilingual environments.
 
@@ -59,7 +63,7 @@ An engineer enters quantity values and dates in Arabic mode — numbers display 
 
 **Acceptance Scenarios**:
 
-1. **Given** the application is in Arabic mode, **When** a quantity value (e.g., 123456.78) is displayed, **Then** it appears with Arabic-Indic digits and appropriate separators.
+1. **Given** the application is in Arabic mode, **When** a quantity value (e.g., 123456.78) is displayed, **Then** it appears with Western Arabic digits and Arabic locale separators.
 2. **Given** the application is in Arabic mode, **When** a date is displayed, **Then** it uses Arabic date format conventions.
 3. **Given** the user switches between English and Arabic, **When** numbers and dates are re-displayed, **Then** they immediately reflect the current culture's formatting.
 
@@ -83,10 +87,13 @@ An engineer working in Arabic mode sees all text rendered in a legible Arabic-op
 
 - What happens when a plugin has not been localized and the application is in Arabic mode?
 - How does the system handle mixed-language content (Arabic labels with English data values, or vice versa)?
+  *Resolution: UI chrome and labels follow the selected language; data values (BOQ items, quantities, activity names, codes) remain in their original language to prevent data corruption.
 - What happens if the configured Arabic font is not installed on the system?
+  *Resolution: System falls back to Windows Segoe UI Arabic font family (available on Win10+). If Segoe shaping is insufficient, Cairo font will be bundled with the installer.
 - How does RTL mode interact with Excel interop (VSTO) where Excel itself may be in a different language?
   *Resolution: RTL applies to WPF Shell workspace only. Excel ribbon and VSTO interop controls remain LTR to avoid Excel stability issues.
 - What happens during a language switch while a modal dialog is open?
+  *Resolution: Language switch is deferred until all modal dialogs are dismissed to prevent mid-dialog layout reflow and FlowDirection conflicts.
 
 ## Requirements *(mandatory)*
 
@@ -146,7 +153,7 @@ The following constraints are mandated by the project constitution and MUST be r
 
 ## Assumptions
 
-- Users have the Arabic language pack installed on Windows for proper Arabic font rendering — the application will bundle or recommend specific Arabic fonts as a fallback.
+- Arabic font rendering relies on Windows system font fallback (Segoe UI Arabic on Win10+). Cairo font will be bundled only if Segoe UI Arabic shaping proves insufficient for construction planning characters.
 - Translation completeness requirement: Shell, Settings, Dashboard, and error messages must be 100% translated before shipping. Plugin UI may use English fallback and adopt translations per-plugin on their own schedule.
 - The existing `Som3a.Localization` project structure will be used for .resx resource files and the `LocalizationService`.
 - RTL mirroring applies to the WPF Shell workspace (sidebar, navigation, content area) only. Excel ribbon and VSTO interop controls remain LTR to avoid Excel stability issues.

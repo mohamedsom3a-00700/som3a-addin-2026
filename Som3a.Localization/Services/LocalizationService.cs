@@ -59,8 +59,9 @@ namespace Som3a.Localization.Services
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[LocalizationService] SetLanguage({cultureCode}) failed: {ex.Message}");
                 return false;
             }
         }
@@ -77,7 +78,18 @@ namespace Som3a.Localization.Services
 
         public string GetString(string key, string cultureName)
         {
-            var culture = new CultureInfo(cultureName);
+            CultureInfo culture;
+            try
+            {
+                culture = string.IsNullOrWhiteSpace(cultureName)
+                    ? new CultureInfo("en-US")
+                    : new CultureInfo(cultureName);
+            }
+            catch (CultureNotFoundException)
+            {
+                culture = new CultureInfo("en-US");
+            }
+
             var value = _resourceManager.GetString(key, culture);
             if (!string.IsNullOrEmpty(value))
                 return value;
@@ -101,8 +113,9 @@ namespace Som3a.Localization.Services
                     Directory.CreateDirectory(dir);
                 File.WriteAllText(path, _currentLanguageCode);
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[LocalizationService] SaveLanguagePreference failed: {ex.Message}");
             }
         }
 
@@ -120,8 +133,9 @@ namespace Som3a.Localization.Services
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[LocalizationService] LoadLanguagePreference failed: {ex.Message}");
             }
         }
 

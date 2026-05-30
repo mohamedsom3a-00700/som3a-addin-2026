@@ -263,6 +263,21 @@
         <Setter Property="TextWrapping" Value="Wrap"/>
     </Style>
 
+    <!-- Blueprint overlay drawing brush -->
+    <DrawingBrush x:Key="Brush.Blueprint.Overlay" Stretch="None"
+                  TileMode="Tile" Viewport="0,0,40,40" ViewportUnits="Absolute"
+                  Opacity="0.04">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Geometry="M0,0 L40,0 M0,0 L0,40">
+                    <GeometryDrawing.Pen>
+                        <Pen Thickness="0.5" Brush="#2D9CFF"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
     <!-- WorkspaceHost Default Template -->
     <Style TargetType="shell:WorkspaceHost">
         <Setter Property="Template">
@@ -275,7 +290,11 @@
                                JournalOwnership="OwnsJournal"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
-                         <ProgressBar x:Name="PART_LoadingIndicator"
+                        <Rectangle x:Name="PART_BlueprintOverlay"
+                                   Fill="{DynamicResource Brush.Blueprint.Overlay}"
+                                   IsHitTestVisible="False"
+                                   Visibility="Visible"/>
+                        <ProgressBar x:Name="PART_LoadingIndicator"
                                       IsIndeterminate="True"
                                       Visibility="Collapsed"
                                       Height="3"

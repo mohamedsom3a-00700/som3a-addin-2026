@@ -846,7 +846,7 @@ namespace Som3a_Addin_2026
                     var vm = FindHomeViewModel();
                     if (vm == null) return "ERROR: Home page not open";
                     var widget = vm.Widgets.FirstOrDefault(w =>
-                        w.Title.StartsWith(widgetName, StringComparison.OrdinalIgnoreCase));
+                        string.Equals(w.Title, widgetName, StringComparison.OrdinalIgnoreCase));
                     if (widget == null) return "WIDGET_NOT_FOUND: " + widgetName;
                     return $"OK|Title:{widget.Title}|Icon:{widget.Icon}|IsLoading:{widget.IsLoading}|IsLoaded:{widget.IsLoaded}|Error:{widget.ErrorMessage ?? "(none)"}";
                 }
@@ -866,8 +866,10 @@ namespace Som3a_Addin_2026
                     var vm = FindHomeViewModel();
                     if (vm == null) return "ERROR: Home page not open";
                     var widget = vm.Widgets.FirstOrDefault(w =>
-                        w.Title.StartsWith(widgetTitle, StringComparison.OrdinalIgnoreCase));
+                        string.Equals(w.Title, widgetTitle, StringComparison.OrdinalIgnoreCase));
                     if (widget == null) return "WIDGET_NOT_FOUND: " + widgetTitle;
+                    if (!vm.WidgetClickCommand.CanExecute(widget.Title))
+                        return "ERROR: Widget click command unavailable during load/error state";
                     vm.WidgetClickCommand.Execute(widget.Title);
                     return "OK";
                 }

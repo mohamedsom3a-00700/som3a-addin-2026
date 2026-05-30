@@ -73,4 +73,91 @@
         </DoubleAnimation>
     </Storyboard>
 
+    <!-- ============================================
+         SPLASH SCREEN ANIMATIONS (Planova Platform)
+         Exempt from §IX 200ms limit per research D1
+         Blueprint line draw, logo reveal, glow pulse
+         ============================================ -->
+
+    <Storyboard x:Key="Splash.BlueprintLine1">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.2">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseIn"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <Storyboard x:Key="Splash.BlueprintLine2">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            From="0" To="1" Duration="0:0:0.4" BeginTime="0:0:0.7">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseIn"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <Storyboard x:Key="Splash.BlueprintLine3">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            From="0" To="1" Duration="0:0:0.4" BeginTime="0:0:1.1">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseIn"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <Storyboard x:Key="Splash.BlueprintLine4">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            From="0" To="1" Duration="0:0:0.4" BeginTime="0:0:1.5">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseIn"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <Storyboard x:Key="Splash.NodeReveal">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            From="0" To="1" Duration="0:0:0.3">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <Storyboard x:Key="Splash.LogoReveal">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            From="0" To="1" Duration="0:0:0.8" BeginTime="0:0:1.8">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <Storyboard x:Key="Splash.SubtitleReveal">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:2.3">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <Storyboard x:Key="Splash.GlowPulse">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+            From="0.4" To="0.8" Duration="0:0:1.0" AutoReverse="True" RepeatBehavior="Forever">
+            <DoubleAnimation.EasingFunction>
+                <SineEase EasingMode="EaseInOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <Storyboard x:Key="Splash.ProgressFill">
+        <DoubleAnimation Storyboard.TargetProperty="Width"
+            To="300" Duration="0:0:0.6">
+            <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut"/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
 </ResourceDictionary>

@@ -38,7 +38,7 @@ param(
     [switch]$SkipValidation,
     [switch]$SkipSigning,
     [string]$CertFile = "",
-    [string]$CertPassword = "",
+    [securestring]$CertPassword = (Read-Host "Enter certificate password" -AsSecureString),
     [string]$OutputDir = "",
     [switch]$Quiet
 )
@@ -177,8 +177,7 @@ Function Invoke-ValidationStage {
     foreach ($suite in $suites) {
         $scriptPath = Join-Path $scriptDir $suite.Script
         if (-not (Test-Path $scriptPath)) {
-            Write-Host "  [SKIP] $($suite.Name): script not found" -ForegroundColor Yellow
-            continue
+            throw "Validation script not found: $scriptPath (suite: $($suite.Name))"
         }
         Write-Host "  Running $($suite.Name) validation..." -ForegroundColor Cyan
         $output = & $scriptPath -Quiet:$Quiet 2>&1
@@ -268,7 +267,10 @@ Function Invoke-InstallerStage {
         if (Test-Path $signScript) {
             Write-Host "  Signing assemblies..." -ForegroundColor Cyan
             $binDir = Join-Path $repoRoot "bin\$Configuration"
-            & $signScript -BuildOutputDir $binDir -CertFile $CertFile -CertPassword $CertPassword -Quiet:$Quiet 2>&1 | Out-Host
+            $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($CertPassword)
+            $plainPwd = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
+            [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
+            & $signScript -BuildOutputDir $binDir -CertFile $CertFile -CertPassword $plainPwd -Quiet:$Quiet 2>&1 | Out-Host
             if ($LASTEXITCODE -ne 0) { throw "Code signing failed" }
             Write-Host "  [PASS] Code signing complete" -ForegroundColor Green
         }

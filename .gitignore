@@ -241,6 +241,9 @@ ASALocalRun/
 # MSBuild Binary and Structured Log
 *.binlog
 
+# Visual Studio XAML designer temp files
+*_wpftmp*
+
 # -----------------------------------------------------------------------------
 # Release Pipeline Build Artifacts
 # -----------------------------------------------------------------------------
