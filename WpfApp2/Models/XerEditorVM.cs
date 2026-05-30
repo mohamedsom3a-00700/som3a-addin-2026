@@ -74,7 +74,7 @@ public class XerEditorVM
     {
         try
         {
-            return (Excel.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("Excel.Application");
+            return (Excel.Application)System.Runtime.InteropServices.Marshal.BindToMoniker("Excel.Application");
         }
         catch
         {

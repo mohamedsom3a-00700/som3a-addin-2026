@@ -1,14 +1,15 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/027-persistence-infrastructure/plan.md
+at: specs/028-framework-project-upgrade/plan.md
 
 Also refer to the master implementation plans:
+- future-plan-fluent-ui-migration.md — Fluent UI & Modern Platform Migration (Phases 1A-12)
 - implementation_plan.md — Full execution plan for Phases 0-11
 - enterprise_planning_platform_plan.md — Enterprise Planning Platform Phases 14-27
 
 Current phase plan:
-- specs/027-persistence-infrastructure/plan.md — Phase 27: Persistence & Platform Database Infrastructure
+- specs/028-framework-project-upgrade/plan.md — Phase 1A: Framework & Project Format Upgrade
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes
@@ -160,14 +161,25 @@ Docs/Architecture/
 
 ### Build
 
-Build using **MSBuild** (command line, no Visual Studio needed):
+WpfApp2 (SDK-style, .NET 8.0):
+```powershell
+dotnet build WpfApp2\Som3a_WPF_UI.csproj -p:Configuration=Debug
+```
+
+Som3a.Shared (.NET Framework 4.8, COM interop — requires full MSBuild):
+```powershell
+& "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" Som3a.Shared\Som3a.Shared.csproj /p:Configuration=Debug
+```
+
+WpfApp2 with full MSBuild (resolves all dependency projects):
 ```powershell
 & "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug
 ```
 
-Build using **devenv.exe** (Visual Studio IDE):
+Run tests:
 ```powershell
-& "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\devenv.exe" WpfApp2\Som3a_WPF_UI.csproj /Build Debug
+dotnet test Tests\Som3a_WPF_UI.Tests.csproj
+dotnet test Tests\Som3a.Infrastructure.Tests\Som3a.Infrastructure.Tests.csproj
 ```
 
 ## Platform Foundation (Phase 14)
@@ -208,7 +220,7 @@ Som3a.Diagnostics → Som3a.Contracts, Som3a.Plugin.SDK
 Som3a.Infrastructure → Som3a.Contracts
 Som3a.Localization → Som3a.Contracts
 Som3a.Bridge (.NET Standard 2.0) — standalone
-WpfApp2 (.NET Framework 4.8) → Som3a.Bridge, Som3a.Shared
+WpfApp2 (.NET 8.0-windows) → Som3a.Bridge (.NET Standard 2.0)
 ```
 
 ### Project Structure (Phase 14)
@@ -255,5 +267,5 @@ Som3a Addin 2026/
 ├── Som3a.Validation/        # .NET 8.0 validation
 ├── Som3a.Diagnostics/       # .NET 8.0 diagnostics
 ├── Som3a.Infrastructure/    # .NET 8.0 security/config
-└── WpfApp2/                 # Existing .NET Framework 4.8 host
+└── WpfApp2/                 # .NET 8.0-windows WPF host
 ```

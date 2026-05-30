@@ -136,7 +136,7 @@ namespace Som3a_WPF_UI.Services
             {
                 try
                 {
-                    _xlApp = System.Runtime.InteropServices.Marshal.GetActiveObject("Excel.Application") as Excel.Application;
+                    _xlApp = System.Runtime.InteropServices.Marshal.BindToMoniker("Excel.Application") as Excel.Application;
                 }
                 catch
                 {

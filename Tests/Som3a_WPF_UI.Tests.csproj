@@ -1,9 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
     <IsPackable>false</IsPackable>
     <LangVersion>14.0</LangVersion>
     <Nullable>enable</Nullable>
+    <DefaultItemExcludes>$(DefaultItemExcludes);Som3a.Infrastructure.Tests\**\*</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
@@ -12,6 +14,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WpfApp2\Som3a_WPF_UI.csproj" />
-    <ProjectReference Include="..\Som3a.Shared\Som3a.Shared.csproj" />
+    <Reference Include="Som3a.Shared">
+      <HintPath>..\Som3a.Shared\bin\Debug\net48\Som3a.Shared.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

@@ -1,17 +1,22 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:conv="clr-namespace:Som3a_WPF_UI.Converters">
-    <ResourceDictionary.MergedDictionaries>
+﻿<Application x:Class="Som3a_WPF_UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:Som3a_WPF_UI.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
 
-        <!-- Core Theme System (aggregates all Base tokens, Effects, Controls, Shell) -->
-        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
-        <!-- Default Theme (swapped at runtime by ThemeManager) -->
-        <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Dark/DarkTheme.xaml"/>
+                <!-- Core Theme System (aggregates all Base tokens, Effects, Controls, Shell) -->
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/ThemeResources.xaml"/>
+                <!-- Default Theme (swapped at runtime by ThemeManager) -->
+                <ResourceDictionary Source="/Som3a_WPF_UI;component/Theme/Dark/DarkTheme.xaml"/>
 
-    </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>
 
-    <!-- Culture Formatting Converters -->
-    <conv:CultureNumberConverter x:Key="CultureNumberConverter"/>
-    <conv:CultureDateConverter x:Key="CultureDateConverter"/>
-    <conv:CultureCurrencyConverter x:Key="CultureCurrencyConverter"/>
-</ResourceDictionary>
+            <!-- Culture Formatting Converters -->
+            <conv:CultureNumberConverter x:Key="CultureNumberConverter"/>
+            <conv:CultureDateConverter x:Key="CultureDateConverter"/>
+            <conv:CultureCurrencyConverter x:Key="CultureCurrencyConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

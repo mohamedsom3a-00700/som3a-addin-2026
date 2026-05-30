@@ -21,18 +21,4 @@ namespace Som3a_WPF_UI.Services
 
         bool IsAIAvailable { get; }
     }
-
-    public class GenerationProgress
-    {
-        public string Phase { get; }
-        public int PercentComplete { get; }
-        public string StatusMessage { get; }
-
-        public GenerationProgress(string phase, int percentComplete, string statusMessage)
-        {
-            Phase = phase;
-            PercentComplete = percentComplete;
-            StatusMessage = statusMessage;
-        }
-    }
 }

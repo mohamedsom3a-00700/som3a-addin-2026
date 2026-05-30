@@ -91,8 +91,9 @@ namespace Som3a_WPF_UI.Services
                 if (!File.Exists(fileToRead))
                     return entries;
 
-                var lines = File.ReadAllLines(fileToRead, Encoding.UTF8);
-                var recent = lines.Reverse().Take(count).Reverse();
+                var lines = File.ReadAllLines(fileToRead, Encoding.UTF8).AsEnumerable();
+                var recent = lines.Reverse().Take(count).Reverse().ToList();
+
 
                 foreach (var line in recent)
                 {

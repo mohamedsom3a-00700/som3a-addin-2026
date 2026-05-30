@@ -125,7 +125,7 @@ public class WBSTemplateBrowserViewModel : ViewModelBase
         if (_selectedTemplate == null) return;
         try
         {
-            var excelApp = Marshal.GetActiveObject("Excel.Application");
+            var excelApp = Marshal.BindToMoniker("Excel.Application");
             await _templateService.ExportTemplateToExcelAsync(_selectedTemplate.Id, excelApp);
             System.Windows.MessageBox.Show($"Template '{_selectedTemplate.Name}' exported to new Excel sheet.",
                 "WBS Templates", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
@@ -146,7 +146,7 @@ public class WBSTemplateBrowserViewModel : ViewModelBase
 
             try
             {
-                var excelApp = Marshal.GetActiveObject("Excel.Application");
+                var excelApp = Marshal.BindToMoniker("Excel.Application");
                 var imported = await _templateService.ImportTemplateFromExcelAsync(excelApp, null, category);
                 templateName = imported.Name;
             }
