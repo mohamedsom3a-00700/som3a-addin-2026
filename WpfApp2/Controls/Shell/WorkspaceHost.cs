@@ -152,7 +152,11 @@ namespace Som3a_WPF_UI.Controls.Shell
                 }
                 catch (Exception ex)
                 {
+                    if (_loadingIndicator != null)
+                        _loadingIndicator.Visibility = Visibility.Collapsed;
+                    Interlocked.Exchange(ref _isNavigating, 0);
                     ShowError(ex.Message, () => LazyNavigate(pageFactory));
+                    return;
                 }
                 Interlocked.Exchange(ref _isNavigating, 0);
             }), System.Windows.Threading.DispatcherPriority.Background);

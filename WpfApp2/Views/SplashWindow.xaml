@@ -68,12 +68,8 @@
                                FontSize="48" FontWeight="Bold"
                                Foreground="{DynamicResource Brush.Text.Primary}"
                                HorizontalAlignment="Center" VerticalAlignment="Center"
-                               Opacity="0">
-                        <TextBlock.Effect>
-                            <DropShadowEffect BlurRadius="20" ShadowDepth="0"
-                                              Color="{DynamicResource AccentColorValue}" Opacity="0.6"/>
-                        </TextBlock.Effect>
-                    </TextBlock>
+                               Opacity="0"
+                               Effect="{DynamicResource Glow.Splash.Text}"/>
 
                     <TextBlock x:Name="SubtitleText" Text="Planning Platform"
                                FontFamily="{DynamicResource FontFamily.Inter}"

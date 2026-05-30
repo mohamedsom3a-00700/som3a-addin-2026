@@ -275,7 +275,7 @@
     <value>ØªØ´ØºÙŠÙ„ Ø§Ù„ØªØ­Ù‚Ù‚</value>
   </data>
   <data name="DiagnosticsPage.MemoryUnit" xml:space="preserve">
-    <value>Ù….Ø¨</value>
+    <value>م.ب</value>
   </data>
   <data name="WelcomePage.Title" xml:space="preserve">
     <value>Ø§Ù„ØªØ±Ø­ÙŠØ¨</value>
@@ -288,6 +288,12 @@
   </data>
   <data name="HomePage.Title" xml:space="preserve">
     <value>Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©</value>
+  </data>
+  <data name="Brand.Name" xml:space="preserve">
+    <value>Ù…Ù†ØµØ© Ø¨Ù„Ø§Ù†ÙˆÙØ§</value>
+  </data>
+  <data name="Brand.Tagline" xml:space="preserve">
+    <value>Ø§Ù„ØªØ®Ø·ÙŠØ·. Ø¨Ø¨Ø³Ø§Ø·Ø©.</value>
   </data>
   <data name="DurationEstimatorPage.Title" xml:space="preserve">
     <value>Ù…Ù‚Ø¯Ø± Ø§Ù„Ù…Ø¯Ø©</value>

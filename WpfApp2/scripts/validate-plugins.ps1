@@ -27,7 +27,7 @@ $isolationChecked = $sdkRoot -and (Test-Path (Join-Path $sdkRoot "Hosting")) -an
 Write-Result "Plugin isolation architecture verified" $isolationChecked ""
 
 Write-Host "`n[3/3] Sustained Load (4hr / zero crashes / <5% memory growth)..." -ForegroundColor Cyan
-$memoryPatterns = (Select-String -Path (Join-Path $BuildRoot "Services\*.cs") -Pattern "GC\.Collect|GC\.WaitForPendingFinalizers|WeakReference|WeakEvent" -SimpleMatch -ErrorAction SilentlyContinue).Count -gt 0
+$memoryPatterns = (Select-String -Path (Join-Path $BuildRoot "Services\*.cs") -Pattern "GC\.Collect|GC\.WaitForPendingFinalizers|WeakReference|WeakEvent" -ErrorAction SilentlyContinue).Count -gt 0
 Write-Result "Memory management patterns present" $memoryPatterns ""
 
 Write-Host "`n========================================" -ForegroundColor Cyan

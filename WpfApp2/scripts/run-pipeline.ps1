@@ -38,7 +38,7 @@ param(
     [switch]$SkipValidation,
     [switch]$SkipSigning,
     [string]$CertFile = "",
-    [securestring]$CertPassword = (Read-Host "Enter certificate password" -AsSecureString),
+    [securestring]$CertPassword = $null,
     [string]$OutputDir = "",
     [switch]$Quiet
 )
@@ -144,7 +144,7 @@ function Invoke-PipelineStage {
             version = $Version
             buildNumber = $BuildNumber
             buildDate = (Get-Date -Format "o")
-            branch = (git rev-parse --abbrev-ref HEAD 2>$null) ?? "unknown"
+            branch = $(try { git rev-parse --abbrev-ref HEAD } catch { "unknown" })
             stages = (Get-PipelineState).stages
             status = "failed"
         }
@@ -263,14 +263,14 @@ Function Invoke-InstallerStage {
         if (-not $CertFile -or -not (Test-Path $CertFile)) {
             throw "Code signing certificate not found at '$CertFile'. Use -SkipSigning to skip signing."
         }
+        if (-not $CertPassword) {
+            $CertPassword = Read-Host "Enter certificate password" -AsSecureString
+        }
         $signScript = Join-Path $scriptDir "build-sign.ps1"
         if (Test-Path $signScript) {
             Write-Host "  Signing assemblies..." -ForegroundColor Cyan
             $binDir = Join-Path $repoRoot "bin\$Configuration"
-            $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($CertPassword)
-            $plainPwd = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
-            [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
-            & $signScript -BuildOutputDir $binDir -CertFile $CertFile -CertPassword $plainPwd -Quiet:$Quiet 2>&1 | Out-Host
+            & $signScript -BuildOutputDir $binDir -CertFile $CertFile -CertPassword $CertPassword -Quiet:$Quiet 2>&1 | Out-Host
             if ($LASTEXITCODE -ne 0) { throw "Code signing failed" }
             Write-Host "  [PASS] Code signing complete" -ForegroundColor Green
         }
