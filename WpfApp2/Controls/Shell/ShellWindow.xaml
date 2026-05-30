@@ -3,7 +3,6 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:Som3a_WPF_UI.Controls"
                        xmlns:shell="clr-namespace:Som3a_WPF_UI.Controls.Shell"
-                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                        xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
                        Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[Shell.Title]}"
                       Width="1200"
@@ -41,8 +40,8 @@
                         <Button Width="28" Height="28" Style="{DynamicResource TitleBarButton}"
                                 ToolTip="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[Navigation.Home]}"
                                 Click="OnHomeClick">
-                            <materialDesign:PackIcon Kind="ViewDashboard" Foreground="{DynamicResource TextSubBrush}"
-                                                      Width="18" Height="18"/>
+                            <TextBlock Text="▤" Foreground="{DynamicResource TextSubBrush}"
+                                       FontSize="14" VerticalAlignment="Center"/>
                         </Button>
                         <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}"
                                    Foreground="{DynamicResource TextMainBrush}" FontSize="14" FontWeight="SemiBold"

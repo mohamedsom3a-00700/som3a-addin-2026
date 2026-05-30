@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -44,8 +45,15 @@ namespace Som3a_WPF_UI.Services
                     _inGraceWindow = false;
                     CancelGraceTimer();
 
-                    if (message.Payload is int seq)
+                    if (message.Payload is JsonElement json && json.ValueKind == JsonValueKind.Object)
+                    {
+                        if (json.TryGetProperty("sequence", out var seqProp) && seqProp.ValueKind == JsonValueKind.Number)
+                            _lastSequence = seqProp.GetInt32();
+                    }
+                    else if (message.Payload is int seq)
+                    {
                         _lastSequence = seq;
+                    }
                 }
 
                 SendHeartbeatAck(message.CorrelationId);
@@ -95,13 +103,20 @@ namespace Som3a_WPF_UI.Services
 
         private void EnterGraceWindow()
         {
-            _inGraceWindow = true;
-            ExcelDisconnected?.Invoke(this, "Excel connection lost. Waiting for reconnect...");
+            lock (_lock)
+            {
+                if (_inGraceWindow) return;
 
-            _graceTimer = new Timer(PipeConstants.GraceWindowMs);
-            _graceTimer.Elapsed += OnGraceTimerElapsed;
-            _graceTimer.AutoReset = false;
-            _graceTimer.Start();
+                _inGraceWindow = true;
+                CancelGraceTimer();
+
+                _graceTimer = new Timer(PipeConstants.GraceWindowMs);
+                _graceTimer.Elapsed += OnGraceTimerElapsed;
+                _graceTimer.AutoReset = false;
+                _graceTimer.Start();
+            }
+
+            ExcelDisconnected?.Invoke(this, "Excel connection lost. Waiting for reconnect...");
         }
 
         private void OnGraceTimerElapsed(object sender, ElapsedEventArgs e)
@@ -121,7 +136,10 @@ namespace Som3a_WPF_UI.Services
 
             SendShutdownAck();
 
-            EnterGraceWindow();
+            lock (_lock)
+            {
+                EnterGraceWindow();
+            }
         }
 
         private void SendHeartbeatAck(string correlationId)

@@ -37,8 +37,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MaterialDesignColors" Version="5.2.0" />
-    <PackageReference Include="MaterialDesignThemes" Version="5.2.0" />
+    <PackageReference Include="FluentIcons.WPF" Version="1.1.293" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3912.50" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
@@ -66,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Som3a.Shared">
-      <HintPath>..\Som3a.Shared\bin\Debug\net48\Som3a.Shared.dll</HintPath>
+      <HintPath>..\Som3a.Shared\bin\$(Configuration)\net48\Som3a.Shared.dll</HintPath>
     </Reference>
     <ProjectReference Include="..\Som3a.Bridge\Som3a.Bridge.csproj" />
   </ItemGroup>

@@ -27,7 +27,7 @@
 **Purpose**: Prepare the development environment and capture baselines before any project changes.
 
 - [ ] T001 Verify .NET 8.0 SDK is installed (`dotnet --list-sdks`); install if missing
-- [ ] T002 Record pre-migration build time baseline: `Measure-Command { dotnet build WpfApp2\Som3a_WPF_UI.csproj -c Debug }`
+- [ ] T002 Record pre-migration build time baseline: `Measure-Command { MSBuild.exe WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug }`
 - [ ] T003 [P] Capture pre-upgrade screenshots of 3-5 key pages (ShellWindow, HomePage, SettingsPage, DiagnosticsPage, one AI page) in both Dark and Light themes; save to `specs/028-framework-project-upgrade/baseline-screenshots/`
 - [ ] T004 [P] Verify all 6 current NuGet packages in `WpfApp2\packages.config` are documented with current versions and their minimum .NET 8.0-compatible version per research.md
 
@@ -52,10 +52,10 @@
 
 **Goal**: Core .csproj format conversion and target framework upgrade enabling .NET 8.0 compilation.
 
-**Independent Test**: `dotnet build WpfApp2\Som3a_WPF_UI.csproj` should compile, though may have compile errors from missing package references (resolved in US2) and API changes (resolved in US3).
+**Independent Test**: `MSBuild.exe WpfApp2\Som3a_WPF_UI.csproj` should compile, though may have compile errors from missing package references (resolved in US2) and API changes (resolved in US3).
 
-- [ ] T009 [US1] Run `dotnet restore WpfApp2\Som3a_WPF_UI.csproj` and verify it resolves all implicit WPF framework references
-- [ ] T010 [US1] Run `dotnet build WpfApp2\Som3a_WPF_UI.csproj` to validate the SDK-style format parses correctly; fix any format-level errors in the .csproj
+- [ ] T009 [US1] Run `MSBuild.exe WpfApp2\Som3a_WPF_UI.csproj /t:Restore` and verify it resolves all implicit WPF framework references
+- [ ] T010 [US1] Run `MSBuild.exe WpfApp2\Som3a_WPF_UI.csproj` to validate the SDK-style format parses correctly; fix any format-level errors in the .csproj
 - [ ] T011 [US1] Remove `WpfApp2\packages.config` (NuGet packages will be added as PackageReference in US2)
 - [ ] T012 [US1] Add any missing assembly references that were removed during format conversion but are not covered by implicit WPF references (e.g., non-WPF assembly references from the legacy .csproj)
 
@@ -86,16 +86,16 @@
 
 **Goal**: Fix compile errors caused by APIs removed or changed between .NET Framework 4.8 and .NET 8.0. Zero logic changes.
 
-**Independent Test**: `dotnet build WpfApp2\Som3a_WPF_UI.csproj` succeeds with zero errors. Git diff shows only API compatibility fixes — no logic changes.
+**Independent Test**: `MSBuild.exe WpfApp2\Som3a_WPF_UI.csproj` succeeds with zero errors. Git diff shows only API compatibility fixes — no logic changes.
 
-- [ ] T021 [US3] Run `dotnet build WpfApp2\Som3a_WPF_UI.csproj` and collect all compile errors
+- [ ] T021 [US3] Run `MSBuild.exe WpfApp2\Som3a_WPF_UI.csproj` and collect all compile errors
 - [ ] T022 [US3] Fix `System.Configuration` errors — add `<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />` if missing, update `ConfigurationManager.AppSettings` calls if needed
 - [ ] T023 [US3] Fix `BinaryFormatter` errors — add `<EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>` if used, or replace with JSON serialization using minimum change
 - [ ] T024 [US3] Fix `AppDomain.CreateDomain` errors — replace with `AppDomain.CurrentDomain` or remove calls
 - [ ] T025 [US3] Fix `System.Drawing` errors — add `<PackageReference Include="System.Drawing.Common" Version="8.0.0" />` if `Bitmap`/`Image` types fail to resolve
 - [ ] T026 [US3] Fix `System.Runtime.Remoting` errors — replace with modern IPC or remove calls
 - [ ] T027 [US3] Fix any remaining compile errors not covered above — for each error, apply the minimum .NET 8.0 equivalent API change with zero behavioral modification
-- [ ] T028 [US3] Verify `dotnet build WpfApp2\Som3a_WPF_UI.csproj` succeeds with zero errors
+- [ ] T028 [US3] Verify `MSBuild.exe WpfApp2\Som3a_WPF_UI.csproj` succeeds with zero errors
 
 **Checkpoint**: Build succeeds with zero errors. Ready for verification and testing.
 
@@ -109,7 +109,7 @@
 - [ ] T030 Run all existing tests: `dotnet test Tests\Som3a.Infrastructure.Tests\Som3a.Infrastructure.Tests.csproj` — must pass unchanged
 - [ ] T031 [P] Audit VSTO add-in project's `app.config` for binding redirects referencing WPF assemblies; update version ranges to match the upgraded project output
 - [ ] T032 [P] Compare post-upgrade screenshots of 3-5 key pages against pre-upgrade baselines in both Dark and Light themes; document any visual differences
-- [ ] T033 Record post-migration build time: `Measure-Command { dotnet build WpfApp2\Som3a_WPF_UI.csproj -c Debug }`; verify ≤150% of pre-migration baseline
+- [ ] T033 Record post-migration build time: `Measure-Command { MSBuild.exe WpfApp2\Som3a_WPF_UI.csproj /p:Configuration=Debug }`; verify ≤150% of pre-migration baseline
 - [ ] T034 Verify git diff shows only project format changes and API compatibility fixes — zero logic changes
 
 ---
@@ -173,7 +173,7 @@ Task: "Add Newtonsoft.Json PackageReference"
 1. Complete Phase 1: Setup
 2. Complete Phase 2: Foundational
 3. Complete Phase 3: User Story 1 (SDK-style + net8.0-windows)
-4. **STOP and VALIDATE**: Run `dotnet build` — expect compile errors from missing packages, but verify .csproj format is valid
+4. **STOP and VALIDATE**: Run `MSBuild.exe WpfApp2\Som3a_WPF_UI.csproj` — expect compile errors from missing packages, but verify .csproj format is valid
 5. Continue with US2 + US3 to reach zero-error build
 
 ### Sequential Delivery (Recommended for this phase)

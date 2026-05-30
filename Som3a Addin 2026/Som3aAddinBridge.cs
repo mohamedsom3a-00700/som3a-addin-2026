@@ -1,11 +1,14 @@
 using System;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Threading;
 using Som3a.Bridge;
+using Som3a.Shared.Interop;
 using Som3a_WPF_UI.Services;
 using WpfApp2 = Som3a_WPF_UI;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Som3a_Addin_2026
 {
@@ -81,42 +84,139 @@ namespace Som3a_Addin_2026
                         ?? throw new InvalidOperationException("Missing command type")
                 };
 
-                var sheet = payload.TryGetProperty("sheet", out var s) ? s.GetString() : null;
-                var row = payload.TryGetProperty("row", out var r) ? r.GetInt32() : 0;
-                var col = payload.TryGetProperty("col", out var c) ? c.GetInt32() : 0;
-                var value = payload.TryGetProperty("value", out var v) ? v.GetString() : null;
-                var range = payload.TryGetProperty("range", out var rng) ? rng.GetString() : null;
+                string? sheet = null, value = null, range = null;
+                int row = 0, col = 0;
+
+                if (payload.ValueKind == JsonValueKind.Object)
+                {
+                    sheet = payload.TryGetProperty("sheet", out var s) ? s.GetString() : null;
+                    row = payload.TryGetProperty("row", out var r) ? r.GetInt32() : 0;
+                    col = payload.TryGetProperty("col", out var c) ? c.GetInt32() : 0;
+                    value = payload.TryGetProperty("value", out var v) ? v.GetString() : null;
+                    range = payload.TryGetProperty("range", out var rng) ? rng.GetString() : null;
+                }
 
                 var excelApp = Globals.ThisAddIn.Application;
 
                 switch (cmd)
                 {
                     case ExcelCommandType.WriteCell:
-                        var ws = excelApp.ActiveWorkbook?.Sheets[sheet ?? excelApp.ActiveSheet.Name];
-                        if (ws != null && row > 0 && col > 0)
-                            ws.Cells[row, col] = value;
+                    {
+                        var activeWorkbook = excelApp.ActiveWorkbook;
+                        try
+                        {
+                            var ws = activeWorkbook?.Sheets[sheet ?? excelApp.ActiveSheet.Name] as Excel.Worksheet;
+                            try
+                            {
+                                if (ws != null && row > 0 && col > 0)
+                                {
+                                    var cell = ws.Cells[row, col];
+                                    try
+                                    {
+                                        cell.Value = value;
+                                    }
+                                    finally
+                                    {
+                                        ComRelease.SafeRelease(cell);
+                                    }
+                                }
+                            }
+                            finally
+                            {
+                                ComRelease.SafeRelease(ws);
+                            }
+                        }
+                        finally
+                        {
+                            ComRelease.SafeRelease(activeWorkbook);
+                        }
                         return new ExcelResponsePayload { Success = true };
+                    }
 
                     case ExcelCommandType.ReadCell:
-                        var readWs = excelApp.ActiveWorkbook?.Sheets[sheet ?? excelApp.ActiveSheet.Name];
-                        if (readWs != null && row > 0 && col > 0)
+                    {
+                        var activeWorkbook = excelApp.ActiveWorkbook;
+                        try
                         {
-                            var cellValue = readWs.Cells[row, col]?.Value?.ToString();
-                            return new ExcelResponsePayload { Success = true, Data = cellValue };
+                            var readWs = activeWorkbook?.Sheets[sheet ?? excelApp.ActiveSheet.Name] as Excel.Worksheet;
+                            try
+                            {
+                                if (readWs != null && row > 0 && col > 0)
+                                {
+                                    var cell = readWs.Cells[row, col];
+                                    try
+                                    {
+                                        var cellValue = cell?.Value?.ToString();
+                                        return new ExcelResponsePayload { Success = true, Data = cellValue };
+                                    }
+                                    finally
+                                    {
+                                        ComRelease.SafeRelease(cell);
+                                    }
+                                }
+                            }
+                            finally
+                            {
+                                ComRelease.SafeRelease(readWs);
+                            }
+                        }
+                        finally
+                        {
+                            ComRelease.SafeRelease(activeWorkbook);
                         }
                         return new ExcelResponsePayload { Success = false, Error = "Invalid cell" };
+                    }
 
                     case ExcelCommandType.GetSheetNames:
+                    {
                         var names = new System.Collections.Generic.List<string>();
-                        foreach (Excel.Worksheet sht in excelApp.ActiveWorkbook?.Sheets)
-                            names.Add(sht.Name);
+                        var activeWorkbook = excelApp.ActiveWorkbook;
+                        try
+                        {
+                            if (activeWorkbook?.Sheets != null)
+                            {
+                                foreach (Excel.Worksheet sht in activeWorkbook.Sheets)
+                                {
+                                    try
+                                    {
+                                        names.Add(sht.Name);
+                                    }
+                                    finally
+                                    {
+                                        ComRelease.SafeRelease(sht);
+                                    }
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            ComRelease.SafeRelease(activeWorkbook);
+                        }
                         return new ExcelResponsePayload { Success = true, Data = names };
+                    }
 
                     case ExcelCommandType.ActivateSheet:
-                        var target = excelApp.ActiveWorkbook?.Sheets[sheet];
-                        if (target != null)
-                            target.Activate();
-                        return new ExcelResponsePayload { Success = target != null };
+                    {
+                        var activeWorkbook = excelApp.ActiveWorkbook;
+                        try
+                        {
+                            var target = activeWorkbook?.Sheets[sheet];
+                            try
+                            {
+                                if (target != null)
+                                    target.Activate();
+                                return new ExcelResponsePayload { Success = target != null };
+                            }
+                            finally
+                            {
+                                ComRelease.SafeRelease(target);
+                            }
+                        }
+                        finally
+                        {
+                            ComRelease.SafeRelease(activeWorkbook);
+                        }
+                    }
 
                     default:
                         return new ExcelResponsePayload { Success = false, Error = $"Unsupported command: {cmd}" };

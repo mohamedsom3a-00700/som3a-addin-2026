@@ -19,7 +19,7 @@
             <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPage.Heading]}" Foreground="{DynamicResource Brush.Text.Primary}"
                        FontSize="20" FontWeight="Bold" VerticalAlignment="Center"/>
             <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPage.Refresh]}" Command="{Binding RefreshCommand}"
-                    Style="{DynamicResource MaterialDesignFlatButton}"
+
                     Foreground="{DynamicResource Brush.Accent.Primary}"
                     Margin="16,0,0,0" Padding="8,4"/>
             <TextBlock Text="{Binding StatusMessage}" Foreground="{DynamicResource Brush.Text.Secondary}"
@@ -27,7 +27,7 @@
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                      Style="{DynamicResource MaterialDesignScrollViewer}">
+                      >
             <StackPanel>
                 <controls:WidgetCard Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPage.RenderModeCard]}" Icon="&#xF0440;" Margin="0,0,0,12">
                     <StackPanel>
@@ -101,7 +101,7 @@
                 <controls:WidgetCard Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPage.ValidationCard]}" Icon="&#xF0189;" Margin="0,0,0,12">
                     <StackPanel>
                         <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPage.RunValidation]}" Command="{Binding RunValidationCommand}"
-                                Style="{DynamicResource MaterialDesignFlatButton}"
+            
                                 Foreground="{DynamicResource Brush.Accent.Primary}"
                                 HorizontalContentAlignment="Left"
                                 Padding="4,2" Margin="0,0,0,8"/>

@@ -37,7 +37,7 @@ namespace Som3a.Bridge
             return new PipeMessage
             {
                 Type = MessageType.error,
-                CorrelationId = Guid.NewGuid().ToString("D"),
+                CorrelationId = correlationId,
                 Timestamp = DateTime.UtcNow,
                 Payload = new ErrorPayload
                 {

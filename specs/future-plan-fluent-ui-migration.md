@@ -55,7 +55,7 @@ the VSTO add-in via the existing named pipe Bridge (Som3a.Bridge).
 | 1A.2 | Drop `packages.config` → `PackageReference`. Re-add existing NuGet packages only (no new ones yet). |
 | 1A.3 | Fix any compile errors caused by .NET 4.8 → .NET 8 API changes. Do NOT change any logic. |
 
-**Verification**: `dotnet build WpfApp2/Som3a_WPF_UI.csproj` succeeds. **VSTO Smoke Test**: Ribbon buttons visible → ShellWindow opens → sidebar renders → navigate to 3 pages → theme switch (Dark/Light) → Excel cell write via interop → no crashes.
+**Verification**: `MSBuild.exe WpfApp2/Som3a_WPF_UI.csproj` succeeds. **VSTO Smoke Test**: Ribbon buttons visible → ShellWindow opens → sidebar renders → navigate to 3 pages → theme switch (Dark/Light) → Excel cell write via interop → no crashes.
 
 ---
 

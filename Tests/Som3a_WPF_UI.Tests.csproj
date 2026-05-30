@@ -14,8 +14,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WpfApp2\Som3a_WPF_UI.csproj" />
-    <Reference Include="Som3a.Shared">
-      <HintPath>..\Som3a.Shared\bin\Debug\net48\Som3a.Shared.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>

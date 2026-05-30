@@ -25,8 +25,11 @@ namespace Som3a_Addin_2026
         private IAddInAutomation _automation;
         private NamedPipeServerStream _pipeServer;
         private CancellationTokenSource _pipeCts;
+        private StreamReader _pipeReader;
+        private StreamWriter _pipeWriter;
         private StreamWriter _heartbeatWriter;
         private JsonSerializerOptions _heartbeatOptions;
+        private readonly SemaphoreSlim _writeSemaphore = new(1, 1);
         private System.Timers.Timer _heartbeatTimer;
         private int _heartbeatSequence;
         private bool _wpfLaunched;
@@ -163,10 +166,10 @@ namespace Som3a_Addin_2026
                 await _pipeServer.WaitForConnectionAsync(_pipeCts.Token);
                 System.Diagnostics.Trace.WriteLine("[ThisAddIn] WPF pipe connected.");
 
-                using var reader = new StreamReader(_pipeServer, Encoding.UTF8, leaveOpen: true);
-                using var writer = new StreamWriter(_pipeServer, Encoding.UTF8, leaveOpen: true) { AutoFlush = true };
+                _pipeReader = new StreamReader(_pipeServer, Encoding.UTF8, leaveOpen: true);
+                _pipeWriter = new StreamWriter(_pipeServer, Encoding.UTF8, leaveOpen: true) { AutoFlush = true };
 
-                var handshakeJson = await reader.ReadLineAsync();
+                var handshakeJson = await _pipeReader.ReadLineAsync();
                 if (string.IsNullOrEmpty(handshakeJson))
                 {
                     System.Diagnostics.Trace.WriteLine("[ThisAddIn] No handshake received.");
@@ -198,15 +201,23 @@ namespace Som3a_Addin_2026
                 };
 
                 var responseJson = JsonSerializer.Serialize(response, options);
-                await writer.WriteLineAsync(responseJson);
+                await _writeSemaphore.WaitAsync();
+                try
+                {
+                    await _pipeWriter.WriteLineAsync(responseJson);
+                }
+                finally
+                {
+                    _writeSemaphore.Release();
+                }
 
                 System.Diagnostics.Trace.WriteLine($"[ThisAddIn] Handshake complete. HWND={excelHwnd}, PID={pid}");
 
-                _heartbeatWriter = writer;
+                _heartbeatWriter = _pipeWriter;
                 _heartbeatOptions = options;
                 StartHeartbeatTimer();
 
-                _ = HandlePipeMessagesAsync(reader, writer, options);
+                _ = HandlePipeMessagesAsync(_pipeReader, _pipeWriter, options);
             }
             catch (Exception ex)
             {
@@ -263,7 +274,15 @@ namespace Som3a_Addin_2026
                     Payload = result
                 };
                 var json = JsonSerializer.Serialize(response, options);
-                await writer.WriteLineAsync(json);
+                await _writeSemaphore.WaitAsync();
+                try
+                {
+                    await writer.WriteLineAsync(json);
+                }
+                finally
+                {
+                    _writeSemaphore.Release();
+                }
             }
             catch (Exception ex)
             {
@@ -287,7 +306,15 @@ namespace Som3a_Addin_2026
                         Payload = new { sequence = _heartbeatSequence, status = "ok" }
                     };
                     var json = System.Text.Json.JsonSerializer.Serialize(heartbeat, _heartbeatOptions);
-                    await _heartbeatWriter.WriteLineAsync(json);
+                    await _writeSemaphore.WaitAsync();
+                    try
+                    {
+                        await _heartbeatWriter.WriteLineAsync(json);
+                    }
+                    finally
+                    {
+                        _writeSemaphore.Release();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -328,8 +355,14 @@ namespace Som3a_Addin_2026
             }
 
             _pipeCts?.Cancel();
+            _pipeReader?.Dispose();
+            _pipeReader = null;
+            _pipeWriter?.Dispose();
+            _pipeWriter = null;
+            _heartbeatWriter = null;
             _pipeServer?.Dispose();
             _pipeServer = null;
+            _writeSemaphore.Dispose();
         }
     }
 }

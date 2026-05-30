@@ -35,9 +35,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Microsoft.VisualStudio.Interop, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>bin\Debug\Microsoft.VisualStudio.Interop.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Interop, Version=18.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsBase" />

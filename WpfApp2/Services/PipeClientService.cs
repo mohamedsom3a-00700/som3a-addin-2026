@@ -33,7 +33,7 @@ namespace Som3a_WPF_UI.Services
         private StreamWriter _writer;
         private readonly CancellationTokenSource _cts = new();
         private PipeConnectionState _state = PipeConnectionState.Disconnected;
-        private readonly object _lock = new();
+        private readonly SemaphoreSlim _writeLock = new(1, 1);
         private readonly ConcurrentDictionary<string, TaskCompletionSource<PipeMessage>> _pendingRequests = new();
 
         public event EventHandler<PipeConnectionState> StateChanged;
@@ -72,7 +72,7 @@ namespace Som3a_WPF_UI.Services
                 _writer = new StreamWriter(_pipeStream, Encoding.UTF8) { AutoFlush = true };
 
                 State = PipeConnectionState.Connected;
-                _ = Task.Run(() => ReadLoopAsync(linkedCts.Token));
+                _ = Task.Run(() => ReadLoopAsync(_cts.Token));
 
                 return true;
             }
@@ -120,8 +120,16 @@ namespace Som3a_WPF_UI.Services
         {
             if (_writer == null) throw new InvalidOperationException("Not connected");
 
-            var json = JsonSerializer.Serialize(message, JsonOptions);
-            await _writer.WriteLineAsync(json);
+            await _writeLock.WaitAsync();
+            try
+            {
+                var json = JsonSerializer.Serialize(message, JsonOptions);
+                await _writer.WriteLineAsync(json);
+            }
+            finally
+            {
+                _writeLock.Release();
+            }
         }
 
         public async Task<PipeMessage> SendAndWaitAsync(PipeMessage message, int timeoutMs = PipeConstants.CommandTimeoutMs)
@@ -195,6 +203,7 @@ namespace Som3a_WPF_UI.Services
             _pipeStream?.Dispose();
             _reader?.Dispose();
             _writer?.Dispose();
+            _writeLock.Dispose();
         }
     }
 

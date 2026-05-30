@@ -45,7 +45,7 @@
                     <Button Content="{Binding DisplayName}"
                             Command="{Binding DataContext.NavigateToToolCommand, RelativeSource={RelativeSource AncestorType=controls:WidgetCard}}"
                             CommandParameter="{Binding ToolId}"
-                            Style="{DynamicResource MaterialDesignFlatButton}"
+
                             HorizontalContentAlignment="Left"
                             Foreground="{DynamicResource Brush.Text.Primary}"
                             Padding="4,2"
@@ -109,7 +109,7 @@
             </StackPanel>
             <Button Content="Configure AI Settings"
                     Command="{Binding NavigateToSettingsCommand}"
-                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Style="{DynamicResource GhostButton}"
                     HorizontalContentAlignment="Left"
                     Foreground="{DynamicResource Brush.Accent.Primary}"
                     Padding="4,2"/>
@@ -135,21 +135,21 @@
         <StackPanel>
             <Button Content="WBS Generator"
                     Command="{Binding NavigateToWBSCommand}"
-                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Style="{DynamicResource GhostButton}"
                     HorizontalContentAlignment="Left"
                     Foreground="{DynamicResource Brush.Text.Primary}"
                     Padding="4,4"
                     Margin="0,0,0,4"/>
             <Button Content="BOQ Activity Generator"
                     Command="{Binding NavigateToBOQCommand}"
-                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Style="{DynamicResource GhostButton}"
                     HorizontalContentAlignment="Left"
                     Foreground="{DynamicResource Brush.Text.Primary}"
                     Padding="4,4"
                     Margin="0,0,0,4"/>
             <Button Content="Settings"
                     Command="{Binding NavigateToSettingsCommand}"
-                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Style="{DynamicResource GhostButton}"
                     HorizontalContentAlignment="Left"
                     Foreground="{DynamicResource Brush.Text.Primary}"
                     Padding="4,4"/>
