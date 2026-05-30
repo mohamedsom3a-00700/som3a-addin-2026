@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal"
+     xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+    <Bundle
+        Name="Som3a Planova"
+        Version="$(var.Version)"
+        Manufacturer="Som3a"
+        UpgradeCode="YOUR-UPGRADEGUID-HERE-0000-0000-000000000000">
+
+        <bal:Condition Message="This application requires Windows 10 or later.">
+            VersionNT64 >= 100
+        </bal:Condition>
+
+        <!-- .NET Framework 4.8 prerequisite check -->
+        <util:RegistrySearch
+            Id="DotNetFramework48"
+            Variable="DotNetFramework48Installed"
+            Root="HKLM"
+            Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full"
+            Value="Release"
+            Result="value"/>
+
+        <bal:Condition Message="This application requires .NET Framework 4.8 or later. Please install it from https://dotnet.microsoft.com/download/dotnet-framework/net48">
+            DotNetFramework48Installed >= 528040
+        </bal:Condition>
+
+        <!-- Chain: all packages must install in sequence -->
+        <Chain>
+            <!-- .NET 8 Runtime (x64) - prerequisite -->
+            <ExePackage
+                Id="DotNetRuntime8"
+                Name="dotnet-runtime-8.0.x64.exe"
+                DownloadUrl="https://dotnet.microsoft.com/en-us/download/dotnet/8.0"
+                DetectCondition="DotNetRuntime8Installed"
+                Compressed="no"
+                PerMachine="yes"
+                Permanent="yes"
+                InstallCommand="/install /quiet /norestart"
+                RepairCommand="/repair /quiet /norestart"
+                UninstallCommand="/uninstall /quiet /norestart">
+                <ExitCode Behavior="success" Value="0"/>
+                <ExitCode Behavior="success" Value="1641"/>
+                <ExitCode Behavior="success" Value="3010"/>
+            </ExePackage>
+
+            <!-- Main MSI package -->
+            <MsiPackage
+                Id="Som3aPlanova"
+                SourceFile="$(var.SetupDir)\Som3aPlanova.msi"
+                Compressed="yes"
+                Vital="yes"
+                DisplayName="Som3a Planova"
+                DisplayInternalUI="no">
+                <MsiProperty Name="INSTALLFOLDER" Value="[INSTALLFOLDER]"/>
+            </MsiPackage>
+        </Chain>
+    </Bundle>
+</Wix>

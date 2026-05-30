@@ -7,12 +7,16 @@ using System.Windows.Threading;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.Controls.Shell;
+using Som3a_WPF_UI.Views;
+using Timer = System.Timers.Timer;
 
 namespace Som3a_WPF_UI
 {
     public partial class App : Application
     {
         public static IServiceContainer Container { get; } = new ServiceContainer();
+
+        private SplashWindow _splashWindow;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -29,9 +33,10 @@ namespace Som3a_WPF_UI
             var sidebarRegistration = Container.Resolve<ISidebarRegistrationProvider>();
             sidebarRegistration.RegisterStaticPages();
 
+            LocalizationBridgeService.Instance.LanguageChanged += OnLanguageChanged;
             LocalizationBridgeService.Instance.LoadLanguagePreference();
 
-            LocalizationBridgeService.Instance.LanguageChanged += OnLanguageChanged;
+            ShowSplashWindow();
 
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
             {
@@ -56,6 +61,8 @@ namespace Som3a_WPF_UI
                         sidebarRegistration.RegisterPluginPages(pluginTypes);
 
                     await CompositionRoot.RunStartupTasksAsync(Container);
+
+                    StartPeriodicGarbageCollection();
                 }
                 catch (Exception ex)
                 {
@@ -64,8 +71,35 @@ namespace Som3a_WPF_UI
             }));
         }
 
+        private void ShowSplashWindow()
+        {
+            _splashWindow = new SplashWindow();
+            _splashWindow.SplashComplete += OnSplashComplete;
+            _splashWindow.Show();
+        }
+
+        private void OnSplashComplete(object sender, EventArgs e)
+        {
+            _splashWindow = null;
+            ShowMainWindow();
+        }
+
+        private void ShowMainWindow()
+        {
+            var shell = new ShellWindow();
+            shell.Title = "Planova Platform";
+            MainWindow = shell;
+            shell.Show();
+        }
+
         private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke(new Action(() => OnLanguageChanged(sender, e)));
+                return;
+            }
+
             var isRTL = e.IsRTL;
 
             ShellRTLManager.Instance.ApplyLayout(isRTL);
@@ -85,6 +119,27 @@ namespace Som3a_WPF_UI
                 d.RefreshLabel();
 
             TranslationSource.Instance.Refresh();
+        }
+
+        private static Timer _gcTimer;
+
+        private static void StartPeriodicGarbageCollection()
+        {
+            _gcTimer = new Timer(TimeSpan.FromMinutes(5).TotalMilliseconds);
+            _gcTimer.Elapsed += (_, _) =>
+            {
+                try
+                {
+                    GC.Collect(GC.MaxGeneration, GCCollectionMode.Optimized);
+                    GC.WaitForPendingFinalizers();
+                }
+                catch
+                {
+                    // Silently handle GC failures — non-critical
+                }
+            };
+            _gcTimer.AutoReset = true;
+            _gcTimer.Start();
         }
 
         private static Assembly? OnAssemblyResolve(object sender, ResolveEventArgs args)

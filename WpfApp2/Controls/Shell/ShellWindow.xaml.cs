@@ -177,12 +177,13 @@ namespace Som3a_WPF_UI.Controls.Shell
 
             if (Workspace != null)
             {
-                var page = NavigationService.Instance.CreatePage(destination.Key);
-                if (page != null)
+                Workspace.LazyNavigate(() =>
                 {
-                    page.Tag = destination.Key;
-                    Workspace.Navigate(page);
-                }
+                    var page = NavigationService.Instance.CreatePage(destination.Key);
+                    if (page != null)
+                        page.Tag = destination.Key;
+                    return page;
+                });
             }
         }
 
@@ -233,8 +234,8 @@ namespace Som3a_WPF_UI.Controls.Shell
             var bridge = Services.LocalizationBridgeService.Instance;
             var currentCode = bridge.CurrentLanguageCode;
             var newCode = currentCode == "en-US" ? "ar-SA" : "en-US";
-            bridge.SetLanguage(newCode);
-            bridge.SaveLanguagePreference();
+            if (bridge.SetLanguage(newCode))
+                bridge.SaveLanguagePreference();
         }
 
         private void OnMinimize(object sender, RoutedEventArgs e)

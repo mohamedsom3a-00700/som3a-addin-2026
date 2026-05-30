@@ -44,14 +44,22 @@ namespace Som3a_WPF_UI.Services
             Excel.Worksheet? worksheet = null;
             try
             {
-                worksheet = workbook.Worksheets.Add(After: workbook.Sheets[workbook.Sheets.Count]);
+                var sheets = workbook.Sheets;
+                var afterSheet = sheets[sheets.Count];
+                var worksheets = workbook.Worksheets;
+                worksheet = worksheets.Add(After: afterSheet);
                 worksheet.Name = config.TargetSheetName;
 
                 WriteHeaders(worksheet, config);
                 WriteData(worksheet, activities, config);
                 ApplyFormatting(worksheet, activities.Count, config.Columns.Length);
 
-                worksheet.Columns.AutoFit();
+                var columns = worksheet.Columns;
+                columns.AutoFit();
+                if (columns != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(columns);
+                if (afterSheet != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(afterSheet);
+                if (worksheets != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheets);
+                if (sheets != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(sheets);
             }
             catch (Exception ex)
             {
@@ -62,12 +70,29 @@ namespace Som3a_WPF_UI.Services
         public bool SheetExists(string sheetName)
         {
             EnsureExcelApp();
-            if (_xlApp?.ActiveWorkbook == null) return false;
+            var activeWorkbook = _xlApp?.ActiveWorkbook;
+            if (activeWorkbook == null) return false;
 
-            foreach (Excel.Worksheet ws in _xlApp.ActiveWorkbook.Worksheets)
+            var worksheets = activeWorkbook.Worksheets;
+            try
             {
-                if (string.Equals(ws.Name, sheetName, StringComparison.OrdinalIgnoreCase))
-                    return true;
+                foreach (Excel.Worksheet ws in worksheets)
+                {
+                    try
+                    {
+                        if (string.Equals(ws.Name, sheetName, StringComparison.OrdinalIgnoreCase))
+                            return true;
+                    }
+                    finally
+                    {
+                        if (ws != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(ws);
+                    }
+                }
+            }
+            finally
+            {
+                if (worksheets != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheets);
+                if (activeWorkbook != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(activeWorkbook);
             }
 
             return false;
@@ -76,15 +101,32 @@ namespace Som3a_WPF_UI.Services
         public void RemoveSheet(string sheetName)
         {
             EnsureExcelApp();
-            if (_xlApp?.ActiveWorkbook == null) return;
+            var activeWorkbook = _xlApp?.ActiveWorkbook;
+            if (activeWorkbook == null) return;
 
-            foreach (Excel.Worksheet ws in _xlApp.ActiveWorkbook.Worksheets)
+            var worksheets = activeWorkbook.Worksheets;
+            try
             {
-                if (string.Equals(ws.Name, sheetName, StringComparison.OrdinalIgnoreCase))
+                foreach (Excel.Worksheet ws in worksheets)
                 {
-                    ws.Delete();
-                    return;
+                    try
+                    {
+                        if (string.Equals(ws.Name, sheetName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            ws.Delete();
+                            return;
+                        }
+                    }
+                    finally
+                    {
+                        if (ws != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(ws);
+                    }
                 }
+            }
+            finally
+            {
+                if (worksheets != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheets);
+                if (activeWorkbook != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(activeWorkbook);
             }
         }
 
