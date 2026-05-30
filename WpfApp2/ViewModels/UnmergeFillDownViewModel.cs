@@ -4,12 +4,13 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class UnmergeFillDownViewModel : ViewModelBase
+    public sealed partial class UnmergeFillDownViewModel : ViewModelBase
     {
         private readonly Excel.Application _app;
         private readonly Action _close;
@@ -19,80 +20,49 @@ namespace Som3a_WPF_UI.ViewModels
 
         public ObservableCollection<string> Columns { get; } = new();
 
+        [ObservableProperty]
         private string _activeSheetName = "";
-        public string ActiveSheetName
-        {
-            get => _activeSheetName;
-            private set => SetProperty(ref _activeSheetName, value);
-        }
 
+        [ObservableProperty]
         private int _headerRow = 1;
-        public int HeaderRow
+
+        partial void OnHeaderRowChanged(int value)
         {
-            get => _headerRow;
-            set
-            {
-                if (SetProperty(ref _headerRow, value < 1 ? 1 : value))
-                    ReloadColumns();
-            }
+            ReloadColumns();
         }
 
+        [ObservableProperty]
         private string? _selectedColumn;
-        public string? SelectedColumn
+
+        partial void OnSelectedColumnChanged(string? value)
         {
-            get => _selectedColumn;
-            set
-            {
-                if (SetProperty(ref _selectedColumn, value))
-                    RefreshCanRun();
-            }
+            RefreshCanRun();
         }
 
+        [ObservableProperty]
         private string _infoText = "Select a column that contains merged cells/data.";
-        public string InfoText
-        {
-            get => _infoText;
-            set => SetProperty(ref _infoText, value);
-        }
 
+        [ObservableProperty]
         private string _statusText = "Ready.";
-        public string StatusText
-        {
-            get => _statusText;
-            set => SetProperty(ref _statusText, value);
-        }
 
+        [ObservableProperty]
         private double _progressPercent;
-        public double ProgressPercent
-        {
-            get => _progressPercent;
-            set => SetProperty(ref _progressPercent, value);
-        }
 
+        [ObservableProperty]
         private bool _isBusy;
-        public bool IsBusy
+
+        partial void OnIsBusyChanged(bool value)
         {
-            get => _isBusy;
-            private set
-            {
-                if (SetProperty(ref _isBusy, value))
-                    RefreshCanRun();
-            }
+            RefreshCanRun();
         }
 
         public bool CanRun => !IsBusy && !string.IsNullOrWhiteSpace(SelectedColumn);
-
-        public ICommand RunCommand { get; }
-        public ICommand CloseCommand { get; }
 
         public UnmergeFillDownViewModel(IServiceContainer container, Excel.Application app, Action closeAction)
         {
             _app = app ?? throw new ArgumentNullException(nameof(app));
             _close = closeAction ?? throw new ArgumentNullException(nameof(closeAction));
             _service = container.Resolve<UnmergeFillDownService>();
-
-            RunCommand = new RelayCommand(async () => await RunAsync(), () => CanRun);
-            CloseCommand = new RelayCommand(() => _close());
 
             LoadActiveSheet();
             ReloadColumns();
@@ -131,13 +101,12 @@ namespace Som3a_WPF_UI.ViewModels
 
         private void RefreshCanRun()
         {
-            if (RunCommand is RelayCommand rc)
-                rc.RaiseCanExecuteChanged();
-
+            RunCommand.NotifyCanExecuteChanged();
             OnPropertyChanged(nameof(CanRun));
         }
 
-        private async Task RunAsync()
+        [RelayCommand(CanExecute = nameof(CanRun))]
+        private async Task Run()
         {
             if (string.IsNullOrWhiteSpace(SelectedColumn))
                 return;
@@ -174,5 +143,10 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
+        [RelayCommand]
+        private void Close()
+        {
+            _close();
+        }
     }
 }

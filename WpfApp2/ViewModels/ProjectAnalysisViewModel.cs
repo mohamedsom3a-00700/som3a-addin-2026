@@ -3,13 +3,15 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Som3a.Shared.Models;
 using Som3a_WPF_UI.Helpers;
 using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class ProjectAnalysisViewModel : ViewModelBase
+    public sealed partial class ProjectAnalysisViewModel : ViewModelBase
     {
         private readonly object _excelApp;
         private readonly Window _win;
@@ -20,71 +22,79 @@ namespace Som3a_WPF_UI.ViewModels
         public ObservableCollection<ProjectAnalysisLogRow> LogRows { get; } = new();
         public ObservableCollection<SheetCheckRow> SheetChecks { get; } = new();
 
+        [ObservableProperty]
         private string? _selectedActivitiesSheet;
-        public string? SelectedActivitiesSheet
+
+        partial void OnSelectedActivitiesSheetChanged(string? value)
         {
-            get => _selectedActivitiesSheet;
-            set { _selectedActivitiesSheet = value; OnPropertyChanged(); AutoAnalyzeIfNeeded(); }
+            AutoAnalyzeIfNeeded();
         }
 
+        [ObservableProperty]
         private string? _selectedLogicSheet;
-        public string? SelectedLogicSheet
+
+        partial void OnSelectedLogicSheetChanged(string? value)
         {
-            get => _selectedLogicSheet;
-            set { _selectedLogicSheet = value; OnPropertyChanged(); AutoAnalyzeIfNeeded(); }
+            AutoAnalyzeIfNeeded();
         }
 
+        [ObservableProperty]
         private string? _selectedResourcesSheet;
-        public string? SelectedResourcesSheet
+
+        partial void OnSelectedResourcesSheetChanged(string? value)
         {
-            get => _selectedResourcesSheet;
-            set { _selectedResourcesSheet = value; OnPropertyChanged(); AutoAnalyzeIfNeeded(); }
+            AutoAnalyzeIfNeeded();
         }
 
+        [ObservableProperty]
         private bool _inProSplit;
-        public bool InProSplit { get => _inProSplit; set { _inProSplit = value; OnPropertyChanged(); RefreshCanRun(); } }
 
+        partial void OnInProSplitChanged(bool value)
+        {
+            RefreshCanRun();
+        }
+
+        [ObservableProperty]
         private bool _inProRela;
-        public bool InProRela { get => _inProRela; set { _inProRela = value; OnPropertyChanged(); RefreshCanRun(); } }
 
+        partial void OnInProRelaChanged(bool value)
+        {
+            RefreshCanRun();
+        }
+
+        [ObservableProperty]
         private bool _inProRes;
-        public bool InProRes { get => _inProRes; set { _inProRes = value; OnPropertyChanged(); RefreshCanRun(); } }
 
+        partial void OnInProResChanged(bool value)
+        {
+            RefreshCanRun();
+        }
+
+        [ObservableProperty]
         private string _finishDateText = "";
-        public string FinishDateText { get => _finishDateText; set { _finishDateText = value; OnPropertyChanged(); RefreshCanRun(); } }
 
+        partial void OnFinishDateTextChanged(string value)
+        {
+            RefreshCanRun();
+        }
+
+        [ObservableProperty]
         private string _statusText = "Not validated. Click 'Check Sheets' to validate.";
-        public string StatusText { get => _statusText; set { _statusText = value; OnPropertyChanged(); } }
 
+        [ObservableProperty]
         private double _progressPct;
-        public double ProgressPct { get => _progressPct; set { _progressPct = value; OnPropertyChanged(); } }
 
+        [ObservableProperty]
         private string _progressText = "Ready.";
-        public string ProgressText { get => _progressText; set { _progressText = value; OnPropertyChanged(); } }
 
         private bool _validationOK;
         public bool CanRun => _validationOK;
-
-        public RelayCommand ValidateCommand { get; }
-        public RelayCommand RunCommand { get; }
-        public RelayCommand ClearSummaryCommand { get; }
-        public RelayCommand SetTodayCommand { get; }
-        public RelayCommand CloseCommand { get; }
 
         public ProjectAnalysisViewModel(IServiceContainer container, object excelApp, Window win, ExcelProjectAnalysisService service)
         {
             _excelApp = excelApp;
             _win = win;
             _svc = service ?? throw new ArgumentNullException(nameof(service));
-
-            ValidateCommand = new RelayCommand(Validate);
-            RunCommand = new RelayCommand(Run, () => CanRun);
-            ClearSummaryCommand = new RelayCommand(ClearSummary);
-            SetTodayCommand = new RelayCommand(() =>
-            {
-                FinishDateText = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            });
-            CloseCommand = new RelayCommand(() => _win?.Close());
 
             LoadSheets();
             AutoSelectDefaults();
@@ -110,7 +120,7 @@ namespace Som3a_WPF_UI.ViewModels
 
         private void RefreshCanRun()
         {
-            RunCommand.RaiseCanExecuteChanged();
+            RunCommand.NotifyCanExecuteChanged();
         }
 
         private void SetProgress(double pct, string text)
@@ -129,10 +139,23 @@ namespace Som3a_WPF_UI.ViewModels
             });
         }
 
+        [RelayCommand]
         private void ClearSummary()
         {
             SummaryRows.Clear();
             Log("Summary cleared by user.");
+        }
+
+        [RelayCommand]
+        private void SetToday()
+        {
+            FinishDateText = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        }
+
+        [RelayCommand]
+        private void Close()
+        {
+            _win?.Close();
         }
 
         private void AutoAnalyzeIfNeeded()
@@ -173,6 +196,7 @@ namespace Som3a_WPF_UI.ViewModels
             Log($"Header '{header}' analyzed on sheet '{sheet}'.");
         }
 
+        [RelayCommand]
         private void Validate()
         {
             SheetChecks.Clear();
@@ -201,6 +225,7 @@ namespace Som3a_WPF_UI.ViewModels
             RefreshCanRun();
         }
 
+        [RelayCommand(CanExecute = nameof(CanRun))]
         private void Run()
         {
             try

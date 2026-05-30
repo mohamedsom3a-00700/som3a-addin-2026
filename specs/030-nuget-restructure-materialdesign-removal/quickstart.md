@@ -32,7 +32,7 @@ grep -rn "MaterialDesign\|materialDesign" --include="*.xaml" WpfApp2/
 grep -rn "MaterialDesign" --include="*.cs" WpfApp2/
 
 # Search VSTO project
-grep -rn "MaterialDesign" --include="*.config" Som3aAddin/
+grep -rn "MaterialDesign" --include="*.config" "Som3a Addin 2026/"
 ```
 
 Save the output as `Docs/Audit/phase-1c-removal-audit.md` for reference during fixes.
@@ -54,7 +54,7 @@ dotnet remove WpfApp2/Som3a_WPF_UI.csproj package MaterialDesignColors
 
 ```powershell
 dotnet add WpfApp2/Som3a_WPF_UI.csproj package FluentIcons.WPF
-dotnet add WpfApp2/Som3a_WPF_UI.csproj package Wpf.Ui
+# Note: Wpf.Ui v4.0.2 was not found on NuGet; per fallback plan only FluentIcons.WPF is retained.
 ```
 
 ### Step 5: Clean Resource Dictionaries
@@ -87,7 +87,7 @@ For each build error related to missing MaterialDesign types or resources:
 
 ### Step 7: Clean VSTO Configuration
 
-Open `Som3aAddin/app.config` and remove any `<bindingRedirect>` entries referencing `MaterialDesignThemes.Wpf` or `MaterialDesignColors.Wpf`.
+Open `Som3a Addin 2026/app.config` and remove any `<bindingRedirect>` entries referencing `MaterialDesignThemes.Wpf` or `MaterialDesignColors.Wpf`.
 
 ### Step 8: Verify Build
 
@@ -116,7 +116,7 @@ Follow the VSTO Smoke Test protocol:
 
 ```powershell
 git add .
-git commit -m "Phase 1C: Remove MaterialDesign, add FluentIcons.WPF + Wpf.Ui"
+git commit -m "Phase 1C: Remove MaterialDesign, add FluentIcons.WPF"
 ```
 
 ## Troubleshooting

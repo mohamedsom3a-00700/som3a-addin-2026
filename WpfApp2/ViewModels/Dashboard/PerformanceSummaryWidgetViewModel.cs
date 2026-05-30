@@ -1,33 +1,22 @@
 using System;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.ViewModels.Dashboard
 {
-    public sealed class PerformanceSummaryWidgetViewModel : WidgetViewModel
+    public sealed partial class PerformanceSummaryWidgetViewModel : WidgetViewModel
     {
         private readonly IPerformanceMonitor _performanceMonitor;
+
+        [ObservableProperty]
         private double _startupTimeMs;
+
+        [ObservableProperty]
         private double _lastNavigationTimeMs;
+
+        [ObservableProperty]
         private string _lastNavigationTarget;
-
-        public double StartupTimeMs
-        {
-            get => _startupTimeMs;
-            set => SetProperty(ref _startupTimeMs, value);
-        }
-
-        public double LastNavigationTimeMs
-        {
-            get => _lastNavigationTimeMs;
-            set => SetProperty(ref _lastNavigationTimeMs, value);
-        }
-
-        public string LastNavigationTarget
-        {
-            get => _lastNavigationTarget;
-            set => SetProperty(ref _lastNavigationTarget, value);
-        }
 
         public PerformanceSummaryWidgetViewModel(IPerformanceMonitor performanceMonitor)
         {

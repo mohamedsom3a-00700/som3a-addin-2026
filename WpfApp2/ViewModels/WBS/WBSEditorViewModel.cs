@@ -1,73 +1,46 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Microsoft.Win32;
 using Som3a_WPF_UI.Services.WBS;
 
 namespace Som3a_WPF_UI.ViewModels.WBS;
 
-public class WBSEditorViewModel : INotifyPropertyChanged
+public partial class WBSEditorViewModel : ViewModelBase
 {
     private readonly IWBSCodeGenerator _codeGen;
     private readonly IWBSTreeValidator _validator;
     private readonly IWBSTemplateService _templateService;
-    private WBSNode? _rootNode;
-    private WBSNode? _selectedNode;
-    private string? _newNodeName;
-    private string? _errorMessage;
-    private string? _statusMessage;
     private readonly Stack<WBSChange> _undoStack = new();
     private string? _currentUserId;
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasTree))]
+    private WBSNode? _rootNode;
 
-    public WBSNode? RootNode
-    {
-        get => _rootNode;
-        set { _rootNode = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasTree)); }
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanAddChild))]
+    [NotifyPropertyChangedFor(nameof(CanRemove))]
+    private WBSNode? _selectedNode;
 
-    public WBSNode? SelectedNode
-    {
-        get => _selectedNode;
-        set { _selectedNode = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanAddChild)); OnPropertyChanged(nameof(CanRemove)); }
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanAddChild))]
+    private string? _newNodeName;
 
-    public string? NewNodeName
-    {
-        get => _newNodeName;
-        set { _newNodeName = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanAddChild)); }
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasError))]
+    private string? _errorMessage;
 
-    public string? ErrorMessage
-    {
-        get => _errorMessage;
-        set { _errorMessage = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasError)); }
-    }
-
-    public string? StatusMessage
-    {
-        get => _statusMessage;
-        set { _statusMessage = value; OnPropertyChanged(); }
-    }
+    [ObservableProperty]
+    private string? _statusMessage;
 
     public bool HasTree => RootNode != null;
     public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
     public bool CanAddChild => SelectedNode != null && !string.IsNullOrWhiteSpace(NewNodeName);
     public bool CanRemove => SelectedNode != null && SelectedNode != RootNode;
     public bool CanUndo => _undoStack.Count > 0;
-
-    public ICommand AddChildCommand { get; }
-    public ICommand RemoveNodeCommand { get; }
-    public ICommand RenameNodeCommand { get; }
-    public ICommand SaveAsTemplateCommand { get; }
-    public ICommand UndoCommand { get; }
-    public ICommand ExportToExcelCommand { get; }
-    public ICommand ExportToJsonCommand { get; }
-    public ICommand ExportToXmlCommand { get; }
 
     public WBSEditorViewModel(IWBSCodeGenerator codeGen, IWBSTreeValidator validator, IWBSTemplateService templateService)
     {
@@ -76,14 +49,20 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         _templateService = templateService;
         _currentUserId = Environment.UserName;
 
-        AddChildCommand = new RelayCommand(() => AddChild(), () => CanAddChild);
-        RemoveNodeCommand = new RelayCommand(() => RemoveNode(), () => CanRemove);
-        RenameNodeCommand = new RelayCommand(() => RenameNode(SelectedNode?.Name), () => SelectedNode != null);
-        SaveAsTemplateCommand = new RelayCommand(async () => await SaveAsTemplateAsync(), () => HasTree);
-        UndoCommand = new RelayCommand(() => Undo(), () => CanUndo);
-        ExportToExcelCommand = new RelayCommand(() => ExportToActiveSheet(), () => HasTree);
-        ExportToJsonCommand = new RelayCommand(() => ExportToFile("json"), () => HasTree);
-        ExportToXmlCommand = new RelayCommand(() => ExportToFile("xml"), () => HasTree);
+        SyncSelectedStyle();
+    }
+
+    private static void SyncSelectedStyle()
+    {
+        var styleName = Properties.Settings.Default.WBSExportStyle;
+        Som3a.Shared.Core.UserSettings.SelectedStyle = styleName switch
+        {
+            "Blue Gradient" => 2,
+            "Primavera" => 3,
+            "Dark Mode" => 4,
+            "Soft Pastel" => 5,
+            _ => 1
+        };
     }
 
     public void LoadTree(WBSNode root)
@@ -93,6 +72,7 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         StatusMessage = "Tree loaded.";
     }
 
+    [RelayCommand(CanExecute = nameof(CanAddChild))]
     private void AddChild()
     {
         if (SelectedNode == null || string.IsNullOrWhiteSpace(NewNodeName)) return;
@@ -106,6 +86,7 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         RefreshProperties();
     }
 
+    [RelayCommand(CanExecute = nameof(CanRemove))]
     private void RemoveNode()
     {
         if (SelectedNode == null || SelectedNode == RootNode) return;
@@ -118,6 +99,14 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         RefreshProperties();
     }
 
+    [RelayCommand(CanExecute = nameof(CanRenameNode))]
+    private void RenameNodeCommand()
+    {
+        RenameNode(SelectedNode?.Name);
+    }
+
+    private bool CanRenameNode() => SelectedNode != null;
+
     public void RenameNode(string? newName)
     {
         if (SelectedNode == null || string.IsNullOrWhiteSpace(newName)) return;
@@ -127,6 +116,7 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         RefreshProperties();
     }
 
+    [RelayCommand(CanExecute = nameof(HasTree))]
     private async Task SaveAsTemplateAsync()
     {
         if (RootNode == null) return;
@@ -138,6 +128,7 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         catch (Exception ex) { ErrorMessage = $"Failed to save template: {ex.Message}"; }
     }
 
+    [RelayCommand(CanExecute = nameof(CanUndo))]
     private void Undo()
     {
         if (_undoStack.Count == 0) return;
@@ -146,17 +137,7 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         RefreshProperties();
     }
 
-    private void SnapshotBeforeChange(WBSNode node, string changeType)
-    {
-        _undoStack.Push(new WBSChange { Id = Guid.NewGuid().ToString(), Type = changeType, NodeId = node.Id, Timestamp = DateTime.UtcNow });
-    }
-
-    private void RefreshProperties()
-    {
-        OnPropertyChanged(nameof(CanUndo)); OnPropertyChanged(nameof(HasTree));
-        OnPropertyChanged(nameof(CanAddChild)); OnPropertyChanged(nameof(CanRemove));
-    }
-
+    [RelayCommand(CanExecute = nameof(HasTree))]
     private void ExportToActiveSheet()
     {
         if (RootNode == null) return;
@@ -171,6 +152,29 @@ public class WBSEditorViewModel : INotifyPropertyChanged
         }
     }
 
+    [RelayCommand(CanExecute = nameof(HasTree))]
+    private void ExportToJson()
+    {
+        ExportToFile("json");
+    }
+
+    [RelayCommand(CanExecute = nameof(HasTree))]
+    private void ExportToXml()
+    {
+        ExportToFile("xml");
+    }
+
+    private void SnapshotBeforeChange(WBSNode node, string changeType)
+    {
+        _undoStack.Push(new WBSChange { Id = Guid.NewGuid().ToString(), Type = changeType, NodeId = node.Id, Timestamp = DateTime.UtcNow });
+    }
+
+    private void RefreshProperties()
+    {
+        OnPropertyChanged(nameof(CanUndo)); OnPropertyChanged(nameof(HasTree));
+        OnPropertyChanged(nameof(CanAddChild)); OnPropertyChanged(nameof(CanRemove));
+    }
+
     private void ExportToFile(string format)
     {
         if (RootNode == null) return;
@@ -183,7 +187,7 @@ public class WBSEditorViewModel : INotifyPropertyChanged
                 _ => "All files (*.*)|*.*"
             };
             var ext = format.ToLower() == "json" ? ".json" : ".xml";
-            var dialog = new Microsoft.Win32.SaveFileDialog
+            var dialog = new SaveFileDialog
             {
                 Filter = filter,
                 FileName = $"WBS_{DateTime.Now:yyyyMMdd}{ext}"
@@ -203,9 +207,6 @@ public class WBSEditorViewModel : INotifyPropertyChanged
             ErrorMessage = $"Export failed: {ex.Message}";
         }
     }
-
-    protected void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }
 
 public class WBSChange

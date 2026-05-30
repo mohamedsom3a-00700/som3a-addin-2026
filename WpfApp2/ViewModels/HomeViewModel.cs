@@ -2,77 +2,65 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.ViewModels.Dashboard;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class HomeViewModel : ViewModelBase
+    public partial class HomeViewModel : ViewModelBase
     {
         private readonly IServiceContainer _container;
         private readonly INavigationService _navigationService;
-        private bool _isLoading;
-        private string _errorMessage;
-        private bool _isErrorVisible;
 
         public ObservableCollection<WidgetViewModel> Widgets { get; } = new ObservableCollection<WidgetViewModel>();
 
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set => SetProperty(ref _isLoading, value);
-        }
+        [ObservableProperty]
+        private bool _isLoading;
 
-        public string ErrorMessage
-        {
-            get => _errorMessage;
-            set => SetProperty(ref _errorMessage, value);
-        }
+        [ObservableProperty]
+        private string _errorMessage;
 
-        public bool IsErrorVisible
-        {
-            get => _isErrorVisible;
-            set => SetProperty(ref _isErrorVisible, value);
-        }
+        [ObservableProperty]
+        private bool _isErrorVisible;
 
         public string AppVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0";
 
-        public ICommand NavigateToDiagnosticsCommand { get; }
-        public ICommand WidgetClickCommand { get; }
+        [RelayCommand]
+        private void NavigateToDiagnostics()
+        {
+            try { _navigationService.NavigateTo("diagnostics"); }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"NavigateToDiagnostics failed: {ex.Message}"); }
+        }
+
+        [RelayCommand]
+        private void WidgetClick(object? param)
+        {
+            var title = param as string;
+            if (string.IsNullOrEmpty(title)) return;
+            var navKey = title switch
+            {
+                "Current Version" => "diagnostics",
+                "Latest Updates" => "settings.general",
+                "Recent Tools" => "home",
+                "Recent Projects" => "home",
+                "Diagnostics Summary" => "diagnostics",
+                "AI Providers" => "settings.general",
+                "Performance Summary" => "diagnostics",
+                "Quick Actions" => "welcome",
+                "Plugin Status" => "diagnostics",
+                _ => null
+            };
+            if (navKey == null) return;
+            try { _navigationService.NavigateTo(navKey); }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"WidgetClick failed: {ex.Message}"); }
+        }
 
         public HomeViewModel(IServiceContainer container, INavigationService navigationService)
         {
             _container = container ?? throw new ArgumentNullException(nameof(container));
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-
-            NavigateToDiagnosticsCommand = new RelayCommand(() =>
-            {
-                try { navigationService.NavigateTo("diagnostics"); }
-                catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"NavigateToDiagnostics failed: {ex.Message}"); }
-            });
-
-            WidgetClickCommand = new RelayCommand(param =>
-            {
-                var title = param as string;
-                if (string.IsNullOrEmpty(title)) return;
-                var navKey = title switch
-                {
-                    "Current Version" => "diagnostics",
-                    "Latest Updates" => "settings.general",
-                    "Recent Tools" => "home",
-                    "Recent Projects" => "home",
-                    "Diagnostics Summary" => "diagnostics",
-                    "AI Providers" => "settings.general",
-                    "Performance Summary" => "diagnostics",
-                    "Quick Actions" => "welcome",
-                    "Plugin Status" => "diagnostics",
-                    _ => null
-                };
-                if (navKey == null) return;
-                try { navigationService.NavigateTo(navKey); }
-                catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"WidgetClick failed: {ex.Message}"); }
-            });
         }
 
         public async Task LoadAsync()

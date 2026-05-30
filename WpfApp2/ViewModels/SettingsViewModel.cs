@@ -10,10 +10,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class SettingsViewModel : ViewModelBase
+    public sealed partial class SettingsViewModel : ViewModelBase
     {
         private readonly ThemeManager _themeManager;
         private readonly SettingsPersistenceService _settingsService;
@@ -21,15 +23,8 @@ namespace Som3a_WPF_UI.ViewModels
         private readonly SettingsValidator _validator;
         private readonly IEventBus _eventBus;
 
-        private UserSettings _currentSettings;
-        private UserSettings _previewSettings;
-        private SettingsCategory? _selectedCategory;
-        private bool _isDirty;
-        private bool _isPreviewActive;
         private string _originalTheme;
         private string _originalAccent;
-        private object? _currentPanel;
-        private SettingsSectionViewModel? _selectedSection;
 
         public ObservableCollection<SettingsCategory> Categories { get; } = new();
         public ObservableCollection<AccentSwatchItem> AccentSwatches { get; } = new();
@@ -38,56 +33,40 @@ namespace Som3a_WPF_UI.ViewModels
         public ObservableCollection<Services.FontFamilyInfo> AvailableFonts { get; } = new();
         public ObservableCollection<WallpaperItem> WallpaperImages { get; } = new();
 
+        [ObservableProperty]
         private Color _selectedCustomColor = Color.FromRgb(58, 134, 255);
-        public Color SelectedCustomColor
+
+        partial void OnSelectedCustomColorChanged(Color value)
         {
-            get => _selectedCustomColor;
-            set
-            {
-                if (SetProperty(ref _selectedCustomColor, value))
-                {
-                    var hex = $"#{value.R:X2}{value.G:X2}{value.B:X2}";
-                    _hexColorText = hex;
-                    OnPropertyChanged(nameof(HexColorText));
-                    AccentPreviewBrush = new SolidColorBrush(value);
-                    OnPropertyChanged(nameof(AccentPreviewBrush));
-                    ApplyAccentWithDebounce(hex);
-                }
-            }
+            var hex = $"#{value.R:X2}{value.G:X2}{value.B:X2}";
+            _hexColorText = hex;
+            OnPropertyChanged(nameof(HexColorText));
+            AccentPreviewBrush = new SolidColorBrush(value);
+            ApplyAccentWithDebounce(hex);
         }
 
+        [ObservableProperty]
         private string _hexColorText = "#3A86FF";
-        public string HexColorText
+
+        partial void OnHexColorTextChanged(string value)
         {
-            get => _hexColorText;
-            set
+            if (string.IsNullOrEmpty(value) || value.Length < 7)
+                return;
+
+            try
             {
-                if (string.IsNullOrEmpty(value) || value.Length < 7)
-                    return;
-
-                try
-                {
-                    var color = (Color)ColorConverter.ConvertFromString(value);
-                    if (SetProperty(ref _hexColorText, value))
-                    {
-                        _selectedCustomColor = color;
-                        OnPropertyChanged(nameof(SelectedCustomColor));
-                        AccentPreviewBrush = new SolidColorBrush(color);
-                        OnPropertyChanged(nameof(AccentPreviewBrush));
-                        ApplyAccentWithDebounce(value);
-                        UpdateAccentVariants(color);
-                    }
-                }
-                catch { }
+                var color = (Color)ColorConverter.ConvertFromString(value);
+                _selectedCustomColor = color;
+                OnPropertyChanged(nameof(SelectedCustomColor));
+                AccentPreviewBrush = new SolidColorBrush(color);
+                ApplyAccentWithDebounce(value);
+                UpdateAccentVariants(color);
             }
+            catch { }
         }
 
+        [ObservableProperty]
         private Brush _accentPreviewBrush = new SolidColorBrush(Color.FromRgb(58, 134, 255));
-        public Brush AccentPreviewBrush
-        {
-            get => _accentPreviewBrush;
-            set => SetProperty(ref _accentPreviewBrush, value);
-        }
 
         private System.Windows.Threading.DispatcherTimer _accentDebounceTimer;
         private string _pendingAccentHex;
@@ -133,19 +112,11 @@ namespace Som3a_WPF_UI.ViewModels
             AddVariant("Subtle", "Subtle");
         }
 
+        [ObservableProperty]
         private string _imageFileName = "";
-        public string ImageFileName
-        {
-            get => _imageFileName;
-            set => SetProperty(ref _imageFileName, value);
-        }
 
+        [ObservableProperty]
         private string _imageValidationError = "";
-        public string ImageValidationError
-        {
-            get => _imageValidationError;
-            set => SetProperty(ref _imageValidationError, value);
-        }
 
         private double _blurIntensity = 0.0;
         public double BlurIntensityPercent
@@ -159,45 +130,34 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private bool _blurEnabled = false;
-        public bool BlurEnabled
+        [ObservableProperty]
+        private bool _blurEnabled;
+
+        partial void OnBlurEnabledChanged(bool value)
         {
-            get => _blurEnabled;
-            set
-            {
-                if (SetProperty(ref _blurEnabled, value))
-                {
-                    _themeManager.ApplyBackground(_imagePath, value ? _blurIntensity : 0.0);
-                }
-            }
+            _themeManager.ApplyBackground(_imagePath, value ? _blurIntensity : 0.0);
         }
 
         private string _imagePath = "";
+        [ObservableProperty]
         private Services.FontFamilyInfo _selectedFont;
-        public Services.FontFamilyInfo SelectedFont
+
+        partial void OnSelectedFontChanged(Services.FontFamilyInfo value)
         {
-            get => _selectedFont;
-            set
+            if (value != null)
             {
-                if (SetProperty(ref _selectedFont, value) && value != null)
-                {
-                    _themeManager.ApplyFont(value.FamilyName);
-                }
+                _themeManager.ApplyFont(value.FamilyName);
             }
         }
 
-        public ICommand SelectImageCommand { get; private set; }
-        public ICommand ClearImageCommand { get; private set; }
-        public ICommand SetWallpaperColorCommand { get; private set; }
-        public ICommand SetWallpaperImageCommand { get; private set; }
-        public ICommand ClearWallpaperCommand { get; private set; }
-        public ICommand CustomBaseThemeCommand { get; private set; }
+
 
         private string _customBaseTheme = "Dark";
         public bool CustomBaseIsDark => _customBaseTheme == "Dark";
         public bool CustomBaseIsLight => _customBaseTheme == "Light";
 
-        private void ExecuteSetWallpaperColor(object parameter)
+        [RelayCommand]
+        private void SetWallpaperColor(object parameter)
         {
             if (parameter is string hexColor)
             {
@@ -224,7 +184,8 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private void ExecuteSetWallpaperImage(object parameter)
+        [RelayCommand]
+        private void SetWallpaperImage(object parameter)
         {
             if (parameter is string imagePath)
             {
@@ -308,7 +269,8 @@ namespace Som3a_WPF_UI.ViewModels
             public ImageSource Thumbnail { get; set; }
         }
 
-        private void ExecuteClearWallpaper(object parameter)
+        [RelayCommand]
+        private void ClearWallpaper(object parameter)
         {
             _imagePath = "";
             ImageFileName = "";
@@ -316,7 +278,8 @@ namespace Som3a_WPF_UI.ViewModels
             _themeManager.ApplyBackground("", 0.0);
         }
 
-        private void SetCustomBaseTheme(string themeName)
+        [RelayCommand]
+        private void CustomBaseTheme(string themeName)
         {
             if (string.IsNullOrEmpty(themeName)) return;
             _customBaseTheme = themeName;
@@ -329,7 +292,8 @@ namespace Som3a_WPF_UI.ViewModels
             RefreshPreviewBindings();
         }
 
-        private void ExecuteSelectImage()
+        [RelayCommand]
+        private void SelectImage()
         {
             var dlg = new Microsoft.Win32.OpenFileDialog
             {
@@ -379,7 +343,8 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private void ExecuteClearImage()
+        [RelayCommand]
+        private void ClearImage()
         {
             _imagePath = "";
             ImageFileName = "";
@@ -395,28 +360,20 @@ namespace Som3a_WPF_UI.ViewModels
                 AvailableFonts.Add(font);
         }
 
-        public SettingsCategory? SelectedCategory
+        [ObservableProperty]
+        private SettingsCategory? _selectedCategory;
+
+        partial void OnSelectedCategoryChanged(SettingsCategory? value)
         {
-            get => _selectedCategory;
-            set
+            if (IsPreviewActive)
             {
-                if (SetProperty(ref _selectedCategory, value))
-                {
-                    if (IsPreviewActive)
-                    {
-                        CancelPreviewCommand.Execute(null);
-                    }
-                    OnPropertyChanged(nameof(SelectedCategory));
-                    UpdateCurrentPanel();
-                }
+                CancelPreviewCommand.Execute(null);
             }
+            UpdateCurrentPanel();
         }
 
-        public SettingsSectionViewModel? SelectedSection
-        {
-            get => _selectedSection;
-            set => SetProperty(ref _selectedSection, value);
-        }
+        [ObservableProperty]
+        private SettingsSectionViewModel? _selectedSection;
 
         private void UpdateCurrentPanel()
         {
@@ -428,35 +385,20 @@ namespace Som3a_WPF_UI.ViewModels
             CurrentPanel = Activator.CreateInstance(_selectedCategory.PanelType);
         }
 
-        public object? CurrentPanel
-        {
-            get => _currentPanel;
-            set => SetProperty(ref _currentPanel, value);
-        }
+        [ObservableProperty]
+        private object? _currentPanel;
 
-        public UserSettings CurrentSettings
-        {
-            get => _currentSettings;
-            set => SetProperty(ref _currentSettings, value);
-        }
+        [ObservableProperty]
+        private UserSettings _currentSettings;
 
-        public UserSettings PreviewSettings
-        {
-            get => _previewSettings;
-            set => SetProperty(ref _previewSettings, value);
-        }
+        [ObservableProperty]
+        private UserSettings _previewSettings;
 
-        public bool IsDirty
-        {
-            get => _isDirty;
-            set => SetProperty(ref _isDirty, value);
-        }
+        [ObservableProperty]
+        private bool _isDirty;
 
-        public bool IsPreviewActive
-        {
-            get => _isPreviewActive;
-            set => SetProperty(ref _isPreviewActive, value);
-        }
+        [ObservableProperty]
+        private bool _isPreviewActive;
 
         // Theme selection helpers
         public bool IsDarkSelected => _previewSettings.SelectedTheme == "Dark";
@@ -599,34 +541,15 @@ namespace Som3a_WPF_UI.ViewModels
         }
 
         // Local provider detection
+        [ObservableProperty]
         private bool _isDetectionScanning;
-        public bool IsDetectionScanning
-        {
-            get => _isDetectionScanning;
-            set => SetProperty(ref _isDetectionScanning, value);
-        }
 
+        [ObservableProperty]
         private string _detectionStatusText = "";
-        public string DetectionStatusText
-        {
-            get => _detectionStatusText;
-            set => SetProperty(ref _detectionStatusText, value);
-        }
 
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(HasDetectedProviders), nameof(HasMultipleLocalProviders), nameof(ShowLocalProviderSelector))]
         private int _detectedProviderCount;
-        public int DetectedProviderCount
-        {
-            get => _detectedProviderCount;
-            set
-            {
-                if (SetProperty(ref _detectedProviderCount, value))
-                {
-                    OnPropertyChanged(nameof(HasDetectedProviders));
-                    OnPropertyChanged(nameof(HasMultipleLocalProviders));
-                    OnPropertyChanged(nameof(ShowLocalProviderSelector));
-                }
-            }
-        }
 
         public bool HasDetectedProviders => DetectedProviderCount > 0;
         public bool HasMultipleLocalProviders => DetectedProviderCount > 1;
@@ -634,19 +557,17 @@ namespace Som3a_WPF_UI.ViewModels
 
         public ObservableCollection<LocalProviderInfo> DetectedLocalProviders { get; } = new();
 
+        [ObservableProperty]
         private LocalProviderInfo? _selectedLocalProvider;
-        public LocalProviderInfo? SelectedLocalProvider
+
+        partial void OnSelectedLocalProviderChanged(LocalProviderInfo? value)
         {
-            get => _selectedLocalProvider;
-            set
+            if (value != null)
             {
-                if (SetProperty(ref _selectedLocalProvider, value) && value != null)
-                {
-                    AIOllamaEndpoint = value.Endpoint;
-                    AIOllamaModel = value.DefaultModel;
-                    AISettings.ApplyLocalProviderSelection(value);
-                    PopulateLocalModels(value);
-                }
+                AIOllamaEndpoint = value.Endpoint;
+                AIOllamaModel = value.DefaultModel;
+                AISettings.ApplyLocalProviderSelection(value);
+                PopulateLocalModels(value);
             }
         }
 
@@ -661,12 +582,8 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
+        [ObservableProperty]
         private bool _showApiKeyWarning;
-        public bool ShowApiKeyWarning
-        {
-            get => _showApiKeyWarning;
-            set => SetProperty(ref _showApiKeyWarning, value);
-        }
 
         public string AIOllamaSubModel
         {
@@ -693,22 +610,7 @@ namespace Som3a_WPF_UI.ViewModels
             "gemini-pro", "gemini-1.5-pro", "gemini-1.5-flash"
         };
 
-        // Commands
-        public ICommand ThemeCardCommand { get; }
-        public ICommand AccentSwatchCommand { get; }
-        public ICommand ApplyThemeCommand { get; }
-        public ICommand CancelPreviewCommand { get; }
-        public ICommand ExportSettingsCommand { get; }
-        public ICommand ImportSettingsCommand { get; }
-        public ICommand AnimationSpeedCommand { get; }
-        public ICommand DensityCommand { get; }
-        public ICommand BackgroundStyleCommand { get; }
-        public ICommand SaveCommand { get; }
-        public ICommand CancelCommand { get; }
-        public ICommand ToggleAICommand { get; }
-        public ICommand ToggleAIProviderCommand { get; }
-        public ICommand RefreshModelsCommand { get; }
-        public ICommand SwitchToLocalAICommand { get; }
+        // Commands are auto-generated by [RelayCommand] attributes
 
         public Action<bool?>? CloseWindow { get; set; }
 
@@ -733,27 +635,7 @@ namespace Som3a_WPF_UI.ViewModels
             InitializeSwatches();
             LoadDynamicSections();
 
-            ThemeCardCommand = new RelayCommand(param => OnThemeCardClick(param as string));
-            AccentSwatchCommand = new RelayCommand(param => OnAccentSwatchClick(param as string));
-            ApplyThemeCommand = new RelayCommand(OnApplyTheme);
-            CancelPreviewCommand = new RelayCommand(OnCancelPreview);
-            ExportSettingsCommand = new RelayCommand(OnExportSettings);
-            ImportSettingsCommand = new RelayCommand(OnImportSettings);
-            AnimationSpeedCommand = new RelayCommand(param => OnAnimationSpeedChanged(param as string));
-            DensityCommand = new RelayCommand(param => OnDensityChanged(param as string));
-            BackgroundStyleCommand = new RelayCommand(param => OnBackgroundStyleChanged(param as string));
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
-            SelectImageCommand = new RelayCommand(_ => ExecuteSelectImage());
-            ClearImageCommand = new RelayCommand(_ => ExecuteClearImage());
-            SetWallpaperColorCommand = new RelayCommand(param => ExecuteSetWallpaperColor(param));
-            SetWallpaperImageCommand = new RelayCommand(param => ExecuteSetWallpaperImage(param));
-            ClearWallpaperCommand = new RelayCommand(_ => ExecuteClearWallpaper(""));
-            CustomBaseThemeCommand = new RelayCommand(param => SetCustomBaseTheme(param as string));
-            ToggleAICommand = new RelayCommand(OnToggleAI);
-            ToggleAIProviderCommand = new RelayCommand(param => OnToggleAIProvider(param as string));
-            RefreshModelsCommand = new RelayCommand(async _ => await RefreshModelsAsync());
-            SwitchToLocalAICommand = new RelayCommand(_ => OnSwitchToLocalAI());
+
 
             // Sync initial AI settings
             AISettings.IsAIEnabled = _previewSettings.IsAIEnabled;
@@ -882,7 +764,8 @@ namespace Som3a_WPF_UI.ViewModels
             UpdateSwatchSelection();
         }
 
-        private void OnThemeCardClick(string? themeName)
+        [RelayCommand]
+        private void ThemeCard(string? themeName)
         {
             if (string.IsNullOrEmpty(themeName)) return;
             if (!IsPreviewActive)
@@ -896,7 +779,8 @@ namespace Som3a_WPF_UI.ViewModels
             RefreshPreviewBindings();
         }
 
-        private void OnAccentSwatchClick(string? hex)
+        [RelayCommand]
+        private void AccentSwatch(string? hex)
         {
             if (string.IsNullOrEmpty(hex)) return;
             if (!IsPreviewActive)
@@ -911,7 +795,8 @@ namespace Som3a_WPF_UI.ViewModels
             RefreshPreviewBindings();
         }
 
-        private void OnAnimationSpeedChanged(string? speed)
+        [RelayCommand]
+        private void AnimationSpeed(string? speed)
         {
             if (string.IsNullOrEmpty(speed)) return;
             _previewSettings.AnimationSpeed = speed;
@@ -919,7 +804,8 @@ namespace Som3a_WPF_UI.ViewModels
             RefreshPreviewBindings();
         }
 
-        private void OnDensityChanged(string? density)
+        [RelayCommand]
+        private void Density(string? density)
         {
             if (string.IsNullOrEmpty(density)) return;
             _previewSettings.UiDensity = density;
@@ -927,7 +813,8 @@ namespace Som3a_WPF_UI.ViewModels
             RefreshPreviewBindings();
         }
 
-        private void OnBackgroundStyleChanged(string? style)
+        [RelayCommand]
+        private void BackgroundStyle(string? style)
         {
             if (string.IsNullOrEmpty(style)) return;
             _previewSettings.BackgroundStyle = style;
@@ -935,18 +822,21 @@ namespace Som3a_WPF_UI.ViewModels
             RefreshPreviewBindings();
         }
 
-        private void OnToggleAI()
+        [RelayCommand]
+        private void ToggleAI()
         {
             IsAIEnabled = !IsAIEnabled;
         }
 
-        private void OnToggleAIProvider(string? providerType)
+        [RelayCommand]
+        private void ToggleAIProvider(string? providerType)
         {
             if (!string.IsNullOrEmpty(providerType))
                 AIProviderType = providerType;
         }
 
-        private void OnSwitchToLocalAI()
+        [RelayCommand]
+        private void SwitchToLocalAI()
         {
             var providers = AISettings.DetectedLocalProviders;
             if (providers.Count > 0)
@@ -1003,7 +893,7 @@ namespace Som3a_WPF_UI.ViewModels
                     {
                         if (detected.Count == 1)
                         {
-                            OnSwitchToLocalAI();
+                            SwitchToLocalAI();
                         }
                         else
                         {
@@ -1023,7 +913,8 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private async Task RefreshModelsAsync()
+        [RelayCommand]
+        private async Task RefreshModels()
         {
             var apiKey = AICloudApiKey;
             if (string.IsNullOrWhiteSpace(apiKey))
@@ -1063,7 +954,8 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private void OnApplyTheme()
+        [RelayCommand]
+        private void ApplyTheme()
         {
             _currentSettings = CloneSettings(_previewSettings);
             _settingsService.SaveSettings(_currentSettings);
@@ -1073,7 +965,8 @@ namespace Som3a_WPF_UI.ViewModels
             IsDirty = false;
         }
 
-        private void OnCancelPreview()
+        [RelayCommand]
+        private void CancelPreview()
         {
             _previewSettings = CloneSettings(_currentSettings);
             _themeManager.ApplyTheme(_originalTheme, _originalAccent);
@@ -1082,7 +975,8 @@ namespace Som3a_WPF_UI.ViewModels
             UpdateSwatchSelection();
         }
 
-        private async void OnExportSettings()
+        [RelayCommand]
+        private async void ExportSettings()
         {
             try
             {
@@ -1098,7 +992,8 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private async void OnImportSettings()
+        [RelayCommand]
+        private async void ImportSettings()
         {
             var filePath = GetImportFilePath();
             if (string.IsNullOrEmpty(filePath)) return;
@@ -1196,9 +1091,10 @@ namespace Som3a_WPF_UI.ViewModels
             OnPropertyChanged(nameof(PreviewSettings));
         }
 
-        private async void OnSave()
+        [RelayCommand]
+        private async void Save()
         {
-            OnApplyTheme();
+            ApplyTheme();
 
             foreach (var sectionVm in DynamicSections)
             {
@@ -1245,7 +1141,8 @@ namespace Som3a_WPF_UI.ViewModels
             CloseWindow?.Invoke(true);
         }
 
-        private void OnCancel()
+        [RelayCommand]
+        private void Cancel()
         {
             _themeManager.ThemeChanged -= OnThemeChanged;
             _themeManager.ApplyTheme(_originalTheme, _originalAccent);
@@ -1291,20 +1188,15 @@ namespace Som3a_WPF_UI.ViewModels
         }
     }
 
-    public sealed class AccentSwatchItem : ViewModelBase
+    public sealed partial class AccentSwatchItem : ViewModelBase
     {
+        [ObservableProperty]
         private bool _isSelected;
 
         public string Hex { get; }
         public string Name { get; }
         public string AutomationName { get; }
         public Brush Brush { get; }
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
-        }
 
         public AccentSwatchItem(string hex, string name, string automationName)
         {

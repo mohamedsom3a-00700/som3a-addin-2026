@@ -173,6 +173,7 @@ namespace Som3a_Addin_2026
                 if (string.IsNullOrEmpty(handshakeJson))
                 {
                     System.Diagnostics.Trace.WriteLine("[ThisAddIn] No handshake received.");
+                    CleanupPipeResources();
                     return;
                 }
 
@@ -186,6 +187,7 @@ namespace Som3a_Addin_2026
                 if (handshakeMessage?.Type != MessageType.handshake)
                 {
                     System.Diagnostics.Trace.WriteLine($"[ThisAddIn] Unexpected message type: {handshakeMessage?.Type}");
+                    CleanupPipeResources();
                     return;
                 }
 
@@ -222,7 +224,19 @@ namespace Som3a_Addin_2026
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.WriteLine($"[ThisAddIn] Cold start failed: {ex.Message}");
+                CleanupPipeResources();
             }
+        }
+
+        private void CleanupPipeResources()
+        {
+            _pipeReader?.Dispose();
+            _pipeReader = null;
+            _pipeWriter?.Dispose();
+            _pipeWriter = null;
+            _heartbeatWriter = null;
+            _pipeServer?.Dispose();
+            _pipeServer = null;
         }
 
         private async Task HandlePipeMessagesAsync(StreamReader reader, StreamWriter writer, JsonSerializerOptions options)
@@ -348,8 +362,16 @@ namespace Som3a_Addin_2026
                             PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
                             Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter(System.Text.Json.JsonNamingPolicy.CamelCase) }
                         });
-                    _heartbeatWriter?.WriteLineAsync(json);
-                    _heartbeatWriter?.Flush();
+                    await _writeSemaphore.WaitAsync();
+                    try
+                    {
+                        await _heartbeatWriter.WriteLineAsync(json);
+                        await _heartbeatWriter.FlushAsync();
+                    }
+                    finally
+                    {
+                        _writeSemaphore.Release();
+                    }
                 }
                 catch { }
             }

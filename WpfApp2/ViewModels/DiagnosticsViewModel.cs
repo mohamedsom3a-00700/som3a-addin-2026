@@ -7,10 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class DiagnosticsViewModel : ViewModelBase
+    public partial class DiagnosticsViewModel : ViewModelBase
     {
         private readonly IDiagnosticsService _diagnosticsService;
         private readonly IValidationEngine _validationEngine;
@@ -19,80 +21,83 @@ namespace Som3a_WPF_UI.ViewModels
         private readonly DispatcherTimer _refreshTimer;
         private readonly SemaphoreSlim _refreshSemaphore = new SemaphoreSlim(1, 1);
 
+        [ObservableProperty]
         private DiagnosticSnapshot _currentSnapshot = new DiagnosticSnapshot();
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsDataAvailable))]
         private bool _isScanning;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsDataAvailable))]
         private bool _isLoading;
+
+        [ObservableProperty]
         private bool _isLogViewVisible;
+
+        partial void OnIsLogViewVisibleChanged(bool value)
+        {
+            if (value)
+                LoadRecentLogs();
+        }
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsDataAvailable))]
         private bool _hasError;
+
+        [ObservableProperty]
         private string _statusMessage = "Ready";
+
+        [ObservableProperty]
         private string _errorMessage = string.Empty;
 
-        public DiagnosticSnapshot CurrentSnapshot
-        {
-            get => _currentSnapshot;
-            set => SetProperty(ref _currentSnapshot, value);
-        }
-
-        public bool IsScanning
-        {
-            get => _isScanning;
-            set => SetProperty(ref _isScanning, value);
-        }
-
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set
-            {
-                if (SetProperty(ref _isLoading, value))
-                    OnPropertyChanged(nameof(IsDataAvailable));
-            }
-        }
-
-        public bool HasError
-        {
-            get => _hasError;
-            set
-            {
-                if (SetProperty(ref _hasError, value))
-                    OnPropertyChanged(nameof(IsDataAvailable));
-            }
-        }
-
-        public string ErrorMessage
-        {
-            get => _errorMessage;
-            set => SetProperty(ref _errorMessage, value);
-        }
-
         public bool IsDataAvailable => !IsLoading && !HasError && CurrentSnapshot != null;
-
-        public bool IsLogViewVisible
-        {
-            get => _isLogViewVisible;
-            set
-            {
-                if (SetProperty(ref _isLogViewVisible, value))
-                {
-                    if (value)
-                        LoadRecentLogs();
-                }
-            }
-        }
-
-        public string StatusMessage
-        {
-            get => _statusMessage;
-            set => SetProperty(ref _statusMessage, value);
-        }
 
         public ObservableCollection<ValidationResult> ValidationResults { get; } = new ObservableCollection<ValidationResult>();
         public ObservableCollection<LogEntry> RecentLogs { get; } = new ObservableCollection<LogEntry>();
         public ObservableCollection<ModuleDiagnosticsSnapshot> ModuleSnapshots { get; } = new ObservableCollection<ModuleDiagnosticsSnapshot>();
 
-        public ICommand RunValidationCommand { get; }
-        public ICommand RefreshCommand { get; }
-        public ICommand ToggleLogViewCommand { get; }
+        [RelayCommand]
+        private void RunValidation()
+        {
+            if (IsScanning) return;
+
+            IsScanning = true;
+            StatusMessage = "Running validation...";
+
+            try
+            {
+                ValidationResults.Clear();
+                var results = _validationEngine.RunValidation();
+                foreach (var result in results)
+                    ValidationResults.Add(result);
+
+                _loggingService.Log("INFO", "Validation", $"Scan completed: {results.Count} issues found", "DiagnosticsViewModel");
+                StatusMessage = $"Validation complete: {results.Count} issues found";
+            }
+            catch (Exception ex)
+            {
+                _loggingService.Log("ERROR", "Validation", $"Validation scan failed: {ex.Message}", "DiagnosticsViewModel", ex.ToString());
+                StatusMessage = $"Validation failed: {ex.Message}";
+            }
+            finally
+            {
+                IsScanning = false;
+                CommandManager.InvalidateRequerySuggested();
+            }
+        }
+
+        [RelayCommand]
+        public void RefreshSnapshot()
+        {
+            _ = RefreshSnapshotAsync();
+        }
+
+        [RelayCommand]
+        private void ToggleLogView()
+        {
+            IsLogViewVisible = !IsLogViewVisible;
+        }
 
         public DiagnosticsViewModel(
             IDiagnosticsService diagnosticsService,
@@ -104,10 +109,6 @@ namespace Som3a_WPF_UI.ViewModels
             _validationEngine = validationEngine;
             _loggingService = loggingService;
             _moduleDiagnosticsService = moduleDiagnosticsService;
-
-            RunValidationCommand = new RelayCommand(_ => RunValidation(), _ => !IsScanning);
-            RefreshCommand = new RelayCommand(_ => RefreshSnapshot());
-            ToggleLogViewCommand = new RelayCommand(_ => IsLogViewVisible = !IsLogViewVisible);
 
             _moduleDiagnosticsService.SnapshotUpdated += OnModuleSnapshotUpdated;
 
@@ -153,40 +154,6 @@ namespace Som3a_WPF_UI.ViewModels
             finally
             {
                 _refreshSemaphore.Release();
-            }
-        }
-
-        public async void RefreshSnapshot()
-        {
-            await RefreshSnapshotAsync();
-        }
-
-        public void RunValidation()
-        {
-            if (IsScanning) return;
-
-            IsScanning = true;
-            StatusMessage = "Running validation...";
-
-            try
-            {
-                ValidationResults.Clear();
-                var results = _validationEngine.RunValidation();
-                foreach (var result in results)
-                    ValidationResults.Add(result);
-
-                _loggingService.Log("INFO", "Validation", $"Scan completed: {results.Count} issues found", "DiagnosticsViewModel");
-                StatusMessage = $"Validation complete: {results.Count} issues found";
-            }
-            catch (Exception ex)
-            {
-                _loggingService.Log("ERROR", "Validation", $"Validation scan failed: {ex.Message}", "DiagnosticsViewModel", ex.ToString());
-                StatusMessage = $"Validation failed: {ex.Message}";
-            }
-            finally
-            {
-                IsScanning = false;
-                CommandManager.InvalidateRequerySuggested();
             }
         }
 

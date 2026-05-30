@@ -4,39 +4,30 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class WbsStyleSelectorViewModel : ViewModelBase
+    public sealed partial class WbsStyleSelectorViewModel : ViewModelBase
     {
+        [ObservableProperty]
         private int _selectedStyleId = 1;
 
-        public int SelectedStyleId
+        partial void OnSelectedStyleIdChanged(int value)
         {
-            get => _selectedStyleId;
-            set
-            {
-                if (SetProperty(ref _selectedStyleId, value))
-                    GeneratePreview();
-            }
+            GeneratePreview();
         }
 
         public ObservableCollection<StyleOption> StyleOptions { get; } = new();
         public ObservableCollection<StylePreviewItem> StylePreviews { get; } = new();
 
-        public ICommand SaveCommand { get; }
-        public ICommand CancelCommand { get; }
-
         public Action? CloseWindow { get; set; }
 
         public WbsStyleSelectorViewModel(IServiceContainer container)
         {
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(() => CloseWindow?.Invoke());
-
             InitializeOptions();
-            _selectedStyleId = UserSettings.SelectedStyle;
-            OnPropertyChanged(nameof(SelectedStyleId));
+            SelectedStyleId = UserSettings.SelectedStyle;
             GeneratePreview();
         }
 
@@ -52,7 +43,7 @@ namespace Som3a_WPF_UI.ViewModels
         private void GeneratePreview()
         {
             StylePreviews.Clear();
-            var style = WbsStyleFactory.GetStyle(_selectedStyleId);
+            var style = WbsStyleFactory.GetStyle(SelectedStyleId);
             foreach (var kv in style)
             {
                 var c = kv.Value.Fill;
@@ -65,9 +56,16 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private void OnSave()
+        [RelayCommand]
+        private void Save()
         {
-            UserSettings.SelectedStyle = _selectedStyleId;
+            UserSettings.SelectedStyle = SelectedStyleId;
+            CloseWindow?.Invoke();
+        }
+
+        [RelayCommand]
+        private void Cancel()
+        {
             CloseWindow?.Invoke();
         }
     }

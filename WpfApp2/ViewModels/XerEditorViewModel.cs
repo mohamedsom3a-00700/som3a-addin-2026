@@ -1,6 +1,7 @@
 using Microsoft.Win32;
 using Som3a.Shared.Core;
 using Som3a_WPF_UI.Services;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public class XerEditorViewModel : ViewModelBase
+    public partial class XerEditorViewModel : ViewModelBase
     {
         public ObservableCollection<TableItemVM> Tables { get; set; } = new();
 
@@ -18,20 +19,10 @@ namespace Som3a_WPF_UI.ViewModels
         private XerParser _parser;
         private string _filePath = "";
 
-        public RelayCommand LoadCommand { get; }
-        public RelayCommand ExportExcelCommand { get; }
-        public RelayCommand ImportFromExcelCommand { get; }
-        public RelayCommand ExportXerCommand { get; }
-
         public XerEditorViewModel(IServiceContainer container)
         {
             _container = container;
             _parser = container.Resolve<XerParser>();
-
-            LoadCommand = new RelayCommand(Load);
-            ExportExcelCommand = new RelayCommand(ExportExcel);
-            ImportFromExcelCommand = new RelayCommand(ImportFromExcel);
-            ExportXerCommand = new RelayCommand(ExportXer);
         }
         private string GetDisplayName(string tableName)
         {
@@ -47,6 +38,7 @@ namespace Som3a_WPF_UI.ViewModels
             };
         }
 
+        [RelayCommand]
         private void Load()
         {
             var ofd = new OpenFileDialog { Filter = "XER (*.xer)|*.xer" };
@@ -102,6 +94,8 @@ namespace Som3a_WPF_UI.ViewModels
                      .Cast<Excel.Worksheet>()
                      .FirstOrDefault(s => s.Name.Equals(sheetName, StringComparison.OrdinalIgnoreCase));
         }
+
+        [RelayCommand]
         private void ExportExcel()
         {
             try
@@ -209,6 +203,8 @@ namespace Som3a_WPF_UI.ViewModels
                 });
             }
         }
+
+        [RelayCommand]
         private void ImportFromExcel()
         {
             if (_parser == null || !_parser.Tables.Any())
@@ -264,6 +260,7 @@ namespace Som3a_WPF_UI.ViewModels
             MessageBox.Show("Import completed");
         }
 
+        [RelayCommand]
         private void ExportXer()
         {
             if (_parser == null || !_parser.Tables.Any())

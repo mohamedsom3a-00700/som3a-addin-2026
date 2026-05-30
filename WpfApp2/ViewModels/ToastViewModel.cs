@@ -6,7 +6,7 @@ using Som3a_WPF_UI.Controls.Toast;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class ToastViewModel : ViewModelBase
+    public partial class ToastViewModel : ViewModelBase
     {
         private static readonly Dictionary<ToastType, (string Icon, string BackgroundKey)> TypeMap = new()
         {

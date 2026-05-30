@@ -1,47 +1,28 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Som3a_WPF_UI.ViewModels.Dashboard
 {
-    public abstract class WidgetViewModel : ViewModelBase
+    public abstract partial class WidgetViewModel : ViewModelBase
     {
         private readonly SemaphoreSlim _loadLock = new SemaphoreSlim(1, 1);
+
+        [ObservableProperty]
         private string _title;
+
+        [ObservableProperty]
         private string _icon;
+
+        [ObservableProperty]
         private bool _isLoading;
+
+        [ObservableProperty]
         private string _errorMessage;
+
+        [ObservableProperty]
         private bool _isLoaded;
-
-        public string Title
-        {
-            get => _title;
-            set => SetProperty(ref _title, value);
-        }
-
-        public string Icon
-        {
-            get => _icon;
-            set => SetProperty(ref _icon, value);
-        }
-
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set => SetProperty(ref _isLoading, value);
-        }
-
-        public string ErrorMessage
-        {
-            get => _errorMessage;
-            set => SetProperty(ref _errorMessage, value);
-        }
-
-        public bool IsLoaded
-        {
-            get => _isLoaded;
-            set => SetProperty(ref _isLoaded, value);
-        }
 
         public async Task LoadDataAsync()
         {

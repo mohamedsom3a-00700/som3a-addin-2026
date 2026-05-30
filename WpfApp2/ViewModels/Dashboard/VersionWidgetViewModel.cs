@@ -1,32 +1,20 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Som3a_WPF_UI.ViewModels.Dashboard
 {
-    public sealed class VersionWidgetViewModel : WidgetViewModel
+    public sealed partial class VersionWidgetViewModel : WidgetViewModel
     {
+        [ObservableProperty]
         private string _appVersion;
+
+        [ObservableProperty]
         private string _dotNetVersion;
+
+        [ObservableProperty]
         private string _osVersion;
-
-        public string AppVersion
-        {
-            get => _appVersion;
-            set => SetProperty(ref _appVersion, value);
-        }
-
-        public string DotNetVersion
-        {
-            get => _dotNetVersion;
-            set => SetProperty(ref _dotNetVersion, value);
-        }
-
-        public string OsVersion
-        {
-            get => _osVersion;
-            set => SetProperty(ref _osVersion, value);
-        }
 
         public VersionWidgetViewModel()
         {

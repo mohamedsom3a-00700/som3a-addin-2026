@@ -45,7 +45,7 @@
                     <Button Content="{Binding DisplayName}"
                             Command="{Binding DataContext.NavigateToToolCommand, RelativeSource={RelativeSource AncestorType=controls:WidgetCard}}"
                             CommandParameter="{Binding ToolId}"
-
+                            Style="{DynamicResource GhostButton}"
                             HorizontalContentAlignment="Left"
                             Foreground="{DynamicResource Brush.Text.Primary}"
                             Padding="4,2"

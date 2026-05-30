@@ -1,3 +1,5 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Som3a_WPF_UI.Models;
 using Som3a_WPF_UI.Services;
 using System;
@@ -13,21 +15,36 @@ using System.Windows.Data;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public class BOQActivityGeneratorViewModel : ViewModelBase
+    public partial class BOQActivityGeneratorViewModel : ViewModelBase
     {
         private readonly IServiceContainer _container;
         private ILoggingService? _logger;
         private BOQContext? _currentContext;
         private CancellationTokenSource? _cts;
-        private bool _isBusy;
-        private bool _hasBoqLoaded;
-        private bool _hasConsented;
-        private bool _canCancel;
-        private string _generationStatus = "Click 'Generate Activities' to start.";
-        private string _statusText = "Ready";
         private IActivityValidationService? _validationService;
         private CancellationTokenSource? _validationCts;
         private Excel.Application? _xlApp;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CanGenerate))]
+        private bool _hasConsented;
+
+        [ObservableProperty]
+        private bool _isBusy;
+
+        [ObservableProperty]
+        private bool _canCancel;
+
+        [ObservableProperty]
+        private string _generationStatus = "Click 'Generate Activities' to start.";
+
+        [ObservableProperty]
+        private string _statusText = "Ready";
+
+        [ObservableProperty]
+        private bool _includeDependencies = true;
+
+        [ObservableProperty]
         private bool _confirmOverwrite;
 
         public ObservableCollection<BOQItem> BoqItems { get; } = new();
@@ -36,61 +53,9 @@ namespace Som3a_WPF_UI.ViewModels
         public ObservableCollection<ActivityDependency> Dependencies { get; } = new();
 
         public bool HasBoqLoaded => _currentContext != null;
-        public bool HasConsented
-        {
-            get => _hasConsented;
-            set
-            {
-                if (SetProperty(ref _hasConsented, value))
-                    OnPropertyChanged(nameof(CanGenerate));
-            }
-        }
         public bool CanLoadBoq => !IsBusy;
         public bool CanGenerate => HasConsented && !IsBusy;
         public bool CanExport => Activities.Count > 0 && !IsBusy;
-        private bool _includeDependencies = true;
-        public bool IncludeDependencies
-        {
-            get => _includeDependencies;
-            set => SetProperty(ref _includeDependencies, value);
-        }
-
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set => SetProperty(ref _isBusy, value);
-        }
-
-        public bool CanCancel
-        {
-            get => _canCancel;
-            set => SetProperty(ref _canCancel, value);
-        }
-
-        public string StatusText
-        {
-            get => _statusText;
-            set => SetProperty(ref _statusText, value ?? "");
-        }
-
-        public string GenerationStatus
-        {
-            get => _generationStatus;
-            set => SetProperty(ref _generationStatus, value);
-        }
-
-        // Commands
-        public ICommand LoadBoqCommand { get; }
-        public ICommand GenerateCommand { get; }
-        public ICommand CancelCommand { get; }
-        public ICommand ConsentCommand { get; }
-        public ICommand SequenceCommand { get; }
-        public ICommand SuggestDependenciesCommand { get; }
-        public ICommand ExportCommand { get; }
-        public ICommand MergeDuplicatesCommand { get; }
-        public ICommand RemoveDuplicateCommand { get; }
-        public ICommand RemoveActivityCommand { get; }
-        public ICommand AcceptAllDependenciesCommand { get; }
 
         public event Action? RequestClose;
         public event Action<bool>? BusyChanged;
@@ -99,18 +64,6 @@ namespace Som3a_WPF_UI.ViewModels
         public BOQActivityGeneratorViewModel(IServiceContainer container)
         {
             _container = container ?? throw new ArgumentNullException(nameof(container));
-
-            LoadBoqCommand = new RelayCommand(async () => await LoadBoqAsync(), () => CanLoadBoq);
-            GenerateCommand = new RelayCommand(async () => await GenerateAsync(), () => CanGenerate);
-            CancelCommand = new RelayCommand(CancelGeneration, () => CanCancel);
-            SequenceCommand = new RelayCommand(async () => await SequenceAsync(), () => Activities.Count > 0 && !IsBusy);
-            SuggestDependenciesCommand = new RelayCommand(async () => await SuggestDependenciesAsync(), () => SequenceOrder.Count > 0 && !IsBusy);
-            ExportCommand = new RelayCommand(async () => await ExportAsync(), () => Activities.Count > 0 && !IsBusy);
-            ConsentCommand = new RelayCommand(SetConsent);
-            MergeDuplicatesCommand = new RelayCommand(MergeDuplicates, () => Activities.Count > 0 && !IsBusy);
-            RemoveDuplicateCommand = new RelayCommand(param => RemoveDuplicate(param as GeneratedActivity), _ => Activities.Count > 0 && !IsBusy);
-            RemoveActivityCommand = new RelayCommand(param => RemoveActivity(param as GeneratedActivity), _ => Activities.Count > 0 && !IsBusy);
-            AcceptAllDependenciesCommand = new RelayCommand(AcceptAllDependencies, () => Dependencies.Count > 0 && !IsBusy);
         }
 
         public void AttachExcel(Excel.Application xlApp)
@@ -203,7 +156,8 @@ namespace Som3a_WPF_UI.ViewModels
             }, ct, TaskContinuationOptions.NotOnCanceled, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        public void MergeDuplicates()
+        [RelayCommand(CanExecute = nameof(CanMergeDuplicates))]
+        private void MergeDuplicates()
         {
             if (Activities.Count == 0) return;
 
@@ -248,21 +202,24 @@ namespace Som3a_WPF_UI.ViewModels
             StatusText = $"Merged into {Activities.Count} unique activities.";
         }
 
-        public void RemoveDuplicate(GeneratedActivity activity)
+        [RelayCommand(CanExecute = nameof(CanRemoveDuplicate))]
+        private void RemoveDuplicate(GeneratedActivity? activity)
         {
             if (activity == null) return;
             Activities.Remove(activity);
             RunValidation();
         }
 
-        public void RemoveActivity(GeneratedActivity? activity)
+        [RelayCommand(CanExecute = nameof(CanRemoveActivity))]
+        private void RemoveActivity(GeneratedActivity? activity)
         {
             if (activity == null) return;
             Activities.Remove(activity);
             RunValidation();
         }
 
-        public void AcceptAllDependencies()
+        [RelayCommand(CanExecute = nameof(CanAcceptAllDependencies))]
+        private void AcceptAllDependencies()
         {
             foreach (var dep in Dependencies)
                 dep.IsAccepted = true;
@@ -286,7 +243,8 @@ namespace Som3a_WPF_UI.ViewModels
                 Activities.Add(a);
         }
 
-        private void SetConsent(object? consented)
+        [RelayCommand]
+        private void Consent(object? consented)
         {
             if (consented is bool b && b)
             {
@@ -299,6 +257,7 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
+        [RelayCommand(CanExecute = nameof(CanLoadBoq))]
         private async Task LoadBoqAsync()
         {
             if (IsBusy) return;
@@ -329,6 +288,7 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
+        [RelayCommand(CanExecute = nameof(CanGenerate))]
         private async Task GenerateAsync()
         {
             _cts = new CancellationTokenSource();
@@ -400,13 +360,15 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private void CancelGeneration()
+        [RelayCommand(CanExecute = nameof(CanCancel))]
+        private void Cancel()
         {
             _cts?.Cancel();
             GenerationStatus = "Cancelling generation...";
             StatusText = "Cancelling...";
         }
 
+        [RelayCommand(CanExecute = nameof(CanSequence))]
         private async Task SequenceAsync()
         {
             SetBusyState(true);
@@ -437,6 +399,9 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
+        private bool CanSequence() => Activities.Count > 0 && !IsBusy;
+
+        [RelayCommand(CanExecute = nameof(CanSuggestDependencies))]
         private async Task SuggestDependenciesAsync()
         {
             SetBusyState(true);
@@ -465,8 +430,9 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        public bool ConfirmOverwrite { get => _confirmOverwrite; set => SetProperty(ref _confirmOverwrite, value); }
+        private bool CanSuggestDependencies() => SequenceOrder.Count > 0 && !IsBusy;
 
+        [RelayCommand(CanExecute = nameof(CanExport))]
         private async Task ExportAsync()
         {
             SetBusyState(true);
@@ -509,18 +475,23 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
+        private bool CanMergeDuplicates() => Activities.Count > 0 && !IsBusy;
+        private bool CanRemoveDuplicate() => Activities.Count > 0 && !IsBusy;
+        private bool CanRemoveActivity() => Activities.Count > 0 && !IsBusy;
+        private bool CanAcceptAllDependencies() => Dependencies.Count > 0 && !IsBusy;
+
         private void SetBusyState(bool busy)
         {
             IsBusy = busy;
             BusyChanged?.Invoke(busy);
-            ((RelayCommand)LoadBoqCommand).RaiseCanExecuteChanged();
-            ((RelayCommand)GenerateCommand).RaiseCanExecuteChanged();
-            ((RelayCommand)SequenceCommand).RaiseCanExecuteChanged();
-            ((RelayCommand)SuggestDependenciesCommand).RaiseCanExecuteChanged();
-            ((RelayCommand)ExportCommand).RaiseCanExecuteChanged();
-            ((RelayCommand)MergeDuplicatesCommand).RaiseCanExecuteChanged();
-            ((RelayCommand)RemoveActivityCommand).RaiseCanExecuteChanged();
-            ((RelayCommand)AcceptAllDependenciesCommand).RaiseCanExecuteChanged();
+            LoadBoqCommand.NotifyCanExecuteChanged();
+            GenerateCommand.NotifyCanExecuteChanged();
+            SequenceCommand.NotifyCanExecuteChanged();
+            SuggestDependenciesCommand.NotifyCanExecuteChanged();
+            ExportCommand.NotifyCanExecuteChanged();
+            MergeDuplicatesCommand.NotifyCanExecuteChanged();
+            RemoveActivityCommand.NotifyCanExecuteChanged();
+            AcceptAllDependenciesCommand.NotifyCanExecuteChanged();
         }
     }
 }

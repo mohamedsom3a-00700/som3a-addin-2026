@@ -9,11 +9,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class SubDailyReportViewModel : ViewModelBase
+    public sealed partial class SubDailyReportViewModel : ViewModelBase
     {
         private readonly Excel.Application _app;
         private readonly Action _close;
@@ -28,125 +30,83 @@ namespace Som3a_WPF_UI.ViewModels
         public ObservableCollection<NamePickItem> NameItems { get; } = new();
         public ObservableCollection<PreviewRow> PreviewRows { get; } = new();
 
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsPrevFileSelected))]
         private PrevFileItem? _selectedPrevFile;
+
+        partial void OnSelectedPrevFileChanged(PrevFileItem? value)
+        {
+            ClearPreviewState();
+            LoadPrevSheets();
+            RecalcButtons();
+        }
+
         public bool IsPrevFileSelected => SelectedPrevFile != null && !string.IsNullOrEmpty(SelectedPrevFile.DisplayName);
-        public PrevFileItem? SelectedPrevFile
-        {
-            get => _selectedPrevFile;
-            set
-            {
-                if (SetProperty(ref _selectedPrevFile, value))
-                {
-                    OnPropertyChanged(nameof(IsPrevFileSelected));
-                    ClearPreviewState();
-                    LoadPrevSheets();
-                    RecalcButtons();
-                }
-            }
 
-        }
-
+        [ObservableProperty]
         private string? _selectedPrevSheet;
-        public string? SelectedPrevSheet
+
+        partial void OnSelectedPrevSheetChanged(string? value)
         {
-            get => _selectedPrevSheet;
-            set
-            {
-                if (SetProperty(ref _selectedPrevSheet, value))
-                {
-                    ClearPreviewState();
-                    RecalcButtons();
-                }
-            }
+            ClearPreviewState();
+            RecalcButtons();
         }
 
+        [ObservableProperty]
         private string? _selectedTodaySheet;
-        public string? SelectedTodaySheet
+
+        partial void OnSelectedTodaySheetChanged(string? value)
         {
-            get => _selectedTodaySheet;
-            set
-            {
-                if (SetProperty(ref _selectedTodaySheet, value))
-                {
-                    RefreshNames();
-                    RecalcButtons();
-                }
-            }
+            RefreshNames();
+            RecalcButtons();
         }
 
+        [ObservableProperty]
         private string? _nameCol;
-        public string? NameCol
+
+        partial void OnNameColChanged(string? value)
         {
-            get => _nameCol;
-            set
-            {
-                if (SetProperty(ref _nameCol, value))
-                {
-                    RefreshNames();
-                    RecalcButtons();
-                }
-            }
+            RefreshNames();
+            RecalcButtons();
         }
 
+        [ObservableProperty]
         private int _nameStartRow = 2;
-        public int NameStartRow
+
+        partial void OnNameStartRowChanged(int value)
         {
-            get => _nameStartRow;
-            set
-            {
-                if (SetProperty(ref _nameStartRow, value))
-                {
-                    RefreshNames();
-                    RecalcButtons();
-                }
-            }
+            RefreshNames();
+            RecalcButtons();
         }
 
+        [ObservableProperty]
         private string? _countCol;
-        public string? CountCol
+
+        partial void OnCountColChanged(string? value)
         {
-            get => _countCol;
-            set
-            {
-                if (SetProperty(ref _countCol, value))
-                {
-                    ClearPreviewState();
-                    RecalcButtons();
-                }
-            }
+            ClearPreviewState();
+            RecalcButtons();
         }
 
+        [ObservableProperty]
         private int _countStartRow = 2;
-        public int CountStartRow
+
+        partial void OnCountStartRowChanged(int value)
         {
-            get => _countStartRow;
-            set
-            {
-                if (SetProperty(ref _countStartRow, value))
-                {
-                    ClearPreviewState();
-                    RecalcButtons();
-                }
-            }
+            ClearPreviewState();
+            RecalcButtons();
         }
 
+        [ObservableProperty]
         private double _progressPercent;
-        public double ProgressPercent { get => _progressPercent; set => SetProperty(ref _progressPercent, value); }
 
+        [ObservableProperty]
         private string _statusText = "Ready";
-        public string StatusText { get => _statusText; set => SetProperty(ref _statusText, value); }
 
         private bool _hasPreview;
         public bool CanToggleChecks => NameItems.Count > 0;
         public bool CanPreview { get; private set; }
         public bool CanApply => _hasPreview;
-
-        public ICommand RefreshFilesCommand { get; }
-        public ICommand PreviewCommand { get; }
-        public ICommand ApplyCommand { get; }
-        public ICommand CheckAllCommand { get; }
-        public ICommand CheckNoneCommand { get; }
-        public ICommand CloseCommand { get; }
 
         private string _prevTopLeftAddr = "A1";
         private double _prevTotal = 0;
@@ -157,13 +117,6 @@ namespace Som3a_WPF_UI.ViewModels
             _app = app;
             _close = close;
             _svc = container.Resolve<SubDlyReportService>();
-
-            RefreshFilesCommand = new RelayCommand(RefreshFiles);
-            PreviewCommand = new RelayCommand(PreviewAsync, () => CanPreview);
-            ApplyCommand = new RelayCommand(Apply, () => CanApply);
-            CheckAllCommand = new RelayCommand(() => { foreach (var x in NameItems) x.IsChecked = true; RecalcButtons(); });
-            CheckNoneCommand = new RelayCommand(() => { foreach (var x in NameItems) x.IsChecked = false; RecalcButtons(); });
-            CloseCommand = new RelayCommand(() => _close());
 
             LoadTodaySheets();
             LoadColumnLettersAndRows();
@@ -192,6 +145,7 @@ namespace Som3a_WPF_UI.ViewModels
             CountStartRow = 2;
         }
 
+        [RelayCommand]
         private void RefreshFiles()
         {
             PrevFiles.Clear();
@@ -265,8 +219,8 @@ namespace Som3a_WPF_UI.ViewModels
 
             CanPreview = okFile && okPrevSheet && okTodaySheet && okCols && anyChecked;
 
-            if (PreviewCommand is RelayCommand rc1) rc1.RaiseCanExecuteChanged();
-            if (ApplyCommand is RelayCommand rc2) rc2.RaiseCanExecuteChanged();
+            PreviewCommand.NotifyCanExecuteChanged();
+            ApplyCommand.NotifyCanExecuteChanged();
 
             OnPropertyChanged(nameof(CanPreview));
             OnPropertyChanged(nameof(CanApply));
@@ -281,7 +235,8 @@ namespace Som3a_WPF_UI.ViewModels
             OnPropertyChanged(nameof(CanApply));
         }
 
-        private void PreviewAsync()
+        [RelayCommand(CanExecute = nameof(CanPreview))]
+        private void Preview()
         {
             try
             {
@@ -329,6 +284,7 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
+        [RelayCommand(CanExecute = nameof(CanApply))]
         private void Apply()
         {
             if (_merged == null || string.IsNullOrWhiteSpace(SelectedTodaySheet)) return;
@@ -345,6 +301,27 @@ namespace Som3a_WPF_UI.ViewModels
             StatusText = "Done";
             _close();
         }
+
+        [RelayCommand]
+        private void CheckAll()
+        {
+            foreach (var x in NameItems) x.IsChecked = true;
+            RecalcButtons();
+        }
+
+        [RelayCommand]
+        private void CheckNone()
+        {
+            foreach (var x in NameItems) x.IsChecked = false;
+            RecalcButtons();
+        }
+
+        [RelayCommand]
+        private void Close()
+        {
+            _close();
+        }
+
         private void ListView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             var scrollViewer = FindVisualChild<ScrollViewer>((DependencyObject)sender);

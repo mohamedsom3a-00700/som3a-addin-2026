@@ -3,74 +3,48 @@ using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class FixPieColorsViewModel : ViewModelBase
+    public sealed partial class FixPieColorsViewModel : ViewModelBase
     {
         private readonly IServiceContainer _container;
         private Excel.Application? _xlApp;
 
+        [ObservableProperty]
         private string _categoryRange = "R6:R13";
+
+        [ObservableProperty]
         private string _colorTableRange = "A2:B9";
+
+        [ObservableProperty]
         private string _selectedSheet = "";
+
+        [ObservableProperty]
         private bool _isBusy;
+
+        partial void OnIsBusyChanged(bool value)
+        {
+            RunCommand.NotifyCanExecuteChanged();
+            PickRangeCommand.NotifyCanExecuteChanged();
+            PickColorTableCommand.NotifyCanExecuteChanged();
+        }
+
+        [ObservableProperty]
         private string _statusText = "Ready";
+
+        [ObservableProperty]
         private string _busyText = "";
 
-        public ObservableCollection<string> SheetNames { get; } = new();
-
-        public string CategoryRange
-        {
-            get => _categoryRange;
-            set => SetProperty(ref _categoryRange, value ?? "");
-        }
-
-        public string ColorTableRange
-        {
-            get => _colorTableRange;
-            set => SetProperty(ref _colorTableRange, value ?? "");
-        }
-
-        public string SelectedSheet
-        {
-            get => _selectedSheet;
-            set => SetProperty(ref _selectedSheet, value ?? "");
-        }
-
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set
-            {
-                if (SetProperty(ref _isBusy, value))
-                {
-                    ((RelayCommand)RunCommand).RaiseCanExecuteChanged();
-                    ((RelayCommand)PickRangeCommand).RaiseCanExecuteChanged();
-                    ((RelayCommand)PickColorTableCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        public string StatusText
-        {
-            get => _statusText;
-            set => SetProperty(ref _statusText, value ?? "");
-        }
-
-        public string BusyText
-        {
-            get => _busyText;
-            set => SetProperty(ref _busyText, value ?? "");
-        }
+        public bool IsNotBusy => !IsBusy;
 
         public Excel.Application? ExcelApp => _xlApp;
 
-        public ICommand RunCommand { get; }
-        public ICommand PickRangeCommand { get; }
-        public ICommand PickColorTableCommand { get; }
+        public ObservableCollection<string> SheetNames { get; } = new();
 
         public event Action<string>? PickRangeRequested;
         public event Action<string>? PickColorTableRequested;
@@ -79,10 +53,6 @@ namespace Som3a_WPF_UI.ViewModels
         public FixPieColorsViewModel(IServiceContainer container)
         {
             _container = container ?? throw new ArgumentNullException(nameof(container));
-
-            RunCommand = new RelayCommand(() => _ = RunAsync(), () => !IsBusy);
-            PickRangeCommand = new RelayCommand(_ => PickRangeRequested?.Invoke("Select the range (مثال: A1:A8)"), _ => !IsBusy);
-            PickColorTableCommand = new RelayCommand(_ => PickColorTableRequested?.Invoke("Select the color table range (2 columns: Label | Color). مثال: A2:B9"), _ => !IsBusy);
         }
 
         public void AttachExcel(Excel.Application xlApp)
@@ -103,7 +73,8 @@ namespace Som3a_WPF_UI.ViewModels
                 SelectedSheet = SheetNames[0];
         }
 
-        private async System.Threading.Tasks.Task RunAsync()
+        [RelayCommand(CanExecute = nameof(IsNotBusy))]
+        private async Task Run()
         {
             if (_xlApp?.ActiveWorkbook == null)
             {
@@ -139,7 +110,7 @@ namespace Som3a_WPF_UI.ViewModels
 
             try
             {
-                await System.Threading.Tasks.Task.Yield();
+                await Task.Yield();
 
                 var service = _container.Resolve<FixPieColorsService>();
                 var res = service.ApplyColors(_xlApp, sheetName, categoryRange, colorTableRange);
@@ -160,6 +131,18 @@ namespace Som3a_WPF_UI.ViewModels
                 IsBusy = false;
                 BusyText = "";
             }
+        }
+
+        [RelayCommand(CanExecute = nameof(IsNotBusy))]
+        private void PickRange()
+        {
+            PickRangeRequested?.Invoke("Select the range (مثال: A1:A8)");
+        }
+
+        [RelayCommand(CanExecute = nameof(IsNotBusy))]
+        private void PickColorTable()
+        {
+            PickColorTableRequested?.Invoke("Select the color table range (2 columns: Label | Color). مثال: A2:B9");
         }
 
         private void SetExcelStatus(string text)

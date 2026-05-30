@@ -1,72 +1,51 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Som3a_WPF_UI.Models;
 using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.Services.WBS;
 
 namespace Som3a_WPF_UI.ViewModels.WBS;
 
-public class WBSGeneratorViewModel : ViewModelBase
+public partial class WBSGeneratorViewModel : ViewModelBase
 {
     private readonly IWBSAIService _aiService;
     private readonly IWBSCodeGenerator _codeGen;
     private readonly IWBSTreeValidator _validator;
     private CancellationTokenSource? _generationCts;
-    private string _projectDescription = string.Empty;
-    private string? _statusMessage;
-    private bool _isGenerating;
-    private WBSNode? _generatedWbs;
     private string? _boqSummary;
 
-    public string ProjectDescription
-    {
-        get => _projectDescription;
-        set { _projectDescription = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanGenerate)); }
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanGenerate))]
+    private string _projectDescription = string.Empty;
 
-    public string? StatusMessage
-    {
-        get => _statusMessage;
-        set { _statusMessage = value; OnPropertyChanged(); }
-    }
+    [ObservableProperty]
+    private string? _statusMessage;
 
-    public bool IsGenerating
-    {
-        get => _isGenerating;
-        set { _isGenerating = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanGenerate)); }
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanGenerate))]
+    [NotifyPropertyChangedFor(nameof(CanLoadBoq))]
+    private bool _isGenerating;
 
-    public WBSNode? GeneratedWbs
-    {
-        get => _generatedWbs;
-        set { _generatedWbs = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasResult)); }
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasResult))]
+    private WBSNode? _generatedWbs;
 
     public bool HasResult => GeneratedWbs != null;
     public bool CanLoadBoq => !IsGenerating;
     public bool CanGenerate => !IsGenerating && !string.IsNullOrWhiteSpace(ProjectDescription);
-
-    public ICommand LoadBoqCommand { get; }
-    public ICommand GenerateCommand { get; }
-    public ICommand AcceptCommand { get; }
-    public ICommand RegenerateCommand { get; }
-    public ICommand CancelCommand { get; }
 
     public WBSGeneratorViewModel(IWBSAIService aiService, IWBSCodeGenerator codeGen, IWBSTreeValidator validator)
     {
         _aiService = aiService;
         _codeGen = codeGen;
         _validator = validator;
-        LoadBoqCommand = new RelayCommand(async _ => await LoadBoqAsync(), _ => CanLoadBoq);
-        GenerateCommand = new RelayCommand(async _ => await GenerateAsync());
-        AcceptCommand = new RelayCommand(() => AcceptWbs(), () => HasResult);
-        RegenerateCommand = new RelayCommand(async _ => await RegenerateAsync());
-        CancelCommand = new RelayCommand(() => CancelGeneration(), () => IsGenerating);
     }
 
+    [RelayCommand(CanExecute = nameof(CanLoadBoq))]
     public async Task LoadBoqAsync()
     {
         StatusMessage = "Reading BOQ data from workbook...";
@@ -93,6 +72,7 @@ BOQ Items:
         }
     }
 
+    [RelayCommand]
     public async Task GenerateAsync()
     {
         if (!CanGenerate) return;
@@ -123,6 +103,14 @@ BOQ Items:
         finally { IsGenerating = false; }
     }
 
+    [RelayCommand(CanExecute = nameof(HasResult))]
+    private void Accept()
+    {
+        if (GeneratedWbs == null) return;
+        StatusMessage = "WBS accepted and saved.";
+    }
+
+    [RelayCommand]
     private async Task RegenerateAsync()
     {
         if (!HasResult) return;
@@ -144,13 +132,8 @@ BOQ Items:
         finally { IsGenerating = false; }
     }
 
-    private void AcceptWbs()
-    {
-        if (GeneratedWbs == null) return;
-        StatusMessage = "WBS accepted and saved.";
-    }
-
-    private void CancelGeneration()
+    [RelayCommand(CanExecute = nameof(IsGenerating))]
+    private void Cancel()
     {
         _generationCts?.Cancel();
         StatusMessage = "Generation cancelled.";

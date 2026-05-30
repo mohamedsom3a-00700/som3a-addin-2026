@@ -2,13 +2,13 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public class PluginDiagnosticsViewModel : ViewModelBase
+    public partial class PluginDiagnosticsViewModel : ViewModelBase
     {
         private readonly ModuleDiagnosticsService _diagnosticsService;
         private readonly Som3a_WPF_UI.Contracts.IModuleRegistry _registry;
@@ -23,10 +23,7 @@ namespace Som3a_WPF_UI.ViewModels
             _diagnosticsService = serviceContainer.Resolve<ModuleDiagnosticsService>();
             _registry = serviceContainer.Resolve<Som3a_WPF_UI.Contracts.IModuleRegistry>();
             _diagnosticsService.SnapshotUpdated += OnSnapshotUpdated;
-            RefreshCommand = new RelayCommand(_ => Refresh());
         }
-
-        public ICommand RefreshCommand { get; }
 
         public void Cleanup()
         {
@@ -41,6 +38,7 @@ namespace Som3a_WPF_UI.ViewModels
                 Application.Current.Dispatcher.Invoke(Refresh);
         }
 
+        [RelayCommand]
         public void Refresh()
         {
             Modules.Clear();
@@ -61,7 +59,7 @@ namespace Som3a_WPF_UI.ViewModels
         }
     }
 
-    public class PluginEntryViewModel : ViewModelBase
+    public partial class PluginEntryViewModel : ViewModelBase
     {
         public string ModuleId { get; set; } = "";
         public string Version { get; set; } = "";

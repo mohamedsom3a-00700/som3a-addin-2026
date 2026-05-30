@@ -1,46 +1,29 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.ViewModels.Dashboard
 {
-    public sealed class PluginStatusWidgetViewModel : WidgetViewModel
+    public sealed partial class PluginStatusWidgetViewModel : WidgetViewModel
     {
         private readonly Som3a_WPF_UI.Contracts.IModuleRegistry _moduleRegistry;
         private readonly INavigationService _navigationService;
+
+        [ObservableProperty]
         private int _totalCount;
+
+        [ObservableProperty]
         private int _activeCount;
+
+        [ObservableProperty]
         private int _failedCount;
+
+        [ObservableProperty]
         private string _healthStatus;
-
-        public int TotalCount
-        {
-            get => _totalCount;
-            set => SetProperty(ref _totalCount, value);
-        }
-
-        public int ActiveCount
-        {
-            get => _activeCount;
-            set => SetProperty(ref _activeCount, value);
-        }
-
-        public int FailedCount
-        {
-            get => _failedCount;
-            set => SetProperty(ref _failedCount, value);
-        }
-
-        public string HealthStatus
-        {
-            get => _healthStatus;
-            set => SetProperty(ref _healthStatus, value);
-        }
-
-        public ICommand NavigateToPluginRegistryCommand { get; }
 
         public PluginStatusWidgetViewModel(
             Som3a_WPF_UI.Contracts.IModuleRegistry moduleRegistry,
@@ -50,12 +33,6 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             Title = "Plugins";
             Icon = "\U000F0445";
-
-            NavigateToPluginRegistryCommand = new RelayCommand(() =>
-            {
-                try { _navigationService.NavigateTo("settings.general"); }
-                catch { }
-            });
 
             _moduleRegistry.ModuleStateChanged += OnModuleStateChanged;
         }
@@ -86,6 +63,13 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
             {
                 HealthStatus = "Unknown";
             }
+        }
+
+        [RelayCommand]
+        private void NavigateToPluginRegistry()
+        {
+            try { _navigationService.NavigateTo("settings.general"); }
+            catch { }
         }
 
         private void OnModuleStateChanged(object sender, ModuleStateChangedEventArgs e)

@@ -4,25 +4,40 @@ using Som3a_WPF_UI.Helpers;
 using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Som3a_WPF_UI.ViewModels.Primavera
 {
-    public class PrimaveraCompareViewModel : ViewModelBase
+    public partial class PrimaveraCompareViewModel : ViewModelBase
     {
         private readonly IPrimaveraDbService _dbService;
         private readonly IPrimaveraDataLoaderService _loaderService;
         private readonly IPrimaveraComparisonService _comparisonService;
 
+        [ObservableProperty]
         private string _connectionString = string.Empty;
+
+        [ObservableProperty]
         private string _selectedDatabaseType = "SQLite";
+
+        [ObservableProperty]
         private string _searchText = string.Empty;
+
+        partial void OnSearchTextChanged(string value)
+        {
+            ApplyProjectFilter();
+        }
+
+        [ObservableProperty]
         private int _progressValue;
+
+        [ObservableProperty]
         private bool _isBusy;
+
+        [ObservableProperty]
         private string _statusMessage = "Select a Primavera database to begin.";
 
         public PrimaveraCompareViewModel(IServiceContainer container)
@@ -34,9 +49,6 @@ namespace Som3a_WPF_UI.ViewModels.Primavera
             Projects = new ObservableCollection<ProjectDto>();
             FilteredProjects = new ObservableCollection<ProjectDto>();
             SelectedProjects = new ObservableCollection<ProjectDto>();
-
-            ConnectCommand = new AsyncRelayCommand(ConnectAsync);
-            CompareCommand = new AsyncRelayCommand(CompareAsync);
         }
 
         public ObservableCollection<ProjectDto> Projects { get; }
@@ -45,118 +57,8 @@ namespace Som3a_WPF_UI.ViewModels.Primavera
 
         public ObservableCollection<ProjectDto> SelectedProjects { get; }
 
-        public string ConnectionString
-        {
-            get => _connectionString;
-            set
-            {
-                if (_connectionString == value)
-                    return;
-
-                _connectionString = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string SelectedDatabaseType
-        {
-            get => _selectedDatabaseType;
-            set
-            {
-                if (_selectedDatabaseType == value)
-                    return;
-
-                _selectedDatabaseType = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string SearchText
-        {
-            get => _searchText;
-            set
-            {
-                if (_searchText == value)
-                    return;
-
-                _searchText = value;
-                OnPropertyChanged();
-                ApplyProjectFilter();
-            }
-        }
-
-        public int ProgressValue
-        {
-            get => _progressValue;
-            set
-            {
-                if (_progressValue == value)
-                    return;
-
-                _progressValue = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set
-            {
-                if (_isBusy == value)
-                    return;
-
-                _isBusy = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string StatusMessage
-        {
-            get => _statusMessage;
-            set
-            {
-                if (_statusMessage == value)
-                    return;
-
-                _statusMessage = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ICommand ConnectCommand { get; }
-
-        public ICommand CompareCommand { get; }
-
-        public void UseDatabaseFile(string databaseFilePath)
-        {
-            if (string.IsNullOrWhiteSpace(databaseFilePath))
-                return;
-
-            SelectedDatabaseType = "SQLite";
-            ConnectionString = $"Data Source={databaseFilePath};Version=3;Read Only=True;";
-            StatusMessage = "Connection string generated. Click Connect to load projects.";
-        }
-
-        public void SyncSelectedProjects(System.Collections.IEnumerable selectedItems)
-        {
-            SelectedProjects.Clear();
-
-            if (selectedItems == null)
-                return;
-
-            foreach (var selectedItem in selectedItems)
-            {
-                if (selectedItem is ProjectDto project)
-                    SelectedProjects.Add(project);
-            }
-
-            StatusMessage = SelectedProjects.Count == 0
-                ? "Select exactly two projects to compare."
-                : $"{SelectedProjects.Count} project(s) selected.";
-        }
-
-        private async Task ConnectAsync()
+        [RelayCommand]
+        private async Task Connect()
         {
             try
             {
@@ -230,7 +132,8 @@ namespace Som3a_WPF_UI.ViewModels.Primavera
             }
         }
 
-        private async Task CompareAsync()
+        [RelayCommand]
+        private async Task Compare()
         {
             try
             {
@@ -290,6 +193,34 @@ namespace Som3a_WPF_UI.ViewModels.Primavera
             }
         }
 
+        public void UseDatabaseFile(string databaseFilePath)
+        {
+            if (string.IsNullOrWhiteSpace(databaseFilePath))
+                return;
+
+            SelectedDatabaseType = "SQLite";
+            ConnectionString = $"Data Source={databaseFilePath};Version=3;Read Only=True;";
+            StatusMessage = "Connection string generated. Click Connect to load projects.";
+        }
+
+        public void SyncSelectedProjects(System.Collections.IEnumerable selectedItems)
+        {
+            SelectedProjects.Clear();
+
+            if (selectedItems == null)
+                return;
+
+            foreach (var selectedItem in selectedItems)
+            {
+                if (selectedItem is ProjectDto project)
+                    SelectedProjects.Add(project);
+            }
+
+            StatusMessage = SelectedProjects.Count == 0
+                ? "Select exactly two projects to compare."
+                : $"{SelectedProjects.Count} project(s) selected.";
+        }
+
         private void ApplyProjectFilter()
         {
             FilteredProjects.Clear();
@@ -312,7 +243,5 @@ namespace Som3a_WPF_UI.ViewModels.Primavera
             return (project.ProjectName?.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) ?? -1) >= 0
                 || (project.ProjectCode?.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) ?? -1) >= 0;
         }
-
-
     }
 }
