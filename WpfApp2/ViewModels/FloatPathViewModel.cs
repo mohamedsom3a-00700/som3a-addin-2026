@@ -301,29 +301,38 @@ namespace Som3a_WPF_UI.ViewModels
                 excel.Visible = true;
                 excel.DisplayAlerts = false;
 
-                Excel.Workbook wb = excel.Workbooks.Add();
-                Excel.Worksheet ws = (Excel.Worksheet)wb.Sheets[1];
+                var workbooks = excel.Workbooks;
+                Excel.Workbook wb = workbooks.Add();
+                var sheets = wb.Sheets;
+                Excel.Worksheet ws = (Excel.Worksheet)sheets[1];
                 excel.Visible = true;
 
-                int row = 1;
-                foreach (var path in paths)
+                try
                 {
-                    ws.Cells[row, 1] = "Path";
-                    row++;
-
-                    foreach (var act in path.Activities)
+                    int row = 1;
+                    foreach (var path in paths)
                     {
-                        ws.Cells[row, 1] = act.Code;
-                        ws.Cells[row, 2] = act.Name;
+                        ws.Cells[row, 1] = "Path";
+                        row++;
+
+                        foreach (var act in path.Activities)
+                        {
+                            ws.Cells[row, 1] = act.Code;
+                            ws.Cells[row, 2] = act.Name;
+                            row++;
+                        }
+
                         row++;
                     }
-
-                    row++;
-
                 }
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(ws);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(wb);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(excel);
+                finally
+                {
+                    if (ws != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(ws);
+                    if (sheets != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(sheets);
+                    if (wb != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(wb);
+                    if (workbooks != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(workbooks);
+                    if (excel != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(excel);
+                }
             }
             catch (Exception ex)
             {

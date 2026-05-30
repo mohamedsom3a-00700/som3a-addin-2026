@@ -241,6 +241,15 @@ ASALocalRun/
 # MSBuild Binary and Structured Log
 *.binlog
 
+# -----------------------------------------------------------------------------
+# Release Pipeline Build Artifacts
+# -----------------------------------------------------------------------------
+build/
+build-logs/
+release-candidate/
+*.msi
+*.wixpdb
+
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
 

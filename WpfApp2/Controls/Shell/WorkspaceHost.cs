@@ -20,7 +20,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         event EventHandler<NavigationEventArgs> NavigationCompleted;
     }
 
-    public class WorkspaceHost : ContentControl, IPageHost
+    public class WorkspaceHost : ContentControl, IPageHost, IDisposable
     {
         private Frame _frame;
         private ProgressBar _loadingIndicator;
@@ -29,6 +29,8 @@ namespace Som3a_WPF_UI.Controls.Shell
         private Action _retryAction;
         private Page _currentPage;
         private int _isNavigating;
+        private bool _disposed;
+        private Func<Page> _pendingPageFactory;
 
         public static readonly DependencyProperty WelcomePageTypeProperty =
             DependencyProperty.Register(
@@ -55,6 +57,22 @@ namespace Som3a_WPF_UI.Controls.Shell
         public WorkspaceHost()
         {
             LocalizationBridgeService.Instance.LanguageChanged += OnLanguageChanged;
+            Unloaded += OnWorkspaceHostUnloaded;
+        }
+
+        public void Dispose()
+        {
+            if (!_disposed)
+            {
+                _disposed = true;
+                LocalizationBridgeService.Instance.LanguageChanged -= OnLanguageChanged;
+                Unloaded -= OnWorkspaceHostUnloaded;
+            }
+        }
+
+        private void OnWorkspaceHostUnloaded(object sender, RoutedEventArgs e)
+        {
+            Dispose();
         }
 
         private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
@@ -89,6 +107,69 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         public void Navigate(Page page)
         {
+            _pendingPageFactory = null;
+            NavigateCore(page);
+        }
+
+        public void LazyNavigate(Func<Page> pageFactory)
+        {
+            _pendingPageFactory = pageFactory;
+            if (_frame == null) return;
+            if (Interlocked.Exchange(ref _isNavigating, 1) == 1) return;
+
+            if (_frame != null)
+            {
+                _frame.FlowDirection = LocalizationBridgeService.Instance.IsRTL
+                    ? FlowDirection.RightToLeft
+                    : FlowDirection.LeftToRight;
+            }
+            if (_errorOverlay != null)
+                _errorOverlay.Visibility = Visibility.Collapsed;
+            if (_frame != null)
+                _frame.Visibility = Visibility.Visible;
+
+            if (_loadingIndicator != null)
+                _loadingIndicator.Visibility = Visibility.Visible;
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                try
+                {
+                    if (_pendingPageFactory != null)
+                    {
+                        var page = _pendingPageFactory();
+                        _pendingPageFactory = null;
+                        if (page != null)
+                        {
+                            _currentPage = page;
+                            page.FlowDirection = LocalizationBridgeService.Instance.IsRTL
+                                ? FlowDirection.RightToLeft
+                                : FlowDirection.LeftToRight;
+                            _frame.Navigate(page);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ShowError(ex.Message, () => LazyNavigate(pageFactory));
+                }
+            }), System.Windows.Threading.DispatcherPriority.Background);
+
+            if (!_isFirstNavigation)
+            {
+                var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(200))
+                {
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                };
+                _frame.BeginAnimation(OpacityProperty, fadeIn);
+            }
+
+            _isFirstNavigation = false;
+        }
+
+        private void NavigateCore(Page page)
+        {
+            _pendingPageFactory = null;
             if (_frame == null) return;
             if (Interlocked.Exchange(ref _isNavigating, 1) == 1) return;
 
@@ -98,6 +179,7 @@ namespace Som3a_WPF_UI.Controls.Shell
                 page.FlowDirection = LocalizationBridgeService.Instance.IsRTL
                     ? FlowDirection.RightToLeft
                     : FlowDirection.LeftToRight;
+
                 if (_frame != null)
                 {
                     _frame.FlowDirection = LocalizationBridgeService.Instance.IsRTL
@@ -130,7 +212,7 @@ namespace Som3a_WPF_UI.Controls.Shell
                 if (_loadingIndicator != null)
                     _loadingIndicator.Visibility = Visibility.Collapsed;
                 Interlocked.Exchange(ref _isNavigating, 0);
-                ShowError(ex.Message, () => Navigate(page));
+                ShowError(ex.Message, () => { if (page != null) Navigate(page); });
             }
         }
 
