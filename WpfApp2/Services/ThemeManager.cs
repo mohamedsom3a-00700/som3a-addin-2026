@@ -172,6 +172,7 @@ namespace Som3a_WPF_UI.Services
                 Application.Current.Resources["CountToVisibilityConverter"] = new Converters.CountToVisibilityConverter();
                 Application.Current.Resources["NullToBoolConverter"] = new Converters.NullToBoolConverter();
                 Application.Current.Resources["IntGreaterThanZeroConverter"] = new Converters.IntGreaterThanZeroConverter();
+                Application.Current.Resources["StringToBrushConverter"] = new Converters.StringToBrushConverter();
                 Application.Current.Resources["WBSNodeLevelStyleSelector"] = new Converters.WBSNodeLevelStyleSelector();
                 Application.Current.Resources["WindowStateConverter"] = new Converters.WindowStateConverter();
                 Application.Current.Resources["WindowStateToBoolConverter"] = new Converters.WindowStateToBoolConverter();

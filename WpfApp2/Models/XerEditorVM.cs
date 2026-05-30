@@ -1,31 +1,19 @@
 ﻿using Microsoft.Win32;
 using Som3a.Shared.Core;
-using Som3a_WPF_UI;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Excel = Microsoft.Office.Interop.Excel;
-public class XerEditorVM
+
+public partial class XerEditorVM
 {
     public ObservableCollection<TableItemVM> Tables { get; set; } = new();
 
     private XerParser _parser = new();
     private string _filePath = "";
-
-    public RelayCommand LoadCommand { get; }
-    public RelayCommand ExportExcelCommand { get; }
-    public RelayCommand ImportFromExcelCommand { get; }
-    public RelayCommand ExportXerCommand { get; }
-
-    public XerEditorVM()
-    {
-        LoadCommand = new RelayCommand(Load);
-        ExportExcelCommand = new RelayCommand(ExportExcel);
-        ImportFromExcelCommand = new RelayCommand(ImportFromExcel);
-        ExportXerCommand = new RelayCommand(ExportXer);
-    }
     private string GetDisplayName(string tableName)
     {
         return tableName switch
@@ -42,6 +30,7 @@ public class XerEditorVM
 
     // ================= LOAD =================
 
+    [RelayCommand]
     private void Load()
     {
         var ofd = new OpenFileDialog { Filter = "XER (*.xer)|*.xer" };
@@ -102,6 +91,7 @@ public class XerEditorVM
                  .Cast<Excel.Worksheet>()
                  .FirstOrDefault(s => s.Name.Equals(sheetName, StringComparison.OrdinalIgnoreCase));
     }
+    [RelayCommand]
     private void ExportExcel()
     {
         try
@@ -197,6 +187,7 @@ public class XerEditorVM
             });
         }
     }
+    [RelayCommand]
     private void ImportFromExcel()
     {
         if (_parser == null || !_parser.Tables.Any())
@@ -245,6 +236,7 @@ public class XerEditorVM
 
     // ================= EXPORT XER =================
 
+    [RelayCommand]
     private void ExportXer()
     {
         if (_parser == null || !_parser.Tables.Any())

@@ -89,7 +89,9 @@
                                            Foreground="{DynamicResource Brush.Text.Secondary}"
                                            VerticalAlignment="Center"
                                            Margin="0,0,6,0"
-                                           FontSize="10"/>
+                                           FontSize="10"
+                                           SnapsToDevicePixels="True"
+                                           UseLayoutRounding="True"/>
                                 <TextBlock Grid.Column="2"
                                            Text="{TemplateBinding Header}"
                                            Foreground="{TemplateBinding Foreground}"

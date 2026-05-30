@@ -6,7 +6,7 @@ using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.ViewModels.Dashboard
 {
-    public sealed class RecentProjectsWidgetViewModel : WidgetViewModel
+    public sealed partial class RecentProjectsWidgetViewModel : WidgetViewModel
     {
         private readonly IRecentItemsService _recentItemsService;
 

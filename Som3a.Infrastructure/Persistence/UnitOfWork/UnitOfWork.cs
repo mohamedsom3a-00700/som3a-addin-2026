@@ -102,6 +102,7 @@ public class UnitOfWork : IUnitOfWork
             _transaction.Rollback();
             _transaction.Dispose();
             _transaction = null;
+            _connectionManager.ReleaseWriteGate();
         }
     }
 }

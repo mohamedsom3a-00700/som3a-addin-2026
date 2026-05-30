@@ -8,6 +8,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using Som3a_WPF_UI.Helpers;
 using Som3a_WPF_UI.Services;
+using RelayCommand = CommunityToolkit.Mvvm.Input.RelayCommand;
 
 namespace Som3a_WPF_UI.Controls
 {

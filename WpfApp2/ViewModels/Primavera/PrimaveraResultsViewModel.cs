@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Som3a_WPF_UI.ViewModels.Primavera
 {
-    public class PrimaveraResultsViewModel : ViewModelBase
+    public partial class PrimaveraResultsViewModel : ViewModelBase
     {
         public PrimaveraResultsViewModel(
             IServiceContainer container,

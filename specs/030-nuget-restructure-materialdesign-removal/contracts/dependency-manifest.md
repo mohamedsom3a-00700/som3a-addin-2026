@@ -18,11 +18,10 @@ This phase is strictly an internal dependency cleanup. The only "contract" affec
 ### After (Phase 1C)
 
 - `FluentIcons.WPF` (WPF host only)
-- `Wpf.Ui` (WPF host only)
 - `MaterialDesignThemes` — REMOVED
 - `MaterialDesignColors` — REMOVED
 
 ## Verification
 
 - `dotnet list WpfApp2/Som3a_WPF_UI.csproj package` shows zero MaterialDesign packages.
-- `dotnet list Som3aAddin/Som3aAddin.csproj package` shows zero MaterialDesign packages.
+- `dotnet list "Som3a Addin 2026/Som3a Addin 2026.csproj" package` shows zero MaterialDesign packages.

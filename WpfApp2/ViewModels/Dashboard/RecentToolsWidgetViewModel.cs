@@ -1,21 +1,19 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Som3a_WPF_UI.Controls.Shell;
 using Som3a_WPF_UI.Models;
 using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.ViewModels.Dashboard
 {
-    public sealed class RecentToolsWidgetViewModel : WidgetViewModel
+    public sealed partial class RecentToolsWidgetViewModel : WidgetViewModel
     {
         private readonly IRecentItemsService _recentItemsService;
         private readonly INavigationService _navigationService;
 
         public ObservableCollection<RecentItem> RecentTools { get; } = new ObservableCollection<RecentItem>();
-
-        public ICommand NavigateToToolCommand { get; }
 
         public RecentToolsWidgetViewModel(IRecentItemsService recentItemsService, INavigationService navigationService)
         {
@@ -23,8 +21,6 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             Title = "Recent Tools";
             Icon = "\U000F024B";
-
-            NavigateToToolCommand = new RelayCommand(p => NavigateToTool(p as string));
 
             _navigationService.NavigationChanged += OnNavigationChanged;
         }
@@ -42,6 +38,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
             return Task.CompletedTask;
         }
 
+        [RelayCommand]
         private void NavigateToTool(string toolId)
         {
             if (string.IsNullOrEmpty(toolId)) return;

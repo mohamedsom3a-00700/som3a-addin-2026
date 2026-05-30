@@ -1,64 +1,53 @@
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
-using Som3a_WPF_UI.Helpers;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Pages;
 using Som3a_WPF_UI.Services;
+using Som3a_WPF_UI.ViewModels;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Som3a_WPF_UI.Controls.Shell
 {
-    public class ShellViewModel : INotifyPropertyChanged
+    public partial class ShellViewModel : ViewModelBase
     {
-        private NavigationDestination _selectedDestination;
-        private string _statusMessage = "Ready";
-        private Type _welcomePageType;
-
         public ObservableCollection<NavigationDestination> Destinations { get; } =
             NavigationService.Instance.Destinations;
 
-        public NavigationDestination SelectedDestination
+        [ObservableProperty]
+        private NavigationDestination? _selectedDestination;
+
+        private NavigationDestination? _oldSelectedDestination;
+
+        partial void OnSelectedDestinationChanging(NavigationDestination? value)
         {
-            get => _selectedDestination;
-            set
-            {
-                if (_selectedDestination != value)
-                {
-                    if (_selectedDestination != null)
-                        _selectedDestination.IsSelected = false;
-                    _selectedDestination = value;
-                    if (_selectedDestination != null)
-                        _selectedDestination.IsSelected = true;
-                    OnPropertyChanged();
-                }
-            }
+            _oldSelectedDestination = _selectedDestination;
         }
 
-        public Type WelcomePageType
+        partial void OnSelectedDestinationChanged(NavigationDestination? value)
         {
-            get => _welcomePageType;
-            set { _welcomePageType = value; OnPropertyChanged(); }
+            if (_oldSelectedDestination != null)
+                _oldSelectedDestination.IsSelected = false;
+            if (_selectedDestination != null)
+                _selectedDestination.IsSelected = true;
         }
 
-        public string StatusMessage
+        [ObservableProperty]
+        private Type? _welcomePageType;
+
+        [ObservableProperty]
+        private string _statusMessage = "Ready";
+
+        [RelayCommand]
+        private void NavigateToPage(string? key)
         {
-            get => _statusMessage;
-            set { _statusMessage = value; OnPropertyChanged(); }
-        }
-
-        public ICommand NavigateToPageCommand { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (!string.IsNullOrEmpty(key))
+                NavigationService.Instance.NavigateTo(key);
         }
     }
 
@@ -78,7 +67,6 @@ namespace Som3a_WPF_UI.Controls.Shell
             DataContext = _viewModel;
 
             _viewModel.WelcomePageType = typeof(HomePage);
-            _viewModel.NavigateToPageCommand = new RelayCommand(p => OnNavigateCommand(p as string));
 
             NavigationService.Instance.SetShellWindow(this);
             _navigationChangedHandler = (s, args) => _hasPendingNavigation = true;

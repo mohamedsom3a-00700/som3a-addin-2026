@@ -1,63 +1,37 @@
 using System;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public class CustomThemeViewModel : ViewModelBase
+    public partial class CustomThemeViewModel : ViewModelBase
     {
         private readonly IServiceContainer _container;
+
+        [ObservableProperty]
         private string _backgroundType = "Solid";
+
+        [ObservableProperty]
         private string _imagePath = "";
-        private double _blurIntensity = 0.0;
-        private bool _blurEnabled = false;
-        private string _selectedFontFamily = "Segoe UI";
-        private FontFamilyInfo _selectedFont;
-        private string _imageValidationError = "";
 
-        public CustomThemeViewModel(IServiceContainer container)
+        partial void OnImagePathChanged(string value)
         {
-            _container = container;
-            AvailableFonts = new ObservableCollection<FontFamilyInfo>();
-            SelectImageCommand = new RelayCommand(ExecuteSelectImage);
-            ClearImageCommand = new RelayCommand(ExecuteClearImage);
-            ApplyFontCommand = new RelayCommand(ExecuteApplyFont);
-        }
-
-        public string BackgroundType
-        {
-            get => _backgroundType;
-            set => SetProperty(ref _backgroundType, value);
-        }
-
-        public string ImagePath
-        {
-            get => _imagePath;
-            set
+            if (!string.IsNullOrEmpty(value))
             {
-                if (SetProperty(ref _imagePath, value))
-                {
-                    if (!string.IsNullOrEmpty(value))
-                    {
-                        var fileName = System.IO.Path.GetFileName(value);
-                        ImageFileName = fileName;
-                    }
-                    else
-                    {
-                        ImageFileName = "";
-                    }
-                }
+                ImageFileName = System.IO.Path.GetFileName(value);
+            }
+            else
+            {
+                ImageFileName = "";
             }
         }
 
+        [ObservableProperty]
         private string _imageFileName = "";
-        public string ImageFileName
-        {
-            get => _imageFileName;
-            set => SetProperty(ref _imageFileName, value);
-        }
 
+        private double _blurIntensity;
         public double BlurIntensity
         {
             get => _blurIntensity;
@@ -74,59 +48,50 @@ namespace Som3a_WPF_UI.ViewModels
 
         public double BlurIntensityPercent
         {
-            get => _blurIntensity * 100.0;
+            get => BlurIntensity * 100.0;
             set => BlurIntensity = value / 100.0;
         }
 
-        public bool BlurEnabled
+        [ObservableProperty]
+        private bool _blurEnabled;
+
+        partial void OnBlurEnabledChanged(bool value)
         {
-            get => _blurEnabled;
-            set
-            {
-                if (SetProperty(ref _blurEnabled, value))
-                {
-                    _container.Resolve<ThemeManager>().ApplyBackground(ImagePath, _blurEnabled ? _blurIntensity : 0.0);
-                }
-            }
+            _container.Resolve<ThemeManager>().ApplyBackground(ImagePath, value ? BlurIntensity : 0.0);
         }
 
-        public string SelectedFontFamily
+        [ObservableProperty]
+        private string _selectedFontFamily = "Segoe UI";
+
+        partial void OnSelectedFontFamilyChanged(string value)
         {
-            get => _selectedFontFamily;
-            set
-            {
-                if (SetProperty(ref _selectedFontFamily, value))
-                {
-                    _container.Resolve<ThemeManager>().ApplyFont(value);
-                }
-            }
+            _container.Resolve<ThemeManager>().ApplyFont(value);
         }
 
-        public FontFamilyInfo SelectedFont
+        [ObservableProperty]
+        private FontFamilyInfo _selectedFont;
+
+        partial void OnSelectedFontChanged(FontFamilyInfo value)
         {
-            get => _selectedFont;
-            set
+            if (value != null)
             {
-                if (SetProperty(ref _selectedFont, value) && value != null)
-                {
-                    SelectedFontFamily = value.FamilyName;
-                }
+                SelectedFontFamily = value.FamilyName;
             }
         }
 
         public ObservableCollection<FontFamilyInfo> AvailableFonts { get; }
 
-        public string ImageValidationError
+        [ObservableProperty]
+        private string _imageValidationError = "";
+
+        public CustomThemeViewModel(IServiceContainer container)
         {
-            get => _imageValidationError;
-            set => SetProperty(ref _imageValidationError, value);
+            _container = container;
+            AvailableFonts = new ObservableCollection<FontFamilyInfo>();
         }
 
-        public ICommand SelectImageCommand { get; }
-        public ICommand ClearImageCommand { get; }
-        public ICommand ApplyFontCommand { get; }
-
-        private void ExecuteSelectImage()
+        [RelayCommand]
+        private void SelectImage()
         {
             var themeManager = _container.Resolve<ThemeManager>();
             var dlg = new Microsoft.Win32.OpenFileDialog
@@ -170,7 +135,8 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private void ExecuteClearImage()
+        [RelayCommand]
+        private void ClearImage()
         {
             var themeManager = _container.Resolve<ThemeManager>();
             ImagePath = "";
@@ -180,7 +146,8 @@ namespace Som3a_WPF_UI.ViewModels
             themeManager.ApplyBackground("", 0.0);
         }
 
-        private void ExecuteApplyFont()
+        [RelayCommand]
+        private void ApplyFont()
         {
             if (SelectedFont != null)
             {

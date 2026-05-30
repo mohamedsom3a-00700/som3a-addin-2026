@@ -1,3 +1,5 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Som3a.Bridge;
 using Som3a_WPF_UI.Models;
 using System;
@@ -11,45 +13,75 @@ using System.Windows.Input;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public class DurationEstimatorPageViewModel : ViewModelBase
+    public partial class DurationEstimatorPageViewModel : ViewModelBase
     {
         private readonly IDurationEstimatorBridge _bridge;
+        private CancellationTokenSource _searchCts;
+
+        [ObservableProperty]
         private bool _isBusy;
+
+        [ObservableProperty]
         private string _statusText = "Ready";
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CanCalculate))]
         private decimal _productivityRate = 10m;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CanCalculate))]
         private int _crewSize = 2;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CanCalculate))]
         private decimal _hoursPerDay = 8m;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CanCalculate))]
         private decimal _quantity;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CanCalculate))]
         private bool _isVarianceMode;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CanCalculate))]
         private decimal _optimisticRate = 12m;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CanCalculate))]
         private decimal _pessimisticRate = 7m;
+
+        [ObservableProperty]
         private string _searchQuery = "";
+
+        [ObservableProperty]
         private string _selectedCategory = "All";
+
+        [ObservableProperty]
         private BenchmarkDto _selectedBenchmark;
 
-        public DurationEstimatorPageViewModel(IDurationEstimatorBridge bridge)
+        partial void OnIsBusyChanged(bool value)
         {
-            _bridge = bridge;
-            CalculateCommand = new RelayCommand(async o => await CalculateAsync(), o => CanCalculate);
-            SearchBenchmarksCommand = new RelayCommand(async o =>
+            CalculateCommand.NotifyCanExecuteChanged();
+            ExportExcelCommand.NotifyCanExecuteChanged();
+        }
+
+        partial void OnProductivityRateChanged(decimal value) => OnRateChanged();
+        partial void OnCrewSizeChanged(int value) => OnRateChanged();
+        partial void OnHoursPerDayChanged(decimal value) => OnRateChanged();
+        partial void OnQuantityChanged(decimal value) => OnPropertyChanged(nameof(CanCalculate));
+        partial void OnIsVarianceModeChanged(bool value) => OnPropertyChanged(nameof(CanCalculate));
+        partial void OnOptimisticRateChanged(decimal value) => OnRateChanged();
+        partial void OnPessimisticRateChanged(decimal value) => OnRateChanged();
+
+        partial void OnSelectedCategoryChanged(string value)
         {
             _searchCts?.Cancel();
             _searchCts?.Dispose();
             _searchCts = new CancellationTokenSource();
-            await SearchBenchmarksAsync(_searchCts.Token);
-        });
-            ApplyBenchmarkCommand = new RelayCommand(ApplyBenchmark);
-            ExportExcelCommand = new RelayCommand(async o => await ExportToExcelAsync(), o => CanExport);
-            ClearCommand = new RelayCommand(o => ClearEstimates());
-            ToggleVarianceCommand = new RelayCommand(o => { IsVarianceMode = !IsVarianceMode; });
-
-            Categories = new List<string>
-            {
-                "All", "concrete", "steel", "masonry", "mep",
-                "finishes", "earthwork", "roofing", "glazing", "flooring"
-            };
-            _selectedCategory = "All";
-            var t = LoadBenchmarksAsync();
+            var token = _searchCts.Token;
+            _ = SearchBenchmarksAsync(token);
         }
 
         public ObservableCollection<DurationEstimateItem> Estimates { get; } = new ObservableCollection<DurationEstimateItem>();
@@ -57,97 +89,6 @@ namespace Som3a_WPF_UI.ViewModels
         public int BenchmarkCount { get { return Benchmarks.Count; } }
         public int EstimateCount { get { return Estimates.Count; } }
         public List<string> Categories { get; }
-
-        public bool IsBusy
-        {
-            get { return _isBusy; }
-            set
-            {
-                if (SetProperty(ref _isBusy, value))
-                {
-                    ((RelayCommand)CalculateCommand).RaiseCanExecuteChanged();
-                    ((RelayCommand)ExportExcelCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        public string StatusText
-        {
-            get { return _statusText; }
-            set { SetProperty(ref _statusText, value ?? ""); }
-        }
-
-        public decimal ProductivityRate
-        {
-            get { return _productivityRate; }
-            set { if (SetProperty(ref _productivityRate, value)) OnRateChanged(); }
-        }
-
-        public int CrewSize
-        {
-            get { return _crewSize; }
-            set { if (SetProperty(ref _crewSize, value)) OnRateChanged(); }
-        }
-
-        public decimal HoursPerDay
-        {
-            get { return _hoursPerDay; }
-            set { if (SetProperty(ref _hoursPerDay, value)) OnRateChanged(); }
-        }
-
-        public decimal Quantity
-        {
-            get { return _quantity; }
-            set { if (SetProperty(ref _quantity, value)) OnPropertyChanged(nameof(CanCalculate)); }
-        }
-
-        public bool IsVarianceMode
-        {
-            get { return _isVarianceMode; }
-            set { if (SetProperty(ref _isVarianceMode, value)) OnPropertyChanged(nameof(CanCalculate)); }
-        }
-
-        public decimal OptimisticRate
-        {
-            get { return _optimisticRate; }
-            set { if (SetProperty(ref _optimisticRate, value)) OnRateChanged(); }
-        }
-
-        public decimal PessimisticRate
-        {
-            get { return _pessimisticRate; }
-            set { if (SetProperty(ref _pessimisticRate, value)) OnRateChanged(); }
-        }
-
-        public string SearchQuery
-        {
-            get { return _searchQuery; }
-            set { SetProperty(ref _searchQuery, value ?? ""); }
-        }
-
-        private CancellationTokenSource _searchCts;
-
-        public string SelectedCategory
-        {
-            get { return _selectedCategory; }
-            set
-            {
-                if (SetProperty(ref _selectedCategory, value))
-                {
-                    _searchCts?.Cancel();
-                    _searchCts?.Dispose();
-                    _searchCts = new CancellationTokenSource();
-                    var token = _searchCts.Token;
-                    _ = SearchBenchmarksAsync(token);
-                }
-            }
-        }
-
-        public BenchmarkDto SelectedBenchmark
-        {
-            get { return _selectedBenchmark; }
-            set { SetProperty(ref _selectedBenchmark, value); }
-        }
 
         public bool CanCalculate
         {
@@ -159,14 +100,20 @@ namespace Som3a_WPF_UI.ViewModels
             get { return !IsBusy && Estimates.Count > 0; }
         }
 
-        public ICommand CalculateCommand { get; }
-        public ICommand SearchBenchmarksCommand { get; }
-        public ICommand ApplyBenchmarkCommand { get; }
-        public ICommand ExportExcelCommand { get; }
-        public ICommand ClearCommand { get; }
-        public ICommand ToggleVarianceCommand { get; }
-
         public event Action RequestClose;
+
+        public DurationEstimatorPageViewModel(IDurationEstimatorBridge bridge)
+        {
+            _bridge = bridge;
+
+            Categories = new List<string>
+            {
+                "All", "concrete", "steel", "masonry", "mep",
+                "finishes", "earthwork", "roofing", "glazing", "flooring"
+            };
+            _selectedCategory = "All";
+            var t = LoadBenchmarksAsync();
+        }
 
         private async Task LoadBenchmarksAsync()
         {
@@ -186,6 +133,15 @@ namespace Som3a_WPF_UI.ViewModels
             catch
             {
             }
+        }
+
+        [RelayCommand]
+        private async Task SearchBenchmarks()
+        {
+            _searchCts?.Cancel();
+            _searchCts?.Dispose();
+            _searchCts = new CancellationTokenSource();
+            await SearchBenchmarksAsync(_searchCts.Token);
         }
 
         private async Task SearchBenchmarksAsync(CancellationToken ct = default)
@@ -214,6 +170,7 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
+        [RelayCommand]
         private void ApplyBenchmark(object param)
         {
             if (SelectedBenchmark == null) return;
@@ -222,6 +179,7 @@ namespace Som3a_WPF_UI.ViewModels
             StatusText = "Applied benchmark: " + SelectedBenchmark.ActivityDescription;
         }
 
+        [RelayCommand(CanExecute = nameof(CanCalculate))]
         private async Task CalculateAsync()
         {
             if (Quantity <= 0 || ProductivityRate <= 0 || CrewSize < 1 || HoursPerDay <= 0)
@@ -339,6 +297,7 @@ namespace Som3a_WPF_UI.ViewModels
             StatusText = "Recalculated " + Estimates.Count + " estimates";
         }
 
+        [RelayCommand]
         private void ClearEstimates()
         {
             Estimates.Clear();
@@ -346,7 +305,8 @@ namespace Som3a_WPF_UI.ViewModels
             OnPropertyChanged(nameof(CanExport));
         }
 
-        private async Task ExportToExcelAsync()
+        [RelayCommand(CanExecute = nameof(CanExport))]
+        private async Task ExportExcel()
         {
             IsBusy = true;
             try
@@ -374,6 +334,12 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        [RelayCommand]
+        private void ToggleVariance()
+        {
+            IsVarianceMode = !IsVarianceMode;
         }
     }
 

@@ -1,17 +1,19 @@
 using Som3a_WPF_UI.Services;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class SettingsSectionViewModel : ViewModelBase
+    public sealed partial class SettingsSectionViewModel : ViewModelBase
     {
         private readonly SettingsSection _section;
-        private bool _isExpanded;
+
+        [ObservableProperty]
+        private bool _isExpanded = true;
 
         public SettingsSectionViewModel(SettingsSection section, SettingsValidator validator)
         {
             _section = section;
-            _isExpanded = true;
 
             foreach (var setting in section.Settings)
             {
@@ -27,12 +29,6 @@ namespace Som3a_WPF_UI.ViewModels
         public int Order => _section.Order;
         public string? IconKey => _section.IconKey;
         public int Version => _section.Version;
-
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
 
         public ObservableCollection<SettingControlViewModel> Controls { get; } = new();
     }

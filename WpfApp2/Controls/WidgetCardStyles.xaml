@@ -51,7 +51,9 @@
                                            FontSize="18"
                                            Foreground="{DynamicResource Brush.Accent.Primary}"
                                            VerticalAlignment="Center"
-                                           Margin="0,0,8,0"/>
+                                           Margin="0,0,8,0"
+                                           SnapsToDevicePixels="True"
+                                           UseLayoutRounding="True"/>
                                 <TextBlock Text="{TemplateBinding Title}"
                                            Foreground="{DynamicResource Brush.Text.Primary}"
                                            FontSize="14"
@@ -88,7 +90,9 @@
                                                FontFamily="Segoe UI"
                                                FontSize="24"
                                                Foreground="{DynamicResource Brush.Accent.Warning}"
-                                               HorizontalAlignment="Center"/>
+                                               HorizontalAlignment="Center"
+                                               SnapsToDevicePixels="True"
+                                               UseLayoutRounding="True"/>
                                     <TextBlock Text="{TemplateBinding ErrorMessage}"
                                                Foreground="{DynamicResource Brush.Text.Secondary}"
                                                FontSize="12"

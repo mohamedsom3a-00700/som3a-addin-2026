@@ -7,15 +7,17 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using ExcelApp = Microsoft.Office.Interop.Excel.Application;
 using SysAction = System.Action;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public sealed class LinksManagerViewModel : ViewModelBase
+    public sealed partial class LinksManagerViewModel : ViewModelBase
     {
         private readonly Dispatcher _ui;
         private readonly ExcelApp _app;
@@ -27,74 +29,52 @@ namespace Som3a_WPF_UI.ViewModels
 
         private readonly ICollectionView _linksView;
 
+        [ObservableProperty]
         private WorkbookItem? _selectedWorkbook;
-        public WorkbookItem? SelectedWorkbook
+
+        partial void OnSelectedWorkbookChanged(WorkbookItem? value)
         {
-            get => _selectedWorkbook;
-            set
-            {
-                if (Set(ref _selectedWorkbook, value))
-                {
-                    StatusText = value == null ? "Select a workbook." : $"Workbook: {value.Name}";
-                    RaiseAllCanExecute();
-                }
-            }
+            StatusText = value == null ? "Select a workbook." : $"Workbook: {value.Name}";
+            RaiseAllCanExecute();
         }
 
+        [ObservableProperty]
         private LinkTypeItem? _selectedType;
-        public LinkTypeItem? SelectedType
+
+        partial void OnSelectedTypeChanged(LinkTypeItem? value)
         {
-            get => _selectedType;
-            set
-            {
-                if (Set(ref _selectedType, value))
-                {
-                    StatusText = value == null ? "Select a link type." : $"Type: {value.Key}";
-                    RaiseAllCanExecute();
-                }
-            }
+            StatusText = value == null ? "Select a link type." : $"Type: {value.Key}";
+            RaiseAllCanExecute();
         }
 
+        [ObservableProperty]
         private string _searchText = "";
-        public string SearchText
+
+        partial void OnSearchTextChanged(string value)
         {
-            get => _searchText;
-            set
-            {
-                if (Set(ref _searchText, value ?? ""))
-                    _linksView.Refresh();
-            }
+            _linksView.Refresh();
         }
 
         private int _progressPercent;
         public int ProgressPercent
         {
             get => _progressPercent;
-            set => Set(ref _progressPercent, Math.Max(0, Math.Min(100, value)));
+            set => SetProperty(ref _progressPercent, Math.Max(0, Math.Min(100, value)));
         }
 
+        [ObservableProperty]
         private bool _isBusy;
-        public bool IsBusy
+
+        partial void OnIsBusyChanged(bool value)
         {
-            get => _isBusy;
-            set
-            {
-                if (Set(ref _isBusy, value))
-                {
-                    RaiseAllCanExecute();
-                    OnPropertyChanged(nameof(CanSelectAll));
-                    OnPropertyChanged(nameof(CanUnselectAll));
-                    OnPropertyChanged(nameof(CanBreak));
-                }
-            }
+            RaiseAllCanExecute();
+            OnPropertyChanged(nameof(CanSelectAll));
+            OnPropertyChanged(nameof(CanUnselectAll));
+            OnPropertyChanged(nameof(CanBreak));
         }
 
+        [ObservableProperty]
         private string _statusText = "Ready.";
-        public string StatusText
-        {
-            get => _statusText;
-            set => Set(ref _statusText, value ?? "");
-        }
 
         public bool HasSelection => Links.Any(x => x.IsSelected);
         public string SelectedCountText => $"{Links.Count(x => x.IsSelected)} selected";
@@ -107,14 +87,6 @@ namespace Som3a_WPF_UI.ViewModels
 
         public event SysAction? RequestClose;
 
-        public RelayCommand RefreshWorkbooksCommand { get; }
-        public RelayCommand LoadTypesCommand { get; }
-        public RelayCommand ReloadLinksCommand { get; }
-        public RelayCommand BreakSelectedCommand { get; }
-        public RelayCommand CloseCommand { get; }
-        public RelayCommand SelectAllLinksCommand { get; }
-        public RelayCommand UnselectAllLinksCommand { get; }
-
         public LinksManagerViewModel(IServiceContainer container, ExcelApp app, Dispatcher uiDispatcher, LinksManagerService service)
         {
             _ui = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
@@ -123,20 +95,6 @@ namespace Som3a_WPF_UI.ViewModels
 
             _linksView = CollectionViewSource.GetDefaultView(Links);
             _linksView.Filter = FilterLinks;
-
-            RefreshWorkbooksCommand = new RelayCommand(RefreshWorkbooks, () => !IsBusy);
-            LoadTypesCommand = new RelayCommand(LoadTypesBasedOnWorkbook, () => !IsBusy && SelectedWorkbook != null);
-            ReloadLinksCommand = new RelayCommand(ReloadLinks, () => !IsBusy && SelectedWorkbook != null && SelectedType != null);
-
-            BreakSelectedCommand = new RelayCommand(
-                () => _ = BreakSelectedSmartAsync(),
-                () => CanBreak
-            );
-
-            CloseCommand = new RelayCommand(() => RequestClose?.Invoke());
-
-            SelectAllLinksCommand = new RelayCommand(SelectAll, () => CanSelectAll);
-            UnselectAllLinksCommand = new RelayCommand(UnselectAll, () => CanUnselectAll);
 
             HookLinksSelectionEvents();
 
@@ -159,6 +117,7 @@ namespace Som3a_WPF_UI.ViewModels
                 || (li.Type ?? "").ToLowerInvariant().Contains(s);
         }
 
+        [RelayCommand(CanExecute = nameof(CanRefreshWorkbooks))]
         private void RefreshWorkbooks()
         {
             try
@@ -180,7 +139,10 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private void LoadTypesBasedOnWorkbook()
+        private bool CanRefreshWorkbooks() => !IsBusy;
+
+        [RelayCommand(CanExecute = nameof(CanLoadTypes))]
+        private void LoadTypes()
         {
             if (SelectedWorkbook == null) return;
 
@@ -212,6 +174,9 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
+        private bool CanLoadTypes() => !IsBusy && SelectedWorkbook != null;
+
+        [RelayCommand(CanExecute = nameof(CanReloadLinks))]
         private void ReloadLinks()
         {
             if (SelectedWorkbook == null || SelectedType == null) return;
@@ -243,7 +208,10 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private async System.Threading.Tasks.Task BreakSelectedSmartAsync()
+        private bool CanReloadLinks() => !IsBusy && SelectedWorkbook != null && SelectedType != null;
+
+        [RelayCommand(CanExecute = nameof(CanBreak))]
+        private async Task BreakSelected()
         {
             if (SelectedWorkbook == null) return;
 
@@ -340,13 +308,21 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        private void SelectAll()
+        [RelayCommand]
+        private void Close()
+        {
+            RequestClose?.Invoke();
+        }
+
+        [RelayCommand(CanExecute = nameof(CanSelectAll))]
+        private void SelectAllLinks()
         {
             foreach (var x in Links) x.IsSelected = true;
             RefreshSelectionUi();
         }
 
-        private void UnselectAll()
+        [RelayCommand(CanExecute = nameof(CanUnselectAll))]
+        private void UnselectAllLinks()
         {
             foreach (var x in Links) x.IsSelected = false;
             RefreshSelectionUi();
@@ -384,23 +360,20 @@ namespace Som3a_WPF_UI.ViewModels
             OnPropertyChanged(nameof(CanUnselectAll));
             OnPropertyChanged(nameof(CanBreak));
 
-            BreakSelectedCommand.RaiseCanExecuteChanged();
-            SelectAllLinksCommand.RaiseCanExecuteChanged();
-            UnselectAllLinksCommand.RaiseCanExecuteChanged();
+            BreakSelectedCommand.NotifyCanExecuteChanged();
+            SelectAllLinksCommand.NotifyCanExecuteChanged();
+            UnselectAllLinksCommand.NotifyCanExecuteChanged();
         }
 
         private void RaiseAllCanExecute()
         {
-            RefreshWorkbooksCommand.RaiseCanExecuteChanged();
-            LoadTypesCommand.RaiseCanExecuteChanged();
-            ReloadLinksCommand.RaiseCanExecuteChanged();
-            BreakSelectedCommand.RaiseCanExecuteChanged();
-            CloseCommand.RaiseCanExecuteChanged();
-            SelectAllLinksCommand.RaiseCanExecuteChanged();
-            UnselectAllLinksCommand.RaiseCanExecuteChanged();
+            RefreshWorkbooksCommand.NotifyCanExecuteChanged();
+            LoadTypesCommand.NotifyCanExecuteChanged();
+            ReloadLinksCommand.NotifyCanExecuteChanged();
+            BreakSelectedCommand.NotifyCanExecuteChanged();
+            CloseCommand.NotifyCanExecuteChanged();
+            SelectAllLinksCommand.NotifyCanExecuteChanged();
+            UnselectAllLinksCommand.NotifyCanExecuteChanged();
         }
-
-        private bool Set<T>(ref T field, T value, [CallerMemberName] string? name = null)
-            => SetProperty(ref field, value, name);
     }
 }

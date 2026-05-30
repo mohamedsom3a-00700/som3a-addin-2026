@@ -1,44 +1,29 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Som3a_WPF_UI.Models;
 using Som3a_WPF_UI.Services;
 
 namespace Som3a_WPF_UI.ViewModels.Dashboard
 {
-    public sealed class DiagnosticsSummaryWidgetViewModel : WidgetViewModel
+    public sealed partial class DiagnosticsSummaryWidgetViewModel : WidgetViewModel
     {
         private readonly IDiagnosticsService _diagnosticsService;
         private readonly DispatcherTimer _refreshTimer;
         private readonly EventHandler _refreshTickHandler;
+
+        [ObservableProperty]
         private string _renderMode;
+
+        [ObservableProperty]
         private string _activeTheme;
+
+        [ObservableProperty]
         private double? _memoryUsageMB;
+
+        [ObservableProperty]
         private bool _gpuAvailable;
-
-        public string RenderMode
-        {
-            get => _renderMode;
-            set => SetProperty(ref _renderMode, value);
-        }
-
-        public string ActiveTheme
-        {
-            get => _activeTheme;
-            set => SetProperty(ref _activeTheme, value);
-        }
-
-        public double? MemoryUsageMB
-        {
-            get => _memoryUsageMB;
-            set => SetProperty(ref _memoryUsageMB, value);
-        }
-
-        public bool GpuAvailable
-        {
-            get => _gpuAvailable;
-            set => SetProperty(ref _gpuAvailable, value);
-        }
 
         public DiagnosticsSummaryWidgetViewModel(IDiagnosticsService diagnosticsService)
         {

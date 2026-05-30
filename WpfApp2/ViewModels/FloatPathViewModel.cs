@@ -5,47 +5,36 @@ using Som3a_WPF_UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Som3a_WPF_UI.ViewModels
 {
-    public class FloatPathViewModel : ViewModelBase
+    public partial class FloatPathViewModel : ViewModelBase
     {
-        #region Fields
-
         private List<Activity> _activities;
         private Dictionary<string, List<Relationship>> _graph;
         private List<WbsItem> _wbsRaw;
         private readonly FloatPathService _floatPathService;
         private readonly GraphService _graphService;
         private readonly WbsBuilder _wbsBuilder;
-        public string SelectedView { get; set; }
-        #endregion
 
-        #region Bindings
+        public string SelectedView { get; set; }
 
         public ObservableCollection<Activity> Activities { get; set; } = new();
         public ObservableCollection<WbsItem> WBSItems { get; } = new();
 
-        private Activity _selectedActivity;
-        public Activity SelectedActivity
-        {
-            get => _selectedActivity;
-            set
-            {
-                _selectedActivity = value;
-                OnPropertyChanged();
+        [ObservableProperty]
+        private Activity? _selectedActivity;
 
-                // 🔥 دي أهم سطر
-                (RunCommand as RelayCommand)?.RaiseCanExecuteChanged();
-            }
+        partial void OnSelectedActivityChanged(Activity? value)
+        {
+            RunCommand.NotifyCanExecuteChanged();
         }
 
         public int PathCount { get; set; } = 5;
@@ -54,117 +43,49 @@ namespace Som3a_WPF_UI.ViewModels
         public int WbsLevel { get; set; }
         public string WbsName { get; set; }
 
-        public string ProjectName { get; set; } = "No Project Loaded";
+        [ObservableProperty]
+        private string _projectName = "No Project Loaded";
 
+        [ObservableProperty]
         private bool _isLoading;
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set { _isLoading = value; OnPropertyChanged(); }
-        }
 
+        [ObservableProperty]
         private string _graphHtml;
-        public string GraphHtml
-        {
-            get => _graphHtml;
-            set { _graphHtml = value; OnPropertyChanged(); }
-        }
 
-        #endregion
-
-        #region View Mode
-        private void BuildGraphOnly()
-        {
-            var paths = _floatPathService.GetTopPaths(
-                SelectedActivity.Id,
-                _graph,
-                _activities,
-                PathCount,
-                MaxDepth
-            );
-
-            if (paths == null || !paths.Any())
-                return;
-
-            var allActivities = paths
-                .SelectMany(p => p.Activities)
-                .Distinct()
-                .ToList();
-
-            var usedIds = allActivities.Select(a => a.Id).ToHashSet();
-
-            var filteredRels = _graph
-                .Where(k => usedIds.Contains(k.Key))
-                .ToDictionary(
-                    k => k.Key,
-                    k => k.Value.Where(r => usedIds.Contains(r.SuccessorId)).ToList()
-                );
-
-            var jsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytoscape.min.js");
-
-            GraphHtml = _graphService.GenerateGraphHtml(allActivities, filteredRels);
-            SendGraphToUI?.Invoke(GraphHtml);
-        }
         public List<string> ViewModes { get; set; } =
             new() { "WBS View", "Network Graph" };
+
         public bool IsWbsView => SelectedViewMode == "WBS View";
         public bool IsGraphView => SelectedViewMode == "Network Graph";
 
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsWbsView), nameof(IsGraphView))]
         private string _selectedViewMode = "WBS View";
-        public string SelectedViewMode
-        {
-            get => _selectedViewMode;
-            set
-            {
-                _selectedViewMode = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsWbsView));
-                OnPropertyChanged(nameof(IsGraphView));
 
-                // 🔥 الحل هنا
-                if (_selectedViewMode == "Network Graph")
-                {
-                    ShowWbs = false;
-                    SendGraphToUI?.Invoke(GraphHtml);
-                }
-                else
-                {
-                    ShowWbs = true;
-                }
+        partial void OnSelectedViewModeChanged(string value)
+        {
+            if (value == "Network Graph")
+            {
+                ShowWbs = false;
+                SendGraphToUI?.Invoke(GraphHtml);
+            }
+            else
+            {
+                ShowWbs = true;
             }
         }
+
         public void SelectActivityById(string id)
         {
             var act = _activities.FirstOrDefault(a => a.Id == id);
-
             if (act != null)
-            {
                 SelectedActivity = act;
-            }
         }
 
+        [ObservableProperty]
+        private bool _showWbs;
 
-        #endregion
-
-        #region Commands
-
-        public ICommand LoadXerCommand { get; }
-        public ICommand RunCommand { get; }
-
-        #endregion
-
-        public FloatPathViewModel(IServiceContainer container)
-        {
-            _floatPathService = container.Resolve<FloatPathService>();
-            _graphService = container.Resolve<GraphService>();
-            _wbsBuilder = container.Resolve<WbsBuilder>();
-
-            LoadXerCommand = new RelayCommand(LoadXer);
-            RunCommand = new RelayCommand(Run, () => SelectedActivity != null);
-        }
-
-        #region Load
-
+        [RelayCommand]
         private void LoadXer()
         {
             var dialog = new OpenFileDialog
@@ -186,31 +107,22 @@ namespace Som3a_WPF_UI.ViewModels
                 _graph = parser.GetRelationships();
                 _wbsRaw = parser.GetWBS();
 
-                // Activities
                 Activities.Clear();
                 foreach (var a in _activities)
                     Activities.Add(a);
 
-                // WBS Tree
                 var tree = _wbsBuilder.BuildTree(_wbsRaw, _activities);
 
                 WBSItems.Clear();
                 OnPropertyChanged(nameof(WBSItems));
-                // WBS Tree
-
-                WBSItems.Clear();
                 foreach (var item in tree)
                     WBSItems.Add(item);
 
-
-
-                ProjectName = System.IO.Path.GetFileNameWithoutExtension(dialog.FileName);
-                OnPropertyChanged(nameof(ProjectName));
+                ProjectName = Path.GetFileNameWithoutExtension(dialog.FileName);
             }
             catch (System.Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-
             }
             finally
             {
@@ -218,48 +130,16 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        #endregion
-
-        #region Run
-        private bool _showWbs;
-        public bool ShowWbs
-        {
-            get => _showWbs;
-            set
-            {
-                _showWbs = value;
-                OnPropertyChanged(nameof(ShowWbs));
-            }
-        }
-
-        //private bool _showGraph;
-        // public bool ShowGraph
-        // {
-        // get => _showGraph;
-        // set
-        //     {
-        // _showGraph = value;
-        // OnPropertyChanged(nameof(ShowGraph));
-        // }
-        //}
-
-
-
+        [RelayCommand(CanExecute = nameof(CanRun))]
         private void Run()
         {
             if (SelectedViewMode == "WBS View")
-            {
                 ShowWbs = true;
-            }
             else if (SelectedViewMode == "Network Graph")
-            {
                 ShowWbs = false;
-            }
 
             if (SelectedActivity == null)
-            {
                 return;
-            }
 
             try
             {
@@ -273,16 +153,12 @@ namespace Som3a_WPF_UI.ViewModels
                 );
 
                 if (paths == null || !paths.Any())
-                {
                     return;
-                }
 
                 var allActivities = paths
                     .SelectMany(p => p.Activities)
                     .Distinct()
                     .ToList();
-
-
 
                 var usedIds = allActivities.Select(a => a.Id).ToHashSet();
 
@@ -292,7 +168,6 @@ namespace Som3a_WPF_UI.ViewModels
                         k => k.Key,
                         k => k.Value.Where(r => usedIds.Contains(r.SuccessorId)).ToList()
                     );
-                var jsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytoscape.min.js");
 
                 GraphHtml = _graphService.GenerateGraphHtml(allActivities, filteredRels);
                 SendGraphToUI?.Invoke(GraphHtml);
@@ -344,15 +219,15 @@ namespace Som3a_WPF_UI.ViewModels
             }
         }
 
-        #endregion
+        private bool CanRun => SelectedActivity != null;
 
-        #region Event to UI
+        public System.Action<string>? SendGraphToUI;
 
-        public System.Action<string> SendGraphToUI;
-
-        #endregion
-
-        #region INotify
-        #endregion
+        public FloatPathViewModel(IServiceContainer container)
+        {
+            _floatPathService = container.Resolve<FloatPathService>();
+            _graphService = container.Resolve<GraphService>();
+            _wbsBuilder = container.Resolve<WbsBuilder>();
+        }
     }
 }
