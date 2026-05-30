@@ -25,6 +25,8 @@ namespace Som3a_WPF_UI.Pages
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[HomePage] LoadAsync failed: {ex.Message}");
+                _viewModel.ErrorMessage = $"Failed to load dashboard: {ex.Message}";
+                _viewModel.IsErrorVisible = true;
             }
         }
 

@@ -13,6 +13,8 @@ namespace Som3a_WPF_UI.ViewModels
         private readonly IServiceContainer _container;
         private readonly INavigationService _navigationService;
         private bool _isLoading;
+        private string _errorMessage;
+        private bool _isErrorVisible;
 
         public ObservableCollection<WidgetViewModel> Widgets { get; } = new ObservableCollection<WidgetViewModel>();
 
@@ -21,6 +23,20 @@ namespace Som3a_WPF_UI.ViewModels
             get => _isLoading;
             set => SetProperty(ref _isLoading, value);
         }
+
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
+
+        public bool IsErrorVisible
+        {
+            get => _isErrorVisible;
+            set => SetProperty(ref _isErrorVisible, value);
+        }
+
+        public string AppVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0";
 
         public ICommand NavigateToDiagnosticsCommand { get; }
         public ICommand WidgetClickCommand { get; }

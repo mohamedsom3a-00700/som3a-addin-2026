@@ -58,7 +58,7 @@ Brush.{Meaning}
 
 The Assets/Branding/ directory must follow this structure for all tools and consumers:
 
-```
+```text
 Assets/Branding/
 ├── Master/
 │   └── planova-master-brand-reference.png

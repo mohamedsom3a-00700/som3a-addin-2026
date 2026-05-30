@@ -27,7 +27,7 @@ Write-Host "`n[2/3] Large Workbook Support..." -ForegroundColor Cyan
 $bulkPatterns = $false
 $exportCsFiles = Get-ChildItem -Path $exportRoot -Recurse -Filter "*.cs" -ErrorAction SilentlyContinue
 if ($exportCsFiles) {
-    $bulkPatterns = (Select-String -Path $exportCsFiles.FullName -Pattern "Range\.Value2|\.Value\s*=" -SimpleMatch -ErrorAction SilentlyContinue).Count -gt 0
+    $bulkPatterns = (Select-String -Path $exportCsFiles.FullName -Pattern "Range\.Value2|\.Value\s*=" -ErrorAction SilentlyContinue).Count -gt 0
 }
 Write-Result "Bulk Range read/write pattern available" $bulkPatterns ""
 

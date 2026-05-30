@@ -250,6 +250,6 @@ With multiple developers:
 - [Story] label maps task to specific user story for traceability
 - Each user story should be independently completable and testable
 - Brand assets (logos, master reference, ribbon icons, font files) are prerequisites from external designer
-- Namespace migration (Som3a.* → Planova.*) is explicitly deferred to post-stabilization per FR-017
+- Namespace migration (`Som3a.*` → `Planova.*`) is explicitly deferred to post-stabilization per FR-017
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently

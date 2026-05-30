@@ -38,7 +38,6 @@ Per the [Project Constitution](../.specify/memory/constitution.md), every implem
 
 - [x] **I. Library-First Modular Architecture** — Feature adds new theme token dictionaries and brand asset files; no monolithic dictionaries introduced. Resources remain isolated and testable.
 - [x] **III. DynamicResource-Only** — All new brand palette colors and theme properties use DynamicResource. No StaticResource introduced.
-- [x] **III. DynamicResource-Only** — All new brand palette colors and theme properties use DynamicResource. No StaticResource introduced.
 - [x] **IV. Runtime Theme Mutation Governance** — Theme mutation path continues through ThemeManager exclusively. New font switching and background image toggles integrate via ThemeManager.
 - [x] **IX. Animation Governance** — Splash screen startup animation exempt (clarified); runs up to 3s. All runtime UI animations (logo glow, icon transitions) ≤200ms, GPU-safe.
 - [x] **X. Excel Rendering Safety** — Splash screen tested in VSTO host; fallback to static logo if rendering limitations detected. WindowRenderModeDetector respected.

@@ -26,7 +26,7 @@ Write-Result "WorkspaceHost.cs exists" (Test-Path (Join-Path $BuildRoot "Control
 Write-Result "Shell navigation loads without errors" $true "Structural check only — runtime test required"
 
 Write-Host "`n[3/4] RTL Layout..." -ForegroundColor Cyan
-Write-Result "Localization services exist" (Test-Path (Join-Path $BuildRoot "Services\LocalizationService.cs") -or (Test-Path (Join-Path $BuildRoot "..\Som3a.Localization"))) "" ""
+Write-Result "Localization services exist" ((Test-Path (Join-Path $BuildRoot "Services\LocalizationService.cs")) -or (Test-Path (Join-Path $BuildRoot "..\Som3a.Localization"))) ""
 
 Write-Host "`n[4/4] Accessibility Compliance..." -ForegroundColor Cyan
 Write-Result "Focus visual styles exist" (Test-Path (Join-Path $BuildRoot "Theme\Effects\FocusVisual.xaml")) ""

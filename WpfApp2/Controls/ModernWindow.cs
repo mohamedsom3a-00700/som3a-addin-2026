@@ -36,8 +36,21 @@ namespace Som3a_WPF_UI.Controls
             Title = "Planova Platform";
             InitializeWindow();
             SetupCommands();
+            LoadThemeFromSettings();
             SetDefaultIcon();
             ThemeManager.Instance.ThemeChanged += OnThemeChanged;
+        }
+
+        private void LoadThemeFromSettings()
+        {
+            try
+            {
+                ThemeManager.Instance.LoadThemeFromSettings();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[ModernWindow] LoadThemeFromSettings failed: {ex.Message}");
+            }
         }
 
         private void SetDefaultIcon()

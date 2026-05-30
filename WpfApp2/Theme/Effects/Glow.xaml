@@ -49,4 +49,8 @@
         BlurRadius="20" ShadowDepth="0"
         Color="#00D1FF" Opacity="0.35"/>
 
+    <DropShadowEffect x:Key="Glow.Splash.Text"
+        BlurRadius="20" ShadowDepth="0"
+        Color="{DynamicResource AccentColorValue}" Opacity="0.6"/>
+
 </ResourceDictionary>

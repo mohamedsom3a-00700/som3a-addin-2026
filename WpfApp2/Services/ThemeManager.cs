@@ -591,19 +591,18 @@ namespace Som3a_WPF_UI.Services
                 };
 
                 FontFamily fontFamily;
-                if (resourceKey != null && Application.Current.Resources.Contains(resourceKey))
+                if (resourceKey != null && Application.Current.Resources[resourceKey] is FontFamily ff)
                 {
-                    fontFamily = (FontFamily)Application.Current.Resources[resourceKey];
+                    fontFamily = ff;
                 }
                 else
                 {
                     fontFamily = new FontFamily(presetName);
                 }
 
-                _currentFontFamily = presetName;
-                Application.Current.Resources["CustomFontFamily"] = fontFamily;
                 SetResource("CustomFontFamily", fontFamily);
                 SetResource("FontFamily.Active", fontFamily);
+                _currentFontFamily = presetName;
             }
             catch (Exception ex)
             {
@@ -626,8 +625,9 @@ namespace Som3a_WPF_UI.Services
                 var logo = new BitmapImage(new Uri(logoPath));
                 Application.Current.Resources["Logo.ImageSource"] = logo;
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[ThemeManager] ApplyLogo failed for {logoPath}: {ex}");
             }
         }
 
