@@ -84,6 +84,15 @@ namespace Som3a_WPF_UI
 
         private void RunStandalone(StartupEventArgs e)
         {
+            CompositionRoot.RegisterServices(Container);
+            ThemeManager.LoadSettings();
+            ThemeManager.FreezeResources();
+
+            var sidebarRegistration = Container.Resolve<ISidebarRegistrationProvider>();
+            sidebarRegistration.RegisterStaticPages();
+
+            CompositionRoot.InitializeModules(Container.Resolve<Services.IModuleRegistry>());
+
             _pipeClient = new PipeClientService();
 
             int retryCount = 0;
@@ -91,36 +100,48 @@ namespace Som3a_WPF_UI
 
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
             {
-                while (retryCount < maxRetries)
+                try
                 {
-                    var connected = await _pipeClient.ConnectAsync(PipeConstants.HandshakeTimeoutMs);
-                    if (!connected)
+                    while (retryCount < maxRetries)
                     {
+                        var connected = await _pipeClient.ConnectAsync(PipeConstants.HandshakeTimeoutMs);
+                        if (!connected)
+                        {
+                            retryCount++;
+                            System.Diagnostics.Trace.WriteLine($"[Standalone] Connection attempt {retryCount}/{maxRetries} failed. Retrying in {PipeConstants.HandshakeRetryMs}ms...");
+                            await Task.Delay(PipeConstants.HandshakeRetryMs);
+                            continue;
+                        }
+
+                        var handshakeOk = await _pipeClient.PerformHandshakeAsync();
+                        if (handshakeOk)
+                        {
+                            System.Diagnostics.Trace.WriteLine("[Standalone] Handshake succeeded. Showing ShellWindow.");
+                            ShowStandaloneShellWindow();
+                            return;
+                        }
+
                         retryCount++;
-                        System.Diagnostics.Trace.WriteLine($"[Standalone] Connection attempt {retryCount}/{maxRetries} failed. Retrying in {PipeConstants.HandshakeRetryMs}ms...");
+                        System.Diagnostics.Trace.WriteLine($"[Standalone] Handshake attempt {retryCount}/{maxRetries} failed.");
                         await Task.Delay(PipeConstants.HandshakeRetryMs);
-                        continue;
                     }
 
-                    var handshakeOk = await _pipeClient.PerformHandshakeAsync();
-                    if (handshakeOk)
-                    {
-                        System.Diagnostics.Trace.WriteLine("[Standalone] Handshake succeeded. Showing ShellWindow.");
-                        ShowStandaloneShellWindow();
-                        return;
-                    }
-
-                    retryCount++;
-                    System.Diagnostics.Trace.WriteLine($"[Standalone] Handshake attempt {retryCount}/{maxRetries} failed.");
-                    await Task.Delay(PipeConstants.HandshakeRetryMs);
+                    System.Diagnostics.Trace.WriteLine("[Standalone] All handshake attempts failed. Showing error.");
+                    MessageBox.Show(
+                        "Could not connect to Excel. Please ensure Excel is running with the Som3a add-in loaded.\n\nThe application will now exit.",
+                        "Connection Failed",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
-
-                System.Diagnostics.Trace.WriteLine("[Standalone] All handshake attempts failed. Showing error.");
-                MessageBox.Show(
-                    "Could not connect to Excel. Please ensure Excel is running with the Som3a add-in loaded.\n\nThe application will now exit.",
-                    "Connection Failed",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.WriteLine($"[Standalone] Fatal error in startup: {ex}");
+                    MessageBox.Show(
+                        $"An unexpected error occurred during startup:\n\n{ex.Message}\n\nThe application will now exit.",
+                        "Startup Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
                 Current.Shutdown();
             }));
         }

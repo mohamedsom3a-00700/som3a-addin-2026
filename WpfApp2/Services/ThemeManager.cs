@@ -113,7 +113,6 @@ namespace Som3a_WPF_UI.Services
                 "/Som3a_WPF_UI;component/Theme/Base/ZIndex.xaml",
                 "/Som3a_WPF_UI;component/Theme/Base/Opacity.xaml",
                 "/Som3a_WPF_UI;component/Theme/Base/ComponentTokens.xaml",
-                "/Som3a_WPF_UI;component/Theme/MaterialIntegration.xaml",
                 "/Som3a_WPF_UI;component/Theme/Effects/Shadows.xaml",
                 "/Som3a_WPF_UI;component/Theme/Effects/Glow.xaml",
                 "/Som3a_WPF_UI;component/Theme/Effects/Backdrop.xaml",
@@ -141,8 +140,6 @@ namespace Som3a_WPF_UI.Services
                 "/Som3a_WPF_UI;component/Theme/Controls/SettingsPanelStyles.xaml",
                 "/Som3a_WPF_UI;component/Controls/WidgetCardStyles.xaml",
                 "/Som3a_WPF_UI;component/Theme/DashboardWidgetDataTemplates.xaml",
-                "/Som3a_WPF_UI;component/Theme/Controls/MaterialIcons.xaml",
-                "/Som3a_WPF_UI;component/Theme/Controls/MaterialControls.xaml",
                 "/Som3a_WPF_UI;component/Theme/Controls/WindowButtonStyles.xaml",
                 "/Som3a_WPF_UI;component/Theme/ModernWindow.xaml",
                 "/Som3a_WPF_UI;component/Theme/WindowAnimations.xaml",
@@ -179,7 +176,7 @@ namespace Som3a_WPF_UI.Services
                 Application.Current.Resources["WindowStateConverter"] = new Converters.WindowStateConverter();
                 Application.Current.Resources["WindowStateToBoolConverter"] = new Converters.WindowStateToBoolConverter();
                 Application.Current.Resources["InverseWindowStateConverter"] = new Converters.InverseWindowStateConverter();
-                Application.Current.Resources["MaterialIconConverter"] = new Converters.MaterialIconConverter();
+
             }
             catch (Exception ex)
             {
@@ -320,26 +317,6 @@ namespace Som3a_WPF_UI.Services
             if (existingTheme != null)
             {
                 try { dicts.Remove(existingTheme); } catch { }
-            }
-
-            // Swap MaterialDesign theme to match current theme
-            var materialThemeUri = theme == AppTheme.Light
-                ? new Uri("pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml")
-                : new Uri("pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml");
-            var existingMaterial = dicts.FirstOrDefault(d =>
-                d.Source?.ToString().Contains("MaterialDesignTheme.") == true);
-            if (existingMaterial != null)
-            {
-                try
-                {
-                    var idx = dicts.IndexOf(existingMaterial);
-                    dicts[idx] = new ResourceDictionary { Source = materialThemeUri };
-                }
-                catch { }
-            }
-            else
-            {
-                try { dicts.Add(new ResourceDictionary { Source = materialThemeUri }); } catch { }
             }
 
             IsFallbackActive = false;

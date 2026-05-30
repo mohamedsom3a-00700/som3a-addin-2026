@@ -47,7 +47,7 @@
                             <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
                                 <TextBlock x:Name="IconText"
                                            Text="{TemplateBinding Icon}"
-                                           FontFamily="{DynamicResource MaterialDesignFont}"
+                                           FontFamily="Segoe UI"
                                            FontSize="18"
                                            Foreground="{DynamicResource Brush.Accent.Primary}"
                                            VerticalAlignment="Center"
@@ -72,7 +72,7 @@
                                     <ProgressBar IsIndeterminate="True"
                                                  Width="40"
                                                  Height="4"
-                                                 Style="{DynamicResource MaterialDesignLinearProgressBar}"/>
+                                                  />
                                     <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[Common.Loading]}"
                                                Foreground="{DynamicResource Brush.Text.Secondary}"
                                                FontSize="12"
@@ -85,7 +85,7 @@
                                             HorizontalAlignment="Center"
                                             Visibility="Collapsed">
                                     <TextBlock Text="&#xF026;"
-                                               FontFamily="{DynamicResource MaterialDesignFont}"
+                                               FontFamily="Segoe UI"
                                                FontSize="24"
                                                Foreground="{DynamicResource Brush.Accent.Warning}"
                                                HorizontalAlignment="Center"/>

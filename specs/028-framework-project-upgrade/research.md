@@ -105,7 +105,7 @@ If the VSTO add-in directly loads the WpfApp2 assembly (in-process), this will f
 
 ### Mitigation for Phase 1A
 - Document that runtime integration testing (VSTO smoke test) may require Phase 1B changes
-- Verify `dotnet build` succeeds independently for WpfApp2
+- Verify `MSBuild.exe WpfApp2\Som3a_WPF_UI.csproj` succeeds
 - Verify existing test projects pass against the upgraded WpfApp2
 
 ---

@@ -1757,7 +1757,7 @@ Som3a.Shared (Business Logic)
 
 Som3a.Infrastructure (Phase 27 — .NET 8.0 Persistence) [PLANNED]
   └── NuGet: Microsoft.Data.Sqlite 8.0+, System.Text.Json (built-in)
-  └── Depends on: No project references (standalone library)
+  └── Depends on: Project reference: Som3a.Contracts
 ```
 
 ### 6.3. Theme Control Styles (22 files)

@@ -1,7 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at: specs/029-out-of-process-architecture/plan.md
+at: specs/030-nuget-restructure-materialdesign-removal/plan.md
 
 Also refer to the master implementation plans:
 - future-plan-fluent-ui-migration.md — Fluent UI & Modern Platform Migration (Phases 1A-12)
@@ -9,7 +9,7 @@ Also refer to the master implementation plans:
 - enterprise_planning_platform_plan.md — Enterprise Planning Platform Phases 14-27
 
 Current phase plan:
-- specs/029-out-of-process-architecture/plan.md — Phase 1B: Out-of-Process Architecture
+- specs/030-nuget-restructure-materialdesign-removal/plan.md — Phase 1C: NuGet Restructure & MaterialDesign Removal
 <!-- SPECKIT END -->
 
 # Som3a Add-in 2026 — Implementation Notes
