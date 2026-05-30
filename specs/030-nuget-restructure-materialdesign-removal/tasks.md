@@ -105,7 +105,7 @@
 **Purpose**: Documentation, audit preservation, and constitutional compliance verification
 
 - [X] T028 [P] Update `Docs/Audit/phase-1c-removal-audit.md` with final before/after dependency manifest and any deviations encountered during migration
-- [ ] T029 [P] Commit all changes on `fluent/phase-1c` with message: "Phase 1C: Remove MaterialDesign, add FluentIcons.WPF + Wpf.Ui, fix build, verify smoke test"
+- [X] T029 [P] Commit all changes on `fluent/phase-1c` with message: "Phase 1C: Remove MaterialDesign, add FluentIcons.WPF, fix build, verify smoke test"
 - [X] T030 Constitution compliance review — verify: no StaticResource introduced for themeable properties, no inline DropShadowEffect added, ThemeManager untouched, WindowChrome inheritance preserved, resource loading order intact, animations still ≤200ms
 
 ---
