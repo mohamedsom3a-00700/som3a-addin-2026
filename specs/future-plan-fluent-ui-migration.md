@@ -50,6 +50,18 @@ developer ergonomics.
 - CommunityToolkit.Mvvm source generators require C# 10+ / .NET SDK (already on LangVersion 14.0 — safe)
 - Fluent icons need dark/light variant testing in VSTO host
 
+### 5. Settings Page UI (Windows Settings Integration)
+- Persistence infrastructure is built (Phase 27) — `SettingsRecord`, `ISettingsRepository` backed by SQLite
+- Add a **Windows Settings-style page** to manage platform & plugin settings:
+  - Theme (Dark/Light/System) + accent color picker
+  - AI provider configuration (provider, model, API key — DPAPI encrypted)
+  - Plugin management (enable/disable, version info, health status)
+  - Diagnostics & data retention (auto-cleanup schedules, log viewer)
+  - Backup & restore (manual/auto backup, restore from file)
+- Implementation: WPF page within `WpfApp2`, consuming `ISettingsRepository` via bridge
+- Binding: `CommunityToolkit.Mvvm` source generators (Phase A) for SettingsViewModel
+- Must follow existing theme engine (DynamicResource) and WindowChrome/FallbackSafe patterns
+
 ## Dependencies
 
 - .NET Framework 4.8 compatibility of all NuGet packages
