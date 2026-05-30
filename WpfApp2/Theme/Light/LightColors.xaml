@@ -5,34 +5,43 @@
          LIGHT THEME SEMANTIC TOKEN OVERRIDES
          ============================================ -->
 
-    <!-- Background -->
-    <SolidColorBrush x:Key="Brush.Background.Primary" Color="#FAFAFA"/>
-    <SolidColorBrush x:Key="Brush.Background.Primary.Translucent" Color="#80FAFAFA"/>
+    <!-- Background (Light Brand Palette - Engineering White) -->
+    <SolidColorBrush x:Key="Brush.Background.Primary" Color="#F5F7FA"/>
+    <SolidColorBrush x:Key="Brush.Background.Primary.Translucent" Color="#80F5F7FA"/>
     <SolidColorBrush x:Key="Brush.Background.Secondary" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="Brush.Background.Secondary.Translucent" Color="#80FFFFFF"/>
     <SolidColorBrush x:Key="Brush.Background.Card" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="Brush.Background.CardSubtle" Color="#0D000000"/>
+    <SolidColorBrush x:Key="Brush.Window.Background" Color="#F5F7FA"/>
+    <SolidColorBrush x:Key="Brush.Surface.Default" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Border.Default" Color="#D6E2EE"/>
     <LinearGradientBrush x:Key="Brush.Background.Root" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="#FFF0F4F8" Offset="0"/>
         <GradientStop Color="#FFE2E8F0" Offset="1"/>
     </LinearGradientBrush>
 
-    <!-- Text -->
-    <SolidColorBrush x:Key="Brush.Text.Primary" Color="#1A1A1A"/>
+    <!-- Text (Light Brand Palette) -->
+    <SolidColorBrush x:Key="Brush.Text.Primary" Color="#102030"/>
     <SolidColorBrush x:Key="Brush.Text.Secondary" Color="#5B7186"/>
     <SolidColorBrush x:Key="Brush.Text.Disabled" Color="#AAAAAA"/>
     <SolidColorBrush x:Key="Brush.Text.OnAccent" Color="White"/>
 
-    <!-- Accent -->
-    <SolidColorBrush x:Key="Brush.Accent.Primary" Color="#3A86FF"/>
+    <!-- Accent (Light Brand Palette) -->
+    <SolidColorBrush x:Key="Brush.Accent.Primary" Color="#2D9CFF"/>
+    <SolidColorBrush x:Key="Brush.Accent.Cyan" Color="#00B8E6"/>
+    <SolidColorBrush x:Key="Brush.Accent.Orange" Color="#FF8A3D"/>
     <SolidColorBrush x:Key="Brush.Accent.Success" Color="#2ED573"/>
     <SolidColorBrush x:Key="Brush.Accent.Warning" Color="#FFA502"/>
     <SolidColorBrush x:Key="Brush.Accent.Danger" Color="#FF4757"/>
     <SolidColorBrush x:Key="Brush.Accent.Info" Color="#1E90FF"/>
     <LinearGradientBrush x:Key="Brush.Accent.ProgressFill" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="#3A86FF" Offset="0"/>
+        <GradientStop Color="#2D9CFF" Offset="0"/>
         <GradientStop Color="{DynamicResource AccentColorLight}" Offset="1"/>
     </LinearGradientBrush>
+
+    <!-- Brand Effect Tokens (Light) -->
+    <SolidColorBrush x:Key="Brush.Glow.Default" Color="#2D9CFF"/>
+    <SolidColorBrush x:Key="Brush.Effect.GlassBorder" Color="#C8D8E8"/>
 
     <!-- Stroke -->
     <SolidColorBrush x:Key="Brush.Stroke.Card" Color="#1A000000"/>
@@ -98,8 +107,8 @@
     <!-- ============================================
          LEGACY FLAT KEYS (Light theme)
          ============================================ -->
-    <SolidColorBrush x:Key="AccentBrush" Color="#3A86FF"/>
-    <SolidColorBrush x:Key="BackgroundBrush" Color="#FAFAFA"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="#2D9CFF"/>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#F5F7FA"/>
     <SolidColorBrush x:Key="CardBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="TextMainBrush" Color="#1A1A1A"/>

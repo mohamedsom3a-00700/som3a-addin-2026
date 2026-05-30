@@ -59,10 +59,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppTitle" xml:space="preserve">
-    <value>Som3a Enterprise Planning Platform</value>
+    <value>Planova Enterprise Planning Platform</value>
   </data>
   <data name="Shell.Title" xml:space="preserve">
-    <value>Som3a Add-in</value>
+    <value>Planova Add-in</value>
   </data>
   <data name="Shell.Status.Ready" xml:space="preserve">
     <value>Ready</value>
@@ -134,7 +134,7 @@
     <value>Cancel</value>
   </data>
   <data name="Settings.Footer" xml:space="preserve">
-    <value>Som3a Add-in Settings</value>
+    <value>Planova Add-in Settings</value>
   </data>
   <data name="Settings.Unsaved.Title" xml:space="preserve">
     <value>Unsaved Changes</value>
@@ -146,7 +146,7 @@
     <value>Dashboard</value>
   </data>
   <data name="Dashboard.Welcome" xml:space="preserve">
-    <value>Welcome to Som3a Enterprise Planning Platform</value>
+    <value>Welcome to Planova Enterprise Planning Platform</value>
   </data>
   <data name="Dashboard.QuickActions" xml:space="preserve">
     <value>Quick Actions</value>
@@ -274,11 +274,14 @@
   <data name="DiagnosticsPage.RunValidation" xml:space="preserve">
     <value>Run Validation</value>
   </data>
+  <data name="DiagnosticsPage.MemoryUnit" xml:space="preserve">
+    <value>MB</value>
+  </data>
   <data name="WelcomePage.Title" xml:space="preserve">
     <value>Welcome</value>
   </data>
   <data name="WelcomePage.WelcomeMessage" xml:space="preserve">
-    <value>Welcome to Som3a Add-in</value>
+    <value>Welcome to Planova Add-in</value>
   </data>
   <data name="WelcomePage.Instruction" xml:space="preserve">
     <value>Select a feature from the sidebar to get started.</value>
@@ -354,6 +357,9 @@
   </data>
   <data name="DurationEstimatorPage.Search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="DurationEstimatorPage.PerDayCrew" xml:space="preserve">
+    <value>/day, crew=</value>
   </data>
   <data name="RelationshipGeneratorPage.Title" xml:space="preserve">
     <value>Relationship Generator</value>
@@ -1121,7 +1127,7 @@
     <value>Settings Panel Content</value>
   </data>
   <data name="SettingsPage.FooterText" xml:space="preserve">
-    <value>Som3a Add-in Settings</value>
+    <value>Planova Add-in Settings</value>
   </data>
   <data name="SettingsPage.Export" xml:space="preserve">
     <value>Export</value>

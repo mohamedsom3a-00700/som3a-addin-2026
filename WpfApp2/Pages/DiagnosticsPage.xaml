@@ -55,11 +55,15 @@
                     <StackPanel>
                         <TextBlock Foreground="{DynamicResource Brush.Text.Primary}" FontSize="14" Margin="0,0,0,4">
                             <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPage.WorkingSetLabel]}" Foreground="{DynamicResource Brush.Text.Secondary}"/>
-                            <Run Text="{Binding CurrentSnapshot.MemoryWorkingSetMB, StringFormat='{}{0:F1} MB', Mode=OneWay}"/>
+                            <Run Text="{Binding CurrentSnapshot.MemoryWorkingSetMB, StringFormat='{}{0:F1}', Mode=OneWay}"/>
+                            <Run Text=" "/>
+                            <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPage.MemoryUnit]}"/>
                         </TextBlock>
                         <TextBlock Foreground="{DynamicResource Brush.Text.Primary}" FontSize="14">
                             <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPage.ManagedLabel]}" Foreground="{DynamicResource Brush.Text.Secondary}"/>
-                            <Run Text="{Binding CurrentSnapshot.MemoryManagedMB, StringFormat='{}{0:F1} MB', Mode=OneWay}"/>
+                            <Run Text="{Binding CurrentSnapshot.MemoryManagedMB, StringFormat='{}{0:F1}', Mode=OneWay}"/>
+                            <Run Text=" "/>
+                            <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DiagnosticsPage.MemoryUnit]}"/>
                         </TextBlock>
                     </StackPanel>
                 </controls:WidgetCard>

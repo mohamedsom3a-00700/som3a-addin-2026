@@ -14,7 +14,7 @@ namespace Som3a.Diagnostics
 
         public CrashDiagnosticsCollector(string crashReportPath)
         {
-            _crashReportPath = crashReportPath;
+            _crashReportPath = Environment.ExpandEnvironmentVariables(crashReportPath);
             _recentOperations = new List<DiagnosticEvent>();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
@@ -29,9 +29,26 @@ namespace Som3a.Diagnostics
             }
         }
 
+        private static string SanitizeExceptionDetail(string detail)
+        {
+            if (string.IsNullOrEmpty(detail))
+                return detail;
+            var sanitized = detail
+                .Replace(Environment.UserName, "<USER>")
+                .Replace(Environment.MachineName, "<MACHINE>");
+            foreach (var path in Environment.GetLogicalDrives())
+                sanitized = sanitized.Replace(path, "<DRIVE>");
+            return sanitized;
+        }
+
         public DiagnosticsSnapshot CaptureSnapshot(Exception? ex = null)
         {
             var proc = Process.GetCurrentProcess();
+            int recentOpCount;
+            lock (_recentOperations)
+            {
+                recentOpCount = _recentOperations.Count;
+            }
             var snapshot = new DiagnosticsSnapshot
             {
                 CapturedAt = DateTimeOffset.UtcNow,
@@ -39,7 +56,7 @@ namespace Som3a.Diagnostics
                 Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0",
                 MemoryUsageBytes = proc.WorkingSet64,
                 Uptime = DateTime.Now - proc.StartTime,
-                ActiveOperationCount = _recentOperations.Count,
+                ActiveOperationCount = recentOpCount,
                 Metrics = new Dictionary<string, object>
                 {
                     ["process.id"] = proc.Id,
@@ -49,17 +66,17 @@ namespace Som3a.Diagnostics
                     ["runtime.version"] = RuntimeInformation.FrameworkDescription,
                     ["active.plugins"] = AppDomain.CurrentDomain.GetAssemblies()
                         .Count(a => a.FullName?.StartsWith("Som3a.") == true),
-                    ["recent.operations"] = _recentOperations.Count
+                    ["recent.operations"] = recentOpCount
                 }
             };
 
             if (ex != null)
             {
-                snapshot.Metrics["error.type"] = ex.GetType().FullName ?? "Unknown";
-                snapshot.Metrics["error.message"] = ex.Message;
-                snapshot.Metrics["error.stacktrace"] = ex.ToString();
+                snapshot.Metrics["error.type"] = SanitizeExceptionDetail(ex.GetType().FullName ?? "Unknown");
+                snapshot.Metrics["error.message"] = SanitizeExceptionDetail(ex.Message);
+                snapshot.Metrics["error.stacktrace"] = SanitizeExceptionDetail(ex.ToString());
                 if (ex.InnerException != null)
-                    snapshot.Metrics["error.inner"] = ex.InnerException.Message;
+                    snapshot.Metrics["error.inner"] = SanitizeExceptionDetail(ex.InnerException.Message);
             }
 
             return snapshot;
@@ -70,7 +87,8 @@ namespace Som3a.Diagnostics
             Directory.CreateDirectory(_crashReportPath);
 
             var timestamp = snapshot.CapturedAt.ToString("yyyyMMdd-HHmmss");
-            var fileName = $"crash-{timestamp}.json";
+            var guid = Guid.NewGuid().ToString("N")[..8];
+            var fileName = $"crash-{timestamp}-{guid}.json";
             var filePath = Path.Combine(_crashReportPath, fileName);
 
             var exportData = new
@@ -89,7 +107,9 @@ namespace Som3a.Diagnostics
                 WriteIndented = true
             });
 
-            await File.WriteAllTextAsync(filePath, json);
+            using var fs = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.None);
+            using var sw = new StreamWriter(fs);
+            await sw.WriteAsync(json);
             return filePath;
         }
 

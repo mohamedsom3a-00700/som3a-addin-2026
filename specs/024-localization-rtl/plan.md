@@ -1,95 +1,122 @@
-# Implementation Plan: Localization & RTL
+# Implementation Plan: [FEATURE]
 
-**Branch**: `025-localization-rtl` | **Date**: 2026-05-29 | **Spec**: [spec.md](spec.md)
+**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
 
-**Input**: Feature specification from `/specs/024-localization-rtl/spec.md`
+**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+
+**Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/plan-template.md` for the execution workflow.
 
 ## Summary
 
-Implement full Arabic + English localization with dynamic RTL switching, Arabic typography presets, and culture-aware formatting for the Som3a WPF Shell workspace. Shell/Settings/Dashboard/error messages must be 100% translated before shipping; plugin UI may use English fallback.
+[Extract from feature spec: primary requirement + technical approach from research]
 
 ## Technical Context
 
-**Language/Version**: C# — .NET Framework 4.8 for WPF/VSTO host, .NET 8.0 for Som3a.Localization library
+<!--
+  ACTION REQUIRED: Replace the content in this section with the technical details
+  for the project. The structure here is presented in advisory capacity to guide
+  the iteration process.
+-->
 
-**Primary Dependencies**: Som3a.Localization (existing .resx-based project), LocalizationService, CultureManager, RTLHelper
+**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
 
-**Storage**: .resx resource files (English default, Arabic translations), language preference persisted in Properties.Settings.Default
+**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
 
-**Testing**: Manual visual verification (language switch, RTL mirroring, Arabic typography), automated UI tests for FlowDirection/culture formatting, Excel VSTO host validation in both languages
+**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 
-**Target Platform**: Windows x64 — Excel VSTO Add-in host (.NET Framework 4.8)
+**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
 
-**Project Type**: Desktop application (WPF VSTO Add-in)
+**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
 
-**Performance Goals**: Language switch completes in under 1s, RTL layout mirroring completes in under 500ms, font switch completes in under 200ms
+**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
 
-**Constraints**: No restart required for language switch, DynamicResource-only for themeable properties, Excel rendering safety (Constitution §X), RTL applies to Shell only (Excel ribbon/interop remains LTR)
+**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
 
-**Scale/Scope**: 2 languages (English + Arabic), 20+ static UI areas translated, all future new UI must include both English and Arabic resource entries
+**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
+
+**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-Per the [Project Constitution](../.specify/memory/constitution.md), every implementation plan MUST verify:
+Per the [Project Constitution](../memory/constitution.md), every implementation plan MUST verify:
 
-- [x] **I. Library-First Modular Architecture** — Localization resources are organized in Som3a.Localization project with isolated .resx files per language. No monolithic dictionaries.
-- [x] **III. DynamicResource-Only** — Localization uses string resources, not theme brushes. No StaticResource usage for themeable properties.
-- [x] **IV. Runtime Theme Mutation Governance** — Localization does not mutate themes. Language switching flows through LocalizationService, not ThemeManager.
-- [x] **IX. Animation Governance** — Language/RTL switch animations (if any) will be ≤200ms, GPU-safe, no layout thrashing.
-- [x] **X. Excel Rendering Safety** — RTL scoped to Shell workspace only. Excel ribbon and VSTO interop controls remain LTR to prevent Excel stability issues. WindowRenderModeDetector fallback path preserved.
-- [x] **XI. WindowChrome Enforcement** — No new windows introduced. All localization occurs within existing Shell pages and ModernWindow instances.
-- [x] **XII. Centralized Effects** — No new effects introduced by this feature.
-- [x] **XV. Resource Loading Order** — No new resource dictionaries introduced. .resx files loaded via standard .NET resource manager, not WPF MergedDictionaries.
+- [ ] **I. Library-First Modular Architecture** — Feature introduces no monolithic dictionaries; resources remain isolated and testable.
+- [ ] **III. DynamicResource-Only** — No StaticResource used for themeable brushes, colors, borders, effects.
+- [ ] **IV. Runtime Theme Mutation Governance** — Theme mutation path goes through ThemeManager exclusively.
+- [ ] **IX. Animation Governance** — Animations ≤200ms, GPU-safe, no layout thrashing.
+- [ ] **X. Excel Rendering Safety** — WindowRenderModeDetector considered; fallback mode documented if needed.
+- [ ] **XI. WindowChrome Enforcement** — New windows inherit ModernWindow; WindowChrome is primary.
+- [ ] **XII. Centralized Effects** — No inline DropShadowEffect; effects sourced from Effects/Shadows.xaml.
+- [ ] **XV. Resource Loading Order** — New dictionaries follow the prescribed loading sequence.
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/024-localization-rtl/
-├── plan.md              # This file
-├── research.md          # Phase 0 — key decisions
-├── data-model.md        # Phase 1 — entities and contracts
-├── quickstart.md        # Phase 1 — developer guide
-├── contracts/           # Phase 1 — interface definitions
-├── checklists/          # Spec quality artifacts
-└── tasks.md             # Created by /speckit.tasks
+specs/[###-feature]/
+├── plan.md              # This file (/speckit.plan command output)
+├── research.md          # Phase 0 output (/speckit.plan command)
+├── data-model.md        # Phase 1 output (/speckit.plan command)
+├── quickstart.md        # Phase 1 output (/speckit.plan command)
+├── contracts/           # Phase 1 output (/speckit.plan command)
+└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
 ```
 
 ### Source Code (repository root)
+<!--
+  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
+  for this feature. Delete unused options and expand the chosen structure with
+  real paths (e.g., apps/admin, packages/something). The delivered plan must
+  not include Option labels.
+-->
 
 ```text
-Som3a.Localization/                              # .NET 8.0 — existing project
-├── Resources/
-│   ├── Strings.en-US.resx                       # English resources
-│   └── Strings.ar-SA.resx                       # Arabic resources
-├── Services/
-│   ├── LocalizationService.cs                   # Existing — extend for dynamic switching
-│   └── CultureManager.cs                        # Existing — extend for RTL sync
-└── RTL/
-    └── RTLHelper.cs                             # Existing — extend for full Shell mirroring
+# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+src/
+├── models/
+├── services/
+├── cli/
+└── lib/
 
-WpfApp2/                                         # .NET Framework 4.8 — VSTO host
-├── Services/
-│   └── LocalizationBridgeService.cs             # NEW — bridges .NET 8.0 localization to WPF
-├── Theme/
-│   └── Fonts/
-│       ├── ArabicFonts.xaml                     # NEW — Arabic font family resource dict
-│       └── FontFallback.xaml                    # NEW — Arabic->Latin fallchain
-├── Pages/
-│   └── Settings/
-│       └── LanguagePage.xaml                    # NEW — language picker + font selection
-├── Converters/
-│   └── CultureAwareFormattingConverter.cs       # NEW — number/date/currency formatting
-└── Controls/
-    └── Shell/
-        └── ShellRTLManager.cs                  # NEW — manages FlowDirection per Shell window
+tests/
+├── contract/
+├── integration/
+└── unit/
+
+# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
+backend/
+├── src/
+│   ├── models/
+│   ├── services/
+│   └── api/
+└── tests/
+
+frontend/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── services/
+└── tests/
+
+# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
+api/
+└── [same as backend above]
+
+ios/ or android/
+└── [platform-specific structure: feature modules, UI flows, platform tests]
 ```
 
-**Structure Decision**: The existing WPF host projects remain unchanged for their core layout. New files are added to existing `Som3a.Localization` and `WpfApp2` directories without restructuring. This is the simplest approach — no new projects, no architectural disruption.
+**Structure Decision**: [Document the selected structure and reference the real
+directories captured above]
 
 ## Complexity Tracking
 
-> No constitution violations to justify.
+> **Fill ONLY if Constitution Check has violations that must be justified**
+
+| Violation | Why Needed | Simpler Alternative Rejected Because |
+|-----------|------------|-------------------------------------|
+| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |

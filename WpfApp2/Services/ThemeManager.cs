@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Som3a_WPF_UI.Models;
 using Som3a_WPF_UI.Properties;
@@ -362,6 +363,7 @@ namespace Som3a_WPF_UI.Services
 
             ApplyBackground(_backgroundImagePath, _backgroundBlurIntensity);
             ApplyFont(_currentFontFamily);
+            ApplyLogo();
 
             if (!string.IsNullOrEmpty(effectiveAccent))
             {
@@ -565,6 +567,67 @@ namespace Som3a_WPF_UI.Services
                     SetResource("CustomFontFamily", fallbackFont);
                 }
                 catch { }
+            }
+        }
+
+        public void ApplyFontPreset(string presetName)
+        {
+            if (string.IsNullOrEmpty(presetName))
+            {
+                ApplyFont("Segoe UI");
+                return;
+            }
+
+            try
+            {
+                var resourceKey = presetName switch
+                {
+                    "Inter" => "FontFamily.Inter",
+                    "Segoe UI Variable" => "FontFamily.SegoeUIVariable",
+                    "Cairo" => "FontFamily.Cairo",
+                    "IBM Plex Sans Arabic" => "FontFamily.IBMPlexSansArabic",
+                    "Tajawal" => "FontFamily.Tajawal",
+                    _ => null
+                };
+
+                FontFamily fontFamily;
+                if (resourceKey != null && Application.Current.Resources.Contains(resourceKey))
+                {
+                    fontFamily = (FontFamily)Application.Current.Resources[resourceKey];
+                }
+                else
+                {
+                    fontFamily = new FontFamily(presetName);
+                }
+
+                _currentFontFamily = presetName;
+                Application.Current.Resources["CustomFontFamily"] = fontFamily;
+                SetResource("CustomFontFamily", fontFamily);
+                SetResource("FontFamily.Active", fontFamily);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Log("WARN", "Font", $"Failed to apply font preset '{presetName}': {ex.Message}", "ThemeManager");
+                ApplyFont("Segoe UI");
+            }
+        }
+
+        private void ApplyLogo()
+        {
+            if (Application.Current?.Resources == null) return;
+
+            var isDark = _currentTheme == AppTheme.Dark || _currentTheme == AppTheme.Custom;
+            var logoPath = isDark
+                ? "pack://application:,,,/Som3a_WPF_UI;component/Assets/Branding/Logos/Dark/Logo-Dark.png"
+                : "pack://application:,,,/Som3a_WPF_UI;component/Assets/Branding/Logos/Light/Logo-Light.png";
+
+            try
+            {
+                var logo = new BitmapImage(new Uri(logoPath));
+                Application.Current.Resources["Logo.ImageSource"] = logo;
+            }
+            catch
+            {
             }
         }
 

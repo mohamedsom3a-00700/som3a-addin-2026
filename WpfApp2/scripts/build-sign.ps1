@@ -3,9 +3,8 @@ param(
     [string]$BuildOutputDir,
     [Parameter(Mandatory = $true)]
     [string]$CertFile,
-    [Parameter(Mandatory = $true)]
-    [string]$CertPassword,
-    [string]$TimestampServer = "http://timestamp.digicert.com",
+    [securestring]$CertPassword,
+    [string]$TimestampServer = "https://timestamp.digicert.com",
     [switch]$Quiet
 )
 
@@ -15,6 +14,15 @@ function Write-Step {
     param([string]$Msg)
     if (-not $Quiet) { Write-Host "`n>> $Msg" -ForegroundColor Cyan }
 }
+
+function Get-PlaintextPassword {
+    param([securestring]$SecureString)
+    $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureString)
+    try { return [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr) }
+    finally { [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr) }
+}
+
+$plainPassword = Get-PlaintextPassword $CertPassword
 
 function Invoke-Native {
     param([string]$FilePath, [string[]]$ArgumentList)
@@ -49,7 +57,7 @@ foreach ($dll in $dllFiles) {
     Invoke-Native -FilePath $signtool -ArgumentList @(
         "sign", "/fd", "SHA256", "/a",
         "/f", $CertFile,
-        "/p", $CertPassword,
+        "/p", $plainPassword,
         "/tr", $TimestampServer,
         "/td", "SHA256",
         "`"$($dll.FullName)`""
@@ -66,7 +74,7 @@ if (Test-Path $manifestPath) {
     Invoke-Native -FilePath $mage -ArgumentList @(
         "-Sign", "`"$manifestPath`"",
         "-CertFile", $CertFile,
-        "-Password", $CertPassword
+        "-Password", $plainPassword
     )
     Write-Host "Signed: $manifestPath" -ForegroundColor Green
 
@@ -77,7 +85,8 @@ if (Test-Path $manifestPath) {
         Invoke-Native -FilePath $mage -ArgumentList @(
             "-Update", "`"$vstoPath`"",
             "-AppManifest", "`"$manifestPath`"",
-            "-CertFile", $CertFile
+            "-CertFile", $CertFile,
+            "-Password", $plainPassword
         )
         Write-Host "Updated: $vstoPath" -ForegroundColor Green
     }
@@ -92,7 +101,7 @@ foreach ($msi in $msiFiles) {
     Invoke-Native -FilePath $signtool -ArgumentList @(
         "sign", "/fd", "SHA256", "/a",
         "/f", $CertFile,
-        "/p", $CertPassword,
+        "/p", $plainPassword,
         "/tr", $TimestampServer,
         "/td", "SHA256",
         "`"$($msi.FullName)`""

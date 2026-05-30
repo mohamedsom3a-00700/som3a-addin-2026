@@ -34,6 +34,23 @@
     <!-- Orange family -->
     <Color x:Key="Primitive.Orange.500">#FFA502</Color>
 
+    <!-- ============================================
+         BRAND PALETTE (Planova Platform)
+         Primitive brand tokens for rebranding.
+         Dark values are default; light values are
+         provided by theme overrides.
+         ============================================ -->
+    <Color x:Key="Primitive.Brand.Background">#0E1720</Color>
+    <Color x:Key="Primitive.Brand.Surface">#13202B</Color>
+    <Color x:Key="Primitive.Brand.Border">#243647</Color>
+    <Color x:Key="Primitive.Brand.AccentBlue">#2D9CFF</Color>
+    <Color x:Key="Primitive.Brand.AccentCyan">#00D1FF</Color>
+    <Color x:Key="Primitive.Brand.AccentOrange">#FF8A3D</Color>
+    <Color x:Key="Primitive.Brand.TextPrimary">#FFFFFF</Color>
+    <Color x:Key="Primitive.Brand.TextSecondary">#B7C5D3</Color>
+    <Color x:Key="Primitive.Brand.BlueprintGlow">#00D1FF</Color>
+    <Color x:Key="Primitive.Brand.GlassBorder">#2A3F52</Color>
+
     <!-- Red family -->
     <Color x:Key="Primitive.Red.500">#FF4757</Color>
 
@@ -142,15 +159,24 @@
     <SolidColorBrush x:Key="Brush.Text.OnAccent" Color="{StaticResource Color.Text.OnAccent}"/>
 
     <!-- Accent -->
-    <SolidColorBrush x:Key="Brush.Accent.Primary" Color="{StaticResource Primitive.Blue.500}"/>
+    <SolidColorBrush x:Key="Brush.Accent.Primary" Color="{StaticResource Primitive.Brand.AccentBlue}"/>
+    <SolidColorBrush x:Key="Brush.Accent.Cyan" Color="{StaticResource Primitive.Brand.AccentCyan}"/>
+    <SolidColorBrush x:Key="Brush.Accent.Orange" Color="{StaticResource Primitive.Brand.AccentOrange}"/>
     <SolidColorBrush x:Key="Brush.Accent.Success" Color="{StaticResource Primitive.Green.500}"/>
     <SolidColorBrush x:Key="Brush.Accent.Warning" Color="{StaticResource Primitive.Orange.500}"/>
     <SolidColorBrush x:Key="Brush.Accent.Danger" Color="{StaticResource Primitive.Red.500}"/>
     <SolidColorBrush x:Key="Brush.Accent.Info" Color="{StaticResource Primitive.Blue.600}"/>
     <LinearGradientBrush x:Key="Brush.Accent.ProgressFill" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="{StaticResource Primitive.Blue.500}" Offset="0"/>
+        <GradientStop Color="{StaticResource Primitive.Brand.AccentBlue}" Offset="0"/>
         <GradientStop Color="{DynamicResource AccentColorLight}" Offset="1"/>
     </LinearGradientBrush>
+
+    <!-- Brand Window / Surface / Border -->
+    <SolidColorBrush x:Key="Brush.Window.Background" Color="{StaticResource Primitive.Brand.Background}"/>
+    <SolidColorBrush x:Key="Brush.Surface.Default" Color="{StaticResource Primitive.Brand.Surface}"/>
+    <SolidColorBrush x:Key="Brush.Border.Default" Color="{StaticResource Primitive.Brand.Border}"/>
+    <SolidColorBrush x:Key="Brush.Glow.Default" Color="{StaticResource Primitive.Brand.BlueprintGlow}"/>
+    <SolidColorBrush x:Key="Brush.Effect.GlassBorder" Color="{StaticResource Primitive.Brand.GlassBorder}"/>
 
     <!-- Stroke -->
     <SolidColorBrush x:Key="Brush.Stroke.Card" Color="{StaticResource Primitive.White.20}"/>

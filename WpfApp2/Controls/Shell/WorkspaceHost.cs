@@ -146,6 +146,7 @@ namespace Som3a_WPF_UI.Controls.Shell
                                 ? FlowDirection.RightToLeft
                                 : FlowDirection.LeftToRight;
                             _frame.Navigate(page);
+                            return;
                         }
                     }
                 }
@@ -153,6 +154,7 @@ namespace Som3a_WPF_UI.Controls.Shell
                 {
                     ShowError(ex.Message, () => LazyNavigate(pageFactory));
                 }
+                Interlocked.Exchange(ref _isNavigating, 0);
             }), System.Windows.Threading.DispatcherPriority.Background);
 
             if (!_isFirstNavigation)

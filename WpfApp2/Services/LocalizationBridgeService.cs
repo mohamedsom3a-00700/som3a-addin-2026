@@ -16,7 +16,7 @@ namespace Som3a_WPF_UI.Services
 
         public static LocalizationBridgeService Instance => _instance.Value;
 
-        private string _currentLanguageCode = "ar-SA";
+        private string _currentLanguageCode = "en-US";
         private readonly Dictionary<string, Dictionary<string, string>> _resourceCache = new();
 
         public event EventHandler<LanguageChangedEventArgs> LanguageChanged;

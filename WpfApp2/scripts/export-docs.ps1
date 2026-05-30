@@ -25,7 +25,7 @@ $repoRoot = Resolve-Path (Join-Path $scriptDir "..")
 if (-not $Version) {
     $asmPath = Join-Path $repoRoot "Properties\AssemblyInfo.cs"
     if (Test-Path $asmPath) {
-        $match = [regex]::Match((Get-Content $asmPath -Raw), 'AssemblyVersion\("(\d+\.\d+\.\d+)"\)')
+        $match = [regex]::Match((Get-Content $asmPath -Raw), 'AssemblyVersion\("(\d+\.\d+\.\d+(?:\.\d+)?)"\)')
         if ($match.Success) { $Version = $match.Groups[1].Value }
     }
     if (-not $Version) { $Version = "1.0.0" }
@@ -93,11 +93,10 @@ $manifest = @{
     exportedAt = (Get-Date -Format "o")
     guides = $exportedGuides
 }
-$manifestPath = Join-Path $OutputDir "..\docs-manifest.json"
-$manifest | ConvertTo-Json -Depth 3 | Set-Content (Resolve-Path (Join-Path $OutputDir ".."))\docs-manifest.json 2>$null
-if (-not (Test-Path $manifestPath)) {
-    $manifest | ConvertTo-Json -Depth 3 | Set-Content (Join-Path (Split-Path $OutputDir) "docs-manifest.json")
-}
+$manifestParent = Split-Path $OutputDir -Parent
+if (-not (Test-Path $manifestParent)) { New-Item -ItemType Directory -Path $manifestParent -Force | Out-Null }
+$manifestPath = Join-Path $manifestParent "docs-manifest.json"
+$manifest | ConvertTo-Json -Depth 3 | Set-Content $manifestPath -Force
 
 Write-Host "`n========================================" -ForegroundColor Cyan
 Write-Host "Documentation export complete (v$Version)" -ForegroundColor Cyan

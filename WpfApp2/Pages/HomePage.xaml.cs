@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using Som3a_WPF_UI.ViewModels;
 
@@ -17,7 +18,14 @@ namespace Som3a_WPF_UI.Pages
         protected override async void OnPageLoaded(object sender, RoutedEventArgs e)
         {
             base.OnPageLoaded(sender, e);
-            await _viewModel.LoadAsync();
+            try
+            {
+                await _viewModel.LoadAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[HomePage] LoadAsync failed: {ex.Message}");
+            }
         }
 
         protected override void OnPageUnloaded(object sender, RoutedEventArgs e)

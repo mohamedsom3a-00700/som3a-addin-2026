@@ -457,5 +457,11 @@
     </ItemGroup>
     <Copy SourceFiles="@(AIHostFiles)" DestinationFolder="$(AIHostTarget)" SkipUnchangedFiles="true" />
   </Target>
+  <Target Name="CopyWallpapers" AfterTargets="AfterBuild">
+    <ItemGroup>
+      <_WallpaperFiles Include="..\WpfApp2\Assets\Branding\Wallpapers\*.png" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_WallpaperFiles)" DestinationFolder="$(OutDir)Wallpaper" SkipUnchangedFiles="true" />
+  </Target>
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.4.2\build\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.4.2\build\CommunityToolkit.Mvvm.targets')" />
 </Project>

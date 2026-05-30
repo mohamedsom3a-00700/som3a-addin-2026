@@ -255,24 +255,18 @@ namespace Som3a_WPF_UI.ViewModels
                         "WpfApp2", "Wallpaper"),
                 };
 
-                string wallpaperDir = null;
+                var extensions = new[] { ".png", ".jpg", ".jpeg", ".bmp" };
+                var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
                 foreach (var dir in candidates)
                 {
-                    if (System.IO.Directory.Exists(dir))
+                    if (!System.IO.Directory.Exists(dir)) continue;
+                    foreach (var file in System.IO.Directory.GetFiles(dir))
                     {
-                        wallpaperDir = dir;
-                        break;
-                    }
-                }
+                        var ext = System.IO.Path.GetExtension(file).ToLowerInvariant();
+                        if (Array.IndexOf(extensions, ext) < 0) continue;
+                        if (!seen.Add(file)) continue;
 
-                if (wallpaperDir == null) return;
-
-                var extensions = new[] { ".png", ".jpg", ".jpeg", ".bmp" };
-                foreach (var file in System.IO.Directory.GetFiles(wallpaperDir))
-                {
-                    var ext = System.IO.Path.GetExtension(file).ToLowerInvariant();
-                    if (Array.IndexOf(extensions, ext) >= 0)
-                    {
                         var thumb = CreateThumbnail(file, 240, 144);
                         WallpaperImages.Add(new WallpaperItem
                         {

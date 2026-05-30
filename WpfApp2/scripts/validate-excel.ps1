@@ -17,14 +17,27 @@ Write-Host "Excel Validation Suite" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 
 Write-Host "`n[1/3] Export Speed (SC-008 targets)..." -ForegroundColor Cyan
-Write-Result "Som3a.Exporting project exists" (Test-Path "..\Som3a.Exporting") ""
-Write-Result "Excel export engine exists" $true "Structural check — runtime benchmark required"
+$exportRoot = Join-Path $BuildRoot "..\Som3a.Exporting"
+$exportExists = Test-Path $exportRoot
+Write-Result "Som3a.Exporting project exists" $exportExists ""
+$engineExists = $exportExists -and (Test-Path (Join-Path $exportRoot "Excel"))
+Write-Result "Excel export engine exists" $engineExists ""
 
 Write-Host "`n[2/3] Large Workbook Support..." -ForegroundColor Cyan
-Write-Result "Bulk Range read/write pattern available" $true "Structural check — runtime test required"
+$bulkPatterns = $false
+$exportCsFiles = Get-ChildItem -Path $exportRoot -Recurse -Filter "*.cs" -ErrorAction SilentlyContinue
+if ($exportCsFiles) {
+    $bulkPatterns = (Select-String -Path $exportCsFiles.FullName -Pattern "Range\.Value2|\.Value\s*=" -SimpleMatch -ErrorAction SilentlyContinue).Count -gt 0
+}
+Write-Result "Bulk Range read/write pattern available" $bulkPatterns ""
 
 Write-Host "`n[3/3] Interop Resource Cleanup..." -ForegroundColor Cyan
-Write-Result "COM cleanup patterns present" $true "Structural check — runtime test required"
+$comCleanup = $false
+$allCsFiles = Get-ChildItem -Path $BuildRoot -Recurse -Filter "*.cs" -ErrorAction SilentlyContinue
+if ($allCsFiles) {
+    $comCleanup = (Select-String -Path $allCsFiles.FullName -Pattern "ReleaseComObject" -SimpleMatch -ErrorAction SilentlyContinue).Count -gt 0
+}
+Write-Result "COM cleanup patterns present" $comCleanup ""
 
 Write-Host "`n========================================" -ForegroundColor Cyan
 $total = $script:results.passed + $script:results.failed
