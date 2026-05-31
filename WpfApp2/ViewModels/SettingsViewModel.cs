@@ -682,7 +682,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "appearance",
                 DisplayName = "Appearance",
-                Icon = "Palette",
+                Icon = "Colors",
                 PanelType = typeof(Views.AppearancePanel),
                 Order = 1
             });
@@ -690,7 +690,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "performance",
                 DisplayName = "Performance",
-                Icon = "Speedometer",
+                Icon = "Gauge",
                 PanelType = typeof(Views.PerformancePanel),
                 Order = 2
             });
@@ -698,7 +698,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "accessibility",
                 DisplayName = "Accessibility",
-                Icon = "Human",
+                Icon = "Person",
                 PanelType = typeof(Views.AccessibilityPanel),
                 Order = 3
             });
@@ -714,7 +714,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "excel",
                 DisplayName = "Excel",
-                Icon = "FileExcel",
+                Icon = "Table",
                 PanelType = typeof(Views.ExcelPanel),
                 Order = 5
             });
@@ -730,7 +730,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "wbs",
                 DisplayName = "WBS Engine",
-                Icon = "Sitemap",
+                Icon = "Org",
                 PanelType = typeof(Views.WbsPanel),
                 Order = 7
             });
@@ -738,7 +738,7 @@ namespace Som3a_WPF_UI.ViewModels
             {
                 Id = "ai",
                 DisplayName = "AI",
-                Icon = "Robot",
+                Icon = "Bot",
                 PanelType = typeof(Views.AIPanel),
                 Order = 8
             });

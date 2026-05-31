@@ -25,7 +25,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
             _aiBridge = aiBridge ?? throw new ArgumentNullException(nameof(aiBridge));
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             Title = "AI Providers";
-            Icon = "\U000F0068";
+            Icon = "Bot";
 
             _refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
             _refreshTimer.Tick += async (s, e) => await RefreshAsync();

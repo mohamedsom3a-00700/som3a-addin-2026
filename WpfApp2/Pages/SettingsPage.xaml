@@ -4,6 +4,7 @@
       xmlns:vm="clr-namespace:Som3a_WPF_UI.ViewModels"
       xmlns:views="clr-namespace:Som3a_WPF_UI.Views"
       xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      xmlns:fluentIcons="clr-namespace:FluentIcons.Wpf;assembly=FluentIcons.Wpf"
       Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsPage.Title]}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
@@ -86,11 +87,12 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="●"
-                                               Width="16" Height="16"
-                                               VerticalAlignment="Center"
-                                               Foreground="{DynamicResource Brush.Text.Primary}"
-                                               Margin="0,0,8,0"/>
+                                    <fluentIcons:FluentIcon Icon="Circle"
+                                                           FontSize="14"
+                                                           Width="16" Height="16"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource Brush.Text.Primary}"
+                                                           Margin="0,0,8,0"/>
                                     <TextBlock Text="{Binding DisplayName}" FontSize="14" Foreground="{DynamicResource Brush.Text.Primary}"/>
                                 </StackPanel>
                             </DataTemplate>

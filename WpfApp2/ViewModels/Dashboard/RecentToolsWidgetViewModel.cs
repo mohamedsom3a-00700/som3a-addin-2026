@@ -20,7 +20,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
             _recentItemsService = recentItemsService ?? throw new ArgumentNullException(nameof(recentItemsService));
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             Title = "Recent Tools";
-            Icon = "\U000F024B";
+            Icon = "Wrench";
 
             _navigationService.NavigationChanged += OnNavigationChanged;
         }

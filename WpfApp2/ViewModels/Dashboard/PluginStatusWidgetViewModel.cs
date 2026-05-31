@@ -32,7 +32,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
             _moduleRegistry = moduleRegistry ?? throw new ArgumentNullException(nameof(moduleRegistry));
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             Title = "Plugins";
-            Icon = "\U000F0445";
+            Icon = "Puzzle";
 
             _moduleRegistry.ModuleStateChanged += OnModuleStateChanged;
         }

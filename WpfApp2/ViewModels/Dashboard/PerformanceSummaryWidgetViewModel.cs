@@ -22,7 +22,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
         {
             _performanceMonitor = performanceMonitor ?? throw new ArgumentNullException(nameof(performanceMonitor));
             Title = "Performance";
-            Icon = "\U000F0520";
+            Icon = "Gauge";
 
             _performanceMonitor.NavigationCompleted += OnNavigationCompleted;
         }

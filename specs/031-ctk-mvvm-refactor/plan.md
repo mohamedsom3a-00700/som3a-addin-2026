@@ -1,32 +1,40 @@
-# Implementation Plan: CommunityToolkit.Mvvm ViewModel Refactor
+# Implementation Plan: [FEATURE]
 
-**Branch**: `[031-ctk-mvvm-refactor]` | **Date**: 2026-05-31 | **Spec**: [spec.md](spec.md)
+**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
 
-**Input**: Feature specification from `/specs/031-ctk-mvvm-refactor/spec.md`
+**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+
+**Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/plan-template.md` for the execution workflow.
 
 ## Summary
 
-Replace all manual `INotifyPropertyChanged` implementations and custom `RelayCommand` classes with CommunityToolkit.Mvvm source-generated `[ObservableProperty]` and `[RelayCommand]` across all 20+ ViewModels. Perform migration in incremental batches of 5-7 ViewModels with build validation after each. Preserve custom setter side effects via `OnPropertyChanged` / `OnPropertyChanging` partial method hooks. Remove obsolete manual command helper classes (`Models/RelayCommand.cs`, `Helpers/AsyncRelayCommand.cs`). Enforce zero-regression via automated verification script that scans for forbidden manual patterns.
+[Extract from feature spec: primary requirement + technical approach from research]
 
 ## Technical Context
 
-**Language/Version**: C# 12 / .NET 8.0-windows
+<!--
+  ACTION REQUIRED: Replace the content in this section with the technical details
+  for the project. The structure here is presented in advisory capacity to guide
+  the iteration process.
+-->
 
-**Primary Dependencies**: CommunityToolkit.Mvvm (already installed)
+**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
 
-**Storage**: N/A (no data persistence changes)
+**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
 
-**Testing**: MSBuild compilation check + existing VSTO smoke test protocol
+**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 
-**Target Platform**: WPF desktop application hosted inside Excel VSTO
+**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
 
-**Project Type**: Desktop application (WPF VSTO add-in host)
+**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
 
-**Performance Goals**: Zero change to runtime performance; compile-time generation may marginally improve startup by reducing reflection
+**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
 
-**Constraints**: Must not break existing XAML bindings; must preserve all existing ViewModel behavior; must compile successfully after each batch
+**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
 
-**Scale/Scope**: ~20+ ViewModel classes, 2 obsolete helper files to delete, 1 verification script to create
+**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
+
+**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
 ## Constitution Check
 
@@ -34,63 +42,81 @@ Replace all manual `INotifyPropertyChanged` implementations and custom `RelayCom
 
 Per the [Project Constitution](../memory/constitution.md), every implementation plan MUST verify:
 
-- [x] **I. Library-First Modular Architecture** — No new dictionaries introduced; refactor is purely C# code. Pass.
-- [x] **III. DynamicResource-Only** — No XAML changes in this phase. Pass.
-- [x] **IV. Runtime Theme Mutation Governance** — No theme changes in this phase. Pass.
-- [x] **IX. Animation Governance** — No animation changes in this phase. Pass.
-- [x] **X. Excel Rendering Safety** — No window or rendering changes in this phase. Pass.
-- [x] **XI. WindowChrome Enforcement** — No window changes in this phase. Pass.
-- [x] **XII. Centralized Effects** — No effect changes in this phase. Pass.
-- [x] **XV. Resource Loading Order** — No resource dictionary changes in this phase. Pass.
-
-**Gate Result**: ALL CHECKS PASS. No complexity tracking required.
+- [ ] **I. Library-First Modular Architecture** — Feature introduces no monolithic dictionaries; resources remain isolated and testable.
+- [ ] **III. DynamicResource-Only** — No StaticResource used for themeable brushes, colors, borders, effects.
+- [ ] **IV. Runtime Theme Mutation Governance** — Theme mutation path goes through ThemeManager exclusively.
+- [ ] **IX. Animation Governance** — Animations ≤200ms, GPU-safe, no layout thrashing.
+- [ ] **X. Excel Rendering Safety** — WindowRenderModeDetector considered; fallback mode documented if needed.
+- [ ] **XI. WindowChrome Enforcement** — New windows inherit ModernWindow; WindowChrome is primary.
+- [ ] **XII. Centralized Effects** — No inline DropShadowEffect; effects sourced from Effects/Shadows.xaml.
+- [ ] **XV. Resource Loading Order** — New dictionaries follow the prescribed loading sequence.
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/031-ctk-mvvm-refactor/
+specs/[###-feature]/
 ├── plan.md              # This file (/speckit.plan command output)
 ├── research.md          # Phase 0 output (/speckit.plan command)
 ├── data-model.md        # Phase 1 output (/speckit.plan command)
 ├── quickstart.md        # Phase 1 output (/speckit.plan command)
+├── contracts/           # Phase 1 output (/speckit.plan command)
 └── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
 ```
 
 ### Source Code (repository root)
+<!--
+  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
+  for this feature. Delete unused options and expand the chosen structure with
+  real paths (e.g., apps/admin, packages/something). The delivered plan must
+  not include Option labels.
+-->
 
 ```text
-WpfApp2/
-├── ViewModels/
-│   ├── ViewModelBase.cs                    # Change to inherit ObservableObject
-│   ├── HomeViewModel.cs                    # [ObservableProperty] + [RelayCommand]
-│   ├── SettingsViewModel.cs                # [ObservableProperty] + [RelayCommand]
-│   ├── BOQActivityGeneratorViewModel.cs    # [ObservableProperty] + [RelayCommand]
-│   ├── DurationEstimatorPageViewModel.cs   # [ObservableProperty] + [RelayCommand]
-│   ├── WBSEditorViewModel.cs               # [ObservableProperty] + [RelayCommand]
-│   ├── WBSGeneratorViewModel.cs            # [ObservableProperty] + [RelayCommand]
-│   ├── RelationshipGeneratorViewModel.cs   # [ObservableProperty] + [RelayCommand]
-│   ├── Dashboard/                          # All widget ViewModels
-│   ├── Primavera/                          # All Primavera ViewModels
-│   ├── DiagnosticsViewModel.cs             # [ObservableProperty] + [RelayCommand]
-│   ├── LanguagePageViewModel.cs            # [ObservableProperty] + [RelayCommand]
-│   ├── ShellViewModel.cs                   # [ObservableProperty] + [RelayCommand]
-│   ├── CommandPaletteViewModel.cs          # [ObservableProperty] + [RelayCommand]
-│   ├── ToastViewModel.cs                   # [ObservableProperty] + [RelayCommand]
-│   └── ... (remaining ViewModels)
-├── Models/
-│   └── RelayCommand.cs                     # DELETE
-├── Helpers/
-│   └── AsyncRelayCommand.cs                # DELETE
-└── Scripts/
-    └── Verify-NoManualMvvmPatterns.ps1     # NEW: CI verification script
+# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+src/
+├── models/
+├── services/
+├── cli/
+└── lib/
+
+tests/
+├── contract/
+├── integration/
+└── unit/
+
+# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
+backend/
+├── src/
+│   ├── models/
+│   ├── services/
+│   └── api/
+└── tests/
+
+frontend/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── services/
+└── tests/
+
+# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
+api/
+└── [same as backend above]
+
+ios/ or android/
+└── [platform-specific structure: feature modules, UI flows, platform tests]
 ```
 
-**Structure Decision**: This is a pure refactor within the existing `WpfApp2/ViewModels/` directory. No new project structure is introduced. The only new artifact is a PowerShell verification script under `Scripts/`.
+**Structure Decision**: [Document the selected structure and reference the real
+directories captured above]
 
 ## Complexity Tracking
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-No violations. All constitutional checks pass.
+| Violation | Why Needed | Simpler Alternative Rejected Because |
+|-----------|------------|-------------------------------------|
+| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |

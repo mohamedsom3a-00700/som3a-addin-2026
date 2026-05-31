@@ -29,7 +29,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
         {
             _diagnosticsService = diagnosticsService ?? throw new ArgumentNullException(nameof(diagnosticsService));
             Title = "Diagnostics";
-            Icon = "\U000F0209";
+            Icon = "Bug";
 
             _refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
             _refreshTickHandler = async (s, e) => await RefreshAsync();

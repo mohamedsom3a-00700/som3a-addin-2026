@@ -23,7 +23,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
         {
             _changelogService = changelogService ?? throw new ArgumentNullException(nameof(changelogService));
             Title = "Latest Updates";
-            Icon = "\U000F0117";
+            Icon = "ArrowSync";
         }
 
         protected override Task LoadAsync()

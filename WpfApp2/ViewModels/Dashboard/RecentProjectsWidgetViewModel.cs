@@ -16,7 +16,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
         {
             _recentItemsService = recentItemsService ?? throw new ArgumentNullException(nameof(recentItemsService));
             Title = "Recent Projects";
-            Icon = "\U000F0214";
+            Icon = "Folder";
         }
 
         protected override Task LoadAsync()

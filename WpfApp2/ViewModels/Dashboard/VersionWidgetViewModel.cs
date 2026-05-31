@@ -19,7 +19,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
         public VersionWidgetViewModel()
         {
             Title = "Current Version";
-            Icon = "\U000F05D2";
+            Icon = "Info";
         }
 
         protected override Task LoadAsync()

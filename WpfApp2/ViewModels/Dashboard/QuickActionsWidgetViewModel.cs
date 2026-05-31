@@ -13,7 +13,7 @@ namespace Som3a_WPF_UI.ViewModels.Dashboard
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             Title = "Quick Actions";
-            Icon = "\U000F0417";
+            Icon = "Lightning";
         }
 
         [RelayCommand]

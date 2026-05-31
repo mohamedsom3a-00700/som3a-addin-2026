@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:fluentIcons="clr-namespace:FluentIcons.Wpf;assembly=FluentIcons.Wpf">
 
     <!-- Sidebar Navigation Styles -->
     <Style x:Key="SidebarListBoxStyle" TargetType="ListBox">
@@ -71,14 +72,13 @@
     <!-- Sidebar Icon-Only Template (used when sidebar is collapsed) -->
     <DataTemplate x:Key="SidebarIconTemplate">
         <Grid>
-            <TextBlock Text="{Binding Icon}"
-                       FontFamily="Segoe MDL2 Assets"
-                       FontSize="16"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       Foreground="{DynamicResource TextSubBrush}"
-                       SnapsToDevicePixels="True"
-                       UseLayoutRounding="True"/>
+            <fluentIcons:FluentIcon Icon="{Binding Icon, Converter={StaticResource FluentIconConverter}}"
+                                   FontSize="16"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextSubBrush}"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
         </Grid>
     </DataTemplate>
 
@@ -89,14 +89,13 @@
                 <ColumnDefinition Width="24"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0"
-                       Text="{Binding Icon}"
-                       FontFamily="Segoe MDL2 Assets"
-                       FontSize="14"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       SnapsToDevicePixels="True"
-                       UseLayoutRounding="True"/>
+            <fluentIcons:FluentIcon Grid.Column="0"
+                                   Icon="{Binding Icon, Converter={StaticResource FluentIconConverter}}"
+                                   FontSize="14"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"/>
             <TextBlock Grid.Column="1"
                        Text="{Binding DisplayName}"
                        FontSize="13"
