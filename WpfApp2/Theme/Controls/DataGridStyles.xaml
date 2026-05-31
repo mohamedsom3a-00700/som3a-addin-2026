@@ -72,7 +72,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Control.Stroke}"/>
         <Setter Property="BorderThickness" Value="0,0,0,1"/>
         <Setter Property="Padding" Value="{DynamicResource Component.DataGrid.HeaderPadding}"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
 

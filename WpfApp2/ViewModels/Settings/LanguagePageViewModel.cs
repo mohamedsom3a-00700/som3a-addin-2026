@@ -31,6 +31,17 @@ namespace Som3a_WPF_UI.ViewModels.Settings
         [ObservableProperty]
         private string _arabicPreviewText = "مرحباً بكم في سومة";
 
+        [ObservableProperty]
+        private bool _isRtlPreviewEnabled;
+
+        [ObservableProperty]
+        private FlowDirection _previewFlowDirection = FlowDirection.LeftToRight;
+
+        partial void OnIsRtlPreviewEnabledChanged(bool value)
+        {
+            PreviewFlowDirection = value ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+        }
+
         public LanguagePageViewModel()
         {
             _localization = App.Container.Resolve<ILocalizationService>();

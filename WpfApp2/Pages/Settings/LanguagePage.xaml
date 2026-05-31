@@ -73,6 +73,57 @@
                     </StackPanel>
                 </Border>
 
+                <!-- RTL Preview Toggle -->
+                <Border Padding="16" Margin="0,0,0,16"
+                        Background="{DynamicResource Brush.Background.Card}" BorderBrush="{DynamicResource Brush.Stroke.Card}" BorderThickness="1" CornerRadius="{DynamicResource MediumRadius}">
+                    <StackPanel>
+                        <TextBlock Text="RTL Layout Preview" Foreground="{DynamicResource Brush.Text.Primary}"
+                                   FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="Toggle to preview right-to-left layout without switching the application language."
+                                   Foreground="{DynamicResource Brush.Text.Secondary}" FontSize="12" Margin="0,0,0,12"/>
+
+                        <ToggleButton IsChecked="{Binding IsRtlPreviewEnabled, Mode=TwoWay}"
+                                      Width="120" HorizontalAlignment="Left" Margin="0,0,0,12">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="Content" Value="LTR Preview"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsRtlPreviewEnabled}" Value="True">
+                                            <Setter Property="Content" Value="RTL Preview"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+
+                        <Border Background="{DynamicResource Brush.Background.Tertiary}" Padding="16"
+                                CornerRadius="4"
+                                FlowDirection="{Binding PreviewFlowDirection}">
+                            <StackPanel>
+                                <TextBlock Text="Sample Layout Card" FontSize="16" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource Brush.Text.Primary}" Margin="0,0,0,8"/>
+                                <TextBlock Text="This card demonstrates how content will appear in RTL mode. Text alignment, element order, and overall layout will mirror."
+                                           FontSize="12" Foreground="{DynamicResource Brush.Text.Secondary}"
+                                           TextWrapping="Wrap" Margin="0,0,0,12"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Background="{DynamicResource Brush.Accent.Primary}"
+                                            Width="40" Height="40" CornerRadius="4" Margin="0,0,8,0"/>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Status: Active" FontSize="13"
+                                                   Foreground="{DynamicResource Brush.Text.Primary}"/>
+                                        <TextBlock Text="Last updated: Today" FontSize="11"
+                                                   Foreground="{DynamicResource Brush.Text.Secondary}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
                 <!-- Font Scaling -->
                 <Border Padding="16" Margin="0,0,0,16"
                         Background="{DynamicResource Brush.Background.Card}" BorderBrush="{DynamicResource Brush.Stroke.Card}" BorderThickness="1" CornerRadius="{DynamicResource MediumRadius}">
