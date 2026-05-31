@@ -33,6 +33,7 @@ namespace Som3a_WPF_UI
             var cultureManager = new CultureManager();
             var localizationService = new LocalizationService(cultureManager);
             container.RegisterSingleton<ILocalizationService>(localizationService);
+            container.RegisterSingleton<FontService>(new FontService(localizationService));
             MarkupExtensions.LocExtension.SetService(localizationService);
 
             container.RegisterSingleton<ThemeManager>(ThemeManager.Instance);

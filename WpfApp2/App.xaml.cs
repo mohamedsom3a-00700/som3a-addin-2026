@@ -209,14 +209,8 @@ namespace Som3a_WPF_UI
 
             CultureAwareFormattingService.Instance.RefreshCulture(e.NewLanguageCode);
 
-            if (isRTL)
-            {
-                ArabicFontManager.Instance.SetArabicFont("Cairo");
-            }
-            else
-            {
-                ArabicFontManager.Instance.ResetFont();
-            }
+            var fontService = Container.Resolve<FontService>();
+            fontService?.ApplyLanguageFont(e.NewLanguageCode);
 
             foreach (var d in NavigationService.Instance.Destinations)
                 d.RefreshLabel();

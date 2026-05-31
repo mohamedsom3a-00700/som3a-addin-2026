@@ -1,0 +1,106 @@
+<local:PageBase x:Class="Som3a_WPF_UI.Pages.Settings.LanguagePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="clr-namespace:Som3a_WPF_UI.Pages"
+      Title="Language"
+      Background="{DynamicResource Brush.Background.Primary}"
+      SnapsToDevicePixels="True"
+      UseLayoutRounding="True">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,24">
+            <TextBlock Text="Language &amp; Font Settings" Foreground="{DynamicResource Brush.Text.Primary}"
+                       FontSize="20" FontWeight="Bold" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+
+                <!-- Language Selection -->
+                <Border Padding="16" Margin="0,0,0,16" Background="{DynamicResource Brush.Background.Card}" BorderBrush="{DynamicResource Brush.Stroke.Card}" BorderThickness="1" CornerRadius="{DynamicResource MediumRadius}">
+                    <StackPanel>
+                        <TextBlock Text="Application Language" Foreground="{DynamicResource Brush.Text.Primary}"
+                                   FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="Switch between supported languages. No restart required."
+                                   Foreground="{DynamicResource Brush.Text.Secondary}" FontSize="12" Margin="0,0,0,12"/>
+
+                        <ComboBox ItemsSource="{Binding SupportedLanguages}"
+                                  SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
+                                  DisplayMemberPath="DisplayName"
+                                  Width="300" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- English Font Selection -->
+                <Border Padding="16" Margin="0,0,0,16"
+                        Background="{DynamicResource Brush.Background.Card}" BorderBrush="{DynamicResource Brush.Stroke.Card}" BorderThickness="1" CornerRadius="{DynamicResource MediumRadius}">
+                    <StackPanel>
+                        <TextBlock Text="English Font" Foreground="{DynamicResource Brush.Text.Primary}"
+                                   FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="Choose a font for English text display."
+                                   Foreground="{DynamicResource Brush.Text.Secondary}" FontSize="12" Margin="0,0,0,12"/>
+
+                        <ComboBox ItemsSource="{Binding EnglishFonts}"
+                                  SelectedItem="{Binding SelectedEnglishFont, Mode=TwoWay}"
+                                  Width="300" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Arabic Font Selection -->
+                <Border Padding="16" Margin="0,0,0,16"
+                        Background="{DynamicResource Brush.Background.Card}" BorderBrush="{DynamicResource Brush.Stroke.Card}" BorderThickness="1" CornerRadius="{DynamicResource MediumRadius}">
+                    <StackPanel>
+                        <TextBlock Text="Arabic Font" Foreground="{DynamicResource Brush.Text.Primary}"
+                                   FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="Choose a font optimized for Arabic text rendering."
+                                   Foreground="{DynamicResource Brush.Text.Secondary}" FontSize="12" Margin="0,0,0,12"/>
+
+                        <ComboBox ItemsSource="{Binding ArabicFonts}"
+                                  SelectedItem="{Binding SelectedArabicFont, Mode=TwoWay}"
+                                  Width="300" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+
+                        <Border Background="{DynamicResource Brush.Background.Tertiary}" Padding="12"
+                                CornerRadius="4" Margin="0,8,0,0">
+                            <TextBlock Text="{Binding ArabicPreviewText}"
+                                       FontSize="18" Foreground="{DynamicResource Brush.Text.Primary}"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- Font Scaling -->
+                <Border Padding="16" Margin="0,0,0,16"
+                        Background="{DynamicResource Brush.Background.Card}" BorderBrush="{DynamicResource Brush.Stroke.Card}" BorderThickness="1" CornerRadius="{DynamicResource MediumRadius}">
+                    <StackPanel>
+                        <TextBlock Text="Font Size Scaling" Foreground="{DynamicResource Brush.Text.Primary}"
+                                   FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="Adjust the overall font size (0.8x to 1.5x)."
+                                   Foreground="{DynamicResource Brush.Text.Secondary}" FontSize="12" Margin="0,0,0,12"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="0.8x" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource Brush.Text.Secondary}" Margin="0,0,8,0"/>
+                            <Slider Grid.Column="1" Minimum="0.8" Maximum="1.5" SmallChange="0.1" LargeChange="0.2"
+                                    Value="{Binding FontScalingFactor, Mode=TwoWay}"
+                                    TickFrequency="0.1" TickPlacement="BottomRight"
+                                    Foreground="{DynamicResource Brush.Accent.Primary}"/>
+                            <TextBlock Grid.Column="2" Text="1.5x" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource Brush.Text.Secondary}" Margin="8,0,0,0"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</local:PageBase>

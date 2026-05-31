@@ -112,6 +112,8 @@ Publish/
 # User Settings
 # -----------------------------------------------------------------------------
 Settings/
+!WpfApp2/Pages/Settings/
+!WpfApp2/ViewModels/Settings/
 Properties/PublishProfiles/
 Properties/ServiceReferences/
 ClientBin/

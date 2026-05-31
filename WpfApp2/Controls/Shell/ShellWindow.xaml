@@ -7,7 +7,8 @@
                        xmlns:shell="clr-namespace:Som3a_WPF_UI.Controls.Shell"
       
                        xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
-      
+                       xmlns:fluentIcons="clr-namespace:FluentIcons.Wpf;assembly=FluentIcons.Wpf"
+       
                        Title="{l:Loc Shell.Title}"
                       Width="1200"
                       Height="800"
@@ -52,12 +53,15 @@
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button x:Name="LanguageBtn" Width="36" Height="32"
-                                Style="{DynamicResource TitleBarButton}"
-                                ToolTip="{l:Loc Settings.Language}"
-                                Click="OnLanguageToggle">
-                            <TextBlock Text="&#x1F310;" FontSize="16" Foreground="{DynamicResource TextSubBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Button>
+                    <Button x:Name="LanguageBtn" Width="36" Height="32"
+                            Style="{DynamicResource TitleBarButton}"
+                            ToolTip="{l:Loc Settings.Language}"
+                            Click="OnLanguageToggle">
+                        <fluentIcons:FluentIcon x:Name="LanguageIcon" Icon="Globe"
+                                                FontSize="16"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"/>
+                    </Button>
                         <Button x:Name="ThemeBtn" Width="36" Height="32"
                                 Style="{DynamicResource TitleBarButton}"
                                 ToolTip="{l:Loc Shell.Theme.Toggle}"

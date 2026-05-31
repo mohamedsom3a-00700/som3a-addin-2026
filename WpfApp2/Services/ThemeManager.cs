@@ -340,7 +340,6 @@ namespace Som3a_WPF_UI.Services
             ValidateTokenIntegrity();
 
             ApplyBackground(_backgroundImagePath, _backgroundBlurIntensity);
-            ApplyFont(_currentFontFamily);
             ApplyLogo();
 
             if (!string.IsNullOrEmpty(effectiveAccent))

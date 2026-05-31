@@ -742,6 +742,14 @@ namespace Som3a_WPF_UI.ViewModels
                 PanelType = typeof(Views.AIPanel),
                 Order = 8
             });
+            Categories.Add(new SettingsCategory
+            {
+                Id = "language",
+                DisplayName = "Language & Font",
+                Icon = "Globe",
+                PanelType = typeof(Pages.Settings.LanguagePage),
+                Order = 9
+            });
 
             if (Categories.Count > 0)
             {

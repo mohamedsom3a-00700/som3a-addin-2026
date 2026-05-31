@@ -17,6 +17,7 @@
             <conv:CultureNumberConverter x:Key="CultureNumberConverter"/>
             <conv:CultureDateConverter x:Key="CultureDateConverter"/>
             <conv:CultureCurrencyConverter x:Key="CultureCurrencyConverter"/>
+            <conv:BoolToFlowDirectionConverter x:Key="BoolToFlowDirectionConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

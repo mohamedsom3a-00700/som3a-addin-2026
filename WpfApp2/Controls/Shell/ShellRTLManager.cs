@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Som3a_WPF_UI.Controls.Shell
@@ -115,6 +116,43 @@ namespace Som3a_WPF_UI.Controls.Shell
                 {
                     var child = VisualTreeHelper.GetChild(current, i);
                     queue.Enqueue(child);
+                }
+            }
+        }
+
+        public void ApplyKeyboardTabMirroring(FrameworkElement root, bool isRTL)
+        {
+            if (root == null)
+                return;
+
+            var direction = isRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+            root.FlowDirection = direction;
+
+            var tabStopChildren = new List<FrameworkElement>();
+            var queue = new Queue<DependencyObject>();
+            queue.Enqueue(root);
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+                if (current is FrameworkElement fe && fe.Focusable && fe != root)
+                {
+                    tabStopChildren.Add(fe);
+                }
+
+                var count = VisualTreeHelper.GetChildrenCount(current);
+                for (int i = 0; i < count; i++)
+                {
+                    var child = VisualTreeHelper.GetChild(current, i);
+                    queue.Enqueue(child);
+                }
+            }
+
+            if (isRTL)
+            {
+                for (int i = 0; i < tabStopChildren.Count - 1; i++)
+                {
+                    KeyboardNavigation.SetTabNavigation(tabStopChildren[i], KeyboardNavigationMode.Local);
                 }
             }
         }

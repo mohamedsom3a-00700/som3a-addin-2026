@@ -79,11 +79,8 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
         {
-            var direction = e.IsRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-            if (_frame != null)
-                _frame.FlowDirection = direction;
-            if (_currentPage != null)
-                _currentPage.FlowDirection = direction;
+            // FlowDirection is handled centrally by ShellRTLManager
+            // and inherited through the visual tree
         }
 
         public override void OnApplyTemplate()
@@ -99,9 +96,6 @@ namespace Som3a_WPF_UI.Controls.Shell
                 _frame.LoadCompleted += OnFrameLoadCompleted;
                 _frame.NavigationFailed += OnFrameNavigationFailed;
                 _frame.NavigationStopped += OnFrameNavigationStopped;
-                _frame.FlowDirection = _localization.IsRTL
-                    ? FlowDirection.RightToLeft
-                    : FlowDirection.LeftToRight;
             }
         }
 
@@ -119,12 +113,6 @@ namespace Som3a_WPF_UI.Controls.Shell
             if (_frame == null) return;
             if (Interlocked.Exchange(ref _isNavigating, 1) == 1) return;
 
-            if (_frame != null)
-            {
-                _frame.FlowDirection = _localization.IsRTL
-                    ? FlowDirection.RightToLeft
-                    : FlowDirection.LeftToRight;
-            }
             if (_errorOverlay != null)
                 _errorOverlay.Visibility = Visibility.Collapsed;
             if (_frame != null)
@@ -144,9 +132,6 @@ namespace Som3a_WPF_UI.Controls.Shell
                         if (page != null)
                         {
                             _currentPage = page;
-                            page.FlowDirection = _localization.IsRTL
-                                ? FlowDirection.RightToLeft
-                                : FlowDirection.LeftToRight;
                             _frame.Navigate(page);
                             return;
                         }
@@ -184,16 +169,6 @@ namespace Som3a_WPF_UI.Controls.Shell
             try
             {
                 _currentPage = page;
-                page.FlowDirection = _localization.IsRTL
-                    ? FlowDirection.RightToLeft
-                    : FlowDirection.LeftToRight;
-
-                if (_frame != null)
-                {
-                    _frame.FlowDirection = _localization.IsRTL
-                        ? FlowDirection.RightToLeft
-                        : FlowDirection.LeftToRight;
-                }
                 if (_errorOverlay != null)
                     _errorOverlay.Visibility = Visibility.Collapsed;
                 if (_frame != null)
@@ -272,9 +247,6 @@ namespace Som3a_WPF_UI.Controls.Shell
                 var welcomePage = Activator.CreateInstance(WelcomePageType) as Page;
                 if (welcomePage != null)
                 {
-                    var isRTL = _localization.IsRTL;
-                    welcomePage.FlowDirection = isRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-                    _frame.FlowDirection = isRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
                     _frame.Navigate(welcomePage);
                     return;
                 }
