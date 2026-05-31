@@ -1,7 +1,9 @@
 <UserControl x:Class="Som3a_WPF_UI.Views.PerformancePanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:l="clr-namespace:Som3a_WPF_UI.MarkupExtensions"
              xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
     <UserControl.Resources>
@@ -19,14 +21,14 @@
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PerformancePanel.AnimationSpeed]}"
+                    <TextBlock Text="{l:Loc PerformancePanel.AnimationSpeed}"
                                Style="{DynamicResource SectionHeaderStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
                     <StackPanel Margin="0,0,0,12"
                                 SnapsToDevicePixels="True"
                                 UseLayoutRounding="True">
-<RadioButton Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PerformancePanel.AnimationOff]}"
+<RadioButton Content="{l:Loc PerformancePanel.AnimationOff}"
                                       GroupName="AnimSpeed"
                                      Margin="0,0,0,8"
                                      IsChecked="{Binding AnimationOff, Mode=OneWay}"
@@ -36,7 +38,7 @@
                                      AutomationProperties.Name="Animation Speed Off"
                                      SnapsToDevicePixels="True"
                                      UseLayoutRounding="True"/>
-<RadioButton Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PerformancePanel.AnimationReduced]}"
+<RadioButton Content="{l:Loc PerformancePanel.AnimationReduced}"
                                       GroupName="AnimSpeed"
                                      Margin="0,0,0,8"
                                      IsChecked="{Binding AnimationReduced, Mode=OneWay}"
@@ -46,7 +48,7 @@
                                      AutomationProperties.Name="Animation Speed Reduced"
                                      SnapsToDevicePixels="True"
                                      UseLayoutRounding="True"/>
-<RadioButton Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PerformancePanel.AnimationFull]}"
+<RadioButton Content="{l:Loc PerformancePanel.AnimationFull}"
                                       GroupName="AnimSpeed"
                                      IsChecked="{Binding AnimationFull, Mode=OneWay}"
                                      Command="{Binding AnimationSpeedCommand}"
@@ -65,14 +67,14 @@
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PerformancePanel.UiDensity]}"
+                    <TextBlock Text="{l:Loc PerformancePanel.UiDensity}"
                                Style="{DynamicResource SectionHeaderStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
                     <StackPanel Margin="0,0,0,12"
                                 SnapsToDevicePixels="True"
                                 UseLayoutRounding="True">
-<RadioButton Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PerformancePanel.DensityCompact]}"
+<RadioButton Content="{l:Loc PerformancePanel.DensityCompact}"
                                   GroupName="UiDensity"
                                  Margin="0,0,0,8"
                                  IsChecked="{Binding DensityCompact, Mode=OneWay}"
@@ -82,7 +84,7 @@
                                  AutomationProperties.Name="UI Density Compact"
                                  SnapsToDevicePixels="True"
                                  UseLayoutRounding="True"/>
-<RadioButton Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PerformancePanel.DensityNormal]}"
+<RadioButton Content="{l:Loc PerformancePanel.DensityNormal}"
                                   GroupName="UiDensity"
                                  Margin="0,0,0,8"
                                  IsChecked="{Binding DensityNormal, Mode=OneWay}"
@@ -92,7 +94,7 @@
                                  AutomationProperties.Name="UI Density Normal"
                                  SnapsToDevicePixels="True"
                                  UseLayoutRounding="True"/>
-<RadioButton Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PerformancePanel.DensitySpacious]}"
+<RadioButton Content="{l:Loc PerformancePanel.DensitySpacious}"
                                   GroupName="UiDensity"
                                  IsChecked="{Binding DensitySpacious, Mode=OneWay}"
                                  Command="{Binding DensityCommand}"

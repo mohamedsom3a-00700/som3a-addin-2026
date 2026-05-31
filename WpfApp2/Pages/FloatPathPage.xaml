@@ -1,10 +1,14 @@
 <Page x:Class="Som3a_WPF_UI.Pages.FloatPathPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:l="clr-namespace:Som3a_WPF_UI.MarkupExtensions"
       xmlns:models="clr-namespace:Som3a.Shared.Models;assembly=Som3a.Shared"
+      
       xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+      
       xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
-      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.Title]}"
+      
+      Title="{l:Loc FloatPathPage.Title}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -21,7 +25,7 @@
               x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
 
-            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.Heading]}"
+            <TextBlock Text="{l:Loc FloatPathPage.Heading}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14"
                        FontWeight="SemiBold"
@@ -50,7 +54,7 @@
                                 BorderBrush="{DynamicResource Brush.Stroke.Status}"
                                 BorderThickness="1" Margin="0,0,0,14">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.Project]}" FontSize="13"
+                                <TextBlock Text="{l:Loc FloatPathPage.Project}" FontSize="13"
                                            Foreground="{DynamicResource TextSubBrush}"/>
                                 <TextBlock Text="{Binding ProjectName}" FontSize="20"
                                            FontWeight="Bold"
@@ -59,12 +63,12 @@
                             </StackPanel>
                         </Border>
 
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.LoadXer]}" FontWeight="SemiBold"
+                        <TextBlock Text="{l:Loc FloatPathPage.LoadXer}" FontWeight="SemiBold"
                                    FontSize="15"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    Margin="0,0,0,10"/>
 
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.BrowseXer]}"
+                        <Button Content="{l:Loc FloatPathPage.BrowseXer}"
                                 Command="{Binding LoadXerCommand}"
                                 Style="{DynamicResource PrimaryButton}"
                                 Height="42" Margin="0,0,0,16"/>
@@ -75,7 +79,7 @@
                                 CornerRadius="{DynamicResource CardRadius}"
                                 Padding="12">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.SelectActivity]}"
+                                <TextBlock Text="{l:Loc FloatPathPage.SelectActivity}"
                                            Foreground="{DynamicResource TextMainBrush}"
                                            Margin="0,0,0,6"/>
                                 <ComboBox ItemsSource="{Binding Activities}"
@@ -84,32 +88,32 @@
                                           Margin="0,0,0,12"
                                           Style="{DynamicResource RoundComboBox}"/>
 
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.NumberOfPaths]}"
+                                <TextBlock Text="{l:Loc FloatPathPage.NumberOfPaths}"
                                            Foreground="{DynamicResource TextMainBrush}"
                                            Margin="0,0,0,6"/>
                                 <TextBox Text="{Binding PathCount}"
                                          Style="{DynamicResource ReadOnlyTextBox}"
                                          Margin="0,0,0,12"/>
 
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.MaxPathDepth]}"
+                                <TextBlock Text="{l:Loc FloatPathPage.MaxPathDepth}"
                                            Foreground="{DynamicResource TextMainBrush}"
                                            Margin="0,0,0,6"/>
                                 <TextBox Text="{Binding MaxDepth}"
                                          Style="{DynamicResource ReadOnlyTextBox}"
                                          Margin="0,0,0,12"/>
 
-                                <CheckBox Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.HighlightCritical]}"
+                                <CheckBox Content="{l:Loc FloatPathPage.HighlightCritical}"
                                           IsChecked="{Binding HighlightCritical}"
                                           Margin="0,0,0,16"/>
 
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.RunFloatPath]}"
+                                <Button Content="{l:Loc FloatPathPage.RunFloatPath}"
                                         Command="{Binding RunCommand}"
                                         Style="{DynamicResource PrimaryButton}"
                                         Height="42"/>
                             </StackPanel>
                         </Border>
 
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.ViewMode]}" FontWeight="SemiBold"
+                        <TextBlock Text="{l:Loc FloatPathPage.ViewMode}" FontWeight="SemiBold"
                                    FontSize="15"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    Margin="0,20,0,8"/>
@@ -126,7 +130,7 @@
                             <Grid>
                                 <ProgressBar Height="20"
                                              IsIndeterminate="{Binding IsLoading}"/>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FloatPathPage.Processing]}"
+                                <TextBlock Text="{l:Loc FloatPathPage.Processing}"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Foreground="{DynamicResource TextMainBrush}"

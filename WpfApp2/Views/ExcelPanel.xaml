@@ -1,7 +1,9 @@
 <UserControl x:Class="Som3a_WPF_UI.Views.ExcelPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:l="clr-namespace:Som3a_WPF_UI.MarkupExtensions"
              xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -21,7 +23,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ExcelPanel.RenderMode]}"
+                    <TextBlock Text="{l:Loc ExcelPanel.RenderMode}"
                                Style="{DynamicResource SettingLabelStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
@@ -34,9 +36,9 @@
                               Style="{DynamicResource SettingsComboBoxStyle}"
                               SnapsToDevicePixels="True"
                               UseLayoutRounding="True">
-                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ExcelPanel.RenderModeAuto]}"/>
-                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ExcelPanel.RenderModeSafe]}"/>
-                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ExcelPanel.RenderModeFull]}"/>
+                        <ComboBoxItem Content="{l:Loc ExcelPanel.RenderModeAuto}"/>
+                        <ComboBoxItem Content="{l:Loc ExcelPanel.RenderModeSafe}"/>
+                        <ComboBoxItem Content="{l:Loc ExcelPanel.RenderModeFull}"/>
                     </ComboBox>
                 </Grid>
             </Border>
@@ -53,13 +55,13 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel SnapsToDevicePixels="True"
                                 UseLayoutRounding="True">
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ExcelPanel.SafeMode]}"
+                        <TextBlock Text="{l:Loc ExcelPanel.SafeMode}"
                                    FontSize="14"
                                    FontWeight="SemiBold"
                                    Foreground="{DynamicResource Brush.Text.Primary}"
                                    SnapsToDevicePixels="True"
                                    UseLayoutRounding="True"/>
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ExcelPanel.SafeModeDescription]}"
+                        <TextBlock Text="{l:Loc ExcelPanel.SafeModeDescription}"
                                    FontSize="12"
                                    Foreground="{DynamicResource Brush.Text.Secondary}"
                                    Margin="0,4,0,0"
@@ -83,7 +85,7 @@
                     UseLayoutRounding="True">
                 <StackPanel SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ExcelPanel.DpiInformation]}"
+                    <TextBlock Text="{l:Loc ExcelPanel.DpiInformation}"
                                Style="{DynamicResource SectionHeaderStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
@@ -92,7 +94,7 @@
                             Padding="12"
                             SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ExcelPanel.DpiDescription]}"
+                        <TextBlock Text="{l:Loc ExcelPanel.DpiDescription}"
                                    FontSize="12"
                                    Foreground="{DynamicResource Brush.Text.Secondary}"
                                    TextWrapping="Wrap"

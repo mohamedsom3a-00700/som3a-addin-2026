@@ -1,11 +1,15 @@
 <Page x:Class="Som3a_WPF_UI.Pages.XerEditorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:l="clr-namespace:Som3a_WPF_UI.MarkupExtensions"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      
       xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      
       mc:Ignorable="d"
-      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorPage.Title]}"
+      Title="{l:Loc XerEditorPage.Title}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -19,7 +23,7 @@
         <!-- TITLE BAR -->
         <Grid Grid.Row="0" x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
-            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorPage.Heading]}"
+            <TextBlock Text="{l:Loc XerEditorPage.Heading}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14" FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -40,27 +44,27 @@
                     CornerRadius="{DynamicResource LargeRadius}"
                     Margin="0,0,12,0">
                 <StackPanel Margin="14">
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorPage.SidebarTitle]}" TextAlignment="Center"
+                    <TextBlock Text="{l:Loc XerEditorPage.SidebarTitle}" TextAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"
                                FontSize="18" FontWeight="Bold"
                                Margin="0,0,0,20"/>
 
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorPage.LoadXer]}"
+                    <Button Content="{l:Loc XerEditorPage.LoadXer}"
                             Command="{Binding LoadCommand}"
                             Style="{DynamicResource PrimaryButton}"
                             Margin="0,0,0,10" Height="32"/>
 
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorPage.ExportToExcel]}"
+                    <Button Content="{l:Loc XerEditorPage.ExportToExcel}"
                             Command="{Binding ExportExcelCommand}"
                             Style="{DynamicResource PrimaryButton}"
                             Margin="0,0,0,10" Height="32"/>
 
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorPage.ImportFromExcel]}"
+                    <Button Content="{l:Loc XerEditorPage.ImportFromExcel}"
                             Command="{Binding ImportFromExcelCommand}"
                             Style="{DynamicResource PrimaryButton}"
                             Margin="0,0,0,10" Height="32"/>
 
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorPage.ExportXer]}"
+                    <Button Content="{l:Loc XerEditorPage.ExportXer}"
                             Command="{Binding ExportXerCommand}"
                             Style="{DynamicResource PrimaryButton}"
                             Margin="0,0,0,10" Height="32"/>
@@ -80,7 +84,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorPage.LoadedTables]}"
+                        <TextBlock Grid.Row="0" Text="{l:Loc XerEditorPage.LoadedTables}"
                                    FontSize="16" FontWeight="SemiBold"
                                    Foreground="{DynamicResource TextMainBrush}"
                                    Margin="0,0,0,14"/>
@@ -99,13 +103,13 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorGrid.Code]}" Width="120"
+                                    <GridViewColumn Header="{l:Loc XerEditorGrid.Code}" Width="120"
                                                     DisplayMemberBinding="{Binding Name}"/>
-                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorGrid.TableName]}" Width="280"
+                                    <GridViewColumn Header="{l:Loc XerEditorGrid.TableName}" Width="280"
                                                     DisplayMemberBinding="{Binding DisplayName}"/>
-                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorGrid.Records]}" Width="120"
+                                    <GridViewColumn Header="{l:Loc XerEditorGrid.Records}" Width="120"
                                                     DisplayMemberBinding="{Binding Count}"/>
-                                    <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[XerEditorGrid.Status]}" Width="180"
+                                    <GridViewColumn Header="{l:Loc XerEditorGrid.Status}" Width="180"
                                                     DisplayMemberBinding="{Binding Status}"/>
                                 </GridView>
                             </ListView.View>

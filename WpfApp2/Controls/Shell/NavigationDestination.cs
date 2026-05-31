@@ -1,6 +1,7 @@
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Som3a_WPF_UI.Services;
+using Som3a.Localization.Contracts;
 
 namespace Som3a_WPF_UI.Controls.Shell
 {
@@ -17,6 +18,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         private bool _isEnabled = true;
         private int _priority;
         private string _resourceKey;
+        private static readonly Lazy<ILocalizationService> _localization = new(() => App.Container.Resolve<ILocalizationService>());
 
         public string Key
         {
@@ -30,7 +32,7 @@ namespace Som3a_WPF_UI.Controls.Shell
             {
                 if (_resourceKey != null)
                 {
-                    var translated = LocalizationBridgeService.Instance.GetString(_resourceKey);
+                    var translated = _localization.Value.GetString(_resourceKey);
                     if (!string.IsNullOrEmpty(translated) && translated != _resourceKey)
                         return translated;
                 }

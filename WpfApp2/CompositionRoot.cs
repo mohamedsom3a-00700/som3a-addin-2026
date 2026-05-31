@@ -1,4 +1,7 @@
 using Som3a.Bridge;
+using Som3a.Localization.Contracts;
+using Som3a.Localization.Services;
+using Som3a.Localization.RTL;
 using Som3a.Shared.Core;
 using Som3a.Shared.Core.Primavera;
 using Som3a.Shared.Models;
@@ -26,6 +29,11 @@ namespace Som3a_WPF_UI
             moduleRegistry.RegisterModule(new Modules.BOQActivityGeneratorModule());
             moduleRegistry.RegisterModule(new Modules.RelationshipGeneratorModule());
             container.RegisterSingleton<Services.IModuleRegistry>(moduleRegistry);
+
+            var cultureManager = new CultureManager();
+            var localizationService = new LocalizationService(cultureManager);
+            container.RegisterSingleton<ILocalizationService>(localizationService);
+            MarkupExtensions.LocExtension.SetService(localizationService);
 
             container.RegisterSingleton<ThemeManager>(ThemeManager.Instance);
             container.RegisterSingleton<INavigationService>(NavigationService.Instance);

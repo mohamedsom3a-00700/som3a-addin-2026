@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Resources;
 using Som3a.Localization.Contracts;
@@ -12,6 +11,13 @@ namespace Som3a.Localization.Services
         private readonly CultureManager _cultureManager;
         private readonly ResourceManager _resourceManager;
         private string _currentLanguageCode;
+        private readonly Dictionary<string, string> _fontMappings = new()
+        {
+            ["en-US"] = "Segoe UI",
+            ["ar-SA"] = "Cairo"
+        };
+
+        private double _fontScalingFactor = 1.0;
 
         private static readonly List<LanguageInfo> _supportedLanguages = new()
         {
@@ -19,9 +25,27 @@ namespace Som3a.Localization.Services
             new LanguageInfo { Code = "ar-SA", DisplayName = "Arabic", NativeName = "العربية", IsRTL = true }
         };
 
+        private static readonly List<string> _availableArabicFonts = new()
+        {
+            "Cairo", "IBM Plex Sans Arabic", "Segoe UI", "Noto Naskh Arabic", "Amiri"
+        };
+
+        private static readonly List<string> _availableEnglishFonts = new()
+        {
+            "Segoe UI", "Arial", "Calibri", "Times New Roman", "Consolas"
+        };
+
         public event EventHandler<LanguageChangedEventArgs> LanguageChanged;
 
         public string CurrentLanguageCode => _currentLanguageCode;
+
+        public bool IsRTL => _cultureManager.IsRTL();
+
+        public double FontScalingFactor
+        {
+            get => _fontScalingFactor;
+            set => _fontScalingFactor = Math.Clamp(value, 0.8, 1.5);
+        }
 
         public LocalizationService(CultureManager cultureManager)
         {
@@ -73,7 +97,35 @@ namespace Som3a.Localization.Services
                 return value;
 
             value = _resourceManager.GetString(key, new CultureInfo("en-US"));
-            return value ?? key;
+            if (value == null)
+            {
+                System.Diagnostics.Debug.WriteLine($"[LocalizationService] MISSING KEY: '{key}' not found in any resource file");
+                return key;
+            }
+
+            System.Diagnostics.Debug.WriteLine($"[LocalizationService] MISSING KEY: '{key}' not found for culture '{_currentLanguageCode}', falling back to English");
+            return value;
+        }
+
+        public string GetString(string key, params object[] formatArgs)
+        {
+            var value = GetString(key);
+            if (formatArgs == null || formatArgs.Length == 0)
+                return value;
+            try
+            {
+                return string.Format(value, formatArgs);
+            }
+            catch (FormatException)
+            {
+                return value;
+            }
+        }
+
+        public string GetStringOrDefault(string key, string defaultValue)
+        {
+            var value = GetString(key);
+            return value == key ? defaultValue : value;
         }
 
         public string GetString(string key, string cultureName)
@@ -101,6 +153,31 @@ namespace Som3a.Localization.Services
         public IReadOnlyList<LanguageInfo> GetSupportedLanguages()
         {
             return _supportedLanguages.AsReadOnly();
+        }
+
+        public string GetFontFamily(string locale)
+        {
+            if (_fontMappings.TryGetValue(locale, out var font))
+                return font;
+            return "Segoe UI";
+        }
+
+        public bool SetFontFamily(string locale, string fontFamily)
+        {
+            if (string.IsNullOrWhiteSpace(locale) || string.IsNullOrWhiteSpace(fontFamily))
+                return false;
+            _fontMappings[locale] = fontFamily;
+            return true;
+        }
+
+        public IReadOnlyList<string> GetAvailableArabicFonts()
+        {
+            return _availableArabicFonts.AsReadOnly();
+        }
+
+        public IReadOnlyList<string> GetAvailableEnglishFonts()
+        {
+            return _availableEnglishFonts.AsReadOnly();
         }
 
         public void SaveLanguagePreference()

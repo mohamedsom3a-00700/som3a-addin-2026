@@ -1,11 +1,15 @@
 <Page x:Class="Som3a_WPF_UI.Pages.FixPieColorsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:l="clr-namespace:Som3a_WPF_UI.MarkupExtensions"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      
       xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      
       mc:Ignorable="d"
-      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.Title]}"
+      Title="{l:Loc FixPieColorsPage.Title}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -19,7 +23,7 @@
         <!-- TITLE BAR -->
         <Grid Grid.Row="0" x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
-            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.Heading]}"
+            <TextBlock Text="{l:Loc FixPieColorsPage.Heading}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14" FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -57,7 +61,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
-                                   Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.SelectSheet]}"
+                                   Text="{l:Loc FixPieColorsPage.SelectSheet}"
                                    VerticalAlignment="Center"
                                    Foreground="{DynamicResource TextMainBrush}"/>
                         <ComboBox x:Name="cmbSheets" Grid.Column="1"
@@ -70,13 +74,13 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="110"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.CategoryRange]}"
+                        <TextBlock Grid.Column="0" Text="{l:Loc FixPieColorsPage.CategoryRange}"
                                    VerticalAlignment="Center"
                                    Foreground="{DynamicResource TextMainBrush}"/>
                         <TextBox x:Name="txtCategoryRange" Grid.Column="1"
                                  Margin="8,0" Text="R6:R13"/>
                         <Button x:Name="btnPickRange" Grid.Column="2"
-                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.Pick]}" Style="{DynamicResource BaseButton}"
+                                Content="{l:Loc FixPieColorsPage.Pick}" Style="{DynamicResource BaseButton}"
                                 Click="btnPickRange_Click"/>
                     </Grid>
 
@@ -87,13 +91,13 @@
                             <ColumnDefinition Width="110"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
-                                   Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.ColorTableRange]}"
+                                   Text="{l:Loc FixPieColorsPage.ColorTableRange}"
                                    VerticalAlignment="Center"
                                    Foreground="{DynamicResource TextMainBrush}"/>
                         <TextBox x:Name="txtColorTableRange" Grid.Column="1"
                                  Margin="8,0" Text="A2:B9"/>
                         <Button x:Name="btnPickColorTable" Grid.Column="2"
-                                Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.PickColorTable]}" Style="{DynamicResource BaseButton}"
+                                Content="{l:Loc FixPieColorsPage.PickColorTable}" Style="{DynamicResource BaseButton}"
                                 Click="btnPickColorTable_Click"/>
                     </Grid>
 
@@ -102,7 +106,7 @@
                             Background="{DynamicResource Brush.Fill.Info}"
                             BorderBrush="{DynamicResource Brush.Stroke.Status}"
                             BorderThickness="1">
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.Instruction]}"
+                        <TextBlock Text="{l:Loc FixPieColorsPage.Instruction}"
                                    Foreground="{DynamicResource TextSubBrush}"
                                    VerticalAlignment="Center"/>
                     </Border>
@@ -121,12 +125,12 @@
                         CornerRadius="{DynamicResource CardRadius}"
                         BorderBrush="{DynamicResource CardStrokeBrush}"
                         BorderThickness="1" Padding="12,0">
-                    <TextBlock x:Name="txtStatus" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.Ready]}"
+                    <TextBlock x:Name="txtStatus" Text="{l:Loc FixPieColorsPage.Ready}"
                                Foreground="{DynamicResource TextSubBrush}"
                                VerticalAlignment="Center"/>
                 </Border>
                 <Button x:Name="btnRun" Grid.Column="2" Height="34"
-                        Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.Run]}" Style="{DynamicResource PrimaryButton}"
+                        Content="{l:Loc FixPieColorsPage.Run}" Style="{DynamicResource PrimaryButton}"
                         Click="btnRun_Click"/>
             </Grid>
 
@@ -144,7 +148,7 @@
                                      IsIndeterminate="True"/>
                         <TextBlock x:Name="txtBusy" Margin="12,0,0,0"
                                    Foreground="{DynamicResource TextMainBrush}"
-                                   VerticalAlignment="Center" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[FixPieColorsPage.Working]}"/>
+                                   VerticalAlignment="Center" Text="{l:Loc FixPieColorsPage.Working}"/>
                     </StackPanel>
                 </Border>
             </Grid>

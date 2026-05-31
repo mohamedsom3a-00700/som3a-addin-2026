@@ -1,11 +1,15 @@
 <Page x:Class="Som3a_WPF_UI.Pages.AssignTradeCodesPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:l="clr-namespace:Som3a_WPF_UI.MarkupExtensions"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      
       xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      
       mc:Ignorable="d"
-      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.Title]}"
+      Title="{l:Loc AssignTradeCodesPage.Title}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -22,7 +26,7 @@
               x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
 
-            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.Heading]}"
+            <TextBlock Text="{l:Loc AssignTradeCodesPage.Heading}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14"
                        FontWeight="SemiBold"
@@ -60,7 +64,7 @@
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.MainSheet]}"
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{l:Loc AssignTradeCodesPage.MainSheet}"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <ComboBox Grid.Row="0" Grid.Column="1" Margin="10,0,0,0"
@@ -68,7 +72,7 @@
                               SelectedItem="{Binding MainSheet, UpdateSourceTrigger=PropertyChanged}"
                               Style="{DynamicResource RoundComboBox}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.ReferenceSheet]}"
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{l:Loc AssignTradeCodesPage.ReferenceSheet}"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <ComboBox Grid.Row="1" Grid.Column="1" Margin="10,0,0,0"
@@ -76,7 +80,7 @@
                               SelectedItem="{Binding RefSheet, UpdateSourceTrigger=PropertyChanged}"
                               Style="{DynamicResource RoundComboBox}"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.CodeColumn]}"
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{l:Loc AssignTradeCodesPage.CodeColumn}"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,0,0,0"
@@ -90,7 +94,7 @@
                     </StackPanel>
 
                     <TextBlock Grid.Row="3" Grid.Column="0"
-                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.ActivityIdColumn]}"
+                               Text="{l:Loc AssignTradeCodesPage.ActivityIdColumn}"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <StackPanel Grid.Row="3" Grid.Column="1" Margin="10,0,0,0"
@@ -104,7 +108,7 @@
                     </StackPanel>
 
                     <TextBlock Grid.Row="4" Grid.Column="0"
-                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.StatusColumn]}"
+                               Text="{l:Loc AssignTradeCodesPage.StatusColumn}"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <TextBox Grid.Row="4" Grid.Column="1" Margin="10,0,0,0"
@@ -112,11 +116,11 @@
                              IsReadOnly="True" Style="{DynamicResource ReadOnlyTextBox}"/>
 
                     <TextBlock Grid.Row="5" Grid.Column="0"
-                               Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.ReferenceMap]}" VerticalAlignment="Center"
+                               Text="{l:Loc AssignTradeCodesPage.ReferenceMap}" VerticalAlignment="Center"
                                Foreground="{DynamicResource TextMainBrush}"/>
                     <TextBox Grid.Row="5" Grid.Column="1" Margin="10,0,0,0"
                              Height="34"
-                             Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.ReferenceMapHint]}"
+                             Text="{l:Loc AssignTradeCodesPage.ReferenceMapHint}"
                              IsReadOnly="True" Style="{DynamicResource ReadOnlyTextBox}"/>
                 </Grid>
             </Border>
@@ -132,13 +136,13 @@
                           Background="Transparent" BorderThickness="0">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesGrid.Row]}" Width="60"
+                            <GridViewColumn Header="{l:Loc AssignTradeCodesGrid.Row}" Width="60"
                                             DisplayMemberBinding="{Binding Row}"/>
-                            <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesGrid.Activity]}" Width="240"
+                            <GridViewColumn Header="{l:Loc AssignTradeCodesGrid.Activity}" Width="240"
                                             DisplayMemberBinding="{Binding Activity}"/>
-                            <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesGrid.TradeCode]}" Width="100"
+                            <GridViewColumn Header="{l:Loc AssignTradeCodesGrid.TradeCode}" Width="100"
                                             DisplayMemberBinding="{Binding TradeCode}"/>
-                            <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesGrid.Status]}" Width="160"
+                            <GridViewColumn Header="{l:Loc AssignTradeCodesGrid.Status}" Width="160"
                                             DisplayMemberBinding="{Binding Status}"/>
                         </GridView>
                     </ListView.View>
@@ -190,15 +194,15 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Height="34" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.Run]}"
+                <Button Grid.Column="0" Height="34" Content="{l:Loc AssignTradeCodesPage.Run}"
                         Style="{DynamicResource PrimaryButton}"
                         Command="{Binding RunCommand}"
                         IsEnabled="{Binding CanRun}"/>
-                <Button Grid.Column="2" Height="34" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.Stop]}"
+                <Button Grid.Column="2" Height="34" Content="{l:Loc AssignTradeCodesPage.Stop}"
                         Style="{DynamicResource BaseButton}"
                         Command="{Binding StopCommand}"
                         IsEnabled="{Binding IsBusy}"/>
-                <Button Grid.Column="4" Height="34" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[AssignTradeCodesPage.Cancel]}"
+                <Button Grid.Column="4" Height="34" Content="{l:Loc AssignTradeCodesPage.Cancel}"
                         Style="{DynamicResource GhostButton}"
                         Command="{Binding CancelCommand}"
                         IsEnabled="{Binding IsBusy}"/>

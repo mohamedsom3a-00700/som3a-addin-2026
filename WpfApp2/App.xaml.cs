@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Som3a.Bridge;
+using Som3a.Localization.Contracts;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Services;
 using Som3a_WPF_UI.Controls.Shell;
 using Som3a_WPF_UI.Views;
 using Timer = System.Timers.Timer;
+using LanguageChangedEventArgs = Som3a.Localization.Contracts.LanguageChangedEventArgs;
 
 namespace Som3a_WPF_UI
 {
@@ -44,8 +46,9 @@ namespace Som3a_WPF_UI
             var sidebarRegistration = Container.Resolve<ISidebarRegistrationProvider>();
             sidebarRegistration.RegisterStaticPages();
 
-            LocalizationBridgeService.Instance.LanguageChanged += OnLanguageChanged;
-            LocalizationBridgeService.Instance.LoadLanguagePreference();
+            var localizationService = Container.Resolve<ILocalizationService>();
+            localizationService.LanguageChanged += OnLanguageChanged;
+            localizationService.LoadLanguagePreference();
 
             ShowSplashWindow();
 
@@ -90,6 +93,10 @@ namespace Som3a_WPF_UI
 
             var sidebarRegistration = Container.Resolve<ISidebarRegistrationProvider>();
             sidebarRegistration.RegisterStaticPages();
+
+            var localizationService = Container.Resolve<ILocalizationService>();
+            localizationService.LanguageChanged += OnLanguageChanged;
+            localizationService.LoadLanguagePreference();
 
             CompositionRoot.InitializeModules(Container.Resolve<Services.IModuleRegistry>());
 
@@ -213,8 +220,6 @@ namespace Som3a_WPF_UI
 
             foreach (var d in NavigationService.Instance.Destinations)
                 d.RefreshLabel();
-
-            TranslationSource.Instance.Refresh();
         }
 
         private static Timer _gcTimer;

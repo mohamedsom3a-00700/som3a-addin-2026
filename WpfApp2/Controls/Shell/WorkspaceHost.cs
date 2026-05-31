@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
+using Som3a.Localization.Contracts;
 using Som3a_WPF_UI.Pages;
-using Som3a_WPF_UI.Services;
 using NavEventArgs = System.Windows.Navigation.NavigationEventArgs;
 
 namespace Som3a_WPF_UI.Controls.Shell
@@ -30,6 +30,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         private Page _currentPage;
         private int _isNavigating;
         private bool _disposed;
+        private readonly ILocalizationService _localization;
         private Func<Page> _pendingPageFactory;
 
         public static readonly DependencyProperty WelcomePageTypeProperty =
@@ -56,7 +57,8 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         public WorkspaceHost()
         {
-            LocalizationBridgeService.Instance.LanguageChanged += OnLanguageChanged;
+            _localization = App.Container.Resolve<ILocalizationService>();
+            _localization.LanguageChanged += OnLanguageChanged;
             Unloaded += OnWorkspaceHostUnloaded;
         }
 
@@ -65,7 +67,7 @@ namespace Som3a_WPF_UI.Controls.Shell
             if (!_disposed)
             {
                 _disposed = true;
-                LocalizationBridgeService.Instance.LanguageChanged -= OnLanguageChanged;
+                _localization.LanguageChanged -= OnLanguageChanged;
                 Unloaded -= OnWorkspaceHostUnloaded;
             }
         }
@@ -97,7 +99,7 @@ namespace Som3a_WPF_UI.Controls.Shell
                 _frame.LoadCompleted += OnFrameLoadCompleted;
                 _frame.NavigationFailed += OnFrameNavigationFailed;
                 _frame.NavigationStopped += OnFrameNavigationStopped;
-                _frame.FlowDirection = LocalizationBridgeService.Instance.IsRTL
+                _frame.FlowDirection = _localization.IsRTL
                     ? FlowDirection.RightToLeft
                     : FlowDirection.LeftToRight;
             }
@@ -119,7 +121,7 @@ namespace Som3a_WPF_UI.Controls.Shell
 
             if (_frame != null)
             {
-                _frame.FlowDirection = LocalizationBridgeService.Instance.IsRTL
+                _frame.FlowDirection = _localization.IsRTL
                     ? FlowDirection.RightToLeft
                     : FlowDirection.LeftToRight;
             }
@@ -142,7 +144,7 @@ namespace Som3a_WPF_UI.Controls.Shell
                         if (page != null)
                         {
                             _currentPage = page;
-                            page.FlowDirection = LocalizationBridgeService.Instance.IsRTL
+                            page.FlowDirection = _localization.IsRTL
                                 ? FlowDirection.RightToLeft
                                 : FlowDirection.LeftToRight;
                             _frame.Navigate(page);
@@ -182,13 +184,13 @@ namespace Som3a_WPF_UI.Controls.Shell
             try
             {
                 _currentPage = page;
-                page.FlowDirection = LocalizationBridgeService.Instance.IsRTL
+                page.FlowDirection = _localization.IsRTL
                     ? FlowDirection.RightToLeft
                     : FlowDirection.LeftToRight;
 
                 if (_frame != null)
                 {
-                    _frame.FlowDirection = LocalizationBridgeService.Instance.IsRTL
+                    _frame.FlowDirection = _localization.IsRTL
                         ? FlowDirection.RightToLeft
                         : FlowDirection.LeftToRight;
                 }
@@ -270,7 +272,7 @@ namespace Som3a_WPF_UI.Controls.Shell
                 var welcomePage = Activator.CreateInstance(WelcomePageType) as Page;
                 if (welcomePage != null)
                 {
-                    var isRTL = LocalizationBridgeService.Instance.IsRTL;
+                    var isRTL = _localization.IsRTL;
                     welcomePage.FlowDirection = isRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
                     _frame.FlowDirection = isRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
                     _frame.Navigate(welcomePage);

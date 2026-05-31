@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -58,178 +58,2919 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccessibilityPanel.FocusIndicator" xml:space="preserve">
+    <value>
+    Focus Indicator
+  </value>
+  </data>
+  <data name="AccessibilityPanel.FocusIndicatorDescription" xml:space="preserve">
+    <value>
+    Show focus glow around selected elements
+  </value>
+  </data>
+  <data name="AccessibilityPanel.FocusIndicatorToggleAutomation" xml:space="preserve">
+    <value>
+    Focus Indicator Toggle
+  </value>
+  </data>
+  <data name="AccessibilityPanel.HighContrast" xml:space="preserve">
+    <value>
+    High Contrast Mode
+  </value>
+  </data>
+  <data name="AccessibilityPanel.HighContrastDescription" xml:space="preserve">
+    <value>
+    Increase contrast for better visibility
+  </value>
+  </data>
+  <data name="AccessibilityPanel.HighContrastToggleAutomation" xml:space="preserve">
+    <value>
+    High Contrast Toggle
+  </value>
+  </data>
+  <data name="AIPanel.AiFeatures" xml:space="preserve">
+    <value>
+    AI Features
+  </value>
+  </data>
+  <data name="AIPanel.ApiKey" xml:space="preserve">
+    <value>
+    API Key
+  </value>
+  </data>
+  <data name="AIPanel.ApiKeyAutomation" xml:space="preserve">
+    <value>
+    AI API Key
+  </value>
+  </data>
+  <data name="AIPanel.ApiKeyHint" xml:space="preserve">
+    <value>
+    (Cloud API key is required. If empty, local AI will be used.)
+  </value>
+  </data>
+  <data name="AIPanel.CloudAiConfig" xml:space="preserve">
+    <value>
+    Cloud AI Configuration
+  </value>
+  </data>
+  <data name="AIPanel.EnableAiGeneration" xml:space="preserve">
+    <value>
+    Enable AI generation
+  </value>
+  </data>
+  <data name="AIPanel.EnableAiGenerationAutomation" xml:space="preserve">
+    <value>
+    Enable AI generation
+  </value>
+  </data>
+  <data name="AIPanel.EndpointUrl" xml:space="preserve">
+    <value>
+    Endpoint URL
+  </value>
+  </data>
+  <data name="AIPanel.EndpointUrlAutomation" xml:space="preserve">
+    <value>
+    Local AI Endpoint URL
+  </value>
+  </data>
+  <data name="AIPanel.FallbackModel" xml:space="preserve">
+    <value>
+    Fallback Model
+  </value>
+  </data>
+  <data name="AIPanel.FallbackModelAutomation" xml:space="preserve">
+    <value>
+    AI Fallback Model
+  </value>
+  </data>
+  <data name="AIPanel.LocalAiConfig" xml:space="preserve">
+    <value>
+    Local AI Configuration
+  </value>
+  </data>
+  <data name="AIPanel.LocalAiDetection" xml:space="preserve">
+    <value>
+    Local AI Detection
+  </value>
+  </data>
+  <data name="AIPanel.LocalFallbackModel" xml:space="preserve">
+    <value>
+    Fallback Model
+  </value>
+  </data>
+  <data name="AIPanel.LocalFallbackModelAutomation" xml:space="preserve">
+    <value>
+    Local AI Fallback Model
+  </value>
+  </data>
+  <data name="AIPanel.LocalModel" xml:space="preserve">
+    <value>
+    Model
+  </value>
+  </data>
+  <data name="AIPanel.LocalModelAutomation" xml:space="preserve">
+    <value>
+    Local AI Model
+  </value>
+  </data>
+  <data name="AIPanel.MainModel" xml:space="preserve">
+    <value>
+    Main Model
+  </value>
+  </data>
+  <data name="AIPanel.MainModelAutomation" xml:space="preserve">
+    <value>
+    AI Main Model
+  </value>
+  </data>
+  <data name="AIPanel.NoApiKey" xml:space="preserve">
+    <value>
+    No Cloud API Key Configured
+  </value>
+  </data>
+  <data name="AIPanel.RefreshModelsTooltip" xml:space="preserve">
+    <value>
+    Fetch latest models from API
+  </value>
+  </data>
+  <data name="AIPanel.ScanningForProviders" xml:space="preserve">
+    <value>
+    Scanning for local AI providers...
+  </value>
+  </data>
+  <data name="AIPanel.SelectLocalProvider" xml:space="preserve">
+    <value>
+    Select Local Provider:
+  </value>
+  </data>
+  <data name="AIPanel.UseLocalAi" xml:space="preserve">
+    <value>
+    Use Local AI
+  </value>
+  </data>
+  <data name="AIPanel.UsingLocalAutomatically" xml:space="preserve">
+    <value>
+    Using local AI provider automatically.
+  </value>
+  </data>
+  <data name="AppearancePanel.AccentColor" xml:space="preserve">
+    <value>
+    Accent Color
+  </value>
+  </data>
+  <data name="AppearancePanel.Apply" xml:space="preserve">
+    <value>
+    Apply
+  </value>
+  </data>
+  <data name="AppearancePanel.BackgroundImage" xml:space="preserve">
+    <value>
+    Background Image
+  </value>
+  </data>
+  <data name="AppearancePanel.BackgroundStyle" xml:space="preserve">
+    <value>
+    Background Style
+  </value>
+  </data>
+  <data name="AppearancePanel.BaseTheme" xml:space="preserve">
+    <value>
+    Base Theme
+  </value>
+  </data>
+  <data name="AppearancePanel.BaseThemeDark" xml:space="preserve">
+    <value>
+    Dark
+  </value>
+  </data>
+  <data name="AppearancePanel.BaseThemeLight" xml:space="preserve">
+    <value>
+    Light
+  </value>
+  </data>
+  <data name="AppearancePanel.BlurIntensity" xml:space="preserve">
+    <value>
+    Blur Intensity
+  </value>
+  </data>
+  <data name="AppearancePanel.Cancel" xml:space="preserve">
+    <value>
+    Cancel
+  </value>
+  </data>
+  <data name="AppearancePanel.ChooseImage" xml:space="preserve">
+    <value>
+    Choose Image...
+  </value>
+  </data>
+  <data name="AppearancePanel.ClearImage" xml:space="preserve">
+    <value>
+    Clear
+  </value>
+  </data>
+  <data name="AppearancePanel.ColorWheel" xml:space="preserve">
+    <value>
+    Color Wheel
+  </value>
+  </data>
+  <data name="AppearancePanel.CustomThemeCardAutomation" xml:space="preserve">
+    <value>
+    Custom Theme Card
+  </value>
+  </data>
+  <data name="AppearancePanel.CustomThemeDescription" xml:space="preserve">
+    <value>
+    Your accent color
+  </value>
+  </data>
+  <data name="AppearancePanel.CustomThemeLabel" xml:space="preserve">
+    <value>
+    Custom
+  </value>
+  </data>
+  <data name="AppearancePanel.DarkThemeCardAutomation" xml:space="preserve">
+    <value>
+    Dark Theme Card
+  </value>
+  </data>
+  <data name="AppearancePanel.DarkThemeDescription" xml:space="preserve">
+    <value>
+    Full dark theme
+  </value>
+  </data>
+  <data name="AppearancePanel.DarkThemeLabel" xml:space="preserve">
+    <value>
+    Dark
+  </value>
+  </data>
+  <data name="AppearancePanel.EnableBlur" xml:space="preserve">
+    <value>
+    Enable Blur
+  </value>
+  </data>
+  <data name="AppearancePanel.FontFamily" xml:space="preserve">
+    <value>
+    Font Family
+  </value>
+  </data>
+  <data name="AppearancePanel.GradientStyle" xml:space="preserve">
+    <value>
+    Gradient
+  </value>
+  </data>
+  <data name="AppearancePanel.GradientStyleAutomation" xml:space="preserve">
+    <value>
+    Gradient Background Style
+  </value>
+  </data>
+  <data name="AppearancePanel.HexColor" xml:space="preserve">
+    <value>
+    Hex Color
+  </value>
+  </data>
+  <data name="AppearancePanel.LightThemeCardAutomation" xml:space="preserve">
+    <value>
+    Light Theme Card
+  </value>
+  </data>
+  <data name="AppearancePanel.LightThemeDescription" xml:space="preserve">
+    <value>
+    Clean light theme
+  </value>
+  </data>
+  <data name="AppearancePanel.LightThemeLabel" xml:space="preserve">
+    <value>
+    Light
+  </value>
+  </data>
+  <data name="AppearancePanel.PreviewLabel" xml:space="preserve">
+    <value>
+    Preview
+  </value>
+  </data>
+  <data name="AppearancePanel.PreviewSection" xml:space="preserve">
+    <value>
+    Preview
+  </value>
+  </data>
+  <data name="AppearancePanel.SampleBody" xml:space="preserve">
+    <value>
+    Sample body text for preview purposes
+  </value>
+  </data>
+  <data name="AppearancePanel.SampleHeading" xml:space="preserve">
+    <value>
+    Sample Heading
+  </value>
+  </data>
+  <data name="AppearancePanel.SolidStyle" xml:space="preserve">
+    <value>
+    Solid
+  </value>
+  </data>
+  <data name="AppearancePanel.SolidStyleAutomation" xml:space="preserve">
+    <value>
+    Solid Background Style
+  </value>
+  </data>
+  <data name="AppearancePanel.Theme" xml:space="preserve">
+    <value>
+    Theme
+  </value>
+  </data>
+  <data name="AppearancePanel.ThemePreview" xml:space="preserve">
+    <value>
+    Theme Preview
+  </value>
+  </data>
+  <data name="AppearancePanel.Variants" xml:space="preserve">
+    <value>
+    Variants
+  </value>
+  </data>
+  <data name="AppearancePanel.Wallpapers" xml:space="preserve">
+    <value>
+    Wallpapers
+  </value>
+  </data>
   <data name="AppTitle" xml:space="preserve">
-    <value>Som3a Enterprise Planning Platform</value>
+    <value>
+    Som3a Enterprise Planning Platform
+  </value>
   </data>
-  <data name="Shell.Title" xml:space="preserve">
-    <value>Som3a Add-in</value>
+  <data name="AssignTradeCodesGrid.Activity" xml:space="preserve">
+    <value>
+    Activity
+  </value>
   </data>
-  <data name="Shell.Status.Ready" xml:space="preserve">
-    <value>Ready</value>
+  <data name="AssignTradeCodesGrid.Row" xml:space="preserve">
+    <value>
+    Row
+  </value>
   </data>
-  <data name="Shell.Status.Navigating" xml:space="preserve">
-    <value>Navigating to {0}...</value>
+  <data name="AssignTradeCodesGrid.Status" xml:space="preserve">
+    <value>
+    Status
+  </value>
   </data>
-  <data name="Shell.Status.Error" xml:space="preserve">
-    <value>Error: {0}</value>
+  <data name="AssignTradeCodesGrid.TradeCode" xml:space="preserve">
+    <value>
+    Trade Code
+  </value>
   </data>
-  <data name="Shell.Sidebar.Toggle" xml:space="preserve">
-    <value>Toggle sidebar</value>
+  <data name="AssignTradeCodesPage.ActivityIdColumn" xml:space="preserve">
+    <value>
+    Activity ID Column (Auto)
+  </value>
   </data>
-  <data name="Shell.SkipToContent" xml:space="preserve">
-    <value>Skip to content</value>
+  <data name="AssignTradeCodesPage.Cancel" xml:space="preserve">
+    <value>
+    Cancel
+  </value>
   </data>
-  <data name="Shell.Theme.Toggle" xml:space="preserve">
-    <value>Toggle theme</value>
+  <data name="AssignTradeCodesPage.CodeColumn" xml:space="preserve">
+    <value>
+    CODE Column (Auto)
+  </value>
   </data>
-  <data name="Shell.Minimize" xml:space="preserve">
-    <value>Minimize</value>
+  <data name="AssignTradeCodesPage.Heading" xml:space="preserve">
+    <value>
+    Trades Codes
+  </value>
   </data>
-  <data name="Shell.Maximize" xml:space="preserve">
-    <value>Maximize</value>
+  <data name="AssignTradeCodesPage.MainSheet" xml:space="preserve">
+    <value>
+    Main Sheet
+  </value>
   </data>
-  <data name="Shell.Close" xml:space="preserve">
-    <value>Close</value>
+  <data name="AssignTradeCodesPage.ReferenceMap" xml:space="preserve">
+    <value>
+    Reference Map
+  </value>
   </data>
-  <data name="Shell.CommandPalette.Placeholder" xml:space="preserve">
-    <value>Search pages and commands...</value>
+  <data name="AssignTradeCodesPage.ReferenceMapHint" xml:space="preserve">
+    <value>
+    Ref: Activity in Column C, Trade Code in Column A
+  </value>
   </data>
-  <data name="Settings.Title" xml:space="preserve">
-    <value>Settings</value>
+  <data name="AssignTradeCodesPage.ReferenceSheet" xml:space="preserve">
+    <value>
+    Reference Sheet
+  </value>
   </data>
-  <data name="Settings.General" xml:space="preserve">
-    <value>General</value>
+  <data name="AssignTradeCodesPage.Run" xml:space="preserve">
+    <value>
+    Run
+  </value>
   </data>
-  <data name="Settings.Appearance" xml:space="preserve">
-    <value>Appearance</value>
+  <data name="AssignTradeCodesPage.StatusColumn" xml:space="preserve">
+    <value>
+    Status Column (Auto)
+  </value>
   </data>
-  <data name="Settings.Language" xml:space="preserve">
-    <value>Language</value>
+  <data name="AssignTradeCodesPage.Stop" xml:space="preserve">
+    <value>
+    Stop
+  </value>
   </data>
-  <data name="Settings.Language.Label" xml:space="preserve">
-    <value>Application Language</value>
+  <data name="AssignTradeCodesPage.Title" xml:space="preserve">
+    <value>
+    Trades Codes
+  </value>
   </data>
-  <data name="Settings.Language.Description" xml:space="preserve">
-    <value>Select the display language for the application interface</value>
+  <data name="BOQActivityGeneratorGrid.ErrorTooltip" xml:space="preserve">
+    <value>
+    This activity has validation errors.
+  </value>
   </data>
-  <data name="Settings.Font" xml:space="preserve">
-    <value>Font</value>
+  <data name="BOQActivityGeneratorGrid.PassedTooltip" xml:space="preserve">
+    <value>
+    Validation passed.
+  </value>
   </data>
-  <data name="Settings.Font.Arabic.Label" xml:space="preserve">
-    <value>Arabic Font</value>
+  <data name="BOQActivityGeneratorGrid.WarningTooltip" xml:space="preserve">
+    <value>
+    This activity has warnings.
+  </value>
   </data>
-  <data name="Settings.Font.Arabic.Description" xml:space="preserve">
-    <value>Choose a font for Arabic text display</value>
+  <data name="BOQActivityGeneratorPage.AiSubtitle" xml:space="preserve">
+    <value>
+    Generate construction activities from BOQ data using AI
+  </value>
   </data>
-  <data name="Settings.Export" xml:space="preserve">
-    <value>Export</value>
+  <data name="BOQActivityGeneratorPage.Cancel" xml:space="preserve">
+    <value>
+    Cancel
+  </value>
   </data>
-  <data name="Settings.Import" xml:space="preserve">
-    <value>Import</value>
+  <data name="BOQActivityGeneratorPage.Consent" xml:space="preserve">
+    <value>
+    I Consent
+  </value>
   </data>
-  <data name="Settings.Save" xml:space="preserve">
-    <value>Save</value>
+  <data name="BOQActivityGeneratorPage.Decline" xml:space="preserve">
+    <value>
+    Decline
+  </value>
   </data>
-  <data name="Settings.Cancel" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="BOQActivityGeneratorPage.EmptyState" xml:space="preserve">
+    <value>
+    No activities generated yet. Click &apos;Generate Activities&apos; above to start.
+  </value>
   </data>
-  <data name="Settings.Footer" xml:space="preserve">
-    <value>Som3a Add-in Settings</value>
+  <data name="BOQActivityGeneratorPage.ExportHint" xml:space="preserve">
+    <value>
+    Export will create a &apos;Generated Activities&apos; sheet in the active workbook.
+  </value>
   </data>
-  <data name="Settings.Unsaved.Title" xml:space="preserve">
-    <value>Unsaved Changes</value>
+  <data name="BOQActivityGeneratorPage.ExportToExcel" xml:space="preserve">
+    <value>
+    Export to Excel
+  </value>
   </data>
-  <data name="Settings.Unsaved.Message" xml:space="preserve">
-    <value>You have unsaved changes. Save before navigating?</value>
+  <data name="BOQActivityGeneratorPage.GenerateActivities" xml:space="preserve">
+    <value>
+    Generate Activities
+  </value>
   </data>
-  <data name="Dashboard.Title" xml:space="preserve">
-    <value>Dashboard</value>
+  <data name="BOQActivityGeneratorPage.GenerateHint" xml:space="preserve">
+    <value>
+    Click &apos;Generate Activities&apos; to start.
+  </value>
   </data>
-  <data name="Dashboard.Welcome" xml:space="preserve">
-    <value>Welcome to Som3a Enterprise Planning Platform</value>
+  <data name="BOQActivityGeneratorPage.Heading" xml:space="preserve">
+    <value>
+    BOQ Activity Generator
+  </value>
   </data>
-  <data name="Dashboard.QuickActions" xml:space="preserve">
-    <value>Quick Actions</value>
+  <data name="BOQActivityGeneratorPage.IncludeDependencies" xml:space="preserve">
+    <value>
+    Include Dependencies
+  </value>
   </data>
-  <data name="Dashboard.RecentProjects" xml:space="preserve">
-    <value>Recent Projects</value>
+  <data name="BOQActivityGeneratorPage.LoadBoq" xml:space="preserve">
+    <value>
+    Load BOQ
+  </value>
   </data>
-  <data name="Dashboard.Diagnostics" xml:space="preserve">
-    <value>Diagnostics</value>
+  <data name="BOQActivityGeneratorPage.PrivacyBody" xml:space="preserve">
+    <value>
+    This feature uses AI to generate construction activities from your BOQ data. The BOQ data will be sent to an AI provider for processing. No data is stored or used for training purposes. Do you consent to sending BOQ data for AI-powered activity generation?
+  </value>
   </data>
-  <data name="Error.General" xml:space="preserve">
-    <value>An error occurred: {0}</value>
+  <data name="BOQActivityGeneratorPage.PrivacyTitle" xml:space="preserve">
+    <value>
+    Data Privacy Consent
+  </value>
   </data>
-  <data name="Error.PluginLoad" xml:space="preserve">
-    <value>Failed to load plugin: {0}</value>
+  <data name="BOQActivityGeneratorPage.Ready" xml:space="preserve">
+    <value>
+    Ready
+  </value>
   </data>
-  <data name="Error.AIProvider" xml:space="preserve">
-    <value>AI provider error: {0}</value>
+  <data name="BOQActivityGeneratorPage.SequenceActivities" xml:space="preserve">
+    <value>
+    Sequence Activities
+  </value>
   </data>
-  <data name="Error.Validation" xml:space="preserve">
-    <value>Validation error: {0}</value>
+  <data name="BOQActivityGeneratorPage.SuggestDependencies" xml:space="preserve">
+    <value>
+    Suggest Dependencies
+  </value>
   </data>
-  <data name="Error.Navigation" xml:space="preserve">
-    <value>Navigation error: {0}</value>
+  <data name="BOQActivityGeneratorPage.SuggestedDependencies" xml:space="preserve">
+    <value>
+    Suggested Dependencies
+  </value>
   </data>
-  <data name="Error.ExportFailed" xml:space="preserve">
-    <value>Export failed: {0}</value>
+  <data name="BOQActivityGeneratorPage.Title" xml:space="preserve">
+    <value>
+    BOQ Activity Generator
+  </value>
   </data>
-  <data name="Error.ImportFailed" xml:space="preserve">
-    <value>Import failed: {0}</value>
+  <data name="BOQActivityGeneratorPage.Working" xml:space="preserve">
+    <value>
+    Working...
+  </value>
   </data>
-  <data name="Plugin.LoadError" xml:space="preserve">
-    <value>Failed to load plugin: {0}</value>
+  <data name="BOQActivityGeneratorTab.BoqPreview" xml:space="preserve">
+    <value>
+    BOQ Preview
+  </value>
   </data>
-  <data name="Plugin.PageUnavailable" xml:space="preserve">
-    <value>Page unavailable</value>
+  <data name="BOQActivityGeneratorTab.Export" xml:space="preserve">
+    <value>
+    Export
+  </value>
   </data>
-  <data name="Plugin.FallbackText" xml:space="preserve">
-    <value>No translation available</value>
+  <data name="BOQActivityGeneratorTab.GeneratedActivities" xml:space="preserve">
+    <value>
+    Generated Activities
+  </value>
   </data>
-  <data name="Export.Complete" xml:space="preserve">
-    <value>Export completed: {0} rows</value>
+  <data name="BOQActivityGeneratorTab.Sequencing" xml:space="preserve">
+    <value>
+    Sequencing
+  </value>
   </data>
-  <data name="Export.InProgress" xml:space="preserve">
-    <value>Exporting...</value>
+  <data name="BOQActivityGrid.ActivityId" xml:space="preserve">
+    <value>
+    Activity ID
+  </value>
   </data>
-  <data name="Navigation.Home" xml:space="preserve">
-    <value>Home</value>
+  <data name="BOQActivityGrid.BoqReference" xml:space="preserve">
+    <value>
+    BOQ Reference
+  </value>
   </data>
-  <data name="Navigation.Back" xml:space="preserve">
-    <value>Back</value>
+  <data name="BOQActivityGrid.Classification" xml:space="preserve">
+    <value>
+    Classification
+  </value>
   </data>
-  <data name="Navigation.Forward" xml:space="preserve">
-    <value>Forward</value>
+  <data name="BOQActivityGrid.Description" xml:space="preserve">
+    <value>
+    Description
+  </value>
   </data>
-  <data name="Common.Yes" xml:space="preserve">
-    <value>Yes</value>
+  <data name="BOQActivityGrid.ItemNumber" xml:space="preserve">
+    <value>
+    Item #
+  </value>
   </data>
-  <data name="Common.No" xml:space="preserve">
-    <value>No</value>
+  <data name="BOQActivityGrid.Name" xml:space="preserve">
+    <value>
+    Name
+  </value>
+  </data>
+  <data name="BOQActivityGrid.Quantity" xml:space="preserve">
+    <value>
+    Quantity
+  </value>
+  </data>
+  <data name="BOQActivityGrid.Unit" xml:space="preserve">
+    <value>
+    Unit
+  </value>
+  </data>
+  <data name="BOQActivityGrid.Validation" xml:space="preserve">
+    <value>
+    Validation
+  </value>
+  </data>
+  <data name="BOQDependenciesGrid.Accepted" xml:space="preserve">
+    <value>
+    Accepted
+  </value>
+  </data>
+  <data name="BOQDependenciesGrid.Confidence" xml:space="preserve">
+    <value>
+    Confidence
+  </value>
+  </data>
+  <data name="BOQDependenciesGrid.Predecessor" xml:space="preserve">
+    <value>
+    Predecessor
+  </value>
+  </data>
+  <data name="BOQDependenciesGrid.Rationale" xml:space="preserve">
+    <value>
+    Rationale
+  </value>
+  </data>
+  <data name="BOQDependenciesGrid.Successor" xml:space="preserve">
+    <value>
+    Successor
+  </value>
+  </data>
+  <data name="BOQDependenciesGrid.Type" xml:space="preserve">
+    <value>
+    Type
+  </value>
+  </data>
+  <data name="BOQSequencingGrid.ActivityId" xml:space="preserve">
+    <value>
+    Activity ID
+  </value>
+  </data>
+  <data name="BOQSequencingGrid.Name" xml:space="preserve">
+    <value>
+    Name
+  </value>
+  </data>
+  <data name="BOQSequencingGrid.Order" xml:space="preserve">
+    <value>
+    Order
+  </value>
+  </data>
+  <data name="BOQSequencingGrid.ParallelGroup" xml:space="preserve">
+    <value>
+    Parallel Group
+  </value>
+  </data>
+  <data name="BOQSequencingGrid.WbsPath" xml:space="preserve">
+    <value>
+    WBS Path
+  </value>
+  </data>
+  <data name="Brand.Name" xml:space="preserve">
+    <value>
+    Som3a Platform
+  </value>
+  </data>
+  <data name="Brand.Tagline" xml:space="preserve">
+    <value>
+    Planning. Simplified.
+  </value>
   </data>
   <data name="Common.Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="Common.Ok" xml:space="preserve">
-    <value>OK</value>
+    <value>
+    Cancel
+  </value>
   </data>
   <data name="Common.Close" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="Common.Save" xml:space="preserve">
-    <value>Save</value>
+    <value>
+    Close
+  </value>
   </data>
   <data name="Common.Delete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="Common.Search" xml:space="preserve">
-    <value>Search</value>
+    <value>
+    Delete
+  </value>
   </data>
   <data name="Common.Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>
+    Loading...
+  </value>
+  </data>
+  <data name="Common.No" xml:space="preserve">
+    <value>
+    No
+  </value>
   </data>
   <data name="Common.NoResults" xml:space="preserve">
-    <value>No results found</value>
+    <value>
+    No results found
+  </value>
+  </data>
+  <data name="Common.Ok" xml:space="preserve">
+    <value>
+    OK
+  </value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>
+    Save
+  </value>
+  </data>
+  <data name="Common.Search" xml:space="preserve">
+    <value>
+    Search
+  </value>
+  </data>
+  <data name="Common.Yes" xml:space="preserve">
+    <value>
+    Yes
+  </value>
+  </data>
+  <data name="CustomThemeSettings.ArabicIndicator" xml:space="preserve">
+    <value>
+    [AR]
+  </value>
+  </data>
+  <data name="CustomThemeSettings.Background" xml:space="preserve">
+    <value>
+    Background
+  </value>
+  </data>
+  <data name="CustomThemeSettings.Blur" xml:space="preserve">
+    <value>
+    Blur
+  </value>
+  </data>
+  <data name="CustomThemeSettings.ChooseImage" xml:space="preserve">
+    <value>
+    Choose Image...
+  </value>
+  </data>
+  <data name="CustomThemeSettings.ClearImage" xml:space="preserve">
+    <value>
+    Clear
+  </value>
+  </data>
+  <data name="CustomThemeSettings.EnableBlur" xml:space="preserve">
+    <value>
+    Enable Blur
+  </value>
+  </data>
+  <data name="CustomThemeSettings.Font" xml:space="preserve">
+    <value>
+    Font
+  </value>
+  </data>
+  <data name="CustomThemeSettings.Intensity" xml:space="preserve">
+    <value>
+    Intensity:
+  </value>
+  </data>
+  <data name="Dashboard.Diagnostics" xml:space="preserve">
+    <value>
+    Diagnostics
+  </value>
+  </data>
+  <data name="Dashboard.QuickActions" xml:space="preserve">
+    <value>
+    Quick Actions
+  </value>
+  </data>
+  <data name="Dashboard.RecentProjects" xml:space="preserve">
+    <value>
+    Recent Projects
+  </value>
+  </data>
+  <data name="Dashboard.Title" xml:space="preserve">
+    <value>
+    Dashboard
+  </value>
+  </data>
+  <data name="Dashboard.Welcome" xml:space="preserve">
+    <value>
+    Welcome to Som3a Enterprise Planning Platform
+  </value>
+  </data>
+  <data name="DiagnosticsLogGrid.Message" xml:space="preserve">
+    <value>
+    Message
+  </value>
+  </data>
+  <data name="DiagnosticsLogGrid.Severity" xml:space="preserve">
+    <value>
+    Severity
+  </value>
+  </data>
+  <data name="DiagnosticsLogGrid.Source" xml:space="preserve">
+    <value>
+    Source
+  </value>
+  </data>
+  <data name="DiagnosticsLogGrid.Time" xml:space="preserve">
+    <value>
+    Time
+  </value>
+  </data>
+  <data name="DiagnosticsPage.AccentLabel" xml:space="preserve">
+    <value>
+    Accent: 
+  </value>
+  </data>
+  <data name="DiagnosticsPage.ActiveLabel" xml:space="preserve">
+    <value>
+    Active: 
+  </value>
+  </data>
+  <data name="DiagnosticsPage.GpuCard" xml:space="preserve">
+    <value>
+    GPU
+  </value>
+  </data>
+  <data name="DiagnosticsPage.Heading" xml:space="preserve">
+    <value>
+    Diagnostics
+  </value>
+  </data>
+  <data name="DiagnosticsPage.ManagedLabel" xml:space="preserve">
+    <value>
+    Managed: 
+  </value>
+  </data>
+  <data name="DiagnosticsPage.MemoryCard" xml:space="preserve">
+    <value>
+    Memory
+  </value>
+  </data>
+  <data name="DiagnosticsPage.MemoryUnit" xml:space="preserve">
+    <value>
+    MB
+  </value>
+  </data>
+  <data name="DiagnosticsPage.PopupCard" xml:space="preserve">
+    <value>
+    Popup Diagnostics
+  </value>
+  </data>
+  <data name="DiagnosticsPage.Refresh" xml:space="preserve">
+    <value>
+    Refresh
+  </value>
+  </data>
+  <data name="DiagnosticsPage.RenderModeCard" xml:space="preserve">
+    <value>
+    Render Mode
+  </value>
+  </data>
+  <data name="DiagnosticsPage.RunValidation" xml:space="preserve">
+    <value>
+    Run Validation
+  </value>
+  </data>
+  <data name="DiagnosticsPage.ThemeCard" xml:space="preserve">
+    <value>
+    Theme
+  </value>
+  </data>
+  <data name="DiagnosticsPage.Title" xml:space="preserve">
+    <value>
+    Diagnostics
+  </value>
+  </data>
+  <data name="DiagnosticsPage.ValidationCard" xml:space="preserve">
+    <value>
+    Validation Results
+  </value>
+  </data>
+  <data name="DiagnosticsPage.WorkingSetLabel" xml:space="preserve">
+    <value>
+    Working Set: 
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.AccentColor" xml:space="preserve">
+    <value>
+    Accent Color
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.ActiveTheme" xml:space="preserve">
+    <value>
+    Active Theme
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.ApplicationLogs" xml:space="preserve">
+    <value>
+    Application Logs
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.Capturing" xml:space="preserve">
+    <value>
+    Capturing diagnostics...
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.ExportSettings" xml:space="preserve">
+    <value>
+    Export Settings
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.FallbackMode" xml:space="preserve">
+    <value>
+    Fallback Mode
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.GpuAvailable" xml:space="preserve">
+    <value>
+    GPU Available
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.GpuName" xml:space="preserve">
+    <value>
+    GPU Name
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.Heading" xml:space="preserve">
+    <value>
+    Diagnostics
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.ImportSettings" xml:space="preserve">
+    <value>
+    Import Settings
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.ManagedHeap" xml:space="preserve">
+    <value>
+    Managed Heap (MB)
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.PluginModules" xml:space="preserve">
+    <value>
+    Plugin Modules
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.PopupHealth" xml:space="preserve">
+    <value>
+    Popup Health
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.Refresh" xml:space="preserve">
+    <value>
+    Refresh
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.RenderMode" xml:space="preserve">
+    <value>
+    Render Mode
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.RenderSource" xml:space="preserve">
+    <value>
+    Render Source
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.Retry" xml:space="preserve">
+    <value>
+    Retry
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.RunValidation" xml:space="preserve">
+    <value>
+    Run Validation
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.SettingsExportHint" xml:space="preserve">
+    <value>
+    Export your current settings to a JSON file for backup or transfer to another machine.
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.SettingsExportImport" xml:space="preserve">
+    <value>
+    Settings Export / Import
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.Unavailable" xml:space="preserve">
+    <value>
+    Diagnostics Unavailable
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.ValidationResults" xml:space="preserve">
+    <value>
+    Validation Results
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.ViewLogs" xml:space="preserve">
+    <value>
+    View Logs
+  </value>
+  </data>
+  <data name="DiagnosticsPanel.WorkingSet" xml:space="preserve">
+    <value>
+    Working Set (MB)
+  </value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Category" xml:space="preserve">
+    <value>
+    Category
+  </value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Description" xml:space="preserve">
+    <value>
+    Description
+  </value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Dictionary" xml:space="preserve">
+    <value>
+    Dictionary
+  </value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Fix" xml:space="preserve">
+    <value>
+    Fix
+  </value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Location" xml:space="preserve">
+    <value>
+    Location
+  </value>
+  </data>
+  <data name="DiagnosticsValidationGrid.Severity" xml:space="preserve">
+    <value>
+    Severity
+  </value>
+  </data>
+  <data name="DurationEstimatorGrid.Activity" xml:space="preserve">
+    <value>
+    Activity
+  </value>
+  </data>
+  <data name="DurationEstimatorGrid.Days" xml:space="preserve">
+    <value>
+    Days
+  </value>
+  </data>
+  <data name="DurationEstimatorGrid.Expected" xml:space="preserve">
+    <value>
+    E
+  </value>
+  </data>
+  <data name="DurationEstimatorGrid.Optimistic" xml:space="preserve">
+    <value>
+    O
+  </value>
+  </data>
+  <data name="DurationEstimatorGrid.Pessimistic" xml:space="preserve">
+    <value>
+    P
+  </value>
+  </data>
+  <data name="DurationEstimatorGrid.Qty" xml:space="preserve">
+    <value>
+    Qty
+  </value>
+  </data>
+  <data name="DurationEstimatorGrid.Rate" xml:space="preserve">
+    <value>
+    Rate
+  </value>
+  </data>
+  <data name="DurationEstimatorGrid.StdDev" xml:space="preserve">
+    <value>
+    SD
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.BenchmarkLibrary" xml:space="preserve">
+    <value>
+    Benchmark Library
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.Calculate" xml:space="preserve">
+    <value>
+    Calculate
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.Clear" xml:space="preserve">
+    <value>
+    Clear
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.Crew" xml:space="preserve">
+    <value>
+    Crew:
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.ExportExcel" xml:space="preserve">
+    <value>
+    Export Excel
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.Heading" xml:space="preserve">
+    <value>
+    Duration Estimator
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.HoursPerDay" xml:space="preserve">
+    <value>
+    Hrs/Day:
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.Optimistic" xml:space="preserve">
+    <value>
+    O:
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.PerDayCrew" xml:space="preserve">
+    <value>
+    /day, crew=
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.Pessimistic" xml:space="preserve">
+    <value>
+    P:
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.Qty" xml:space="preserve">
+    <value>
+    Qty:
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.Rate" xml:space="preserve">
+    <value>
+    Rate:
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.Search" xml:space="preserve">
+    <value>
+    Search
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.ThreePoint" xml:space="preserve">
+    <value>
+    3-Point
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.ThreePointTooltip" xml:space="preserve">
+    <value>
+    Enable 3-point variance estimation (PERT)
+  </value>
+  </data>
+  <data name="DurationEstimatorPage.Title" xml:space="preserve">
+    <value>
+    Duration Estimator
+  </value>
+  </data>
+  <data name="Error.AIProvider" xml:space="preserve">
+    <value>
+    AI provider error: {0}
+  </value>
+  </data>
+  <data name="Error.ExportFailed" xml:space="preserve">
+    <value>
+    Export failed: {0}
+  </value>
+  </data>
+  <data name="Error.General" xml:space="preserve">
+    <value>
+    An error occurred: {0}
+  </value>
+  </data>
+  <data name="Error.ImportFailed" xml:space="preserve">
+    <value>
+    Import failed: {0}
+  </value>
+  </data>
+  <data name="Error.Navigation" xml:space="preserve">
+    <value>
+    Navigation error: {0}
+  </value>
+  </data>
+  <data name="Error.PluginLoad" xml:space="preserve">
+    <value>
+    Failed to load plugin: {0}
+  </value>
+  </data>
+  <data name="Error.Validation" xml:space="preserve">
+    <value>
+    Validation error: {0}
+  </value>
+  </data>
+  <data name="ExcelPanel.DpiDescription" xml:space="preserve">
+    <value>
+    DPI scaling is handled automatically by the Windows rendering pipeline. Adjust render mode if you experience display issues.
+  </value>
+  </data>
+  <data name="ExcelPanel.DpiInformation" xml:space="preserve">
+    <value>
+    DPI Information
+  </value>
+  </data>
+  <data name="ExcelPanel.RenderMode" xml:space="preserve">
+    <value>
+    Render Mode
+  </value>
+  </data>
+  <data name="ExcelPanel.RenderModeAuto" xml:space="preserve">
+    <value>
+    Auto
+  </value>
+  </data>
+  <data name="ExcelPanel.RenderModeFull" xml:space="preserve">
+    <value>
+    Full
+  </value>
+  </data>
+  <data name="ExcelPanel.RenderModeSafe" xml:space="preserve">
+    <value>
+    Safe
+  </value>
+  </data>
+  <data name="ExcelPanel.SafeMode" xml:space="preserve">
+    <value>
+    Safe Mode
+  </value>
+  </data>
+  <data name="ExcelPanel.SafeModeDescription" xml:space="preserve">
+    <value>
+    Force safe rendering mode for Excel compatibility
+  </value>
+  </data>
+  <data name="ExcelPanel.SafeModeToggleAutomation" xml:space="preserve">
+    <value>
+    Safe Mode Toggle
+  </value>
+  </data>
+  <data name="Export.Complete" xml:space="preserve">
+    <value>
+    Export completed: {0} rows
+  </value>
+  </data>
+  <data name="Export.InProgress" xml:space="preserve">
+    <value>
+    Exporting...
+  </value>
+  </data>
+  <data name="FixPieColorsPage.CategoryRange" xml:space="preserve">
+    <value>
+    Category Range (Labels)
+  </value>
+  </data>
+  <data name="FixPieColorsPage.ColorTableRange" xml:space="preserve">
+    <value>
+    Color Table Range (Label + Color)
+  </value>
+  </data>
+  <data name="FixPieColorsPage.Heading" xml:space="preserve">
+    <value>
+    Fix Pie Chart Colors
+  </value>
+  </data>
+  <data name="FixPieColorsPage.Instruction" xml:space="preserve">
+    <value>
+    Select chart ranges then click Run.
+  </value>
+  </data>
+  <data name="FixPieColorsPage.Pick" xml:space="preserve">
+    <value>
+    Pick
+  </value>
+  </data>
+  <data name="FixPieColorsPage.PickColorTable" xml:space="preserve">
+    <value>
+    Pick
+  </value>
+  </data>
+  <data name="FixPieColorsPage.Ready" xml:space="preserve">
+    <value>
+    Ready
+  </value>
+  </data>
+  <data name="FixPieColorsPage.Run" xml:space="preserve">
+    <value>
+    Run
+  </value>
+  </data>
+  <data name="FixPieColorsPage.SelectSheet" xml:space="preserve">
+    <value>
+    Select Sheet for Pie Chart
+  </value>
+  </data>
+  <data name="FixPieColorsPage.Title" xml:space="preserve">
+    <value>
+    Fix Pie Chart Colors
+  </value>
+  </data>
+  <data name="FixPieColorsPage.Working" xml:space="preserve">
+    <value>
+    Working...
+  </value>
+  </data>
+  <data name="FloatPathPage.BrowseXer" xml:space="preserve">
+    <value>
+    Browse XER File
+  </value>
+  </data>
+  <data name="FloatPathPage.Heading" xml:space="preserve">
+    <value>
+    Float Path Analyzer
+  </value>
+  </data>
+  <data name="FloatPathPage.HighlightCritical" xml:space="preserve">
+    <value>
+    Highlight Critical Path
+  </value>
+  </data>
+  <data name="FloatPathPage.LoadXer" xml:space="preserve">
+    <value>
+    Load Primavera XER
+  </value>
+  </data>
+  <data name="FloatPathPage.MaxPathDepth" xml:space="preserve">
+    <value>
+    Max Path Depth
+  </value>
+  </data>
+  <data name="FloatPathPage.NumberOfPaths" xml:space="preserve">
+    <value>
+    Number of Paths
+  </value>
+  </data>
+  <data name="FloatPathPage.Processing" xml:space="preserve">
+    <value>
+    Processing...
+  </value>
+  </data>
+  <data name="FloatPathPage.Project" xml:space="preserve">
+    <value>
+    Project
+  </value>
+  </data>
+  <data name="FloatPathPage.RunFloatPath" xml:space="preserve">
+    <value>
+    Run Float Path
+  </value>
+  </data>
+  <data name="FloatPathPage.SelectActivity" xml:space="preserve">
+    <value>
+    Select Activity
+  </value>
+  </data>
+  <data name="FloatPathPage.Title" xml:space="preserve">
+    <value>
+    Float Path Analyzer
+  </value>
+  </data>
+  <data name="FloatPathPage.ViewMode" xml:space="preserve">
+    <value>
+    View Mode
+  </value>
+  </data>
+  <data name="FloatPathWindow.BrowseXer" xml:space="preserve">
+    <value>
+    Browse XER File
+  </value>
+  </data>
+  <data name="FloatPathWindow.Heading" xml:space="preserve">
+    <value>
+    Float Path Analyzer
+  </value>
+  </data>
+  <data name="FloatPathWindow.HighlightCritical" xml:space="preserve">
+    <value>
+    Highlight Critical Path
+  </value>
+  </data>
+  <data name="FloatPathWindow.LoadXer" xml:space="preserve">
+    <value>
+    Load Primavera XER
+  </value>
+  </data>
+  <data name="FloatPathWindow.MaxPathDepth" xml:space="preserve">
+    <value>
+    Max Path Depth
+  </value>
+  </data>
+  <data name="FloatPathWindow.NumberOfPaths" xml:space="preserve">
+    <value>
+    Number of Paths
+  </value>
+  </data>
+  <data name="FloatPathWindow.Processing" xml:space="preserve">
+    <value>
+    Processing...
+  </value>
+  </data>
+  <data name="FloatPathWindow.Project" xml:space="preserve">
+    <value>
+    Project
+  </value>
+  </data>
+  <data name="FloatPathWindow.RunFloatPath" xml:space="preserve">
+    <value>
+    Run Float Path
+  </value>
+  </data>
+  <data name="FloatPathWindow.SelectActivity" xml:space="preserve">
+    <value>
+    Select Activity
+  </value>
+  </data>
+  <data name="FloatPathWindow.Title" xml:space="preserve">
+    <value>
+    Float Path Analyzer
+  </value>
+  </data>
+  <data name="FloatPathWindow.ViewMode" xml:space="preserve">
+    <value>
+    View Mode
+  </value>
+  </data>
+  <data name="HomePage.Title" xml:space="preserve">
+    <value>
+    Home
+  </value>
+  </data>
+  <data name="LinksManagerGrid.CellDetail" xml:space="preserve">
+    <value>
+    Cell/Detail
+  </value>
+  </data>
+  <data name="LinksManagerGrid.LinkSource" xml:space="preserve">
+    <value>
+    Link Source
+  </value>
+  </data>
+  <data name="LinksManagerGrid.Select" xml:space="preserve">
+    <value>
+    Sel.
+  </value>
+  </data>
+  <data name="LinksManagerGrid.SheetObject" xml:space="preserve">
+    <value>
+    Sheet/Object
+  </value>
+  </data>
+  <data name="LinksManagerGrid.Status" xml:space="preserve">
+    <value>
+    Status
+  </value>
+  </data>
+  <data name="LinksManagerGrid.Type" xml:space="preserve">
+    <value>
+    Type
+  </value>
+  </data>
+  <data name="LinksManagerPage.All" xml:space="preserve">
+    <value>
+    All
+  </value>
+  </data>
+  <data name="LinksManagerPage.Break" xml:space="preserve">
+    <value>
+    Break
+  </value>
+  </data>
+  <data name="LinksManagerPage.Close" xml:space="preserve">
+    <value>
+    Close
+  </value>
+  </data>
+  <data name="LinksManagerPage.Heading" xml:space="preserve">
+    <value>
+    Links Manager
+  </value>
+  </data>
+  <data name="LinksManagerPage.LoadTypes" xml:space="preserve">
+    <value>
+    Load Types
+  </value>
+  </data>
+  <data name="LinksManagerPage.None" xml:space="preserve">
+    <value>
+    None
+  </value>
+  </data>
+  <data name="LinksManagerPage.Refresh" xml:space="preserve">
+    <value>
+    Refresh
+  </value>
+  </data>
+  <data name="LinksManagerPage.Reload" xml:space="preserve">
+    <value>
+    Reload
+  </value>
+  </data>
+  <data name="LinksManagerPage.Search" xml:space="preserve">
+    <value>
+    Search
+  </value>
+  </data>
+  <data name="LinksManagerPage.Title" xml:space="preserve">
+    <value>
+    Links Manager
+  </value>
+  </data>
+  <data name="LinksManagerPage.Type" xml:space="preserve">
+    <value>
+    Type
+  </value>
+  </data>
+  <data name="LinksManagerPage.Types" xml:space="preserve">
+    <value>
+    Types
+  </value>
+  </data>
+  <data name="LinksManagerPage.Workbook" xml:space="preserve">
+    <value>
+    Workbook
+  </value>
+  </data>
+  <data name="LinksManagerTypeGrid.Type" xml:space="preserve">
+    <value>
+    Type
+  </value>
+  </data>
+  <data name="LoadingOverlay.Loading" xml:space="preserve">
+    <value>
+    Loading...
+  </value>
+  </data>
+  <data name="MainPage.ActivityIdColumn" xml:space="preserve">
+    <value>
+    Activity ID Column (Letter)
+  </value>
+  </data>
+  <data name="MainPage.ActivityPctColumn" xml:space="preserve">
+    <value>
+    Activity % Column (Letter)
+  </value>
+  </data>
+  <data name="MainPage.Cancel" xml:space="preserve">
+    <value>
+    Cancel
+  </value>
+  </data>
+  <data name="MainPage.ExportLog" xml:space="preserve">
+    <value>
+    Export Log
+  </value>
+  </data>
+  <data name="MainPage.Heading" xml:space="preserve">
+    <value>
+    Comparison P6 Activity
+  </value>
+  </data>
+  <data name="MainPage.LastUpdateSheet" xml:space="preserve">
+    <value>
+    Last Update Sheet
+  </value>
+  </data>
+  <data name="MainPage.NewUpdateSheet" xml:space="preserve">
+    <value>
+    New Update Sheet
+  </value>
+  </data>
+  <data name="MainPage.Preview" xml:space="preserve">
+    <value>
+    Preview
+  </value>
+  </data>
+  <data name="MainPage.Title" xml:space="preserve">
+    <value>
+    Comparison P6 Activity
+  </value>
+  </data>
+  <data name="MainPage.TopHeadersRow" xml:space="preserve">
+    <value>
+    Top Headers Row (StartRow)
+  </value>
+  </data>
+  <data name="MainPage.Update" xml:space="preserve">
+    <value>
+    Update
+  </value>
+  </data>
+  <data name="MainPage.WbsColumn" xml:space="preserve">
+    <value>
+    WBS Column (OLD sheet letter)
+  </value>
+  </data>
+  <data name="MainPageGrid.Change" xml:space="preserve">
+    <value>
+    Change
+  </value>
+  </data>
+  <data name="MainPageGrid.New" xml:space="preserve">
+    <value>
+    New
+  </value>
+  </data>
+  <data name="MainPageGrid.Old" xml:space="preserve">
+    <value>
+    Old
+  </value>
+  </data>
+  <data name="MainPageGrid.Status" xml:space="preserve">
+    <value>
+    Status
+  </value>
+  </data>
+  <data name="MainPageGrid.TaskId" xml:space="preserve">
+    <value>
+    Task ID
+  </value>
+  </data>
+  <data name="MainPageGrid.Wbs" xml:space="preserve">
+    <value>
+    WBS
+  </value>
+  </data>
+  <data name="ModuleLoadingOverlay.LoadingModule" xml:space="preserve">
+    <value>
+    Loading module...
+  </value>
+  </data>
+  <data name="Navigation.Back" xml:space="preserve">
+    <value>
+    Back
+  </value>
+  </data>
+  <data name="Navigation.Forward" xml:space="preserve">
+    <value>
+    Forward
+  </value>
+  </data>
+  <data name="Navigation.Home" xml:space="preserve">
+    <value>
+    Home
+  </value>
+  </data>
+  <data name="PerformancePanel.AnimationFull" xml:space="preserve">
+    <value>
+    Full
+  </value>
+  </data>
+  <data name="PerformancePanel.AnimationFullAutomation" xml:space="preserve">
+    <value>
+    Animation Speed Full
+  </value>
+  </data>
+  <data name="PerformancePanel.AnimationOff" xml:space="preserve">
+    <value>
+    Off
+  </value>
+  </data>
+  <data name="PerformancePanel.AnimationOffAutomation" xml:space="preserve">
+    <value>
+    Animation Speed Off
+  </value>
+  </data>
+  <data name="PerformancePanel.AnimationReduced" xml:space="preserve">
+    <value>
+    Reduced
+  </value>
+  </data>
+  <data name="PerformancePanel.AnimationReducedAutomation" xml:space="preserve">
+    <value>
+    Animation Speed Reduced
+  </value>
+  </data>
+  <data name="PerformancePanel.AnimationSpeed" xml:space="preserve">
+    <value>
+    Animation Speed
+  </value>
+  </data>
+  <data name="PerformancePanel.DensityCompact" xml:space="preserve">
+    <value>
+    Compact
+  </value>
+  </data>
+  <data name="PerformancePanel.DensityCompactAutomation" xml:space="preserve">
+    <value>
+    UI Density Compact
+  </value>
+  </data>
+  <data name="PerformancePanel.DensityNormal" xml:space="preserve">
+    <value>
+    Normal
+  </value>
+  </data>
+  <data name="PerformancePanel.DensityNormalAutomation" xml:space="preserve">
+    <value>
+    UI Density Normal
+  </value>
+  </data>
+  <data name="PerformancePanel.DensitySpacious" xml:space="preserve">
+    <value>
+    Spacious
+  </value>
+  </data>
+  <data name="PerformancePanel.DensitySpaciousAutomation" xml:space="preserve">
+    <value>
+    UI Density Spacious
+  </value>
+  </data>
+  <data name="PerformancePanel.UiDensity" xml:space="preserve">
+    <value>
+    UI Density
+  </value>
+  </data>
+  <data name="Plugin.FallbackText" xml:space="preserve">
+    <value>
+    No translation available
+  </value>
+  </data>
+  <data name="Plugin.LoadError" xml:space="preserve">
+    <value>
+    Failed to load plugin: {0}
+  </value>
+  </data>
+  <data name="Plugin.PageUnavailable" xml:space="preserve">
+    <value>
+    Page unavailable
+  </value>
+  </data>
+  <data name="PluginsGrid.Capabilities" xml:space="preserve">
+    <value>
+    Capabilities
+  </value>
+  </data>
+  <data name="PluginsGrid.LastError" xml:space="preserve">
+    <value>
+    Last Error
+  </value>
+  </data>
+  <data name="PluginsGrid.LoadTime" xml:space="preserve">
+    <value>
+    Load Time
+  </value>
+  </data>
+  <data name="PluginsGrid.Memory" xml:space="preserve">
+    <value>
+    Memory
+  </value>
+  </data>
+  <data name="PluginsGrid.Module" xml:space="preserve">
+    <value>
+    Module
+  </value>
+  </data>
+  <data name="PluginsGrid.State" xml:space="preserve">
+    <value>
+    State
+  </value>
+  </data>
+  <data name="PluginsGrid.Version" xml:space="preserve">
+    <value>
+    Version
+  </value>
+  </data>
+  <data name="PluginsPanel.InstalledPlugins" xml:space="preserve">
+    <value>
+    Installed Plugins
+  </value>
+  </data>
+  <data name="PluginsPanel.Refresh" xml:space="preserve">
+    <value>
+    Refresh
+  </value>
+  </data>
+  <data name="PrimaveraCompareGrid.PlannedFinish" xml:space="preserve">
+    <value>
+    Planned Finish
+  </value>
+  </data>
+  <data name="PrimaveraCompareGrid.PlannedStart" xml:space="preserve">
+    <value>
+    Planned Start
+  </value>
+  </data>
+  <data name="PrimaveraCompareGrid.ProjectCode" xml:space="preserve">
+    <value>
+    Project Code
+  </value>
+  </data>
+  <data name="PrimaveraCompareGrid.ProjectId" xml:space="preserve">
+    <value>
+    Project ID
+  </value>
+  </data>
+  <data name="PrimaveraCompareGrid.ProjectName" xml:space="preserve">
+    <value>
+    Project Name
+  </value>
+  </data>
+  <data name="PrimaveraCompareGrid.Status" xml:space="preserve">
+    <value>
+    Status
+  </value>
+  </data>
+  <data name="PrimaveraComparePage.Browse" xml:space="preserve">
+    <value>
+    Browse
+  </value>
+  </data>
+  <data name="PrimaveraComparePage.Compare" xml:space="preserve">
+    <value>
+    Compare
+  </value>
+  </data>
+  <data name="PrimaveraComparePage.Connect" xml:space="preserve">
+    <value>
+    Connect
+  </value>
+  </data>
+  <data name="PrimaveraComparePage.ConnectionString" xml:space="preserve">
+    <value>
+    Connection String
+  </value>
+  </data>
+  <data name="PrimaveraComparePage.DatabaseType" xml:space="preserve">
+    <value>
+    Database Type
+  </value>
+  </data>
+  <data name="PrimaveraComparePage.Heading" xml:space="preserve">
+    <value>
+    Primavera Compare
+  </value>
+  </data>
+  <data name="PrimaveraComparePage.Oracle" xml:space="preserve">
+    <value>
+    Oracle
+  </value>
+  </data>
+  <data name="PrimaveraComparePage.Sqlite" xml:space="preserve">
+    <value>
+    SQLite
+  </value>
+  </data>
+  <data name="PrimaveraComparePage.Title" xml:space="preserve">
+    <value>
+    Primavera Compare
+  </value>
+  </data>
+  <data name="PrimaveraResultsPage.Heading" xml:space="preserve">
+    <value>
+    Primavera Comparison Results
+  </value>
+  </data>
+  <data name="PrimaveraResultsPage.Title" xml:space="preserve">
+    <value>
+    Primavera Comparison Results
+  </value>
+  </data>
+  <data name="PrimaveraResultsTab.Activities" xml:space="preserve">
+    <value>
+    Activities
+  </value>
+  </data>
+  <data name="PrimaveraResultsTab.Relationships" xml:space="preserve">
+    <value>
+    Relationships
+  </value>
+  </data>
+  <data name="PrimaveraResultsTab.Resources" xml:space="preserve">
+    <value>
+    Resources
+  </value>
+  </data>
+  <data name="ProjectAnalysisGrid.Found" xml:space="preserve">
+    <value>
+    Found
+  </value>
+  </data>
+  <data name="ProjectAnalysisGrid.Location" xml:space="preserve">
+    <value>
+    Location
+  </value>
+  </data>
+  <data name="ProjectAnalysisGrid.RequiredColumn" xml:space="preserve">
+    <value>
+    Required Column
+  </value>
+  </data>
+  <data name="ProjectAnalysisGrid.SheetSection" xml:space="preserve">
+    <value>
+    Sheet/Section
+  </value>
+  </data>
+  <data name="ProjectAnalysisLogGrid.Level" xml:space="preserve">
+    <value>
+    Level
+  </value>
+  </data>
+  <data name="ProjectAnalysisLogGrid.Message" xml:space="preserve">
+    <value>
+    Message
+  </value>
+  </data>
+  <data name="ProjectAnalysisLogGrid.Time" xml:space="preserve">
+    <value>
+    Time
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.ActivitiesSheet" xml:space="preserve">
+    <value>
+    Activities
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.CheckResults" xml:space="preserve">
+    <value>
+    Check Sheets Results
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.CheckSheets" xml:space="preserve">
+    <value>
+    Check Sheets
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.ClearSummary" xml:space="preserve">
+    <value>
+    Clear Summary
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.Close" xml:space="preserve">
+    <value>
+    Close
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.FinishDate" xml:space="preserve">
+    <value>
+    Finish date
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.Heading" xml:space="preserve">
+    <value>
+    Project Analysis
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.Log" xml:space="preserve">
+    <value>
+    Log
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.RelationshipsSheet" xml:space="preserve">
+    <value>
+    Relationships
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.ResourcesSheet" xml:space="preserve">
+    <value>
+    Resources
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.Run" xml:space="preserve">
+    <value>
+    Run
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.RunAnalysis" xml:space="preserve">
+    <value>
+    Run Analysis
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.Summary" xml:space="preserve">
+    <value>
+    Summary
+  </value>
+  </data>
+  <data name="ProjectAnalysisPage.Title" xml:space="preserve">
+    <value>
+    Project Analysis
+  </value>
+  </data>
+  <data name="ProjectAnalysisSummaryGrid.Count" xml:space="preserve">
+    <value>
+    Count
+  </value>
+  </data>
+  <data name="ProjectAnalysisSummaryGrid.Details" xml:space="preserve">
+    <value>
+    Details
+  </value>
+  </data>
+  <data name="ProjectAnalysisSummaryGrid.Sheet" xml:space="preserve">
+    <value>
+    Sheet
+  </value>
+  </data>
+  <data name="ProjectAnalysisSummaryGrid.Type" xml:space="preserve">
+    <value>
+    Type
+  </value>
+  </data>
+  <data name="RelationshipEditorGrid.Accepted" xml:space="preserve">
+    <value>
+    Accepted
+  </value>
+  </data>
+  <data name="RelationshipEditorGrid.AddRelationship" xml:space="preserve">
+    <value>
+    + Add Relationship
+  </value>
+  </data>
+  <data name="RelationshipEditorGrid.Confidence" xml:space="preserve">
+    <value>
+    Confidence
+  </value>
+  </data>
+  <data name="RelationshipEditorGrid.EmptyState" xml:space="preserve">
+    <value>
+    No relationships defined.
+  </value>
+  </data>
+  <data name="RelationshipEditorGrid.LagDays" xml:space="preserve">
+    <value>
+    Lag (days)
+  </value>
+  </data>
+  <data name="RelationshipEditorGrid.Predecessor" xml:space="preserve">
+    <value>
+    Predecessor
+  </value>
+  </data>
+  <data name="RelationshipEditorGrid.Rationale" xml:space="preserve">
+    <value>
+    Rationale
+  </value>
+  </data>
+  <data name="RelationshipEditorGrid.RemoveSelected" xml:space="preserve">
+    <value>
+    Remove Selected
+  </value>
+  </data>
+  <data name="RelationshipEditorGrid.Successor" xml:space="preserve">
+    <value>
+    Successor
+  </value>
+  </data>
+  <data name="RelationshipEditorGrid.Type" xml:space="preserve">
+    <value>
+    Type
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.AcceptAll" xml:space="preserve">
+    <value>
+    Accept All
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.AnalysisHint" xml:space="preserve">
+    <value>
+    Parallel execution and critical path analysis will appear here.
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.Cancel" xml:space="preserve">
+    <value>
+    Cancel
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.ExportHint" xml:space="preserve">
+    <value>
+    Export will add relationship columns to the active activity sheet.
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.ExportToExcel" xml:space="preserve">
+    <value>
+    Export to Excel
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.GenerateHint" xml:space="preserve">
+    <value>
+    Click &apos;Generate Relationships&apos; to start.
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.GenerateRelationships" xml:space="preserve">
+    <value>
+    Generate Relationships
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.Heading" xml:space="preserve">
+    <value>
+    Relationship Generator
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.Ready" xml:space="preserve">
+    <value>
+    Ready
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.RejectAll" xml:space="preserve">
+    <value>
+    Reject All
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.Title" xml:space="preserve">
+    <value>
+    Relationship Generator
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.ValidationHint" xml:space="preserve">
+    <value>
+    Validation results will appear here after generation.
+  </value>
+  </data>
+  <data name="RelationshipGeneratorPage.Working" xml:space="preserve">
+    <value>
+    Working...
+  </value>
+  </data>
+  <data name="RelationshipGeneratorTab.Analysis" xml:space="preserve">
+    <value>
+    Analysis
+  </value>
+  </data>
+  <data name="RelationshipGeneratorTab.Export" xml:space="preserve">
+    <value>
+    Export
+  </value>
+  </data>
+  <data name="RelationshipGeneratorTab.Relationships" xml:space="preserve">
+    <value>
+    Relationships
+  </value>
+  </data>
+  <data name="RelationshipGeneratorTab.Validation" xml:space="preserve">
+    <value>
+    Validation
+  </value>
+  </data>
+  <data name="SettingControlTemplates.Browse" xml:space="preserve">
+    <value>
+    Browse...
+  </value>
+  </data>
+  <data name="SettingControlTemplates.BrowseAutomation" xml:space="preserve">
+    <value>
+    Browse for file path
+  </value>
+  </data>
+  <data name="Settings.Appearance" xml:space="preserve">
+    <value>
+    Appearance
+  </value>
+  </data>
+  <data name="Settings.Cancel" xml:space="preserve">
+    <value>
+    Cancel
+  </value>
+  </data>
+  <data name="Settings.Export" xml:space="preserve">
+    <value>
+    Export
+  </value>
+  </data>
+  <data name="Settings.Font" xml:space="preserve">
+    <value>
+    Font
+  </value>
+  </data>
+  <data name="Settings.Font.Arabic.Description" xml:space="preserve">
+    <value>
+    Choose a font for Arabic text display
+  </value>
+  </data>
+  <data name="Settings.Font.Arabic.Label" xml:space="preserve">
+    <value>
+    Arabic Font
+  </value>
+  </data>
+  <data name="Settings.Footer" xml:space="preserve">
+    <value>
+    Som3a Add-in Settings
+  </value>
+  </data>
+  <data name="Settings.General" xml:space="preserve">
+    <value>
+    General
+  </value>
+  </data>
+  <data name="Settings.Import" xml:space="preserve">
+    <value>
+    Import
+  </value>
+  </data>
+  <data name="Settings.Language" xml:space="preserve">
+    <value>
+    Language
+  </value>
+  </data>
+  <data name="Settings.Language.Description" xml:space="preserve">
+    <value>
+    Select the display language for the application interface
+  </value>
+  </data>
+  <data name="Settings.Language.Label" xml:space="preserve">
+    <value>
+    Application Language
+  </value>
+  </data>
+  <data name="Settings.Save" xml:space="preserve">
+    <value>
+    Save
+  </value>
+  </data>
+  <data name="Settings.Title" xml:space="preserve">
+    <value>
+    Settings
+  </value>
+  </data>
+  <data name="Settings.Unsaved.Message" xml:space="preserve">
+    <value>
+    You have unsaved changes. Save before navigating?
+  </value>
+  </data>
+  <data name="Settings.Unsaved.Title" xml:space="preserve">
+    <value>
+    Unsaved Changes
+  </value>
+  </data>
+  <data name="SettingsPage.Cancel" xml:space="preserve">
+    <value>
+    Cancel
+  </value>
+  </data>
+  <data name="SettingsPage.Categories" xml:space="preserve">
+    <value>
+    Categories
+  </value>
+  </data>
+  <data name="SettingsPage.CategoriesAutomation" xml:space="preserve">
+    <value>
+    Settings Categories
+  </value>
+  </data>
+  <data name="SettingsPage.Export" xml:space="preserve">
+    <value>
+    Export
+  </value>
+  </data>
+  <data name="SettingsPage.FooterText" xml:space="preserve">
+    <value>
+    Som3a Add-in Settings
+  </value>
+  </data>
+  <data name="SettingsPage.Heading" xml:space="preserve">
+    <value>
+    Settings
+  </value>
+  </data>
+  <data name="SettingsPage.Import" xml:space="preserve">
+    <value>
+    Import
+  </value>
+  </data>
+  <data name="SettingsPage.PanelContentAutomation" xml:space="preserve">
+    <value>
+    Settings Panel Content
+  </value>
+  </data>
+  <data name="SettingsPage.Save" xml:space="preserve">
+    <value>
+    Save
+  </value>
+  </data>
+  <data name="SettingsPage.Title" xml:space="preserve">
+    <value>
+    Settings
+  </value>
+  </data>
+  <data name="Shell.Close" xml:space="preserve">
+    <value>
+    Close
+  </value>
+  </data>
+  <data name="Shell.CommandPalette.Placeholder" xml:space="preserve">
+    <value>
+    Search pages and commands...
+  </value>
+  </data>
+  <data name="Shell.Maximize" xml:space="preserve">
+    <value>
+    Maximize
+  </value>
+  </data>
+  <data name="Shell.Minimize" xml:space="preserve">
+    <value>
+    Minimize
+  </value>
+  </data>
+  <data name="Shell.Sidebar.Toggle" xml:space="preserve">
+    <value>
+    Toggle sidebar
+  </value>
+  </data>
+  <data name="Shell.SkipToContent" xml:space="preserve">
+    <value>
+    Skip to content
+  </value>
+  </data>
+  <data name="Shell.Status.Error" xml:space="preserve">
+    <value>
+    Error: {0}
+  </value>
+  </data>
+  <data name="Shell.Status.Navigating" xml:space="preserve">
+    <value>
+    Navigating to {0}...
+  </value>
+  </data>
+  <data name="Shell.Status.Ready" xml:space="preserve">
+    <value>
+    Ready
+  </value>
+  </data>
+  <data name="Shell.Theme.Toggle" xml:space="preserve">
+    <value>
+    Toggle theme
+  </value>
+  </data>
+  <data name="Shell.Title" xml:space="preserve">
+    <value>
+    Som3a Add-in
+  </value>
+  </data>
+  <data name="Sidebar.analysis.floatpath" xml:space="preserve">
+    <value>
+    Float Path
+  </value>
+  </data>
+  <data name="Sidebar.diagnostics" xml:space="preserve">
+    <value>
+    Diagnostics
+  </value>
+  </data>
+  <data name="Sidebar.excel.links" xml:space="preserve">
+    <value>
+    Links Manager
+  </value>
+  </data>
+  <data name="Sidebar.excel.piecolors" xml:space="preserve">
+    <value>
+    Fix Pie Colors
+  </value>
+  </data>
+  <data name="Sidebar.excel.styles" xml:space="preserve">
+    <value>
+    Style Selector
+  </value>
+  </data>
+  <data name="Sidebar.excel.subdaily" xml:space="preserve">
+    <value>
+    Sub-Daily Report
+  </value>
+  </data>
+  <data name="Sidebar.excel.tradecodes" xml:space="preserve">
+    <value>
+    Assign Trade Codes
+  </value>
+  </data>
+  <data name="Sidebar.excel.unmerge" xml:space="preserve">
+    <value>
+    Unmerge Fill Down
+  </value>
+  </data>
+  <data name="Sidebar.home" xml:space="preserve">
+    <value>
+    Dashboard
+  </value>
+  </data>
+  <data name="Sidebar.main" xml:space="preserve">
+    <value>
+    Comparison P6
+  </value>
+  </data>
+  <data name="Sidebar.planning.analysis" xml:space="preserve">
+    <value>
+    Project Analysis
+  </value>
+  </data>
+  <data name="Sidebar.planning.boq.activity" xml:space="preserve">
+    <value>
+    BOQ Activity Generator
+  </value>
+  </data>
+  <data name="Sidebar.planning.duration" xml:space="preserve">
+    <value>
+    Duration Estimator
+  </value>
+  </data>
+  <data name="Sidebar.planning.primavera.compare" xml:space="preserve">
+    <value>
+    Primavera Compare
+  </value>
+  </data>
+  <data name="Sidebar.planning.primavera.results" xml:space="preserve">
+    <value>
+    Primavera Results
+  </value>
+  </data>
+  <data name="Sidebar.planning.relationship" xml:space="preserve">
+    <value>
+    Relationship Generator
+  </value>
+  </data>
+  <data name="Sidebar.planning.wbs.browser" xml:space="preserve">
+    <value>
+    WBS Templates
+  </value>
+  </data>
+  <data name="Sidebar.planning.wbs.editor" xml:space="preserve">
+    <value>
+    WBS Editor
+  </value>
+  </data>
+  <data name="Sidebar.planning.wbs.generator" xml:space="preserve">
+    <value>
+    WBS Generator
+  </value>
+  </data>
+  <data name="Sidebar.planning.xereditor" xml:space="preserve">
+    <value>
+    XER Editor
+  </value>
+  </data>
+  <data name="Sidebar.settings.general" xml:space="preserve">
+    <value>
+    Settings
+  </value>
+  </data>
+  <data name="Sidebar.settings.language" xml:space="preserve">
+    <value>
+    Language
+  </value>
+  </data>
+  <data name="Sidebar.welcome" xml:space="preserve">
+    <value>
+    Home
+  </value>
+  </data>
+  <data name="SidebarControl.PageUnavailable" xml:space="preserve">
+    <value>
+    Page unavailable
+  </value>
+  </data>
+  <data name="StyleSelectorGrid.Color" xml:space="preserve">
+    <value>
+    Color
+  </value>
+  </data>
+  <data name="StyleSelectorGrid.Hex" xml:space="preserve">
+    <value>
+    HEX
+  </value>
+  </data>
+  <data name="StyleSelectorGrid.Level" xml:space="preserve">
+    <value>
+    Level
+  </value>
+  </data>
+  <data name="StyleSelectorPage.Cancel" xml:space="preserve">
+    <value>
+    Cancel
+  </value>
+  </data>
+  <data name="StyleSelectorPage.ChooseStyle" xml:space="preserve">
+    <value>
+    Choose Coloring Style
+  </value>
+  </data>
+  <data name="StyleSelectorPage.Heading" xml:space="preserve">
+    <value>
+    WBS Color Styles
+  </value>
+  </data>
+  <data name="StyleSelectorPage.Save" xml:space="preserve">
+    <value>
+    Save
+  </value>
+  </data>
+  <data name="StyleSelectorPage.Title" xml:space="preserve">
+    <value>
+    WBS Color Styles
+  </value>
+  </data>
+  <data name="SubDailyReportPage.All" xml:space="preserve">
+    <value>
+    All
+  </value>
+  </data>
+  <data name="SubDailyReportPage.Apply" xml:space="preserve">
+    <value>
+    Apply
+  </value>
+  </data>
+  <data name="SubDailyReportPage.Cancel" xml:space="preserve">
+    <value>
+    Cancel
+  </value>
+  </data>
+  <data name="SubDailyReportPage.CountColStartRow" xml:space="preserve">
+    <value>
+    Count Col / Start Row
+  </value>
+  </data>
+  <data name="SubDailyReportPage.Heading" xml:space="preserve">
+    <value>
+    Project Analysis
+  </value>
+  </data>
+  <data name="SubDailyReportPage.NameColStartRow" xml:space="preserve">
+    <value>
+    Name Col / Start Row
+  </value>
+  </data>
+  <data name="SubDailyReportPage.None" xml:space="preserve">
+    <value>
+    None
+  </value>
+  </data>
+  <data name="SubDailyReportPage.Preview" xml:space="preserve">
+    <value>
+    Preview
+  </value>
+  </data>
+  <data name="SubDailyReportPage.PreviewButton" xml:space="preserve">
+    <value>
+    Preview
+  </value>
+  </data>
+  <data name="SubDailyReportPage.PreviousFile" xml:space="preserve">
+    <value>
+    Previous File
+  </value>
+  </data>
+  <data name="SubDailyReportPage.PreviousSheet" xml:space="preserve">
+    <value>
+    Previous Sheet
+  </value>
+  </data>
+  <data name="SubDailyReportPage.Refresh" xml:space="preserve">
+    <value>
+    Refresh
+  </value>
+  </data>
+  <data name="SubDailyReportPage.Subcontractors" xml:space="preserve">
+    <value>
+    Subcontractors
+  </value>
+  </data>
+  <data name="SubDailyReportPage.Title" xml:space="preserve">
+    <value>
+    Daily Report
+  </value>
+  </data>
+  <data name="SubDailyReportPage.TodaySheet" xml:space="preserve">
+    <value>
+    Today Sheet
+  </value>
+  </data>
+  <data name="SubDailyReportPreviewGrid.Name" xml:space="preserve">
+    <value>
+    Name
+  </value>
+  </data>
+  <data name="SubDailyReportPreviewGrid.Previous" xml:space="preserve">
+    <value>
+    Previous
+  </value>
+  </data>
+  <data name="SubDailyReportPreviewGrid.Today" xml:space="preserve">
+    <value>
+    Today
+  </value>
+  </data>
+  <data name="SubDailyReportPreviewGrid.Total" xml:space="preserve">
+    <value>
+    Total
+  </value>
+  </data>
+  <data name="SubDailyReportPreviewGrid.Variance" xml:space="preserve">
+    <value>
+    Var
+  </value>
+  </data>
+  <data name="SubDailyReportSubGrid.Include" xml:space="preserve">
+    <value>
+    Inc.
+  </value>
+  </data>
+  <data name="SubDailyReportSubGrid.Name" xml:space="preserve">
+    <value>
+    Name
+  </value>
+  </data>
+  <data name="SubDailyReportSubGrid.Row" xml:space="preserve">
+    <value>
+    Row
+  </value>
+  </data>
+  <data name="UnmergeFillDownPage.ActiveSheet" xml:space="preserve">
+    <value>
+    Active Sheet
+  </value>
+  </data>
+  <data name="UnmergeFillDownPage.Close" xml:space="preserve">
+    <value>
+    Close
+  </value>
+  </data>
+  <data name="UnmergeFillDownPage.ColumnLetter" xml:space="preserve">
+    <value>
+    Column Letter
+  </value>
+  </data>
+  <data name="UnmergeFillDownPage.HeaderRow" xml:space="preserve">
+    <value>
+    Header Row
+  </value>
+  </data>
+  <data name="UnmergeFillDownPage.Heading" xml:space="preserve">
+    <value>
+    Unmerge Fill Down
+  </value>
+  </data>
+  <data name="UnmergeFillDownPage.Run" xml:space="preserve">
+    <value>
+    Run
+  </value>
+  </data>
+  <data name="UnmergeFillDownPage.Title" xml:space="preserve">
+    <value>
+    Unmerge Fill Down
+  </value>
+  </data>
+  <data name="WBSEditorPage.AddChild" xml:space="preserve">
+    <value>
+    Add Child
+  </value>
+  </data>
+  <data name="WBSEditorPage.AddChildNode" xml:space="preserve">
+    <value>
+    Add Child Node
+  </value>
+  </data>
+  <data name="WBSEditorPage.CodeFormat" xml:space="preserve">
+    <value>
+    Code: {0}
+  </value>
+  </data>
+  <data name="WBSEditorPage.ExportJson" xml:space="preserve">
+    <value>
+    Export JSON
+  </value>
+  </data>
+  <data name="WBSEditorPage.ExportToSheet" xml:space="preserve">
+    <value>
+    Export to Active Sheet
+  </value>
+  </data>
+  <data name="WBSEditorPage.ExportXml" xml:space="preserve">
+    <value>
+    Export XML
+  </value>
+  </data>
+  <data name="WBSEditorPage.Heading" xml:space="preserve">
+    <value>
+    WBS Tree Editor
+  </value>
+  </data>
+  <data name="WBSEditorPage.LevelFormat" xml:space="preserve">
+    <value>
+    Level: {0}
+  </value>
+  </data>
+  <data name="WBSEditorPage.NameFormat" xml:space="preserve">
+    <value>
+    Name: {0}
+  </value>
+  </data>
+  <data name="WBSEditorPage.NodeDetails" xml:space="preserve">
+    <value>
+    Node Details
+  </value>
+  </data>
+  <data name="WBSEditorPage.PathFormat" xml:space="preserve">
+    <value>
+    Path: {0}
+  </value>
+  </data>
+  <data name="WBSEditorPage.RemoveSelected" xml:space="preserve">
+    <value>
+    Remove Selected
+  </value>
+  </data>
+  <data name="WBSEditorPage.Rename" xml:space="preserve">
+    <value>
+    Rename
+  </value>
+  </data>
+  <data name="WBSEditorPage.SaveAsTemplate" xml:space="preserve">
+    <value>
+    Save as Template
+  </value>
+  </data>
+  <data name="WBSEditorPage.Title" xml:space="preserve">
+    <value>
+    WBS Editor
+  </value>
+  </data>
+  <data name="WBSEditorPage.Undo" xml:space="preserve">
+    <value>
+    Undo
+  </value>
+  </data>
+  <data name="WBSGeneratorPage.Accept" xml:space="preserve">
+    <value>
+    Accept
+  </value>
+  </data>
+  <data name="WBSGeneratorPage.DescriptionHint" xml:space="preserve">
+    <value>
+    Describe your project type, scope, and key deliverables.
+  </value>
+  </data>
+  <data name="WBSGeneratorPage.GenerateWbs" xml:space="preserve">
+    <value>
+    Generate WBS
+  </value>
+  </data>
+  <data name="WBSGeneratorPage.Heading" xml:space="preserve">
+    <value>
+    AI-Powered WBS Generation
+  </value>
+  </data>
+  <data name="WBSGeneratorPage.LoadBoq" xml:space="preserve">
+    <value>
+    Load BOQ
+  </value>
+  </data>
+  <data name="WBSGeneratorPage.ProjectDescription" xml:space="preserve">
+    <value>
+    Project Description
+  </value>
+  </data>
+  <data name="WBSGeneratorPage.Regenerate" xml:space="preserve">
+    <value>
+    Regenerate
+  </value>
+  </data>
+  <data name="WBSGeneratorPage.Title" xml:space="preserve">
+    <value>
+    AI WBS Generation
+  </value>
+  </data>
+  <data name="WBSGeneratorPage.WbsPreview" xml:space="preserve">
+    <value>
+    Generated WBS Preview
+  </value>
+  </data>
+  <data name="WbsPanel.Alpha" xml:space="preserve">
+    <value>
+    Alpha
+  </value>
+  </data>
+  <data name="WbsPanel.BlueGradientStyle" xml:space="preserve">
+    <value>
+    Blue Gradient
+  </value>
+  </data>
+  <data name="WbsPanel.CodeMode" xml:space="preserve">
+    <value>
+    WBS Code Mode
+  </value>
+  </data>
+  <data name="WbsPanel.DarkModeStyle" xml:space="preserve">
+    <value>
+    Dark Mode
+  </value>
+  </data>
+  <data name="WbsPanel.DefaultStyle" xml:space="preserve">
+    <value>
+    Default
+  </value>
+  </data>
+  <data name="WbsPanel.ExportColorStyle" xml:space="preserve">
+    <value>
+    Export Color Style
+  </value>
+  </data>
+  <data name="WbsPanel.MinAlphaLength" xml:space="preserve">
+    <value>
+    Min Alpha Length
+  </value>
+  </data>
+  <data name="WbsPanel.Numeric" xml:space="preserve">
+    <value>
+    Numeric
+  </value>
+  </data>
+  <data name="WbsPanel.PrimaveraStyle" xml:space="preserve">
+    <value>
+    Primavera
+  </value>
+  </data>
+  <data name="WbsPanel.SoftPastelStyle" xml:space="preserve">
+    <value>
+    Soft Pastel
+  </value>
+  </data>
+  <data name="WBSTemplateBrowserPage.CategoryFormat" xml:space="preserve">
+    <value>
+    Category: {0}
+  </value>
+  </data>
+  <data name="WBSTemplateBrowserPage.ExportToExcel" xml:space="preserve">
+    <value>
+    Export to Excel
+  </value>
+  </data>
+  <data name="WBSTemplateBrowserPage.GetRecommendations" xml:space="preserve">
+    <value>
+    Get Recommendations
+  </value>
+  </data>
+  <data name="WBSTemplateBrowserPage.Heading" xml:space="preserve">
+    <value>
+    WBS Templates
+  </value>
+  </data>
+  <data name="WBSTemplateBrowserPage.ImportFromExcel" xml:space="preserve">
+    <value>
+    Import from Excel
+  </value>
+  </data>
+  <data name="WBSTemplateBrowserPage.SelectTemplate" xml:space="preserve">
+    <value>
+    Select Template
+  </value>
+  </data>
+  <data name="WBSTemplateBrowserPage.Title" xml:space="preserve">
+    <value>
+    WBS Templates
+  </value>
+  </data>
+  <data name="WelcomePage.Instruction" xml:space="preserve">
+    <value>
+    Select a feature from the sidebar to get started.
+  </value>
+  </data>
+  <data name="WelcomePage.Title" xml:space="preserve">
+    <value>
+    Welcome
+  </value>
+  </data>
+  <data name="WelcomePage.WelcomeMessage" xml:space="preserve">
+    <value>
+    Welcome to Som3a Add-in
+  </value>
+  </data>
+  <data name="WidgetCard.Loading" xml:space="preserve">
+    <value>
+    Loading...
+  </value>
+  </data>
+  <data name="XerEditorGrid.Code" xml:space="preserve">
+    <value>
+    Code
+  </value>
+  </data>
+  <data name="XerEditorGrid.Records" xml:space="preserve">
+    <value>
+    Records
+  </value>
+  </data>
+  <data name="XerEditorGrid.Status" xml:space="preserve">
+    <value>
+    Status
+  </value>
+  </data>
+  <data name="XerEditorGrid.TableName" xml:space="preserve">
+    <value>
+    Table Name
+  </value>
+  </data>
+  <data name="XerEditorPage.ExportToExcel" xml:space="preserve">
+    <value>
+    Export to Excel
+  </value>
+  </data>
+  <data name="XerEditorPage.ExportXer" xml:space="preserve">
+    <value>
+    Export XER
+  </value>
+  </data>
+  <data name="XerEditorPage.Heading" xml:space="preserve">
+    <value>
+    XER Editor
+  </value>
+  </data>
+  <data name="XerEditorPage.ImportFromExcel" xml:space="preserve">
+    <value>
+    Import From Excel
+  </value>
+  </data>
+  <data name="XerEditorPage.LoadedTables" xml:space="preserve">
+    <value>
+    Loaded Tables
+  </value>
+  </data>
+  <data name="XerEditorPage.LoadXer" xml:space="preserve">
+    <value>
+    Load XER
+  </value>
+  </data>
+  <data name="XerEditorPage.SidebarTitle" xml:space="preserve">
+    <value>
+    XER Editor
+  </value>
+  </data>
+  <data name="XerEditorPage.Title" xml:space="preserve">
+    <value>
+    XER Editor
+  </value>
   </data>
 </root>

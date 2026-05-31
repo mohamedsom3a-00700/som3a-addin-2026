@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using Som3a.Localization.Contracts;
 using Som3a_WPF_UI.Contracts;
 using Som3a_WPF_UI.Pages;
 using Som3a_WPF_UI.Services;
@@ -54,6 +55,7 @@ namespace Som3a_WPF_UI.Controls.Shell
     public partial class ShellWindow
     {
         private readonly ShellViewModel _viewModel;
+        private readonly ILocalizationService _localization;
         private bool _isFirstRun = true;
         private bool _hasPendingNavigation;
         private NavigationDestination _pendingDestination;
@@ -64,6 +66,7 @@ namespace Som3a_WPF_UI.Controls.Shell
         {
             InitializeComponent();
             _viewModel = App.Container.Resolve<ShellViewModel>();
+            _localization = App.Container.Resolve<ILocalizationService>();
             DataContext = _viewModel;
 
             _viewModel.WelcomePageType = typeof(HomePage);
@@ -90,7 +93,7 @@ namespace Som3a_WPF_UI.Controls.Shell
             ShellRTLManager.Instance.RegisterFlowElement(Sidebar, "ShellSidebar");
             ShellRTLManager.Instance.RegisterFlowElement(Workspace, "ShellWorkspace");
 
-            if (Services.LocalizationBridgeService.Instance.IsRTL)
+            if (_localization.IsRTL)
             {
                 ShellRTLManager.Instance.ApplyLayout(true);
             }
@@ -220,11 +223,10 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnLanguageToggle(object sender, RoutedEventArgs e)
         {
-            var bridge = Services.LocalizationBridgeService.Instance;
-            var currentCode = bridge.CurrentLanguageCode;
+            var currentCode = _localization.CurrentLanguageCode;
             var newCode = currentCode == "en-US" ? "ar-SA" : "en-US";
-            if (bridge.SetLanguage(newCode))
-                bridge.SaveLanguagePreference();
+            if (_localization.SetLanguage(newCode))
+                _localization.SaveLanguagePreference();
         }
 
         private void OnMinimize(object sender, RoutedEventArgs e)

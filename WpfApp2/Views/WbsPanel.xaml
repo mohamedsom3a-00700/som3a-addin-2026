@@ -1,7 +1,9 @@
 <UserControl x:Class="Som3a_WPF_UI.Views.WbsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:l="clr-namespace:Som3a_WPF_UI.MarkupExtensions"
              xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      
              SnapsToDevicePixels="True"
              UseLayoutRounding="True">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -21,7 +23,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WbsPanel.CodeMode]}"
+                    <TextBlock Text="{l:Loc WbsPanel.CodeMode}"
                                Style="{DynamicResource SettingLabelStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
@@ -34,8 +36,8 @@
                               Style="{DynamicResource SettingsComboBoxStyle}"
                               SnapsToDevicePixels="True"
                               UseLayoutRounding="True">
-                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WbsPanel.Numeric]}"/>
-                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WbsPanel.Alpha]}"/>
+                        <ComboBoxItem Content="{l:Loc WbsPanel.Numeric}"/>
+                        <ComboBoxItem Content="{l:Loc WbsPanel.Alpha}"/>
                     </ComboBox>
                 </Grid>
             </Border>
@@ -51,7 +53,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WbsPanel.MinAlphaLength]}"
+                    <TextBlock Text="{l:Loc WbsPanel.MinAlphaLength}"
                                Style="{DynamicResource SettingLabelStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
@@ -82,7 +84,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WbsPanel.ExportColorStyle]}"
+                    <TextBlock Text="{l:Loc WbsPanel.ExportColorStyle}"
                                Style="{DynamicResource SettingLabelStyle}"
                                SnapsToDevicePixels="True"
                                UseLayoutRounding="True"/>
@@ -95,11 +97,11 @@
                               Style="{DynamicResource SettingsComboBoxStyle}"
                               SnapsToDevicePixels="True"
                               UseLayoutRounding="True">
-                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WbsPanel.DefaultStyle]}"/>
-                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WbsPanel.BlueGradientStyle]}"/>
-                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WbsPanel.PrimaveraStyle]}"/>
-                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WbsPanel.DarkModeStyle]}"/>
-                        <ComboBoxItem Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[WbsPanel.SoftPastelStyle]}"/>
+                        <ComboBoxItem Content="{l:Loc WbsPanel.DefaultStyle}"/>
+                        <ComboBoxItem Content="{l:Loc WbsPanel.BlueGradientStyle}"/>
+                        <ComboBoxItem Content="{l:Loc WbsPanel.PrimaveraStyle}"/>
+                        <ComboBoxItem Content="{l:Loc WbsPanel.DarkModeStyle}"/>
+                        <ComboBoxItem Content="{l:Loc WbsPanel.SoftPastelStyle}"/>
                     </ComboBox>
                 </Grid>
             </Border>

@@ -1,11 +1,15 @@
 <Page x:Class="Som3a_WPF_UI.Pages.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:l="clr-namespace:Som3a_WPF_UI.MarkupExtensions"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      
       xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
+      
       mc:Ignorable="d"
-      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.Title]}"
+      Title="{l:Loc MainPage.Title}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -31,7 +35,7 @@
               x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
 
-            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.Heading]}"
+            <TextBlock Text="{l:Loc MainPage.Heading}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14"
                        FontWeight="SemiBold"
@@ -62,7 +66,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0"
-                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.LastUpdateSheet]}"
+                           Text="{l:Loc MainPage.LastUpdateSheet}"
                            VerticalAlignment="Center"
                            Foreground="{DynamicResource TextMainBrush}"/>
 
@@ -75,7 +79,7 @@
                           Style="{DynamicResource RoundComboBox}"/>
 
                 <TextBlock Grid.Row="1" Grid.Column="0"
-                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.NewUpdateSheet]}"
+                           Text="{l:Loc MainPage.NewUpdateSheet}"
                            VerticalAlignment="Center"
                            Foreground="{DynamicResource TextMainBrush}"/>
 
@@ -87,7 +91,7 @@
                           Style="{DynamicResource RoundComboBox}"/>
 
                 <TextBlock Grid.Row="2" Grid.Column="0"
-                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.ActivityIdColumn]}"
+                           Text="{l:Loc MainPage.ActivityIdColumn}"
                            VerticalAlignment="Center"
                            Foreground="{DynamicResource TextMainBrush}"/>
 
@@ -96,7 +100,7 @@
                          IsEnabled="False"/>
 
                 <TextBlock Grid.Row="3" Grid.Column="0"
-                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.ActivityPctColumn]}"
+                           Text="{l:Loc MainPage.ActivityPctColumn}"
                            VerticalAlignment="Center"
                            Foreground="{DynamicResource TextMainBrush}"/>
 
@@ -105,7 +109,7 @@
                          IsEnabled="False"/>
 
                 <TextBlock Grid.Row="4" Grid.Column="0"
-                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.WbsColumn]}"
+                           Text="{l:Loc MainPage.WbsColumn}"
                            VerticalAlignment="Center"
                            Foreground="{DynamicResource TextMainBrush}"/>
 
@@ -114,7 +118,7 @@
                          IsEnabled="False"/>
 
                 <TextBlock Grid.Row="5" Grid.Column="0"
-                           Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.TopHeadersRow]}"
+                           Text="{l:Loc MainPage.TopHeadersRow}"
                            VerticalAlignment="Center"
                            Foreground="{DynamicResource TextMainBrush}"/>
 
@@ -137,22 +141,22 @@
                       ItemContainerStyle="{DynamicResource AccentListViewItem}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPageGrid.TaskId]}"
+                        <GridViewColumn Header="{l:Loc MainPageGrid.TaskId}"
                                         DisplayMemberBinding="{Binding TaskId}"
                                         Width="120"/>
-                        <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPageGrid.Old]}"
+                        <GridViewColumn Header="{l:Loc MainPageGrid.Old}"
                                         DisplayMemberBinding="{Binding OldValue}"
                                         Width="70"/>
-                        <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPageGrid.New]}"
+                        <GridViewColumn Header="{l:Loc MainPageGrid.New}"
                                         DisplayMemberBinding="{Binding NewValue}"
                                         Width="70"/>
-                        <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPageGrid.Change]}"
+                        <GridViewColumn Header="{l:Loc MainPageGrid.Change}"
                                         DisplayMemberBinding="{Binding ChangeType}"
                                         Width="80"/>
-                        <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPageGrid.Status]}"
+                        <GridViewColumn Header="{l:Loc MainPageGrid.Status}"
                                         DisplayMemberBinding="{Binding Status}"
                                         Width="90"/>
-                        <GridViewColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPageGrid.Wbs]}"
+                        <GridViewColumn Header="{l:Loc MainPageGrid.Wbs}"
                                         DisplayMemberBinding="{Binding WbsId}"
                                         Width="120"/>
                     </GridView>
@@ -218,24 +222,24 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0"
-                    Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.Preview]}"
+                    Content="{l:Loc MainPage.Preview}"
                     Style="{DynamicResource BaseButton}"
                     Click="Preview_Click"
                     IsEnabled="{Binding CanRun}"/>
 
             <Button Grid.Column="2"
-                    Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.ExportLog]}"
+                    Content="{l:Loc MainPage.ExportLog}"
                     Style="{DynamicResource BaseButton}"
                     IsEnabled="False"/>
 
             <Button Grid.Column="4"
-                    Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.Update]}"
+                    Content="{l:Loc MainPage.Update}"
                     Style="{DynamicResource PrimaryButton}"
                     Click="Start_Click"
                     IsEnabled="{Binding CanRun}"/>
 
             <Button Grid.Column="6"
-                    Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[MainPage.Cancel]}"
+                    Content="{l:Loc MainPage.Cancel}"
                     Style="{DynamicResource BaseButton}"
                     Click="Cancel_Click"
                     IsEnabled="{Binding IsBusy}"/>

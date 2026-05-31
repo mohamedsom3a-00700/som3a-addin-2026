@@ -255,11 +255,10 @@ namespace Som3a_Addin_2026
             {
                 try
                 {
-                    var bridge = LocalizationBridgeService.Instance;
-                    var result = bridge.SetLanguage(cultureCode);
+                    var result = LocalizationBridge.SetLanguage(cultureCode);
                     if (result)
                     {
-                        bridge.SaveLanguagePreference();
+                        LocalizationBridge.SaveLanguagePreference();
                         return "OK";
                     }
                     return "ERROR: Language switch failed for code '" + cultureCode + "'";
@@ -277,8 +276,8 @@ namespace Som3a_Addin_2026
             {
                 try
                 {
-                    var code = LocalizationBridgeService.Instance.CurrentLanguageCode;
-                    var isRTL = LocalizationBridgeService.Instance.IsRTL;
+                    var code = LocalizationBridge.CurrentLanguageCode;
+                    var isRTL = LocalizationBridge.IsRTL;
                     return $"CODE:{code}|RTL:{isRTL}";
                 }
                 catch (Exception ex)
@@ -294,7 +293,7 @@ namespace Som3a_Addin_2026
             {
                 try
                 {
-                    var val = LocalizationBridgeService.Instance.IsRTL;
+                    var val = LocalizationBridge.IsRTL;
                     return val ? "TRUE" : "FALSE";
                 }
                 catch (Exception ex)

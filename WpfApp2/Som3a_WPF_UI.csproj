@@ -69,6 +69,7 @@
       <HintPath>..\Som3a.Shared\bin\$(Configuration)\net48\Som3a.Shared.dll</HintPath>
     </Reference>
     <ProjectReference Include="..\Som3a.Bridge\Som3a.Bridge.csproj" />
+    <ProjectReference Include="..\Som3a.Localization\Som3a.Localization.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Branding\Logos\ICO\Logo-Dark.ico" />

@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using Som3a.Localization.Contracts;
 using Som3a_WPF_UI.Converters;
 
 namespace Som3a_WPF_UI.Services
@@ -47,7 +48,8 @@ namespace Som3a_WPF_UI.Services
         {
             try
             {
-                var code = LocalizationBridgeService.Instance.CurrentLanguageCode;
+                var localizationService = App.Container.Resolve<ILocalizationService>();
+                var code = localizationService?.CurrentLanguageCode ?? "en-US";
                 return new CultureInfo(code);
             }
             catch

@@ -1,8 +1,10 @@
 <Page x:Class="Som3a_WPF_UI.Pages.PrimaveraResultsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:l="clr-namespace:Som3a_WPF_UI.MarkupExtensions"
       xmlns:services="clr-namespace:Som3a_WPF_UI.Services"
-      Title="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraResultsPage.Title]}"
+      
+      Title="{l:Loc PrimaveraResultsPage.Title}"
       Background="{DynamicResource Brush.Background.Primary.Translucent}"
       SnapsToDevicePixels="True"
       UseLayoutRounding="True">
@@ -16,7 +18,7 @@
         <!-- TITLE BAR -->
         <Grid Grid.Row="0" x:Name="TitleBar"
               Margin="{DynamicResource TitleBarMargin}">
-            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraResultsPage.Heading]}"
+            <TextBlock Text="{l:Loc PrimaveraResultsPage.Heading}"
                        Foreground="{DynamicResource TextMainBrush}"
                        FontSize="14" FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -54,13 +56,13 @@
                     CornerRadius="{DynamicResource LargeRadius}"
                     Padding="10">
                 <TabControl>
-                    <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraResultsTab.Activities]}">
+                    <TabItem Header="{l:Loc PrimaveraResultsTab.Activities}">
                         <DataGrid ItemsSource="{Binding ActivityRows}"/>
                     </TabItem>
-                    <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraResultsTab.Relationships]}">
+                    <TabItem Header="{l:Loc PrimaveraResultsTab.Relationships}">
                         <DataGrid ItemsSource="{Binding RelationshipRows}"/>
                     </TabItem>
-                    <TabItem Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PrimaveraResultsTab.Resources]}">
+                    <TabItem Header="{l:Loc PrimaveraResultsTab.Resources}">
                         <DataGrid ItemsSource="{Binding ResourceRows}"/>
                     </TabItem>
                 </TabControl>
