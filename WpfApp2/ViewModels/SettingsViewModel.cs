@@ -375,6 +375,14 @@ namespace Som3a_WPF_UI.ViewModels
         [ObservableProperty]
         private SettingsSectionViewModel? _selectedSection;
 
+        public void NavigateToCategory(string categoryId)
+        {
+            var category = Categories.FirstOrDefault(c =>
+                c.Id.Equals(categoryId, StringComparison.OrdinalIgnoreCase));
+            if (category != null)
+                SelectedCategory = category;
+        }
+
         private void UpdateCurrentPanel()
         {
             if (_selectedCategory?.PanelType == null)

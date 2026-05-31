@@ -209,9 +209,6 @@ namespace Som3a_WPF_UI
 
             CultureAwareFormattingService.Instance.RefreshCulture(e.NewLanguageCode);
 
-            var fontService = Container.Resolve<FontService>();
-            fontService?.ApplyLanguageFont(e.NewLanguageCode);
-
             foreach (var d in NavigationService.Instance.Destinations)
                 d.RefreshLabel();
         }

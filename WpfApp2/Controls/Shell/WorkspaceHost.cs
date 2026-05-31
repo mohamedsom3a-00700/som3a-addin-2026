@@ -79,8 +79,13 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnLanguageChanged(object sender, LanguageChangedEventArgs e)
         {
-            // FlowDirection is handled centrally by ShellRTLManager
-            // and inherited through the visual tree
+            var direction = e.IsRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+
+            if (_frame != null)
+                _frame.FlowDirection = direction;
+
+            if (_currentPage != null)
+                _currentPage.FlowDirection = direction;
         }
 
         public override void OnApplyTemplate()
@@ -93,6 +98,9 @@ namespace Som3a_WPF_UI.Controls.Shell
             if (_frame != null)
             {
                 _frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
+                _frame.FlowDirection = _localization.IsRTL
+                    ? FlowDirection.RightToLeft
+                    : FlowDirection.LeftToRight;
                 _frame.LoadCompleted += OnFrameLoadCompleted;
                 _frame.NavigationFailed += OnFrameNavigationFailed;
                 _frame.NavigationStopped += OnFrameNavigationStopped;
@@ -207,6 +215,10 @@ namespace Som3a_WPF_UI.Controls.Shell
 
             if (_currentPage != null)
             {
+                _currentPage.FlowDirection = _localization.IsRTL
+                    ? FlowDirection.RightToLeft
+                    : FlowDirection.LeftToRight;
+
                 _currentPage.Loaded += (s, args) =>
                 {
                     _currentPage.Focus();

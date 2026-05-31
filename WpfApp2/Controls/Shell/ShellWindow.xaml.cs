@@ -223,10 +223,8 @@ namespace Som3a_WPF_UI.Controls.Shell
 
         private void OnLanguageToggle(object sender, RoutedEventArgs e)
         {
-            var currentCode = _localization.CurrentLanguageCode;
-            var newCode = currentCode == "en-US" ? "ar-SA" : "en-US";
-            if (_localization.SetLanguage(newCode))
-                _localization.SaveLanguagePreference();
+            NavigationService.Instance.NavigationData["SettingsCategory"] = "language";
+            NavigationService.Instance.NavigateTo("settings.general");
         }
 
         private void OnMinimize(object sender, RoutedEventArgs e)

@@ -54,6 +54,13 @@ namespace Som3a_WPF_UI.Pages
 
             if (DataContext is ViewModels.SettingsViewModel vm)
             {
+                var navData = Som3a_WPF_UI.Services.NavigationService.Instance.NavigationData;
+                if (navData.TryGetValue("SettingsCategory", out var catObj) && catObj is string catId)
+                {
+                    vm.NavigateToCategory(catId);
+                    navData.Remove("SettingsCategory");
+                }
+
                 if (FindName("DebugCount") is System.Windows.Controls.TextBlock tb)
                 {
                     tb.Text = $"Categories: {vm.Categories.Count} items";
