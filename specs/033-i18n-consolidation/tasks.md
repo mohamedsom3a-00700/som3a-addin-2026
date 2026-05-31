@@ -72,12 +72,12 @@
 
 ### Implementation for User Story 2
 
-- [ ] T014 [US2] Add declarative `FlowDirection` binding to all Page and Window root elements in `WpfApp2/Pages/` and `WpfApp2/Controls/` that reads from `ILocalizationService.IsRTL`
-- [ ] T015 [P] [US2] Fix `DataGrid` column order and header alignment in RTL mode across all DataGrid instances in `WpfApp2/Pages/`
-- [ ] T016 [P] [US2] Fix `ScrollBar` placement in RTL mode (left side for Arabic) across all scrollable containers in `WpfApp2/Pages/` and `WpfApp2/Controls/`
-- [ ] T017 [US2] Update `WpfApp2/Controls/Shell/ShellRTLManager.cs` to also apply keyboard Tab order mirroring and focus direction per RTL state (per clarification decision)
-- [ ] T018 [US2] Test and fix mixed English-Arabic bidirectional text alignment in DataGrid cells and text blocks
-- [ ] T019 [US2] Remove imperative `FlowDirection` assignments from `WpfApp2/Controls/Shell/WorkspaceHost.cs` — replace with declarative XAML binding from US1/T014
+- [X] T014 [US2] Add declarative `FlowDirection` binding to all Page and Window root elements in `WpfApp2/Pages/` and `WpfApp2/Controls/` that reads from `ILocalizationService.IsRTL`
+- [X] T015 [P] [US2] Fix `DataGrid` column order and header alignment in RTL mode across all DataGrid instances in `WpfApp2/Pages/`
+- [X] T016 [P] [US2] Fix `ScrollBar` placement in RTL mode (left side for Arabic) across all scrollable containers in `WpfApp2/Pages/` and `WpfApp2/Controls/`
+- [X] T017 [US2] Update `WpfApp2/Controls/Shell/ShellRTLManager.cs` to also apply keyboard Tab order mirroring and focus direction per RTL state (per clarification decision)
+- [X] T018 [US2] Test and fix mixed English-Arabic bidirectional text alignment in DataGrid cells and text blocks
+- [X] T019 [US2] Remove imperative `FlowDirection` assignments from `WpfApp2/Controls/Shell/WorkspaceHost.cs` — replace with declarative XAML binding from US1/T014
 
 **Checkpoint**: At this point, US2 should be functional — RTL layout works correctly across all pages
 
@@ -91,11 +91,11 @@
 
 ### Implementation for User Story 3
 
-- [ ] T020 [P] [US3] Create `FontService` in `WpfApp2/Services/FontService.cs` that manages per-locale font mappings and wraps font resource updates (decouple from `ThemeManager`)
-- [ ] T021 [US3] Register `FontService` in `WpfApp2/CompositionRoot.cs` and wire it to subscribe to `LanguageChanged` event for automatic font switching
-- [ ] T022 [US3] Update `WpfApp2/App.xaml.cs` language change handler to delegate font switching to `FontService` instead of `ArabicFontManager`
-- [ ] T023 [US3] Decouple font resources from `WpfApp2/Services/ThemeManager.cs` — remove `CustomFontFamily` and `FontFamily.Active` overrides from theme font logic
-- [ ] T024 [US3] Remove `WpfApp2/Services/ArabicFontManager.cs` after confirming all font logic is handled by `FontService`
+- [X] T020 [P] [US3] Create `FontService` in `WpfApp2/Services/FontService.cs` that manages per-locale font mappings and wraps font resource updates (decouple from `ThemeManager`)
+- [X] T021 [US3] Register `FontService` in `WpfApp2/CompositionRoot.cs` and wire it to subscribe to `LanguageChanged` event for automatic font switching
+- [X] T022 [US3] Update `WpfApp2/App.xaml.cs` language change handler to delegate font switching to `FontService` instead of `ArabicFontManager`
+- [X] T023 [US3] Decouple font resources from `WpfApp2/Services/ThemeManager.cs` — remove `CustomFontFamily` and `FontFamily.Active` overrides from theme font logic
+- [X] T024 [US3] Remove `WpfApp2/Services/ArabicFontManager.cs` after confirming all font logic is handled by `FontService`
 
 **Checkpoint**: At this point, US3 should be functional — fonts switch automatically per locale
 
@@ -109,11 +109,11 @@
 
 ### Implementation for User Story 4
 
-- [ ] T025 [P] [US4] Create `WpfApp2/Pages/Settings/LanguagePage.xaml` with language selector (EN/AR radio or dropdown), font picker per locale (dropdown with font family list), font size scaling slider (0.8x–1.5x), and RTL preview toggle card
-- [ ] T026 [US4] Create `WpfApp2/ViewModels/Settings/LanguagePageViewModel.cs` with properties for selected language, selected fonts per locale, font scaling factor, and RTL preview state; inject `ILocalizationService` and `FontService`
-- [ ] T027 [US4] Register `LanguagePage` in the Settings navigation sidebar in `WpfApp2/Pages/Settings/SettingsPage.xaml` or its navigation configuration
-- [ ] T028 [US4] Implement RTL preview toggle behavior: when activated, a sample card renders in RTL to demonstrate layout effect without committing the language switch
-- [ ] T029 [US4] Wire font size scaling from the slider to `FontService` and verify all text elements respect the scaling factor
+- [X] T025 [P] [US4] Create `WpfApp2/Pages/Settings/LanguagePage.xaml` with language selector (EN/AR radio or dropdown), font picker per locale (dropdown with font family list), font size scaling slider (0.8x–1.5x), and RTL preview toggle card
+- [X] T026 [US4] Create `WpfApp2/ViewModels/Settings/LanguagePageViewModel.cs` with properties for selected language, selected fonts per locale, font scaling factor, and RTL preview state; inject `ILocalizationService` and `FontService`
+- [X] T027 [US4] Register `LanguagePage` in the Settings navigation sidebar in `WpfApp2/Pages/Settings/SettingsPage.xaml` or its navigation configuration
+- [X] T028 [US4] Implement RTL preview toggle behavior: when activated, a sample card renders in RTL to demonstrate layout effect without committing the language switch
+- [-] T029 [US4] Wire font size scaling from the slider to `FontService` and verify all text elements respect the scaling factor (architecture complete — scaling value persisted, UI-wide application deferred)
 
 **Checkpoint**: At this point, US4 should be functional — full settings page with language, fonts, scaling
 
@@ -127,10 +127,10 @@
 
 ### Implementation for User Story 5
 
-- [ ] T030 [P] [US5] Replace 🌐 emoji `TextBlock` in `WpfApp2/Controls/Shell/ShellWindow.xaml` with a Fluent 2 icon for the language toggle button
-- [ ] T031 [US5] Wire the language toggle `Click` handler in `WpfApp2/Controls/Shell/ShellWindow.xaml.cs` to call `ILocalizationService.SetLanguage()` instead of `LocalizationBridgeService`
-- [ ] T032 [US5] Update shell toggle icon to reflect current language state (show English flag/text when in Arabic, Arabic when in English, or use a generic globe icon with tooltip indicating current language)
-- [ ] T033 [US5] Update toggle `ToolTip` binding to use `LocExtension` instead of `TranslationSource`
+- [X] T030 [P] [US5] Replace 🌐 emoji `TextBlock` in `WpfApp2/Controls/Shell/ShellWindow.xaml` with a Fluent 2 icon for the language toggle button
+- [X] T031 [US5] Wire the language toggle `Click` handler in `WpfApp2/Controls/Shell/ShellWindow.xaml.cs` to call `ILocalizationService.SetLanguage()` instead of `LocalizationBridgeService`
+- [X] T032 [US5] Update shell toggle icon to reflect current language state (show English flag/text when in Arabic, Arabic when in English, or use a generic globe icon with tooltip indicating current language)
+- [X] T033 [US5] Update toggle `ToolTip` binding to use `LocExtension` instead of `TranslationSource`
 
 **Checkpoint**: At this point, all user stories should be independently functional
 
@@ -144,9 +144,9 @@
 - [ ] T035 [P] Verify all 1800+ string keys have complete translations in both `Strings.en-US.resx` and `Strings.ar-SA.resx` — run diagnostic log scan for missing key warnings
 - [ ] T036 [P] Verify language switch performance meets <500ms target across all pages
 - [ ] T037 [P] Verify language preference persists across application restart (EN→restart→EN, AR→restart→AR)
-- [ ] T038 [P] Run full test suite: `dotnet test Tests/Som3a_WPF_UI.Tests.csproj`
-- [ ] T039 [P] Update `Docs/Architecture/LOCALIZATION_READINESS.md` with new localization architecture details
-- [ ] T040 Constitution compliance review — verify DynamicResource-only usage, no inline effects, WindowChrome inheritance, and Excel rendering safety for all new/modified pages
+- [X] T038 [P] Run full test suite: `dotnet test Tests/Som3a_WPF_UI.Tests.csproj` (23/23 pass)
+- [X] T039 [P] Update `Docs/Architecture/LOCALIZATION_READINESS.md` with new localization architecture details
+- [X] T040 Constitution compliance review — verify DynamicResource-only usage, no inline effects, WindowChrome inheritance, and Excel rendering safety for all new/modified pages
 
 ---
 
